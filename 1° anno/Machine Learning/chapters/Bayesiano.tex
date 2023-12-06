@@ -1,0 +1,165 @@
+\chapter{Apprendimento Bayesiano}
+Ci sono stati 2 modi per rappresentare la probabilità:
+\begin{itemize}
+    \item soggettivo (grado di conoscenza o probabilità Bayesiana): la probabilità di un evento sapendo che è accaduto un altro evento.
+    \item oggettivo (Long-term Frequency): la probabilità di un evento è il limite della sua frequenza relativa in molti tentativi.
+\end{itemize}
+La probabilità in termini di limite sulle frequenze a lungo termine dei casi, questo è un'interpretazione oggettiva perché si sfruttano delle formule e poi abbiamo dei casi immutabili. Mi baso su parametri fissati e quindi calcolo la probabilità in base ai parametri.
+
+L'apprendimento bayesiano è un approccio all'apprendimento automatico che si basa sulla probabilità bayesiana. L'idea è quella di utilizzare la probabilità per rappresentare la conoscenza incerta e quindi aggiornare la probabilità in base ai nuovi dati. Quindi non cerchiamo l'ipotesi che combacia con i dati ma cerchiamo l'ipotesi più probabile.
+
+L'apprendimento bayesiano è importante per due motivi:
+\begin{enumerate}
+    \item Si ha una manipolazione esplicita della probabilità rispetto ad altri approcci pratici di alcuni tipi di problemi di apprendimento.
+    \item Fornisce una prospettiva utile per comprendere metodi di apprendimento che non manipolano esplicitamente la probabilità.
+\end{enumerate}
+
+Le regole del calcolo mi permettono di associare un numero a una probabilità ma non un significato. La probabilità bayesiana è una probabilità che ha un significato.
+
+Dal punto di vista delle funzionalità si ha che ogni esempio di training osservato può aumentare o diminuire la probabilità di un'ipotesi. Inoltre, la conoscenza pregressa può essere combinata con i dati di training per ottenere la probabilità finale delle varie ipotesi.
+
+Si hanno alcune difficoltà nell'apprendimento bayesiano:
+\begin{itemize}
+    \item La probabilità bayesiana è una probabilità soggettiva, quindi dipende dalla conoscenza pregressa.
+    \item Si hanno costi computazionali elevati, perché si ha una complessità esponenziale rispetto al numero di variabili.
+\end{itemize}
+
+La statistica bayesiana è una probabilità soggettiva. Si ha una natura soggettiva perché si ha una conoscenza incerta a cui viene associata una probabilità. Si ha quindi una variabile casuale a cui associo una distribuzione di probabilità. Lo stato delle cose è rappresentato da una variabile soggetta a probabilità. Il parametro non è più certo ma è casuale.
+
+Nell'apprendimento bayesiano la miglior ipotesi è quella che massimizza la probabilità.
+
+Il punto centrale dell'apprendimento bayesiano è la \textbf{regola di Bayes}, la quale fornisce un metodo diretto per calcolare la probabilità di un'ipotesi $h$ dato un insieme di dati $D$. La regola di Bayes è la seguente:
+\begin{equation}
+    P(h|D) = \frac{P(D|h) \cdot P(h)}{P(D)}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $P(h|D)$ è la probabilità dell'ipotesi $h$ dato il dataset $D$ (\textbf{posterior}), è la probabilità dell'ipotesi dopo aver osservato l'evidenza. È la probabilità che l'ipotesi sia vera dopo aver osservato l'evidenza.
+    \item $P(D|h)$ è la probabilità del dataset $D$ dato l'ipotesi $h$ (\textbf{likelihood}), è la probabilità di osservare l'evidenza $D$ dato che l'ipotesi $h$ è vera.
+    \item $P(h)$ è la probabilità dell'ipotesi $h$ (\textbf{prior}), ovvero la probabilità dell'ipotesi prima di osservare l'evidenza. È un informazione a priori, il grado di fiducia rispetto all'ipotesi prima di osservare l'evidenza. Prima si fissa la prior e poi si osserva l'evidenza.
+    \item $P(D)$ è la probabilità del dataset $D$ (\textbf{evidence}), ovvero la probabilità di osservare l'evidenza $D$. È la probabilità di come si comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il dataset. Distribuzione dei dati.
+    
+    Quando ho due eventi indipendenti la probabilità congiunta è il prodotto delle due probabilità:
+    \begin{equation}
+        P(A, B) = P(A) \cdot P(B)
+    \end{equation}
+    Per calcolare la probabilità di evidenza $P(D)$ si utilizza la seguente formula:
+    \begin{equation}
+        P(D) = \sum_{h \in H} P(D, h)
+    \end{equation}
+\end{itemize}
+
+Con la formula di Bayes si può calcolare la probabilità a posteriori. L'ipotesi che meglio si adatta ai dati è quella che ha la probabilità a posteriori più alta. Viene anche definita come \textbf{ipotesi MAP} (\textit{Maximum A Posteriori}).
+\begin{equation}
+    h_{MAP} = \text{argmax}_{h \in H} P(h|D) = \text{argmax}_{h \in H} \frac{P(D|h) \cdot P(h)}{P(D)} = \text{argmax}_{h \in H} P(D|h) \cdot P(h)
+\end{equation}
+dove $D$ rappresenta il dataset, argmax è l'ipotesi $h$ che massimizza la probabilità a posteriori.
+
+Spesso si assume che tutte le ipotesi siano equiprobabili, e quindi si ha la possibilità di semplificare i conti.
+
+Dato che $P(D | h)$ viene spesso chiamata \textbf{likelihood}, viene definita l'\textbf{ipotesi ML} (\textit{Maximum Likelihood}), ovvero ogni ipotesi massimizza $P(D|h)$:
+\begin{equation}
+    h_{ML} = \text{argmax}_{h \in H} P(D|h)
+\end{equation}
+potendo quindi trascurare $P(h)$ in quanto equivalente per tutte le ipotesi.
+
+Si può utilizzare la formula di Bayes per specificare un algoritmo di apprendimento molto semplice detto \textbf{algoritmo Brute-Force map learning}, che si articola nei seguenti passi:
+\begin{enumerate}
+    \item Per ogni ipotesi $h \in H$ calcolo la probabilità a posteriori $P(h|D)$, utilizzato la formula di Bayes:
+    \begin{equation}
+        P(h|D) = \frac{P(D|h) \cdot P(h)}{P(D)}
+    \end{equation}
+    \item Restituisco l'ipotesi $h$ con probabilità a posteriori massima:
+    \begin{equation}
+        h_{MAP} = \text{argmax}_{h \in H} P(h|D)
+    \end{equation}
+\end{enumerate}
+\begin{nota}
+    La probabilità è un conteggio. Devo capire quante combinazioni di valori posso ottenere. Nello specifico si hanno: $\prod_{i=1}^n |D_i|$ combinazioni, dove $D_i$ è il dominio della variabile $X_i$.
+\end{nota}
+Il modo per semplificare l'apprendimento bayesiano è quello di usare il \textbf{naive bayes}.
+
+Usando la formula di Bayes posso calcolare la probabilità dell'ipotesi $h$ dato il training set $D$: $P(h|D)$. Tale probabilità prende il nome di \textbf{posterior}, posso calcolarla come segue:
+\begin{equation}
+    P(h|D) = \frac{P(D|h) \cdot P(h)}{P(D)}
+\end{equation} 
+e non dalla tabella.
+
+Viene indotta in maniera indiretta dalle probabilità presenti nella formula.
+
+Supponiamo di conoscere $P(D| h)$ per conoscere \textit{cosa} posso calcolare:
+\begin{equation}
+    \sum_{i = 0}^{|H|} P(D, h_i) = \sum_{i = 0}^{|H|} P(D|h_i) \cdot P(h_i)
+\end{equation}
+\begin{equation}
+    h_{MAP} = \text{argmax}_{h_i \in H} P(h_i|D) = \text{argmax}_{h_i \in H} P(D|h_i) \cdot P(h_i)
+\end{equation}
+Posso escludere $P(D)$ dal denominatore perché è una costante, se vogliamo conoscere la posterior ci serve conoscere il denominatore.
+\begin{definizione}[\textbf{Indipendeza condizionata}]
+    \textbf{Indipendeza condizionata}:
+    \begin{equation}
+        P(X, Y|Z) = P(X|Z) \cdot P(Y|Z)
+    \end{equation}
+    la distribuzione è legata al fattore condizionante $Z$.
+\end{definizione}
+Questo mi permette di calcolare le singole probabilità sulle colonne del dataset e poi moltiplicarle per ottenere quella totale:
+\begin{equation}
+    P(D| h) = \prod_{i = 0}^{|D|} P(d_i|h)
+\end{equation}
+dove $d_i$ è la colonna $i$-esima del dataset $D$.
+\section{Naive Bayes}
+Supponiamo di avere un dataset $D$ con $n$ attributi $a_1, \dots, a_n$ si cerca di semplificare il calcolo utilizzando la proprietà dell'indipendenza condizionata:
+\begin{equation}
+    P(D|h) = \prod_{i = 0}^{|D|} P(d_i|h)
+\end{equation}
+Questo ci permette di definire il classificatore Bayesano naive è definito come:
+\begin{equation}
+    f_{NB} = \text{argmax}_{h_i \in H} P(h_i) \cdot \prod_{i = 0}^{|D|} P(d_i|h_i)    
+\end{equation}
+Algoritmo naive bayes:
+\begin{enumerate}
+    \item Calcola le probabilità a priori $P(h_i)$.
+    \item Calcola le probabilità condizionate $P(d_i|h_i)$.
+    \item Calcola la probabilità a posteriori $P(h_i|D)$.
+    \item Restituisci la classe con probabilità a posteriori maggiore.
+\end{enumerate}
+\begin{esempio}
+    Dato il seguente dataset: 
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{c|ccc|c}
+            Esempi & A & B & C & Target \\ \hline
+            $x_1$ & 1 & 1 & 1 & 0 \\ \hline
+            $x_2$ & 0 & 1 & 1 & 0 \\ \hline
+            $x_3$ & 1 & 0 & 1 & 1 \\ \hline
+            $x_4$ & 0 & 0 & 0 & 1 \\ \hline
+            $x_5$ & 0 & 1 & 0 & 1 \\ \hline
+            $x_6$ & 1 & 1 & 0 & ? \\ 
+        \end{tabular}
+    \end{table}
+    $h_0 = (T = 0)$ allora abbiamo: $$P(T = 0 | A = 1, B = 1, C = 0) = \frac{P(A = 1, B = 1, C = 0 | T = 0) \cdot P(T = 0)}{P(x_6)}$$ posso togliere il denominatore perché è una costante, e quindi uso solo quelle a numeratore. $$P(T = 0 | A = 1, B = 1, C = 0) = \\ P(A = 1 | T = 0) \cdot P(B = 1 | T = 0) \cdot P(C = 0 | T = 0) \cdot P(T = 0)$$ A questo punto utilizzando i valori presenti nel dataset posso effettuare i calcoli: $$P(T = 0 | A = 1, B = 1, C = 0) = \frac{1}{2} \cdot 1 \cdot 0 \cdot \frac{2}{5} = 0$$ Calcolo anche il caso $h_1 = (T = 1)$: $$P(T = 1 | A = 1, B = 1, C = 0) = \frac{P(A = 1, B = 1, C = 0 | T = 1) \cdot P(T = 1)}{P(x_6)}$$ posso togliere il denominatore perché è una costante, e quindi uso solo quelle a numeratore. $$P(T = 1 | A = 1, B = 1, C = 0) = \\ P(A = 1 | T = 1) \cdot P(B = 1 | T = 1) \cdot P(C = 0 | T = 1) \cdot P(T = 1)$$ ottenendo quindi: $$P(T = 1 | A = 1, B = 1, C = 0) = \frac{1}{3} \cdot \frac{1}{3} \cdot \frac{2}{3} \cdot \frac{3}{5} = \frac{2}{45}$$ A questo punto calcoliamo $P(x_6)$ come: $$P(x_6) = \sum_{i = 0}^{|H|} P(x_6, h_i) = \sum_{i = 0}^{|H|} P(A =  1, B = 1, C = 0 | T = i) \cdot P(T = i)$$ $$= P(A = 1 | T = 0) \cdot P(B = 1 | T = 0) \cdot P(C = 0 | T = 0) \cdot P(T = 0) + $$ $$gitP(A = 1 | T = 1) \cdot P(B = 1 | T = 1) \cdot P(C = 0 | T = 1) \cdot P(T = 1)$$
+\end{esempio}
+Nel caso generale le features non vale l'indipendenza condizionata data una label
+
+I principali problemi del Naive Bayes si hanno quando non si hanno abbastanza dati per il training del modello. In questi casi risulta complesso stimare le probabilità numericamente. Inoltre, se non osserviamo nessuna feature con una particolare etichetta avremo una probabilità uguale a $0$. La soluzione per quest'ultimo consiste nel aggiungere un piccolo numero di elementi in modo da non rendere nulla la probabilità ma molto vicina allo zero.
+\section{Gaussian Naive Bayes}
+Naive bayes stima le probabilità basandosi sulle frequenze della classe di ciascuna feature presente nel training set. Se le feature sono continue, la probabilità di una feature può essere stimata usando una distribuzione gaussiana.
+
+Semplifica le assunzioni per semplificare i calcoli. Le assunzioni cercano di semplificare i calcoli e non di modellare la realtà.
+
+Nella realtà si assumono distribuzioni gaussiane per semplificare i conti.
+
+Per classificare usando naive bayes e conoscendo informazioni sulla distribuzione del campione come una gaussiana. Il calcolo della prior è semplice, essa può essere calcolata come la probabilità che una classe $c$ venga osservata tra le etichette del dataset.
+
+La likelihood si può calcolare usando la gaussiana:
+\begin{equation}
+    P(x_i|c_j) = \frac{1}{\sqrt{2 \pi \sigma_{i, j}^2}} \cdot e^{-\frac{(x_i - \mu_{i,j})^2}{2 \sigma_{i,j}^2}}
+\end{equation}
+dove $\mu_{i, j}$ rappresenta la media dell'i-esimo elemento e $\sigma_{i, j}$ la deviazione standard dell'i-esimo elemento. Dove $i$ sono le feature e $j$ sono le classi.
+
+Per applicare la likelihood devo calcolare la media e la deviazione standard per ogni feature e per ogni classe. A questo punto posso sostituirle nella formula per calcolare la likelihood.
+
+La previsione di un nuovo elemento può essere fatta come: 
+\begin{equation*}
+    P(c_i | x) \stackrel{Bayes}{=} \frac{P(X | c_j) \cdot P(c_j)}{P(x)} \\ \stackrel{Naive}{=} \frac{\prod_i P(x_i | c_j) \cdot P(c_j)}{P(x)} \\ \stackrel{Gauss}{=} \frac{\prod_i \frac{1}{\sqrt{2\cdot \pi \cdot \sigma_{i, j}^2}} \cdot e^{- \frac{1}{2} \left(\frac{x_i - \mu_{i, j}}{\sigma_{i, j}}\right)^2} \cdot P(c_j)}{P(x)}
+\end{equation*}

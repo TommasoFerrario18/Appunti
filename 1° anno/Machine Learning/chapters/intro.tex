@@ -1,0 +1,160 @@
+\chapter{Introduzione al Machine Learning}
+\section{Introduzione}
+Definiamo alcuni concetti base:
+\begin{itemize}
+    \item \textbf{Task} (T), il compito da apprendere. È più facile apprendere attraverso esempi che codificare conoscenza o definire alcuni compiti. Inoltre il comportamento della macchina in un ambiente può essere diverso da quello desiderato, a causa della mutabilità dell'ambiente ed è più semplice cambiare gli esempi che ridisegnare un sistema.
+    \item \textbf{Performance} (P), la misura della bontà dell'apprendimento.
+    \item \textbf{Experience} (E), l'esperienza sui cui basare l'apprendimento. Il tipo di esperienza scelto può variare molto il risultato e il successo dell'apprendimento.
+\end{itemize}
+
+In merito alle parti “software” distinguiamo:
+\begin{itemize}
+    \item \textbf{Learner}, la parte di programma che impara dagli esempi in modo automatico.
+    \item \textbf{Trainer}, il dataset che fornisce esperienza al learner.
+\end{itemize}
+Si hanno tre tipi di apprendimento:
+\begin{itemize}
+    \item \textbf{Supervised learning}: dove vengono forniti a priori esempi di comportamento e si suppone che il trainer dia la risposta corretta per ogni input (mentre il learner usa gli esempi forniti per apprendere). L'esperienza è fornita da un insieme di coppie: 
+    \begin{equation}
+        S \equiv \{(x_1, y_1), (x_2, y_2), \dots, (x_n, y_n)\}
+    \end{equation}
+    e, per ogni input ipotetico $x_i$ l'ipotetico trainer restituisce il corretto $y_i$.
+    \item \textbf{Unsupervised learning}: dove si riconosce schemi nell'input senza indicazioni sui valori in uscita. Non c'è target e si ha libertà di classificazione. Si cerca una regolarità e una struttura insita nei dati. In questo caso si ha:
+    \begin{equation}
+        S \equiv \{x_1, x_2, \dots, x_n\}
+    \end{equation}
+    Il clustering è un tipico problema di apprendimento non supervisionato. Non si ha spesso un metodo oggettivo per stabilire le prestazioni che vengono quindi valutate da umani.
+    \item \textbf{Reinforcement learning}: dove bisogna apprendere, tramite il learner sulla base della risposta dell'ambiente alle proprie azioni. Si lavora con un addestramento continuo, aggiornando le ipotesi con l'arrivo dei dati. Durante la fase di test bisogna conoscere le prestazioni e valutare la correttezza di quanto appreso. Il learner viene addestrato tramite rewards e quindi apprende una strategia per massimizzare i rewards, detta strategia di comportamento e per valutare la prestazione si cerca di massimizzare “a lungo termine” la ricompensa complessivamente ottenuta.
+\end{itemize}
+ Possiamo inoltre distinguere due tipi di sistemi di apprendimento:
+\begin{itemize}
+    \item \textbf{Attivo}: dove il learner può \textit{domandare} sui dati disponibili.
+    \item \textbf{Passivo}: dove il learner apprende solo a partire dai dati disponibili.
+\end{itemize}
+
+L'obiettivo degli algoritmi di apprendimento automatico è quello di fornire per ogni istanza di addestramento una risposta eventualmente corrispondente al nostro target, qualora esista. Per rappresentare la soluzione esistono diverse metodologie:
+\begin{itemize}
+    \item Booleano: $I \to \{0, 1\}$.
+    \item Multi-classificazione: $I: \to \{A, B, C, \dots\}$.
+    \item Calcolato da una funzione: $O = f(I)$.
+    \item Dei cluster di istanze.
+\end{itemize}
+
+La correttezza della soluzione fornita deve essere valutata con dei metodi appositi per il modello selezionato.
+\subsection{Terminologia}
+\begin{itemize}
+    \item $X$, \textbf{spazio delle istanze}, ovvero la collezione di tutte le possibili istanze. In termini statistici lo spazio delle istanze non è altro che lo \textit{spazio campione}.
+    \item $x \in X$, \textbf{istanza}, ovvero un singolo "oggetto" preso dallo spazio delle istanze. Ogni istanza è rappresentata tramite un vettore di attributi unici.
+    \item $c$, \textbf{concetto}, $c \subseteq X$, ovvero un sottoinsieme dello spazio delle istanze che descrive una classe di oggetti alla quale siamo interessati per costruire un modello di machine learning. La nozione statistica equivalente è quella di evento, ovvero un sottoinsieme dello spazio campione. Si ha quindi che, preso un concetto $A \subseteq X$:
+    \begin{equation}
+        f_A: X \to \{0, 1\} \ \Longrightarrow \ f_A(x) = \begin{cases} 1 & \text{se} \ x \in A \\ 0 & \text{altrimenti}\end{cases}
+    \end{equation}
+    \item $h$, \textbf{ipotesi}, $h \subseteq X$. ovvero una congiunzione $\land$ di vincoli sugli attributi. Tale ipotesi è \textbf{consistente}, ovvero è coerente con tutti gli esempi.
+    \begin{equation}
+        Consistente(h, D) \equiv \forall \langle x, c(x) \rangle \in D \text{ vale } h(x) = c(x)
+    \end{equation}
+    Un'istanza $x$ \textbf{soddisfa} un'ipotesi $h$ se e solo se tutti i vincoli espressi da $h$ sono soddisfatti dai valori di $x$ e si indica con: 
+    \begin{equation}
+        h(x) = 1
+    \end{equation}
+    \item $H$, \textbf{spazio delle ipotesi}.
+    \item $(x, f(x))$, \textbf{esempio}, ovvero prendo un'istanza e la vado ad etichettare con la sua classe di appartenenza. La funzione $f$ è detta funzione target.
+    \item $D = \{(x_1, f(x_1)), \dots, (x_n, f(x_n))\}$, \textbf{training set}, ovvero è la raccolta degli esempi. Qualora si avesse a che fare con un training non supervisionato si avrebbe: $D = \{x_1, \dots, x_n\}$.
+    \item $\{(x_1', f(x_1')), \dots, (x_n', f(x_n'))\}$, \textbf{test}.
+    \item Un modello di machine learning è un insieme di parametri $\theta$ di una funzione $f$ che, dato uno spazio delle istanze in input $X$ effettua delle previsioni $Y$.
+    \item \textbf{Linguaggio delle ipotesi}, è il linguaggio che definisce lo spazio delle ipotesi/modelli.
+    \item \textbf{Cross validation}, è una tecnica statistica utilizzabile in presenza di una buona numerosità del dataset di training. Tale tecnica consiste nella suddivisione del dataset totale in k parti (k-fold validation) e, ad ogni passo, la parte $ \left(\frac{1}{k}\right)$-esima del dataset viene ad essere il validation dataset, mentre la restante parte costituisce il training dataset. Così, per ognuna delle k parti si allena il modello, evitando quindi problemi di overfitting, ma anche di campionamento asimmetrico del training dataset, tipico della suddivisione del dataset in due sole parti.
+    \item \textbf{Bias}: è un fenomeno che si verifica a causa di presupposti errati nel processo di apprendimento automatico. Il bias è come un errore sistematico che si verifica quando un algoritmo produce risultati sistematicamente distorti a causa di alcune ipotesi errate nel processo di apprendimento automatico.
+    \item \textbf{Version space} ($VS_{H, D}$): dove $H$ rappresenta lo spazio delle ipotesi e $D$ il dataset. È il sotto-insieme dello spazio delle ipotesi che è anche consistente con il dataset:
+    \begin{equation}
+        VS_{H, D} = \{h \in H \ \text{tale che} \ Consistente(h, D)\}
+    \end{equation}
+\end{itemize}
+\begin{definizione} [\textbf{Independent and identically distributed}]
+    I dati sono campionati in modo indipendente e dalla stessa distribuzione. Nella pratica questa assunzione è verificata in quanto il modello considera un solo esempio alla volta, ignorando le features degli altri esempi.
+\end{definizione}
+\section{Inductive Learning}
+Si parla di \textbf{inductive learning} quando voglio apprendere una funzione da un esempio. Si cerca quindi un'ipotesi $h$, a partire da un insieme di esempi di apprendimento, tale per cui $h \approx f$. 
+
+Questo è un modello semplificato dell'apprendimento reale in quanto si ignorano a priori conoscenze e si assume di avere un insieme di dati. 
+
+L'ipotesi $h$ è \textbf{consistente} con gli esempi di addestramento se e solo se $h(x) = f(x)$ per ogni esempi di training $\langle x, f(x)\rangle$.
+
+Bisogna però mettere in conto anche eventuali errori, cercando di capire se esiste davvero un'ipotesi coerente e, in caso di assenza, si cerca di approssimare la soluzione. In quest'ottica bisogna prestare attenzione tra fit e complessità. Ogni sistema dovrà cercare di mediare tra questi due aspetti, un fit migliore comporta alta complessità. Si ha sempre il rischio di \textbf{overfitting}, cercando una precisione dei dati che magari non esiste. Si ha un generatore di dati ma il sistema non ha conoscenza della totalità degli stessi.
+\begin{definizione}
+    L'\textbf{overfitting}, è un problema che si verifica quando un modello statistico o di machine learning si adatta troppo ai dati di allenamento e non è in grado di generalizzare o prevedere bene i dati nuovi o di test. Questo fenomeno è causato da un eccesso di parametri o di complessità del modello rispetto al numero di osservazioni.
+    
+    Bassi tassi di errore e una varianza elevata sono buoni indicatori di overfitting. Per prevenire questo tipo di comportamento, una parte del set di dati di addestramento è tipicamente messa da parte come “set di test” per controllare l'eventuale presenza di overfitting. Dati di addestramento con un basso tasso di errore e dati di test con un alto tasso di errore sono indice di overfitting.
+\end{definizione}
+
+Viene usato un approccio che sfrutta anche il \textit{Rasoio di Occam}, ovvero si preferisce la soluzione più semplice.
+\section{Concept Learning}
+\begin{definizione}
+    Il \textbf{concept learning} è la ricerca, nello spazio delle ipotesi, di funzioni che assumano valori all'interno di $\{0, 1\}$. In altre parole si parla di funzioni che hanno come dominio lo spazio delle ipotesi e come codominio $\{0, 1\}$:
+    \begin{equation}
+        f: H \to \{0, 1\}
+    \end{equation}
+    Volendo si possono usare insiemi e non funzioni. Si cerca quindi con opportune procedure la miglior ipotesi che si adatta meglio al concetto implicato dal training set
+\end{definizione}
+
+In questo contesto si cerca di capire quale funzione booleana è adatta al mio addestramento. In altre parole si cerca di apprendere un'ipotesi booleana partendo da esempi di training composti da input e output della funzione. 
+
+Qualora nel concept learning si abbia a che fare con più di due possibilità si aumentano i bit usati. Nel concept learning un'ipotesi è un insieme di vincoli sugli attributi e ogni valore può essere:
+\begin{itemize}
+    \item \textbf{Specificato}.
+    \item \textbf{Non importante}, che si indica con “?”, e che può assumere qualsiasi valore. Avere un'ipotesi con tutti i valori del vettore pari a “?” implica avere l’ipotesi più generale, avendo classificato tutte le istanze solo come esempi positivi.
+    \item \textbf{Nullo} e si indica con $\emptyset$. Avere un'ipotesi con tutti i valori del vettore pari a $\emptyset$ implica avere l'ipotesi più specifica, avendo classificato tutte le istanze solo come esempi negativi.
+\end{itemize}
+
+Si ha la teoria delle ipotesi di apprendimento induttivo che dice che se la mia $h$ approssima bene nel training set allora approssima bene su tutti gli esempi non ancora osservati. Il concept learning è quindi una ricerca del fit migliore.
+
+\begin{definizione}
+    Siano $h_j$ e $h_k$ due funzioni che restituiscono un valore booleano. Allora $h_j$ è uguale o più generale rispetto a $h_k$ ($h_j \geq h_k$) se e solo se:
+    \begin{equation}
+        \forall x \in X: [(h_k(x) = 1) \to (h_j(x) = 1)]
+    \end{equation}
+
+    La relazione $\geq$ impone un ordine parziale sullo spazio delle ipotesi $H$ che viene utilizzato da diversi metodi di concept learning.
+
+    Lo spazio delle ipotesi è descritto da una congiunzione di attributi
+\end{definizione}
+
+Vediamo un esempio di studio dello spazio delle istanze $X$. Considero che le istanze sono specificate da due attributi: $A_1 = \{0, 1, 2\}$ e $A_2 = \{0, 1\}$. Quindi, sapendo che $X = A_1 \times A_2$, ho che: $$|X| = |A_1| \cdot |A2|$$ e quindi in questo caso $|X| = 6$.
+
+Vediamo un esempio di studio del numero di concetti. In X abbiamo 3 attributi, ciascuno con 3 possibili valori: $A_i = \{0, 1, 2\}$, $i = 1, 2, 3$ Abbiamo già visto come calcolare $|X|$ e quindi sappiamo che: $$|X| = 3^3 = 27$$ Sappiamo che un concetto $c$ è un sottoinsieme di $X$, quindi, chiamato $C = \{c_i \subseteq X\}$ l'insieme di tutti i concetti so che la sua cardinalità è pari
+alla cardinalità dell'insieme delle parti di $X$: $$|C| = |P(X)| = 2^{|X|} = 2^{27}$$
+
+Vediamo un esempio di studio del numero delle ipotesi, ovvero si studia la cardinalità dello spazio delle ipotesi, ossia il numero di differenti combinazioni di tutti i possibili valori per ogni possibile attributo. Bisogna notare che l'uso di $\emptyset$ come valore di un attributo in un'ipotesi rende tale ipotesi semanticamente equivalente a qualsiasi altra che contenga un $\emptyset$. Inoltre tutte queste sono ipotesi che \textit{rifiutano tutto}. Tutte queste ipotesi conteranno come un unico caso nel conteggio delle ipotesi. Quindi per conteggiare tutte ipotesi semanticamente differenti dovrò fare, indicando con $|A_i|$ il numero di valori possibili per l'attributo $A_i$:
+\begin{equation}
+    |H|_{sem} = 1 + \prod (|A_i| + 1)
+\end{equation}
+Quindi moltiplicare tutti il numero di valori di ogni attributo più 1 (indicante “?” e che quindi va conteggiato come possibile valore per ogni attributi) e sommare 1 (indicante $\emptyset$ che va conteggiato solo una volta per il discorso fatto sopra in merito all'equivalenza semantica di tali ipotesi) a questo risultato finale.
+
+Qualora volessi conteggiare tutte ipotesi sintatticamente differenti dovrò contare $\emptyset$ come ipotetico valore per ogni attributo e quindi:
+\begin{equation}
+    |H|_{sint} = \prod (|A_i| + 2)
+\end{equation}
+\subsection{Algoritmo find - S}
+Questo algoritmo permette di partire dall'ipotesi più specifica e generalizzarla, trovando ad ogni passo un'ipotesi più specifica e consistente con il training set $D$. L'ipotesi in uscita sarà anche consistente con gli esempi negativi dando prova che il target è effettivamente in $H$. Con questo algoritmo non si può dimostrare di aver trovato l'unica ipotesi consistente con gli esempi e, ignorando gli esempi negativi non posso capire se $D$ contiene dati inconsistenti. Inoltre non ho l'ipotesi più generale.
+\begin{algorithm}[!ht]
+  \begin{algorithmic}
+    \Function{findS}{}
+    \State $h\gets \mbox{ l'ipotesi più specifica in } H$
+    \For {\textit{ogni istanza di training \textbf{positiva} $x$}}
+    \For {\textit{ogni vincolo di attributo $a_i$ in $h$}}
+    \If { il vincolo di attributo $a_i$ in $h$ è soddisfatto da $x$}
+    \State \textit{non fare nulla}
+    \Else
+    \State \textit{sostituisci $a_i$ in $h$ con il successivo vincolo più}
+    \State \textit{generale che è soddisfatto da $x$}
+    \EndIf
+    \EndFor
+    \EndFor
+    \State \Return \textit{ipotesi $h$}
+    \EndFunction
+  \end{algorithmic}
+  \caption{Algoritmo Find-S}
+\end{algorithm}
+\begin{osservazione}
+    Un modello che non fa ipotesi preliminari per quanto riguarda l'identità del concetto target non ha alcuna base razionale per classificare eventuali nuove istanze.
+\end{osservazione}

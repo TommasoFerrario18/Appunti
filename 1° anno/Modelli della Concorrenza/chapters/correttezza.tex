@@ -1,0 +1,359 @@
+\chapter{Dimostrazioni di correttezza}
+\section{Logica proposizionale}
+Nella logica proposizionale, dal punto di vista teorico, il significato di una formula è rappresentato dal suo valore di verità.
+
+Una volta definite sintassi e semantica, possiamo usare una logica per costruire delle dimostrazioni; aver definito una semantica non vuol dire che di fronte ad una formula si è in grado di dire subito se sia valida o meno, dunque con la logica si sviluppa un metodo di dimostrazione e si cerca, in un numero finito di passi, di dimostrare la validità di una certa formula.
+
+Un esempio, legato alla logica dell'aritmetica, è la formula che dice che per ogni numero primo, esiste sempre un numero primo più grande di esso; questa formula non è verificabile sperimentalmente essendo in numeri infiniti e va quindi dimostrata in altri modi.
+
+Per ogni logica bisogna quindi definire un apparato deduttivo, cioè un insieme di regole di \textbf{inferenza}. Una regola di inferenza è una regola che dice "se hai già dimostrato queste premesse, allora puoi dedurre questa formula".
+
+\subsection{Sintassi}
+Passiamo ora al caso specifico della logica proposizionale che ci servirà per le dimostrazioni di correttezza.
+
+Per costruire il linguaggio avremmo bisogno di:
+\begin{itemize}
+    \item $PA = \{p_1, \dots, pi, \dots\}$ sono le proposizioni atomiche.
+    \item $\bot, \ \top$ sono le costanti logiche, rappresentano formule o sempre false o sempre vere.
+    \item $\lnot, \ \land, \ \lor, \ \to, \ \leftrightarrow$ sono i connettivi logici, utilizzati per creare formule complesse.
+    \item $(, \ )$ sono i demilitatori, utilizzati per la creazione di formule complesse.
+\end{itemize}
+Adesso dobbiamo definire la grammatica della logica proposizionale, per fare ciò si utilizza una definizione induttiva.
+\begin{definizione}[\textbf{Formule ben formate}]
+    Definiamo l'insieme delle formule ben formate $F_p$ come:
+    \begin{itemize}
+        \item $\bot, \ \top \in F_p$ le costanti logiche sono delle formule ben formate.
+        \item $\forall p_i \in PA, \ p_i \in F_p$ le proposizioni atomiche sono formule ben formate.
+        \item Se $A, B \ in F_p$ allora:
+        \begin{equation}
+            (\lnot A), \ (A \land B), \ (A \lor B), \ (A \to B), \ (A \leftrightarrow B) \ \in F_p
+        \end{equation}
+        \item Nient'altro è una formula ben formata.
+    \end{itemize}
+\end{definizione}
+Le formule atomiche rappresentano delle relazioni tra le variabili e le costanti oppure relazioni tra le variabili.
+\subsection{Semantica}
+Siamo ora interessati a conoscere il valore di una formula scritta attraverso la logica proposizionale. Il \textbf{valore di verità} di una formula dipende dai valori di verità delle sue proposizioni atomiche.
+
+Il punto di partenza è quindi stabilire quali proposizioni atomiche sono da considerare vere. Questo si può fare formalmente definendo una \textbf{funzione di valutazione}:
+\begin{equation}
+    v: PA \to \{0, 1\}
+\end{equation}
+
+I connettivi della Logica Proposizionale hanno i seguenti valori di verità:
+\begin{equation}
+    \begin{array}{ccccccc}
+    \toprule
+    \text{A} & \text{B} & A \land B & A \lor B & \neg A & A \to B & A \longleftrightarrow B \\
+    \midrule
+    F & F & F & F & T & T & T \\
+    F & T & F & T & T & T & F \\
+    T & F & F & T & F & F & F \\
+    T & T & T & T & F & T & T \\
+    \bottomrule
+  \end{array}
+\end{equation}
+Questa funzione di valutazione può essere estesa induttivamente ad una funzione definita su tutte le formule ben formate, tale funzione prende il nome di \textbf{funzione di interpretazione} ed è definita come:
+\begin{equation}
+    I_v: F_p \to \{0, 1\}
+\end{equation}
+\begin{enumerate}
+    \item $I_v (\bot) = 0$ e $I_v (\top) = 1$ le costanti logiche hanno valore di verità definito.
+    \item $\forall p_i \in PA \ I_v(p_i) = v(p_i)$ l'interpretazione di una preposizione atomica è data dal suo valore di verità.
+    \item Passo induttivo:
+    \begin{equation}
+        \begin{array}{cc}
+           I_v(\lnot A) = 1 - I_v(A) & \\ 
+           I_v(A \lor B) = 1 & \text{se e solo se} \ I_v(A) = 1 \ \text{o} \ I_v(B) = 1 \\
+           \dots & \\
+           I_v(A \to B) = 1 & \text{se e solo se} \ I_v(A) = 0 \ \text{o} \ I_v(B) = 1 
+        \end{array}
+    \end{equation}
+\end{enumerate}
+Vediamo ora un'po di terminologia:
+\begin{itemize}
+    \item $A$ è \textbf{soddisfatta} da $I_v$ se $I_v(A) = 1$.
+    \item $A$ è \textbf{soddisfacibile} se esiste $I_v$ tale che $I_v(A) = 1$.
+    \item $A$ è una \textbf{tautlogia} se $I_v(A) = 1$ per ogni $I_v$
+    \item $A$ è una \textbf{contraddizione} se $I_v(A) = 0$ per ogni $I_v$
+\end{itemize}
+\begin{definizione}[\textbf{Logicamente equivalenti}]
+    Due formule ben formate $A$ e $B$ sono logicamente equivalenti, indicato con $A \equiv B$, se e solo se:
+    \begin{equation}
+        I_v(A) = I_v(B) \ \ \forall I_v
+    \end{equation}
+\end{definizione}
+\begin{definizione}\textbf{[Modello]}
+    Definiamo ora i modelli, ovvero delle interpretazioni delle proposizioni atomiche, cioè una scelta di valori di verità per tutte le proposizioni atomiche.
+    
+    Un modello è un sottoinsieme delle proposizioni atomiche $M \subseteq PA$ a cui è associata un'interpretazione definita come $I_M: F_p \to \{0, 1\}$ tale che:
+    \begin{equation}
+        I_M(p_i) = 1 \ \text{se e solo se} \ p_i \in M
+    \end{equation}
+    Possiamo indicare la relazione tra modelli e formule come:
+    \begin{equation}
+        M \models A
+    \end{equation}
+    la quale si può leggere come $M$ modella $A$ oppure come $A$ è soddisfatta in $M$. Quindi scriveremo $M \models A$ se $A$ risulta vera per la scelta particolare di $M$.
+\end{definizione}
+\begin{definizione}
+     Se $M \models A$ per tutti gli $M$, allora $A$ è una tautologia e si indica $\models A$.
+\end{definizione}
+\begin{definizione}
+    Se $M \models A$ per qualche $M$, allora $A$ è soddisfacibile.
+\end{definizione}
+\begin{definizione}
+    Se $M \models A$ non è soddisfatta da nessun $M$, allora $A$ è in soddisfacibile.
+\end{definizione}
+Definizione 6. 
+Definizione 7. 
+\subsection{Apparato deduttivo}
+Possiamo ora rappresentare l'apparato deduttivo della logica proposizionale. Esso è composto da \textbf{regole di inferenza} scritte in questo modo:
+\begin{equation}
+    \frac{A_1, \dots, A_n}{B}
+\end{equation}
+dove $A_i \in F_p$ sono le premesse, mentre $B \in F_p$ è la conclusione.
+
+Alcune regole di inferenza sono ad esempio:
+\begin{itemize}
+    \item Se ho dimostrato che $A_1$ e $A_2$ sono vere, sarà vera anche $A_1 \land A_2$: 
+    \begin{equation}
+        \frac{A_1 \ \ A_2}{A_1 \land A_2}
+    \end{equation}
+        \item Se ho dimostrato che $A_1 \land A_2$ è vera, sarà vera anche $A_1$: 
+    \begin{equation}
+        \frac{A_1 \land A_2}{A_1}
+    \end{equation}
+    \item Modus Ponens:
+    \begin{equation}
+        \frac{A \ \ A \to B}{B}
+    \end{equation}
+    \item Modus Tollens:
+    \begin{equation}
+        \frac{A \to B \ \ \lnot B}{\lnot A}
+    \end{equation}
+\end{itemize}
+
+Le regole di inferenza sono la base da cui è possibile costruire le dimostrazioni.
+\begin{definizione}[\textbf{Dimostrazione}]
+    Una dimostrazione è definita come una catena di regole $A_1,\dots, A_n \vdash B$, ovvero da $A_1, \dots, A_n$ si deriva $B$.  
+\end{definizione}
+Abbiamo ora due nozioni distinte:
+\begin{itemize}
+    \item La validità in un modello $\models$
+    \item La derivabilità $\vdash$ introdotta perché in generale non siamo in grado di decidere direttamente la nozione semantica di validità e quindi cerchiamo di dimostrare una cosa.
+\end{itemize}
+\begin{teorema}[\textbf{(Validità, Correttezza)}]
+    Se $A_1, \dots, A_n \vdash B$ allora $A_1, \dots, A_n \models B$. Ovvero, se riusciamo a derivare $B$ da $A_1, \dots, A_n$ in ogni modello in cui sono vere $A_1, \dots, A_n$ allora è vera anche $B$.
+\end{teorema}
+Questo teorema ci dice che abbiamo scelto bene le regole di inferenza e che queste non ci permettono di derivare cose non vere. Se questo teorema è valido, la logica è corretta.
+\begin{teorema}[\textbf{Completezza}]
+    Se $A_1, \dots, A_n \models B$ allora $A_1, \dots, A_n \vdash B$, ovvero se in ogni modello in cui sono vere $A_1, \dots, A_n$ ed è vera anche $B$, si può derivare $B$ da $A_1, \dots, A_n$.
+\end{teorema}
+Questo teorema ci dice che possiamo dimostrare tutto ciò che è vero. Se questo teorema è valido, la logica è completa.
+\section{Logica di Hoare}
+Questa logica si può vedere come costruita su due livelli diversi poiché permette di stabilire e definire il criterio di correttezza per un dato programma. In particolare, definisce questa correttezza tramite le definizioni di precondizioni e postcondizioni che sono delle formule della logica proposizionale.
+\subsection{Primo livello}
+Al primo livello avremmo le proposizioni atomiche definite come relazioni fra le variabili del programma, tra queste relazioni possiamo trovare anche relazioni tra le variabili e le costanti.
+
+Per dare una semantica, alle varie proposizioni atomiche definiamo la nozione di \textbf{stato della memoria}.
+\begin{definizione}[\textbf{Stato di memoria}]
+    Sia $V$ l'insieme delle variabili del programma, definiamo uno stato della memoria come una fotografia della memoria del programma in un certo istante.
+
+    Possiamo definire più formalmente quest'idea di stato della memoria come una funzione definita dall'insieme delle variabili ai numeri interi che assegna un valore ad ogni variabile.
+    \begin{equation}
+        \sigma: V \to \mathbb{Z}
+    \end{equation}
+    Diremo quindi che la formula $\alpha$ è vera in $\sigma$ scrivendo $\sigma \models \alpha$
+\end{definizione}
+\subsection{Secondo livello}
+Le formule della logica di Hoare sono costruite tramite delle triple che prendono il nome di triple di Hoare, le quali sono definite come: 
+\begin{equation}
+    \{\alpha\} \ C \ \{\beta\}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $\{\alpha\}$ è una formula che rappresenta le pre-cndizioni.
+    \item $C$ rappresenta un programma o un comando
+    \item $\{\beta\}$ è una formula che rappresenta le post-condizioni.
+\end{itemize}
+Le triple di Hoare si leggono come segue:
+\begin{center}
+    Se il comando $C$ viene eseguito a partire da uno stato della memoria nel quale $\alpha$ è vera, allora l'esecuzione termina e nello stato finale $\beta$ è vera.
+\end{center}
+\subsection{Linguaggio}
+Definiamo ora il linguaggio che useremo con le triple di Hoare:
+\begin{itemize}
+    \item Espressioni aritmetiche $E$ definite come:
+    \begin{equation}
+        \forall z \in \mathbb{Z} \ z \in E \ \land \ \forall e_1, e_2 \in E \ (e_1 + e_2), (e_1 - e_2), -e_1, (e_1 \ast e_2), (e_1 / e_2), (e_1 \% e_2) \in E
+    \end{equation}
+    \item Espressioni logiche $B$ definite come:
+    \item Comandi $C$ definiti come:
+    \begin{itemize}
+        \item Assegnamento $x := e \ \in C$ dove $v$ è una variabile ed $e$ è un espressione aritmetica.
+        \item Operatore di sequenza $C, D \ \in C $ dove $C$ e $D$ sono dei comandi.
+        \item Operatore di scelta $\text{if} \ B \ \text{then} \ C \ \text{else} \ D \ \text{endif} \ \in C$ dove $B$ è un espressione logica, mentre $C, D$ è sono dei comandi.
+        \item Operatore di iterazione $\text{while} \ B \ \text{do} \ C \ \text{endwhile}$ dove $B \in C$ è un espressione logica e $C$ è un comando.
+        \item $\text{skip} \in C$ questa istruzione non modifica la memoria.
+    \end{itemize}
+\end{itemize}
+
+Una tripla di Hoare rappresenta un criterio di correttezza del programma, la sua regola di derivazione è definita come:
+\begin{equation}
+    \frac{T_1, \dots, T_m, f_1, \dots, f_n}{T}
+\end{equation}
+dove al numeratore sono specificate le premesse che possano contenere sia triple $T_i$ che formule ben formate $f_i$, mentre al denominatore troviamo la conclusione che è una tripla $T$.
+
+Vediamo ora come definire le regole di derivazione per i comandi introdotti:
+\begin{enumerate}
+    \item Per il comando \textbf{skip} definiamo la seguente regola di derivazione:
+    \begin{equation}
+        \frac{}{\{p\} \text{ skip } \{p\}}
+    \end{equation}
+    in questo caso la premessa è vuota e, visto che con questa operazione non modifico lo stato della memoria, le pre-condizioni e le post-condizioni sono le stesse.
+    \item Per il comando \textbf{sequenza} definiamo la seguente regola di derivazione:
+    \begin{equation}
+        \frac{\{p\} \text{ C } \{p'\} \ \ \{p'\} \text{ D } \{q\}}{\{p\} \text{ C; D } \{p\}}
+    \end{equation}
+    se le post-condizioni di C  e le pre-condizioni di D sono le stesse posso mettere in sequenza i comandi ottenendo lo stesso risultato.
+        \item Per il comando \textbf{scelta} definiamo la seguente regola di derivazione:
+    \begin{equation}
+        \frac{\{p \land B\} \text{ C } \{q\} \ \ \{p \land \lnot B\} \text{ D } \{q\}}{\{p\} \text{ if B then C else D endif } \{q\}}
+    \end{equation}
+    Se dimostriamo che
+    \begin{itemize}
+        \item Eseguendo C da uno stato dove vale la precondizione $p$ e vale anche la condizione $B$ al termine dell'esecuzione vale $q$.
+        \item Eseguendo $C$ da uno stato dove vale $p$ ma non vale $B$ arriviamo comunque ad uno stato dove vale $q$.
+    \end{itemize}
+    Possiamo derivare la regola della scelta dove prima dell'esecuzione dell'$if$ vale $p$ mentre dopo vale $q$.
+    \item Per il comando \textbf{implicazione} definiamo la seguente regola di derivazione:
+    \begin{equation}
+        \frac{p \to p' \ \ \{p'\} \text{ C } \{q\}}{\{p\} \text{ C } \{q\}}
+    \end{equation}
+    inoltre:
+    \begin{equation}
+        \frac{\{p\} \text{ C } \{q\} \ \ q \to q'}{\{p\} \text{ C } \{q'\}}
+    \end{equation}
+    Generalizzando possiamo dire che se abbiamo dimostrato una tripla e osserviamo una condizione che implica la precondizione della tripla, possiamo derivare la tripla con la condizione osservata al posto della precondizione. Discorso analogo è valido anche per la post-condizione.
+    \item Per il comando \textbf{assegnamento} definiamo la seguente regola di derivazione:
+    \begin{equation}
+        \frac{}{\{q[E/q]\} \text{ x } := \text{ E }\{q\}}
+    \end{equation}
+    dove con $q[E / x]$ indico il fatto che sostituisco ogni occorrenza di $x$ in $q$ con $E$.
+    \item Per il comando \textbf{iterazione} (correttezza parziale) definiamo la seguente regola di derivazione:
+    \begin{equation}
+        \frac{\{inv \land B\} \text{ C } \{inv\}}{\{inv\} \text{ while B do C endwhile } \{inv \land \lnot B\}}
+    \end{equation}
+    l'idea per le istruzioni iterative è di trovare una formula che sia invariante rispetto al blocco dell'istruzione iterativa. Se troviamo un'invariante possiamo dire che se questa formula è vera all'inizio dell'istruzione iterativa, lo sarà anche alla fine e in più possiamo dire che al termine del blocco iterativo vale anche la negazione della condizione di ciclo.
+    
+    In generale, avendo un'istruzione $W = \text{ while B do C endwhile }$, se deriviamo $\vdash \{p \land B\} C \{p\}$, allora possiamo dire che $p$ è invariante rispetto a $W$.
+    
+    Data un'istruzione iterativa, non c'è un solo invariante. Ad esempio, $True$ è invariante per ogni istruzione iterativa. Generalmente ci interessano gli invarianti utili alla dimostrazione in corso. Nella pratica, le istruzioni iterative sono inserite in programmi, di conseguenza la scelta dell'invariante dipende dal contesto e si abbina alla regola dell'implicazione.
+    
+    A volte l'invariante non è assoluto, ma lo diventa aggiungendoci la condizione di ciclo. L'invariante in genere è violata guardando lo stato della memoria durante l'esecuzione del blocco, ma viene ripristinata al termine del blocco.
+\end{enumerate}
+
+\begin{definizione}[\textbf{Invariante di un ciclo}]
+    Possiamo definire l'\textbf{invariante di un ciclo} come una formula che se risulta vera all'inizio di un iterazione è vera anche alla fine di essa.
+\end{definizione}
+
+La logica di Hoare è una logica \textbf{corretta}, ovvero vale:
+\begin{equation}
+    \vdash \to \models
+\end{equation}
+questo significa che tutte le triple che riusciamo a derivare sono sicuramente delle triple valide. Inoltre, è anche \textbf{completa} (relativamente):
+\begin{equation}
+    \models \to \vdash
+\end{equation}
+tutto ciò che è valido è derivabile. Tuttavia è una completezza relativa a causa dell'incompletezza dell'aritmetica: potrebbe succedere di dover dimostrare una proprietà aritmetica che però è indimostrabile (caso molto remoto).
+
+Come notazione usiamo che:
+\begin{equation}
+    \vdash \{p\} \text{ C } \{q\}
+\end{equation}
+dove $\vdash$ segnala che la tripla è stata dimostrata/derivabile con le regole di derivazione (si parla quindi di sintassi, viene infatti ignorato il significato ma si cerca solo di applicare le regole, ottenendo al conclusione come risultato di
+una catena di regole).
+
+Usiamo anche:
+\begin{equation}
+    \models \{p\} \text{ C } \{q\}
+\end{equation}
+dove $\models$ indica che la tripla è vera (si parla quindi di semantica, riferendosi al significato).
+
+Dato che si ha completezza e correttezza dell’apparato deduttivo si ha hanno due situazioni.
+\begin{itemize}
+    \item ogni tripla derivabile è anche vera in qualsiasi interpretazione.
+    \item ogni tripla vera vorremmo fosse anche derivabile e il discorso verrà approfondito in seguito per la logica di Hoare
+\end{itemize}
+$\vdash$ può avere a pedice una sigla per la regola rappresentata.
+\subsection{Correttezza totale}
+Vogliamo ora analizzare la correttezza totale dell'istruzione while, ovvero si vuole verificare anche la terminazione del ciclo:
+\begin{equation}
+    \{p\} \ \text{while B do C endwhile} \ \{q\} 
+\end{equation}
+\begin{definizione}[\textbf{Correttezza parziale}]
+    Definiamo la \textbf{correttezza parziale} come: "Se si esegue $W$ a partire da uno stato in cui vale $p$ e l'esecuzione termina, nello stato finale vale $q$" $$\stackrel{parz}{\vdash} \{p\} C_1 \{q\}$$
+\end{definizione}
+\begin{definizione}[\textbf{Correttezza totale}]
+    Definiamo la \textbf{correttezza totale} come: "Se si esegue $W$ a partire da uno stato in cui vale $p$, l'esecuzione termina e nello stato finale vale $q$" $$\stackrel{tot}{\vdash} \{p\} C_1 \{q\}$$
+\end{definizione}
+Vediamo ora una tecnica per dimostrare la correttezza totale. Supponiamo che $E$ sia un'espressione aritmetica nella quale compaiono variabili del programma, costanti numeriche e operazioni aritmetiche, e che $inv$ sia un invariante di ciclo per $W$, scelti in modo che:
+\begin{enumerate}
+    \item $inv \to E \geq 0$
+    \item $\stackrel{tot}{\vdash} \{inv \land B \land E = k > 0\} \ C \ \{inv \land E < k\}$
+\end{enumerate}
+Allora:
+\begin{equation}
+    \stackrel{tot}{\vdash} \{inv\} \ W \ \{inv \land \lnot B\}
+\end{equation}
+\begin{nota}
+    $E$ non è una formula logica, ma $E \geq 0$ è una formula logica. Lo $0$ in $E \geq 0$ può essere sostituito da qualsiasi numero.
+\end{nota}
+\subsection{Schema generale per la dimostrazione}
+Consideriamo una generale istruzione composta da una precondizione $p$ e una post condizione $q$ e chiamiamo le istruzioni in sequenza $V$, $W$ e $Z$. Inoltre, supponiamo che $V$ e $Z$ non contengano istruzioni di iterazioni.$$\{p\} \ V; \ W; \ Z \ \{q\}$$ Il processo di dimostrazione inizia analizzando $Z \ \{q\}$ dal quale si ricava $wp(Z, q) \equiv s$ ($\{s\} \ Z \ \{q\}$). A questo punto cerchiamo un invariante $i$ per $W$ tale che $(i \land \lnot B) \to s$ ($\{i\} \ W; \ Z \ \{q\}$). Infine, cerchiamo una formula $u$ tale che $\{p\} \lor \{u\}$ è $u \to i$ ($\{p\} \ V; \ W; \ Z \ \{q\}$).
+\subsection{Proprietà}
+La logica di Hoare gode delle proprietà di:
+\begin{itemize}
+    \item \textbf{Correttezza}: $\vdash \to \models$
+    \item \textbf{Completezza} (relativa): $\models \to \vdash$
+\end{itemize}
+Vogliamo ora risolvere il problema relativo al trovare una formula $p$, che dati un comando $C$ e una formula $q$ mi permette di ottenere: $$\vdash \{p\} C \{q\}$$ Per fare ciò definiamo:
+\begin{itemize}
+    \item $V$ insieme delle variabili di $C$
+    \item $\Sigma = \{\sigma | \sigma: V \to \mathbb{Z} \}$ insieme degli stati
+    \item $\Pi$ insieme delle formule su $V$
+    \item $\models \subseteq \Sigma \times \Pi$ è definita come $p$ è vera in $\sigma$:
+    \begin{equation}
+        \sigma \models p
+    \end{equation}
+    partendo da questa possiamo definire due funzioni:
+    \begin{itemize}
+        \item $t(\sigma) = \{p \in \Pi | \sigma \models p \}$ ovvero l'insieme delle formule vere in $\sigma$.
+        \item $m(p) = \{\sigma \in \Sigma | \sigma \models p \}$ ovvero l'insieme degli stati che soddisfano $p$.
+    \end{itemize}
+    Possiamo generalizzare queste formule per insiemi, siano $S \subseteq \Sigma$ sottoinsieme di stati e $F \subseteq \Pi$ sotto-insieme di formule:
+        \begin{itemize}
+        \item $t(S) = \{p \in \Pi | \forall s \in S: s \models p \} = \bigcap_{s \in S} t(s)$.
+        \item $m(F) = \{s \in \Sigma | \forall p \in F: s \models p\} = \bigcap_{p \in F} m(p)$.
+    \end{itemize}
+\end{itemize}
+A questo punto possiamo esprimere le formule della logica proposizionale attraverso operazioni tra insiemi:
+\begin{itemize}
+    \item $m(\lnot q) = \Sigma \backslash m(q)$
+    \item $m(p \lor q) = m(p) \cup m(q)$
+    \item $m(p \land q) = m(p) \cap m(q)$
+    \item $m(p \to q) = m(\lnot p) \cup m(q)$, oltre a questo l'implicazione ha anche una relazione tra formule: "se $p$ implica $q$, allora $m(p) \subseteq m(q)$ ovvero $q$ è più debole di $p$.
+\end{itemize}
+Definite queste operazioni possiamo definire i criteri di scelta della pre-condizione \textit{migliore} $C \{q\}$ cerchiamo la pre-condizione più debole (\textbf{weakest precondition}) $p$ tale che $$\models \{p\} \ C \ \{q\}$$ $p$ corrisponde al più grande insieme di stati a partire dai quali l'esecuzione di $C$ porta a uno stato in $m(q)$.
+
+Abbiamo definito che esiste sempre tale condizione, vediamo ora come calcolarla. Usiamo la notazione $wp(C, q)$ per definire la precondizione più debole per $C \{q\}$.
+\begin{teorema}
+    $\models \{p\} C \{q\}$ se e solo se $p \to wp(S, q)$
+\end{teorema}
+Le regole di calcolo di $wp$ sono:
+\begin{itemize}
+    \item \textbf{Assegnamento}: $wp(x := E, q) = q[E / x]$ sostituisco tutte le occorrenze di $x$ con $E$.
+    \item \textbf{Sequenza}: $wp(C_1;C_2, q) = wp(C_1, wp(C_2, q))$
+    \item \textbf{Scelta}: $wp(C, q) = (B \land wp(C_1, q)) \lor (\lnot B \land wp(C_2, q)$ dove $C$ è definita come: $C: \text{if} \ B \ \text{then} \ C_1 \ \text{else} \ C_2 \ \text{endif}$
+\end{itemize}
