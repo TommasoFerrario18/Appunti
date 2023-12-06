@@ -1,16 +1,31 @@
 \chapter{Alberi decisionali}
-Vediamo come sfruttare una struttura dati discreta, l'albero di decisione, per affrontare problemi di concept learning. Per la costruzione di queste strutture utilizzeremo l'algoritmo chiamato \textbf{ID3}, il quale costruisce l'albero scegliendo gli attributi in base al valore dell'\textbf{information gain}. In questo caso, a differenza del concept learning in cui si analizza un'istanza alla volta, si prendono in considerazione gruppi di dati.
+Vediamo come sfruttare una struttura dati discreta, l'albero di decisione, per
+affrontare problemi di concept learning. Per la costruzione di queste strutture
+utilizzeremo l'algoritmo chiamato \textbf{ID3}, il quale costruisce l'albero
+scegliendo gli attributi in base al valore dell'\textbf{information gain}. In
+questo caso, a differenza del concept learning in cui si analizza un'istanza alla
+volta, si prendono in considerazione gruppi di dati.
 
 Gli attributi possono assumere diversi valori. Un albero decisionale è formato da:
 \begin{itemize}
     \item \textbf{Nodes} (nodi): rappresentano gli attributi da testare.
-    \item \textbf{Branches} (rami): sono etichettati con i possibili valori dell'attributo specificato nel nodo sorgente del ramo.
+    \item \textbf{Branches} (rami): sono etichettati con i possibili valori
+          dell'attributo specificato nel nodo sorgente del ramo.
     \item \textbf{Leaf nodes} (foglie): contengono i valori della classificazione.
 \end{itemize}
 
-Possiamo quindi scegliere, al posto delle classiche funzioni booleane, alberi di decisione per rappresentare un modello che applicato ad esempi non visti ci dirà se applicare in output un'etichetta vera o falsa in base a quanto appreso. Per classificare un'occorrenza si parte dal nodo radice dell'albero, si verificano i tratti indicati da questo nodo e si procede lungo il ramo dell'albero confrontandoli con il valore dell'attributo. Si ripete questo controllo fino ad arrivare alle foglie.
+Possiamo quindi scegliere, al posto delle classiche funzioni booleane, alberi di
+decisione per rappresentare un modello che applicato ad esempi non visti ci dirà
+se applicare in output un'etichetta vera o falsa in base a quanto appreso. Per
+classificare un'occorrenza si parte dal nodo radice dell'albero, si verificano
+i tratti indicati da questo nodo e si procede lungo il ramo dell'albero confrontandoli
+con il valore dell'attributo. Si ripete questo controllo fino ad arrivare alle foglie.
 
-La flessibilità nella costruzione dell'albero sta nel scegliere gli attributi e i valori di ognuno. Con l'algoritmo ID3 si costruiscono alberi decisionali in base alle istanze che ricevo. Formule booleane possono essere rappresentate in un albero decisionale, costruendo un albero che fornisca la risposta yes solo nei casi in cui la formula booleana sia vera.
+La flessibilità nella costruzione dell'albero sta nel scegliere gli attributi e
+i valori di ognuno. Con l'algoritmo ID3 si costruiscono alberi decisionali in base
+alle istanze che ricevo. Formule booleane possono essere rappresentate in un albero
+decisionale, costruendo un albero che fornisca la risposta yes solo nei casi in
+cui la formula booleana sia vera.
 
 Riassumiamo alcune caratteristiche degli alberi decisionali:
 \begin{itemize}
@@ -21,35 +36,51 @@ Riassumiamo alcune caratteristiche degli alberi decisionali:
     \item Possono esserci attributi di cui non ho informazioni.
 \end{itemize}
 
-Un percorso dalla radice fino alla foglia mi rappresenta una congiunzione di attributi, mentre analizzando l'albero nella sua interezza posso definirlo come una disgiunzione di congiunzioni. Un albero quindi formalizza la congiunzione di vincoli su attributi, percorso da radice a foglia, ma può anche estendere il linguaggio a disgiunzioni di vincoli su attributi.
+Un percorso dalla radice fino alla foglia mi rappresenta una congiunzione di
+attributi, mentre analizzando l'albero nella sua interezza posso definirlo come
+una disgiunzione di congiunzioni. Un albero quindi formalizza la congiunzione di
+vincoli su attributi, percorso da radice a foglia, ma può anche estendere il
+linguaggio a disgiunzioni di vincoli su attributi.
 
 Posso avere alberi diversi a seconda della scelta del nodo radice.
 \begin{teorema}
     Con un albero decisionale posso rappresentare tutte le funzioni booleane.
 \end{teorema}
 
-Possiamo dire che gli alberi decisionali descrivono tutte le funzioni booleane. Avendo $n$ attributi booleani avremo un numero distinto di tabelle di verità, ciascuna con $2^n$ righe, pari a:
+Possiamo dire che gli alberi decisionali descrivono tutte le funzioni booleane.
+Avendo $n$ attributi booleani avremo un numero distinto di tabelle di verità,
+ciascuna con $2^n$ righe, pari a:
 \begin{equation}
     \text{Numero di alberi} \ = \ 2^{2^n}
 \end{equation}
-Usando funzioni booleane posso convertire tabelle di verità in alberi decisionali, con quindi ogni percorso dalla radice ad una foglia che rappresenta una regola e l'intero albero che rappresenta la congiunzione di tutte le regole. Le foglie quindi sono gli assegnamenti di verità della tabella.
+Usando funzioni booleane posso convertire tabelle di verità in alberi decisionali,
+con quindi ogni percorso dalla radice ad una foglia che rappresenta una regola e
+l'intero albero che rappresenta la congiunzione di tutte le regole. Le foglie
+quindi sono gli assegnamenti di verità della tabella.
 
 Vediamo quindi un algoritmo generale per la costruzione dell'albero:
 \begin{enumerate}
     \item Si inizia con un albero vuoto.
     \item Scelgo un attributo opportuno per fare lo split dei dati.
     \item Per ogni split dell'albero:
-    \begin{itemize}
-        \item Se non c'è altro da fare si fa la predizione con l'ultimo nodo foglia.
-        \item Altrimenti si torna allo step 2 e si procede con un altro split.
-    \end{itemize}
+          \begin{itemize}
+              \item Se non c'è altro da fare si fa la predizione con l'ultimo nodo
+                    foglia.
+              \item Altrimenti si torna allo step 2 e si procede con un altro split.
+          \end{itemize}
 \end{enumerate}
- 
-Una strategia per selezionare l'attributo per fare lo split, può essere quella “a maggioranza”, ovvero prendendo l'attributo che con i suoi valori ha meno disomogeneità. Per farlo calcolo la differenza tra yes e no di ogni valore per un certo attributo, sommandone i risultati. Scelgo l'attributo con più omogeneità, che ha una distribuzione più pulita dei risultati.
 
-Idealmente, un buon attributo divide gli esempi in due sotto-insiemi che sono composti tutti da istanze positive o da istanze negative.
+Una strategia per selezionare l'attributo per fare lo split, può essere quella
+“a maggioranza”, ovvero prendendo l'attributo che con i suoi valori ha meno
+disomogeneità. Per farlo calcolo la differenza tra yes e no di ogni valore per
+un certo attributo, sommandone i risultati. Scelgo l'attributo con più omogeneità,
+che ha una distribuzione più pulita dei risultati.
 
-Un altra metodologia per scegliere come effettuare lo split consiste nell'utilizzo del \textbf{Gini Index}.
+Idealmente, un buon attributo divide gli esempi in due sotto-insiemi che sono
+composti tutti da istanze positive o da istanze negative.
+
+Un altra metodologia per scegliere come effettuare lo split consiste nell'utilizzo
+del \textbf{Gini Index}.
 \begin{definizione}
     Per un insieme di istanze posso definire il \textbf{Gini index} come:
     \begin{equation}
@@ -58,84 +89,107 @@ Un altra metodologia per scegliere come effettuare lo split consiste nell'utiliz
     dove: \begin{itemize}
         \item $D$ è l'insieme di istanze.
         \item $c$ rappresenta il numero di classi.
-        \item $p_i$ è la proporzione di istanze nella classe $i$ che sono presenti nel dataset.
+        \item $p_i$ è la proporzione di istanze nella classe $i$ che sono presenti
+              nel dataset.
     \end{itemize}
 
-    Il valore di questo indice è compreso tra 0 e 1, dove 0 indica che nell'insieme sono presenti solo elementi di una classe, mentre 1 indica che nelle classi sono presenti istanze diverse.
+    Il valore di questo indice è compreso tra 0 e 1, dove 0 indica che nell'insieme
+    sono presenti solo elementi di una classe, mentre 1 indica che nelle classi
+    sono presenti istanze diverse.
 \end{definizione}
-Questo indice può essere utilizzato per calcolare la \textit{purezza} dell'intero dataset, oppure per calcolare la \textit{purezza} delle partizioni che si creano utilizzando un determinato attributo per fare lo split.
+Questo indice può essere utilizzato per calcolare la \textit{purezza} dell'intero
+dataset, oppure per calcolare la \textit{purezza} delle partizioni che si creano
+utilizzando un determinato attributo per fare lo split.
 
-Per selezionare che attributo utilizzare per lo split tramite l'indice di Gini si calcola una somma pesata per ogni attributo:
+Per selezionare che attributo utilizzare per lo split tramite l'indice di Gini
+si calcola una somma pesata per ogni attributo:
 \begin{equation}
     WeightedSum = \sum_{i} p_i \cdot Gini_i
 \end{equation}
 dove:
 \begin{itemize}
     \item $p_i$: rappresenta la probabilità di osservare uno specifico valore.
-    \item $Gini_i$: rappresenta l'indice di Gini calcolato dove l'attributo assume il valore osservato.
+    \item $Gini_i$: rappresenta l'indice di Gini calcolato dove l'attributo assume
+          il valore osservato.
 \end{itemize}
 \section{Algoritmo ID3}
-Lo scopo di questo algoritmo è quello di trovare un albero, di dimensioni ridotte, che sia consistente con gli esempi di training. L'idea alla base di questo algoritmo è quella di scegliere, in modo ricorsivo, l'attributo più significativo come radice del sotto-albero.
+Lo scopo di questo algoritmo è quello di trovare un albero, di dimensioni ridotte,
+che sia consistente con gli esempi di training. L'idea alla base di questo algoritmo
+è quella di scegliere, in modo ricorsivo, l'attributo più significativo come radice
+del sotto-albero.
 
-Si fanno quindi crescere in modo coerente gli alberi piccoli scelti in partenza. Si punta ad arrivare ad un albero valido per tutti gli esempi ricevuti e anche per quelli non visti.
+Si fanno quindi crescere in modo coerente gli alberi piccoli scelti in partenza.
+Si punta ad arrivare ad un albero valido per tutti gli esempi ricevuti e anche
+per quelli non visti.
 
 Iniziamo a vedere l'algoritmo anche se saranno necessarie molte specifiche:
 \begin{algorithm}[!ht]
-  \begin{algorithmic}
-    \Function{ID3}{}
-    \State $A \gets$ \textit{il ``miglior'' attributo di decisione per il prossimo nodo}
-    \State \textit{Assegno A come attributo di decisione per il nodo}
-    \For {\textit{Ogni valore dell'attributo A}}
+    \begin{algorithmic}
+        \Function{ID3}{}
+        \State $A \gets$ \textit{il ``miglior'' attributo di decisione per il prossimo nodo}
+        \State \textit{Assegno A come attributo di decisione per il nodo}
+        \For {\textit{Ogni valore dell'attributo A}}
         \State \textit{Creo un discendente}
-    \EndFor
-    \State \textit{Ordina gli esempi di training alla foglia in base al valore dell'attributo del branch}
-    \If {\textit{Ho classificato tutti gli esempi di training}}
-    \State \textit{Mi fermo}
-    \Else
-    \State \textit{Itero sulle foglie appena create}
-    \EndIf
-    \EndFunction
-  \end{algorithmic}
-  \caption{Algoritmo ID3}
+        \EndFor
+        \State \textit{Ordina gli esempi di training alla foglia in base al valore dell'attributo del branch}
+        \If {\textit{Ho classificato tutti gli esempi di training}}
+        \State \textit{Mi fermo}
+        \Else
+        \State \textit{Itero sulle foglie appena create}
+        \EndIf
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo ID3}
 \end{algorithm}
 
-Per la selezione del miglior attributo, bisogna capire cosa si intende come attributo migliore. Per farlo introduciamo la seguente notazione:
+Per la selezione del miglior attributo, bisogna capire cosa si intende come
+attributo migliore. Per farlo introduciamo la seguente notazione:
 \begin{equation}
     [\text{esempi positivi}+, \text{esempi negativi}-]
 \end{equation}
 entrambi rappresentati con un valore intero.
 
-Per essere ancora più precisi bisogna considerare l'\textbf{entropia} degli insiemi, ovvero il contenuto informativo dell'insieme.
+Per essere ancora più precisi bisogna considerare l'\textbf{entropia} degli insiemi,
+ovvero il contenuto informativo dell'insieme.
 \begin{definizione}
-     Dato un training set $S$ contenete i valori $v_i, \ i = 1 \dots n$. Possiamo definire l'\textbf{entropia} (Contenuto informativo) di un insieme $S$ come:
-     \begin{equation}
-         H[V] = I(P(v_1), \dots, P(v_n)) = \sum_{i = 1}^n - P(v_i) \log_{2} P(v_i)
-     \end{equation}
+    Dato un training set $S$ contenete i valori $v_i, \ i = 1 \dots n$. Possiamo
+    definire l'\textbf{entropia} (Contenuto informativo) di un insieme $S$ come:
+    \begin{equation}
+        H[V] = I(P(v_1), \dots, P(v_n)) = \sum_{i = 1}^n - P(v_i) \log_{2} P(v_i)
+    \end{equation}
 
-     Dove $P(y)$ rappresenta la probabilità che il valore $y$ sia presente.
-     
-     Nel caso booleano le istanze presenti in un certo insieme $S$ sono associate ad un'etichetta, conteggiandole. Si utilizza una variabile $p$ per rappresentare i valori di $S$ a cui è associata un'etichetta positiva, mentre, si utilizza la variabile $n$ per rappresentare i valori di $S$ a cui è associata un'etichetta negativa. Posso quindi riscrivere la sommatoria nel caso booleano come:
-     \begin{equation}
-         I\left(\frac{p}{p + n}, \frac{n}{p + n}\right) = -\frac{p}{p + n} \log_2 \left( \frac{p}{p + n} \right) - \frac{n}{p + n} \log_2 \left(\frac{n}{p + n}\right)
-     \end{equation}
+    Dove $P(y)$ rappresenta la probabilità che il valore $y$ sia presente.
 
-     Se inoltre diciamo che $p_{+}$ è la proporzione di esempi positivi e $p_{-}$ di quelli negativi possiamo misurare l'impurità di $S$ utilizzando l'entropia:
-     \begin{equation}
-         Entropy(S) = - p_{+} \log_2 p_{+} - p_{-} \log_2 p_{-}
-     \end{equation}
-     Avrò quindi alta entropia se positivi e negativi sono bilanciati.
+    Nel caso booleano le istanze presenti in un certo insieme $S$ sono associate
+    ad un'etichetta, conteggiandole. Si utilizza una variabile $p$ per rappresentare
+    i valori di $S$ a cui è associata un'etichetta positiva, mentre, si utilizza
+    la variabile $n$ per rappresentare i valori di $S$ a cui è associata un'etichetta
+    negativa. Posso quindi riscrivere la sommatoria nel caso booleano come:
+    \begin{equation}
+        I\left(\frac{p}{p + n}, \frac{n}{p + n}\right) = -\frac{p}{p + n} \log_2 \left( \frac{p}{p + n} \right) - \frac{n}{p + n} \log_2 \left(\frac{n}{p + n}\right)
+    \end{equation}
+
+    Se inoltre diciamo che $p_{+}$ è la proporzione di esempi positivi e $p_{-}$
+    di quelli negativi possiamo misurare l'impurità di $S$ utilizzando l'entropia:
+    \begin{equation}
+        Entropy(S) = - p_{+} \log_2 p_{+} - p_{-} \log_2 p_{-}
+    \end{equation}
+    Avrò quindi alta entropia se positivi e negativi sono bilanciati.
 \end{definizione}
 
-A volte risulta utile calcolare l'entropia condizionata al valore di un attributo. Questo si può fare utilizzando la seguente formula: 
+A volte risulta utile calcolare l'entropia condizionata al valore di un attributo.
+Questo si può fare utilizzando la seguente formula:
 \begin{equation}
     H[Y | X] = \sum_{i = 1}^n p(X = x_i) \cdot H[Y | X = x_i]
 \end{equation}
 
-Con il termine \textbf{information gain} IG ci riferiamo al valore che viene calcolato su ogni attributo $A$ presente nelle istanze contenute in $S$:
+Con il termine \textbf{information gain} IG ci riferiamo al valore che viene
+calcolato su ogni attributo $A$ presente nelle istanze contenute in $S$:
 \begin{equation}
     IG(S, A) = I\left(\frac{p}{p + n}, \frac{n}{p + n}\right) - remainder(A)
 \end{equation}
-dove $remainder(A)$ rappresenta la somma pesata sul totale delle entropie calcolate sui sotto-insiemi che si vanno a creare se si sceglie $A$ come attributo per lo split dei dati.
+dove $remainder(A)$ rappresenta la somma pesata sul totale delle entropie calcolate
+sui sotto-insiemi che si vanno a creare se si sceglie $A$ come attributo per lo split dei dati.
 \begin{equation}
     remainder(A) = \sum_{i=1}^v \frac{p_i + n_i}{p + n} \cdot I\left(\frac{p_i}{p_i + n_i}, \frac{n_i}{p_i + n_i}\right)
 \end{equation}
@@ -145,27 +199,48 @@ Facciamo qualche osservazione finale sull'algoritmo ID3:
 \begin{itemize}
     \item Lo spazio delle ipotesi è completo e sicuramente contiene il target.
     \item Ho in output una singola ipotesi.
-    \item Non si ha backtracking sugli attributi selezionati, si procede con una ricerca greedy.
-    \item Fa scelte basate su una ricerca statistica, facendo sparire incertezze sui dati.
-    \item Il bias non è sulla classe iniziale, essendo lo spazio delle ipotesi completo, ma sulla scelta di solo alcune funzioni, preferendo alberi corti e posizionando attributi ad alto information gain vicino alla radice. Il bias è quindi sulla preferenza di alcune ipotesi. Si usa il criterio euristico di rasoio di Occam.
+    \item Non si ha backtracking sugli attributi selezionati, si procede con una
+          ricerca greedy.
+    \item Fa scelte basate su una ricerca statistica, facendo sparire incertezze
+          sui dati.
+    \item Il bias non è sulla classe iniziale, essendo lo spazio delle ipotesi
+          completo, ma sulla scelta di solo alcune funzioni, preferendo alberi corti e
+          posizionando attributi ad alto information gain vicino alla radice. Il bias è
+          quindi sulla preferenza di alcune ipotesi. Si usa il criterio euristico
+          di rasoio di Occam.
     \item H è l'insieme potenza delle istanze X.
 \end{itemize}
 
 Viene introdotto però l'\textbf{overfitting}.
 \begin{definizione}
-    Definiamo formalmente l'\textbf{overfitting} come l'adattamento eccessivo, ovvero quando un un modello statistico molto complesso si adatta al campione perché ha un numero eccessivo di parametri rispetto al numero di osservazioni. Si ha quindi che un modello assurdo e sbagliato può adattarsi perfettamente se è abbastanza complesso rispetto alla quantità di dati disponibili.
-    
-    Nel machine learning se il learner viene addestrato troppo a lungo il modello potrebbe adattarsi a caratteristiche che sono specifiche solo del training set, ma che non hanno riscontro nel resto dei casi quindi le prestazioni sui dati non visionati saranno drasticamente peggiori. L'opposto è l'underfitting.
+    Definiamo formalmente l'\textbf{overfitting} come l'adattamento eccessivo,
+    ovvero quando un un modello statistico molto complesso si adatta al campione
+    perché ha un numero eccessivo di parametri rispetto al numero di osservazioni.
+    Si ha quindi che un modello assurdo e sbagliato può adattarsi perfettamente se
+    è abbastanza complesso rispetto alla quantità di dati disponibili.
+
+    Nel machine learning se il learner viene addestrato troppo a lungo il modello
+    potrebbe adattarsi a caratteristiche che sono specifiche solo del training set,
+    ma che non hanno riscontro nel resto dei casi quindi le prestazioni sui dati
+    non visionati saranno drasticamente peggiori. L'opposto è l'underfitting.
 \end{definizione}
 
-Se misuro l'errore di una ipotesi $h$ sul training set ($error_{train}(h)$) e poi misuro l'errore di quella ipotesi sull'intero set delle possibili istanze $D$ ($error_D(h)$) ho che l'ipotesi $h$ va in overfit sul quel data set se:
+Se misuro l'errore di una ipotesi $h$ sul training set ($error_{train}(h)$) e poi
+misuro l'errore di quella ipotesi sull'intero set delle possibili istanze $D$ ($error_D(h)$)
+ho che l'ipotesi $h$ va in overfit sul quel data set se:
 \begin{equation}
     error_{train}(h) < error_{train}(h') \ \land \ error_D(h) > error_D(h')
 \end{equation}
-quindi vado in overfitting se: presa un'altra ipotesi $h'$ questa presenta un errore maggiore di $h$ sul training set, ma l'errore commesso sull'intero dataset è minore di $h$. Il problema è che non posso sapere se esiste tale $h'$. 
+quindi vado in overfitting se: presa un'altra ipotesi $h'$ questa presenta un
+errore maggiore di $h$ sul training set, ma l'errore commesso sull'intero dataset
+è minore di $h$. Il problema è che non posso sapere se esiste tale $h'$.
 
-Per evitare il problema uso sempre il rasoio di Occam scegliendo ipotesi semplici ed evitando di far crescere l'albero quando lo “split” non è statisticamente significativo.
+Per evitare il problema uso sempre il rasoio di Occam scegliendo ipotesi semplici
+ed evitando di far crescere l'albero quando lo “split” non è statisticamente significativo.
 
-Un altro modo è quello di togliere pezzi, all'albero, che toccano poche istanze o pure calcolare una misura di complessità dell'albero, minimizzando la grandezza dell'albero e gli errori del training set, usando il \textbf{Minimum Description Length} (MDL).
+Un altro modo è quello di togliere pezzi, all'albero, che toccano poche istanze
+o pure calcolare una misura di complessità dell'albero, minimizzando la grandezza
+dell'albero e gli errori del training set, usando il \textbf{Minimum Description Length} (MDL).
 
-In ID3 quindi posso scegliere sia in base all'information gain massimo o all'entropia minima tra gli attributi.
+In ID3 quindi posso scegliere sia in base all'information gain massimo o
+all'entropia minima tra gli attributi.

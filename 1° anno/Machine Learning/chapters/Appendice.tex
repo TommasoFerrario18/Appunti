@@ -1,35 +1,63 @@
 \chapter{Ripasso di algebra lineare}
-Per praticità ripasseremo i concetti fondamentali facendo riferimento a $\mathbb{R}^2$, formato quindi da elementi, dette coordinate, che sono coppie ordinate $(x_1,x_2)$ (rappresentabili con un punto nel piano o con un segmento orientato con partenza nell'origine e destinazione nelle coordinate del punto nel piano).
-  
-Ricordiamo le operazioni fondamentali, dati $R$ pari a $(x_1,x_2)$ e $Q$ pari a $(x_3,x_4)$ 
+Per praticità ripasseremo i concetti fondamentali facendo riferimento a $\mathbb{R}^2$,
+formato quindi da elementi, dette coordinate, che sono coppie ordinate $(x_1,x_2)$
+(rappresentabili con un punto nel piano o con un segmento orientato con partenza
+nell'origine e destinazione nelle coordinate del punto nel piano).
+
+Ricordiamo le operazioni fondamentali, dati $R$ pari a $(x_1,x_2)$ e $Q$ pari a $(x_3,x_4)$
 \begin{itemize}
     \item addizione: $P+Q=(x_1+x_3, x_2+x_4)$
     \item prodotto per uno scalare $\lambda\in\mathbb{R}$: $\lambda\cdot R=(\lambda\cdot x_1,\lambda\cdot x_2)$
-    \item prodotto scalare tra vettori: $\langle P,Q\rangle\equiv P\cdot Q^T = \sum_{i=1}^n r_i\cdot q_i$ (dove $r_i$ e $q_i$ sono rispettivamente gli elementi di $R$ e $Q$ all'indice $i$)
+    \item prodotto scalare tra vettori: $\langle P,Q\rangle\equiv P\cdot Q^T = \sum_{i=1}^n r_i\cdot q_i$
+          (dove $r_i$ e $q_i$ sono rispettivamente gli elementi di $R$ e $Q$ all'indice $i$)
 \end{itemize}
 
-Ricordiamo la \textit{norma} di un vettore $X$:$$\lVert X \rVert=\equiv\sqrt{X\cdot X^T}=\sqrt{\sum_{i=1}^n x_i\cdot x_i}=\sqrt{\langle X,X\rangle}$$
+Ricordiamo la \textit{norma} di un vettore $X$:
+\begin{equation}
+    \lVert X \rVert=\equiv\sqrt{X\cdot X^T}=\sqrt{\sum_{i=1}^n x_i\cdot x_i}=\sqrt{\langle X,X\rangle}
+\end{equation}
 
 Con $X=0$ indichiamo il \textit{vettore nullo} (che ha anche norma nulla).
 
-Definiamo il \textit{versore} (\textit{vettore unitario}) come: $$\frac{X}{\lVert X \rVert},\ \ \ X \neq 0$$ In $\mathbb{R}^2$ l'angolo $\theta$ sotteso tra due vettori $X$ e $Y$ è: $$\cos\theta=\frac{\langle X,Y\rangle}{\lVert X \rVert\cdot \lVert Y \rVert}$$
+Definiamo il \textit{versore} (\textit{vettore unitario}) come:
+\begin{equation}
+    \frac{X}{\lVert X \rVert},\ \ \ X \neq 0
+\end{equation}
+In $\mathbb{R}^2$ l'angolo $\theta$ sotteso tra due vettori $X$ e $Y$ è:
+\begin{equation}
+    \cos\theta=\frac{\langle X,Y\rangle}{\lVert X \rVert\cdot \lVert Y \rVert}
+\end{equation}
 
-La proiezione di un vettore $X$ sul vettore $Y$ è:$$X_Y = \lVert X \rVert \cdot \cos\theta$$ Si hanno quindi tre casi:
+La proiezione di un vettore $X$ sul vettore $Y$ è:
+\begin{equation}
+    X_Y = \lVert X \rVert \cdot \cos\theta
+\end{equation}
+Si hanno quindi tre casi:
 \begin{enumerate}
     \item $\theta < 90 \iff \langle X,Y\rangle >0$
     \item $\theta > 90 \iff \langle X,Y\rangle <0$
     \item $\theta = 90 \iff \langle X,Y\rangle =0$
 \end{enumerate}
-(quindi disegnando una retta sul piano tutti i punti sopra di essa apparterranno ad una certa classe e quelli sotto ad un'altra).
+(quindi disegnando una retta sul piano tutti i punti sopra di essa apparterranno
+ad una certa classe e quelli sotto ad un'altra).
 
-Posso definire una retta $r$ che passa per l'origine in  $\mathbb{R}^2$ assegnando un vettore $W=(w_1,w_2)$ ad essa ortogonale, infatti tutti i punti, ovvero vettori, $X=(x_1,x_2)$ sulla retta sono ortogonali a $W$: $$\langle W,X\rangle=w_1\cdot x_1+w_2\cdot x_2=0$$
+Posso definire una retta $r$ che passa per l'origine in  $\mathbb{R}^2$ assegnando
+un vettore $W=(w_1,w_2)$ ad essa ortogonale, infatti tutti i punti, ovvero
+vettori, $X=(x_1,x_2)$ sulla retta sono ortogonali a $W$:
+\begin{equation}
+    \langle W,X\rangle=w_1\cdot x_1+w_2\cdot x_2=0
+\end{equation}
 
-Quindi la retta (ovvero l'iperpiano) mi separa due semispazi, a seconda che $\langle X,W\rangle$ sia strettamente positivo o strettamente negativo.
+
+Quindi la retta (ovvero l'iperpiano) mi separa due semispazi, a seconda che
+$\langle X,W\rangle$ sia strettamente positivo o strettamente negativo.
 
 Generalizzando ora a $n$ dimensioni ho che, dato l'iperpiano $h$ (di dimensione $n-1$):
 \begin{itemize}
     \item se $h$ passa dall'origine allora si ha l'equazione $\langle X,Y\rangle=0$
-    \item se non passa per l'origine $\langle X,Y\rangle +b=0$ 
+    \item se non passa per l'origine $\langle X,Y\rangle +b=0$
 \end{itemize}
 
-I vettori in un iperpiano si proiettano tutti nello stesso modo e i punti ad un lato e all'altro dell'iperpiano sono distinti dal fatto che $\langle X,Y\rangle +b$ sia strettamente positiva o strettamente negativa.
+I vettori in un iperpiano si proiettano tutti nello stesso modo e i punti ad un
+lato e all'altro dell'iperpiano sono distinti dal fatto che $\langle X,Y\rangle +b$
+sia strettamente positiva o strettamente negativa.

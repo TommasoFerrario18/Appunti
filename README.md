@@ -7,7 +7,8 @@ qualcosa, sentitevi liberi di aprire una pull request.
 
 ## Indice
 
-- Teoria della computazione
-- Modelli della concorrenza
-- Machine Learning
-- Processo e Sviluppo del Software
+- Modelli e Concorrenza (12 CFU)
+  - Teoria della computazione (6 CFU)
+  - Modelli della concorrenza (6 CFU)
+- Machine Learning (6 CFU)
+- Processo e Sviluppo del Software (6 CFU)
