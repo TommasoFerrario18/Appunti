@@ -1,9 +1,9 @@
 \chapter{Apprendimento Bayesiano}
 Ci sono stati 2 modi per rappresentare la probabilità:
 \begin{itemize}
-    \item soggettivo (grado di conoscenza o probabilità Bayesiana): la probabilità
+    \item \textbf{soggettivo} (grado di conoscenza o probabilità Bayesiana): la probabilità
           di un evento sapendo che è accaduto un altro evento.
-    \item oggettivo (Long-term Frequency): la probabilità di un evento è il limite
+    \item \textbf{oggettivo} (Long-term Frequency): la probabilità di un evento è il limite
           della sua frequenza relativa in molti tentativi.
 \end{itemize}
 La probabilità in termini di limite sulle frequenze a lungo termine dei casi,
@@ -11,7 +11,7 @@ questo è un'interpretazione oggettiva perché si sfruttano delle formule e poi
 abbiamo dei casi immutabili. Mi baso su parametri fissati e quindi calcolo la
 probabilità in base ai parametri.
 
-L'apprendimento bayesiano è un approccio all'apprendimento automatico che si basa
+L'\textbf{apprendimento bayesiano} è un approccio all'apprendimento automatico che si basa
 sulla probabilità bayesiana. L'idea è quella di utilizzare la probabilità per
 rappresentare la conoscenza incerta e quindi aggiornare la probabilità in base
 ai nuovi dati. Quindi non cerchiamo l'ipotesi che combacia con i dati ma cerchiamo
@@ -35,9 +35,9 @@ finale delle varie ipotesi.
 
 Si hanno alcune difficoltà nell'apprendimento bayesiano:
 \begin{itemize}
-    \item La probabilità bayesiana è una probabilità soggettiva, quindi dipende
+    \item La \textbf{probabilità bayesiana} è una probabilità \textbf{soggettiva}, quindi dipende
           dalla conoscenza pregressa.
-    \item Si hanno costi computazionali elevati, perché si ha una complessità
+    \item Si hanno costi \textbf{computazionali elevati}, perché si ha una complessità
           esponenziale rispetto al numero di variabili.
 \end{itemize}
 
@@ -47,7 +47,7 @@ ha quindi una variabile casuale a cui associo una distribuzione di probabilità.
 Lo stato delle cose è rappresentato da una variabile soggetta a probabilità.
 Il parametro non è più certo ma è casuale.
 
-Nell'apprendimento bayesiano la miglior ipotesi è quella che massimizza la probabilità.
+Nell'apprendimento bayesiano la \textbf{miglior ipotesi} è quella che \textbf{massimizza} la probabilità.
 
 Il punto centrale dell'apprendimento bayesiano è la \textbf{regola di Bayes},
 la quale fornisce un metodo diretto per calcolare la probabilità di un'ipotesi
@@ -58,8 +58,8 @@ $h$ dato un insieme di dati $D$. La regola di Bayes è la seguente:
 dove:
 \begin{itemize}
     \item $P(h|D)$ è la probabilità dell'ipotesi $h$ dato il dataset $D$
-          (\textbf{posterior}), è la probabilità dell'ipotesi dopo aver osservato
-          l'evidenza. È la probabilità che l'ipotesi sia vera dopo aver osservato l'evidenza.
+          (\textbf{posterior}), è la probabilità che l'ipotesi  dopo aver osservato
+          l'evidenza.
     \item $P(D|h)$ è la probabilità del dataset $D$ dato l'ipotesi $h$
           (\textbf{likelihood}), è la probabilità di osservare l'evidenza $D$ dato che
           l'ipotesi $h$ è vera.
@@ -69,8 +69,8 @@ dove:
           l'evidenza. Prima si fissa la prior e poi si osserva l'evidenza.
     \item $P(D)$ è la probabilità del dataset $D$ (\textbf{evidence}), ovvero
           la probabilità di osservare l'evidenza $D$. È la probabilità di come si
-          comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il dataset.
-          Distribuzione dei dati.
+          comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il dataset e 
+          quindi al distribuzione dei dati.
 
           Quando ho due eventi indipendenti la probabilità congiunta è il prodotto
           delle due probabilità:
@@ -80,7 +80,7 @@ dove:
           Per calcolare la probabilità di evidenza $P(D)$ si utilizza la seguente
           formula:
           \begin{equation}
-              P(D) = \sum_{h \in H} P(D, h)
+              P(D) = \sum_{h \in H} P(D, h) \cdot P(h)
           \end{equation}
 \end{itemize}
 
@@ -91,15 +91,17 @@ Viene anche definita come \textbf{ipotesi MAP} (\textit{Maximum A Posteriori}).
     h_{MAP} = \text{argmax}_{h \in H} P(h|D) = \text{argmax}_{h \in H} \frac{P(D|h) \cdot P(h)}{P(D)} = \text{argmax}_{h \in H} P(D|h) \cdot P(h)
 \end{equation}
 dove $D$ rappresenta il dataset, argmax è l'ipotesi $h$ che massimizza la probabilità
-a posteriori.
+a posteriori, si esclude dai conti $P(D)$ perché non stiamo cercando la probabilità
+di $P(h|D)$, ma bensì stiamo cercardo quella che tra tutte ha probabilità massima, 
+di conseguenzza $P(D)$ non modifica i risultati.
 
-Spesso si assume che tutte le ipotesi siano equiprobabili, e quindi si ha la
-possibilità di semplificare i conti.
-
-Dato che $P(D | h)$ viene spesso chiamata \textbf{likelihood}, viene definita
-l'\textbf{ipotesi ML} (\textit{Maximum Likelihood}), ovvero ogni ipotesi massimizza $P(D|h)$:
+Spesso si assume che tutte le ipotesi siano equiprobabili (distribuzione uniforme),
+quindi si ha la possibilità di semplificare i conti, perché, con lo stesso 
+procedimento che abbiamo utilizzato sopra, possiamo escludere dal conto anche $P(h)$. 
+In tal caso, la ricerca dell'\textbf{ipotesi MAP} prenderà il nome di ricerca
+dell'\textbf{ipotesi ML} (\textit{Maximum Likelihood}), perché prenderemo $h$:
 \begin{equation}
-    h_{ML} = \text{argmax}_{h \in H} P(D|h)
+    h_{ML} = h_{MAP} =\text{argmax}_{h \in H} P(h|D) =\text{argmax}_{h \in H} P(D|h)
 \end{equation}
 potendo quindi trascurare $P(h)$ in quanto equivalente per tutte le ipotesi.
 
@@ -200,38 +202,34 @@ Algoritmo naive bayes:
     A questo punto calcoliamo $P(x_6)$ come: $$P(x_6) = \sum_{i = 0}^{|H|} P(x_6, h_i) = \sum_{i = 0}^{|H|} P(A =  1, B = 1, C = 0 | T = i) \cdot P(T = i)$$
     $$= P(A = 1 | T = 0) \cdot P(B = 1 | T = 0) \cdot P(C = 0 | T = 0) \cdot P(T = 0) + $$ $$gitP(A = 1 | T = 1) \cdot P(B = 1 | T = 1) \cdot P(C = 0 | T = 1) \cdot P(T = 1)$$
 \end{esempio}
-Nel caso generale le features non vale l'indipendenza condizionata data una label
+In generale per tutte le feature non vale l'\textbf{indipendenza condizionata}, ma
+è stato dimostrato che la correttezza rimane invariata.
 
-I principali problemi del Naive Bayes si hanno quando non si hanno abbastanza
+I principali problemi del \textbf{Naive Bayes} si hanno quando non si hanno abbastanza
 dati per il training del modello. In questi casi risulta complesso stimare le
 probabilità numericamente. Inoltre, se non osserviamo nessuna feature con una
 particolare etichetta avremo una probabilità uguale a $0$. La soluzione per
 quest'ultimo consiste nel aggiungere un piccolo numero di elementi in modo da
 non rendere nulla la probabilità ma molto vicina allo zero.
 \section{Gaussian Naive Bayes}
-Naive bayes stima le probabilità basandosi sulle frequenze della classe di ciascuna
-feature presente nel training set. Se le feature sono continue, la probabilità
-di una feature può essere stimata usando una distribuzione gaussiana.
+\textbf{Naive bayes} stima le probabilità basandosi sulle frequenze della classe di ciascuna
+feature presente nel training set, quinfi funziona solo nel calcolo di distribuzioni
+discrete. Se le feature sono continue, la probabilità di una feature può essere 
+stimata usando la loro distribuzione continua oppure approssimando con una 
+\textbf{distribuzione gaussiana}. 
 
-Semplifica le assunzioni per semplificare i calcoli. Le assunzioni cercano di
-semplificare i calcoli e non di modellare la realtà.
+Nella realtà si assumono che tutti gli attributi derivino da distribuzioni gaussiane 
+per semplificare i conti.
 
-Nella realtà si assumono distribuzioni gaussiane per semplificare i conti.
-
-Per classificare usando naive bayes e conoscendo informazioni sulla distribuzione
-del campione come una gaussiana. Il calcolo della prior è semplice, essa può essere
-calcolata come la probabilità che una classe $c$ venga osservata tra le etichette del dataset.
-
+Per classificare si calcolano sempre le probabilità, più precisamente la prior si
+deriva dalla probabilità che una classe $c$ venga osservata tra le etichette del dataset. 
 La likelihood si può calcolare usando la gaussiana:
 \begin{equation}
     P(x_i|c_j) = \frac{1}{\sqrt{2 \pi \sigma_{i, j}^2}} \cdot e^{-\frac{(x_i - \mu_{i,j})^2}{2 \sigma_{i,j}^2}}
 \end{equation}
-dove $\mu_{i, j}$ rappresenta la media dell'i-esimo elemento e $\sigma_{i, j}$
-la deviazione standard dell'i-esimo elemento. Dove $i$ sono le feature e $j$ sono le classi.
-
-Per applicare la likelihood devo calcolare la media e la deviazione standard per
-ogni feature e per ogni classe. A questo punto posso sostituirle nella formula
-per calcolare la likelihood.
+dove $\mu_{i, j}$ rappresenta la media dell'i-esimo elemento della classe j-esima e $\sigma_{i, j}$
+la deviazione standard dell'i-esimo elemento della classe j-esima, statistiche 
+calcolate dal dataset. Dove $i$ sono le feature e $j$ sono le classi.
 
 La previsione di un nuovo elemento può essere fatta come:
 \begin{equation*}
