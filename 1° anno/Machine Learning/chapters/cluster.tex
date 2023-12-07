@@ -1,33 +1,44 @@
 \chapter{Clustering}
-Il \textbf{clustering} è un approccio \textit{non supervisionato}, ovvero il
-sistema è in grado di apprendere informazioni dai dati senza che gli vengano
-fornite le etichette. Il sistema deve essere in grado di raggruppare gli elementi
-in base a delle caratteristiche comuni.
-
-Il sistema è quindi flessibile nel decidere i criteri con cui raggruppare i dati,
-questo non può essere scelto in base alle label, ma deve essere scelto ad esempio
-sfruttando concetti sulla la distribuzione dei dati. I risultati ottenuti da un
-apprendimento non supervisionato potrebbero “sorprendere” in quanto potrebbero essere
-imprevedibili a priori. In ogni caso l'incertezza del clustering non è la sola,
-in quanto anche un sistema supervisionato potrebbe comunque lasciare spazio ad
-incertezza sulle ipotesi.
-
-Avendo una classificazione non supervisionata si ha una scarsa conoscenza a
-priori dei dati da analizzare, puntando quindi all'estrazione automatica delle
-classi, mentre in quella supervisionata si partiva da classi etichettate, avendo
-magari speso costo computazionale per ottenerle, e da una struttura classificatoria
-conosciuta. I sistemi non supervisionati tornano comodi quando la distribuzione dei
+Le tecniche di apprendimento sono:
+\begin{itemize}
+	\item \textbf{supervisionato}: etichette nel dataset
+	\item \textbf{non supervisionato}: non ho le etichette e quindi devo capire
+    le cose comune 
+\end{itemize}
+Spesso si può usare l'apprendimento non supervisionato al posto del supervisionato,
+perché potrebbe ottenere dei risultati migliori,soprattutto quando il dataset è
+pieno di rumore.  I sistemi non supervisionati tornano comodi quando la distribuzione dei
 valori degli attributi è informazione sufficiente per separare le istanze in più
-classi, si hanno quindi domini dove questo fattore è determinante. Con
-l'apprendimento non supervisionato quindi la non conoscenza a priori è anche un
-vantaggio (magari le etichette che uso nel supervisionato potrebbero essere errate),
-insieme alla riduzione dell'errore umano. Un altro pro è che tutte le classi con
-caratteristiche uniche vengono identificati e quindi i metodi di apprendimento
-non supervisionato sono efficaci con elementi di tipo numerico, che diventano
-coordinate in uno spazio, e con elementi dotati di ordinamento intrinseco, per
-il calcolo delle distanze. Di contro le classi ottenute non per forza hanno un
-significato. Inoltre l'utente ha poco controllo sulla procedura e sui risultati e
-tali metodi sono meno efficaci con elementi ordinati in modo arbitrario o parziale.
+classi, si hanno quindi domini dove questo fattore è determinante. 
+
+Il fatto di utilizzare un apprendimento non supervisionato porta a diversi \textbf{vantaggi}:
+\begin{itemize}
+    \item non è richiesta alcuna conoscenza a priori quindi evito problemi legati 
+    ad eventuali etichette errate (errori umani ridotti)
+    \item tutte le classi che hanno caratteristiche uniche vengono identificate
+    \item efficaci con elementi di tipo numerico perché vengono rappresentate in
+    uno spazio di punti o di ordinamento intrinseco grazie al calcolo delle distanze
+\end{itemize}
+
+Il \textbf{lato negativo} del fatto che l'apprendimento è non supervisionato:
+\begin{itemize}
+    \item le classi ottenute potrebbero non avere significati
+    \item l'utente ha poco controllo sulla procedura e sui risultati
+    \item scarsa efficacia su elementi ordinati in modo arbitrario o parziale
+\end{itemize}
+
+Il \textbf{clustering} consiste nel  separare, categorizzare, raggruppare in 
+autonomia con un apprendimento \textbf{non supervisionato}. 
+Per il clustering, la fase di apprendimento cambia, ma la fase predizione rimane 
+identica perché ho trovato una regola che spiega il dataset. Il criterio per cui
+raggruppare è arbitrario, non si conoscono il numero di gruppi in cui partizionare il dataset
+e si dovrà trovare un modo per valutare il raggruppamento ottenuto. 
+In sostanza si cerca una regola che possa spiegare come raggruppare i 
+dati senza avere una label di riferimento e il numero di gruppi. La ricerca del raggruppamento migliore
+si baserà sempre sulla ricerca dell'ipotesi più semplice. Non conoscendo le 
+label allora raggrupperemo sfruttando le \textbf{distanze}, ovvero un elemento 
+fa parte di un raggruppamento noto se si trova vicino agli elementi di quel 
+raggruppamento.
 
 I dati che vengono utilizzati per effettuare il clustering sono principalmente
 vettori numerici, dove ogni elemento misura una specifica \textbf{caratteristica}
@@ -110,14 +121,14 @@ L'algoritmo del $k-$means lavora con dati numerici nel seguente modo:
     \item Per ogni individuo si calcola la distanza da ciascun centroide e lo si
           assegna al più vicino.
     \item Per la partizione provvisoria così ottenuta si ricalcolano i centroidi
-          di ogni cluster (\textit{media aritmetica}).
+          di ogni cluster (\textit{media aritmetica} della posizione dei punti).
     \item Per ogni individuo si ricalcola la distanza dai centroidi e si effettuano
           gli eventuali spostamenti tra cluster
     \item Si ripetono le operazioni 3 e 4 finché si raggiunge il numero massimo
           di iterazioni impostate o non si verificano altri spostamenti.
 \end{enumerate}
 Questo algoritmo è molto semplice da implementare e richiede un tempo di calcolo
-pari a:$\mathcal{O}(tKn)$ con:
+pari a: $\mathcal{O}(tKn)$ con:
 \begin{itemize}
     \item $n$ cardinalità dell'insieme dei dati.
     \item $K$ numero di cluster.
@@ -126,7 +137,7 @@ pari a:$\mathcal{O}(tKn)$ con:
 Di contro si ha una sensibilità rispetto alla scelta dei centroidi iniziali,
 sperimentalmente si è dimostrato che brutti valori iniziali invalidano l'intero
 processo. Inoltre, come detto all'inizio, non si può predire il numero di cluster
-non conoscendo a priori i dati e non esiste un $K$ ottimale e non ci sono proprietà
+non conoscendo a priori i dati, in aggiunta, non esiste un $K$ ottimale e non ci sono proprietà
 che ce lo possano suggerire.
 
 In ogni caso mappa sensatamente i vari elementi in base alle loro caratteristiche
@@ -136,7 +147,7 @@ Non sapendo a priori il numero di $K$ posso ottenere scarsi risultati magari non
 avendo abbastanza centroidi. Adattarsi ad un numero “errato” di centroidi può
 portare a risultati “sporchi”.
 
-Un altro problema è dato da dati distribuiti secondo diverse “dimensioni” nello
+Un altro problema è dato da dati distribuiti secondo diverse “dimensioni geometriche” nello
 spazio ma l'algoritmo lavorando sui centroidi potrebbe classificare in modo errato
 questo dettaglio, non distinguendo i corretti insiemi di punti. Analogamente
 succede se si hanno insiemi di punti più o meno densi, portando a classificazioni errate.
