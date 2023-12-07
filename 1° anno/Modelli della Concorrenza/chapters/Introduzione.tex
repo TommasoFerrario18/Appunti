@@ -17,17 +17,24 @@ Possiamo definire diverse semantiche per la programmazione sequenziale:
               \{Input\} P \{Output\}
           \end{equation}
 \end{itemize}
-
 Nella programmazione sequenziale si hanno due punti chiave che devono essere garantiti:
 \begin{itemize}
     \item \textbf{Terminazione del programma}.
     \item \textbf{Composizionalità} tra più comandi per ottenere un programma, ovvero:
-          $$s_1: x = 2 \ \ \{x = V\} \ x = 2 \ \{x = 2\}$$
-          $$s_2: x = 3 \ \ \{x = V\} \ x = 3 \ \{x = 3\}$$
-          $$\{x = V\} \ s_1; \ s_2 \ \{x = 3\}$$
-          Se esiste un programma $s_1'$ tale che mi permette di ottenere lo stesso 
+          \begin{equation}
+              \begin{aligned}
+                  s_1: x = 2 \ \ \{x = V\} \ x = 2 \ \{x = 2\} \\
+                  s_2: x = 3 \ \ \{x = V\} \ x = 3 \ \{x = 3\} \\
+                  \{x = V\} \ s_1; \ s_2 \ \{x = 3\}           \\
+              \end{aligned}
+          \end{equation}
+          Se esiste un programma $s_1'$ tale che mi permette di ottenere lo stesso
           risultato si $s_1$, allora posso sostituirlo a $s_1$.
-          $$s_1':  \{x = V\} \ x = 1; \ x = x + 1\ \{x = 2\}$$
-          $$\{x = V\} \ s_1'; \ s_2 \ \{x = 3\}$$
+          \begin{equation}
+              \begin{aligned}
+                  s_1': \{x = V\} \ x = 1; \ x = x + 1  \ \{x = 2\} \\
+                  \{x = V\} \ s_1'; \ s_2 \ \{x = 3\}               \\
+              \end{aligned}
+          \end{equation}
 \end{itemize}
 
