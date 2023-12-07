@@ -1,13 +1,20 @@
 \chapter{Support Vector Machines}
-Il percettrone semplice permette di imparare solamente funzioni di separazione
-lineari, quello multistrato anche funzioni di separazione non lineari complesse.
-Le \textbf{Support Vector Machines} (SVM) presentano un algoritmo di apprendimento
-efficiente e imparano funzioni di separazione non lineari complesse.
+Precedentemente abbiamo introdotto:
+\begin{itemize}
+	\item \textbf{percettrone semplice}: è un algoritmo di apprendimento efficiente 
+    solo per funzioni di separazione lineare
+	\item \textbf{percettrone multistrato}: è un algoritmo difficile da addestrare
+     perché deve aggiornare molti pesi e ci sono molti minimi locali, apprende 
+     solo funzioni non lineari complesse
+\end{itemize}
+Le \textbf{Support Vector Machines} (SVM) sono un algoritmo efficiente per 
+apprendere funzioni di separazione non lineari complesse. 
 
 Anche nel caso delle SVM viene ripreso comunque il concetto di separazione lineare
 ma con una scelta dell'iperpiano migliore. Si usa la \textit{teoria statistica dell'apprendimento},
-la quale dice che tra tutti gli iperpiani che possiamo usare per separare due classi,
-si sceglie quello che sia in grado di etichettare meglio nel futuro. L'intuizione
+utilizzando la \textbf{programmazione matematica}, la quale dice che tra 
+tutti gli iperpiani che possiamo usare per separare due classi, si sceglie 
+quello che sia in grado di etichettare meglio nel futuro. L'intuizione
 è quella di prendere un iperpiano ottimo rispetto alla misura della distanza minima
 che si ha tra gli esempi. Si guardano quindi tutti i punti del training set e
 cerco di piazzare in mezzo l'iperpiano, in modo che intorno ad esso ci sia massima
@@ -71,7 +78,7 @@ e negativo più vicino, allora definiamo:
     Definiamo il \textbf{margine funzionale} di un punto $(x_i, y_i)$ rispetto
     all'iperpiano $(w, b)$ come:
     \begin{equation}
-        \hat{\gamma} = y_i \cdot ( \langle w, x_i \rangle + b )
+        \hat{\gamma}_i = y_i \cdot ( \langle w, x_i \rangle + b )
     \end{equation}
     e quindi il margine funzionale dell'iperpiano rispetto al training set $S$ è definito come:
     \begin{equation}
@@ -92,13 +99,13 @@ Si hanno quindi due casistiche:
     approvata in quanto le classi sono linearmente separabili e l'iperpiano
     $(w, b)$ separa effettivamente le classi
 \end{teorema}
-Si ha quindi che un ampio margine funzionale fornisce probabilità sulla qualità
-della previsione anche se l'uso del solo $\hat{\gamma}$ può essere problematico
+Si ha quindi che un ampio margine funzionale fornisce una maggior qualità
+di previsione, anche, se l'uso del solo $\hat{\gamma}$ può essere problematico,
 in quanto il margine funzionale non è invariante rispetto ad un iperpiano ri-scalato.
 
-Per come è stato scelto il classificatore $f$ se si scala l'iperpiano:
+Per come è stato scelto il classificatore $f$, se si scala l'iperpiano:
 \begin{equation}
-    (w, b) \to (c \cdot w, b)
+    (w, b) \to (c \cdot w, c\cdot b)
 \end{equation}
 si ottengono:
 \begin{itemize}
@@ -107,13 +114,14 @@ si ottengono:
           dal segno di $\langle w, x \rangle + b$, con il segno che può essere
           invertito se $c < 0$.
 \end{itemize}
-ma dato che il margine funzionale viene moltiplicato per $c$ non possiamo usarlo
-come distanza di un punto dall'iperpiano, perché non è invariante rispetto alla
+ma dato che il margine funzionale viene moltiplicato per $c$, non possiamo usarlo
+come distanza di un punto dall'iperpiano, perché non è \textbf{invariante} rispetto alla
 scala.
 
 Bisogna ora studiare la distanza $d$ del punto $x$ dall'iperpiano. Si ha quindi:
 \begin{equation}
-    d = \frac{\sum_{i = 1} ^ n w_i \cdot x_i + v}{\| w \|} = \frac{\langle w, x_i \rangle + i}{\|  w \|}
+    d = \frac{\sum_{i = 1} ^ n w_i \cdot x_i + b}{\| w \|} = 
+    \frac{\langle w, x_i \rangle + b}{\|  w \|}
 \end{equation}
 \begin{definizione}[\textbf{Margine geometrico}]
     Definiamo il \textbf{margine geometrico} di un punto $(x_i, y_i)$ rispetto
@@ -237,9 +245,9 @@ termini del prodotto interno tra i vettori di supporto (support vector) $x_i$ e
 il vettore da classificare $x$.
 \section{Punti non sono linearmente separabili}
 Si usa lo stesso approccio rivedendo la formulazione tramite i \textbf{metodi kernel}.
-Si cerca di mappare lo spazio di input in un nuovo spazio, che generalmente è
-di dimensione maggiore, in cui i punti siano linearmente separabili, per classificare
-mediante superfici non lineari.
+Si cerca di mappare lo spazio di input in un nuovo spazio che è a dimensione maggiore
+in cui i punti siano linearmente separabili, in questo modo è possibile classificare 
+anche esempi non separabili linearmente.
 
 Dobbiamo trovare una funzione:
 \begin{equation}
@@ -274,6 +282,25 @@ pesante ma è semplificato nel caso di funzioni kernel.
     \end{equation}
     Non si cercano tutte le possibili trasformazioni ma solo alcune.
 \end{definizione}
+\begin{esempio}
+	Sia $\phi:\mathbb{R}^2\rightarrow\mathbb{R}^3$ la funzione di trasformazione
+    definita nel seguente modo:
+    \begin{equation}
+        \phi(x,y) =(x^2,y^2,\sqrt{2xy})
+    \end{equation}
+	avremo che $p_1=(x_1,x_2),p_2=(x_2,y_2)\in \mathbb{R}^2$, allora ho
+    $K(p_1,p_2) =  \langle \Phi(p_1), \Phi(p_2) \rangle \in\mathbb{R}^3$,
+    più precisamente:
+	$$K(p_1,p_2) = \langle\left(\begin{array}{c}
+		x_1^2\\
+		y_1^2\\
+		\sqrt{2x_1y_1}
+	\end{array}\right),\left(\begin{array}{c}
+	x_2^2\\
+	y_2^2\\
+	\sqrt{2x_2y_2}
+	\end{array}\right)\rangle= (x_1x_2)^2+(y_1y_2)^2+ 2\sqrt{x_1y_1x_2y_2}$$
+\end{esempio}
 Si hanno alcune proprietà:
 \begin{itemize}
     \item Se i dati sono mappati in uno spazio di dimensioni sufficientemente
@@ -291,11 +318,11 @@ Si hanno alcune proprietà:
 \end{itemize}
 Vediamo una lista di kernel standard:
 \begin{itemize}
-    \item Lineare: $K(x, y) = x \cdot y$
-    \item Polinomiale: $K(x, y) = (1 + x \cdot y)^d$
-    \item Radial basis function: $K(x, y) = e^{-y \| x - y\|^2}$
-    \item Gaussian radial basis function: $K(x, y) = e^{\frac{-(x-y)^2}{2 \cdot \sigma^2}}$
-    \item Percettrone multistrato: $K(x, y) = \tanh(b(x \cdot y) - c)$
+    \item \textbf{Lineare}: $K(x, y) = x \cdot y$
+    \item \textbf{Polinomiale}: $K(x, y) = (1 + x \cdot y)^d$
+    \item \textbf{Radial basis function}: $K(x, y) = e^{-\gamma \| x - y\|^2}$
+    \item \textbf{Gaussian radial basis function}: $K(x, y) = e^{\frac{-(x-y)^2}{2 \cdot \sigma^2}}$
+    \item \textbf{Percettrone multistrato}: $K(x, y) = \tanh(b(x \cdot y) - c)$
 \end{itemize}
 \begin{teorema}
     Un kernel definisce una matrice $K_{i,j}$ che è simmetrica e definita positiva
@@ -304,15 +331,13 @@ Vediamo una lista di kernel standard:
     Ogni matrice simmetrica e definita positiva è un kernel
 \end{teorema}
 
-SVM può essere applicato a problemi non binari tramite \textit{one vs rest},
-avendo separazioni a più classi. Spesso posso ridurmi comunque a sotto-problemi
-binari, avendo più gruppi di punti linearmente separabili. SVM trova quindi tutte
-le possibili separazioni lineari. Combinando quindi i risultati ottenuti sui sotto
-problemi binari derivati, risultati ottenuti con SVM, e definendo una logica di
-classificazione per il problema originale posso fare un'analisi multi-classe.
+SVM può essere applicato a problemi non binari tramite \textit{one vs rest}, 
+ovvero consiste nell'effettuare, per ogni classe, un'esecuzione di SVM tra la singola classe
+contro tutte le altre. In aggiunta, si combinano tutti gli iperpiani trovati 
+tra di loro per effettuare la classificazione multiclasse.
 
 Si ha quindi l'addestramento di un singolo classificatore per classe, con i campioni
-di quella classe come campioni positivi e tutti gli altri campioni come negativi.
+di quella classe considerati come positivi e tutti gli altri campioni come negativi.
 
 Questa strategia richiede che i classificatori di base producano un punteggio di
 confidenza a valore reale per la sua decisione, piuttosto che solo un'etichetta
@@ -350,7 +375,7 @@ Questa euristica soffre di diversi problemi:
     \item Anche se la distribuzione in classe è bilanciata nel training set, i
           learner per la classificazione binaria vedono distribuzioni sbilanciate
           perché tipicamente l'insieme di negativi che vedono è molto più grande
-          dell'insieme di positivi.
+          dell'insieme di positivi. 
 \end{itemize}
 Un'alternativa è \textit{one vs one} prendendo le varie classi e produrre sistemi
 di SVM tra coppe di classe. La quantità di problemi derivati esplode in modo
