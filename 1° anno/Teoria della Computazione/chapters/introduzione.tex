@@ -1,63 +1,106 @@
 \chapter{Introduzione}
-La teoria della complessità computazionale nasce col fine di classificare il problemi in base alla difficoltà delle soluzioni mediante macchine di calcolo. Tale difficoltà viene stimata rispetto
-a \textbf{spazio} e \textbf{tempo}. La teoria della complessità computazionale si riferisce a varie classi di complessità che classificano i problemi nel seguente modo:
+La teoria della complessità computazionale nasce col fine di classificare il problemi
+in base alla difficoltà delle soluzioni mediante macchine di calcolo. Tale
+difficoltà viene stimata rispetto a \textbf{spazio} e \textbf{tempo}. La teoria
+della complessità computazionale si riferisce a varie classi di complessità che
+classificano i problemi nel seguente modo:
 \begin{itemize}
-    \item \textbf{Facili} o \textbf{trattabili}: ovvero i problemi che sono risolvibili in modo \textit{efficiente}.
-    \item \textbf{Difficili}: ovvero i problemi che si possono risolvere con algoritmi ma \textit{non} in modo efficiente e non ho una dimostrazione che mi assicuri che non siano risolvibili in modo efficiente. 
-    \begin{itemize}
-        \item \textbf{Difficilissimi}: ovvero quei problemi che se riuscissi a risolvere con un algoritmo efficiente renderebbero tutti i problemi difficili facili. (\textit{Riduzioni polinomiali})
-    \end{itemize}
-    \item \textbf{Dimostrabilmente difficili} o \textbf{Dimostrabilmente intrattabili}: ovvero i problemi che possono essere risolti ma so che \textit{non} esiste un algoritmo efficiente in quanto è stato dimostrato che non può esistere.
-    \item \textbf{Impossibili} o \textbf{indecidibili}: non so risolverli sempre neanche in modo non efficiente, ossia esiste almeno un input per cui l'algoritmo non funziona, ma esiste almeno un caso in cui funzioni.
+    \item \textbf{Facili} o \textbf{trattabili}: ovvero i problemi che sono
+          risolvibili in modo \textit{efficiente}.
+    \item \textbf{Difficili}: ovvero i problemi che si possono risolvere con
+          algoritmi ma \textit{non} in modo efficiente e non ho una dimostrazione che
+          mi assicuri che non siano risolvibili in modo efficiente.
+          \begin{itemize}
+              \item \textbf{Difficilissimi}: ovvero quei problemi che se riuscissi a
+                    risolvere con un algoritmo efficiente renderebbero tutti i problemi difficili
+                    facili. (\textit{Riduzioni polinomiali})
+          \end{itemize}
+    \item \textbf{Dimostrabilmente difficili} o \textbf{Dimostrabilmente intrattabili}:
+          ovvero i problemi che possono essere risolti ma so che \textit{non} esiste un
+          algoritmo efficiente in quanto è stato dimostrato che non può esistere.
+    \item \textbf{Impossibili} o \textbf{indecidibili}: non so risolverli sempre
+          neanche in modo non efficiente, ossia esiste almeno un input per cui l'algoritmo
+          non funziona, ma esiste almeno un caso in cui funzioni.
 \end{itemize}
 
-Riuscire ad associare un problema rispetto a una delle classi appena presentate, apre la possibilità di risolverlo utilizzando i metodi sviluppati per la risoluzione degli altri problemi appratente a quella classe.
+Riuscire ad associare un problema rispetto a una delle classi appena presentate,
+apre la possibilità di risolverlo utilizzando i metodi sviluppati per la risoluzione
+degli altri problemi appratente a quella classe.
 
 \begin{definizione}[\textbf{Problema Computazionale}]
-    Un \textbf{problema computazionale} è definito da un \textbf{input}, ossia come sono fatti i dati su cui opero, un \textbf{output} ovvero come sono fatti i risultati e una \textbf{relazione} tra input e output.
+    Un \textbf{problema computazionale} è definito da un \textbf{input}, ossia
+    come sono fatti i dati su cui opero, un \textbf{output} ovvero come sono fatti
+    i risultati e una \textbf{relazione} tra input e output.
     \begin{equation}
         \Pi \subseteq I \times O
     \end{equation}
 \end{definizione}
 \begin{definizione} [\textbf{Algritmo}]
-    Un \textbf{algoritmo} è una procedura composta da un numero finito di operazioni concrete e generali tale che se applicato a una istanza calcola l'output del problema. 
-    
+    Un \textbf{algoritmo} è una procedura composta da un numero finito di operazioni
+    concrete e generali tale che se applicato a una istanza calcola l'output del problema.
+
     Gli algoritmi possono essere distinti in:
     \begin{itemize}
-        \item \textbf{Algoritmo efficiente}: che mi da la soluzione in \textbf{tempo polinomiale} rispetto alla dimensione dell'input. Ho un caso peggiore limitato superiormente: 
-        \begin{equation}
-            \mathcal{O}(p(n))
-        \end{equation}
-        Ho una crescita di tempo accettabile all'aumentare dell'input.
-        \item \textbf{Algoritmo non efficiente}: che mi da la soluzione ma in tempo superiore a quello polinomiale. Ho un caso peggiore limitato superiormente da un esponenziale:
-        \begin{equation}
-            \mathcal{O}(2^n)
-        \end{equation}
-        Ho una crescita di tempo assolutamente non accettabile all'aumentare dell'input.
+        \item \textbf{Algoritmo efficiente}: che mi da la soluzione in \textbf{tempo polinomiale}
+              rispetto alla dimensione dell'input. Ho un caso peggiore limitato superiormente:
+              \begin{equation}
+                  \mathcal{O}(p(n))
+              \end{equation}
+              Ho una crescita di tempo accettabile all'aumentare dell'input.
+        \item \textbf{Algoritmo non efficiente}: che mi da la soluzione ma in
+              tempo superiore a quello polinomiale. Ho un caso peggiore limitato
+              superiormente da un esponenziale:
+              \begin{equation}
+                  \mathcal{O}(2^n)
+              \end{equation}
+              Ho una crescita di tempo assolutamente non accettabile all'aumentare dell'input.
     \end{itemize}
 \end{definizione}
 \begin{esempio} [\textbf{Problema dell'Arco minimo}]
-    Dato in input un grafo pesato sugli archi $G = (V,E)$. Come output, voglio ottenere l'arco con peso minimo.
-    
-    Una possibile soluzione consiste nel scorrere tutti gli archi e selezionare quello di peso minimo. Dato che per implementare questa soluzione basta iterare su tutti gli archi si ha un tempo paria a $\mathcal{O}(n)$ (in realtà $\theta(n)$), quindi in tempo lineare sul numero di archi (è quindi in tempo polinomiale).
+    Dato in input un grafo pesato sugli archi $G = (V,E)$. Come output, voglio
+    ottenere l'arco con peso minimo.
+
+    Una possibile soluzione consiste nel scorrere tutti gli archi e selezionare
+    quello di peso minimo. Dato che per implementare questa soluzione basta iterare
+    su tutti gli archi si ha un tempo paria a $\mathcal{O}(n)$ (in realtà $\theta(n)$),
+    quindi in tempo lineare sul numero di archi (è quindi in tempo polinomiale).
 \end{esempio}
 \begin{esempio} [\textbf{Problema di raggiungibilità}]
-    Dato in input un grafo non pesato $G = (V,E)$ e due vertici, uno sorgente e uno destinazione, tali che $v_s$, $v_d \ \in V$. In output, voglio sapere se posso arrivare a $v_d$ partendo dal vertice $v_s$.
-    
-    La soluzione più semplice consiste nell'analizzare tutti i cammini che partono da $v_s$ e posso dare la risposta. Tale soluzione richiede un tempo pari a $\mathcal{O}(2^{|E|})$. Il tempo quindi cresce in modo esponenziale. Una soluzione migliore è quella di usare un algoritmo di visita (BFS o DFS) che richiede tempo $\mathcal{O}(|V | + |E|)$, ovvero un tempo polinomiale. Quindi per quanto all'inizio si pensi che sia un problema difficile si scopre che è un problema facile.
+    Dato in input un grafo non pesato $G = (V,E)$ e due vertici, uno sorgente e
+    uno destinazione, tali che $v_s$, $v_d \ \in V$. In output, voglio sapere se
+    posso arrivare a $v_d$ partendo dal vertice $v_s$.
+
+    La soluzione più semplice consiste nell'analizzare tutti i cammini che partono
+    da $v_s$ e posso dare la risposta. Tale soluzione richiede un tempo pari a
+    $\mathcal{O}(2^{|E|})$. Il tempo quindi cresce in modo esponenziale. Una
+    soluzione migliore è quella di usare un algoritmo di visita (BFS o DFS) che
+    richiede tempo $\mathcal{O}(|V | + |E|)$, ovvero un tempo polinomiale. Quindi
+    per quanto all'inizio si pensi che sia un problema difficile si scopre che è
+    un problema facile.
 \end{esempio}
 \begin{esempio}[\textbf{Problema TSP (\textit{Travelling Salesman Problem})}]
-    Dato in input un grafo pesato sugli archi e completo $G = (V,E)$. Voglio ottenere il cammino minimo che tocca tutti i vertici del grafo una e una sola volta.
-    
-    Sarebbe facile determinare un ciclo ma non quello di peso minimo e per farlo devo trovare tutti i cicli e trovare quello di peso minimo. Ho quindi un algoritmo che è $\mathcal{O}(2^n)$ (nella realtà è circa $\mathcal{O}(n!)$ che è comunque esponenziale). In questo caso non si riesce a pensare ad una soluzione che non sia esponenziale nel tempo (anche se per alcuni input sia di facile risoluzione, basti pensare ad avere tutti gli archi di peso 1, ma mi basta avere un input problematico). Non potendo però dimostrare che sia irrisolvibile si dice che è un problema difficilissimo.
+    Dato in input un grafo pesato sugli archi e completo $G = (V,E)$. Voglio ottenere
+    il cammino minimo che tocca tutti i vertici del grafo una e una sola volta.
+
+    Sarebbe facile determinare un ciclo ma non quello di peso minimo e per farlo
+    devo trovare tutti i cicli e trovare quello di peso minimo. Ho quindi un algoritmo
+    che è $\mathcal{O}(2^n)$ (nella realtà è circa $\mathcal{O}(n!)$ che è comunque esponenziale).
+    In questo caso non si riesce a pensare ad una soluzione che non sia esponenziale
+    nel tempo (anche se per alcuni input sia di facile risoluzione, basti pensare
+    ad avere tutti gli archi di peso 1, ma mi basta avere un input problematico).
+    Non potendo però dimostrare che sia irrisolvibile si dice che è un problema difficilissimo.
 \end{esempio}
 \begin{esempio} [\textbf{Problema Dimostrabilmente Intrattabile}]
-    Dato in input un insieme $V$ di $n$ elementi, si vogliono enumerare tutti i sottoinsiemi di $V$.
+    Dato in input un insieme $V$ di $n$ elementi, si vogliono enumerare tutti i
+    sottoinsiemi di $V$.
 
-    In questo caso l'algoritmo migliore è esponenziale dato che l'output desiderato è esponenziale. 
+    In questo caso l'algoritmo migliore è esponenziale dato che l'output desiderato
+    è esponenziale.
     \begin{equation}
         |V| = n \ \text{allora} \ |P(V)| = 2^n
     \end{equation}
 \end{esempio}
 
-È importante osservare che la complessità computazionale deve essere valutata tenendo in considerazione l'input e considerando sempre il caso peggiore. Oltre a ciò anche la rappresentazione che si utilizza influenza il valore della complessità computazionale.
+È importante osservare che la complessità computazionale deve essere valutata tenendo
+in considerazione l'input e considerando sempre il caso peggiore. Oltre a ciò anche
+la rappresentazione che si utilizza influenza il valore della complessità computazionale.

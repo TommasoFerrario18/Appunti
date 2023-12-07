@@ -1,8 +1,17 @@
 \chapter{Macchina di Turing}
 \section{Macchina di Turing}
-La \textbf{macchina di Turing} consiste di un controllo finito che può trovarsi in un stato, scelto in un insieme finito. Tale macchina è composta da un \textbf{nastro}, potenzialmente infinito, diviso in \textbf{celle}, ognuna delle quali può contenere un simbolo scelto in un insieme finito chiamato \textbf{alfabeto}.
+La \textbf{macchina di Turing} consiste di un controllo finito che può trovarsi 
+in un stato, scelto in un insieme finito. Tale macchina è composta da un \textbf{nastro},
+ potenzialmente infinito, diviso in \textbf{celle}, ognuna delle quali può contenere
+  un simbolo scelto in un insieme finito chiamato \textbf{alfabeto}.
 
-L'input è una stringa di lunghezza finita formata da simboli scelti dall'\textit{alfabeto} di input ($\Sigma$), e viene inizialmente posto sul nastro. In tutte le altre celle, che si estendono sia a destra che a sinistra senza limiti, è presente il simbolo \textit{blank} $\sqcup$, il quale specifica che in quella posizione non è presente un simbolo dell'alfabeto. C'è però un eccezione, infatti, all'inizio della sequenza di input è presente il simbolo $\triangleright$, il quale indica la posizione dell'input sul nastro. 
+L'input è una stringa di lunghezza finita formata da simboli scelti dall'\textit{alfabeto}
+ di input ($\Sigma$), e viene inizialmente posto sul nastro. In tutte le altre celle, che 
+ si estendono sia a destra che a sinistra senza limiti, è presente il simbolo 
+ \textit{blank} $\sqcup$, il quale specifica che in quella posizione non è presente
+  un simbolo dell'alfabeto. C'è però un eccezione, infatti, all'inizio della sequenza
+   di input è presente il simbolo $\triangleright$, il quale indica la posizione 
+   dell'input sul nastro. 
 
 \begin{definizione}[\textbf{Macchina di Turing}]
     La \textbf{macchina di Turing} è definita come una quadrupla:
@@ -12,44 +21,62 @@ L'input è una stringa di lunghezza finita formata da simboli scelti dall'\texti
     dove:
     \begin{itemize}
         \item $Q$ è un insieme \textit{finito} di stati.
-        \item $\Sigma$ è un alfabeto \textit{finito} al quale sono aggiunti due caratteri di controllo:
+        \item $\Sigma$ è un alfabeto \textit{finito} al quale sono aggiunti due
+         caratteri di controllo:
         \begin{enumerate}
             \item $\triangleright$: indica il punto di partenza della sequenza di input.
-            \item $\sqcup$ (\textit{blank}): il quale è presente in tutte le celle del nastro, escluse quelle contenenti l'input, nell'istante di partenza.
+            \item $\sqcup$ (\textit{blank}): il quale è presente in tutte le celle
+             del nastro, escluse quelle contenenti l'input, nell'istante di partenza.
         \end{enumerate}
         \item $q_0$ rappresenta lo stato iniziale.
         \item $\delta$ è la funzione di transizione definita come:
         \begin{equation}
             \delta: Q \times \Sigma \longrightarrow Q \times \Sigma \times \{\rightarrow, \leftarrow, -\}
         \end{equation}
-        Tale funzione esprime il comportamento passo per passo della macchina di Turing. Essa prende in input uno stato e un simbolo, e restituisce come output una tripla composta da un nuovo stato, il simbolo scritto nella posizione indicata dalla testina e lo spostamento della testina.
+        Tale funzione esprime il comportamento passo per passo della macchina di 
+        Turing. Essa prende in input uno stato e un simbolo, e restituisce come output
+         una tripla composta da un nuovo stato, il simbolo scritto nella posizione
+          indicata dalla testina e lo spostamento della testina.
 
-        In base allo stato in cui mi trovo e al valore presente sotto la testina si applica la funzione di transazione.
+        In base allo stato in cui mi trovo e al valore presente sotto la testina 
+        si applica la funzione di transazione.
     \end{itemize}
 \end{definizione}
 \begin{osservazione}
-    Dato che l'alfabeto dei simboli è finito, la funzione di transizione è definibile, ovvero è un algoritmo.
+    Dato che l'alfabeto dei simboli è finito, la funzione di transizione è definibile, 
+    ovvero è un algoritmo.
 \end{osservazione}
 
-La macchina di Turing si arresta quando non ho più transazioni valide oppure quando entra in uno stato accettante. 
+La macchina di Turing si arresta quando non ho più transazioni valide oppure 
+quando entra in uno stato accettante. 
 
-Per esprimere la computazione di una macchina di Turing usiamo una \textbf{configurazione}, ovvero sulla base della definizione della macchina di Turing e dello stato attuale devo definire tutti i passi. 
+Per esprimere la computazione di una macchina di Turing usiamo una \textbf{configurazione}, 
+ovvero sulla base della definizione della macchina di Turing e dello stato attuale devo definire tutti i passi. 
 
-La \textbf{configurazione} descrive in ogni istante lo stato della macchina, viene rappresentata da una quadrupla definita come:
+La \textbf{configurazione} descrive in ogni istante lo stato della macchina, 
+viene rappresentata da una quadrupla definita come:
 \begin{equation}
     (q, \text{simbolo sotto la testina}, \text{stringa a sinistra della testina}, \text{stringa a destra della testina})
 \end{equation}
-Descriviamo le \textbf{mosse} della macchina di Turing $M = (Q, \Sigma, q_0, \delta)$ mediante la notazione $\vdash$. 
+Descriviamo le \textbf{mosse} della macchina di Turing $M = (Q, \Sigma, q_0, \delta)$ 
+mediante la notazione $\vdash$. 
 \begin{definizione}
-    Una sequenza di configurazioni in cui si trova la macchina prende il nome di \textbf{computazione}.
+    Una sequenza di configurazioni in cui si trova la macchina prende il nome di 
+    \textbf{computazione}.
 \end{definizione}
 \begin{teorema}[\textbf{Tesi di Church-Turing}]
-    Se un problema è umanamente calcolabile, allora esisterà una macchina di Turing in grado di risolverlo.
+    Se un problema è umanamente calcolabile, allora esisterà una macchina di
+     Turing in grado di risolverlo.
 \end{teorema}
-È una tesi che non ha dimostrazione formale ma è stata dimostrata empiricamente nel corso degli anni. Portando quindi a dire che il calcolo è ciò che può essere eseguito con un Macchina di Turing. Quindi ciò che è computabile è computabile da una macchina di Turing o da un suo equivalente.
+È una tesi che non ha dimostrazione formale ma è stata dimostrata empiricamente 
+nel corso degli anni. Portando quindi a dire che il calcolo è ciò che può essere 
+eseguito con un Macchina di Turing. Quindi ciò che è computabile è computabile da 
+una macchina di Turing o da un suo equivalente.
 
 \begin{esempio} [\textbf{Successore}]
-    Si scriva la macchina di Turing che calcoli il successore di un numero binario, che sarà l'input (e si da per scontato che sia correttamente formattato avendo solo 0 o 1 come simboli). Si trascuri il riporto (nel senso che non aggiungo ulteriori bit).
+    Si scriva la macchina di Turing che calcoli il successore di un numero binario, 
+    che sarà l'input (e si da per scontato che sia correttamente formattato avendo 
+    solo 0 o 1 come simboli). Si trascuri il riporto (nel senso che non aggiungo ulteriori bit).
     
     Definisco quindi la macchina di Turing come:
     \begin{itemize}
@@ -68,7 +95,10 @@ Descriviamo le \textbf{mosse} della macchina di Turing $M = (Q, \Sigma, q_0, \de
     \end{itemize}
 \end{esempio}
 
-Ogni operazione sulla macchina di Turing ha lo stesso tempo e quindi posso usare il numero di passi per calcolare il tempo di risoluzione. Il tempo di calcolo di una macchina di Turing è definito come il numero di configurazioni che la macchina $M$ attraversa quando riceve in input un valore $x$. Questo valore si indica come: 
+Ogni operazione sulla macchina di Turing ha lo stesso tempo e quindi posso usare 
+il numero di passi per calcolare il tempo di risoluzione. Il tempo di calcolo di 
+una macchina di Turing è definito come il numero di configurazioni che la macchina
+ $M$ attraversa quando riceve in input un valore $x$. Questo valore si indica come: 
 \begin{equation}
     t_M(x)
 \end{equation}
@@ -78,46 +108,76 @@ Più in generale possiamo esprimere i tempi di calcolo come:
     T_M(n) = \max_{x \in \Sigma^{\ast}} \left\{t_M(x) \ | \ |x| = n \right\}
 \end{equation}
 \subsection{Macchina di Turing multi-nastro}
-Per semplificare le computazioni svolte con la macchina di Turing, è possibile definire una macchina che utilizza più nastri. Tale macchina viene chiamata \textbf{macchina multi-nastro} nella quale sono presenti $k$ nastri, ognuno dei quali può essere utilizzato per operazioni di lettura e scrittura.
+Per semplificare le computazioni svolte con la macchina di Turing, è possibile 
+definire una macchina che utilizza più nastri. Tale macchina viene chiamata 
+\textbf{macchina multi-nastro} nella quale sono presenti $k$ nastri, ognuno dei 
+quali può essere utilizzato per operazioni di lettura e scrittura.
 
-Ad ogni nastro è associata una testina posizionata sulla cella che voglio leggere o scrivere. 
+Ad ogni nastro è associata una testina posizionata sulla cella che voglio leggere 
+o scrivere. 
 
 \begin{esempio} [\textbf{Decidere se una stringa è nella forma} $a^nb^nc^n$]
-    Vogliamo decidere se la stringa in input è del tipo $a^nb^nc^n$ con $k$ nastri. Per risolvere questo problema è possibile utilizzare una macchina di multi-nastro. Ad esempio, utilizzando 3 tre nastri posso inserire la stringa di input su tutti e tre e posizionare le testine all'inizio delle sequenze di $a$, quella sul secondo nastro all'inizio della sequenza di $b$ e quella sul terzo all'inizio della sequenza di $c$.
+    Vogliamo decidere se la stringa in input è del tipo $a^nb^nc^n$ con $k$ nastri.
+     Per risolvere questo problema è possibile utilizzare una macchina di multi-nastro. 
+     Ad esempio, utilizzando 3 tre nastri posso inserire la stringa di input su tutti 
+     e tre e posizionare le testine all'inizio delle sequenze di $a$, quella sul 
+     secondo nastro all'inizio della sequenza di $b$ e quella sul terzo all'inizio 
+     della sequenza di $c$.
 \end{esempio}
 
-Una macchina di Turing a k nastri \textbf{non} è più potente di una macchina di Turing a singolo nastro. Esiste sempre una traduzione verso una macchina di Turing a singolo nastro.
+Una macchina di Turing a k nastri \textbf{non} è più potente di una macchina di Turing 
+a singolo nastro. Esiste sempre una traduzione verso una macchina di Turing a singolo nastro.
 \begin{teorema}
-    Sia $M$ una macchina di Turing con $k$ nastri, allora esiste una macchina $M'$ a nastro singolo equivalente, ovvero che mi permette di ottenere lo stesso risultato.
+    Sia $M$ una macchina di Turing con $k$ nastri, allora esiste una macchina $M'$ 
+    a nastro singolo equivalente, ovvero che mi permette di ottenere lo stesso risultato.
 \end{teorema}
 
-Una semplice metodologia per passare da una macchina di Turing multi nastro a una con singolo nastro, consiste nel concatenare gli input nel singolo nastro e separarli con l'ausilio di uno specifico carattere. Oltre a ciò, posso introdurre una variante dei simboli dell'alfabeto in modo da poter indicare le posizioni delle $k$ testine sul singolo nastro. Infine, è necessario aumentare il numero degli stati, passando da $|Q|$ a $|Q| \times |\Sigma|^k$ per rappresentare le varie configurazioni.
+Una semplice metodologia per passare da una macchina di Turing multi nastro a una 
+con singolo nastro, consiste nel concatenare gli input nel singolo nastro e separarli 
+con l'ausilio di uno specifico carattere. Oltre a ciò, posso introdurre una variante
+ dei simboli dell'alfabeto in modo da poter indicare le posizioni delle $k$ testine
+  sul singolo nastro. Infine, è necessario aumentare il numero degli stati, passando 
+  da $|Q|$ a $|Q| \times |\Sigma|^k$ per rappresentare le varie configurazioni.
 \begin{teorema}
-    Se alla macchina $M$ è associata una funzione di complessità $T_M(n)$, allora alla macchina $M'$ corrisponde una funzione $T_{M'}(n) = \mathcal{O}((T_M(n))^2)$.
+    Se alla macchina $M$ è associata una funzione di complessità $T_M(n)$, allora 
+    alla macchina $M'$ corrisponde una funzione $T_{M'}(n) = \mathcal{O}((T_M(n))^2)$.
 \end{teorema}
 
-Se la lunghezza dei $k$ nastri è $\leq t_M(x)$ allora la lunghezza della macchina mono-nastro sarà $\leq k \cdot t_M(x)$. Per eseguire la scansione del nastro sarà richiesto un tempo pari a $\mathcal{O}(k \cdot t_M(x))$, dato che $t_M(x)$ è il tempo di esecuzione del programma, allora il tempo di calcolo della macchina mono-nastro sarà pari a: 
+Se la lunghezza dei $k$ nastri è $\leq t_M(x)$ allora la lunghezza della macchina
+ mono-nastro sarà $\leq k \cdot t_M(x)$. Per eseguire la scansione del nastro sarà 
+ richiesto un tempo pari a $\mathcal{O}(k \cdot t_M(x))$, dato che $t_M(x)$ è il
+  tempo di esecuzione del programma, allora il tempo di calcolo della macchina 
+  mono-nastro sarà pari a: 
 \begin{equation}
     \mathcal{O}(t_M(x)) \cdot t_M(x) = \mathcal{O}((t_M(x))^2)
 \end{equation}
 
-Data una macchina di Turing $M$ con alfabeto $\Sigma$, tale che $|\Sigma| > 4$, esiste sempre una macchina di Turing $M'$ equivalente tale che $|\Sigma| = 4$, ovvero che risolve lo stesso problema con l'utilizzo di un \textbf{alfabeto binario}.
+Data una macchina di Turing $M$ con alfabeto $\Sigma$, tale che $|\Sigma| > 4$, 
+esiste sempre una macchina di Turing $M'$ equivalente tale che $|\Sigma| = 4$, ovvero 
+che risolve lo stesso problema con l'utilizzo di un \textbf{alfabeto binario}.
 \begin{equation}
     \forall x \in \Sigma \ M(x) = M'(f(x))
 \end{equation}
-Per convertire i simboli di un alfabeto $\Sigma$ in binario è possibile utilizzare la seguente conversione:
+Per convertire i simboli di un alfabeto $\Sigma$ in binario è possibile utilizzare 
+la seguente conversione:
 \begin{equation}
     \sigma \in \Sigma \ \text{posso rappresentarlo con} \ \log_{2}|\Sigma | = k
 \end{equation}
 
-Il tempo di esecuzione richiesto per risolvere lo stesso problema utilizzando un alfabeto binario è lo stesso della macchina con un alfabeto composto da più simboli.
+Il tempo di esecuzione richiesto per risolvere lo stesso problema utilizzando un 
+alfabeto binario è lo stesso della macchina con un alfabeto composto da più simboli.
 \begin{equation}
     t_M(x) \ \to \ t_{M'}(f(x)) = \mathcal{O}(k \cdot t_M(x)) = t_{M'}(f(x)) = \mathcal{O}(t_M(x))
 \end{equation}
 \subsection{Macchina di Turing universale}
-Esiste una macchina di Turing che mi permette di eseguire macchine di Turing. Tale macchina è chiamata \textbf{macchina universale}, indicata con il simbolo $U$. La macchina universale $U$ è tale che $\forall \alpha, x \in \Sigma^{\ast}$, allora $U(\alpha, x) = M_{\alpha}(x)$ dove $M_{\alpha}$ è la macchina di Turing rappresentata da $\alpha$.
+Esiste una macchina di Turing che mi permette di eseguire macchine di Turing. Tale macchina 
+è chiamata \textbf{macchina universale}, indicata con il simbolo $U$. La macchina
+ universale $U$ è tale che $\forall \alpha, x \in \Sigma^{\ast}$, allora 
+ $U(\alpha, x) = M_{\alpha}(x)$ dove $M_{\alpha}$ è la macchina di Turing rappresentata da $\alpha$.
 
-Posso rappresentare $U$ come una macchina con tre nastri, dove il primo contiene la descrizione della macchina $M_{\alpha}$, il secondo contiene l'input della macchina $M_{\alpha}$. Il terzo contiene le informazioni relative allo stato corrente di $M_{\alpha}$.
+Posso rappresentare $U$ come una macchina con tre nastri, dove il primo contiene 
+la descrizione della macchina $M_{\alpha}$, il secondo contiene l'input della macchina
+$M_{\alpha}$. Il terzo contiene le informazioni relative allo stato corrente di $M_{\alpha}$.
 
 Il tempo di calcolo di tale macchina dipende dalla dimensione del programma:
 \begin{equation}
@@ -129,9 +189,13 @@ Le macchine di Turing calcolano funzioni del tipo:
     f: \Sigma^{\ast} \to \Sigma^{\ast}
 \end{equation}
 
-Oltre a questo, una macchina di Turing può decidere un linguaggio fornendo una risposta binaria ($\{0, 1\}$), ovvero data una stringa in input è sempre in grado di dire se appartiene o meno al linguaggio.
+Oltre a questo, una macchina di Turing può decidere un linguaggio fornendo una
+ risposta binaria ($\{0, 1\}$), ovvero data una stringa in input è sempre in grado 
+ di dire se appartiene o meno al linguaggio.
 \begin{definizione} [\textbf{Linguaggio ricorsivo}]
-    Un linguaggio è \textbf{decidibile} o \textbf{ricorsivo}, se esiste almeno una macchina di Turing che \textbf{decide} il linguaggio, fermandosi sempre in $1$ o $0$. Solitamente è un linguaggio finito, ma potrebbe anche essere infinito.
+    Un linguaggio è \textbf{decidibile} o \textbf{ricorsivo}, se esiste almeno
+     una macchina di Turing che \textbf{decide} il linguaggio, fermandosi sempre
+      in $1$ o $0$. Solitamente è un linguaggio finito, ma potrebbe anche essere infinito.
     \begin{equation}
         M(x) = \begin{cases}
         1 & \text{se} \ x \in L \\
@@ -140,7 +204,8 @@ Oltre a questo, una macchina di Turing può decidere un linguaggio fornendo una 
     \end{equation}
 \end{definizione}
 \begin{definizione} [\textbf{Linguaggio ricorsivamente enumerabile}]
-    Un linguaggio è \textbf{semi-decidibile} o \textbf{ricorsivamente enumerabile}, se esiste almeno una macchina di Turing che \textbf{accetta} il linguaggio:
+    Un linguaggio è \textbf{semi-decidibile} o \textbf{ricorsivamente enumerabile}, 
+    se esiste almeno una macchina di Turing che \textbf{accetta} il linguaggio:
     \begin{equation}
         M(x) = \begin{cases}
             1 & \text{se} \ x \in L \\
@@ -150,34 +215,53 @@ Oltre a questo, una macchina di Turing può decidere un linguaggio fornendo una 
     dove $\perp$ rappresenta il fatto che una macchina di Turing non termina.
 \end{definizione}
 
-Un linguaggio ricorsivamente enumerabile è un linguaggio per cui data una stringa in input la macchina di Turing si ferma, altrimenti la macchina di Turing potrebbe o fermarsi o andare avanti all'infinito nella computazione.
+Un linguaggio ricorsivamente enumerabile è un linguaggio per cui data una stringa 
+in input la macchina di Turing si ferma, altrimenti la macchina di Turing potrebbe
+ o fermarsi o andare avanti all'infinito nella computazione.
 
 \begin{itemize}
     \item Sia $L$ un linguaggio ricorsivo allora $\overline{L}$ è ricorsivo.
 \end{itemize}
 
 \begin{teorema}
-    Preso un linguaggio $L$ costruito alfabeto $\Sigma$ si ha che se $L \subseteq \Sigma^{\ast}$ se $L$ è ricorsivo è anche ricorsivamente enumerabile.
+    Preso un linguaggio $L$ costruito alfabeto $\Sigma$ si ha che se 
+    $L \subseteq \Sigma^{\ast}$ se $L$ è ricorsivo è anche ricorsivamente enumerabile.
 \end{teorema}
 \begin{dimostrazione}
-    Se $L$ è ricorsivo esiste una macchina di Turing che riconosce se, data una stringa $x$, tale che $x \in L$, rispondendo $1$ e risponde $0$ se $x \notin L$. 
+    Se $L$ è ricorsivo esiste una macchina di Turing che riconosce se, data una 
+    stringa $x$, tale che $x \in L$, rispondendo $1$ e risponde $0$ se $x \notin L$. 
     
-    Costruisco ora una macchina di Turing $M'$ che se il linguaggio non è ricorsivo allora vado in loop ($\perp$) Quindi quando la macchina sta per andare in $0$ modifico $\delta$ per ottenere il loop, ottenendo una macchina che va in loop se $x \notin L$, mentre restituisce $1$ se $x \in L$ e quindi $L$ è ricorsivamente enumerabile.
+    Costruisco ora una macchina di Turing $M'$ che se il linguaggio non è ricorsivo 
+    allora vado in loop ($\perp$) Quindi quando la macchina sta per andare in $0$ 
+    modifico $\delta$ per ottenere il loop, ottenendo una macchina che va in loop 
+    se $x \notin L$, mentre restituisce $1$ se $x \in L$ e quindi $L$ è ricorsivamente enumerabile.
 \end{dimostrazione}
 
 \begin{teorema}
-    $L$ è ricorsivo se e solo se $L$ è ricorsivamente enumerabile e il complementare di $L$, $\overline{L}$ è ricorsivamente enumerabile.
+    $L$ è ricorsivo se e solo se $L$ è ricorsivamente enumerabile e il complementare 
+    di $L$, $\overline{L}$ è ricorsivamente enumerabile.
 \end{teorema}
 \begin{dimostrazione}
-    Rispetto alla dimostrazione precedente, che garantisce che se $L$ è ricorsivo allora è ricorsivamente enumerabile, devo definire, per il complementare, una macchina di Turing che va in loop se $x \in L$.
-    Presa quindi una macchina di Turing $M$ che decide $L$, definisco $M'$ che accetta $L$, che quindi è ricorsivamente enumerabile. Definisco ora $M''$ che restituisce $Y$ se $x \in \overline{L}$ ovvero $x \notin L$ ed entra in loop se $x \notin \overline{L}$, ovvero $x \in L$.
+    Rispetto alla dimostrazione precedente, che garantisce che se $L$ è ricorsivo 
+    allora è ricorsivamente enumerabile, devo definire, per il complementare, 
+    una macchina di Turing che va in loop se $x \in L$.
+    Presa quindi una macchina di Turing $M$ che decide $L$, definisco $M'$ che 
+    accetta $L$, che quindi è ricorsivamente enumerabile. Definisco ora $M''$ che 
+    restituisce $Y$ se $x \in \overline{L}$ ovvero $x \notin L$ ed entra in loop 
+    se $x \notin \overline{L}$, ovvero $x \in L$.
     
-    Quindi $M$ decide $L$ eseguendo alternativamente $M'$ e $M''$ prestando attenzione alla gestione degli output.
+    Quindi $M$ decide $L$ eseguendo alternativamente $M'$ e $M''$ prestando 
+    attenzione alla gestione degli output.
 \end{dimostrazione}
 
-Per dimostrare che esistono problemi di decisione che non possono essere risolti da una macchina di Turing occorre partire dal fatto che $|A| < |P(A)|$, ovvero la cardinalità dell'insieme $A$ è sempre minore della cardinalità dell'insieme delle parti di $A$. 
+Per dimostrare che esistono problemi di decisione che non possono essere risolti 
+da una macchina di Turing occorre partire dal fatto che $|A| < |P(A)|$, ovvero la
+ cardinalità dell'insieme $A$ è sempre minore della cardinalità dell'insieme delle 
+ parti di $A$. 
 
-A questo punto utilizzando l'insieme binario come alfabeto, definito come $B = \{0, 1\}$, possiamo affermare che il numero di macchine di Turing sarà al più il numero di stringhe realizzabili con l'utilizzo di $B$, ovvero $|B^{\ast}|$:
+A questo punto utilizzando l'insieme binario come alfabeto, definito come $B = \{0, 1\}$, 
+possiamo affermare che il numero di macchine di Turing sarà al più il numero di 
+stringhe realizzabili con l'utilizzo di $B$, ovvero $|B^{\ast}|$:
 \begin{equation}
     \# M = |B^{\ast}|
 \end{equation}
@@ -185,16 +269,20 @@ utilizzando l'alfabeto binario, possiamo definire il linguaggio di decisione com
 \begin{equation}
     L_D = \{x \in B^{\ast} \ | \ f_D(x) = 1\} \subseteq B^{\ast}
 \end{equation}
-possiamo quindi affermare che il numero di problemi di decisione è uguale a $|P(B^{\ast})|$, quindi:
+possiamo quindi affermare che il numero di problemi di decisione è uguale a 
+$|P(B^{\ast})|$, quindi:
 \begin{equation}
     \# M \leq |B^{\ast}| < |P(B^{\ast})|
 \end{equation}
-il che mi permette di affermare che esistono problemi di decisione che \textit{non posso} risolvere con una macchina di Turing.
+il che mi permette di affermare che esistono problemi di decisione che 
+\textit{non posso} risolvere con una macchina di Turing.
 \subsection{Halting Problem}
-Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa $x$, mi dica se la macchina $M$ eseguita sull'input $x$ termina.
+Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa 
+$x$, mi dica se la macchina $M$ eseguita sull'input $x$ termina.
 
 \begin{definizione}
-    Posso definire formalmente l'\textbf{halting problem} con l'utilizzo del linguaggio $L_H$, definito come:
+    Posso definire formalmente l'\textbf{halting problem} con l'utilizzo del 
+    linguaggio $L_H$, definito come:
     \begin{equation}
         L_H = \{M \cdot \# \cdot x \ | \ M(x) \neq \perp \}
     \end{equation}
@@ -204,7 +292,8 @@ Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa
     Il linguaggio $L_H$ non è ricorsivo e quindi l'halting problem non è decidibile.
 \end{teorema}
 \begin{dimostrazione} [\textit{Per assurdo}]
-    Assumiamo, per assurdo, che $L_H$ sia ricorsivo. Quindi esiste una macchina di Turing $M_H$ che prende in input $(M \cdot \# \cdot x)$ e mi fornisce in output $M(x)$.
+    Assumiamo, per assurdo, che $L_H$ sia ricorsivo. Quindi esiste una macchina 
+    di Turing $M_H$ che prende in input $(M \cdot \# \cdot x)$ e mi fornisce in output $M(x)$.
     \begin{equation}
         M_H (M \cdot \# \cdot x) = \begin{cases}
             Y & \text{se} \ M(x) \ \neq \ \perp \\
@@ -212,7 +301,8 @@ Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa
         \end{cases}
     \end{equation}
 
-    Se esiste tale macchina, allora posso costruire una macchina di Turing $C$ partendo dalla macchina $M_H$ che prende in input $M$ e mi restituisce:
+    Se esiste tale macchina, allora posso costruire una macchina di Turing $C$ 
+    partendo dalla macchina $M_H$ che prende in input $M$ e mi restituisce:
     \begin{equation}
         C(M) = \begin{cases}
             Y & \text{se} \ M_H(M, M) = N \\
@@ -220,10 +310,13 @@ Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa
         \end{cases}
     \end{equation}
 
-    A questo punto se fornisco alla macchina $C$ se stessa come input ottenendo due possibili situazioni:
+    A questo punto se fornisco alla macchina $C$ se stessa come input ottenendo 
+    due possibili situazioni:
     \begin{itemize}
-        \item $C(C) = Y$ allora $M_H(C, C) = N$ ma quindi mi aspetto che $C(C)  = \ \perp$ il che mi porta ad un assurdo.
-        \item $C(C) =\ \perp$ allora $M_H(C, C) =  Y$ ma quindi mi aspetto che $C(C)  \neq \ \perp$ il che mi porta ad un assurdo.
+        \item $C(C) = Y$ allora $M_H(C, C) = N$ ma quindi mi aspetto che 
+        $C(C)  = \ \perp$ il che mi porta ad un assurdo.
+        \item $C(C) =\ \perp$ allora $M_H(C, C) =  Y$ ma quindi mi aspetto che 
+        $C(C)  \neq \ \perp$ il che mi porta ad un assurdo.
     \end{itemize}
 
     Posso quindi affermare che non esiste una macchina $M_H$ che decide $L_H$.
@@ -234,12 +327,15 @@ Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa
     \end{figure}
 \end{dimostrazione}
 \begin{teorema}
-    Il linguaggio $L_H$ è ricorsivamente enumerabile, ovvero il problema è parzialmente decidibile.
+    Il linguaggio $L_H$ è ricorsivamente enumerabile, ovvero il problema è 
+    parzialmente decidibile.
 \end{teorema}
 \begin{dimostrazione}
-    Esiste una macchina di Turing $M_A$ che accetta il linguaggio $L_H$, ovvero tale che $M_A(M, x) = Y$ se e solo se $M(x) \neq \ \perp$. 
+    Esiste una macchina di Turing $M_A$ che accetta il linguaggio $L_H$, ovvero 
+    tale che $M_A(M, x) = Y$ se e solo se $M(x) \neq \ \perp$. 
 
-    In precedenza abbiamo definito la macchina di Turing universale, la quale $U(M, x) = M(x)$, allora:
+    In precedenza abbiamo definito la macchina di Turing universale, la quale 
+    $U(M, x) = M(x)$, allora:
     \begin{equation}
         M_A(M, x) = \begin{cases}
             Y & \text{se e solo se} \ U(M, x) = Y \ \lor \ N \\
@@ -253,17 +349,23 @@ Si cerca un algoritmo che dati in input una macchina di Turing $M$ e una stringa
     $\overline{L_H}$ non è ricorsivamente enumerabile.
 \end{teorema}
 \begin{dimostrazione} [\textit{Per assurdo}]
-    Assumiamo per assurdo che $\overline{L_H}$ sia ricorsivamente enumerabile. Dai teoremi precedenti sappiamo che $L_H$ è ricorsivamente enumerabile, allora per quanto definito in precedenza si ha che $L_H$ è ricorsivo, il che è assurdo in quanto è stato dimostrato in precedenza che $L_H$ non è ricorsivo.
+    Assumiamo per assurdo che $\overline{L_H}$ sia ricorsivamente enumerabile. 
+    Dai teoremi precedenti sappiamo che $L_H$ è ricorsivamente enumerabile, allora 
+    per quanto definito in precedenza si ha che $L_H$ è ricorsivo, il che è assurdo 
+    in quanto è stato dimostrato in precedenza che $L_H$ non è ricorsivo.
 \end{dimostrazione}
 \section{Problemi decidibili}
 Studiamo ora i problemi decidibili catalogandoli in base ai tempi, nei casi peggiori.
 
 Il tempo di esecuzione viene calcolato tramite il numero di passi della macchina di Turing.
 \begin{definizione}
-     Definiamo $t_M(x)$ come il tempo di calcolo di una macchina di Turing $M$ su input $x$. Non è un caso peggiore ma dipendente dal singolo input specifico. Il tempo di calcolo è il numero di passi che esegue $M$ su input $x$ per dare una risposta.
+     Definiamo $t_M(x)$ come il tempo di calcolo di una macchina di Turing $M$ su 
+     input $x$. Non è un caso peggiore ma dipendente dal singolo input specifico.
+      Il tempo di calcolo è il numero di passi che esegue $M$ su input $x$ per dare una risposta.
 \end{definizione}
 
-Non si usa comunque il numero di passi nella realtà ma si usa la notazione $\mathcal{O}$-grande, studiando il caso peggiore, il numero massimo di passi.
+Non si usa comunque il numero di passi nella realtà ma si usa la notazione 
+$\mathcal{O}$-grande, studiando il caso peggiore, il numero massimo di passi.
 \begin{definizione}
     Definiamo $T_M(n)$ come la funzione di complessità temporale come: 
     \begin{equation}
@@ -277,12 +379,14 @@ Non si usa comunque il numero di passi nella realtà ma si usa la notazione $\ma
     \end{equation}
 \end{definizione}
 \begin{definizione}
-    Definiamo la classe $DTIME(f(n))$ come la classe dei linguaggi decisi da una macchina di Turing entro un tempo $f(n)$:
+    Definiamo la classe $DTIME(f(n))$ come la classe dei linguaggi decisi da una 
+    macchina di Turing entro un tempo $f(n)$:
     \begin{equation}
         DTIME(f(n)) = \{L \subseteq \Sigma^{\ast} \ | \ \exists M \ \text{decide} \ L \ \text{in tempo} \ \mathcal{O}(f(n)) \}
     \end{equation}$$$$. 
     
-    Quindi $DTIME(n)$ rappresenta l'insieme dei problemi di decisione che possono essere risolti con un algoritmo che lavora in tempo $\mathcal{O}(n)$. Quindi:
+    Quindi $DTIME(n)$ rappresenta l'insieme dei problemi di decisione che possono 
+    essere risolti con un algoritmo che lavora in tempo $\mathcal{O}(n)$. Quindi:
     \begin{equation}
         P = \bigcup_{c \ \in \ \mathbb{N}} DTIME(n^c)
     \end{equation}
@@ -293,7 +397,8 @@ Non si usa comunque il numero di passi nella realtà ma si usa la notazione $\ma
     DTIME(n) \subseteq DTIME(n^2) \subseteq DTIME(2^{n^c})
 \end{equation}
 
-Possiamo anche definire la classe \textbf{EXPTIME} come la classe di linguaggi decidibili da una macchina di Turing in tempo esponenziale: 
+Possiamo anche definire la classe \textbf{EXPTIME} come la classe di linguaggi 
+decidibili da una macchina di Turing in tempo esponenziale: 
 \begin{equation}
     EXPTIME =  \bigcup_{c \ \in \ \mathbb{N}} DTIME(2^{n^c})
 \end{equation}
@@ -308,9 +413,11 @@ Inoltre, si ha che vale la seguente relazione tra le classi $P$ e $EXPTIME$:
 
 Devo anche definire la complessità spaziale oltre a quella temporale.
 \begin{definizione}
-     Definisco lo \textbf{spazio} di calcolo $s_M(x)$ come il numero di celle del nastro usate dalla macchina di Turing $M$ con input $x$ durante la computazione.
+     Definisco lo \textbf{spazio} di calcolo $s_M(x)$ come il numero di celle del 
+     nastro usate dalla macchina di Turing $M$ con input $x$ durante la computazione.
      
-     Il calcolo non è semplice come per il tempo, avendo anche decrementi. Quindi più che “celle usate” studiamo le “celle visitate”.
+     Il calcolo non è semplice come per il tempo, avendo anche decrementi. Quindi 
+     più che “celle usate” studiamo le “celle visitate”.
 \end{definizione}
 \begin{definizione}
     Definisco $S_M(n)$ come la funzione di complessità spaziale:
@@ -319,7 +426,10 @@ Devo anche definire la complessità spaziale oltre a quella temporale.
     \end{equation}
 \end{definizione}
 
-Esiste una relazione tra la complessità spaziale e quella temporale per una macchina di Turing. Se una computazione dura $n$ passi (tempo) posso dire che al più ho usato $n$ celle (spazio), perché magari in qualche passo la testina rimane ferma ma nel caso peggiore si sposta sempre. Si ha quindi:
+Esiste una relazione tra la complessità spaziale e quella temporale per una macchina 
+di Turing. Se una computazione dura $n$ passi (tempo) posso dire che al più ho usato 
+$n$ celle (spazio), perché magari in qualche passo la testina rimane ferma ma nel 
+caso peggiore si sposta sempre. Si ha quindi:
 \begin{equation}
     S_M(n) \leq T_M(n) + n
 \end{equation}
@@ -329,34 +439,62 @@ con $+ \ n$ perché sul nastro abbiamo comunque l'input di lunghezza $n$.
     Se il tempo è limitato allora lo spazio è limitato ma non vale l'opposto.     
 \end{teorema}
 \begin{teorema}
-    Se ho una macchina di Turing $M$ che lavora in spazio finito e tempo infinito, esiste una macchina di Turing $M'$ che fa la stessa cosa di $M$ in tempo limitato. Quindi se lo spazio è limitato allora il tempo è limitato.
+    Se ho una macchina di Turing $M$ che lavora in spazio finito e tempo infinito, 
+    esiste una macchina di Turing $M'$ che fa la stessa cosa di $M$ in tempo 
+    limitato. Quindi se lo spazio è limitato allora il tempo è limitato.
 \end{teorema}
 \begin{dimostrazione}
-    Infatti la macchina $M'$ può trovarsi in un numero finito di stati $K$ e avendo spazio limitato ho un numero limitato $S_M(n)$ di celle in cui si trova la testina. Ho anche un numero finito di simboli in alfabeto $\Sigma$ e quindi:
+    Infatti la macchina $M'$ può trovarsi in un numero finito di stati $K$ e 
+    avendo spazio limitato ho un numero limitato $S_M(n)$ di celle in cui si trova 
+    la testina. Ho anche un numero finito di simboli in alfabeto $\Sigma$ e quindi:
     \begin{equation}
         S_{M'}(n) \leq |k| \cdot |S_M(n)| \cdot |\Sigma|^{|S_M(n)|}
     \end{equation}
-    avendo che prima o poi ritorno a stati già visti quindi la macchina se supera la quantità appena definita capisce di essere in loop. Quindi $|k| \cdot |S_M(n)| \cdot |\Sigma|^{|S_M(n)|}$ è anche un limite temporale per la seconda macchina.
+    avendo che prima o poi ritorno a stati già visti quindi la macchina se supera 
+    la quantità appena definita capisce di essere in loop. Quindi 
+    $|k| \cdot |S_M(n)| \cdot |\Sigma|^{|S_M(n)|}$ è anche un limite temporale 
+    per la seconda macchina.
 \end{dimostrazione}
 
-Quindi data una certa macchina che lavora in un certo spazio $S(n)$ posso costruire una macchina equivalente che da la stessa risposta in tempo limitato $T(n)$. Si ha che se ho un problema che si risolve in spazio polinomiale, per la formula appena scritta avrò tempo esponenziale. Invece, al contrario, tempo polinomiale comporta spazio polinomiale.
+Quindi data una certa macchina che lavora in un certo spazio $S(n)$ posso costruire
+una macchina equivalente che da la stessa risposta in tempo limitato $T(n)$. Si ha 
+che se ho un problema che si risolve in spazio polinomiale, per la formula appena 
+scritta avrò tempo esponenziale. Invece, al contrario, tempo polinomiale comporta 
+spazio polinomiale.
 \section{Macchine di Turing non deterministiche}
-Una \textbf{macchina di Turing non deterministica} si distingue da quella deterministica nella funzione di transizione $\delta$, che associa a ogni stato $q$ e a ogni simbolo di nastro $X$ un \textit{insieme} di triple:
+Una \textbf{macchina di Turing non deterministica} si distingue da quella 
+deterministica nella funzione di transizione $\delta$, che associa a ogni stato
+ $q$ e a ogni simbolo di nastro $X$ un \textit{insieme} di triple:
 \begin{equation}
     \delta(q, X) = \{(q_1, Y_1, D_1), (q_2, Y_2, D_2), \dots, (q_k, Y_k, D_k)\}
 \end{equation}
-A ogni passo una macchina di Turing non deterministica sceglie una delle triple come mossa, ovviamente lo stato, il simbolo di nastro e la direzione appartengono alla stessa tripla. Nelle macchine non deterministiche la computazione non è una sequenza di configurazioni ma un albero di computazione. Da ogni stato posso passare a uno tra più stati, a seconda della scelta, formando così un albero. Il singolo passo di computazione non è univocamente definito. Ogni singolo ramo comunque è equivalente al passo di computazione della macchina di Turing deterministica.
+A ogni passo una macchina di Turing non deterministica sceglie una delle triple 
+come mossa, ovviamente lo stato, il simbolo di nastro e la direzione appartengono 
+alla stessa tripla. Nelle macchine non deterministiche la computazione non è una 
+sequenza di configurazioni ma un albero di computazione. Da ogni stato posso passare 
+a uno tra più stati, a seconda della scelta, formando così un albero. Il singolo 
+passo di computazione non è univocamente definito. Ogni singolo ramo comunque è 
+equivalente al passo di computazione della macchina di Turing deterministica.
 
-Una macchina di Turing non deterministica accetta in input $w$ se c'è una sequenza di scelte che conduce dalla descrizione istantanea iniziale con $w$ come input, a una descrizione istantanea con uno stato accettante. In altre parole se almeno un ramo dell'albero termina con lo stato di accettazione. Nel caso in cui nessuno dei rami finisce in uno stato di accettazione, l'input \textbf{non} è accettato.
+Una macchina di Turing non deterministica accetta in input $w$ se c'è una sequenza 
+di scelte che conduce dalla descrizione istantanea iniziale con $w$ come input,
+ a una descrizione istantanea con uno stato accettante. In altre parole se almeno 
+ un ramo dell'albero termina con lo stato di accettazione. Nel caso in cui nessuno 
+ dei rami finisce in uno stato di accettazione, l'input \textbf{non} è accettato.
 
 \begin{definizione}
-    Un linguaggio $L$ è \textbf{accettato} da una macchina di Turing non deterministica $N$ se per tutte le stringhe che fanno parte del linguaggio esiste almeno una computazione che termina nello stato $Y$, ovvero esiste una computazione per cui: 
+    Un linguaggio $L$ è \textbf{accettato} da una macchina di Turing non 
+    deterministica $N$ se per tutte le stringhe che fanno parte del linguaggio 
+    esiste almeno una computazione che termina nello stato $Y$, ovvero esiste una 
+    computazione per cui: 
     \begin{equation}
         \forall x \in L \Rightarrow N(x) = Y
     \end{equation}
 \end{definizione}
 \begin{definizione}
-    Un linguaggio $L$ è \textbf{deciso} da una macchina di Turing non deterministica $N$ se, qualora la stringa $x$ appartenga il linguaggio, esiste almeno una computazione tale per cui:
+    Un linguaggio $L$ è \textbf{deciso} da una macchina di Turing non deterministica 
+    $N$ se, qualora la stringa $x$ appartenga il linguaggio, esiste almeno una 
+    computazione tale per cui:
     \begin{equation}
         x \in L \to N(x) = Y
     \end{equation}
@@ -367,18 +505,27 @@ Una macchina di Turing non deterministica accetta in input $w$ se c'è una seque
     Non devo quindi avere loop in questo caso, tutte devono dare $N$.
 \end{definizione}
 \begin{teorema}
-Se $M_N$ è una macchina di Turing non deterministica, esiste una macchina di Turing deterministica $M_D$ tale che $L(M_N) = L(M_D)$.
+Se $M_N$ è una macchina di Turing non deterministica, esiste una macchina di 
+Turing deterministica $M_D$ tale che $L(M_N) = L(M_D)$.
 \end{teorema}
 \begin{dimostrazione}
-    La macchina di Turing non deterministica viene simulata da una macchina di Turing deterministica procedendo per rami, concludendoli, ma si procede per singoli passi su ogni ramo (onde evitare di incappare prematuramente in loop). Si scende quindi per livelli simulando poi tutti i rami (dovendo però “tornare indietro” ogni volta per passare al ramo successivo).
+    La macchina di Turing non deterministica viene simulata da una macchina di 
+    Turing deterministica procedendo per rami, concludendoli, ma si procede per 
+    singoli passi su ogni ramo (onde evitare di incappare prematuramente in loop). 
+    Si scende quindi per livelli simulando poi tutti i rami (dovendo però “tornare
+     indietro” ogni volta per passare al ramo successivo).
 \end{dimostrazione}
 
-La macchina di Turing non deterministica $N$ decide il linguaggio $L$ in tempo $t_N(n)$, ovvero il tempo di calcolo è dato dall'altezza del ramo più lungo. Come per le macchine deterministiche, definiamo $T_N(n)$ come:
+La macchina di Turing non deterministica $N$ decide il linguaggio $L$ in tempo
+ $t_N(n)$, ovvero il tempo di calcolo è dato dall'altezza del ramo più lungo. 
+ Come per le macchine deterministiche, definiamo $T_N(n)$ come:
 \begin{equation}
     T_N(n) = \max \{t_N(x) \ | \ |x| = n\}
 \end{equation}
 
-Data una macchina di Turing non deterministica $N$ che decide $L$ in tempo $T_N(n)$ esiste una macchina di Turing deterministica $M$ che decide $L$ in tempo $\mathcal{O}(b^{T_N(n)})$, dove $b$ è il grado massimo di divisione dell'albero di computazione di $N$.
+Data una macchina di Turing non deterministica $N$ che decide $L$ in tempo $T_N(n)$ 
+esiste una macchina di Turing deterministica $M$ che decide $L$ in tempo
+ $\mathcal{O}(b^{T_N(n)})$, dove $b$ è il grado massimo di divisione dell'albero di computazione di $N$.
 
 \begin{definizione}
     Definiamo una funzione di tempo per una macchina di Turing non deterministica come:
@@ -387,12 +534,17 @@ Data una macchina di Turing non deterministica $N$ che decide $L$ in tempo $T_N(
     \end{equation}
 \end{definizione}
 
-Quest'ultima definizione ci permette di definire la classe di \textbf{problemi NP} come l'insieme dei linguaggi $L$ che sono decisi in tempo polinomiale da una macchina di Turing non deterministica:
+Quest'ultima definizione ci permette di definire la classe di \textbf{problemi NP} 
+come l'insieme dei linguaggi $L$ che sono decisi in tempo polinomiale da una macchina 
+di Turing non deterministica:
 \begin{equation}
     NP = \bigcup_{c > 0} NTIME(n^c)
 \end{equation}
 \begin{osservazione}
-Sia $P$ l'insieme dei \textbf{problemi decidibili in tempo polinomiale} da una macchina di Turing deterministica, e $NP$ l'insieme dei \textbf{problemi decidibili in tempo polinomiale} da una macchina di Turing non deterministica. Sappiamo che è vero che $P \subset NP$ ma non è ancora dimostrato che $NP \subset P$.
+Sia $P$ l'insieme dei \textbf{problemi decidibili in tempo polinomiale} da una
+ macchina di Turing deterministica, e $NP$ l'insieme dei \textbf{problemi decidibili in tempo polinomiale}
+  da una macchina di Turing non deterministica. Sappiamo che è vero che $P \subset NP$ 
+  ma non è ancora dimostrato che $NP \subset P$.
 \end{osservazione}
 
 Possiamo quindi affermare che:
@@ -400,33 +552,61 @@ Possiamo quindi affermare che:
     P \subseteq NP \subseteq EXPTIME
 \end{equation}
 
-$NP$ rappresenta una classe di linguaggi che sono verificabili in tempo polinomiale da una macchina di Turing non deterministica. Verificare un linguaggio significa che per ogni parola $w \in L$ si ha una stringa $c$ detta \textbf{certificato} che possiamo usare per verificare che effettivamente $w \in L$.
+$NP$ rappresenta una classe di linguaggi che sono verificabili in tempo polinomiale 
+da una macchina di Turing non deterministica. Verificare un linguaggio significa 
+che per ogni parola $w \in L$ si ha una stringa $c$ detta \textbf{certificato} che 
+possiamo usare per verificare che effettivamente $w \in L$.
 \begin{definizione}
-    Un \textbf{verificatore} di un linguaggio $L$ è una macchina di Turing deterministica $V$ tale per cui:
+    Un \textbf{verificatore} di un linguaggio $L$ è una macchina di Turing 
+    deterministica $V$ tale per cui:
     \begin{equation}
         L = \{w : V \ \text{accetta} \ \langle w, c \rangle \ \text{per qualunque stringa} \ c\}
     \end{equation}
-    Questa macchina accetta le stringhe appartenenti al linguaggio eseguendo le istruzioni specificate dal certificato $c$.
+    Questa macchina accetta le stringhe appartenenti al linguaggio eseguendo le 
+    istruzioni specificate dal certificato $c$.
 \end{definizione}
 
-Se $V$ richiede tempo polinomiale rispetto $w$ a per accettare/rifiutare, allora $V$ è un verificatore in tempo polinomiale per $w$. Se esiste un verificatore in tempo polinomiale per $L$, allora $L$ è verificabile in tempo polinomiale. 
+Se $V$ richiede tempo polinomiale rispetto $w$ a per accettare/rifiutare, allora 
+$V$ è un verificatore in tempo polinomiale per $w$. Se esiste un verificatore in 
+tempo polinomiale per $L$, allora $L$ è verificabile in tempo polinomiale. 
 
-Dato che $V$ deve eseguire in tempo polinomiale rispetto a $w$, ne segue che $c$, il certificato, deve essere di lunghezza polinomiale rispetto a $w$, altrimenti non avremmo il tempo di leggere tutto $c$.
+Dato che $V$ deve eseguire in tempo polinomiale rispetto a $w$, ne segue che $c$, 
+il certificato, deve essere di lunghezza polinomiale rispetto a $w$, altrimenti 
+non avremmo il tempo di leggere tutto $c$.
 
-Supponiamo di avere una macchina di Turing non deterministica $M$ che lavora in tempo polinomiale, costruiamo un verificatore $V$ che lavora in tempo polinomiale per lo stesso linguaggio deciso da $M$. Se su input $w$ la macchina $M$ accetta, significa che esiste una computazione accettante $C_1, \dots, C_k$ di lunghezza polinomiale rispetto a $w$. Per ogni passaggio da $C_i$ a $C_{i + 1}$ è stata applicata una transizione definita dalla funzione di transizione di $M$.
+Supponiamo di avere una macchina di Turing non deterministica $M$ che lavora in 
+tempo polinomiale, costruiamo un verificatore $V$ che lavora in tempo polinomiale 
+per lo stesso linguaggio deciso da $M$. Se su input $w$ la macchina $M$ accetta, 
+significa che esiste una computazione accettante $C_1, \dots, C_k$ di lunghezza 
+polinomiale rispetto a $w$. Per ogni passaggio da $C_i$ a $C_{i + 1}$ è stata applicata 
+una transizione definita dalla funzione di transizione di $M$.
 
-Usiamo come certificato $c$ la sequenza di transizioni applicate lungo tutta la computazione, le quali sono in numero polinomiale. Queste transizioni ci identificano una specifica computazione della macchina di Turing non deterministica $M$. Il verificatore deve solo simulare quella computazione, senza fare scelte non deterministiche, dato che le transizioni da fare sono tutte in $c$ e verificare che la computazione accetti.
+Usiamo come certificato $c$ la sequenza di transizioni applicate lungo tutta la 
+computazione, le quali sono in numero polinomiale. Queste transizioni ci identificano
+ una specifica computazione della macchina di Turing non deterministica $M$.
+  Il verificatore deve solo simulare quella computazione, senza fare scelte non 
+  deterministiche, dato che le transizioni da fare sono tutte in $c$ e verificare 
+  che la computazione accetti.
 
-Abbiamo mostrato che per ogni linguaggio accettato da una macchina di Turing non deterministica che lavora in tempo polinomiale possiamo costruire un verificatore polinomiale per lo stesso linguaggio. Dobbiamo mostrare anche l'inclusione in senso inverso. Sfruttiamo il fatto che possiamo usare una macchina di Turing non deterministica per scrivere un certificato sul nastro e, se esiste un certificato che ci permette di accettare, questo sarà presente in una computazione.
+Abbiamo mostrato che per ogni linguaggio accettato da una macchina di Turing non 
+deterministica che lavora in tempo polinomiale possiamo costruire un verificatore 
+polinomiale per lo stesso linguaggio. Dobbiamo mostrare anche l'inclusione in senso
+ inverso. Sfruttiamo il fatto che possiamo usare una macchina di Turing non 
+ deterministica per scrivere un certificato sul nastro e, se esiste un certificato 
+ che ci permette di accettare, questo sarà presente in una computazione.
 
-Sia $V$ un verificatore in tempo polinomiale per $L$. Assumiamo $V$ esegua in tempo $n^k$. Costruiamo una macchina di Turing non deterministica che su input $w$ fa due cose:
+Sia $V$ un verificatore in tempo polinomiale per $L$. Assumiamo $V$ esegua in 
+tempo $n^k$. Costruiamo una macchina di Turing non deterministica che su input $w$ fa due cose:
 \begin{itemize}
     \item Genera in modo non deterministico un certificato $c$ di lunghezza al più $n^k$.
-    \item Simula $V$ su input $\langle w, c \rangle$ e accetta se $V$ accetta, mentre rifiuta se $V$ rifiuta.
+    \item Simula $V$ su input $\langle w, c \rangle$ e accetta se $V$ accetta, 
+    mentre rifiuta se $V$ rifiuta.
 \end{itemize}
 
-Abbiamo mostrato che per ogni linguaggio per il quale esiste un verificatore polinomiale possiamo costruire una
-macchina di Turing non deterministica che decide lo stesso linguaggio in tempo polinomiale. Quindi le due definizioni di $NP$ sono equivalenti.
+Abbiamo mostrato che per ogni linguaggio per il quale esiste un verificatore 
+polinomiale possiamo costruire una
+macchina di Turing non deterministica che decide lo stesso linguaggio in tempo 
+polinomiale. Quindi le due definizioni di $NP$ sono equivalenti.
 
 Definiamo ora altre classi di problemi:
 \begin{itemize}
@@ -435,7 +615,8 @@ Definiamo ora altre classi di problemi:
         coP = \{L \ | \ \overline{L} \in P\}
     \end{equation}
     \item Linguaggi che \textbf{non sono decidibili} in tempo polinomiale: $\overline{P}$
-    \item Linguaggi di cui posso decidere la \textbf{non appartenenza} in tempo polinomiale da una macchina di Turing non deterministica:
+    \item Linguaggi di cui posso decidere la \textbf{non appartenenza} in tempo 
+    polinomiale da una macchina di Turing non deterministica:
     \begin{equation}
         coNP = \{L \ | \ \overline{L} \in NP\}
     \end{equation}
@@ -454,7 +635,8 @@ Definiamo ora altre classi di problemi:
 \end{equation}
 \end{teorema}
 \begin{dimostrazione}
-    Se un linguaggio $L \in P$, allora esiste una macchina di Turing deterministica che decide $L$ in tempo polinomiale:
+    Se un linguaggio $L \in P$, allora esiste una macchina di Turing deterministica
+     che decide $L$ in tempo polinomiale:
     \begin{equation}
         \forall x \in \Sigma^{\ast} = \begin{cases}
             x \in L \Rightarrow M(x) = Y \\
@@ -469,23 +651,34 @@ Definiamo ora altre classi di problemi:
             x \not\in \overline{L} \Rightarrow M'(x) = N
         \end{cases}   
     \end{equation}
-    per ottenere questa macchina è sufficiente modificare gli stati di accettazione e rifiuto della macchina $M$.
+    per ottenere questa macchina è sufficiente modificare gli stati di accettazione 
+    e rifiuto della macchina $M$.
 \end{dimostrazione}
 
-La dimostrazione precedente non può essere utilizzata per dimostrare che $NP = coNP$ dato che, nel caso di macchine non deterministiche è sufficiente che esista un singolo ramo di computazione che termina in uno stato di accettazione. Invertendo l'output di questa macchina si ottiene una macchina che non decide $\bar{L}$ dato che sarebbero necessaire tutte computazioni che terminano in uno stato accettante.
+La dimostrazione precedente non può essere utilizzata per dimostrare che $NP = coNP$ 
+dato che, nel caso di macchine non deterministiche è sufficiente che esista un singolo 
+ramo di computazione che termina in uno stato di accettazione. Invertendo l'output di questa 
+macchina si ottiene una macchina che non decide $\bar{L}$ dato che sarebbero necessaire 
+tutte computazioni che terminano in uno stato accettante.
 \section{Riduzioni polinomiali}
-Le \textbf{riduzioni polinomiali} tra problemi sono delle procedure che per ogni istanza del problema $A$ la trasformano in un'istanza per un problema diverso $B$. Quindi un'istanza di $A$, $I_A$, ha due risposte, $Y$ o $N$, ma posso passare tramite una determinata funzione:
+Le \textbf{riduzioni polinomiali} tra problemi sono delle procedure che per ogni 
+istanza del problema $A$ la trasformano in un'istanza per un problema diverso $B$. 
+Quindi un'istanza di $A$, $I_A$, ha due risposte, $Y$ o $N$, ma posso passare tramite 
+una determinata funzione:
 \begin{equation}
     f: I_A \to I_B
 \end{equation}
-avendo poi $I_B$ tale che $B$ avrà risposte, uguali a quelle di $A$, $Y$ o $N$. In altre parole, si cerca una funzione $f$ che mi permette di convertire le istanze del mio problema di partenza in istanze di un problema che so risolvere.
+avendo poi $I_B$ tale che $B$ avrà risposte, uguali a quelle di $A$, $Y$ o $N$. 
+In altre parole, si cerca una funzione $f$ che mi permette di convertire le 
+istanze del mio problema di partenza in istanze di un problema che so risolvere.
 
 \begin{definizione}
     La \textbf{riducibilità polinomiale} tra problemi è definita come: 
     \begin{equation}
         f: \Sigma^{\ast} \to \Sigma^{\ast}
     \end{equation}
-    la quale deve essere calcolabile in tempo polinomiale da una macchina di Turing deterministica, tale che: 
+    la quale deve essere calcolabile in tempo polinomiale da una macchina di Turing 
+    deterministica, tale che: 
     \begin{equation}
         \forall x \in \Sigma^{\ast}, \ x \in L_A \ \text{se e solo se} \ f(x) \in L_B
     \end{equation}
@@ -495,14 +688,17 @@ avendo poi $I_B$ tale che $B$ avrà risposte, uguali a quelle di $A$, $Y$ o $N$.
     \end{equation}
 \end{definizione}
 \begin{osservazione}
-    Si utilizza il simbolo minore uguale, per indicare una relazione d'ordine nella complessità dei problemi.
+    Si utilizza il simbolo minore uguale, per indicare una relazione d'ordine 
+    nella complessità dei problemi.
 \end{osservazione}
 
 \begin{teorema}
-    Dato un linguaggio $L_A$ riducibile polinomialmente a $L_B$ ($L_A \leq_P L_B$), si ha che se $L_B \in P$ allora sicuramente anche $L_A \in P$.
+    Dato un linguaggio $L_A$ riducibile polinomialmente a $L_B$ ($L_A \leq_P L_B$), 
+    si ha che se $L_B \in P$ allora sicuramente anche $L_A \in P$.
 \end{teorema}
 \begin{dimostrazione}
-    Infatti e esiste un algoritmo polinomiale per $L_B$ allora, avendo una trasformazione polinomiale ho che $f(x) + L_B$ è ancora polinomiale.
+    Infatti e esiste un algoritmo polinomiale per $L_B$ allora, avendo una 
+    trasformazione polinomiale ho che $f(x) + L_B$ è ancora polinomiale.
 \end{dimostrazione}
 \begin{teorema}
     La riduzione polinomiale gode della proprietà di transitività, ovvero:
@@ -518,7 +714,8 @@ avendo poi $I_B$ tale che $B$ avrà risposte, uguali a quelle di $A$, $Y$ o $N$.
     \end{equation}
 \end{definizione}
 \begin{definizione}
-    Un linguaggio $L$ si dice $\textbf{NP}\_\textbf{completo}$ se valgono i seguenti punti:
+    Un linguaggio $L$ si dice $\textbf{NP}\_\textbf{completo}$ se valgono i 
+    seguenti punti:
     \begin{itemize}
         \item $L \in NP$
         \item $L \in NP\_hard$
@@ -528,10 +725,16 @@ avendo poi $I_B$ tale che $B$ avrà risposte, uguali a quelle di $A$, $Y$ o $N$.
     Se $L_A \leq_P L_B$ e $L_A \in NP\_hard$ allora so che anche $L_B \in NP\_hard$.
 \end{teorema}
 \begin{dimostrazione}
-    Se $L_A \leq_P L_B$ per la definizione di $NP\_hard$ so che esistono n linguaggi che sono riducibili polinomialmente a $L_A$. Utilizzando la proprietà transitiva posso affermare che $L_B$ è $NP\_hard$.
+    Se $L_A \leq_P L_B$ per la definizione di $NP\_hard$ so che esistono n linguaggi 
+    che sono riducibili polinomialmente a $L_A$. Utilizzando la proprietà transitiva 
+    posso affermare che $L_B$ è $NP\_hard$.
 \end{dimostrazione}
 \begin{teorema}[\textbf{Teorema Cook-Levin}]
-    Il problema di soddisfacibilità SAT è $NP\_completo$. Questo problema prende in input una formula booleana $\phi$ in forma normale congiunta (CNF), ovvero che ha una congiunzione ($\land$) come legame tra le clausole. Una clausola è un $\lor$ di letterali, ovvero di variabili booleane $x_i$ o $\overline{x_i}$. In output ho se la forma sia soddisfacibile o meno.   
+    Il problema di soddisfacibilità SAT è $NP\_completo$. Questo problema prende 
+    in input una formula booleana $\phi$ in forma normale congiunta (CNF), ovvero 
+    che ha una congiunzione ($\land$) come legame tra le clausole. Una clausola 
+    è un $\lor$ di letterali, ovvero di variabili booleane $x_i$ o $\overline{x_i}$. 
+    In output ho se la forma sia soddisfacibile o meno.   
 \end{teorema}
 \begin{figure}[!ht]
     \centering
