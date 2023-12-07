@@ -11,56 +11,56 @@ Stringhe, ovvero cercare all'interno di un testo $T$ le occorrenze di un pattern
     \end{equation}
     In aggiunta, definiremo:
     \begin{itemize}
-        \item \textbf{Stringa nulla} $\varepsilon$ è una stringa composta da 
-        zero simboli.
-        \item Simbolo in posizione $i$ si riferisce al simbolo in posizione 
-        $i$-esima $x_i = X[i]$
-        \item \textbf{Sottostringa} da $i$ a $j$ è una porzione di stringa 
-        compresa tra gli indici $i$ e $j$. 
-        \begin{equation}
-            X[i, j] = X[i:j] = X[i]X[i+1]\dots X[j - 1]X[j]
-        \end{equation}
-        Posso esprimerlo attraverso la seguente notazione: $X[i, j] \lor X[i:j]$.
-         Possiamo dire che una sottostringa $X[i, j]$ si definisce:
-        \begin{itemize}
-            \item \textbf{Propria} se $i \neq 1 \land j \neq |X|$
-            \item \textbf{Impropria} altrimenti
-        \end{itemize}
-        \item \textbf{Prefisso} di lunghezza $j$ è una sottostringa $X[1, j]$. 
-        Anche in questo caso possiamo distinguere:
-        \begin{itemize}
-            \item \textbf{Proprio} se $j \neq |X|$
-            \item \textbf{Improprio} altrimenti
-        \end{itemize}
-        Per il prefisso è possibile definire anche il prefisso nullo, ovvero il 
-        prefisso composto da zero caratteri ($X[1, j]=\epsilon \ \to \ j = 0$).
-        \item \textbf{Suffisso} che inizia in $i$ è la sottostringa $X[i,|X|]$. 
-        Di questa sottostringa posso calcolare la lunghezza del prefisso come: 
-        \begin{equation}
-            |X[i,|X|]| = |X| - i + 1
-        \end{equation}
-        Anche in questo caso possiamo distinguere:
-        \begin{itemize}
-            \item \textbf{Proprio} se $i \neq 1$
-            \item \textbf{Improprio} altrimenti
-        \end{itemize}
-        È possibile definire il suffisso nullo ovvero quello composto da zero 
-        caratteri ($X[i,|X|]=\epsilon \ \to \ i = |X| + 1$).
+        \item \textbf{Stringa nulla} $\varepsilon$ è una stringa composta da
+              zero simboli.
+        \item Simbolo in posizione $i$ si riferisce al simbolo in posizione
+              $i$-esima $x_i = X[i]$
+        \item \textbf{Sottostringa} da $i$ a $j$ è una porzione di stringa
+              compresa tra gli indici $i$ e $j$.
+              \begin{equation}
+                  X[i, j] = X[i:j] = X[i]X[i+1]\dots X[j - 1]X[j]
+              \end{equation}
+              Posso esprimerlo attraverso la seguente notazione: $X[i, j] \lor X[i:j]$.
+              Possiamo dire che una sottostringa $X[i, j]$ si definisce:
+              \begin{itemize}
+                  \item \textbf{Propria} se $i \neq 1 \land j \neq |X|$
+                  \item \textbf{Impropria} altrimenti
+              \end{itemize}
+        \item \textbf{Prefisso} di lunghezza $j$ è una sottostringa $X[1, j]$.
+              Anche in questo caso possiamo distinguere:
+              \begin{itemize}
+                  \item \textbf{Proprio} se $j \neq |X|$
+                  \item \textbf{Improprio} altrimenti
+              \end{itemize}
+              Per il prefisso è possibile definire anche il prefisso nullo, ovvero il
+              prefisso composto da zero caratteri ($X[1, j]=\epsilon \ \to \ j = 0$).
+        \item \textbf{Suffisso} che inizia in $i$ è la sottostringa $X[i,|X|]$.
+              Di questa sottostringa posso calcolare la lunghezza del prefisso come:
+              \begin{equation}
+                  |X[i,|X|]| = |X| - i + 1
+              \end{equation}
+              Anche in questo caso possiamo distinguere:
+              \begin{itemize}
+                  \item \textbf{Proprio} se $i \neq 1$
+                  \item \textbf{Improprio} altrimenti
+              \end{itemize}
+              È possibile definire il suffisso nullo ovvero quello composto da zero
+              caratteri ($X[i,|X|]=\epsilon \ \to \ i = |X| + 1$).
     \end{itemize}
 \end{definizione}
 \begin{nota}
-    Una \textbf{stringa} di caratteri si differenzia da un \textbf{sequenza} 
+    Una \textbf{stringa} di caratteri si differenzia da un \textbf{sequenza}
     degli stessi caratteri dal momento che:
     \begin{itemize}
-        \item \textbf{stringa}: è una giustapposizione di caratteri, quindi sono 
-        tutti concatenati
-        \begin{equation}
-            X= \sigma_1\sigma_2\dots\sigma_n
-        \end{equation}
+        \item \textbf{stringa}: è una giustapposizione di caratteri, quindi sono
+              tutti concatenati
+              \begin{equation}
+                  X= \sigma_1\sigma_2\dots\sigma_n
+              \end{equation}
         \item \textbf{sequenza}: è un elenco di caratteri separati da un separatore
-        \begin{equation}
-            X= <\sigma_1,\sigma_2,\dots,\sigma_n>
-        \end{equation}
+              \begin{equation}
+                  X= <\sigma_1,\sigma_2,\dots,\sigma_n>
+              \end{equation}
     \end{itemize}
 \end{nota}
 
@@ -68,26 +68,26 @@ Quando si parla di string matching possiamo definire due tipi. Dati un pattern
 $P$ e un testo $T$ possiamo definire lo String Matching:
 \begin{enumerate}
     \item \textbf{Esatto}: consiste nel cercare le occorrenze esatte di $P$ in $T$.
-    \item \textbf{Approssimato}: consiste nel cercare le occorrenze approssimate 
-    di $P$ in $T$.
+    \item \textbf{Approssimato}: consiste nel cercare le occorrenze approssimate
+          di $P$ in $T$.
 \end{enumerate}
 \subsection{String Matching Esatto}
 Possiamo definire il problema di \textbf{string matching esatto} formalmente nel seguente modo:
 \begin{itemize}
-    \item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente 
-    $|T|=n$ e $|P|=m$, definiti su un alfabeto $\Sigma$.
+    \item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente
+          $|T|=n$ e $|P|=m$, definiti su un alfabeto $\Sigma$.
     \item \textbf{output}: tutte le occorrenze esatte $i$ di $T$ ($T[i,i+m-1]=P$).
 \end{itemize}
 \begin{definizione}[\textbf{Occorrenza esatta}]
-    Una posizione $i$ del testo $T$ tale che $T[i, i + m - 1] = P$ è 
+    Una posizione $i$ del testo $T$ tale che $T[i, i + m - 1] = P$ è
     un'\textbf{occorrenza esatta} di $P$ in $T$.
 \end{definizione}
 \begin{definizione}[\textbf{Match}]
     Dati due simboli $s_1, s_2 \in \Sigma$ si ha un \textbf{match} se $s_1 = s_2$.
 \end{definizione}
 \begin{definizione}[\textbf{Mismatch}]
-    Dati due simboli $s_1, s_2 \in \Sigma$ si ha un \textbf{mismatch} se $s_1 
-    \neq s_2$.
+    Dati due simboli $s_1, s_2 \in \Sigma$ si ha un \textbf{mismatch} se $s_1
+        \neq s_2$.
 \end{definizione}
 
 Avendo definito il problema in questo modo è possibile definire un semplice
@@ -100,11 +100,11 @@ testo. L'algoritmo semplice che permette di calcolare le occorrenze esatte è:
     \item Si confronta ogni simbolo di $P$ con il corrispondente simbolo di $T$
           all'interno di $W$ da sinistra verso destra.
           \begin{equation}
-              P[j] = T[i + j - 1] \ \forall \ j \ \text{tale che} \ 1 \leq j 
+              P[j] = T[i + j - 1] \ \forall \ j \ \text{tale che} \ 1 \leq j
               \leq m \ \Rightarrow T[i, i + m - 1] = P
           \end{equation}
-    \item $W$ viene spostata di una posizione verso destra e il confronto viene 
-    ripetuto.
+    \item $W$ viene spostata di una posizione verso destra e il confronto viene
+          ripetuto.
     \item Ultima posizione di $W$ è $i = |T| - |P| + 1 = n - m + 1$
 \end{enumerate}
 \begin{algorithm}
@@ -130,24 +130,24 @@ testo. L'algoritmo semplice che permette di calcolare le occorrenze esatte è:
 
 Questo algoritmo richiede un tempo pari a $\mathcal{O}(m \cdot n)$.
 \begin{nota}
-    Questo algoritmo può essere migliorato spostando la finestra alla posizione 
-    successiva al primo mismatch oppure si può effettuare un preprocessing del 
-    pattern e del testo, permettendo di passare da una complessità quadratica ad 
+    Questo algoritmo può essere migliorato spostando la finestra alla posizione
+    successiva al primo mismatch oppure si può effettuare un preprocessing del
+    pattern e del testo, permettendo di passare da una complessità quadratica ad
     una logaritmica o lineare.
 \end{nota}
 \subsection{String Matching Approssimato}
 
 Definiremo il problema di \textbf{string matching approssimato} formalmente nel seguente modo:
 \begin{itemize}
-    \item \textbf{input}: testo $T$ e un pattern $P$, rispettivamente $|T|=n$ e 
-    $|P|=m$, definiti entrambi su un alfabeto $\Sigma$, infine, una soglia $k$ di errore. 
-    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ 
-    respittano la soglia di errore $k$.
+    \item \textbf{input}: testo $T$ e un pattern $P$, rispettivamente $|T|=n$ e
+          $|P|=m$, definiti entrambi su un alfabeto $\Sigma$, infine, una soglia $k$ di errore.
+    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$
+          respittano la soglia di errore $k$.
 \end{itemize}
-Introducendo una soglia di errore abbiamo bisogno di definire una metrica per 
-calcolarlo. Per fare ciò si utilizza la \textit{distanza di edit} (ED) tra due 
-stringhe. Tale distanza è definita come il minimo numero di operazioni di 
-sostituzione, cancellazione, inserimento di un simbolo che trasformano una 
+Introducendo una soglia di errore abbiamo bisogno di definire una metrica per
+calcolarlo. Per fare ciò si utilizza la \textit{distanza di edit} (ED) tra due
+stringhe. Tale distanza è definita come il minimo numero di operazioni di
+sostituzione, cancellazione, inserimento di un simbolo che trasformano una
 stringa nell'altra.
 \begin{nota}
     \begin{equation}
@@ -155,8 +155,8 @@ stringa nell'altra.
     \end{equation}
 \end{nota}
 \begin{definizione}[\textbf{Occorrenza approssimata}]
-    Una posizione $i$ del testo $T$, tale che esista almeno una sottostringa 
-    $S = T[i - L + 1,i]$ con $ED(P, S) \leq k$, è un'occorrenza approssimata di 
+    Una posizione $i$ del testo $T$, tale che esista almeno una sottostringa
+    $S = T[i - L + 1,i]$ con $ED(P, S) \leq k$, è un'occorrenza approssimata di
     $P$ in $T$.
 \end{definizione}
 \begin{nota}
@@ -168,22 +168,22 @@ stringa nell'altra.
 \end{nota}
 Quindi il problema formale dello \textbf{string matching approssimato} verrà definito come:
 \begin{itemize}
-	\item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente $|T|=n$
-     e $|P|=m$, definiti entrambi su un alfabeto $\Sigma$, infine, una soglia $k$
-      di errore. 
-	\item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ tale 
-    che  $ED(E,S)\le k$.
+    \item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente $|T|=n$
+          e $|P|=m$, definiti entrambi su un alfabeto $\Sigma$, infine, una soglia $k$
+          di errore.
+    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ tale
+          che  $ED(E,S)\le k$.
 \end{itemize}
-Avendo definito il problema in questo modo è possibile definire un semplice 
+Avendo definito il problema in questo modo è possibile definire un semplice
 algoritmo che mi permette di calcolare l'output del problema. Questo algoritmo
- utilizza una finestra $W$, di dimensione variabile, che scorre sul testo.
+utilizza una finestra $W$, di dimensione variabile, che scorre sul testo.
 \begin{enumerate}
-    \item Uso una finestra $W$ di lunghezza variabile $\in [m - k, m + k]$, per 
-    un totale di $2k+1$ ampiezze da testare, che scorre lungo il testo $T$ da
-     sinistra a destra. La posizione iniziale di tale finestra è $i = m - k$ e 
-     la sua lunghezza iniziale è $m - k$.
+    \item Uso una finestra $W$ di lunghezza variabile $\in [m - k, m + k]$, per
+          un totale di $2k+1$ ampiezze da testare, che scorre lungo il testo $T$ da
+          sinistra a destra. La posizione iniziale di tale finestra è $i = m - k$ e
+          la sua lunghezza iniziale è $m - k$.
     \item Se la distanza di edit tra $P$ e la sottostringa di $T$ compresa in $W$
-     è $\leq \ k$, allora $i$ è occorrenza approssimata di $P$ in $T$.
+          è $\leq \ k$, allora $i$ è occorrenza approssimata di $P$ in $T$.
     \item $W$ viene spostata a destra di una posizione.
 \end{enumerate}
 \begin{algorithm}
@@ -211,7 +211,7 @@ $\mathcal{O}(n \cdot k \cdot m^2)$, dove $m^2$ è dovuto al calcolo della distan
 di edit tra le due sottostringhe.
 \section{Ricerca esatta con Automa a Stati Finiti}
 Un automa è un modello di calcolo che riconosce un linguaggio, ovvero un insieme
-di stringhe che godono di una proprietà. Gli automi a stati finiti riconoscono 
+di stringhe che godono di una proprietà. Gli automi a stati finiti riconoscono
 un linguaggio regolare.
 \begin{definizione} [\textbf{Automa a stati finiti}]
     Un Automa a Stati Finiti è formalmente una quintupla:
@@ -236,15 +236,15 @@ L'arco $(q_1,q_2)$ viene etichettato dalla lista di simboli che permettono la
 transizione da $q_1$ a $q_2$. Lo stato iniziale $q_0$ è indicato tramite un arco
 entrante che non esce da uno stato, mentre gli stati accettanti sono indicati da un doppio bordo.
 
-È possibile rappresentare la funzione di transizione $\delta$ degli automi attraverso 
-una matrice $T$ con $|Q|$ righe e $|\Sigma|$ colonne. Nella generica cella 
-$(q, \sigma)$ sarà contenuto il valore di $\delta(q, \sigma)$, ovvero lo stato di 
+È possibile rappresentare la funzione di transizione $\delta$ degli automi attraverso
+una matrice $T$ con $|Q|$ righe e $|\Sigma|$ colonne. Nella generica cella
+$(q, \sigma)$ sarà contenuto il valore di $\delta(q, \sigma)$, ovvero lo stato di
 arrivo a partire dallo stato $q$ attraverso il simbolo $\sigma$.
 \begin{equation}
     T[q,\sigma] = q'\iff \delta(q,\sigma) = q'
 \end{equation}
 \begin{definizione}[\textbf{Bordo}]
-    Il \textbf{bordo} di una stringa $X$ è il più lungo prefisso \textbf{proprio} 
+    Il \textbf{bordo} di una stringa $X$ è il più lungo prefisso \textbf{proprio}
     di $X$ che occorre come suffisso di $X$.
 \end{definizione}
 \begin{esempio}
@@ -276,12 +276,12 @@ $P$ di lunghezza $m$ definito su alfabeto $\Sigma$ è la quintupla $(Q, \Sigma, 
 A questo punto il processo di ricerca esatta attraverso un automa a stati finiti
 è composto da:
 \begin{enumerate}
-    \item \textbf{Preprocessing del pattern}: costruisco l'automa per il pattern 
-    $P$ che consiste nel calcolo della funzione di transizione $\delta$ in tempo 
-    $\theta(m \cdot |\Sigma|)$.
+    \item \textbf{Preprocessing del pattern}: costruisco l'automa per il pattern
+          $P$ che consiste nel calcolo della funzione di transizione $\delta$ in tempo
+          $\theta(m \cdot |\Sigma|)$.
     \item \textbf{Ricerca nel testo}: uso dell'automa per riconoscere, in un testo
-     $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$. La
-      scansione del testo $T$ avviene in tempo $\theta(n)$
+          $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$. La
+          scansione del testo $T$ avviene in tempo $\theta(n)$
 \end{enumerate}
 \subsection{Funzione di transizione}
 La funzione di transizione $\delta$ per un pattern $P$ di lunghezza $m$ definito
@@ -586,27 +586,24 @@ Essa è definita come segue:
 \begin{equation}
     \phi(j) = \begin{cases} |B(P[1, j])| & \text{se } 1 \leq j \leq m \\-1 & \text{se } j = 0 \end{cases}
 \end{equation}
-
 \begin{esempio}
-	Calcoliamo $\phi$ sul pattern $P=abcabaabcabab$ con $m=13$.
-    \begin{table}[!ht] 
+    Calcoliamo $\phi$ sul pattern $P=abcabaabcabab$ con $m=13$.
+    \begin{table}[!ht]
         \centering
         \begin{tabular}{|>{\columncolor[HTML]{EFEFEF}}c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
-            \cellcolor[HTML]{EFEFEF}\textbf{j}&\cellcolor[HTML]{EFEFEF}\textbf{0}
-            &\cellcolor[HTML]{EFEFEF}\textbf{1}&\cellcolor[HTML]{EFEFEF}\textbf{2}
-            &\cellcolor[HTML]{EFEFEF}\textbf{3}&\cellcolor[HTML]{EFEFEF}\textbf{4}
-            &\cellcolor[HTML]{EFEFEF}\textbf{5}&\cellcolor[HTML]{EFEFEF}\textbf{6}
-            &\cellcolor[HTML]{EFEFEF}\textbf{7}&\cellcolor[HTML]{EFEFEF}\textbf{8}
-            &\cellcolor[HTML]{EFEFEF}\textbf{9}&\cellcolor[HTML]{EFEFEF}\textbf{10}
-            &\cellcolor[HTML]{EFEFEF}\textbf{11}&\cellcolor[HTML]{EFEFEF}\textbf{12}
-            &\cellcolor[HTML]{EFEFEF}\textbf{13}\\	\hline
-            $\phi$& -1&0&0&0&1&2&1&1&2&3&4&5&6&2\\\hline
+            \cellcolor[HTML]{EFEFEF}\textbf{j} & \cellcolor[HTML]{EFEFEF}\textbf{0}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{1}  & \cellcolor[HTML]{EFEFEF}\textbf{2}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{3}  & \cellcolor[HTML]{EFEFEF}\textbf{4}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{5}  & \cellcolor[HTML]{EFEFEF}\textbf{6}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{7}  & \cellcolor[HTML]{EFEFEF}\textbf{8}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{9}  & \cellcolor[HTML]{EFEFEF}\textbf{10}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{11} & \cellcolor[HTML]{EFEFEF}\textbf{12}
+                                               & \cellcolor[HTML]{EFEFEF}\textbf{13}                                                                                       \\	\hline
+            $\phi$                             & -1                                  & 0                                   & 0 & 0 & 1 & 2 & 1 & 1 & 2 & 3 & 4 & 5 & 6 & 2 \\\hline
         \end{tabular}
-    \end{table}	
-
+    \end{table}
 \end{esempio}
-
-Questo algoritmo è un’evoluzione dell'algoritmo banale per la ricerca delle 
+Questo algoritmo è un’evoluzione dell'algoritmo banale per la ricerca delle
 occorrenze di un pattern in un testo. In particolare, l'algoritmo KMP consiste in:
 \begin{enumerate}
     \item Viene usata una finestra $W$ di lunghezza $m$ che scorre sul testo $T$
@@ -639,7 +636,6 @@ simbolo di $P$ e dal simbolo di $T$ in posizione $i + 1$.
 \end{nota}
 Nel caso in cui $j = m + 1$, allora $p = i + m - \phi(m) - 1$ e il confronto
 riparte dal primo simbolo di $P$ e dal simbolo di $T$ in posizione $i + m - \phi(m)$.
-
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|l|l|l|}
@@ -653,21 +649,19 @@ riparte dal primo simbolo di $P$ e dal simbolo di $T$ in posizione $i + m - \phi
 Le differenze tra l'algoritmo basato sull'automa e KMP sono:
 \begin{itemize}
     \item Automa:
-    \begin{itemize}
-        \item Efficiente per pattern piccoli, perché la memoria è contenuta 
-        quindi le costanti all'interno del calcolo del tempo sono migliori.
-        \item Richiede più tempo e memoria per pattern grandi, perché sprechiamo
-         tempo nel calcolo del $\delta$.
-        \item Ricerca di P in testi diversi utilizzando lo stesso automa
-    \end{itemize}
-    KMP:
-    \begin{itemize}
-        \item Efficiente per pattern grandi
-        \item Richiede più tempo per pattern piccoli
-    \end{itemize}
+          \begin{itemize}
+              \item Efficiente per pattern piccoli, perché la memoria è contenuta
+                    quindi le costanti all'interno del calcolo del tempo sono migliori.
+              \item Richiede più tempo e memoria per pattern grandi, perché sprechiamo
+                    tempo nel calcolo del $\delta$.
+              \item Ricerca di P in testi diversi utilizzando lo stesso automa
+          \end{itemize}
+          KMP:
+          \begin{itemize}
+              \item Efficiente per pattern grandi
+              \item Richiede più tempo per pattern piccoli
+          \end{itemize}
 \end{itemize}
-
-%% Mettere il codice solo se lo chiede
 \section{Algoritmo di Baeza-Yates e Gonnet}
 La ricerca esatta effettuata attraverso questo algoritmo effettua un confronto
 tra i simboli del pattern e del testo in maniera non esplicita, ovvero non confronta
@@ -683,11 +677,11 @@ due sole operazioni:
 Come gli algoritmi visti fin ora, anche in questo caso possiamo descrivere il suo
 funzionamento attraverso due fasi:
 \begin{itemize}
-    \item \textbf{Preprocessing del pattern} $P$ nel quale vengono calcolate 
-    $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene eseguita 
-    in tempo $\theta(|\Sigma| + m)$.
-    \item \textbf{Scansione del testo} $T$ per cercare le occorrenze esatte del 
-    pattern $P$. Questa operazione viene eseguita in tempo $\theta(n)$.
+    \item \textbf{Preprocessing del pattern} $P$ nel quale vengono calcolate
+          $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene eseguita
+          in tempo $\theta(|\Sigma| + m)$.
+    \item \textbf{Scansione del testo} $T$ per cercare le occorrenze esatte del
+          pattern $P$. Questa operazione viene eseguita in tempo $\theta(n)$.
 \end{itemize}
 \subsection{Word e Operatori}
 \begin{definizione}[\textbf{Word di bit}]
@@ -711,8 +705,8 @@ in input. Tra queste operazioni abbiamo:
               \item $w[j] = 1$ se e solo se $w_1[j] \ \text{AND} \ w_2[j] =  1$.
               \item $w[j] = 0$ altrimenti.
           \end{itemize}
-    \item \textbf{Disgiunzione logica} (inclusiva) $\to$ OR. Questa operazione è 
-    implementata come:
+    \item \textbf{Disgiunzione logica} (inclusiva) $\to$ OR. Questa operazione è
+          implementata come:
           \begin{equation}
               w = w_1 \ \text{OR} \ w_2
           \end{equation}
@@ -744,12 +738,12 @@ Viene creata una word per ogni simbolo dell'alfabeto $\Sigma$ e viene memorizzat
 in una tabella $B$. Con questa rappresentazione posso effettuare le query del tipo:
 "il simbolo in posizione $j$ di $P$ è uguale a un certo simbolo $\sigma$".
 \begin{esempio}
-	Calcoliamo la tabella $B$ per un pattern $P=abcaba$ su un alfabeto $\Sigma=\left\{a,b,c,d\right\}$.
+    Calcoliamo la tabella $B$ per un pattern $P=abcaba$ su un alfabeto $\Sigma=\left\{a,b,c,d\right\}$.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|}
-        \hline
-            P & $a$ & $b$ & $c$ & $a$ & $b$ & $a$\\ \hline
+            \hline
+            P     & $a$ & $b$ & $c$ & $a$ & $b$ & $a$ \\ \hline
             $B_a$ & $1$ & $0$ & $0$ & $1$ & $0$ & $1$ \\ \hline
             $B_b$ & $0$ & $1$ & $0$ & $0$ & $1$ & $0$ \\ \hline
             $B_c$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\ \hline
@@ -780,9 +774,9 @@ L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| +
         \EndFor
         \State $M \gets 10\dots0$
         \For{$\sigma \in \Sigma$}
-            \State $\sigma \gets P[j]$
-            \State $B_{\sigma} \gets M \ \text{OR} \ B_{\sigma}$
-            \State $M = \textbf{RSHIFT} (M)$
+        \State $\sigma \gets P[j]$
+        \State $B_{\sigma} \gets M \ \text{OR} \ B_{\sigma}$
+        \State $M = \textbf{RSHIFT} (M)$
         \EndFor
         \State \textbf{return} $B$
         \EndFunction
@@ -812,8 +806,8 @@ definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1
               si ha un’occorrenza esatta di $P$ in $T$ nella posizione $i - m + 1$.
     \end{itemize}
 \end{definizione}
-Ovviamente calcolare $D_i$ è sempre troppo costoso, infatti, $D_i$ viene sempre 
-ottenuto a partire da $D_{i-1}$, portando a modificare l'algoritmo di scansione 
+Ovviamente calcolare $D_i$ è sempre troppo costoso, infatti, $D_i$ viene sempre
+ottenuto a partire da $D_{i-1}$, portando a modificare l'algoritmo di scansione
 del testo nel seguente modo:
 \begin{itemize}
     \item Inizia dalla word $D_0 = 00\dots0$
@@ -824,24 +818,24 @@ del testo nel seguente modo:
 Vediamo ora come si calcola il valore di $D_i$ a partire da $D_{i - 1}$:
 \begin{itemize}
     \item Se $j =  1$ allora posso calcolarla come:
-    \begin{equation}
-        D_i[1] = 1 \text{\textbf{AND}} B_{T[i]}[1]
-    \end{equation}
-    Perché $D_i[1] = 1\iff P[1,1] =suff(T[1,i])\iff P[1] = T[i]\iff B_{T[i]}[1]$.
-    Si aggiunge $1$ per semplificare le operazioni bit a bit. 
+          \begin{equation}
+              D_i[1] = 1 \text{\textbf{AND}} B_{T[i]}[1]
+          \end{equation}
+          Perché $D_i[1] = 1\iff P[1,1] =suff(T[1,i])\iff P[1] = T[i]\iff B_{T[i]}[1]$.
+          Si aggiunge $1$ per semplificare le operazioni bit a bit.
     \item Se $J =  1$ allora posso calcolarla come:
           \begin{equation}
               D_i[j] = 1 \text{\textbf{AND}} B_{T[i]}[1]
           \end{equation}
           Si aggiunge $1$ per semplificare le operazioni bit a bit.
     \item Se $j > 1$ allora posso calcolarla come:
-    \begin{equation}
-        D_i[j] = D_{i - 1}[j - 1] \text{\textbf{AND}} B_{T[i]}[j]
-    \end{equation}
-    Perché $D_i[j] = 1 \iff P[1,j] = suff(T[1,i]) \iff P[1,j-1] = suff(T[1,i-1])
-     \text{\textbf{AND}} P[j] = T[i] \iff D_{i-1}[j-1] \text{\textbf{AND}} B_{T[i]}[j]$.
+          \begin{equation}
+              D_i[j] = D_{i - 1}[j - 1] \text{\textbf{AND}} B_{T[i]}[j]
+          \end{equation}
+          Perché $D_i[j] = 1 \iff P[1,j] = suff(T[1,i]) \iff P[1,j-1] = suff(T[1,i-1])
+              \text{\textbf{AND}} P[j] = T[i] \iff D_{i-1}[j-1] \text{\textbf{AND}} B_{T[i]}[j]$.
 \end{itemize}
-In questo modo stiamo ancora aggiornando un bit alla volta, ma sfruttando le 
+In questo modo stiamo ancora aggiornando un bit alla volta, ma sfruttando le
 operazioni bit a bit si possono aggiornare tutti in tempo \textbf{costante} nel seguente modo:
 \begin{equation}
     D_i = \text{\textbf{RSHIFT1}}(D_{i - 1}) \ \text{\textbf{AND}} \ B_{T[i]}
@@ -864,16 +858,15 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
     \end{algorithmic}
     \caption{Algoritmo per la scansione del testo}
 \end{algorithm}
-
 \begin{esempio}
-	Siano un testo $T=babcabaadc$ e un pattern $P=abcaba$ tale che $|T| = 10$ e $|P|=6$.
-     Entrambe le stringhe costruite sun un alfabeto $\Sigma=\left\{a,b,c,d\right\}$, 
-	allora costruiamo la tabella $B_\sigma$: 
+    Siano un testo $T=babcabaadc$ e un pattern $P=abcaba$ tale che $|T| = 10$ e $|P|=6$.
+    Entrambe le stringhe costruite sun un alfabeto $\Sigma=\left\{a,b,c,d\right\}$,
+    allora costruiamo la tabella $B_\sigma$:
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|}
-        \hline
-            P & $a$ & $b$ & $c$ & $a$ & $b$ & $a$\\ \hline
+            \hline
+            P     & $a$ & $b$ & $c$ & $a$ & $b$ & $a$ \\ \hline
             $B_a$ & $1$ & $0$ & $0$ & $1$ & $0$ & $1$ \\ \hline
             $B_b$ & $0$ & $1$ & $0$ & $0$ & $1$ & $0$ \\ \hline
             $B_c$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\ \hline
@@ -883,24 +876,22 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
     I singoli passi sono i seguenti:
     \begin{itemize}
         \item Quindi partiremo da $D_0 = 000000$, leggo il primo simbolo del testo $T[1] = b$ e poi calcolo
-        $$D_1=RSHIFT1(D_{0}) \text{ AND } B_b = 100000 \text{ AND } 010010 = 000000$$
+              $$D_1=RSHIFT1(D_{0}) \text{ AND } B_b = 100000 \text{ AND } 010010 = 000000$$
         \item leggo il secondo simbolo del testo $T[2] = a$ e poi calcolo $D_2$
-        $$D_2 = 100000 \text{ AND } 100101 = 100000 $$
+              $$D_2 = 100000 \text{ AND } 100101 = 100000 $$
         \item leggo il secondo simbolo del testo $T[3] = b$ e poi calcolo $D_3$
-        $$D_3 = 110000 \text{ AND } 010010 = 010000 $$
+              $$D_3 = 110000 \text{ AND } 010010 = 010000 $$
         \item leggo il secondo simbolo del testo $T[4] = c$ e poi calcolo $D_4$
-        $$D_4 = 101100 \text{ AND } 001000 = 001000 $$
+              $$D_4 = 101100 \text{ AND } 001000 = 001000 $$
         \item leggo il secondo simbolo del testo $T[5] = a$ e poi calcolo $D_5$
-        $$D_5 = 100100 \text{ AND } 100101 = 100100 $$
+              $$D_5 = 100100 \text{ AND } 100101 = 100100 $$
         \item $\dots$
         \item leggo il secondo simbolo del testo $T[7] = a$ e poi calcolo $D_7$
-        $$D_6 = 101001 \text{ AND } 100101 = 100001 $$
+              $$D_6 = 101001 \text{ AND } 100101 = 100001 $$
         \item Ho il bit LSB di $D_6$ uguale a $1$, quindi ho trovato un match che
-         corrisponde a $i-m+1 =7-6+1= 2$. Poi continuo fino a quando non termino $T$.
+              corrisponde a $i-m+1 =7-6+1= 2$. Poi continuo fino a quando non termino $T$.
     \end{itemize}
 \end{esempio}
-
-
 \section{Algoritmo di Wu e Manber}
 L'algoritmo risolvere problemi di \textbf{stringmatching approssimati} e il funzionamento
 è simile a \textbf{BYG}.
@@ -1005,8 +996,8 @@ se e solo se:
 \end{equation}
 A questo punto posso riassumere queste casistiche in un'unica formula:
 \begin{equation}
-    D_{i}^{h} [j] = (D_{i - 1}^{h} [j - 1] \ \textbf{AND} \ B_{T[i]} [j]) \ 
-    \textbf{OR} \ D_{i - 1}^{h - 1} [j - 1] \ \textbf{OR} \ D_{i - 1}^{h - 1} [j] 
+    D_{i}^{h} [j] = (D_{i - 1}^{h} [j - 1] \ \textbf{AND} \ B_{T[i]} [j]) \
+    \textbf{OR} \ D_{i - 1}^{h - 1} [j - 1] \ \textbf{OR} \ D_{i - 1}^{h - 1} [j]
     \ \textbf{OR} \ D_{i}^{h - 1} [j - 1]
 \end{equation}
 Manca ora da analizzare il caso in cui $j = 1$, in questo caso se sostituiamo
@@ -1014,15 +1005,15 @@ $j = 1$ alla formula appena trovata otteniamo dei valori che non possiamo conosc
 (come ad esempio $D_{i -1}^h[0]$). Quindi, per risolvere questo problema, sostituiamo
 questi valori con $1$, ottenendo:
 \begin{equation}
-    D_{i}^{h} [j] = (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR} \ 1 \ 
+    D_{i}^{h} [j] = (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR} \ 1 \
     \textbf{OR} \ D_{i - 1}^{h - 1} [j] \ \textbf{OR} \ 1
 \end{equation}
 Definiendo la formula in questo modo possiamo sostituire tutte le operazioni che
 controllano il bit in posizione $j - 1$ con l'operazione RSHIFT1, ottenendo:
 \begin{equation}
     D_{i}^{h} [j] = (RSHIFT1(D_{i - 1}^{h} [j]) \ \textbf{AND} \ B_{T[i]} [j]) \
-     \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1} [j])  \ \textbf{OR} \ D_{i - 1}^{h - 1} [j] \
-      \textbf{OR} \ RSHIFT1(D_{i}^{h - 1} [j])
+    \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1} [j])  \ \textbf{OR} \ D_{i - 1}^{h - 1} [j] \
+    \textbf{OR} \ RSHIFT1(D_{i}^{h - 1} [j])
 \end{equation}
 Vediamo ora come è possibile implementare l'algoritmo per la scansione del testo:
 \begin{enumerate}
