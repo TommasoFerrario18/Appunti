@@ -12,3 +12,8 @@ qualcosa, sentitevi liberi di aprire una pull request.
   - Modelli della concorrenza (6 CFU)
 - Machine Learning (6 CFU)
 - Processo e Sviluppo del Software (6 CFU)
+
+## Collaboratori
+
+- [Telemaco Terzi](https://github.com/Tezze2001)
+- [Tommaso Ferrario](https://github.com/TommasoFerrario18)
