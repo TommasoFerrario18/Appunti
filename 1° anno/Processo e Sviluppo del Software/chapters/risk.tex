@@ -156,13 +156,32 @@ Per farlo si esegue la cut-set tree derivation, ovvero, partendo dalla radice, s
 riporta in ogni nodo la combinazione di eventi che possono produrre il fallimento
 e si vanno a calcolare le varie combinazioni degli eventi foglia. Praticamente si
 deriva un insieme di eventi non scomponibili sulle combinazioni dell'and.
+\begin{esempio}[Cut-set tree]
+    Vediamo ora un esempio di cut-set tree figura \ref{fig:cut-set-tree}.
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/risk/cut-set_tree.png}
+        \caption{Cut-set tree}
+        \label{fig:cut-set-tree}
+    \end{figure}
+\end{esempio}
 \subsection{Risk prioritization}
 Bisogna capire quali rischi sono più importanti di altri. Per farlo si pongono i
 valori di $P(UO)$ e $L(UO)$ in un range, per esempio, da 1 a 10, ricalcolando il
 risk exposure. Una volta fatto si lavora in base al risk-exposure.
-
+\begin{esempio}[Risk-exposure analysis]
+    Vediamo ora un esempio del piano cartesiano di analisi della risk-exposure in
+    figura \ref{fig:risk-exposure-analysis}. In questo modo è possibile identificare
+    delle regioni del grafico con valori particolari di risk-exposure.
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.6\textwidth]{img/risk/risk-prioritization.png}
+        \caption{Risk-exposure analysis}
+        \label{fig:risk-exposure-analysis}
+    \end{figure}
+\end{esempio}
 Si procede disegnando i dati su un piano con $P(UO)$ sull'asse delle y e $L(UO)$
-su quello delle x e posizionad gli eventi su tale piano. Qualora i valori siano
+su quello delle x e posizionado gli eventi su tale piano. Qualora i valori siano
 in un range si rappresentano con un segmento tra i due valori limite di risk exposure.
 Una volta rappresentati gli eventi, posso utilizzare delle curve per identificare
 zone di rischio diverse in base al risk exposure in modo da classificare i vari eventi.
@@ -181,13 +200,13 @@ Anche in questo caso ci vengono incontro liste e check-list con le tecniche di r
 management più comuni in base al rischio specifico. Ci sono comunque strategie generali:
 \begin{itemize}
     \item Lavorare sulla probabilità che il rischio avvenga, sulla probabilità dei
-          triggers. Bisogna capire come diminuire la probabilità.
-    \item Lavorare sull'eliminazione stessa del rischio.
+          triggers. Bisogna capire come diminuire la probabilità. ($P(UO)\rightarrow 0$)
+    \item Lavorare sull'eliminazione stessa del rischio. ($P(UO)= 0$)
     \item Lavorare sulla riduzione della probabilità di avere conseguenze al danno,
-          non viene quindi ridotto il rischio.
-    \item Lavorare sull'eliminazione stessa del danno conseguente al rischio.
+          non viene quindi ridotto il rischio. ($L(UO)\rightarrow 0$)
+    \item Lavorare sull'eliminazione stessa del danno conseguente al rischio. ($L(UO)= 0$)
     \item Lavorare sul mitigare le conseguenze di un rischio, diminuendo l'entità
-          del danno.
+          del danno. ($L(UO)\rightarrow 0$)
 \end{itemize}
 
 Bisogna anche studiare le \textbf{contromisure}, da scegliere e attivare in base
@@ -255,5 +274,5 @@ quantitativamente sulle contromisure:
 
 Il \textbf{contingency plan} viene attuato qualora il rischio si traduca in realtà.
 Si passa quindi al risk monitoring/resolution. Queste due parti sono tra loro
-integrate. I rischi vanno monitorati e occorrenza vanno risolti il prima possibile.
+integrate. I rischi vanno monitorati e all'occorrenza vanno risolti il prima possibile.
 Tutte queste attività sono costose e si lavora su un insieme limitato di rischi.
