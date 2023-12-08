@@ -5,61 +5,58 @@ deployment devono essere agili quanto lo
 sviluppo.
 
 Nel DevOps (\ref{fig:devops}) i team di sviluppo e operation sono indipendenti
-tra loro, diminuendo il costo di impegno necessario al team di sviluppo per la parte
-di deployment, la quale viene resa anche più sicura grazie alla diminuzione
+tra loro, diminuendo il costo di impegno necessario al team di sviluppo per la
+parte di deployment, la quale viene resa anche più sicura grazie alla diminuzione
 dell'intervento umano in favore di automazioni. Inoltre, avendo i due team dei
 tempi di lavoro diversi, si riesce a prevenire ritardi causati dalla non
 organicità delle operazioni.
-
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[scale=0.5]{img/devops/devops.png}
-    \caption{Rappresentazione del lifecycle di DevOps}
-    \label{fig:devops}
+      \centering
+      \includegraphics[scale=0.5]{img/devops/devops.png}
+      \caption{Rappresentazione del lifecycle di DevOps}
+      \label{fig:devops}
 \end{figure}
-
-DevOps promuove la collaborazione tra di due team al fine di ottenere una sorta
+DevOps promuove la collaborazione tra i due team al fine di ottenere una sorta
 di team unico che curi sia sviluppo che operation. DevOps include quindi diversi
 processi che vengono automatizzati:
 \begin{itemize}
-    \item Continuous Development
-    \item Continuous Integration
-    \item Continuous Testing
-    \item Continuous Deployment
-    \item Continuous Monitoring
+      \item Continuous Development
+      \item Continuous Integration
+      \item Continuous Testing
+      \item Continuous Deployment
+      \item Continuous Monitoring
 \end{itemize}
-
 Con DevOps il feedback arriva in primis dal software inoltre il focus viene
 spostato sui processi automatici. Nel DevOps si introducono nuovi ruoli:
 \begin{itemize}
-    \item Il \textbf{DevOps Evangelist}, simile allo scrum master, supervisiona
-          l'intero processo di DevOps.
-    \item L'\textbf{automation expert}, dedicato a curare gli aspetti di automatismo.
-    \item Un \textbf{Security Engineer}
-    \item Un \textbf{Software Developer}, nonché Tester
-    \item Un \textbf{Quality Assurance} che verifica la qualità del prodotto
-          rispetto ai requisiti.
-    \item Un\textbf{ Code Release Manager} che si occupa sull'infrastruttura e
-          sul deploy della release
+      \item Il \textbf{DevOps Evangelist}, simile allo scrum master, supervisiona
+            l'intero processo di DevOps.
+      \item L'\textbf{automation expert}, dedicato a curare gli aspetti di
+            automatismo.
+      \item Un \textbf{Security Engineer}
+      \item Un \textbf{Software Developer}, nonché Tester
+      \item Un \textbf{Quality Assurance} che verifica la qualità del prodotto
+            rispetto ai requisiti.
+      \item Un\textbf{ Code Release Manager} che si occupa sull'infrastruttura e
+            sul deploy della release
 \end{itemize}
-
 DevOps si basa su sei principi base:
 \begin{enumerate}
-    \item \textbf{Customer-Centric Action}, ovvero il committente è al centro
-          dell'azione
-    \item \textbf{End-To-End Responsibility}, ovvero il team gestisce interamente
-          il prodotto, avendone responsabilità totale
-    \item \textbf{Continuous Improvement}, ovvero cercare continuamente di
-          migliorare senza sprechi il prodotto finale e i servizi.
-    \item \textbf{Automate everything}, ovvero cercare di automatizzare l'intera
-          nfrastruttura di processo, dalle attività di testing e integrazione fino ad
-          arrivare alla costruzione della release e del deployment.
-    \item \textbf{Work as one team}, ovvero unificare tutti gli aspetti sotto un
-          unico team o comunque con due team che collaborano fortemente come se fossero uno.
-    \item \textbf{Monitor and test everything}, ovvero testare e monitorare
-          costantemente il prodotto
+      \item \textbf{Customer-Centric Action}, ovvero il committente è al centro
+            dell'azione
+      \item \textbf{End-To-End Responsibility}, ovvero il team gestisce interamente
+            il prodotto, avendone responsabilità totale
+      \item \textbf{Continuous Improvement}, ovvero cercare continuamente di
+            migliorare senza sprechi il prodotto finale e i servizi.
+      \item \textbf{Automate everything}, ovvero cercare di automatizzare l'intera
+            infrastruttura di processo, dalle attività di testing e integrazione
+            fino ad arrivare alla costruzione della release e del deployment.
+      \item \textbf{Work as one team}, ovvero unificare tutti gli aspetti sotto un
+            unico team o comunque con due team che collaborano fortemente come se
+            fossero uno.
+      \item \textbf{Monitor and test everything}, ovvero testare e monitorare
+            costantemente il prodotto
 \end{enumerate}
-
 Il quarto e il sesto punto sono i due punti tecnici principali.
 \section{Build, Test e Release}
 Bisogna pensare a questi step in ottica di automatismo vicina al DevOps.
@@ -68,14 +65,12 @@ version control distribuito, dove ogni utente ha una copia della repository
 (con la storia dei cambiamenti), con la quale interagisce tramite commit e update.
 Esiste poi una repository lato server per permettere di condividere i vari
 cambiamenti tramite sincronizzazione.
-
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[scale=0.5]{img/devops/git.png}
-    \caption{Struttura ideale di un repository git}
-    \label{fig:git}
+      \centering
+      \includegraphics[scale=0.5]{img/devops/git.png}
+      \caption{Struttura ideale di un repository git}
+      \label{fig:git}
 \end{figure}
-
 Lo sviluppo su multi-branch si collega alle operazioni di verifica che possono
 essere attivate automaticamente a seconda dell'evoluzione del codice su ogni branch.
 Avendo ogni branch una precisa semantica possiamo definire precise attività di
@@ -85,38 +80,35 @@ Le pipeline vengono attivate in fase di test di un componente, in fase di creazi
 di un sottosistema, di assembramento di un sistema intero o di deployment in
 produzione. Si hanno quindi quattro fasi:
 \begin{enumerate}
-    \item \textbf{component phase}
-    \item \textbf{subsystem phase}
-    \item \textbf{system phase}
-    \item \textbf{production phase}
+      \item \textbf{component phase}
+      \item \textbf{subsystem phase}
+      \item \textbf{system phase}
+      \item \textbf{production phase}
 \end{enumerate}
-
 Spesso le pipelines sono usate come \textbf{quality gates} per valutare se un push
 può essere accettato in un certo branch. Una pipeline può essere anche regolata
 temporalmente, in modo che avvenga solo ad un certo momento della giornata.
 \subsection{Component phase e Subsystem phase}
-Dove il fuoco è sulla più piccola unità testabile che viene aggiornata che non
+Dove il focus è sulla più piccola unità testabile che viene aggiornata che non
 può essere eseguita senza l'intero sistema. In tal caso si può fare:
 \begin{itemize}
-    \item Code review
-    \item Unit testing
-    \item Static code analysis
+      \item Code review
+      \item Unit testing
+      \item Static code analysis
 \end{itemize}
-
 Un cambiamento può anche essere testato nell'ambito del sottosistema di cui fa
 parte, in tal caso si hanno anche check di prestazioni e sicurezza. Il servizio
-però potrebbe essere da testare in isolamento rispetto ad altri servizi, usando quindi
-dei mocks o degli stubs, ovvero creando degli alter ego dei servizi mancanti in
-modo che il servizio da testare possa funzionare.
+però potrebbe essere da testare in isolamento rispetto ad altri servizi, usando
+quindi dei mocks o degli stubs, ovvero creando degli alter ego dei servizi mancanti
+in modo che il servizio da testare possa funzionare.
 \subsection{System phase}
 In questo caso si testa l'intero sistema che viene “deployato” in ambiente di test.
 Si hanno:
 \begin{itemize}
-    \item Integration tests
-    \item Performance tests
-    \item Security tests
+      \item Integration tests
+      \item Performance tests
+      \item Security tests
 \end{itemize}
-
 Tutti test che richiedono l'interezza del sistema e sono spesso molto dispendiosi e
 quindi bisogna regolare la frequenza di tali test in molti casi.
 \subsection{Production phase}
@@ -138,37 +130,38 @@ in primis sull'evoluzione incrementale.
 
 Tali tecniche si distinguono in base alla dimensione su cui sono incrementati:
 \begin{itemize}
-    \item \textbf{Incremental with reference to users}: Dark launching, Canary
-          releases (and User Experimentation), ovvero legata agli utenti esposti alla nuova release.
-    \item \textbf{Incremental with reference to requests}: Gradual upgrades/rollout,
-          ovvero legata alle richieste per la nuova release.
-    \item \textbf{Incremental with reference to components/replicas}: Rolling upgrade,
-          incentrata sulle componenti che vengono aggiornate.
-    \item \textbf{Non-incremental with backups}: Green/blue deployment,
-          Rainbow deployment, non incrementali ma che offrono comunque un backup di sicurezza.
+      \item \textbf{Incremental with reference to users}: Dark launching, Canary
+            releases (and User Experimentation), ovvero legata agli utenti esposti
+            alla nuova release.
+      \item \textbf{Incremental with reference to requests}: Gradual upgrades/rollout,
+            ovvero legata alle richieste per la nuova release.
+      \item \textbf{Incremental with reference to components/replicas}: Rolling
+            upgrade, incentrata sulle componenti che vengono aggiornate.
+      \item \textbf{Non-incremental with backups}: Green/blue deployment,
+            Rainbow deployment, non incrementali ma che offrono comunque un backup
+            di sicurezza.
 \end{itemize}
-
 Tali schemi possono essere usati in un contesto DevOps. Per studiare la prima
 tipologia (Incremental with reference to users) abbiamo:
 \begin{itemize}
-    \item \textbf{Dark launching}: In tale schema l'update è esposto solo ad una
-          parte della popolazione, per la quale viene effettuato il deployment per
-          studiare gli effetti ed eventuali modifiche e migliorie al software, che infine
-          verrà deployato per il resto della popolazione in modo comunque incrementale
-          fino a che l'intera popolazione godrà della feature.
-    \item \textbf{Canary releases}, che studia l'impatto di update relativi al
-          backend
+      \item \textbf{Dark launching}: In tale schema l'update è esposto solo ad una
+            parte della popolazione, per la quale viene effettuato il deployment
+            per studiare gli effetti ed eventuali modifiche e migliorie al software,
+            che infine verrà deployato per il resto della popolazione in modo
+            comunque incrementale fino a che l'intera popolazione godrà della feature.
+      \item \textbf{Canary releases}, che studia l'impatto di update relativi al
+            backend
 \end{itemize}
 
 Tali schemi spesso sono usati di pari passo per le varie sezioni del software,
 nonché possono essere usati in modo intercambiabile.
 
 Collegato a questi schemi si ha l'approccio basato sull'\textbf{user experimentation},
-che non è un reale schema di gestione dell'evoluzione del software ma è comunque correlato
-agli schemi sopra descritti. In questo approccio si studiano diverse varianti del
-sistema e il loro impatto esponendole agli utenti, cercando di capire per l'utente
-cosa sia meglio e come. Si hanno quindi più release diverse, per parti di
-popolazione comparabili, tra le quali si sceglierà la migliore.
+che non è un reale schema di gestione dell'evoluzione del software ma è comunque
+correlato agli schemi sopra descritti. In questo approccio si studiano diverse
+varianti del sistema e il loro impatto esponendole agli utenti, cercando di capire
+per l'utente cosa sia meglio e come. Si hanno quindi più release diverse, per
+parti di popolazione comparabili, tra le quali si sceglierà la migliore.
 
 Per la seconda tipologia (Incremental with reference to requests) si ha una
 divisione a seconda delle richieste fatte dagli utenti, detto \textbf{gradual rollout}.
@@ -182,7 +175,7 @@ Per la terza tipologia (Incremental with reference to components/replicas),
 si ha lo schema del \textbf{rolling upgrade}, dove l'upgrade non riguarda un
 singolo upgrade ma tanti componenti di un sistema distribuito, verificando efficacia
 di ogni singolo update tramite il continuous monitoring prima di effettuare l'upgrade
-di un'altra componente. La stessa idea su applica anche a diverse versioni dello
+di un'altra componente. La stessa idea si applica anche a diverse versioni dello
 stesso prodotto, aggiornandone una prima e poi le altre progressivamente.
 
 Per la quarta tipologia (Non-incremental with backups) si ha il
@@ -203,47 +196,47 @@ Il caso più tipico in merito alle unità dove fare deployment è il mondo del c
 con unità virtualizzate e virtual machine (VM), dove magari ogni servizio vive in
 una diversa VM. Si hanno diversi casi in merito a questo tipo di deployment:
 \begin{itemize}
-    \item \textbf{Cloud basato su VMs}, dove si ha un'infrastruttura gestita dal
-          cloud provider che gestisce l'hardware e l'hypervisor. Ogni VM, che sono le
-          nostre unità di deployment, ha un sistema operativo arbitrario che lavora con
-          l'hardware mostrato dall'hypervisor. Ogni VM avrà una o più applicazioni e
-          fare deployment porterà all'update di una o più VM. In alcuni casi si fa
-          deployment di intere VM e in altri si modifica il software di una VM già
-          in esecuzione. L'ambiente cloud solitamente è multi-tenant, ovvero su una
-          piattaforma unica di un provider si hanno più VM di diverse organizzazioni.
-          Una VM è grossa in quanto contiene un sistema operativo intero e la loro
-          gestione può quindi essere difficoltosa.
-    \item \textbf{Cloud basato su containers} che risolvono il problema della
-          grandezza delle VM. In questo caso lo schema è il medesimo ma si ha un container
-          engine al posto dell'hypervisor e ogni container non contiene l'intero sistema
-          operativo ma solo il minimo necessario al funzionamento dell'applicazione. In
-          questo caso lo schema di update spesso consiste nel distruggere e ricreare
-          i singoli containers. Anche qui si ha un contesto multi-tenant.
-    \item \textbf{Bare metal}, dove i provider offrono direttamente risorse
-          hardware, guadagnando prestazioni ma aumentano anche i costi economici ,
-          che vengono comunque gestite dal cloud provider. Non si ha virtualizzazione
-          ma accesso diretto alle risorse su cui fare deployment. Questa è una soluzione
-          tipicamente single-tenant.
-    \item \textbf{Server dedicati}, un metodo ormai superato con difficoltà causate
-          dall'uso di script, shell e connessione ftp completamente autogestiti
-          dall'organizzazione e non da un provider.
+      \item \textbf{Cloud basato su VMs}, dove si ha un'infrastruttura gestita dal
+            cloud provider che gestisce l'hardware e l'hypervisor. Ogni VM, che
+            sono le nostre unità di deployment, ha un sistema operativo arbitrario
+            che lavora con l'hardware mostrato dall'hypervisor. Ogni VM avrà una
+            o più applicazioni e fare deployment porterà all'update di una o più
+            VM. In alcuni casi si fa deployment di intere VM e in altri si modifica
+            il software di una VM già in esecuzione. L'ambiente cloud solitamente
+            è multi-tenant, ovvero su una piattaforma unica di un provider si
+            hanno più VM di diverse organizzazioni.
+            Una VM è grossa in quanto contiene un sistema operativo intero e la loro
+            gestione può quindi essere difficoltosa.
+      \item \textbf{Cloud basato su containers} che risolvono il problema della
+            grandezza delle VM. In questo caso lo schema è il medesimo ma si ha
+            un container engine al posto dell'hypervisor e ogni container non
+            contiene l'intero sistema operativo ma solo il minimo necessario al
+            funzionamento dell'applicazione. In questo caso lo schema di update
+            spesso consiste nel distruggere e ricreare i singoli containers.
+            Anche qui si ha un contesto multi-tenant.
+      \item \textbf{Bare metal}, dove i provider offrono direttamente risorse
+            hardware, guadagnando prestazioni ma aumentano anche i costi economici,
+            che vengono comunque gestite dal cloud provider. Non si ha virtualizzazione
+            ma accesso diretto alle risorse su cui fare deployment. Questa è una
+            soluzione tipicamente single-tenant.
+      \item \textbf{Server dedicati}, un metodo ormai superato con difficoltà causate
+            dall'uso di script, shell e connessione ftp completamente autogestiti
+            dall'organizzazione e non da un provider.
 \end{itemize}
-
 Il deployment “stile cloud” non è comunque l'unico possibile.
 \subsection{Monitor}
 In ambiente cloud ci sono tante soluzioni per il monitoring, ad esempio lo stack
 di ELK, formato da:
 \begin{itemize}
-    \item Elasticsearch
-    \item Logstash
-    \item Kibana
+      \item Elasticsearch
+      \item Logstash
+      \item Kibana
 \end{itemize}
-
 I dati, ad esempio log o metriche d'uso hardware, vengono raccolti e passano da
-Logstash, finendo in un database, per la memorizzazione di time series (serie temporali)
-di dati (questo in primis per le metriche d'uso che per i log), gestito da Elasticsearch
-e venendo visualizzati da una dashboard grafica, gestita da Kibana. Si ha quindi
-un ambiente di continuous monitoring.
+Logstash, finendo in un database, per la memorizzazione di time series (serie
+temporali) di dati (questo in primis per le metriche d'uso che per i log), gestito
+da Elasticsearch e venendo visualizzati da una dashboard grafica, gestita da
+Kibana. Si ha quindi un ambiente di continuous monitoring.
 \subsection{DevOps tools}
-Ogni step del DevOps è gestito tramite moderne tecnologie e tools , con varie
+Ogni step del DevOps è gestito tramite moderne tecnologie e tools, con varie
 alternative per ogni fase (per questo servono figure esperte per ogni step).

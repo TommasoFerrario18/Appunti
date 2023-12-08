@@ -1,14 +1,14 @@
 \chapter{Risk management}
 \section{Definizione del rischio}
-\begin{definizione}
+\begin{definizione}[\textbf{Risk management}]
     Il \textbf{risk management} è la disciplina che si occupa di identificare,
     gestire e potenzialmente eliminare i rischi prima che questi diventino un
     problema per il successo del progetto.
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Rischio}]
     Definiamo \textbf{rischio} come la possibilità che ci sia un danno.
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Risck exposure}]
     Definiamo \textbf{risk exposure}, che è una grandezza, per calcolare quanto
     un progetto sia esposto ad un rischio. Viene calcolato come:
     \begin{equation}
@@ -16,16 +16,15 @@
     \end{equation}
     dove:
     \begin{itemize}
-        \item $P(UO)$: è la probabilità di un unsatisfactory outcome, ovvero la
-              probabilità che effettivamente un danno sia prodotto.
+        \item $P(UO)$: è la probabilità di un unsatisfactory outcome (UO), ovvero
+              la probabilità che effettivamente un danno sia prodotto.
         \item $L(UO)$: è l'entità del danno stesso, ovvero è la perdita per le
               parti interessate se il risultato non è soddisfacente.
     \end{itemize}
-
     Tanto più un rischio è probabile e tanto più il rischio crea un danno, di
     conseguenza cresce il risk exposure.
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Outcome unsatisfactory}]
     Definiamo \textbf{outcome unsatisfactory} come un risultato non positivo che
     riguarda diverse aree:
     \begin{itemize}
@@ -38,9 +37,9 @@
               qualità bassa di software e hardware.
     \end{itemize}
 \end{definizione}
-
 Se abbiamo un rischio che produce un outcome unsatisfactory il primo elemento su
-cui soffermarsi è lo studio degli eventi che abilitano il rischio, detti \textbf{risk triggers}.
+cui soffermarsi è lo studio degli eventi che abilitano il rischio, detti
+\textbf{risk triggers}.
 
 Possiamo distinguere due principali classi di rischio:
 \begin{enumerate}
@@ -68,7 +67,6 @@ strutturato in due fasi:
                     priorità nei rischi analizzati, in modo da concentrarsi sui più
                     pericolosi per poi passare a quelli meno pericolosi.
           \end{itemize}
-
           Alla fine di questa fase, si produce una lista ordinata sulla pericolosità
           dei rischi.
     \item \textbf{Risk Control} e consiste nel risk management planning, producendo
@@ -80,15 +78,14 @@ strutturato in due fasi:
                     realtà qualora il piano di management fallisca, sapendo cosa fare a priori
                     in caso di emergenza.
           \end{enumerate}
-
           Si hanno quindi due sotto-fasi per i due tipi di piani:
           \begin{enumerate}
               \item \textbf{Risk monitoring}.
               \item \textbf{Risk resolution}.
           \end{enumerate}
 \end{enumerate}
-
-Queste due fasi vengono ciclicamente ripetute durante il ciclo di vita dello sviluppo di un software.
+Queste due fasi vengono ciclicamente ripetute durante il ciclo di vita dello
+sviluppo di un software.
 \subsection{Risk identification}
 In questa fase, si studia come identificare i rischi. Tale operazione è legata
 alle competenze degli analisti. Un modo comune di realizzare questa operazione è
@@ -97,7 +94,8 @@ comuni a molti progetti. L'analista scorre tale lista cercando rischi che posson
 essere applicati al progetto in analisi.
 
 Alcuni rischi possono verificarsi sempre ma va preso in considerazione solo per
-motivi specifici identificabili nel mio progetto. Si hanno altri metodi per identificare i rischi:
+motivi specifici identificabili nel mio progetto. Si hanno altri metodi per
+identificare i rischi:
 \begin{itemize}
     \item Riunioni di confronto, brainstorming e workshop.
     \item Confronto con altre organizzazioni e con altri prodotti.
@@ -132,7 +130,6 @@ modo da capire come si dovrebbe comportare.
         \label{fig:tree}
     \end{figure}
 \end{esempio}
-
 Ragionando sulle cause dei rischi usiamo il cosiddetto risk tree. Questo albero
 ha come radice il rischio. Ogni nodo, detto failure node, è un evento che si può
 scomporre in altri eventi, fino alle foglie. La scomposizione è guidata da due
@@ -150,7 +147,7 @@ tipi di nodi link:
         \label{fig:risk-tree}
     \end{figure}
 \end{esempio}
-Nodi And/Or vengono rappresentati tramite i simboli delle porte logiche. Dato un
+Nodi $and/or$ vengono rappresentati tramite i simboli delle porte logiche. Dato un
 risk tree cerco le combinazioni di eventi atomici che possono portare al rischio.
 Per farlo si esegue la cut-set tree derivation, ovvero, partendo dalla radice, si
 riporta in ogni nodo la combinazione di eventi che possono produrre il fallimento
@@ -162,7 +159,7 @@ valori di $P(UO)$ e $L(UO)$ in un range, per esempio, da 1 a 10, ricalcolando il
 risk exposure. Una volta fatto si lavora in base al risk-exposure.
 
 Si procede disegnando i dati su un piano con $P(UO)$ sull'asse delle y e $L(UO)$
-su quello delle x e posizionad gli eventi su tale piano. Qualora i valori siano
+su quello delle x e posizionando gli eventi su tale piano. Qualora i valori siano
 in un range si rappresentano con un segmento tra i due valori limite di risk exposure.
 Una volta rappresentati gli eventi, posso utilizzare delle curve per identificare
 zone di rischio diverse in base al risk exposure in modo da classificare i vari eventi.
@@ -176,7 +173,6 @@ documentare un piano specifico indicante:
     \item Come approcciarsi al rischio.
     \item Il costo dell'approccio al rischio.
 \end{itemize}
-
 Anche in questo caso ci vengono incontro liste e check-list con le tecniche di risk
 management più comuni in base al rischio specifico. Ci sono comunque strategie generali:
 \begin{itemize}
@@ -189,7 +185,6 @@ management più comuni in base al rischio specifico. Ci sono comunque strategie 
     \item Lavorare sul mitigare le conseguenze di un rischio, diminuendo l'entità
           del danno.
 \end{itemize}
-
 Bisogna anche studiare le \textbf{contromisure}, da scegliere e attivare in base
 alla situazione. Si hanno due metodi quantitativi principali per ragionare
 quantitativamente sulle contromisure:
@@ -207,52 +202,61 @@ quantitativamente sulle contromisure:
           con il RRL maggiore, avendo minor costo e maggior efficacia dal punto di vista
           del risk exposure.
     \item \textbf{Defect detection prevention}: questo metodo confronta le varie
-          contromisure, confrontando anche gli obiettivi del progetto, in modo quantitativo
-          facendo un confronto indiretto, producendo matrici in cui si ragiona in modo
-          indipendente sulle singole contromisure e sui singoli rischi ma confrontando
-          anche in modo multiplo.
+          contromisure, confrontando anche gli obiettivi del progetto, in modo
+          quantitativo facendo un confronto indiretto, producendo matrici in cui
+          si ragiona in modo indipendente sulle singole contromisure e sui singoli
+          rischi ma confrontando anche in modo multiplo.
 
           Si ha un ciclo a tre step:
           \begin{enumerate}
               \item \textbf{Elaborare la matrice di impatto dei rischi} (\textit{risk
-                        impact matrix}): questa matrice calcola l'impatto dei rischi sugli obiettivi
-                    del progetto. I valori della matrice variano da 0, nessun impatto, a 1,
-                    completa perdita di soddisfazione. Ogni rischio viene accompagnato dalla
-                    probabilità $P$ che accada. Ogni obiettivo è accompagnato dal peso $W$
-                    che ha nel progetto.
+                        impact matrix}): questa matrice calcola l'impatto dei
+                    rischi sugli obiettivi del progetto. I valori della matrice
+                    variano da 0, nessun impatto, a 1, completa perdita di
+                    soddisfazione. Ogni rischio viene accompagnato dalla
+                    probabilità $P$ che accada. Ogni obiettivo è accompagnato
+                    dal peso $W$ che ha nel progetto.
 
-                    La \textbf{criticità} di un rischio rispetto a tutti gli obiettivi indicati:
+                    La \textbf{criticità} di un rischio rispetto a tutti gli
+                    obiettivi indicati:
                     \begin{equation}
-                        \text{criticality}(r) = P(r) \cdot \sum_{obj} (\text{impact}(r, obj) \cdot W(obj))
+                        \text{criticality}(r) = P(r) \cdot \sum_{obj}
+                        (\text{impact}(r, obj) \cdot W(obj))
                     \end{equation}
-                    La criticità sale se sale l'impatto e se sale la probabilità del rischio.
-                    Un altro dato è la \textbf{perdita} di raggiungimento di un obiettivo
-                    qualora tutti i rischi si verificassero:
+                    La criticità sale se sale l'impatto e se sale la probabilità
+                    del rischio. Un altro dato è la \textbf{perdita} di raggiungimento
+                    di un obiettivo qualora tutti i rischi si verificassero:
                     \begin{equation}
                         loss(obj) = W(obj) \cdot \sum_{obj} (impact(r, obj) \cdot P(r))
                     \end{equation}
               \item \textbf{Elaborare contromisure efficaci per la matrice}: si usa il
-                    fattore di criticità del rischio. Viene prodotta una nuova matrice con
-                    colonne pari ai rischi e righe pari alle contromisure. I valori saranno
-                    le riduzioni di rischio di una contromisura $cm$ sul rischio $r$. La
-                    riduzione va da 0, nessuna riduzione, a 1, rischio eliminato.
+                    fattore di criticità del rischio. Viene prodotta una nuova
+                    matrice con colonne pari ai rischi e righe pari alle contromisure.
+                    I valori saranno le riduzioni di rischio di una contromisura
+                    $cm$ sul rischio $r$. La riduzione va da 0, nessuna riduzione,
+                    a 1, rischio eliminato.
 
-                    Possiamo calcolare la \textbf{combineReduction}, che ci dice quanto un
-                    rischio viene ridotto se tutte le contromisure sono attivate:
+                    Possiamo calcolare la \textbf{combineReduction}, che ci dice
+                    quanto un rischio viene ridotto se tutte le contromisure sono
+                    attivate:
                     \begin{equation}
-                        \text{combineReduction}(r) = 1 - \prod_{cm}(1 - \text{reduction}(cm, r))
+                        \text{combineReduction}(r) = 1 - \prod_{cm}(1 -
+                        \text{reduction}(cm, r))
                     \end{equation}
-                    Un altro valore è l'\textbf{overallEffect}, ovvero l'effetto di ogni
-                    contromisura sull'insieme dei rischi considerato:
+                    Un altro valore è l'\textbf{overallEffect}, ovvero l'effetto
+                    di ogni contromisura sull'insieme dei rischi considerato:
                     \begin{equation}
-                        \text{overalleffect}(cm) = \sum_{r} (\text{reduction}(cm; r) \cdot \text{criticality}(r))
-                    \end{equation} si avrà effetto maggior riducendo rischi molto critici.
-              \item \textbf{Determinare il bilanciamento migliore tra riduzione dei rischi e costo delle contromisure}.
-                    Bisogna considerare anche il costo di ogni contromisure e quindi si fa il
-                    rapporto tra effetto di ciascuna contromisura e il suo costo e scegliendo il migliore.
+                        \text{overalleffect}(cm) = \sum_{r} (\text{reduction}(cm; r)
+                        \cdot \text{criticality}(r))
+                    \end{equation}
+                    si avrà effetto maggior riducendo rischi molto critici.
+              \item \textbf{Determinare il bilanciamento migliore tra riduzione
+                        dei rischi e costo delle contromisure}.
+                    Bisogna considerare anche il costo di ogni contromisure e
+                    quindi si fa il rapporto tra effetto di ciascuna contromisura
+                    e il suo costo e scegliendo il migliore.
           \end{enumerate}
 \end{enumerate}
-
 Il \textbf{contingency plan} viene attuato qualora il rischio si traduca in realtà.
 Si passa quindi al risk monitoring/resolution. Queste due parti sono tra loro
 integrate. I rischi vanno monitorati e occorrenza vanno risolti il prima possibile.
