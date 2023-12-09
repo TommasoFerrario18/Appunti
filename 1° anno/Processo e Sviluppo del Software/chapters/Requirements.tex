@@ -186,6 +186,27 @@ ricercare eventuali requisiti non funzionali.
 \end{figure}
 Per alcuni tipi di progetti requisiti funzionali e non funzionali sono difficilmente
 distinguibili, spesso mischiandosi.
+
+Le intererazioni tra l'ambiente e sistema si possono effettuare secondo lo 
+schema \ref{fig:int-sistema-ambiente}.
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/requirements/interazione-sistema-ambiente.png}
+      \caption{Schema delle interazioni tra sistema e ambiente}
+      \label{fig:int-sistema-ambiente}
+\end{figure}
+Lo scambio di informazioni avviene mediante gli I/O device e 4 tipologie di variabili:
+\begin{itemize}
+	\item \textbf{input data} ($I$): variabili tra input device e sw-to-be
+	\item \textbf{output results} ($O$): variabili tra sw-to-be e output device 
+	\item \textbf{controlled variables} ($C$): variabili tra output device e ambiente
+	\item \textbf{monitored variables} ($M$): variabili tra ambiente e input device
+\end{itemize}
+I requisiti introdotti precedentemente sono in relazione con queste variabili. 
+$$\text{system requirements} \subseteq M\times C$$
+$$\text{software requirements} \subseteq I\times O$$
+$$\text{assunzioni} \subseteq M\times C\cup M\times I\cup C\times O$$
+$$\text{Domain property}\subseteq M\times C$$
 \section{Qualità dei requisiti}
 Si hanno diversi aspetti di cui preoccuparsi nell'analisi dei requisiti. Si hanno
 tante qualità indispensabili:
@@ -439,246 +460,270 @@ Dove nel dettaglio:
 \subsubsection{Elicitation techniques}
 Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
 \begin{itemize}
-    \item \textbf{Artefact-driven}: uso di artefatti per poter scoprire requisiti.
-          \begin{enumerate}
-              \item \textbf{Background study}, ovvero collezionare leggere e sintetizzare
-                    documenti su:
-                    \begin{itemize}
-                        \item le organizzazioni stesse, ovvero grafici, business plan, report
-                              finanziari, tempi delle riunioni $\dots$
-                        \item il dominio applicativo, ovvero libri, paper, report su sistemi
-                              simili $\dots$
-                        \item il system-as-is, ovvero workflow documentati, procedure, regole
-                              di business, report di errori, richieste di cambiamenti $\dots$
-                    \end{itemize}
-                    Queste collezioni di dati ci permettono di informarci in modo autonomo
-                    sul mondo in cui si andrà a lavorare, senza coinvolgere lo stakeholders,
-                    in quanto costoso, dispendioso e limitato in termini di tempo. Gli
-                    stakeholders vanno interpellati non per informazioni reperibili autonomamente
-                    ma per estrarre conoscenza non pubblica e non documentata. Ci si presenta
-                    allo stakeholder già con una base di conoscenza e conoscendo già la
-                    terminologia corretta del dominio.
+      \item \textbf{Artefact-driven}: uso di artefatti per poter scoprire requisiti.
+            \begin{enumerate}
+                  \item \textbf{Background study}, ovvero collezionare leggere e sintetizzare
+                        documenti su:
+                        \begin{itemize}
+                              \item le organizzazioni stesse, ovvero grafici, business plan, report
+                                    finanziari, tempi delle riunioni $\dots$
+                              \item il dominio applicativo, ovvero libri, paper, report su sistemi
+                                    simili $\dots$
+                              \item il system-as-is, ovvero workflow documentati, procedure, regole
+                                    di business, report di errori, richieste di cambiamenti $\dots$
+                        \end{itemize}
+                        Queste collezioni di dati ci permettono di informarci in modo autonomo
+                        sul mondo in cui si andrà a lavorare, senza coinvolgere lo stakeholders,
+                        in quanto costoso, dispendioso e limitato in termini di tempo. Gli
+                        stakeholders vanno interpellati non per informazioni reperibili autonomamente
+                        ma per estrarre conoscenza non pubblica e non documentata. Ci si presenta
+                        allo stakeholder già con una base di conoscenza e conoscendo già la
+                        terminologia corretta del dominio.
 
-                    Si ha quindi l'attività di data collection dove si estraggono informazioni
-                    utili per studiare il target. Si possono fare attività di survey. Si
-                    collezionano dati anche già documentati.
+                        Si ha quindi l'attività di data collection dove si estraggono informazioni
+                        utili per studiare il target. Si possono fare attività di survey. Si
+                        collezionano dati anche già documentati.
 
-                    L'attività di background study ha ovviamente dei limiti di scalabilità,
-                    non potendo leggere troppe cose, sia per tempo che per costo. Si ha quindi
-                    la meta-knowledge per selezionare le parti dei documenti più rilevanti.
-                    Queste attività sono essenziali all'avvio di un progetto.
-              \item \textbf{Questionari}, ovvero una lista di questioni da presentare
-                    agli stakeholders con una lista di possibili risposte. Si possono così
-                    interrogare molti stakeholders contemporaneamente, senza una particolare
-                    selezione. Si hanno quindi domande spesso a risposta multipla e raramente
-                    aperte. Le domande devono essere chiare e che portino a risposte
-                    affidabili. È bene fare pochi questionari efficaci, con risposte poco
-                    affette da rumore. Si deve avere una numerosità di domande adeguata.
-                    Questi questionari aiutano a preparare colloqui/interviste mirati più
-                    efficaci. Spesso si usa prima un piccolo campione per i questionari per
-                    poi mandarlo a tutti. Si devono evitare ambiguità e inserimenti di
-                    bias, ne positivo ne negativo, nelle domande, senza avere domande che
-                    possano condizionare la risposta. La raggiungibilità dei soggetti scelti
-                    è essenziale, nonché la scelta degli stessi. È buona pratica avere domande
-                    di cross-check per controllare chi sta rispondendo non dia risposte
-                    inconsistenti e incoerenti, sintomo del fatto che uno non risponda a
-                    caso.
-              \item \textbf{Storyboards}: narrazioni, tramite esempi, di uso del sistema,
-                    sia del system-as-is che del system-to-be. Sono quindi storie fatte tramite
-                    sequenze di snapshots. Tali storie si creano in due modi:
-                    \begin{itemize}
-                        \item \textbf{Attivo}, dove lo stakeholder contribuisce alla costruzione
-                              della narrazione.
-                        \item \textbf{Passivo}, dove si narra la storia costruita allo
-                              stakeholder.
-                    \end{itemize}
-                    Ovviamente vengono fatte solo per i workflow chiare.
-              \item \textbf{Scenari} che descrivono, attraverso una sequenza di interazioni
-                    rappresentate con testi o diagrammi, l'utilizzo del sistema, sia as-is che
-                    to-be. L'uso di esempi rende semplice la comunicazione e l'interazione con
-                    gli altri. Si hanno 4 tipi di scenario:
-                    \begin{itemize}
-                        \item \textbf{Positivo}, ovvero come il sistema si dovrebbe comportare
-                        \item \textbf{Negativo}, ovvero cosa il sistema non dovrebbe fare
-                        \item \textbf{Normale}, ovvero tutto procede come dovrebbe
-                        \item \textbf{Anormale}, ovvero cosa succede in casi eccezionali
-                    \end{itemize}
-                    Gli ultimi due sono sotto-categorie degli scenari positivi.
+                        L'attività di background study ha ovviamente dei limiti di scalabilità,
+                        non potendo leggere troppe cose, sia per tempo che per costo. Si ha quindi
+                        la meta-knowledge per selezionare le parti dei documenti più rilevanti.
+                        Queste attività sono essenziali all'avvio di un progetto.
+                        Quindi i \textbf{pro} principale è che si ottengono informazioni 
+                        di base per interagire con gli stakeholder, perché permette di 
+                        chiedere direttamente informazioni non banali
+                        Il \textbf{contro}  principale è che bisogna analizzare 
+                        tanti documenti e questa è un operazione costosa, le 
+                        informazioni di interesse sono solo una piccolissima parte, 
+                        quindi bisogna avere un minimo di intuito per selezionare 
+                        velocemente le informazioni rilevanti.
+                  \item \textbf{Questionari}, si sottomette una lista di domande chiuse agli stakeholder, 
+                        ogni domanda sarà misurabile quantitativamente (percentuali) 
+                        e qualitativamente (alto, basso...). I questionari sono perfetti
+                        per ottenere velocemente, economicamente e a distanza 
+                        informazioni da molte persone, sono utilizzati per prepararsi
+                        bene alle interview. I problemi sul loro utilizzo sono:
+                        \begin{itemize}
+                              \item bias nelle domande: si da per scontato delle cose
+                              \item informazioni inaffidabili: spesso ci possono essere informazioni mal interpretate e risposte inconsistenti
+                        \end{itemize}
+                        Le linee guida sono:
+                        \begin{itemize}
+                              \item identificare un gruppo statisticamente significativo di persone 
+                              \item controlla la copertura delle domande e delle risposte 
+                              \item controlla che le domande e le risposte siano non ambigue e senza bias
+                              \item aggiungi domande rindondanti per identificare risposte inconsistenti
+                              \item fai controllare il questionario da un'altra persona
+                        \end{itemize}
+                  \item \textbf{Storyboards}: narrazioni, tramite esempi, di uso del sistema,
+                        sia del system-as-is che del system-to-be. Sono quindi storie fatte tramite
+                        sequenze di snapshots. Tali storie si creano in due modi:
+                        \begin{itemize}
+                              \item \textbf{Attivo}, dove lo stakeholder contribuisce alla costruzione
+                                    della narrazione.
+                              \item \textbf{Passivo}, dove si narra la storia costruita allo
+                                    stakeholder.
+                        \end{itemize}
+                        Ovviamente vengono fatte solo per i workflow chiare.
+                  \item \textbf{Scenari} che descrivono, attraverso una sequenza di interazioni
+                        rappresentate con testi o diagrammi, l'utilizzo del sistema, sia as-is, sia
+                        to-be. L'uso di esempi rende semplice la comunicazione e l'interazione con
+                        gli altri. Si hanno 4 tipi di scenario:
+                        \begin{itemize}
+                              \item \textbf{Positivo}, ovvero come il sistema si dovrebbe comportare,
+                                    si dividono in:
+                                    \begin{itemize}
+                                          \item \textbf{Normale}, ovvero tutto procede come dovrebbe
+                                          \item \textbf{Anormale}, ovvero cosa succede in casi eccezionali
+                                    \end{itemize}
+                              \item \textbf{Negativo}, ovvero cosa il sistema non dovrebbe fare
+                        \end{itemize}
+                        I \textbf{pro} sono che si hanno esempi e controesempi 
+                        concreti, usabili per i test case e piacciono agli stakeholders.
 
-                    Gli scenari sono un metodo naturale di interazione con lo stakeholders e
-                    possono guidare la stesura di testi di accettazione. Hanno comunque dei
-                    limiti, essendo solo esempi parziali e sono poco adatti alla combinazione
-                    tra essi. Gli esempi possono anche deviare la comprensione del sistema,
-                    che magari può comportarsi in molti altri modi, avendo anche dettagli
-                    irrilevanti.
+                        I \textbf{contro} sono che non sono completi, 
+                        si ha un'esplosione combinatoria, potenzialmente 
+                        inutilmente specifici, spesso la sequenza descritta non 
+                        deve essere per forza mantenuta nel futuro sistema, 
+                        molti dettagli irrilevanti e incompatibili dettagli da 
+                        diversi stakeholders.
+                  \item \textbf{Prototipi} e \textbf{mock-up}: sono realizzati quando
+                        l'obiettivo è quello di controllare l'adeguatezza di un requisito, che
+                        viene mostrato in modo visuale nella sua ipotetica formula finale. Si
+                        hanno quindi piccoli esempi del software in azione, chiarendo e verificando
+                        che sia quello di cui l'utente ha bisogno. Ovviamente un mock-up non ha
+                        la logica applicative ma risposte costruite a priori. A seconda del tipo
+                        di mock-up il focus è su:
+                        \begin{itemize}
+                              \item \textbf{proto funzionale}: funzionalità, se sono state comprese correttamente e in modo
+                                    esaustivo
+                              \item \textbf{proto UI}: UI e UX, avendo focus più orientati all'usabilità
+                        \end{itemize}
+                        Si parla di mock-up se dopo l'uso viene buttato e di prototipo se, in caso
+                        di approvazione, viene usato come base del software o comunque riutilizzato
+                        in qualche modo, fornendo eventualmente una base evolutiva del software finale.
 
-                    Gli scenari non si prestano all'interazione con molti stakeholder, a
-                    causa della variabilità di questi in ottica di conoscenza e posizione.
-              \item \textbf{Prototipi} e \textbf{mock-up}: sono realizzati quando
-                    l'obiettivo è quello di controllare l'adeguatezza di un requisito, che
-                    viene mostrato in modo visuale nella sua ipotetica formula finale. Si
-                    hanno quindi piccoli esempi del software in azione, chiarendo e verificando
-                    che sia quello di cui l'utente ha bisogno. Ovviamente un mock-up non ha
-                    la logica applicative ma risposte costruite a priori. A seconda del tipo
-                    di mock-up il focus è su:
-                    \begin{itemize}
-                        \item funzionalità, se sono state comprese correttamente e in modo
-                              esaustivo
-                        \item UI e UX, avendo focus più orientati all'usabilità
-                    \end{itemize}
-                    Si parla di mock-up se dopo l'uso viene buttato e di prototipo se, in caso
-                    di approvazione, viene usato come base del software o comunque riutilizzato
-                    in qualche modo, fornendo eventualmente una base evolutiva del software finale.
+                        I \textbf{pro} sono che si ha un idea concreta di cosa 
+                        il SW farà e come sarà, chiarisce i requisiti e mostra 
+                        quelli nascosti, migliora l'accettabilità.
 
-                    Come pro si ha una sensazione di concretezza per lo stakeholder, anche
-                    visuale, permettendo anche già una sorta di training sul software che si
-                    produce. Spesso i mock-up sono costosi, inoltre la loro natura simulata
-                    può produrre aspettative troppo alte, magari anche solo in termini di
-                    prestazioni. In un'ottica di riuso un mock-up è spesso inutilizzabile a
-                    causa del quick-and-dirty code. Si ha anche il knowledge reuse, per velocizzare
-                    l'elicitation, riusando conoscenze pregresse da sistemi simili a quello
-                    sotto studio. Si hanno 3 fasi:
-                    \begin{enumerate}
-                        \item Trarre conoscenze e informazioni rilevanti da altri sistemi
-                        \item Trasporle nel sistema in studio
-                        \item Convalidare il risultato, adattarlo se necessario e integrarlo
-                              con la conoscenza del sistema già acquisita
-                    \end{enumerate}
-                    Tali conoscenze possono essere dipendenti o indipendenti dal dominio.
-                    Si hanno i seguenti pro:
-                    \begin{itemize}
-                        \item analisti esperti riutilizzano naturalmente dall'esperienza
-                              passata
-                        \item riduzione degli sforzi di eliciation
-                        \item ereditarietà della struttura e qualità delle specifiche del
-                              dominio astratto
-                        \item efficace per completare i requisiti con aspetti trascurati
-                    \end{itemize}
-                    e i seguenti contro:
-                    \begin{itemize}
-                        \item Efficace solo se il dominio astratto è sufficientemente simile
-                              e accurato
-                        \item Definire domini astratti per una riusabilità significativa è difficile
-                        \item Si hanno forti sforzi di convalida e integrazione
-                        \item Le corrispondenze vicine possono richiedere adattamenti complicati
-                    \end{itemize}
-              \item \textbf{Card sort}, che consiste nel chiedere agli stakeholder di
-                    suddividere un set di carte dove:
-                    \begin{itemize}
-                        \item ogni carta cattura un concetto in modo testuale o grafico
-                        \item carte raggruppate in sottoinsiemi in base ai criteri degli stakeholder
-                    \end{itemize}
-                    L'obiettivo è acquisire ulteriori informazioni sui concetti già evocati.
-                    Per ogni sottoinsieme, chiedere la proprietà condivisa implicita utilizzata
-                    per il raggruppamento per poi ripetere con le stesse carte per nuovi
-                    raggruppamenti / proprietà.
-          \end{enumerate}
-    \item \textbf{Stakeholders-driven}: fanno invece uso degli stakeholders.
-          \begin{enumerate}
-              \item \textbf{Intervista} che consiste in:
-                    \begin{itemize}
-                        \item Selezione mirata dello stakeholder, in base alle informazioni
-                              necessarie.
-                        \item Fare l'intervista registrando le risposte.
-                        \item Scrivere il transcript dell'intervista e produrre subito il report.
-                        \item Sottomettere all'intervistato il report per validazione.
-                    \end{itemize}
-                    Si può avere un'intervista anche con più stakeholder. L'intervista è una
-                    tecnica costosa e le interviste possono essere poche, bisogna quindi
-                    procedere in modo attento. Si hanno due tipi di interviste:
-                    \begin{itemize}
-                        \item \textbf{Strutturate}: si parte con un insieme di domande già
-                              scelto per un certo obiettivo. Si da poco spazio ad una discussione aperta.
-                        \item \textbf{Non strutturate}: si da spazio alla discussione aperta
-                              e libera sul system-as-is, sulle problematiche e sulle soluzioni.
-                    \end{itemize}
+                        I \textbf{contro} sono che possono creare aspettative troppo 
+                        alte come tempi di risposta istantanei, quando in realtà 
+                        non si ha implementato nulla, il codice è molto sporco
+                        difficile da riutilizzare per il SW finale e, infine, sono costosi.
 
-                    Spesso si hanno interviste miste, nella prima parte strutturate e poi con
-                    domande e argomenti liberi. Gli argomenti vanno calibrati così come il
-                    numero di domande, per evitare perdite di tempo e di attenzione da parte
-                    dello stakeholder. Vediamo quindi qualche linea guida per la preparazione
-                    delle interviste.
-                    \begin{itemize}
-                        \item bisogna arrivare preparati, tramite il background study
-                        \item per costruire un rapporto con lo stakeholder le domande devono
-                              essere su misura dello stesso, in base al suo lavoro e ruolo.
-                        \item mettere in centro all'intervista necessità e problematiche
-                              dell'intervistato, chiarendo di essere interessati al suo punto di vista
-                        \item evitare che la discussioni dilaghi su argomenti inutili
-                        \item fare in modo che l'intervistato si senta a suo agio, magari
-                              iniziando con qualche chiacchiera informale e domande semplici per
-                              poi spostarsi su domande difficili
-                        \item dimostrarsi affidabile
-                        \item chiedere sempre “perché” cercando il rationale di ciò che si chiede
-                        \item evitare domande bias che influenzino la risposta
-                        \item evitare domande ovvie che facciano pensare all'intervistato
-                              che stia perdendo tempo
-                        \item evitare domande a cui sicuramente l'intervistato non sa rispondere
-                    \end{itemize}
+                  \item \textbf{knowledge reuse}: per velocizzare
+                        l'elicitation, si riusano conoscenze pregresse da sistemi simili a quello
+                        sotto studio. Si hanno 3 fasi:
+                        \begin{enumerate}
+                              \item Trarre conoscenze e informazioni rilevanti da altri sistemi
+                              \item Trasporle nel sistema in studio
+                              \item Convalidare il risultato, adattarlo se necessario e integrarlo
+                                    con la conoscenza del sistema già acquisita
+                        \end{enumerate}
+                        Tali conoscenze possono essere dipendenti o indipendenti dal dominio.
+                        Si hanno i seguenti pro:
+                        \begin{itemize}
+                              \item analisti esperti riutilizzano naturalmente dall'esperienza
+                                    passata
+                              \item riduzione degli sforzi di eliciation
+                              \item ereditarietà della struttura e qualità delle specifiche del
+                                    dominio astratto
+                              \item efficace per completare i requisiti con aspetti trascurati
+                        \end{itemize}
+                        e i seguenti contro:
+                        \begin{itemize}
+                              \item Efficace solo se il dominio astratto è sufficientemente simile
+                                    e accurato
+                              \item Definire domini astratti per una riusabilità significativa è difficile
+                              \item Si hanno forti sforzi di convalida e integrazione
+                              \item Le corrispondenze vicine possono richiedere adattamenti complicati
+                        \end{itemize}
+                  \item \textbf{Card sort}, che consiste nel chiedere agli stakeholder di
+                        suddividere un set di carte dove:
+                        \begin{itemize}
+                              \item ogni carta cattura un concetto in modo testuale o grafico
+                              \item carte raggruppate in sottoinsiemi in base ai criteri degli stakeholder
+                        \end{itemize}
+                        L'obiettivo è acquisire ulteriori informazioni sui concetti già evocati.
+                        Per ogni sottoinsieme, chiedere la proprietà condivisa implicita utilizzata
+                        per il raggruppamento per poi ripetere con le stesse carte per nuovi
+                        raggruppamenti / proprietà.
+            \end{enumerate}
+      \item \textbf{Stakeholders-driven}: fanno invece uso degli stakeholders.
+            \begin{enumerate}
+                  \item \textbf{Intervista} che consiste in:
+                        \begin{itemize}
+                              \item Selezione mirata dello stakeholder, in base alle informazioni
+                                    necessarie.
+                              \item Fare l'intervista registrando le risposte.
+                              \item Scrivere il transcript dell'intervista e produrre subito il report.
+                              \item Sottomettere all'intervistato il report per validazione.
+                        \end{itemize}
+                        Si può avere un'intervista anche con più stakeholder. L'intervista è una
+                        tecnica costosa e le interviste possono essere poche, bisogna quindi
+                        procedere in modo attento. Si hanno due tipi di interviste:
+                        \begin{itemize}
+                              \item \textbf{Strutturate}: si parte con un insieme di domande già
+                                    scelto per un certo obiettivo. Si da poco spazio ad una discussione aperta.
+                              \item \textbf{Non strutturate}: si da spazio alla discussione aperta
+                                    e libera sul system-as-is, sulle problematiche e sulle soluzioni.
+                        \end{itemize}
 
-                    Nel \textit{transcript} bisogna includere reazioni personali.
-              \item \textbf{Studi osservazionali ed etnografici}: studi che si basano
-                    sull'osservazione degli stakeholders stessi all'azione, nell'ottica del
-                    system-asis, osservando come svolgono vari task per cogliere problemi e
-                    funzionalità. Si hanno due modalità di osservazione:
-                    \begin{itemize}
-                        \item \textbf{Osservazione passiva}: non si produce interferenza
-                              sulle azioni dello stakeholder, guardando da fuori, registrando record e
-                              producendo un transcript. Si hanno due particolari osservazioni passive:
-                              \begin{enumerate}
-                                  \item \textbf{Protocol analysis}: si studia qualcuno che svolge
-                                        un certo protocollo, un certo task.
-                                  \item \textbf{Ethnographic studies}: studio che si svolge in un
-                                        lungo periodo di tempo, dove si prova a scoprire le proprietà
-                                        emergenti del gruppo sociale coinvolto.
-                              \end{enumerate}
-                        \item \textbf{Osservazione attiva}, dove si svolge in prima persona
-                              i task, diventando eventualmente team member, capendo attivamente
-                              come deve essere svolto un task.
-                    \end{itemize}
+                        Spesso si hanno interviste miste, nella prima parte strutturate e poi con
+                        domande e argomenti liberi. Gli argomenti vanno calibrati così come il
+                        numero di domande, per evitare perdite di tempo e di attenzione da parte
+                        dello stakeholder. Vediamo quindi qualche linea guida per la preparazione
+                        delle interviste.
+                        \begin{itemize}
+                              \item bisogna arrivare preparati, tramite il background study
+                              \item per costruire un rapporto con lo stakeholder le domande devono
+                                    essere su misura dello stesso, in base al suo lavoro e ruolo.
+                              \item mettere in centro all'intervista necessità e problematiche
+                                    dell'intervistato, chiarendo di essere interessati al suo punto di vista
+                              \item evitare che la discussioni dilaghi su argomenti inutili
+                              \item fare in modo che l'intervistato si senta a suo agio, magari
+                                    iniziando con qualche chiacchiera informale e domande semplici per
+                                    poi spostarsi su domande difficili
+                              \item dimostrarsi affidabile
+                              \item chiedere sempre “perché” cercando il rationale di ciò che si chiede
+                              \item evitare domande bias che influenzino la risposta
+                              \item evitare domande ovvie che facciano pensare all'intervistato
+                                    che stia perdendo tempo
+                              \item evitare domande a cui sicuramente l'intervistato non sa rispondere
+                        \end{itemize}
 
-                    Gli studi osservazionali aiutano a scoprire requisti che restano altrimenti
-                    taciti e a scoprire problemi nascosti, che non si noterebbero nell'intervista.
-                    Aiuta anche a contestualizzare le informazioni. È comunque un'operazione
-                    lenta e costosa, dovendo recarsi di persona ad osservare ed annotare. Può
-                    essere potenzialmente inaccurato in quanto una persona conscia di essere
-                    osservata potrebbe comportarsi in modo diverso dallo standard. L'osservazione
-                    si focalizza comunque solo sul system-as-is e non aiuta molto nel system-to-be.
-              \item \textbf{Group sessions}: ovvero una famiglia di tecniche utili per
-                    la risoluzione di conflitti. L'elicitation prende la forma di un “workshop”
-                    di uno o più giorni in cui si ha una discussione tra vari partecipanti
-                    scelti in modo oculato a seconda dall'obiettivo, innescando una discussione
-                    utile a comprendere il system-to-be.
+                        Nel \textit{transcript} bisogna includere reazioni personali.
+                  \item \textbf{Studi osservazionali ed etnografici}: studi che si basano
+                        sull'osservazione degli stakeholders stessi all'azione, nell'ottica del
+                        system-asis, osservando come svolgono vari task per cogliere problemi e
+                        funzionalità. Si hanno due modalità di osservazione:
+                        \begin{itemize}
+                              \item \textbf{Osservazione passiva}: non si produce interferenza
+                                    sulle azioni dello stakeholder, guardando da fuori, registrando record e
+                                    producendo un transcript. Si hanno due particolari osservazioni passive:
+                                    \begin{enumerate}
+                                    \item \textbf{Protocol analysis}: si studia qualcuno che svolge
+                                          un certo protocollo, un certo task.
+                                    \item \textbf{Ethnographic studies}: studio che si svolge in un
+                                          lungo periodo di tempo, dove si prova a scoprire le proprietà
+                                          emergenti del gruppo sociale coinvolto.
+                                    \end{enumerate}
+                              \item \textbf{Osservazione attiva}, dove si svolge in prima persona
+                                    i task, diventando eventualmente team member, capendo attivamente
+                                    come deve essere svolto un task.
+                        \end{itemize}
 
-                    Mettendo insieme le parti con visioni conflittuali si possono risolvere
-                    conflitti. Su hanno due tipologie di group sessions:
-                    \begin{itemize}
-                        \item \textbf{Strutturate}: ogni partecipante ha un ruolo chiaramente
-                              definito. Ognuno contribuisce in funzione del ruolo, permettendo di
-                              ragionare su requisiti di più alto livello, comuni a più figure, e
-                              su conflitti ad alto livello.
-                        \item \textbf{Non strutturate}, dette anche sessioni brainstorming,
-                              dove i partecipanti non hanno un ruolo definito. La sessione è
-                              formata da due fasi:
-                              \begin{enumerate}
-                                  \item generazione delle idee, dove tutti espongono le proprie
-                                        idee in merito al problema/conflitto che ha generato la sessione.
-                                  \item valutazione delle idee, dove tutte le idee vengono analizzate
-                                        una per una e valutate in modo da arrivare una visione condivisa
-                                        sugli approcci da usare secondo una certa prioritizzazione.
-                              \end{enumerate}
-                    \end{itemize}
+                        I \textbf{pro} sono che si può scoprire la \textbf{tacit knowledge} 
+                        emergente e i \textbf{problemi nascosti}, in aggiunta si 
+                        ha una \textbf{contestualizzazione} delle informazioni 
+                        acquisite. 
 
-                    Si ha il pro di poter esplorare varie opzioni e portare a risoluzioni
-                    sfruttando anche l'inventiva dei partecipanti. La composizione del gruppo
-                    è comunque critica, molti potrebbero non avere tempo, alcuni potrebbero
-                    prendere posizioni dominanti introducendo bias, condizionando la discussione e
-                    le decisioni.
+                        I \textbf{contro} sono che è \textbf{lento e costoso}, 
+                        deve essere fatto su un lungo periodo e in differenti 
+                        tempi, con diversi carichi di lavoro. Potrebbe essere 
+                        \textbf{inaccurato} perché le persone potrebbero lavorare 
+                        diversamente perché osservate e si ha un focus sul 
+                        system-as-is. 
+                        
+                  \item \textbf{Group sessions}: ovvero una famiglia di tecniche utili per
+                        la risoluzione di conflitti. L'elicitation prende la forma di un “workshop”
+                        di uno o più giorni in cui si ha una discussione tra vari partecipanti
+                        scelti in modo oculato a seconda dall'obiettivo, innescando una discussione
+                        utile a comprendere il system-to-be.
 
-                    Si rischia inoltre che la discussione diverga verso inutilità
-                    senza convergere sugli aspetti per cui è stata convocata la
-                    sessione.
-          \end{enumerate}
+                        Mettendo insieme le parti con visioni conflittuali si possono risolvere
+                        conflitti. Su hanno due tipologie di group sessions:
+                        \begin{itemize}
+                              \item \textbf{Strutturate}: ogni partecipante ha un ruolo chiaramente
+                                    definito. Ognuno contribuisce in funzione del ruolo, permettendo di
+                                    ragionare su requisiti di più alto livello, comuni a più figure, e
+                                    su conflitti ad alto livello.
+                              \item \textbf{Non strutturate}, dette anche sessioni brainstorming,
+                                    dove i partecipanti non hanno un ruolo definito. La sessione è
+                                    formata da due fasi:
+                                    \begin{enumerate}
+                                    \item generazione delle idee, dove tutti espongono le proprie
+                                          idee in merito al problema/conflitto che ha generato la sessione.
+                                    \item valutazione delle idee, dove tutte le idee vengono analizzate
+                                          una per una e valutate in modo da arrivare una visione condivisa
+                                          sugli approcci da usare secondo una certa prioritizzazione.
+                                    \end{enumerate}
+                        \end{itemize}
+
+                        I \textbf{pro} sono che si ha un'esplorazione più ampia 
+                        dei probblemi e delle idee, molta più inventiva nel modo 
+                        di identificare i problemi. Si possono avere sinergie per 
+                        mettersi d'accordo sulla risoluzione dei conflitti.
+
+                        I \textbf{contro} sono che la composizione del gruppo è 
+                        critica, viene vista come un'operazione time consuming. 
+                        Si fa molto affidamento sull'esperienza del leader e 
+                        sulle sue skills, inoltre si possono avere delle persone 
+                        dominanti che introducono bias e inadeguatezza. Inoltre,
+                        c'è il rischio di perdere il focus e la struttura, sviando 
+                        dal discorso oppure si rischia di essere troppo generalisti 
+                        sulle issue tecniche.
+      \end{enumerate}
 \end{itemize}
 Ogni attività, sia artefact-driven che stakeholder-driven viene svolta solo se
 si hanno chiari gli obiettivi che si vogliono ottenere con tale attività.
@@ -730,9 +775,13 @@ fase di elicitation, nel quale è anche possibile utilizzare degli acronimi.
 
 Il processo di gestione delle inconsistenze è difficoltoso a causa:
 \begin{itemize}
-    \item Obiettivi personali in conflitto da parte degli stakeholder.
-    \item Legati ad ambiti non funzionali.
+	\item obiettivi personali degli stakehold in conflitto (cosa che
+	andrebbe gestita alla base propagandone i risultati al livello dei requirements)
+	\item ereditati da un interesse non funzionale, come ad esempio prestazioni vs
+	sicurezza, confidenzialità vs consapevolezza, etc... (cosa che andrebbe 
+      gestita tramite uno studio dei tradeoff)
 \end{itemize}
+
 Come detto la gestione dei conflitti avviene in modo schematico, tramite lo
 schema riportato in figura \ref{fig:conflicts}.
 \begin{figure}[!ht]
@@ -743,46 +792,48 @@ schema riportato in figura \ref{fig:conflicts}.
 \end{figure}
 Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
 \begin{enumerate}
-    \item Nella fase di sovrapposizione/overlap indichiamo il riferimento a
-          termini o fenomeni comuni.
-    \item La fase di riconoscimento può essere fatta informalmente, tramite
-          euristiche sulle categorie dei requisiti in conflitto, o formalmente. Il
-          riconoscimento deve essere documentato per una successiva risoluzione e analisi
-          dell'impatto. Si usano strumenti come l'interaction matrix che presenta su
-          righe e colonne gli statement e negli incroci indica:
-          \begin{itemize}
-              \item 1 per il conflitto
-              \item 0 per nessun overlap
-              \item 1000 per overlap senza conflitto
-          \end{itemize}
-          Avendo, per ogni statement $S_i$, indicando con $S_i$ la riga/colonna
-          corrispondente (sono uguali):
-          \begin{equation}
-              conflicts(S_i) = \left(\sum_{s \ \in \ S_i} s \right) \mod 1000
-          \end{equation}
-          \begin{equation}
-              nonConflictingOverlaps(S_i) = \left\lfloor \sum_{s \ \in \ S_i} s / 1000 \right\lfloor
-          \end{equation}
-    \item La terza fase è strutturata nel seguente modo:
-          \begin{itemize}
-              \item Esplorare prima più risoluzioni, generate tramite tecniche
-                    di elicitation e usando tattiche di risoluzione dei conflitti:
-                    \begin{itemize}
-                        \item Evitare condizioni a contorno
-                        \item Ripristinare statement in conflitto
-                        \item Indebolire gli statement in conflitto
-                        \item Non considerare statement a bassa priorità
-                        \item Approfondire source e target del conflitto
-                    \end{itemize}
-              \item Confrontare, selezionare e concordare il preferito poi.
-          \end{itemize}
-          Si trasformano quindi statement in conflitto (e parti coinvolte) in nuovi requisiti.
-    \item Nella quarta fase si usano vari criteri per la scelta:
-          \begin{itemize}
-              \item Contributo a requisiti non funzionali critici.
-              \item Contributo alla risoluzione di altri conflitti e rischi.
-              \item Applicazione dei principi di risk analysis.
-          \end{itemize}
+      \item Nella fase di sovrapposizione/overlap indichiamo il riferimento a
+            termini o fenomeni comuni e sono le precondizioni del conflitto.
+      \item La fase di riconoscimento può essere fatta informalmente, tramite
+            euristiche sulle categorie dei requisiti in conflitto, o formalmente. Il
+            riconoscimento deve essere documentato per una successiva risoluzione e analisi
+            dell'impatto. Si usano strumenti come l'interaction matrix che presenta su
+            righe e colonne gli statement e negli incroci indica:
+            \begin{equation}
+                  M[s_i,s_j] = \begin{cases}
+                        1&\text{ conflitto}\\
+                        0&\text{ nessun overlap}\\
+                        1000&\text{ overlap ma senza conflitto}\\
+                  \end{cases}
+            \end{equation}
+            Avendo, per ogni statement $S_i$, indicando con $S_i$ la riga/colonna
+            corrispondente (sono uguali):
+            \begin{equation}
+                  conflicts(S_i) = \left(\sum_{s \ \in \ S_i} s \right) \mod 1000
+            \end{equation}
+            \begin{equation}
+                  nonConflictingOverlaps(S_i) = \left\lfloor \sum_{s \ \in \ S_i} s / 1000 \right\rfloor
+            \end{equation}
+      \item La terza fase è strutturata nel seguente modo:
+            \begin{itemize}
+                  \item Esplorare prima più risoluzioni, generate tramite tecniche
+                        di elicitation e usando tattiche di risoluzione dei conflitti:
+                        \begin{itemize}
+                              \item Evitare condizioni a contorno
+                              \item Ripristinare statement in conflitto
+                              \item Indebolire gli statement in conflitto
+                              \item Non considerare statement a bassa priorità
+                              \item Approfondire source e target del conflitto
+                        \end{itemize}
+                  \item Confrontare, selezionare e concordare il preferito poi.
+            \end{itemize}
+            Si trasformano quindi statement in conflitto (e parti coinvolte) in nuovi requisiti.
+      \item Nella quarta fase si usano vari criteri per la scelta:
+            \begin{itemize}
+                  \item Contributo a requisiti non funzionali critici.
+                  \item Contributo alla risoluzione di altri conflitti e rischi.
+                  \item Applicazione dei principi di risk analysis.
+            \end{itemize}
 \end{enumerate}
 
 La parte di \textbf{Requirements prioritization} consiste nel fornire ai vari
@@ -803,31 +854,44 @@ svolta tramite:
     \item \textbf{Requisiti non mutuamente dipendenti}.
     \item Un \textbf{accordo} con i vari partecipanti e stakeholder.
 \end{enumerate}
-Per i primi tre posso usare una tecnica sistematica basata su diversi step:
+Per i primi 3 prinicpi si può utilizzare il metodo \textbf{Value-cost	prioritization}:
 \begin{itemize}
-    \item Stimare il contributo relativo di ogni richiesta al valore del progetto.
-    \item Stimare il contributo relativo di ciascuna richiesta al costo del progetto.
-    \item Tracciare il diagramma valore-costo.
+	\item stimare il contributo relativo di ogni requisito all'interno del 
+      \textbf{valore} del progetto
+	\item stimare il contributo relativo di ogni requisito all'interno del 
+      \textbf{costo} del progetto
+	\item si rappresenta il diagramma valore-costo (fig \ref{fig:cost-value-diagram})
 \end{itemize}
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/requirements/cost-value-diagram.png}
+      \caption{Diagramma Cost-value}
+      \label{fig:cost-value-diagram}
+\end{figure}
 
 Si usa quindi la tecnica AHP dalla Decision Theory dove si cerca di capire in che
 proporzione ogni requisito $R_i$ contribuisce al criterio $crit$, che sarà prima
 il valore, $crit = value$, e poi il costo, $crit = cost$. Si hanno quindi due step:
 \begin{enumerate}
-    \item Si usa la comparison matrix stimando i contributi di ogni requisito sul
-          criterio da studiare. Avendo $N$ requisiti:
-          \begin{equation}
-              R_{i, j} = \frac{1}{R_{i, j}}, \ \ \ \text{se} \ 1 \leq i, j\leq N
-          \end{equation}
-    \item Si determina quanto questo si distribuisce tra tutti i requisti, tramite
-          gli autovalori della matrice. Inoltre le colonne vengono normalizzate tramite:
-          \begin{equation}
-              R_{i, j} = \frac{R_{i, j}}{\sum_i R_{i, j}}
-          \end{equation}
-          e aggiungendo la media sulle righe per valutare il contributo del requisito
-          sul criterio.
+      \item Si usa la comparison matrix stimando i contributi di ogni requisito sul
+            criterio da studiare. Avendo $N$ requisiti:
+            \begin{equation}
+                  R_{i, j} = \frac{1}{R_{i, j}}, \ \ \ \text{se} \ 1 \leq i, j\leq N
+            \end{equation}
+            Dalla comparison matrix si hanno dei valori, più basso è il valore di $R_{ij}$
+            allora $R_i$ contribuisce equamente insieme a $R_j$, più è alto il valore allora
+            $R_i$ contribuisce  di molto più rispetto a $R_j$
+      \item Si determina quanto questo si distribuisce tra tutti i requisti, tramite
+            gli autovalori della matrice. Inoltre le colonne vengono normalizzate tramite:
+            \begin{equation}
+                  R_{i, j} = \frac{R_{i, j}}{\sum_i R_{i, j}}
+            \end{equation}
+            e aggiungendo la media sulle righe per valutare il contributo del requisito
+            sul criterio.
 \end{enumerate}
 AHP permette di assicurare stime e rapporti consistenti.
+
 \subsection{Specification \& documentation}
 In questa fase si documentano in modo preciso i requisiti scoperti. Si descrivono
 in modo preciso le feature e i concetti rilevanti per il progetto. Nel dettaglio
@@ -846,6 +910,7 @@ caso il contenuto deve essere accessibile e comprensibile da tutte le parti
 interessate, aggiungendo spesso in allegato anche costi, workplan e piani di delivery.
 Bisogna capire come effettivamente documentare i requisiti.
 
+\subsubsection{Non-formal notation}
 La prima opzione è l'utilizzo del linguaggio naturale in modo svincolato. Si ha
 una forte espressività ma, in assenza di regole sulla scrittura si rischia di
 produrre una sorta di romanzo, producendo qualcosa di poco gestibile. Il linguaggio
@@ -926,7 +991,12 @@ più diffuso. Si hanno varie macro-categorie a loro volta suddivise in:
 
 Una variante per il template VOLERE dove si hanno sezioni esplicite per proprietà
 del dominio, costi, rischi, piano di lavoro di sviluppo etc$\dots$
-\subsubsection{Diagrammi}
+
+Il RD può essere dislocato in diversi posti, per esempio: la sezione della 
+descrizione generale può essere messa sul repository, mentre la sezione dei 
+requisiti specifici potrebbe essere su Trello.
+
+\subsubsection{Semi-formal notation}
 Si hanno anche opzioni aggiuntive oltre al linguaggio naturale. Una prima alternativa
 sono i diagrammi, dove si ha una notazione semi-formale, in quanto si ha una sintassi
 formale essendo i vari diagrammi formalmente definiti ma l'interpretazione degli
@@ -938,7 +1008,35 @@ scritto e rappresentare il tutto in modo compatto. L'uso di diagrammi permette
 di ottenere un metodo di comunicazione più semplicemente e viene usato per aspetti
 specifici del sistema. Si ha comunque la stessa ambiguità di interpretazione
 che si aveva nei linguaggi naturali.
-\paragraph{Problem diagram}
+
+I diagrammi sono tra loro complementari ma hanno anche delle intersezioni tra
+loro e anche con il testo e tutto deve comunque restare coerente. Si rischia di
+introdurre inconsistenze.
+
+Si hanno alcune regole di consistenza per i diagrammi che vengono usate da diversi
+strumenti per verificare la consistenza tra i vari diagrammi.
+
+A questo punto è doveroso citare uno degli standard per la modellazione di
+diagrammi: \textbf{Unified Modeling Languag}e (UML). Al suo interno si hanno, con 
+regole di coerenza tra essi:
+\begin{itemize}
+    \item class diagrams
+    \item use case diagrams
+    \item sequence diagrams
+    \item state diagrams
+\end{itemize}
+
+In conclusione i diagrammi hanno il pro di essere in grado di dare una buona panoramica
+e struttura/comportamento, facile da trasmettere e comprendere, di aspetti importanti.
+Sono inoltre supportati da vari tool di analisi.
+
+Il contro è sempre la specifica ambigua semi-formale che può anche limitare l'analisi
+degli stessi. Inoltre si concentrano solo su aspetti funzionali e strutturali.
+
+Si hanno anche gli statechart per la descrizione di sistemi paralleli che usano
+la semantica interleaving ovvero per 2 transizioni che si attivano nello stesso
+stato, una viene presa dopo l'altra, in modo non deterministico.
+\paragraph{Problem diagram (context diagram)}
 Un primo esempio di digramma utilizzato è il \textbf{problem diagram}
 \ref{fig:problemDiagram}, il quale
 descrive i requisiti a livello di sistema.
@@ -967,8 +1065,8 @@ Si identificano a colpo d'occhio gli elementi rilevanti per un certo requisito.
 
 Questa rappresentazione può prendere la forma di veri e propri pattern detti
 \textbf{problem pattern} per semplificare la rappresentazione. Si ottengono i
-\textbf{frame diagrams}, che hanno la stessa rappresentazione dei problem diagram
-con la differenza che si ha qualche informazione in più:
+\textbf{frame diagrams} (fig \ref{fig:frame-diagram}), che hanno la stessa 
+rappresentazione dei problem diagram con la differenza che si ha qualche informazione in più:
 \begin{itemize}
     \item \textbf{Tipo di componente}, indicato con un quadratino in basso a
           destra nel rettangolo della componente, specificato da una lettera:
@@ -987,6 +1085,13 @@ con la differenza che si ha qualche informazione in più:
           \end{itemize}
 \end{itemize}
 Tali pattern vengono istanziati nei vari casi specifici.
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width = \textwidth]{img/requirements/frame-diagram.png}
+      \caption{Esempio di Frame Diagram}
+      \label{fig:frame-diagram}
+  \end{figure}
 \paragraph{Diagrammi ER}
 Un altro diagramma tipico è quello ER per specificare entità che entrano in gioco
 in certi aspetti dei requisiti, specificandole in modo schematico. Si usano anche
@@ -1002,8 +1107,8 @@ di diagrammi:
           in termini di dati. Le attività sono indicate dentro rettangoli e si hanno
           una serie di frecce che a seconda della direzione variano il significato:
           \begin{itemize}
-              \item $\to$ per l'input di dati.
-              \item $\gets$ per l'output di dati.
+              \item $\to$ (in entrata all'attività) per l'input di dati.
+              \item $\to$ (in uscita dall'attività) per l'output di dati.
               \item $\downarrow$ per il data/event controlling, ovvero dati o
                     eventi che controllano il comportamento dell'attività, sono magari
                     aspetti di configurazione etc$\dots$ che influenzano l'attività
@@ -1021,8 +1126,8 @@ di diagrammi:
           attività. I dati sono indicate dentro rettangoli e si hanno una serie di frecce
           che a seconda della direzione variano il significato:
           \begin{itemize}
-              \item $\to$ per l'input di attività che producono il dato.
-              \item $\gets$ per l'output di attività verso le quali serve il dato.
+              \item $\to$ (in entrata al dato) per l'input di attività che producono il dato.
+              \item $\to$ (in uscita daal dato) per l'output di attività verso le quali serve il dato.
               \item $\downarrow$ per le attività di validazione del dato.
               \item $\uparrow$ per le risorse necessarie a memorizzare e gestire il dato.
           \end{itemize}
@@ -1043,6 +1148,22 @@ Questo strumento si prestano a documentare workflow molto semplici. In ogni caso
     \item I dati I/O di un'attività devono apparire come dati I/O delle sotto-attività.
     \item Ogni attività in un datagramm deve essere definita in un actigramma.
 \end{itemize}
+\paragraph{Dataflow diagram}
+I \textbf{Dataflow diagram} \ref{fig:dataflow-diagram} cattura tutte le operazioni 
+di sistema collegate dalla dipendenza dei dati, 
+corrisponde ad un actigram più semplice ma meno espressivo. Si definiscono:
+\begin{itemize}
+	\item \textbf{ovali}: per i componenti
+	\item \textbf{frecce}: specificano i flussi dei dati
+\end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/requirements/dataflow-diagram.png}
+    \caption{Dataflow diagram}
+    \label{fig:dataflow-diagram}
+\end{figure}
+
 \paragraph{Use case Diagram}
 Un altro diagramma classico è lo \textbf{use case diagram} per visualizzare i
 requisiti identificati, che prendono forma di casi d'uso con gli attori che partecipano
@@ -1074,39 +1195,20 @@ del sistema.
     \label{fig:smd}
 \end{figure}
 \paragraph{R-net diagram}
-Come altro diagramma abbiamo il \textbf{R-net diagram} che permette di mostrare
+Come altro diagramma abbiamo il \textbf{R-net diagram} \ref{fig:r-net-diagram} che permette di mostrare
 come reagisce un sistema in base ad un certo stimolo. È quindi un albero che parte
 con uno stimolo, dopo il begin, posto in un esagono e si sviluppo in base alle
 varie alternative in corrispondenza di punti di decisione (indicati come pallini).
 Nei rettangoli si hanno le azioni che sono svolte in conseguenza allo stimolo.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/requirements/r-net-diagram.png}
+    \caption{R-net diagram}
+    \label{fig:r-net-diagram}
+\end{figure}
 
-I diagrammi sono tra loro complementari ma hanno anche delle intersezioni tra
-loro e anche con il testo e tutto deve comunque restare coerente. Si rischia di
-introdurre inconsistenze.
 
-Si hanno alcune regole di consistenza per i diagrammi che vengono usate da diversi
-strumenti per verificare la consistenza tra i vari diagrammi.
-
-A questo punto è doveroso citare uno degli standard per la modellazione di
-diagrammi: \textbf{Unified Modeling Languag}e (UML). Al suo interno si hanno, con regole di coerenza tra essi:
-\begin{itemize}
-    \item class diagrams
-    \item use case diagrams
-    \item sequence diagrams
-    \item state diagrams
-\end{itemize}
-
-In conclusione i diagrammi hanno il pro di essere in grado di dare una buona panoramica
-e struttura/comportamento, facile da trasmettere e comprendere, di aspetti importanti.
-Sono inoltre supportati da vari tool di analisi.
-
-Il contro è sempre la specifica ambigua semi-formale che può anche limitare l'analisi
-degli stessi. Inoltre si concentrano solo su aspetti funzionali e strutturali.
-
-Si hanno anche gli statechart per la descrizione di sistemi paralleli che usano
-la semantica interleaving ovvero per 2 transizioni che si attivano nello stesso
-stato, una viene presa dopo l'altra, in modo non deterministico.
-\subsubsection{Alternative alla specifica semi-formale}
+\subsection{Formal notation}
 Si ha quindi in generale la necessità di una semantica formale per aspetti
 mission-critical e la cosa non viene garantita dai diagrammi ma si hanno linguaggi
 apposta (e diagrammi apposta) la cui creazione/gestione/documentazione è assai
@@ -1214,7 +1316,18 @@ Ricapitolando:
 \end{itemize}
 \subsection{Validation \& verification}
 Siamo quindi all'ultima delle quattro fasi, dove bisogna validare i requisiti.
-Si hanno vari approcci per validare la qualità dei requisiti.
+Si hanno vari approcci per validare la qualità dei requisiti:
+\begin{itemize}
+	\item \textbf{Analisi e revisione dei singoli requisiti}: è manuale e costoso in 
+      termini di tempo ma si può sempre fare
+	\item \textbf{Interrogare il database delle specifiche}: è automatico ma non 
+      controlla la qualità di tutti
+	\item \textbf{Usare le specification animation}: servono dei requisiti eseguibili, 
+      buono per trovare dei bug
+	\item \textbf{Check formale}: richiede requisiti specificati in modo 
+      formale e può rivelare tutti i bug.
+\end{itemize}
+
 \subsubsection{Analisi e revisione dei singoli requisiti}
 Questo è sempre applicabile ma va fatto manualmente impiegando molto tempo. La
 prima operazione consiste nel ricercare errori nel Requirements Document. Spesso
@@ -1457,14 +1570,22 @@ gli elementi del Requirements Document. Tali collegamenti vanno scoperti,
 memorizzati ed eventualmente recuperati. Tali collegamenti sono bidirezionali e,
 ipotizzando uno schema verticale tra le varie fasi, si hanno:
 \begin{itemize}
-    \item Accessibilità dal source al target, detta forward traceability
-          (che nello schema verticale sono le frecce verso il basso). Il source motiva l'esistenza del target
-    \item Accessibilità dal target al source, detta backward traceability
-          (che nello schema verticale sono le frecce verso l'alto)
+    \item \textbf{forward traceability}: Accessibilità dal source al target
+          (che nello schema verticale sono le frecce verso il basso \ref{fig:traceability-diagram}). 
+          Il source motiva l'esistenza del target
+    \item \textbf{backward traceability}:Accessibilità dal target al source
+          (che nello schema verticale sono le frecce verso l'alto \ref{fig:traceability-diagram})
 \end{itemize}
 All'interno di una stessa fase posso avere anche collegamenti (che in questo caso
 non vengono direzionati a differenza dei due appena espressi e sono orizzontali).
 Dipendenze tra cambiamenti di fase sono sempre rappresentatati da una linea verticale.
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=\textwidth]{img/requirements/traceability-diagram.png}
+      \caption{Traceability diagram}
+      \label{fig:traceability-diagram}
+\end{figure}
 
 La backward traceability viene usata per stabilire perché un certo elemento sia
 lì e da dove viene (anche ricorsivamente) mentre la forward per stabilire dove un
@@ -1507,7 +1628,7 @@ Come contro:
           un basso costo iniziale)
     \item controllo e analisi limitate
 \end{itemize}
-In merito alla \textbf{matrice di tracciabilità} abbiamo che essa è la matrice
+In merito alla \textbf{matrice di tracciabilità} \ref{fig:dependency-matrix} abbiamo che essa è la matrice
 di adiacenza di un grafo a singola relazione di tracciabilità, detto \textbf{dependency graph}.
 In posizione ($i,j$) troviamo 1 se si ha un arco orientato tra l'item $T_i$ e
 l'item $T_j$ , 0 altrimenti. Possiamo quindi dire che sulla riga i-sima troviamo
@@ -1528,7 +1649,15 @@ Come contro:
     \item Dovrei creare più matrici per collegamenti tra oggetti con semantiche
           diverse
 \end{itemize}
-Quest'ultimo contro può essere risolto coi \textbf{feature diagrams} che sono
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=\textwidth]{img/requirements/dependency-matrix.png}
+      \caption{Dependency matrix}
+      \label{fig:dependency-matrix}
+\end{figure}
+
+Quest'ultimo contro può essere risolto coi \textbf{feature diagrams} \ref{fig:feature-diagram} che sono
 rappresentazione grafica dei punti in comune e delle varianti del sistema, permettendo
 la rappresentrazione compatta di un gran numero di varianti. Avere più varianti
 permette di distribuire il sistema con un ampio numero di feature.
@@ -1538,3 +1667,10 @@ pallino nero) o opzionali (con un pallino bianco). Si hanno anche potenziali or
 esclusivi, or non-esclusivi e and per separare in diversi modi feature in sotto-feature.
 Le varie combinazioni espresse dalle feature del digramma, seguendo la logica di
 opzionali o meno e delle varie suddivisioni esprimono le varianti del progetto.
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=\textwidth]{img/requirements/feature-diagrams.png}
+      \caption{Feature diagram}
+      \label{fig:feature-diagram}
+\end{figure}

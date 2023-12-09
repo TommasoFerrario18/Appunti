@@ -34,64 +34,79 @@ view per eventuali cambiamenti dei dati.
 
 Per la costruzione del controller si hanno vari design pattern tra cui:
 \begin{itemize}
-    \item \textbf{Page Controller}: che si occupa di controllare i parametri
-          delle richieste e richiamare la business logic sulla base della richiesta, di
-          selezionare la view successiva da mostrare e di preparare i dati per la
-          presentazione. Si ha il seguente flusso di controllo:
-          \begin{enumerate}
-              \item Il controllo si sposta dal server Web al Page Controller.
-              \item Estrae i parametri dalla richiesta.
-              \item Utilizza alcuni oggetti di business.
-              \item Decide la view successiva.
-              \item Prepara i dati da mostrare nella view successiva
-              \item Porta il controllo (e i dati) alla view.
-          \end{enumerate}
-          Dal punto di vista implementativo si possono usare soluzioni con poca
-          logica di controllo o con una forte logica di controllo. Con questo pattern
-          si implementa un controller per ciascuna pagina logica, avendo, per la
-          scalabilità, la crescita finita del controller proporzionale al numero
-          di pagine necessarie, producendo un numero comunque finito e gestibile
-          di file di codice piccoli.
-    \item \textbf{Front Controller}: che definisce un singolo componente per gestire
-          tutte le richieste. Ogni volta che si riceve una richiesta, il front controller
-          rappresentato dall'\textbf{handler} si avvale della collaborazione di una gerarchia
-          di classi, le quali rappresentano i comandi che possono essere richiesti dall'utente
-          attraverso l'interfaccia. Questo approccio risulta scalabile perché al crescere della
-          dimensione dell'applicazione ciò che cresce non è l'handler ma cresce la gerarchia
-          dei comandi. Nel dettaglio l'handler:
-          \begin{itemize}
-              \item Riceve la richiesta dal server.
-              \item Esegue operazioni generali/comuni a tutti i comandi.
-              \item Decide l'operazione che deve essere eseguita e alloca l'istanza
-                    del comando.
-              \item Delega l'esecuzione al comando istanziato.
-          \end{itemize}
-          mentre il comando:
-          \begin{itemize}
-              \item Estrae i parametri dalla richiesta.
-              \item Invoca metodi implementati nella business logic.
-              \item Determina la vista successiva.
-              \item Dà il controllo al View.
-          \end{itemize}
-          Il front controller è più complesso del page controller. Inoltre evita
-          la duplicazione del codice tra i vari controller, permette una semplice
-          configurazione del server avendo una sola servlet, permette di gestire
-          dinamicamente dinamicamente nuovi comandi e facilita l'estensione del controller.
-    \item \textbf{Intercepting Filter}: che è utile per gestire richieste e risposte
-          prima che vengano servite. Viene spesso usato insieme al front controller per
-          “decorare” richieste e risposte con funzioni aggiuntive, come autenticazione,
-          logging, conversione dati etc$\dots$
+      \item \textbf{Page Controller}: si ha un controller per pagina che si occupa di:
+            \begin{itemize}
+                  \item controllare i parametri
+                  delle richieste e richiamare la business logic sulla base della richiesta
+                  \item selezionare la view successiva da mostrare
+                  \item preparare i dati per la presentazione
+            \end{itemize}
+            Si ha il seguente flusso di controllo:
+            \begin{enumerate}
+                  \item Il controllo si sposta dal server Web al Page Controller.
+                  \item Estrae i parametri dalla richiesta.
+                  \item Utilizza alcuni oggetti di business.
+                  \item Decide la view successiva.
+                  \item Prepara i dati da mostrare nella view successiva
+                  \item Porta il controllo (e i dati) alla view.
+            \end{enumerate}
+            Dal punto di vista implementativo si possono usare soluzioni con poca
+            logica di controllo o con una forte logica di controllo. Con questo pattern
+            si implementa un controller per ciascuna pagina logica, avendo, per la
+            scalabilità, la crescita finita del controller proporzionale al numero
+            di pagine necessarie, producendo un numero comunque finito e gestibile
+            di file di codice piccoli.
+      \item \textbf{Front Controller}: definisce un singolo componente per gestire
+            tutte le richieste. Ogni volta che si riceve una richiesta, il front controller
+            rappresentato dall'\textbf{handler} si avvale della collaborazione di una gerarchia
+            di classi, le quali rappresentano i comandi che possono essere richiesti dall'utente
+            attraverso l'interfaccia. Questo approccio risulta scalabile perché al crescere della
+            dimensione dell'applicazione ciò che cresce non è l'handler ma cresce la gerarchia
+            dei comandi. Nel dettaglio l'handler:
+            \begin{itemize}
+                  \item Riceve la richiesta dal server.
+                  \item Esegue operazioni generali/comuni a tutti i comandi.
+                  \item Decide l'operazione che deve essere eseguita e alloca l'istanza
+                        del comando.
+                  \item Delega l'esecuzione al comando istanziato.
+            \end{itemize}
+            mentre il comando:
+            \begin{itemize}
+                  \item Estrae i parametri dalla richiesta.
+                  \item Invoca metodi implementati nella business logic.
+                  \item Determina la vista successiva.
+                  \item Dà il controllo al View.
+            \end{itemize}
+            Il front controller è più complesso del page controller. Inoltre evita
+            la duplicazione del codice tra i vari controller, permette una semplice
+            configurazione del server avendo una sola servlet, permette di gestire
+            dinamicamente nuovi comandi, facilita l'estensione del controller e
+            i comandi possono essere implementati sia come metodi, sia come classi.
+            Al crescere dell'applicazione cresce la gerarchia di comandi, mantenendo
+            quasi invariato il front controller.
+      \item \textbf{Intercepting Filter}: è utile per gestire richieste e risposte
+            prima che vengano servite. Viene spesso usato insieme al front controller per
+            “decorare” richieste e risposte con funzioni aggiuntive, come autenticazione,
+            logging, conversione dati etc$\dots$
 
-          Dal punto di vista implementativo il web server fornisce Filter Manager
-          e Filter chain, dovendo quindi implementare e dichiarare solo il filter.
-          \begin{figure}[!ht]
-              \centering
-              \includegraphics[width=0.5\textwidth]{img/mvc/filter.png}
-              \caption{Comportamento del Intercepting Filter}
-          \end{figure}
-    \item \textbf{Application Controller}: usato in quanto all'aumentare della
-          complessità del flusso, la gestione del flusso potrebbe essere concentrata in
-          una classe. Solitamente viene usato dal page controller o dal front conteoller.
+            Dal punto di vista implementativo il web server fornisce Filter Manager
+            e Filter chain, dovendo quindi implementare e dichiarare solo i filters.
+            \begin{figure}[!ht]
+                  \centering
+                  \includegraphics[width=0.5\textwidth]{img/mvc/filter.png}
+                  \caption{Comportamento del Intercepting Filter}
+            \end{figure}
+
+            I filtri sono composti da:
+            \begin{itemize}
+                  \item \textbf{preprocessing}: operazioni prima delle invocazioni
+                  \item \textbf{invocazione}: si invocano le funzionalità della
+                        filter chain
+                  \item \textbf{postprocessing}: operazioni dopo le invocazioni.
+            \end{itemize}
+      \item \textbf{Application Controller}: usato in quanto all'aumentare della
+            complessità del flusso, la gestione del flusso potrebbe essere concentrata in
+            una classe. Solitamente viene usato dal page controller o dal front conteoller.
 \end{itemize}
 Possiamo definire anche i design pattern per l'implementazione della view:
 \begin{itemize}
@@ -191,9 +206,11 @@ Tra i metodi abbiamo quindi:
           subito sincronizzati con il database
     \item \textbf{Business}
 \end{itemize}
-Si nota quindi che è una semplice implementazione ORM senza separazione tra
-business logic e meccanismo di persistenza, tendendo a forzare una corrispondenza
-“uno a uno” tra oggetti e istanze nell'ER.
+Non è il metodo migliore dal momento che nella stessa classe ho sia i metodi 
+della logica di business, sia i metodi per il mapping nel db. In aggiunta, forza 
+anche la corrispondenza perfetta tra OOP e ER design. Il lato positivo è la 
+semplicità.
+	
 \subsection{Data mapper}
 Con il pattern \textbf{Data Mapper} invece si ha un layer software indipendente,
 dedicato alla persistenza e all'ORM, in modo che la logica di dominio non conosca
@@ -225,19 +242,34 @@ o nessuna. Le business transaction vanno quindi mappate nelle \textbf{system tra
 
 Si hanno varie soluzioni:
 \begin{itemize}
-    \item Aggiornare il database ogni volta che si ha una modifica in memory.
-          In pratica business transaction e system transaction coincidono ogni volta,
-          dall'apertura alla chiusura oppure ogni volta che l'utente modifica qualcosa
-          si effettua una system transaction. La prima soluzione è poco pratica a causa
-          di transazioni molto lunghe in quanto un perfetto isolamento implica gestire/servire
-          una sola query alla volta mentre un isolamento imperfetto implica che si hanno transazioni
-          che leggono dati non definitivi, comportando inconsistenze. L'utente può aprire la
-          transazione e restarci minuti. Con il secondo caso si rischia di non poter implementare
-          l'atomicità delle transazioni di business, che se in un certo momento fallisce non impedisce
-          alle vecchie modifiche di essere già scritte, rompendo la all or nothing, avendo molte
-          difficoltà nel fare gli undo.
-    \item Tracciare le operazioni e attuare tutte le modifiche in una singola
-          transazione di sistema. Tutte le operazioni sul sistema si eseguono alla fine.
+	\item \ref{fig:bt-uguale-st} aggiornare il database ogni volta che si ha una modifica in memoria. 
+      Si lega la business transaction con la system transaction. Infattibile 
+      perché si avrebbe che la transazione del DB sarebbe troppo lunga, 
+      comportando che l'aggiornamento impedisce l'accesso agli altri
+      \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/mvc/bt-uguale-st.png}
+            \caption{System transaction uguale alla Business transaction}
+            \label{fig:bt-uguale-st}
+      \end{figure}
+	\item \ref{fig:op-uguale-st}  aggiornare il database ad ogni modifica in memoria. Per la business 
+      transaction  si hanno tante system transaction una per ogni modifica. Si 
+      rischia inconsistenza perché si hanno diversi aggiornamenti ma in periodi 
+      diversi.
+      \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/mvc/op-uguale-st.png}
+            \caption{System transaction per ogni singola operazione nella Business
+            transaction}
+            \label{fig:op-uguale-st}
+      \end{figure}
+	\item \ref{fig:bt-uguale-st} aggiornamento finale al termine della business transaction.
+      \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/mvc/st-finale.png}
+            \caption{System transaction alla fine della Business transaction}
+            \label{fig:bt-uguale-st}
+      \end{figure}
 \end{itemize}
 La \textbf{unit of work} quindi traccia ogni cambiamento (coi metodi register) e
 lo attuta in una singola system transaction finale (con il commit). Per fare questo incapsula ogni update/insert/delete, mantenendo l'integrità del database ed evitando deadlock.

@@ -1,15 +1,18 @@
 \chapter{DevOps}
+Nello sviluppo del software sia ha una collaborazione tra 2 team: \textbf{development} e
+\textbf{operation}. Il primo si occupa di sviluppare l'applicazione e testarla, mentre il
+secondo si occupa di pacchettizzarla e successivamente rilasciarla. Il problema
+di questa organizzazione è che spesso i due team non comunicano, di conseguenza 
+si rende più costoso e lento lento il processo di rilascio.
+
 Negli ultimi tempi si è sviluppato un altro metodo, chiamato DevOps, dove anche
 la parte di \textbf{operation} deve essere agile: il rilascio in produzione e il
-deployment devono essere agili quanto lo
-sviluppo.
+deployment devono essere agili quanto lo sviluppo.
 
-Nel DevOps (\ref{fig:devops}) i team di sviluppo e operation sono indipendenti
-tra loro, diminuendo il costo di impegno necessario al team di sviluppo per la parte
-di deployment, la quale viene resa anche più sicura grazie alla diminuzione
-dell'intervento umano in favore di automazioni. Inoltre, avendo i due team dei
-tempi di lavoro diversi, si riesce a prevenire ritardi causati dalla non
-organicità delle operazioni.
+Si utilizzerà \textbf{DevOps} (\ref{fig:devops}) che permette di collegare ed 
+automatizzare lo sviluppo, il testing, la pacchettizzazione e il rilascio del software.
+In questo modo si risolvono tutti i problemi introdotti precendentemente, velocizzando
+tutto il processo di produzione del software.
 
 \begin{figure}[!ht]
     \centering
@@ -19,7 +22,7 @@ organicità delle operazioni.
 \end{figure}
 
 DevOps promuove la collaborazione tra di due team al fine di ottenere una sorta
-di team unico che curi sia sviluppo che operation. DevOps include quindi diversi
+di team unico che curi sia sviluppo, sia operation. DevOps include quindi diversi
 processi che vengono automatizzati:
 \begin{itemize}
     \item Continuous Development
@@ -28,6 +31,8 @@ processi che vengono automatizzati:
     \item Continuous Deployment
     \item Continuous Monitoring
 \end{itemize}
+L'automatizzazione è possibile grazie all'utilizzo della virtualizzazione dell'hardware
+mediante macchine virtuali o container.
 
 Con DevOps il feedback arriva in primis dal software inoltre il focus viene
 spostato sui processi automatici. Nel DevOps si introducono nuovi ruoli:
@@ -52,7 +57,7 @@ DevOps si basa su sei principi base:
     \item \textbf{Continuous Improvement}, ovvero cercare continuamente di
           migliorare senza sprechi il prodotto finale e i servizi.
     \item \textbf{Automate everything}, ovvero cercare di automatizzare l'intera
-          nfrastruttura di processo, dalle attività di testing e integrazione fino ad
+          infrastruttura di processo, dalle attività di testing e integrazione fino ad
           arrivare alla costruzione della release e del deployment.
     \item \textbf{Work as one team}, ovvero unificare tutti gli aspetti sotto un
           unico team o comunque con due team che collaborano fortemente come se fossero uno.
@@ -67,7 +72,19 @@ Innanzitutto bisogna introdurre i sistemi di version control (Git) un sistema di
 version control distribuito, dove ogni utente ha una copia della repository
 (con la storia dei cambiamenti), con la quale interagisce tramite commit e update.
 Esiste poi una repository lato server per permettere di condividere i vari
-cambiamenti tramite sincronizzazione.
+cambiamenti tramite sincronizzazione. Nello sviluppo multi-branch si segue il 
+seguente standard:
+\begin{itemize}
+	\item Master: branch utilizzato per salvare tutte le versioni di production, 
+      quindi quando si fa il push allora si eseguono tutte le operazioni 
+      automatiche di DevOps
+	\item HotFix: branch utile per eventuali Fix veloci della production
+	\item Release: branch su cui fare il push prima di mandare su master per 
+      il deploy
+	\item Develop: branch effettivo su cui verranno fatti i merge delle 
+      varie features
+	\item 1 branch per ogni feature da sviluppare	
+\end{itemize}
 
 \begin{figure}[!ht]
     \centering
@@ -98,9 +115,9 @@ temporalmente, in modo che avvenga solo ad un certo momento della giornata.
 Dove il fuoco è sulla più piccola unità testabile che viene aggiornata che non
 può essere eseguita senza l'intero sistema. In tal caso si può fare:
 \begin{itemize}
-    \item Code review
-    \item Unit testing
-    \item Static code analysis
+      \item Code review
+      \item Unit testing
+      \item Static code analysis
 \end{itemize}
 
 Un cambiamento può anche essere testato nell'ambito del sottosistema di cui fa
@@ -112,9 +129,10 @@ modo che il servizio da testare possa funzionare.
 In questo caso si testa l'intero sistema che viene “deployato” in ambiente di test.
 Si hanno:
 \begin{itemize}
-    \item Integration tests
-    \item Performance tests
-    \item Security tests
+	\item test funzionali: test su ogni singola funzione (unit e integration)
+	\item test di performance: controlla le performance della release 
+	\item security checks: controllo automatico delle falle su metodi conosciuti
+      (penetration test)
 \end{itemize}
 
 Tutti test che richiedono l'interezza del sistema e sono spesso molto dispendiosi e
@@ -133,8 +151,8 @@ Fasi diverse corrispondono a branch diversi
 \section{Deploy, Operate e Monitor}
 Si studia l'evoluzione automatica del software da una versione all'altra in
 produzione. Avanzare di versione in modo naive e istantaneo è troppo rischioso e
-quindi spesso non attuabile. Si ha quindi un insieme di tecniche che si basano
-in primis sull'evoluzione incrementale.
+quindi spesso non attuabile. Si ha quindi un insieme di tecniche per la version
+migration che si basano in primis sull'evoluzione incrementale.
 
 Tali tecniche si distinguono in base alla dimensione su cui sono incrementati:
 \begin{itemize}
@@ -153,11 +171,11 @@ tipologia (Incremental with reference to users) abbiamo:
 \begin{itemize}
     \item \textbf{Dark launching}: In tale schema l'update è esposto solo ad una
           parte della popolazione, per la quale viene effettuato il deployment per
-          studiare gli effetti ed eventuali modifiche e migliorie al software, che infine
+          studiare gli effetti ed eventuali modifiche e migliorie al software che, infine,
           verrà deployato per il resto della popolazione in modo comunque incrementale
           fino a che l'intera popolazione godrà della feature.
-    \item \textbf{Canary releases}, che studia l'impatto di update relativi al
-          backend
+    \item \textbf{Canary releases}: come il Dark launching ma applicato alla migrazione del
+          backend 
 \end{itemize}
 
 Tali schemi spesso sono usati di pari passo per le varie sezioni del software,
@@ -183,7 +201,8 @@ si ha lo schema del \textbf{rolling upgrade}, dove l'upgrade non riguarda un
 singolo upgrade ma tanti componenti di un sistema distribuito, verificando efficacia
 di ogni singolo update tramite il continuous monitoring prima di effettuare l'upgrade
 di un'altra componente. La stessa idea su applica anche a diverse versioni dello
-stesso prodotto, aggiornandone una prima e poi le altre progressivamente.
+stesso prodotto, aggiornandone una prima e poi le altre progressivamente. In
+sostanza si aggiorna un container/VM alla volta.
 
 Per la quarta tipologia (Non-incremental with backups) si ha il
 \textbf{blue/green deployment}, dove vengono isolate due copie della stessa
@@ -197,36 +216,40 @@ versioni viene prolungato al fine che vecchie richieste che richiedono una lunga
 elaborazione vengano elaborate dall'unità vecchia mentre le nuove dall'unità nuova.
 
 In ogni caso le applicazioni devono essere costruite per supportare tutti questi
-schemi di deployment.
+schemi di deployment perché bisogna specificare come gestire le richieste stateful
+e i dati persistenti.
 \subsection{Deployable units}
-Il caso più tipico in merito alle unità dove fare deployment è il mondo del cloud,
+Il caso più tipico in merito alle unità dove fare deployment è il mondo del cloud
 con unità virtualizzate e virtual machine (VM), dove magari ogni servizio vive in
 una diversa VM. Si hanno diversi casi in merito a questo tipo di deployment:
 \begin{itemize}
-    \item \textbf{Cloud basato su VMs}, dove si ha un'infrastruttura gestita dal
-          cloud provider che gestisce l'hardware e l'hypervisor. Ogni VM, che sono le
-          nostre unità di deployment, ha un sistema operativo arbitrario che lavora con
-          l'hardware mostrato dall'hypervisor. Ogni VM avrà una o più applicazioni e
-          fare deployment porterà all'update di una o più VM. In alcuni casi si fa
-          deployment di intere VM e in altri si modifica il software di una VM già
-          in esecuzione. L'ambiente cloud solitamente è multi-tenant, ovvero su una
-          piattaforma unica di un provider si hanno più VM di diverse organizzazioni.
-          Una VM è grossa in quanto contiene un sistema operativo intero e la loro
-          gestione può quindi essere difficoltosa.
-    \item \textbf{Cloud basato su containers} che risolvono il problema della
-          grandezza delle VM. In questo caso lo schema è il medesimo ma si ha un container
-          engine al posto dell'hypervisor e ogni container non contiene l'intero sistema
-          operativo ma solo il minimo necessario al funzionamento dell'applicazione. In
-          questo caso lo schema di update spesso consiste nel distruggere e ricreare
-          i singoli containers. Anche qui si ha un contesto multi-tenant.
-    \item \textbf{Bare metal}, dove i provider offrono direttamente risorse
-          hardware, guadagnando prestazioni ma aumentano anche i costi economici ,
-          che vengono comunque gestite dal cloud provider. Non si ha virtualizzazione
-          ma accesso diretto alle risorse su cui fare deployment. Questa è una soluzione
-          tipicamente single-tenant.
-    \item \textbf{Server dedicati}, un metodo ormai superato con difficoltà causate
-          dall'uso di script, shell e connessione ftp completamente autogestiti
-          dall'organizzazione e non da un provider.
+      \item \textbf{Cloud basato su VMs}, dove si ha un'infrastruttura gestita dal
+            cloud provider che gestisce l'hardware e l'hypervisor. Ogni VM, che sono le
+            nostre unità di deployment, ha un sistema operativo arbitrario che lavora con
+            l'hardware mostrato dall'hypervisor. Ogni VM avrà una o più applicazioni e
+            fare deployment porterà all'update di una o più VM. In alcuni casi si fa
+            deployment di intere VM e in altri si modifica il software di una VM già
+            in esecuzione. L'ambiente cloud solitamente è multi-tenant, ovvero su una
+            piattaforma unica di un provider si hanno più VM di diverse organizzazioni.
+            Una VM è grossa in quanto contiene un sistema operativo intero e la loro
+            gestione può quindi essere difficoltosa.
+      \item \textbf{Cloud basato su containers} che risolvono il problema della
+            grandezza delle VM. In questo caso lo schema è il medesimo ma si ha un container
+            engine al posto dell'hypervisor e ogni container non contiene l'intero sistema
+            operativo ma solo il minimo necessario al funzionamento dell'applicazione. In
+            questo caso lo schema di update spesso consiste nel distruggere e ricreare
+            i singoli containers. Anche qui si ha un contesto multi-tenant.
+      \item \textbf{Bare metal}, dove i provider offrono direttamente risorse
+            hardware, guadagnando prestazioni ma aumentano anche i costi economici
+            che vengono comunque gestite dal cloud provider. Non si ha virtualizzazione
+            ma accesso diretto alle risorse su cui fare deployment. Questa è una soluzione
+            tipicamente single-tenant.
+      \item \textbf{Server dedicati}, un metodo ormai superato con difficoltà causate
+            dall'uso di script, shell e connessione ftp completamente autogestiti
+            dall'organizzazione e non da un provider.
+      \item \textbf{Non service software}, il softaware si rilascia su piattaforme 
+            di distribuzione, abbandonando l'idea della gestione del software
+            come servizio.
 \end{itemize}
 
 Il deployment “stile cloud” non è comunque l'unico possibile.
