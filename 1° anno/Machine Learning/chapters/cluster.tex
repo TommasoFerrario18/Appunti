@@ -1,43 +1,41 @@
 \chapter{Clustering}
 Le tecniche di apprendimento sono:
 \begin{itemize}
-	\item \textbf{supervisionato}: etichette nel dataset
-	\item \textbf{non supervisionato}: non ho le etichette e quindi devo capire
-    le cose comune 
+    \item \textbf{supervisionato}: etichette nel dataset
+    \item \textbf{non supervisionato}: non ho le etichette e quindi devo capire
+          le cose comune
 \end{itemize}
 Spesso si può usare l'apprendimento non supervisionato al posto del supervisionato,
-perché potrebbe ottenere dei risultati migliori,soprattutto quando il dataset è
-pieno di rumore.  I sistemi non supervisionati tornano comodi quando la distribuzione dei
+perché potrebbe ottenere dei risultati migliori, soprattutto quando il dataset è
+pieno di rumore. I sistemi non supervisionati tornano comodi quando la distribuzione dei
 valori degli attributi è informazione sufficiente per separare le istanze in più
-classi, si hanno quindi domini dove questo fattore è determinante. 
+classi, si hanno quindi domini dove questo fattore è determinante.
 
 Il fatto di utilizzare un apprendimento non supervisionato porta a diversi \textbf{vantaggi}:
 \begin{itemize}
-    \item non è richiesta alcuna conoscenza a priori quindi evito problemi legati 
-    ad eventuali etichette errate (errori umani ridotti)
+    \item non è richiesta alcuna conoscenza a priori quindi evito problemi legati
+          ad eventuali etichette errate (errori umani ridotti)
     \item tutte le classi che hanno caratteristiche uniche vengono identificate
     \item efficaci con elementi di tipo numerico perché vengono rappresentate in
-    uno spazio di punti o di ordinamento intrinseco grazie al calcolo delle distanze
+          uno spazio di punti o di ordinamento intrinseco grazie al calcolo delle distanze
 \end{itemize}
-
 Il \textbf{lato negativo} del fatto che l'apprendimento è non supervisionato:
 \begin{itemize}
     \item le classi ottenute potrebbero non avere significati
     \item l'utente ha poco controllo sulla procedura e sui risultati
     \item scarsa efficacia su elementi ordinati in modo arbitrario o parziale
 \end{itemize}
-
-Il \textbf{clustering} consiste nel  separare, categorizzare, raggruppare in 
-autonomia con un apprendimento \textbf{non supervisionato}. 
-Per il clustering, la fase di apprendimento cambia, ma la fase predizione rimane 
+Il \textbf{clustering} consiste nel  separare, categorizzare, raggruppare in
+autonomia con un apprendimento \textbf{non supervisionato}.
+Per il clustering, la fase di apprendimento cambia, ma la fase predizione rimane
 identica perché ho trovato una regola che spiega il dataset. Il criterio per cui
 raggruppare è arbitrario, non si conoscono il numero di gruppi in cui partizionare il dataset
-e si dovrà trovare un modo per valutare il raggruppamento ottenuto. 
-In sostanza si cerca una regola che possa spiegare come raggruppare i 
-dati senza avere una label di riferimento e il numero di gruppi. La ricerca del raggruppamento migliore
-si baserà sempre sulla ricerca dell'ipotesi più semplice. Non conoscendo le 
-label allora raggrupperemo sfruttando le \textbf{distanze}, ovvero un elemento 
-fa parte di un raggruppamento noto se si trova vicino agli elementi di quel 
+e si dovrà trovare un modo per valutare il raggruppamento ottenuto.
+In sostanza si cerca una regola che possa spiegare come raggruppare i dati senza
+avere una label di riferimento e il numero di gruppi. La ricerca del raggruppamento migliore
+si baserà sempre sulla ricerca dell'ipotesi più semplice. Non conoscendo le
+label allora raggrupperemo sfruttando le \textbf{distanze}, ovvero un elemento
+fa parte di un raggruppamento noto se si trova vicino agli elementi di quel
 raggruppamento.
 
 I dati che vengono utilizzati per effettuare il clustering sono principalmente
@@ -48,7 +46,8 @@ definire dei criteri di similarità tra i vettori.
 Si hanno quindi due criteri da rispettare:
 \begin{itemize}
     \item \textbf{Omogeneità}: gli elementi di un cluster devono essere simili tra loro.
-    \item \textbf{Separazione}: gli elementi di cluster diversi devono essere dissimili tra loro.
+    \item \textbf{Separazione}: gli elementi di cluster diversi devono essere
+          dissimili tra loro.
 \end{itemize}
 \begin{definizione}[\textbf{Cluster}]
     Sia $N = \{e_1, \dots, e_n\}$ l'insieme degli elementi da raggruppare e sia
@@ -61,13 +60,14 @@ Si hanno quindi due criteri da rispettare:
     $e_j$ utilizzando la distanza. In particolare possiamo utilizzare:
     \begin{itemize}
         \item \textbf{Distanza euclidea}: invariante rispetto a traslazioni e
-              rotazioni degli assi, rappresenta la lunghezza del segmento tra i due punti.
+              rotazioni degli assi, rappresenta la lunghezza del segmento tra i
+              due punti.
               \begin{equation}
                   d(e_i, e_j) = \sqrt{\sum_{k=1}^n (e_{ik} - e_{jk})^2}
               \end{equation}
         \item \textbf{Distanza di Manhattan}: non è invariante rispetto a traslazioni
-              o rotazioni degli assi e pone meno enfasi sulle variabili con distanze maggiori,
-              non elevando al quadrato le differenze.
+              o rotazioni degli assi e pone meno enfasi sulle variabili
+              con distanze maggiori, non elevando al quadrato le differenze.
               \begin{equation}
                   d(e_i, e_j) = \sum_{k=1}^n |e_{ik} - e_{jk}|
               \end{equation}
@@ -137,8 +137,8 @@ pari a: $\mathcal{O}(tKn)$ con:
 Di contro si ha una sensibilità rispetto alla scelta dei centroidi iniziali,
 sperimentalmente si è dimostrato che brutti valori iniziali invalidano l'intero
 processo. Inoltre, come detto all'inizio, non si può predire il numero di cluster
-non conoscendo a priori i dati, in aggiunta, non esiste un $K$ ottimale e non ci sono proprietà
-che ce lo possano suggerire.
+non conoscendo a priori i dati, in aggiunta, non esiste un $K$ ottimale e non ci
+sono proprietà che ce lo possano suggerire.
 
 In ogni caso mappa sensatamente i vari elementi in base alle loro caratteristiche
 e quindi è un approccio parecchio usato, essendo generalmente efficacie.
@@ -147,15 +147,16 @@ Non sapendo a priori il numero di $K$ posso ottenere scarsi risultati magari non
 avendo abbastanza centroidi. Adattarsi ad un numero “errato” di centroidi può
 portare a risultati “sporchi”.
 
-Un altro problema è dato da dati distribuiti secondo diverse “dimensioni geometriche” nello
-spazio ma l'algoritmo lavorando sui centroidi potrebbe classificare in modo errato
-questo dettaglio, non distinguendo i corretti insiemi di punti. Analogamente
+Un altro problema è dato da dati distribuiti secondo diverse “dimensioni geometriche”
+nello spazio ma l'algoritmo lavorando sui centroidi potrebbe classificare in modo
+errato questo dettaglio, non distinguendo i corretti insiemi di punti. Analogamente
 succede se si hanno insiemi di punti più o meno densi, portando a classificazioni errate.
 
 Sempre in modo analogo le proprietà di distribuzione geometrica degli elementi
 comporta problemi (anche con un K adeguato). Per superare queste difficoltà si
 può provare ad aumentare il numero di cluster, unendo poi, in un secondo passaggio,
-i vari cluster secondo certi criteri, magari avendo una netta separazione lineare tra cluster.
+i vari cluster secondo certi criteri, magari avendo una netta separazione lineare
+tra cluster.
 
 Per misurare le prestazioni di clustering bisogna capire come classificare i
 risultati. Si usa la misura di \textbf{silhouette} per capire se un clustering è

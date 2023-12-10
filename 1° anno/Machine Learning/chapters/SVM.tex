@@ -1,19 +1,19 @@
 \chapter{Support Vector Machines}
 Precedentemente abbiamo introdotto:
 \begin{itemize}
-	\item \textbf{percettrone semplice}: è un algoritmo di apprendimento efficiente 
-    solo per funzioni di separazione lineare
-	\item \textbf{percettrone multistrato}: è un algoritmo difficile da addestrare
-     perché deve aggiornare molti pesi e ci sono molti minimi locali, apprende 
-     solo funzioni non lineari complesse
+    \item \textbf{percettrone semplice}: è un algoritmo di apprendimento efficiente
+          solo per funzioni di separazione lineare
+    \item \textbf{percettrone multistrato}: è un algoritmo difficile da addestrare
+          perché deve aggiornare molti pesi e ci sono molti minimi locali, apprende
+          solo funzioni non lineari complesse
 \end{itemize}
-Le \textbf{Support Vector Machines} (SVM) sono un algoritmo efficiente per 
-apprendere funzioni di separazione non lineari complesse. 
+Le \textbf{Support Vector Machines} (SVM) sono un algoritmo efficiente per
+apprendere funzioni di separazione non lineari complesse.
 
 Anche nel caso delle SVM viene ripreso comunque il concetto di separazione lineare
 ma con una scelta dell'iperpiano migliore. Si usa la \textit{teoria statistica dell'apprendimento},
-utilizzando la \textbf{programmazione matematica}, la quale dice che tra 
-tutti gli iperpiani che possiamo usare per separare due classi, si sceglie 
+utilizzando la \textbf{programmazione matematica}, la quale dice che tra
+tutti gli iperpiani che possiamo usare per separare due classi, si sceglie
 quello che sia in grado di etichettare meglio nel futuro. L'intuizione
 è quella di prendere un iperpiano ottimo rispetto alla misura della distanza minima
 che si ha tra gli esempi. Si guardano quindi tutti i punti del training set e
@@ -26,7 +26,7 @@ ampiezza. Tale ampiezza è detta \textbf{margine}.
 Se riuscissimo a separare i dati con un largo margine avremmo ragione di credere
 che il classificatore sia “più robusto” tanto da avere una migliore generalizzazione.
 Quando arriva quindi un nuovo punto, generato con la stessa regola degli altri,
-sarà sicuramente classificato correttamente, una volta scelto l'iperpiano.
+\textit{sarà sicuramente} classificato correttamente, una volta scelto l'iperpiano.
 
 Ci serve quindi la separabilità delle istanze, serve quindi che la funzione generatrice
 sia linearmente separabile.
@@ -48,7 +48,7 @@ dove ad ogni vettore $x_i$ associo la classe di appartenenza $y_i$:
 \begin{equation}
     y_i \in \{-1, +1\}
 \end{equation}
-Ho i punti linearmente separabili nel seguente modo:
+ho i punti linearmente separabili nel seguente modo:
 \begin{equation}
     \begin{cases}
         \langle w, x_i \rangle + b > 0 & \text{se} \ y_i = +1 \\
@@ -78,7 +78,7 @@ e negativo più vicino, allora definiamo:
     Definiamo il \textbf{margine funzionale} di un punto $(x_i, y_i)$ rispetto
     all'iperpiano $(w, b)$ come:
     \begin{equation}
-        \hat{\gamma}_i = y_i \cdot ( \langle w, x_i \rangle + b )
+        \hat{\gamma}_i = y_i( \langle w, x_i \rangle + b )
     \end{equation}
     e quindi il margine funzionale dell'iperpiano rispetto al training set $S$ è definito come:
     \begin{equation}
@@ -116,18 +116,16 @@ si ottengono:
 \end{itemize}
 ma dato che il margine funzionale viene moltiplicato per $c$, non possiamo usarlo
 come distanza di un punto dall'iperpiano, perché non è \textbf{invariante} rispetto alla
-scala.
-
-Bisogna ora studiare la distanza $d$ del punto $x$ dall'iperpiano. Si ha quindi:
+scala. Bisogna studiare la distanza $d$ del punto $x$ dall'iperpiano. Si ha quindi:
 \begin{equation}
-    d = \frac{\sum_{i = 1} ^ n w_i \cdot x_i + b}{\| w \|} = 
+    d = \frac{\sum_{i = 1} ^ n w_i \cdot x_i + b}{\| w \|} =
     \frac{\langle w, x_i \rangle + b}{\|  w \|}
 \end{equation}
 \begin{definizione}[\textbf{Margine geometrico}]
     Definiamo il \textbf{margine geometrico} di un punto $(x_i, y_i)$ rispetto
     all'iperpiano $(w, b)$ come:
     \begin{equation}
-        \gamma = \frac{y_i \cdot (\langle w, x_i \rangle + b)}{\| w \|}
+        \gamma = \frac{y_i(\langle w, x_i \rangle + b)}{\| w \|}
     \end{equation}
     e quindi il margine geometrico dell'iperpiano rispetto al training set $S$ è
     definito come:
@@ -152,8 +150,8 @@ Dalla formula notiamo che, posto $\| w \| = 1$ si scala l'iperpiano $(w, b)$:
 \end{equation}
 Si considera quindi un iperpiano $\left(\frac{w}{\|w\|}, \frac{b}{\| w\|}\right)$
 con il vettore di pesi $\frac{w}{\| w \|}$ di norma unitaria.
-\begin{definizione}
-    Definiamo un iperpiano canonico se:
+\begin{definizione}[\textbf{Iperpiano canonico}]
+    Definiamo un \textbf{iperpiano canonico} se:
     \begin{equation}
         \min_{i = 1, \dots, n} |\langle w, x_i \rangle + b| =  1
     \end{equation}
@@ -176,21 +174,23 @@ una certa funzione obiettivo:
     \end{aligned}
 \end{equation*}
 Vorremmo assicurarci che tutti i punti cadano al di fuori del margine e quindi,
-dato un certo $\gamma$ vorremmo, $\forall i \in \{1, \dots, n\}$:
+dato un certo $\gamma$ vogliamo, $\forall i \in \{1, \dots, n\}$:
 \begin{equation}
     \frac{y_i \cdot (\langle w, x_i \rangle + b)}{\| w \|} \geq \gamma
 \end{equation}
 e quindi vogliamo:
 \begin{equation*}
     \begin{aligned}
-        \max \gamma \\ \text{s.t.} \ y_i \cdot (\langle w, x_i \rangle + b) \leq \gamma \\ \| w \| = 1
+        \max \gamma \\ \text{s.t.} \ y_i (\langle w, x_i \rangle + b) \leq
+        \gamma      \\ \| w \| = 1
     \end{aligned}
 \end{equation*}
 avendo, con il secondo vincolo, margine geometrico uguale a quello funzionale.
 Riscriviamo quindi:
 \begin{equation*}
     \begin{aligned}
-        \max \frac{\hat{\gamma}}{\|w\|} \\ \text{s.t.} \ y_i \cdot (\langle w, x_i \rangle + b) \leq \gamma
+        \max \frac{\hat{\gamma}}{\|w\|} \\ \text{s.t.} \ y_i(\langle w, x_i
+        \rangle + b) \leq \gamma
     \end{aligned}
 \end{equation*}
 Non avendo comunque un vincolo convesso.
@@ -200,7 +200,7 @@ Lo scalo quindi in modo da avere l'iperpiano canonico, con margine funzionale
 pari a 1:
 \begin{equation*}
     \begin{aligned}
-        \max \frac{1}{\|w\|} \\ \text{s.t.} \ y_i \cdot (\langle w, x_i \rangle + b) \leq \gamma
+        \max \frac{1}{\|w\|} \\ \text{s.t.} \ y_i(\langle w, x_i \rangle + b) \leq \gamma
     \end{aligned}
 \end{equation*}
 Si cerca quindi di rendere massimo $\frac{1}{\|w\|}$ che equivale a rendere
@@ -208,7 +208,8 @@ minimo $\frac{1}{2} \| w \|^2$. Quindi si ottiene che vogliamo minimizzare
 $\frac{1}{2} \| w \|^2$, che per comodità chiamiamo $\tau (w)$:
 \begin{equation*}
     \begin{aligned}
-        \max \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i \cdot (\langle w, x_i \rangle + b) \leq \gamma
+        \max \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i (\langle w, x_i
+        \rangle + b) \leq \gamma
     \end{aligned}
 \end{equation*}
 \begin{teorema}
@@ -224,32 +225,37 @@ Ricapitolando si hanno due ragioni a supporto delle SVM:
 Si sta cercando:
 \begin{equation*}
     \begin{aligned}
-        \max \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i \cdot (\langle w, x_i \rangle + b) \leq \gamma
+        \max \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i (\langle w, x_i
+        \rangle + b) \leq \gamma
     \end{aligned}
 \end{equation*}
 e si ha che:
 \begin{equation}
     w = \sum_{i \in Q} \alpha_i \cdot x_i
 \end{equation}
-Ovvero scritta in termini di un sottoinsieme di esempi del training set
-(noto come vettori di supporto) che giacciono sul margine dell'iperpiano, prendendo
-una somma pesata dei contenuti dei vettori.
+ovvero scritta in termini di un sottoinsieme di esempi del training set che
+giacciono sul margine dell'iperpiano, anche noto come \textbf{vettori di supporto},
+prendendo una somma pesata dei contenuti dei vettori.
 
 Il passaggio finale è che, se ho $\langle w, x \rangle + b$ che indicano cosa ho
 appreso, se ricevo un vettore $x$ da classificare posso determinare l'etichetta:
 \begin{equation}
-    sgn(\langle w, x \rangle + b) = sgn\left(\left\langle \sum_{i \in Q} \alpha_i \cdot x_i, x \right\rangle + b \right) = sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle x_i, x\rangle + b \right)
+    sgn(\langle w, x \rangle + b) = sgn\left(\left\langle \sum_{i \in Q} \alpha_i
+    \cdot x_i, x \right\rangle + b \right) = sgn\left(\sum_{i \in Q} \alpha_i
+    \cdot \langle x_i, x\rangle + b \right)
 \end{equation}
 Quindi la funzione di decisione associata alla soluzione può essere scritta in
 termini del prodotto interno tra i vettori di supporto (support vector) $x_i$ e
 il vettore da classificare $x$.
 \section{Punti non sono linearmente separabili}
-Si usa lo stesso approccio rivedendo la formulazione tramite i \textbf{metodi kernel}.
+Quando si lavora con punti non lineare separabili si usa lo stesso approccio,
+rivedendo la formulazione del problema tramite i \textbf{metodi kernel}.
 Si cerca di mappare lo spazio di input in un nuovo spazio che è a dimensione maggiore
-in cui i punti siano linearmente separabili, in questo modo è possibile classificare 
+in cui i punti siano linearmente separabili, in questo modo è possibile classificare
 anche esempi non separabili linearmente.
 
-Dobbiamo trovare una funzione:
+Per effettuare questa trasformazione, dobbiamo trovare una funzione che prende
+il nome di \textbf{funzione di trasformazione}:
 \begin{equation}
     \Phi: \mathbb{R}^n \to \mathbb{R}^m, \ \text{con} \ m > n
 \end{equation}
@@ -263,8 +269,8 @@ In questo nuovo spazio la funzione di decisione che classifica l'input $x$ è:
 Il calcolo delle funzioni di trasformazione $\Phi$ è generalmente computazionalmente
 pesante ma è semplificato nel caso di funzioni kernel.
 \begin{definizione}[\textbf{Funzione kernel}]
-    Definiamo una \textbf{funzione kernel}. Data una trasformazione
-    $\Phi: \mathbb{R}^n \to \mathbb{R}^m$ una funzione kernel è una mappa:
+    Data una trasformazione $\Phi: \mathbb{R}^n \to \mathbb{R}^m$ una 
+    \textbf{funzione kernel} è una mappa:
     \begin{equation}
         K: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R} \ \text{tale che} \  K(x, y) = \Phi(x) \cdot \Phi(y)
     \end{equation}
@@ -283,23 +289,23 @@ pesante ma è semplificato nel caso di funzioni kernel.
     Non si cercano tutte le possibili trasformazioni ma solo alcune.
 \end{definizione}
 \begin{esempio}
-	Sia $\phi:\mathbb{R}^2\rightarrow\mathbb{R}^3$ la funzione di trasformazione
+    Sia $\phi:\mathbb{R}^2\rightarrow\mathbb{R}^3$ la funzione di trasformazione
     definita nel seguente modo:
     \begin{equation}
         \phi(x,y) =(x^2,y^2,\sqrt{2xy})
     \end{equation}
-	avremo che $p_1=(x_1,x_2),p_2=(x_2,y_2)\in \mathbb{R}^2$, allora ho
+    avremo che $p_1=(x_1,x_2),p_2=(x_2,y_2)\in \mathbb{R}^2$, allora ho
     $K(p_1,p_2) =  \langle \Phi(p_1), \Phi(p_2) \rangle \in\mathbb{R}^3$,
     più precisamente:
-	$$K(p_1,p_2) = \langle\left(\begin{array}{c}
-		x_1^2\\
-		y_1^2\\
-		\sqrt{2x_1y_1}
-	\end{array}\right),\left(\begin{array}{c}
-	x_2^2\\
-	y_2^2\\
-	\sqrt{2x_2y_2}
-	\end{array}\right)\rangle= (x_1x_2)^2+(y_1y_2)^2+ 2\sqrt{x_1y_1x_2y_2}$$
+    $$K(p_1,p_2) = \langle\left(\begin{array}{c}
+                x_1^2 \\
+                y_1^2 \\
+                \sqrt{2x_1y_1}
+            \end{array}\right),\left(\begin{array}{c}
+                x_2^2 \\
+                y_2^2 \\
+                \sqrt{2x_2y_2}
+            \end{array}\right)\rangle= (x_1x_2)^2+(y_1y_2)^2+ 2\sqrt{x_1y_1x_2y_2}$$
 \end{esempio}
 Si hanno alcune proprietà:
 \begin{itemize}
@@ -325,15 +331,15 @@ Vediamo una lista di kernel standard:
     \item \textbf{Percettrone multistrato}: $K(x, y) = \tanh(b(x \cdot y) - c)$
 \end{itemize}
 \begin{teorema}
-    Un kernel definisce una matrice $K_{i,j}$ che è simmetrica e definita positiva
+    Un kernel definisce una matrice $K_{i,j}$ che è simmetrica e definita positiva.
 \end{teorema}
 \begin{teorema}[\textbf{Teorema di Mercer}]
-    Ogni matrice simmetrica e definita positiva è un kernel
+    Ogni matrice simmetrica e definita positiva è un kernel.
 \end{teorema}
 
-SVM può essere applicato a problemi non binari tramite \textit{one vs rest}, 
+SVM può essere applicato a problemi non binari tramite \textit{one vs rest},
 ovvero consiste nell'effettuare, per ogni classe, un'esecuzione di SVM tra la singola classe
-contro tutte le altre. In aggiunta, si combinano tutti gli iperpiani trovati 
+contro tutte le altre. In aggiunta, si combinano tutti gli iperpiani trovati
 tra di loro per effettuare la classificazione multiclasse.
 
 Si ha quindi l'addestramento di un singolo classificatore per classe, con i campioni
@@ -375,7 +381,7 @@ Questa euristica soffre di diversi problemi:
     \item Anche se la distribuzione in classe è bilanciata nel training set, i
           learner per la classificazione binaria vedono distribuzioni sbilanciate
           perché tipicamente l'insieme di negativi che vedono è molto più grande
-          dell'insieme di positivi. 
+          dell'insieme di positivi.
 \end{itemize}
 Un'alternativa è \textit{one vs one} prendendo le varie classi e produrre sistemi
 di SVM tra coppe di classe. La quantità di problemi derivati esplode in modo
