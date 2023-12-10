@@ -41,7 +41,7 @@ si utilizza una definizione induttiva.
               formate.
         \item $\forall p_i \in PA, \ p_i \in F_p$ le proposizioni atomiche sono
               formule ben formate.
-        \item Se $A, B \ in F_p$ allora:
+        \item Se $A, B \in F_p$ allora:
               \begin{equation}
                   (\lnot A), \ (A \land B), \ (A \lor B), \ (A \to B), \ (A \leftrightarrow B) \ \in F_p
               \end{equation}
@@ -99,17 +99,26 @@ Vediamo ora un'po di terminologia:
 \begin{itemize}
     \item $A$ è \textbf{soddisfatta} da $I_v$ se $I_v(A) = 1$.
     \item $A$ è \textbf{soddisfacibile} se esiste $I_v$ tale che $I_v(A) = 1$.
-    \item $A$ è una \textbf{tautlogia} se $I_v(A) = 1$ per ogni $I_v$
+    \item $A$ è una \textbf{tautologia} se $I_v(A) = 1$ per ogni $I_v$
     \item $A$ è una \textbf{contraddizione} se $I_v(A) = 0$ per ogni $I_v$
 \end{itemize}
 \begin{definizione}[\textbf{Logicamente equivalenti}]
-    Due formule ben formate $A$ e $B$ sono logicamente equivalenti, indicato con
-    $A \equiv B$, se e solo se:
+    Due formule ben formate $A$ e $B$ sono logicamente equivalenti allora:
     \begin{equation}
-        I_v(A) = I_v(B) \ \ \forall I_v
+        A\equiv B \iff I_v(A)=I_v(B), \forall I_v
     \end{equation}
 \end{definizione}
-\begin{definizione}\textbf{[Modello]}
+
+Si possono definire le seguenti \textbf{equivalenze logiche}:
+\begin{itemize}
+    \item $A\land (A\lor B)\equiv A$
+    \item $\lnot \lnot A\equiv A $
+    \item $\lnot (A\land B) \equiv \lnot A\lor \lnot B$
+    \item $A\lor \lnot A\equiv \top$
+    \item $A\implies B\equiv \lnot B\implies \lnot A$
+    \item $A\land \lnot A\equiv\perp$
+\end{itemize}
+\begin{definizione}[\textbf{Modello}]
     Definiamo ora i modelli, ovvero delle interpretazioni delle proposizioni
     atomiche, cioè una scelta di valori di verità per tutte le proposizioni atomiche.
 
@@ -134,7 +143,7 @@ Vediamo ora un'po di terminologia:
     Se $M \models A$ per qualche $M$, allora $A$ è soddisfacibile.
 \end{definizione}
 \begin{definizione}
-    Se $M \models A$ non è soddisfatta da nessun $M$, allora $A$ è in soddisfacibile.
+    Se $M \models A$ non è soddisfatta da nessun $M$, allora $A$ è insoddisfacibile.
 \end{definizione}
 Definizione 6.
 Definizione 7.
@@ -178,7 +187,7 @@ Abbiamo ora due nozioni distinte:
           di decidere direttamente la nozione semantica di validità e quindi
           cerchiamo di dimostrare una cosa.
 \end{itemize}
-\begin{teorema}[\textbf{(Validità, Correttezza)}]
+\begin{teorema}[\textbf{Validità, Correttezza}]
     Se $A_1, \dots, A_n \vdash B$ allora $A_1, \dots, A_n \models B$. Ovvero, se
     riusciamo a derivare $B$ da $A_1, \dots, A_n$ in ogni modello in cui sono
     vere $A_1, \dots, A_n$ allora è vera anche $B$.
@@ -242,20 +251,33 @@ Definiamo ora il linguaggio che useremo con le triple di Hoare:
               \forall z \in \mathbb{Z} \ z \in E \ \land \ \forall e_1, e_2 \in E \ (e_1 + e_2), (e_1 - e_2), -e_1, (e_1 \ast e_2), (e_1 / e_2), (e_1 \% e_2) \in E
           \end{equation}
     \item Espressioni logiche $B$ definite come:
+        \begin{equation} 
+            true, \ false \in B \ \land \ b_1,b_2\in B
+        \end{equation}
+        \begin{equation}
+            (b_1\&b_2),(b_1| b_2), !b_1\in B \ \land \ \forall e_1,e_2\in E (e_1<e_2),(e_1==e_2),(e_1!= e_2 ), (e_1<=e_2)\in B
+        \end{equation}
     \item Comandi $C$ definiti come:
-          \begin{itemize}
-              \item Assegnamento $x := e \ \in C$ dove $v$ è una variabile ed $e$
-                    è un espressione aritmetica.
-              \item Operatore di sequenza $C, D \ \in C $ dove $C$ e $D$ sono dei
-                    comandi.
-              \item Operatore di scelta $\text{if} \ B \ \text{then} \ C \ \text{else} \ D \ \text{endif} \ \in C$
-                    dove $B$ è un espressione logica, mentre $C, D$ è sono dei comandi.
-              \item Operatore di iterazione $\text{while} \ B \ \text{do} \ C \ \text{endwhile}$
-                    dove $B \in C$ è un espressione logica e $C$ è un comando.
-              \item $\text{skip} \in C$ questa istruzione non modifica la memoria.
-          \end{itemize}
+    \begin{itemize}
+        \item $\text{skip} \in C$ questa istruzione non modifica la memoria.
+        \item Assegnamento $v := e \ \in C$ dove $v$ è una variabile ed $e$
+                è un espressione aritmetica.
+        \item Operatore di sequenza $C, D \ \in C $ dove $C$ e $D$ sono dei
+            comandi.
+        \item Operatore di scelta $\text{if} \ B \ \text{then} \ C \ \text{else} \ D \ \text{endif} \ \in C$
+            dove $B$ è un espressione logica, mentre $C, D$ è sono dei comandi.
+        \item Operatore di iterazione $\text{while} \ B \ \text{do} \ C \ \text{endwhile}$
+            dove $B \in C$ è un espressione logica e $C$ è un comando.
+    \end{itemize}
 \end{itemize}
-
+possiamo estendere il linguaggio introducendo altri comandi e strutture:
+\begin{itemize}
+    \item do-while: $\ \text{do} \ C \ \text{while} \ B \ \text{endwhile} \ \equiv \ C; \ \text{while} \ B \ \text{do} \ C \ \text{endwhile}$
+	\item repeat: $ \ \text{repeat} \ C \ \text{until} \ B \ \text{endrepeat} \ \equiv \ C; \ \text{while} \ \lnot B \ \text{do} \ C \ \text{endwhile} $
+	\item for: $ \ \text{for} \ (D;B;F) \ C \ \text{endfor}$
+	\item procedure
+	\item array
+\end{itemize}
 Una tripla di Hoare rappresenta un criterio di correttezza del programma, la sua
 regola di derivazione è definita come:
 \begin{equation}
@@ -459,6 +481,16 @@ operazioni tra insiemi:
           anche una relazione tra formule: "se $p$ implica $q$, allora $m(p) \subseteq m(q)$
           ovvero $q$ è più debole di $p$.
 \end{itemize}
+\begin{nota}
+    L'implicazione può assumere due significati:
+	\begin{itemize}
+		\item \textbf{connettivo logico}
+		$$p\implies q \equiv\lnot p\lor q$$
+		\item \textbf{relazione tra formule}
+		$$p\implies q \text{ allora } m(p)\subseteq m(q)$$
+		$q$ è più debole (mi da un'informazione minore) di $p$ 
+	\end{itemize}
+\end{nota}
 Definite queste operazioni possiamo definire i criteri di scelta della pre-condizione
 \textit{migliore} $C \{q\}$ cerchiamo la pre-condizione più debole
 (\textbf{weakest precondition}) $p$ tale che $$\models \{p\} \ C \ \{q\}$$ $p$
