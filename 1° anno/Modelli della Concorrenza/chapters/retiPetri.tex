@@ -31,24 +31,23 @@ Lo \textbf{stato} è definito da una collezione di stati locali.
     dove:
     \begin{itemize}
         \item $B$ è un insieme finito di condizioni, anche detti stati locali,
-            proposizioni vere o false. Rappresentato da: $$\bigcirc$$
+              proposizioni vere o false. Rappresentato da: $$\bigcirc$$
         \item $E$ è un insieme finito di eventi, \textbf{trasformazioni locali}
-            di stato. Rappresentato da: $$\Box$$
-            \begin{equation}
-                B\cap E  = \emptyset \land B\cup E \ne \emptyset
-            \end{equation}
+              di stato. Rappresentato da: $$\Box$$
+              \begin{equation}
+                  B\cap E  = \emptyset \land B\cup E \ne \emptyset
+              \end{equation}
         \item $F \subseteq (B \times E) \cup (E \times B)$ è una
-            \textbf{relazione di flusso} Rappresentato da: $$\to$$
-            Inoltre, la relazione di flusso è tale per cui non esistano elementi
-            isolati, in quanto non avrebbero senso, in un tale sistema, eventi isolati
-            o condizioni isolate. Si ha, formalmente, che:
-            \begin{equation}
-                dom(F) \cup ran(F) = B \cup E
-            \end{equation}
-            ovvero non ho condizioni/eventi isolati, in quanto non avrebbero
-            senso, avrei una condizione costante e un evento che non accade
-            mai; quindi, dominio e codominio di $F$ coprono l'insieme di
-            condizioni ed eventi.
+              \textbf{relazione di flusso} Rappresentato da: $$\to$$
+              Inoltre, la relazione di flusso è tale per cui non esistano elementi
+              isolati, in quanto non avrebbero senso. Si ha, formalmente, che:
+              \begin{equation}
+                  dom(F) \cup ran(F) = B \cup E
+              \end{equation}
+              ovvero non ho condizioni/eventi isolati, in quanto non avrebbero
+              senso, avrei una condizione costante e un evento che non accade
+              mai; quindi, dominio e codominio di $F$ coprono l'insieme di
+              condizioni ed eventi.
     \end{itemize}
 \end{definizione}
 Sia $x \in X$ dove l'insieme $X$ è definito come $X = B \cup E$, allora possiamo
@@ -110,7 +109,8 @@ il cambiamento di stato è locale:
     \begin{itemize}
         \item $N$ è \textbf{semplice} se e solo se:
               \begin{equation}
-                  \forall x, y \in B \cup E, \ ^{\bullet} x = \ ^{\bullet} y \ \land \ x^{\bullet} = y^{\bullet} \Rightarrow x = y
+                  \forall x, y \in B \cup E, \ ^{\bullet} x = \ ^{\bullet} y \
+                  \land \ x^{\bullet} = y^{\bullet} \Rightarrow x = y
               \end{equation}
         \item $N$ è \textbf{pura} se e solo se:
               \begin{equation}
@@ -123,12 +123,14 @@ il cambiamento di stato è locale:
     \begin{itemize}
         \item $U$ è un \textbf{insieme di eventi indipendenti} se e solo se:
               \begin{equation}
-                  \forall e_1, e_2 \in U: \ e_1 \neq e_2 \Rightarrow (^{\bullet}e_1 \cup e_1^{\bullet}) \cap (^{\bullet}e_2 \cup e_2^{\bullet}) = \emptyset
+                  \forall e_1, e_2 \in U: \ e_1 \neq e_2 \Rightarrow (^{\bullet}e_1
+                  \cup e_1^{\bullet}) \cap (^{\bullet}e_2 \cup e_2^{\bullet}) = \emptyset
               \end{equation}
         \item $U$ è un \textbf{passo abilitato} (insieme di eventi concorrenti)
               in $c$ anche scritto come $c[U >$ se e solo se:
               \begin{equation}
-                  U \ \text{insieme di eventi indipendenti} \ \land \ \forall e \in U: \ c[e >
+                  U \ \text{insieme di eventi indipendenti} \ \land \ \forall e
+                  \in U: \ c[e >
               \end{equation}
         \item $U$ è un \textbf{passo} da $c_1$ a $c_2$, anche scritto come
               $c_1[U > c_2$ se e solo se:
@@ -140,68 +142,66 @@ il cambiamento di stato è locale:
 \end{definizione}
 Un \textbf{sistema elementare} $\Sigma = (B, E, F; c_{in})$ è definito da una rete
 $N = (B, E, F)$ e da $c_{in} \subseteq B$ un caso iniziale.
-
-\begin{definizione}
+\begin{definizione}[\textbf{Caso raggiungibile}]
     L'insieme dei \textbf{casi raggiungibili} ($C_{\Sigma}$) del sistema elementare
     $\Sigma = (B, E, F; c_{in})$ è il più piccolo sottoinsieme di $2^B$ tale che:
     \begin{itemize}
         \item $c_{in} \in C_{\Sigma}$
         \item Se $c \in C_{\Sigma}, U \subseteq E, c' \subseteq B$ sono tali che:
-            $c[U > c'$ allora $c' \in C_{\Sigma}$
+              $c[U > c'$ allora $c' \in C_{\Sigma}$
     \end{itemize}
 \end{definizione}
-
-L'insieme $C_\Sigma$ è un insieme \textbf{finito} perché si parla di sottoinsiemi di insiemi 
-finiti che sono anch'essi finiti, ovviamente esplode in un esponenziale.
-
-\begin{definizione}
+L'insieme $C_\Sigma$ è un insieme \textbf{finito} perché si parla di sottoinsiemi
+di insiemi finiti che sono anch'essi finiti, ovviamente esplode in un esponenziale.
+\begin{definizione}[\textbf{Insieme dei passi}]
     $U_{\Sigma}$ è l'\textbf{insieme dei passi} di $\Sigma$:
     \begin{equation}
         U_{\Sigma} = \{U \subseteq \ E | \exists c, c' \in C_{\Sigma}: c[U > c'\}
     \end{equation}
 \end{definizione}
-
 Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare,
 $c_i \in C_{\Sigma}, e_i \in E, U_i \subseteq E$ possiamo distinguere:
 \begin{itemize}
     \item \textbf{Comportamento sequenziale}: sequenze di occorrenze o di eventi
-        (”interleaving”, simulazione sequenziale non deterministica), ovvero una
-        sequenza di eventi che possono occorrere dal caso iniziale, facendo scattare
-        in maniera sequenziale gli eventi uno alla volta in $c_n$:
-        \begin{equation}
-            c_{in}[e_1 > c_1[e_2 > \dots [e_n > c_n \ \text{oppure} \ c_{in}[e_1e_2 \dots e_n > c_n
-        \end{equation}
-    \item \textbf{Comportamento non sequenziale} (semantica a passi): sequenze di passi (”step semantics”)
-        in quanto possiamo anche considerare insiemi di eventi, ovvero passi:
-        \begin{equation}
-            c_{in}[U_1 > c_1[U_2 > \dots [U_n > c_n \ \text{oppure} \ c_{in}[U_1U_2 \dots U_n > c_n
-        \end{equation}
-    \item \textbf{Comportamento non sequenziale}  (semantica di ordine parziale): processi non sequenziali
-        (”partial order semantics” - ”true concurrency”). Si definiscono processi non
-        sequenziali. Il comportamento di tale sistema viene registrato in una rete di Petri.
+          (”interleaving”, simulazione sequenziale non deterministica), ovvero una
+          sequenza di eventi che possono occorrere dal caso iniziale, facendo scattare
+          in maniera sequenziale gli eventi uno alla volta in $c_n$:
+          \begin{equation}
+              c_{in}[e_1 > c_1[e_2 > \dots [e_n > c_n \ \text{oppure} \
+              c_{in}[e_1e_2 \dots e_n > c_n
+          \end{equation}
+    \item \textbf{Comportamento non sequenziale} (semantica a passi): sequenze di
+          passi (”step semantics”) in quanto possiamo anche considerare insiemi
+          di eventi, ovvero passi:
+          \begin{equation}
+              c_{in}[U_1 > c_1[U_2 > \dots [U_n > c_n \ \text{oppure} \
+              c_{in}[U_1U_2 \dots U_n > c_n
+          \end{equation}
+    \item \textbf{Comportamento non sequenziale}  (semantica di ordine parziale):
+          processi non sequenziali (”partial order semantics” - ”true concurrency”).
+          Il comportamento di tale sistema viene registrato in una rete di Petri.
 \end{itemize}
 Si considerano sia sequenze finite che sequenze infinite (di eventi o di passi).
 
 Il comportamento di un sistema elementare $\Sigma = (B, E, F; c_{in})$ può essere
 rappresentato dal suo grafo dei casi.
-
-\begin{definizione}
+\begin{definizione}[\textbf{Grafo dei casi}]
     Il \textbf{grafo dei casi} di $\Sigma$ è il sistema di transizioni etichettato
     $CG_{\Sigma} = (C_{\Sigma},U_{\Sigma}, A, c_{in})$ dove:
     \begin{itemize}
         \item $C_{\Sigma}$ è l'insieme dei nodi del grafo (gli stati globali).
         \item $U_{\Sigma}$ è l'alfabeto.
         \item $A$ è l'insieme di archi etichettati:
-            \begin{equation}
-                A = \{(c, U, c') | c, c' \in C_{\Sigma}, U \in U_{\Sigma}, c[U > c'\}
-            \end{equation}
-        I nodi sono i casi sequenziali mentre gli archi sono gli eventi
+              \begin{equation}
+                  A = \{(c, U, c') | c, c' \in C_{\Sigma}, U \in U_{\Sigma}, c[U > c'\}
+              \end{equation}
+              I nodi sono i casi sequenziali mentre gli archi sono gli eventi
     \end{itemize}
 \end{definizione}
-
-\begin{definizione}
-    Il \textbf{grafo dei casi sequenziali} di $\Sigma=(B,E,F;c_{in})$ è 
-    il sistema di transizioni etichettato $SCG_\Sigma=(C_\Sigma, E, A,c_{in})$ dove:
+\begin{definizione}[\textbf{Grafo dei casi sequenziale}]
+    Il \textbf{grafo dei casi sequenziali} di $\Sigma=(B,E,F;c_{in})$ è
+    il sistema di transizioni etichettato $SCG_\Sigma=(C_\Sigma, E, A,c_{in})$
+    dove:
     \begin{equation}
         A=\left\{(c,e,c')|c,c'\in C_\Sigma, e\in E: c[e>c' \right\}
     \end{equation}
@@ -211,48 +211,49 @@ rappresentato dal suo grafo dei casi.
 \begin{definizione} [\textbf{Diamond property}]
     Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare,
     $CG_{\Sigma} = (C_{\Sigma},U_{\Sigma}, A, c_{in})$ il suo grafi dei casi,
-    $U_1,U_2 \in U_{\Sigma}: U_1 \cap U_2 = \emptyset, U_1 \neq \emptyset, U_2 \neq \emptyset$,
-    e $c_1, c_2, c_3, c_4 \in C_{\Sigma}$, allora valgono:
+    $U_1,U_2 \in U_{\Sigma}: U_1 \cap U_2 = \emptyset, U_1 \neq \emptyset, U_2
+        \neq \emptyset$, e $c_1, c_2, c_3, c_4 \in C_{\Sigma}$, allora valgono:
     \begin{enumerate}
         \item Dato $c_1[e_1 >$ e $c_1[e_2 >$ segue che:
-            \begin{equation}
-                ^{\bullet}e_1 \cap e_2^{\bullet} = \emptyset \ \land \ ^{\bullet}e_2 \cap e_1^{\bullet} = \emptyset
-            \end{equation}
-            infatti, se $e_1$ e $e_2$ sono entrambi abilitati in $c_1$, le loro
-            precondizioni sono vere e le post-condizioni false, e quindi non è
-            possibile che una condizione sia contemporaneamente precondizione di
-            $e_1$ (vera) e anche post-condizione di $e_2$ (falsa), e viceversa.
+              \begin{equation}
+                  ^{\bullet}e_1 \cap e_2^{\bullet} = \emptyset \ \land \
+                  ^{\bullet}e_2 \cap e_1^{\bullet} = \emptyset
+              \end{equation}
+              infatti, se $e_1$ e $e_2$ sono entrambi abilitati in $c_1$, le loro
+              precondizioni sono vere e le post-condizioni false, e quindi non è
+              possibile che una condizione sia contemporaneamente precondizione di
+              $e_1$ (vera) e anche post-condizione di $e_2$ (falsa), e viceversa.
 
-            Da $c_1[e_1 > c_2[e_2  >$ segue:
-            \begin{equation}
-                ^{\bullet} e_1 \cap ^{\bullet} e_2 = \emptyset \ \land \ e_1^{\bullet} \cap e_2^{\bullet} = \emptyset
-            \end{equation}
-            in $c_2$, infatti, le precondizioni di $e_1$ sono false mentre le
-            precondizioni di $e_2$ sono vere e quindi $e_1$ e $e_2$ non possono
-            avere precondizioni in comune. Inoltre, sempre in $c_2$ le post-condizioni
-            di $e_1$ sono vere, mentre quelle di $e_2$ sono false, e quindi
-            $e_1$ e $e_2$ non possono avere post-condizioni in comune. Segue quindi \ref{fig:dp1}.
-            \begin{figure}[!ht]
-                \centering
-                \includegraphics[width=0.5\textwidth]{img/reti/dp1.png}
-                \caption{Diamond property 1}
-                \label{fig:dp1}
-            \end{figure}
+              Da $c_1[e_1 > c_2[e_2  >$ segue:
+              \begin{equation}
+                  ^{\bullet} e_1 \cap ^{\bullet} e_2 = \emptyset \ \land \
+                  e_1^{\bullet} \cap e_2^{\bullet} = \emptyset
+              \end{equation}
+              in $c_2$, infatti, le precondizioni di $e_1$ sono false mentre le
+              precondizioni di $e_2$ sono vere e quindi $e_1$ e $e_2$ non possono
+              avere precondizioni in comune. Inoltre, sempre in $c_2$ le post-condizioni
+              di $e_1$ sono vere, mentre quelle di $e_2$ sono false, e quindi
+              $e_1$ e $e_2$ non possono avere post-condizioni in comune. Segue
+              quindi \ref{fig:dp1}.
+              \begin{figure}[!ht]
+                  \centering
+                  \includegraphics[width=0.5\textwidth]{img/reti/dp1.png}
+                  \caption{Diamond property 1}
+                  \label{fig:dp1}
+              \end{figure}
         \item Supponiamo che $U_1 \cup U_2 \in U_{\Sigma}$ e che
-            $U_1 \cap U_2 = \emptyset$, $U_1 \neq \emptyset, U_2 \neq \emptyset$.
-            Allora se $c_1[U_1 \cup U_2 >c_3$ sicuramente $c_1[U_1 >$ e $c_1[U_2 >$
-            e anche: $c_1[U_1 > c_2[U_2 >c_3$ e $c_1[U_2 > c_4[U_1 >c_3$. Segue
-            quindi \ref{fig:dp2}.
-            \begin{figure}[!ht]
-                \centering
-                \includegraphics[width=0.5\textwidth]{img/reti/dp2.png}
-                \caption{Diamond property 2}
-                \label{fig:dp2}
-            \end{figure}
+              $U_1 \cap U_2 = \emptyset$, $U_1 \neq \emptyset, U_2 \neq \emptyset$.
+              Allora se $c_1[U_1 \cup U_2 >c_3$ sicuramente $c_1[U_1 >$ e $c_1[U_2 >$
+              e anche: $c_1[U_1 > c_2[U_2 >c_3$ e $c_1[U_2 > c_4[U_1 >c_3$. Segue
+              quindi \ref{fig:dp2}.
+              \begin{figure}[!ht]
+                  \centering
+                  \includegraphics[width=0.5\textwidth]{img/reti/dp2.png}
+                  \caption{Diamond property 2}
+                  \label{fig:dp2}
+              \end{figure}
     \end{enumerate}
 \end{definizione}
-
-
 Per la \textit{Diamond property}, nei sistemi elementari il grafo dei casi e il
 grafo dei casi sequenziale sono \textit{sintatticamente equivalenti}, ovvero
 possono essere ricavati l'uno dall'altro.
@@ -273,8 +274,8 @@ se e solo se hanno grafi dei casi sequenziale isomorfi.
     A dovrà soddisfare la Diamond property.
 \end{definizione}
 \begin{definizione}[\textbf{Contatto}]
-    Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare, $e \in E$, $c \in C_{\Sigma}$
-    allora $(e, c)$ è un \textbf{contatto} se e solo se:
+    Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare, $e \in E$, $c \in
+        C_{\Sigma}$ allora $(e, c)$ è un \textbf{contatto} se e solo se:
     \begin{equation}
         ^{\bullet}e \subseteq c \ \land \ e^{\bullet} \cap c \neq \emptyset
     \end{equation}
@@ -283,7 +284,8 @@ se e solo se hanno grafi dei casi sequenziale isomorfi.
     Un sistema elementare $\Sigma = (B, E, F; c_{in})$ è \textbf{senza contatti}
     se e solo se:
     \begin{equation}
-        \forall e \in E, \ \forall c \in C_{\Sigma} \ \text{si ha} \ ^{\bullet}e \subseteq c \Rightarrow e^{\bullet} \cap c = \emptyset
+        \forall e \in E, \ \forall c \in C_{\Sigma} \ \text{si ha} \ ^{\bullet}e
+        \subseteq c \Rightarrow e^{\bullet} \cap c = \emptyset
     \end{equation}
 \end{definizione}
 È possibile trasformare un sistema elementare $\Sigma$ con contatti in un
@@ -302,8 +304,9 @@ verificare che le precondizioni di $e$ siano vere:
     c[e> \ \text{se e solo se} \ ^{\bullet} e \subseteq c
 \end{equation}
 \begin{definizione}[\textbf{Sequenza}]
-    Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare, $c \in C_{\Sigma}$ $e_1, e_2, \in E$,
-    allora $e_1$ ed $e_2$ sono in \textbf{sequenza} in $c$ se e solo se:
+    Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare, $c \in C_{\Sigma}$
+    $e_1, e_2, \in E$, allora $e_1$ ed $e_2$ sono in \textbf{sequenza} in $c$
+    se e solo se:
     \begin{equation}
         c[e_1 > \ \land \ \lnot c[e_2 > \ \land \ c[e_1e_2 > \ (c[e_1 > c'[e_2 >)
     \end{equation}
@@ -312,11 +315,13 @@ verificare che le precondizioni di $e$ siano vere:
         \includegraphics[width=0.5\textwidth]{img/reti/Seq.png}
         \caption{Rappresentazione della sequenza}
     \end{figure}
-    In altre parole, è presente una relazione di dipendenza causale tra $e_1$ ed $e_2$
+    In altre parole, è presente una relazione di dipendenza causale tra $e_1$ ed
+    $e_2$.
 \end{definizione}
 \begin{definizione}[\textbf{Concorrenti}]
-    Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare, $c \in C_{\Sigma}$ $e_1, e_2, \in E$,
-    allora $e_1$ ed $e_2$ sono \textbf{concorrenti} in $c$ se e solo se:
+    Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare, $c \in C_{\Sigma}$
+    $e_1, e_2, \in E$, allora $e_1$ ed $e_2$ sono \textbf{concorrenti} in $c$
+    se e solo se:
     \begin{equation}
         c[\{e_1, e_2\} >
     \end{equation}
@@ -380,9 +385,8 @@ Prendiamo l'esempio di una rete ciclica per spegnere il fuoco (fig \ref{fig:speg
 In questo sistema si hanno $4$ persone che spostano $4$ secchi, le persone non possono
 oltrepassare le altre persone, questo significa che quando si incontrano dovranno
 scambiarsi il secchio vuoto con quello pieno. A sinistra della rete c'è il lago dal quale
-si riempie il secchio vuoto, a destra c'è il fuoco da spegnere. Possiamo essere 
+si riempie il secchio vuoto, a destra c'è il fuoco da spegnere. Possiamo essere
 interessati a tutta la storia dei movimenti dei secchi.
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{img/reti/rete_spegnimento_fuoco.png}
@@ -450,12 +454,12 @@ dall'uno all'altro.
     come:
     \begin{itemize}
         \item \textbf{co-set} se e solo se $\forall x, y \in C$: $x \ \textbf{co} \ y$,
-                quindi $C$ è una clique della relazione \textbf{co}.
+              quindi $C$ è una clique della relazione \textbf{co}.
         \item \textbf{taglio} se e solo se $C$ è un \textbf{co-set} massimale
-                (tutti gli elementi nel taglio sono in relazione \textbf{co})
-        \begin{equation}
-            \forall z\in X, \exists v\in C, z \ \textbf{li} \ v
-        \end{equation}
+              (tutti gli elementi nel taglio sono in relazione \textbf{co})
+              \begin{equation}
+                  \forall z\in X, \exists v\in C, z \ \textbf{li} \ v
+              \end{equation}
     \end{itemize}
     Definiamo $C$ come \textbf{co-set} massimale se e solo se $\forall y \in X \cap C$
     si ha che:
@@ -463,8 +467,8 @@ dall'uno all'altro.
         \exists c \in C: y \not\textbf{co} \ c
     \end{equation}
     Quindi in $C$ definito o come \textbf{co-set} o come \textbf{taglio} si ha
-    che \textbf{co} è transitività. 
-    
+    che \textbf{co} è transitività.
+
     Definiamo:
     \begin{equation}
         L \subseteq X
@@ -473,11 +477,12 @@ dall'uno all'altro.
     \begin{itemize}
         \item \textbf{li-set} se e solo se $\forall x, y \in L: \ x \ \textbf{li} \ y$
         \item \textbf{linea} se e solo se $L$ è un \textbf{li-set} massimale.
-        \begin{equation}
-            \forall z\in X, \exists v\in C, z \ \textbf{li} \ v
-        \end{equation}
+              \begin{equation}
+                  \forall z\in X, \exists v\in C, z \ \textbf{li} \ v
+              \end{equation}
     \end{itemize}
-    Definiamo $L$ come \textbf{li-set} massimale se e solo se $\forall y \in X \backslash L$ si ha che:
+    Definiamo $L$ come \textbf{li-set} massimale se e solo se $\forall y \in X
+        \backslash L$ si ha che:
     \begin{equation}
         \exists l \in L: \ y \not\textbf{li}  \ l
     \end{equation}
@@ -526,19 +531,22 @@ nella storia del sistema.
     Sia $\Sigma = (S, T, F, c_{in})$ un sistema elementare senza contatti e finito,
     ovvero con $S \cup T$ finito.
 
-    $\langle N = (B, E, F), \phi \rangle$ è un processo non sequenziale su $\Sigma$
-    se e solo se:
+    $\langle N = (B, E, F), \phi \rangle$ è un \textbf{processo non sequenziale}
+    su $\Sigma$ se e solo se:
     \begin{itemize}
         \item $(B, E, F)$ è una rete causale nella quale si ammettono condizioni
               isolate.
         \item $\phi: B \cup E \to S \cup T$ è una mappa tale che:
               \begin{enumerate}
                   \item $\phi(B) \subseteq S, \ \phi(E) \subseteq T$
-                  \item $\forall x_1, x_2 \in B \cup E: \ \phi(x_1) = \phi(x_2) \Rightarrow (x_1 \leq x_2) \ \lor \ (x_2 \leq x_1)$
-                  \item $\forall e \in E: \ \phi(^{\bullet}e) = ^{\bullet}\phi(e) \ \land \ \phi(e^{\bullet}) = \phi(e)^{\bullet}$
+                  \item $\forall x_1, x_2 \in B \cup E: \ \phi(x_1) = \phi(x_2)
+                            \Rightarrow (x_1 \leq x_2) \ \lor \ (x_2 \leq x_1)$
+                  \item $\forall e \in E: \ \phi(^{\bullet}e) = ^{\bullet}\phi(e)
+                            \ \land \ \phi(e^{\bullet}) = \phi(e)^{\bullet}$
                   \item $\phi(Min(N)) = c_{in}$ dove
                         $Min(N) = \{x \in B \cup E | \not\exists y: \ (y, x) \in F\}$
-                        ovvero non hanno un arco entrante, sono gli stati locali iniziali.
+                        ovvero non hanno un arco entrante, sono gli stati locali
+                        iniziali.
               \end{enumerate}
     \end{itemize}
 \end{definizione}
@@ -551,33 +559,35 @@ $\Sigma = (S, T, F, c_{in})$ sistema elementare finito e senza contatti allora:
 \end{itemize}
 I B-tagli corrispondono ai casi raggiungibili perché sono contemporaneamente veri.
 \subsection{Reti di Occorrenze}
-Vogliamo avere una struttura che registri tutti i comportamenti possibili 
-registrando le dipendenze e le indipendenze tra i processi. Posso avere una 
+Vogliamo avere una struttura che registri tutti i comportamenti possibili
+registrando le dipendenze e le indipendenze tra i processi. Posso avere una
 struttura che mi raccolga tutti i possibili processi sequenziali.
-\begin{definizione}
-	Una \textbf{relazione di conflitto}  $\#\subseteq (B\cup E)\times (B\cup E)$ 
-    è definita come 
+\begin{definizione}[\textbf{Relazione di conflitto}]
+    Una \textbf{relazione di conflitto}  $\#\subseteq (B\cup E)\times (B\cup E)$
+    è definita come
     \begin{equation}
         x\#y\iff \exists e_1,e_2\in E :^{\bullet}e_1 \cap ^{\bullet} e_2\ne \emptyset
         \land e_1\le x \land e_2\le y
     \end{equation}
-	due elementi sono in relazione se nel loro passato hanno 2 eventi in conflitto.
+    due elementi sono in relazione se nel loro passato hanno 2 eventi in conflitto.
 \end{definizione}
 \begin{definizione}[\textbf{Rete di occorrenze}]
     $N = (B, E, F)$ è una \textbf{rete di occorrenze} se e solo se:
     \begin{itemize}
-        \item \textbf{conflitti solo in avanti}: $\forall b \in B: \ | ^{\bullet}b| \leq 1$ sono presenti dei conflitti
-              solo in avanti.
-        \item \textbf{aciclica}: $\forall x, y \in B \cup E: \ (x, y) \in F^{+} \Rightarrow (y, x) \notin F^{+}$
+        \item \textbf{conflitti solo in avanti}: $\forall b \in B: \ | ^{\bullet}b|
+                  \leq 1$ sono presenti dei conflitti solo in avanti.
+        \item \textbf{aciclica}: $\forall x, y \in B \cup E: \ (x, y) \in F^{+}
+                  \Rightarrow (y, x) \notin F^{+}$
               non ci sono cicli
-        \item\textbf{passato finito}: $\forall e \in E: \{x \in B \cup E| \ xF^{\ast} e \}$ è finito
+        \item\textbf{passato finito}: $\forall e \in E: \{x \in B \cup E| \
+                  xF^{\ast} e \}$ è finito
         \item \textbf{relazione di conflitto} $\#$ non è riflessiva.
     \end{itemize}
 \end{definizione}
-In queste reti è ancora possibile associare a $N$ un ordine parziale $(X, \leq) = (B \cup E, F^{\ast})$.
-Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in 
-\textbf{conflitto}. Estenderemo la relazione $co$ specificando $x\text{ co }y$ 
-aggiunge il fatto che $\lnot x\#y$.
+In queste reti è ancora possibile associare a $N$ un ordine parziale
+$(X, \leq) = (B \cup E, F^{\ast})$. Se i due elementi non sono ordinati allora
+saranno o in relazione $co$ o in \textbf{conflitto}. Estenderemo la relazione $co$
+specificando $x\text{ co }y$ aggiunge il fatto che $\lnot x\#y$.
 \begin{definizione}[\textbf{Processo ramificato}]
     Sia $\Sigma = (S,T, F, c_{in})$ un sistema elementare senza contatti e finito.
     $\langle N = (B, E, F); \phi \rangle$ è un \textbf{processo ramificato} di $\Sigma$
@@ -587,7 +597,8 @@ aggiunge il fatto che $\lnot x\#y$.
         \item $\phi: B \cup E \to S \cup T$ è una mappa:
               \begin{enumerate}
                   \item $\phi(B) \subseteq S, \ \phi(E) \subseteq T$
-                  \item $\forall e_1, e_2 \in E: \ ( ^{\bullet} e_1 =  ^{\bullet} e_2 \ \land \ \phi(e_1) = \phi(e_2)) \Rightarrow e_1 = e_2$
+                  \item $\forall e_1, e_2 \in E: \ ( ^{\bullet} e_1 =  ^{\bullet}
+                            e_2 \ \land \ \phi(e_1) = \phi(e_2)) \Rightarrow e_1 = e_2$
                   \item $\forall e \in E$ : la restrizione di $\phi$ a $^{\bullet} e$
                         è una biiezione tra $^{\bullet} e \ \text{e} \ ^{\bullet} \phi(e)$
                         e la restrizione di $\phi$ a $e^{\bullet}$ è una biiezione tra
@@ -600,7 +611,7 @@ aggiunge il fatto che $\lnot x\#y$.
 La proprietà 2 e 3 delle reti causali in and tra loro implicano la proprietà 3
 delle reti di occorrenze. Un ragionamento analogo può essere fatto per le proprietà
 2 e 4 delle reti causali, le quali in and implicano la proprietà 4 delle reti
-di occorrenza.  
+di occorrenza.
 \begin{nota}
     Un processo non sequenziale può essere definito anche richiedendo che $\phi$
     soddisfi: (1),(2),(3') e (4'), dove 3' e 4' implicano le proprietà 3 e 4
@@ -615,12 +626,12 @@ di occorrenza.
     $\Pi_2 = \langle N_2; \phi_2 \rangle$ se e solo se $N_1$ è una sottorete di
     $N_2$ e $\phi_{2|N_1} = \phi_1$ ($\phi_2$ ”ristretto” a $N_1$ è uguale a $\phi_1$).
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Unfolding}]
     $\Sigma$ ammette un unico processo ramificato che è massimale rispetto alla
     relazione di prefisso tra processi. Tale processo massimale è chiamato
     \textbf{unfolding} di $\Sigma$, denotato $Unf (\Sigma)$.
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Corsa}]
     Un processo non sequenziale è un processo ramificato $\Pi = \langle N; \phi \rangle$
     tale che $N$ sia una rete causale (senza conflitti), tale processo è chiamato
     anche \textbf{corsa} (\textbf{run}).
@@ -665,68 +676,66 @@ struttura dati alle marche. Addirittura, una marca potrebbe rappresentare un
 processo a sé stante.
 \begin{definizione}[\textbf{Regola di scatto}]
     \begin{equation}
-        M[t > \ \text{se e solo se} \ \forall s \in S \ M(s) \geq W(s, t) \ \land \ M(s) \ \text{è} \ W(t, s) \leq K(s)
+        M[t > \ \text{se e solo se} \ \forall s \in S \ M(s) \geq W(s, t) \ \land
+        \ M(s) \ \text{è} \ W(t, s) \leq K(s)
     \end{equation}
     \begin{equation}
-        M[t > M' \ \text{se e solo se} \ M[t > \ \land \ \forall s \in S \ M'(s) = M(s) - W(s, t) + W(t, s)
+        M[t > M' \ \text{se e solo se} \ M[t > \ \land \ \forall s \in S \ M'(s)
+        = M(s) - W(s, t) + W(t, s)
     \end{equation}
 \end{definizione}
-
 \begin{definizione}
-	$\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$, l'insieme delle 
-    \textbf{marcature raggiungibili} di $\Sigma$ è $[M_0>$, il più piccolo 
+    $\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$, l'insieme delle
+    \textbf{marcature raggiungibili} di $\Sigma$ è $[M_0>$, il più piccolo
     insieme tale che:
-	\begin{itemize}
-		\item $M_0\in [M_0>$
-		\item $M\in [M_0>\land \exists t\in T: M[t>M'\implies M' \in [M_0>$
-	\end{itemize}
+    \begin{itemize}
+        \item $M_0\in [M_0>$
+        \item $M\in [M_0>\land \exists t\in T: M[t>M'\implies M' \in [M_0>$
+    \end{itemize}
 \end{definizione}
 \begin{definizione}
-	$\Sigma = (S,T,F,K,W;M_0)$ un \textbf{sistema} $P/T$ allora 
-    $RG(\Sigma)=([M_0>,U_\Sigma,A,M_0)$ è il \textbf{grafo di raggiungibilità} 
-    di $\Sigma$, dove 
+    $\Sigma = (S,T,F,K,W;M_0)$ un \textbf{sistema} $P/T$ allora
+    $RG(\Sigma)=([M_0>,U_\Sigma,A,M_0)$ è il \textbf{grafo di raggiungibilità}
+    di $\Sigma$, dove
     \begin{equation}
-    	S=\left\{(M,U,M'):M,M'\in [M_0>\land U\in U_\Sigma\land M[U>M' \right\}
+        S=\left\{(M,U,M'):M,M'\in [M_0>\land U\in U_\Sigma\land M[U>M' \right\}
     \end{equation}
 \end{definizione}
-
 Anche qui, come nei sistemi elementari si può costruire l'insieme delle marcature
 raggiungibili e il relativo grafo di raggiungibilità. Generalmente in queste reti
 la Diamond property non è più valida, questo causa self-loop.
 
-Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere posti 
-per eliminare situazione di \textbf{contatto}, eliminando il vincolo sulla capacità, 
-senza alterare il comportamento del sistema. Questo si può fare mediante la 
+Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere posti
+per eliminare situazione di \textbf{contatto}, eliminando il vincolo sulla capacità,
+senza alterare il comportamento del sistema. Questo si può fare mediante la
 \textbf{complementazione} con stati.
-
 \begin{definizione}
-	Un sistema $P/T$ $\Sigma = (S,T,F,K,W;M_0)$ è \textbf{senza contatti} sse 
+    Un sistema $P/T$ $\Sigma = (S,T,F,K,W;M_0)$ è \textbf{senza contatti} sse
     $\forall M\in [M_0>,\forall t\in T, \forall s\in S$:
     \begin{equation}
-    	M(s)\ge W(s,t)\implies M(s)+W(t,s)\le K(s)
+        M(s)\ge W(s,t)\implies M(s)+W(t,s)\le K(s)
     \end{equation}
 \end{definizione}
- 
-Se $\Sigma = (S,T,F,K,W;M_0)$ è un \textbf{sistema} $P/T$ senza contatti allora 
+Se $\Sigma = (S,T,F,K,W;M_0)$ è un \textbf{sistema} $P/T$ senza contatti allora
 $t$ è \textbf{abilitata} in $M\in [M_0>$ ($M[t>$) sse
 \begin{equation}
     \forall s\in S M(s)\ge W(s,t)
 \end{equation}
-Nei sistemi senza contatti la \textbf{capacità} non ha alcun ruolo nella regola 
-di scatto perché la transizione può scattare se nei suoi posti di input ci sono 
+Nei sistemi senza contatti la \textbf{capacità} non ha alcun ruolo nella regola
+di scatto perché la transizione può scattare se nei suoi posti di input ci sono
 abbastanza marche.
 \begin{definizione}[\textbf{Reti marcate}]
     Un sistema Posti e transizione è una rete marcata se non ha vincoli sulla
     capacità dei posti e ha tutti gli archi di peso unitario.
     \begin{equation}
-        \forall s\in S, M_0(s)\in \mathbb{N}\land K(s)=\infty \land \forall t\in 
+        \forall s\in S, M_0(s)\in \mathbb{N}\land K(s)=\infty \land \forall t\in
         T, W(s,t)\le 1\land W(t,s)\le 1
     \end{equation}
-	Le reti marcate sono denotate da $(S,T,F;M_0)$ in quanto $K,W$ sono ridondanti
+    Le reti marcate sono denotate da $(S,T,F;M_0)$ in quanto $K,W$ sono ridondanti
 \end{definizione}
 
 \begin{definizione} [\textbf{Reti marcate sicure}]
-	$\Sigma = (S,T,F;M_0)$ una \textbf{rete marcata} allora è \textbf{sicura} 
+    $\Sigma = (S,T,F;M_0)$ una \textbf{rete marcata} allora è \textbf{sicura}
     (\textbf{safe}) sse:
     \begin{equation}
         \forall M\in [M_0>,\forall s\in S:M(s)\le1
@@ -736,71 +745,74 @@ Una rete marcata è \textbf{safe} se comunque evolva il comportamento avremmo in
 ogni posto sempre al più una marca, i posti hanno quindi $0$ o $1$ marca e possiamo
 interpretarli di nuovo come condizioni booleane. L'unica differenza con le reti
 elementari è che nelle reti safe i cappi sono abilitati, mentre nelle reti
-elementari questo non succede. Se eliminiamo i cappi dalle reti marcate safe, 
+elementari questo non succede. Se eliminiamo i cappi dalle reti marcate safe,
 otteniamo il corrispettivo di un sistema elementare puro.
 
 \begin{definizione}
-	Sia $\Sigma = (S,T,F,K,W;M_0)$ è un \textbf{sistema} $P/T$ tale che 
-    $\forall s\in S,K(s)=\infty$ e $N=(S,T,F)$ è \textbf{senza cappi}. Allora il 
-    sistema può essere rappresentato da un'unica matrice $\underline{N}:S\times T\rightarrow\mathbb{N}$ 
+    Sia $\Sigma = (S,T,F,K,W;M_0)$ è un \textbf{sistema} $P/T$ tale che
+    $\forall s\in S,K(s)=\infty$ e $N=(S,T,F)$ è \textbf{senza cappi}. Allora il
+    sistema può essere rappresentato da un'unica matrice $\underline{N}:S\times
+        T\rightarrow\mathbb{N}$
     chiamata \textbf{matrice di incidenza}.
 \end{definizione}
-Quindi avremo che 
+Quindi avremo che
 \begin{equation}
-    M_0[t_1>\iff \underline{M_0}+\underline{t_1}\ge \underline{0} (\iff 
+    M_0[t_1>\iff \underline{M_0}+\underline{t_1}\ge \underline{0} (\iff
     \underline{M_0}+\underline{N_{t_1}}\ge \underline{0})
 \end{equation}
-Quindi ogni cambio di stato lo possiamo codificare con una somma di vettori colonna, 
+Quindi ogni cambio di stato lo possiamo codificare con una somma di vettori colonna,
 utilizzando l'\textbf{equazione di stato}:
 \begin{equation}
-    M_0[\sigma>M_1\implies \underline{M_0}+\underline{N}\cdot \underline{c_\sigma}=\underline{M_1}
+    M_0[\sigma>M_1\implies \underline{M_0}+\underline{N}\cdot \underline{c_\sigma}
+    =\underline{M_1}
 \end{equation}
 
 \begin{osservazione}
-    Sia $\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$ tale che $\forall s 
-    \in S, K(s)=\infty$:
-	\begin{itemize}
-		\item $\Sigma$ è \textbf{limitato} sse $\exists n\in \mathbb{N}: \forall 
-        s\in S, \forall M\in [M_0>$:
-		$$M(s)\le n$$
-		\item $\Sigma$ è \textbf{safe} sse $$\forall s\in S \forall M\in 
-        [M_0>:M(s)\le 1$$
-		\item 
-		$\Sigma$ è \textbf{limitato} $\iff [M_0>$ è un insieme \textbf{finito} 
-        ($RG(\Sigma)$ è \textbf{finito}).
-		\item $\Sigma$ è \textbf{terminante} sse non ammette sequenze infinite
-		\item $M\in [M_0>$ è una marcatura di \textbf{deadlock} sse $\forall t\in 
-        T,\lnot(M[t>)$
-		\item $\Sigma$ è \textbf{deadlock-free} sse $\forall M\in[M_0>\exists t\in 
-        T:M[t>$
-		$$(\iff \not\exists M\in [M_0>:M\text{ è una marcatura di deadlock})$$
-		\item $\Sigma$ è $1$\textbf{-vivo} sse
-		$$\forall t\in T,\exists M\in [M_0>:M[t>$$
-		\item  $\Sigma$ è \textbf{vivo} sse
-		$$\forall t\in T,\forall M\in [M_0>,\exists M'\in [M>:M'[t>$$
-		\textbf{vivezza} $\implies$ assenza di \textbf{deadlock}.
-		\item $\Sigma$ è \textbf{reversiblile} (ciclico) sse
-		$$\forall M\in [M_0>:M_0\in [M>$$
-		\item $\Sigma$ è \textbf{reversibile} $\iff$ il suo grafo delle marcature 
-        raggiungibili è \textbf{strettamente connesso}
-		\item reversibilità $+ 1$-vivezza$\implies$ vivezza
-	\end{itemize}
+    Sia $\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$ tale che $\forall s
+        \in S, K(s)=\infty$:
+    \begin{itemize}
+        \item $\Sigma$ è \textbf{limitato} sse $\exists n\in \mathbb{N}: \forall
+                  s\in S, \forall M\in [M_0>$:
+              $$M(s)\le n$$
+        \item $\Sigma$ è \textbf{safe} sse $$\forall s\in S \forall M\in
+                  [M_0>:M(s)\le 1$$
+        \item
+              $\Sigma$ è \textbf{limitato} $\iff [M_0>$ è un insieme \textbf{finito}
+              ($RG(\Sigma)$ è \textbf{finito}).
+        \item $\Sigma$ è \textbf{terminante} sse non ammette sequenze infinite
+        \item $M\in [M_0>$ è una marcatura di \textbf{deadlock} sse $\forall t\in
+                  T,\lnot(M[t>)$
+        \item $\Sigma$ è \textbf{deadlock-free} sse $\forall M\in[M_0>\exists t\in
+                  T:M[t>$
+              $$(\iff \not\exists M\in [M_0>:M\text{ è una marcatura di deadlock})$$
+        \item $\Sigma$ è $1$\textbf{-vivo} sse
+              $$\forall t\in T,\exists M\in [M_0>:M[t>$$
+        \item  $\Sigma$ è \textbf{vivo} sse
+              $$\forall t\in T,\forall M\in [M_0>,\exists M'\in [M>:M'[t>$$
+              \textbf{vivezza} $\implies$ assenza di \textbf{deadlock}.
+        \item $\Sigma$ è \textbf{reversiblile} (ciclico) sse
+              $$\forall M\in [M_0>:M_0\in [M>$$
+        \item $\Sigma$ è \textbf{reversibile} $\iff$ il suo grafo delle marcature
+              raggiungibili è \textbf{strettamente connesso}
+        \item reversibilità $+ 1$-vivezza$\implies$ vivezza
+    \end{itemize}
 \end{osservazione}
 
 Per verificare le proprietà allora si può fare:
 \begin{itemize}
-	\item analisi del grafo di raggiungibilità o di un prefisso dell'unfolding
-	\item analisi strutturale del grafo della rete:
-	\begin{itemize}
-		\item tecniche che sfruttano l'algebra lineare come le \textbf{equazioni 
-        di stato} che descrivono la dinamica e le $S$-invarianti e le $T$-invarianti
-		\item studio del grafo della rete come sottoinsiemi di nodi...
-		\item controllo delle condizioni necessarie e sufficienti per alcune 
-        sottoclassi di reti.
-	\end{itemize}
+    \item analisi del grafo di raggiungibilità o di un prefisso dell'unfolding
+    \item analisi strutturale del grafo della rete:
+          \begin{itemize}
+              \item tecniche che sfruttano l'algebra lineare come le \textbf{equazioni
+                        di stato} che descrivono la dinamica e le $S$-invarianti
+                    e le $T$-invarianti
+              \item studio del grafo della rete come sottoinsiemi di nodi...
+              \item controllo delle condizioni necessarie e sufficienti per alcune
+                    sottoclassi di reti.
+          \end{itemize}
 \end{itemize}
 
 
 \subsection{Reti ad alto livello}
-Dal momento che le reti P/T hanno un problema di perdita di informazioni, allora 
-si può risolvere modellando le marche (contatori) con una struttura dati. 
+Dal momento che le reti P/T hanno un problema di perdita di informazioni, allora
+si può risolvere modellando le marche (contatori) con una struttura dati.
