@@ -32,6 +32,42 @@
 \usepackage{setspace}
 \usepackage{hyperref}
 
+\usepackage{tikz}\usetikzlibrary{er}\tikzset{multi  attribute /.style={attribute
+    ,double  distance =1.5pt}}\tikzset{derived  attribute /.style={attribute
+    ,dashed}}\tikzset{total /.style={double  distance =1.5pt}}\tikzset{every
+  entity /.style={draw=orange , fill=orange!20}}\tikzset{every  attribute
+  /.style={draw=MediumPurple1, fill=MediumPurple1!20}}\tikzset{every
+  relationship /.style={draw=Chartreuse2,
+    fill=Chartreuse2!20}}\newcommand{\key}[1]{\underline{#1}}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows,shapes, shapes.geometric,backgrounds,petri}
+\tikzset{
+  place/.style={
+    circle,
+    thick,
+    draw=black,
+    minimum size=6mm,
+  },
+  transition/.style={
+    rectangle,
+    thick,
+    fill=black,
+    minimum width=8mm,
+    inner ysep=2pt
+  },
+  transitionv/.style={
+    rectangle,
+    thick,
+    fill=black,
+    minimum height=8mm,
+    inner xsep=2pt
+  }
+}
+\tikzset{elliptic state/.style={draw,ellipse}}
+
+\usetikzlibrary{automata,positioning, calc}
+
 \pagestyle{fancy}
 \fancyhead[L,RO]{\slshape \rightmark}
 \fancyfoot[C]{\thepage}
