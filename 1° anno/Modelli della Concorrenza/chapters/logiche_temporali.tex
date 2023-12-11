@@ -1,0 +1,176 @@
+\chapter{Logiche temporali e model checking}
+Logiche temporali = famiglia di logiche matematiche che permettono di esprimere 
+proprietà che cambiano nel tempo.
+
+Quando si analizzano sistemi reattivi (quindi concorrenti) allora non vale più 
+il ragionamento di avere uno stato precedente e uno stato successivo che varia nel
+tempo.
+
+Sono stati introdotti diversi modelli per modellare i sistemi concorrenti, ora 
+si introdurranno nuove tecniche ddi analisi.
+
+Esempio produttore consumatore in Java. Esempio concorrente e gli elementi sono
+indipendenti quindi si devono sincronizzare quando si accede al buffer. Vogliamo
+garantire la correttezza del programma:
+\begin{itemize}
+    \item ogni oggetto deve essere prima prodotto
+    \item ogni oggetto non può essere consumato più di una volta
+    \item il sistema non raggiunge mai uno stato di \textbf{deadlock}
+\end{itemize}
+
+
+Le reti di Petri ci permettono di controllare se si mantiene la mutua esclusione,
+ovvero che non esista una  marcatura in cui entrambi i processi non possono essere
+negli stati $c_1$ e $c_2$. Noi vorremmo modellare il blocco di uno dei due processi se 
+uno si trova nella zona critica.
+
+Vogliamo quindi un modello per verificare se sono valide delle proprietà di interesse
+e se il modello rappresenta effettivamente il sistema.
+
+\begin{definizione}
+    Un sistema è \textbf{reattivo} se è un sistema concorrente, distribuito e asincrono.
+\end{definizione}
+Una sottoclasse dei sistemi reattivi sono quelli sincroni con un clock ma è una semplificazione.
+
+I sistemi reattivi non ha mai uno stato finale, ma può avere uno stato iniziale,
+questo porta alla questione che non vale più la tripla di Hoare. Possiamo sempre
+riutilizzare la logica di hoare per dimostrare alcuni pezzi ma dovremmo usare un modo
+per unire i risultati.
+
+I criteri di correttezza per un sistema reattivo saranno le asserzioni.
+\begin{esempio}
+    Se è stato spedito un messaggio allora questo prima o poi verrà ricevuto dal
+    destinatario
+\end{esempio}
+
+\begin{esempio}
+    Se si accennde una spia di allarme allora questa sarà accesa fino a quando non 
+    si spegne il dispositivo
+\end{esempio}
+
+Per tutte le asserzioni ci devono essere delle espressioni temporali che esprimono
+la caratteristica principale del metodo che utilizzeremo per dimostrare. Più precisamente
+arricchiremo le logiche e rappresenteremo i sistemi in sistemi di transizioni.
+Avremo il modello che rappresenta il sistema (sistemi di transizioni), una formula che descrive senza ambiguità
+lo stato (logiche temporali) e poi ci servirà una semantica per interpretare la formula (algoritmi che stabiranno la veridicità della formula).
+
+\begin{definizione}
+    un sistema di transizioni è definito da 
+    \begin{equation}
+        A=(Q,T)
+    \end{equation}
+    dove:
+    \begin{itemize}
+        \item $Q$ insieme degli stati (non per forza finito)
+        \item $T\subseteq Q\times Q$ insiemi di transizioni di stato
+    \end{itemize}
+
+\end{definizione}
+
+\begin{definizione}
+    Definiriremo un cammino come una sequeza di stati $\pi$ dove
+    \begin{equation}
+        \pi = q_0q_1\dots q_n \ (q_i,q_{i+1})\in T \ \forall i
+    \end{equation}
+    (combacia con la definizione di cammino su grafi)
+\end{definizione}
+
+\begin{definizione}
+    Definiriremo un suffisso di ordine $i$ per un cammino $\pi$ è il cammino che 
+    iniziada uno stato di indice $i$.
+    
+    EX: $\pi^i = q_i\dots q_n$ 
+\end{definizione}
+
+\begin{definizione}
+    Definiriremo un cammino massimale se il cammino è finito e non può essere esteso,
+    cioè solo quando il cammino raggiunge uno stato che non ha transizioni uscenti. (cammino massimale finito)
+\end{definizione}
+Il cammino massimale è infinito quando non si ha uno stato pozzo.
+
+ogni suffisso di un cammino massimale è a sua volta un cammino massimale.
+\section{Logica Temporale Lineare}
+Definiamo la \textbf{sintassi} partendo dalle proposizioni atomiche:
+\begin{equation}
+    AP=\left\{ p_1,p_2,\dots \right\}
+\end{equation}
+composte dalle asserzioni considerate vere a prescindere.
+\begin{esempio}
+    Il messaggio è stato spedito, la spia di allarme è accesa
+\end{esempio}
+
+Definiamo anche le formule ben formate:
+\begin{itemize}
+    \item Ogni proposizione atomica è una formula ben formata
+    \item $\top$ e $\perp$ sono formule ben formate
+    \item se $\alpha,\beta\in Fbf$ allora $\alpha\lor \beta,\lnot \alpha \in Fbf$ 
+    (da queste si derivano tutti i connettivi logici)
+    \item operatori temporali: 
+    \begin{itemize}
+        \item $X\alpha \in Fbf, \alpha \in Fbf$: $\alpha$ sarà vera nel prossimo stato
+        \item $F\alpha \in Fbf, \alpha \in Fbf$: $\alpha$ sarà vera prima o poi
+        \item $G\alpha \in Fbf, \alpha \in Fbf$: $\alpha$ sarà sempre vera
+        \item $\alpha\mathbb{U}\beta \in Fbf, \alpha,\beta \in Fbf$: $\alpha$ è vera 
+            ameno fino a quando $\beta$ diventa vera
+    \end{itemize}
+\end{itemize}
+
+Per definire la sintassi utilizzeremo i \textbf{Modelli di Kripke} che prendono
+i sistemi di transizione e li arricchiscono con proposizioni atomiche. Quindi possiamo 
+definire
+\begin{equation}
+    I \ : \ Q \rightarrow 2 ^{AP}
+\end{equation}
+Quindi per ogni stato del sistema di transizione etichettato, avremo associato un
+insieme di proposizioni atomiche vere.
+
+Quindi un modello di Kripke sarà 
+\begin{equation}
+    A=(Q,T,I)
+\end{equation}
+
+Quindi con un modello di Kripke possiamo identificare per uno stato quali sono le
+proposizioni atomiche vere e per capire se le Fbf sono vere allora dovrò analizzare
+i cammini che partono dallo stato in esame.
+
+\begin{nota}
+    Per definire un cammino massimale di cammini useremo le espressioni regolali.
+    
+    La differenza tra $\omega$ e $\ast$ è che il primo è specifica un numero infinito
+    di ripetizioni mentre il secondo denota un numero arbitrario di ripetizioni.
+\end{nota}
+
+
+
+Definiremo la \textbf{sintassi}:
+\begin{itemize}
+    \item prima definiamo un criterio per stabilire se $\alpha$ è vera in un cammino
+    massimale $\pi$ 
+    \item poi diciamo che la formula è vera rispetto a uno stato $q$ se è vera in tutti
+    i cammini massimali che partono da $q$.
+\end{itemize}
+
+Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata allora
+\begin{equation}
+    \pi \vDash \alpha \iff \ \text{significa che} \ \alpha \ \text{è vera nel cammino} \ \pi
+\end{equation}
+Definiremo la relazione $\vDash$ per induzione:
+\begin{itemize}
+    \item $\pi \vDash \top$
+    \item $\pi \not\vDash \perp$
+    \item $\pi \vDash p \iff p\in I(q_0)$
+    \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
+    \item $\pi \vDash  \alpha \lor \beta \iff (\pi \vDash \alpha)\lor (\pi \vDash \beta) $
+    \item operatori temporali: supponiamo $\beta, \gamma \in Fbf$
+    \begin{itemize}
+        \item $\pi\vDash X\beta \iff \pi^{(1)}\vDash \beta$
+        \item $\pi\vDash F\beta \iff \exists i \in \mathbb{N}:\pi^{(i)}\vDash \beta$
+        \item $\pi\vDash G\beta \iff \forall i \in \mathbb{N}:\pi^{(i)}\vDash \beta$
+        \item $\pi \vDash \beta \mathbb{U} \gamma \iff$:
+        \begin{itemize}
+            \item $\exists i \in \mathbb{N}$ tale che $\pi^{(i)}\vDash \gamma$ cioè $\pi\vDash F\gamma$
+            \item $\forall h, 0\le h < i, \pi^{(h)}\vDash \beta$
+        \end{itemize}
+        Se $\gamma$ è vera fin da subito, quindi $i=0$ allora $\beta$ è superfluo
+    \end{itemize}
+\end{itemize}
