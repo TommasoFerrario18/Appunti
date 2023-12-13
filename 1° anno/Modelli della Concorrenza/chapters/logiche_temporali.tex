@@ -44,7 +44,7 @@ delle frasi conteneti elementi temporali che descrivono il comportamento del sis
     destinatario
 \end{esempio}
 \begin{esempio}
-    Se si accennde una spia di allarme allora questa sarà accesa fino a quando non
+    Se si accende una spia di allarme allora questa sarà accesa fino a quando non
     si spegne il dispositivo
 \end{esempio}
 Vediamo ora come possiamo procedere nell'analisi dei sistemi concorrenti. Il
@@ -76,7 +76,7 @@ corretto. Per fare ciò, seguiremo il seguente schema:
 \end{definizione}
 \begin{definizione}[\textbf{Suffisso}]
     Definiriremo un \textbf{suffisso} di ordine $i$ per un cammino $\pi$ è il
-    cammino che iniziada uno stato di indice $i$.
+    cammino che inizia da uno stato di indice $i$.
     \begin{equation}
         \pi^{(i)} = q_iq_{i+1}\dots q_n
     \end{equation}
@@ -140,7 +140,7 @@ proposizioni atomiche vere e per capire se le FBF sono vere allora dovrò analiz
 i cammini che partono dallo stato in esame.
 
 Vediamo ora come associare una semantica alle formule ben formate. Per fare ciò
-procediamo in due fase:
+procediamo in due fasi:
 \begin{enumerate}
     \item Definiamo un criterio per stabilire se una formula $\alpha$ è vera in
           un cammino massimale $\pi$.
@@ -152,29 +152,32 @@ Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata all
     \pi \vDash \alpha \iff \ \text{significa che} \ \alpha \ \text{è vera nel cammino}
     \ \pi
 \end{equation}
-Definiremo la relazione $\vDash$ per induzione. Supponiamo che $\alpha$ e $\beta$
-siano due formule ben formate e $p$ una preposizione atomica:
-\begin{itemize}
-    \item $\pi \vDash \top$
-    \item $\pi \not\vDash \bot$
-    \item $\pi \vDash p \iff p\in I(q_0)$
-    \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
-    \item $\pi \vDash  \alpha \lor \beta \iff (\pi \vDash \alpha)\lor (\pi \vDash
-              \beta) $
-    \item Operatori temporali: supponiamo $\beta, \gamma \in FBF$
-          \begin{itemize}
-              \item $\pi\vDash X\beta \iff \pi^{(1)}\vDash \beta$
-              \item $\pi\vDash F\beta \iff \exists i \in \mathbb{N}:\pi^{(i)}
-                        \vDash \beta$
-              \item $\pi\vDash G\beta \iff \forall i \in \mathbb{N}:\pi^{(i)}
-                        \vDash \beta$
-              \item $\pi \vDash \beta \mathbb{U} \gamma \iff$:
-                    \begin{itemize}
-                        \item $\exists i \in \mathbb{N}$ tale che $\pi^{(i)}\vDash
-                                  \gamma$ cioè $\pi\vDash F\gamma$
-                        \item $\forall h, 0\le h < i, \pi^{(h)}\vDash \beta$
-                    \end{itemize}
-                    Se $\gamma$ è vera fin da subito, quindi $i=0$ allora $\beta$
-                    è superfluo
-          \end{itemize}
-\end{itemize}
+Definiremo la relazione $\vDash$ per induzione. 
+\begin{definizione}
+    Supponiamo che $\alpha$ e $\beta$
+    siano due formule ben formate e $p$ una preposizione atomica:
+    \begin{itemize}
+        \item $\pi \vDash \top$
+        \item $\pi \not\vDash \bot$
+        \item $\pi \vDash p \iff p\in I(q_0)$
+        \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
+        \item $\pi \vDash  \alpha \lor \beta \iff (\pi \vDash \alpha)\lor (\pi \vDash
+                  \beta) $
+        \item Operatori temporali: supponiamo $\beta, \gamma \in FBF$
+              \begin{itemize}
+                  \item $\pi\vDash X\beta \iff \pi^{(1)}\vDash \beta$
+                  \item $\pi\vDash F\beta \iff \exists i \in \mathbb{N}:\pi^{(i)}
+                            \vDash \beta$
+                  \item $\pi\vDash G\beta \iff \forall i \in \mathbb{N}:\pi^{(i)}
+                            \vDash \beta$
+                  \item $\pi \vDash \beta \mathbb{U} \gamma \iff$:
+                        \begin{itemize}
+                            \item $\exists i \in \mathbb{N}$ tale che $\pi^{(i)}\vDash
+                                      \gamma$ cioè $\pi\vDash F\gamma$
+                            \item $\forall h, 0\le h < i, \pi^{(h)}\vDash \beta$
+                        \end{itemize}
+                        Se $\gamma$ è vera fin da subito, quindi $i=0$ allora $\beta$
+                        è superfluo
+              \end{itemize}
+    \end{itemize}
+\end{definizione}
