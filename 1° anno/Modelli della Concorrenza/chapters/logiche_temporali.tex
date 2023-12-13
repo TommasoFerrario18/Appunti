@@ -1,0 +1,183 @@
+\chapter{Logiche temporali e model checking}
+\section{Introduzione}
+Le \textbf{logiche temporali} sono una famiglia di logiche matematiche che
+permette di esprimere proprietà che cambiano nel tempo.
+
+Quando si analizzano sistemi reattivi (quindi concorrenti) allora non vale più
+il ragionamento di avere uno stato precedente e uno stato successivo che varia nel
+tempo.
+
+Sono stati introdotti diversi modelli per modellare i sistemi concorrenti, ora
+si introdurranno nuove tecniche di analisi.
+
+Esempio produttore consumatore in Java. Esempio concorrente e gli elementi sono
+indipendenti quindi si devono sincronizzare quando si accede al buffer. Vogliamo
+garantire la correttezza del programma:
+\begin{itemize}
+    \item Ogni oggetto deve essere prima prodotto
+    \item Ogni oggetto non può essere consumato più di una volta
+    \item Il sistema non raggiunge mai uno stato di \textbf{deadlock}
+\end{itemize}
+Le reti di Petri ci permettono di controllare se si mantiene la mutua esclusione,
+ovvero che non esista una  marcatura in cui entrambi i processi non possono essere
+negli stati $c_1$ e $c_2$. Noi vorremmo modellare il blocco di uno dei due
+processi se uno si trova nella zona critica.
+
+Vogliamo quindi un modello per verificare se sono valide delle proprietà di
+interesse e se il modello rappresenta effettivamente il sistema.
+\begin{definizione}
+    Un sistema è \textbf{reattivo} se è un sistema concorrente, distribuito e
+    asincrono.
+\end{definizione}
+Una sottoclasse dei sistemi reattivi sono quelli sincroni con un clock ma è una
+semplificazione.
+
+I sistemi reattivi non obbediscono più al paradigma input-computazione output,
+rendendo quindi impossibile utilizzare le triple di Hoare per dimostrare la
+correttezza di un programma. Possiamo sempre riutilizzare la logica di hoare per
+dimostrare alcuni pezzi ma dovremmo usare un modo per unire i risultati.
+
+Al posto delle triple di Hoare, utilizzeremo delle \textbf{asserzioni}, ovvero
+delle frasi conteneti elementi temporali che descrivono il comportamento del sistema.
+\begin{esempio}
+    Se è stato spedito un messaggio allora questo prima o poi verrà ricevuto dal
+    destinatario
+\end{esempio}
+\begin{esempio}
+    Se si accende una spia di allarme allora questa sarà accesa fino a quando non
+    si spegne il dispositivo
+\end{esempio}
+Vediamo ora come possiamo procedere nell'analisi dei sistemi concorrenti. Il
+problema che vogliamo risolvere è quello di stabilire se un sistema reattivo è
+corretto. Per fare ciò, seguiremo il seguente schema:
+\begin{enumerate}
+    \item Si esprime il criterio di correttezza come una formula di un opportuno
+          linguaggio logico.
+    \item Si modella il sistema nella forma di un sistema di transizioni.
+    \item Si valuta se la formula è vera nel sistema di transizioni. (algoritmi)
+\end{enumerate}
+\begin{definizione}[\textbf{Sistema di transizioni}]
+    Un \textbf{sistema di transizioni} è definito da:
+    \begin{equation}
+        A=(Q,T)
+    \end{equation}
+    dove:
+    \begin{itemize}
+        \item $Q$ insieme degli stati (non per forza finito)
+        \item $T\subseteq Q\times Q$ insiemi di transizioni di stato
+    \end{itemize}
+\end{definizione}
+\begin{definizione}[\textbf{Cammino}]
+    Definiriremo un \textbf{cammino} come una sequeza di stati $\pi$ dove
+    \begin{equation}
+        \pi = q_0q_1\dots q_n \ (q_i,q_{i+1})\in T \ \forall i
+    \end{equation}
+    (combacia con la definizione di cammino su grafi).
+\end{definizione}
+\begin{definizione}[\textbf{Suffisso}]
+    Definiriremo un \textbf{suffisso} di ordine $i$ per un cammino $\pi$ è il
+    cammino che inizia da uno stato di indice $i$.
+    \begin{equation}
+        \pi^{(i)} = q_iq_{i+1}\dots q_n
+    \end{equation}
+\end{definizione}
+\begin{definizione}[\textbf{Cammino massimale}]
+    Definiriremo un \textbf{cammino massimale} se il cammino è finito e non può
+    essere esteso, cioè solo quando il cammino raggiunge uno stato che non ha
+    transizioni uscenti. (cammino massimale finito)
+\end{definizione}
+Il cammino massimale è infinito quando non si ha uno stato pozzo.
+\begin{nota}
+    Ogni suffisso di un cammino massimale è a sua volta un cammino massimale.
+\end{nota}
+Posso rappresentare un cammino espandendo la definizione delle espressioni regolari,
+aggiungendo $^\omega$ per rappresentare una sequenza infinita. Bisogna prestare
+particolare attenzione al fatto che $\omega \neq \ast$, inaftti $\ast$ mi rappresenta
+una sequenza arbitraria di valori.
+\begin{nota}
+    Posso esprimere un cammino come un suffisso di ordine 0.
+\end{nota}
+\section{Logica Temporale Lineare}
+Definiamo la \textbf{sintassi} partendo dalle proposizioni atomiche:
+\begin{equation}
+    AP=\{ p_1,p_2,\dots,p_i,\dots \}
+\end{equation}
+composte dalle asserzioni considerate vere a prescindere.
+\begin{esempio}
+    Il messaggio è stato spedito, la spia di allarme è accesa
+\end{esempio}
+Definiamo anche le formule ben formate $FBF_{LTL}$:
+\begin{itemize}
+    \item Ogni proposizione atomica è una formula ben formata.
+    \item $\top$ e $\bot$ sono formule ben formate.
+    \item se $\alpha,\beta\in FBF$ allora $\alpha\lor \beta,\lnot \alpha \in FBF$
+          (da queste si derivano tutti i connettivi logici).
+    \item Operatori temporali siano $\alpha$ e $\beta$ formule ben formate, allora
+          anche:
+          \begin{itemize}
+              \item $X\alpha$ "next $\alpha$" nel prossimo stato $\alpha$ è vera.
+              \item $F\alpha$ "future $\alpha$" prima o poi $\alpha$ sarà vera.
+              \item $G\alpha$ "globally $\alpha$" $\alpha$ è sempre vera.
+              \item $\alpha\mathbb{U}\beta$ "until $\alpha$" $\alpha$ è vera fino
+                    a quando $\beta$ diventa vera.
+          \end{itemize}
+          sono formule ben formate.
+\end{itemize}
+Per definire la sintassi utilizzeremo i \textbf{Modelli di Kripke} che prendono
+i sistemi di transizione e li arricchiscono associando a ogni stato $q \in Q$
+l'insieme delle proposizioni atomiche che sono vere in $q$. Quindi possiamo
+definire:
+\begin{equation}
+    I \ : \ Q \rightarrow 2 ^{AP}
+\end{equation}
+dove $2^{AP}$ è l'insieme delle parti di $AP$. Un modello di Kripke sarà definito
+come:
+\begin{equation}
+    A=(Q,T,I)
+\end{equation}
+Con un modello di Kripke possiamo identificare per uno stato quali sono le
+proposizioni atomiche vere e per capire se le FBF sono vere allora dovrò analizzare
+i cammini che partono dallo stato in esame.
+
+Vediamo ora come associare una semantica alle formule ben formate. Per fare ciò
+procediamo in due fasi:
+\begin{enumerate}
+    \item Definiamo un criterio per stabilire se una formula $\alpha$ è vera in
+          un cammino massimale $\pi$.
+    \item Diciamo che la formula è vera rispetto a uno stato $q$ se è vera in
+          tutti i cammini massimali che partono da $q$.
+\end{enumerate}
+Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata allora
+\begin{equation}
+    \pi \vDash \alpha \iff \ \text{significa che} \ \alpha \ \text{è vera nel cammino}
+    \ \pi
+\end{equation}
+Definiremo la relazione $\vDash$ per induzione. 
+\begin{definizione}
+    Supponiamo che $\alpha$ e $\beta$
+    siano due formule ben formate e $p$ una preposizione atomica:
+    \begin{itemize}
+        \item $\pi \vDash \top$
+        \item $\pi \not\vDash \bot$
+        \item $\pi \vDash p \iff p\in I(q_0)$
+        \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
+        \item $\pi \vDash  \alpha \lor \beta \iff (\pi \vDash \alpha)\lor (\pi \vDash
+                  \beta) $
+        \item Operatori temporali: supponiamo $\beta, \gamma \in FBF$
+              \begin{itemize}
+                  \item $\pi\vDash X\beta \iff \pi^{(1)}\vDash \beta$
+                  \item $\pi\vDash F\beta \iff \exists i \in \mathbb{N}:\pi^{(i)}
+                            \vDash \beta$
+                  \item $\pi\vDash G\beta \iff \forall i \in \mathbb{N}:\pi^{(i)}
+                            \vDash \beta$
+                  \item $\pi \vDash \beta \mathbb{U} \gamma \iff$:
+                        \begin{itemize}
+                            \item $\exists i \in \mathbb{N}$ tale che $\pi^{(i)}\vDash
+                                      \gamma$ cioè $\pi\vDash F\gamma$
+                            \item $\forall h, 0\le h < i, \pi^{(h)}\vDash \beta$
+                        \end{itemize}
+                        Se $\gamma$ è vera fin da subito, quindi $i=0$ allora $\beta$
+                        è superfluo
+              \end{itemize}
+    \end{itemize}
+\end{definizione}
