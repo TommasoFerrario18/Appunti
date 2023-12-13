@@ -1,0 +1,115 @@
+\chapter{Evaluation issues}
+Si introdurranno delle metriche per valutare i modelli, si studieranno overfitting e 
+underfitting secondo 3 modi:
+\begin{itemize}
+    \item bontà sul train
+    \item bontà sul test
+    \item complessità del modello (quanti parametri): spazio, tempo in termini di $O$
+\end{itemize}
+
+overfitting:
+Al crescere della complessità computazionale si abbassa l'errore sul train ma si
+alza l'errore sul test 
+
+underfitting: 
+è la parte iniziale del grafico.
+
+Per misurare facilmente:
+- tasso di errore
+- accuratezza
+- matrice di confusione: righe classe reale, colonne classe predetta. Le loss function
+mirano a minimizzare la anti diagonale
+
+
+PEr confrontare i modelli ci sono diverse misure:
+\begin{itemize}
+    \item accuratezza$$\frac{TP+TN}{TP+TN+FP+FN}$$
+    \item precision $$\frac{TP}{TP+FN}$$ (binario è sempre classe 1)
+    \item recall$$\frac{}{}$$ (binario è sempre calsse 1)
+    \item f-measure media armonica della precision e recall
+\end{itemize}
+Conviene sempre calcolarle per classe perché la precision 
+
+Queste misurare non le useremo sulle classi aggregate ma sulle singole classi
+Se 3 classi allora abbiamo 3 misure di precision, recall, f-measure
+
+
+PEr aggregare queste misurare useremo:
+\begin{itemize}
+    \item macro avg: fa la media tra le diverse classi delle singole metriche 
+    (classi con uguale importanza)
+    \item micro avg: media pesata della performance rispetto alla cardianlità 
+    della classe (classe con diversa importanza) (possiamo specificare un peso 
+    a piacere l'importante che si garantisca il range della metrica)
+\end{itemize}
+
+
+Per confrontare i modelli si utilzizano le curve ROC e mettono a confronto TP rate
+e FP rate. La curva ROC non sono altro che la valutazione del modello con diverse
+soglie decisionali del modello da 0 a 1, EX: Bayes si sceglie al posto di 0.5 a 0.8 
+Più la soglia tende a 1 allora si ha un modello conservativo miglioreremo la precision
+peggiorando la recall
+Più abbassiamo la soglia si aumenta la recall ma si abbassa la precision.
+La ROC si costruisce eseguendo i modelli con treshold diverse e si ricalcola la 
+matrice di confusione diversa e quindi TPR e FPR differenti.
+
+Nel confronto tra modelli avremo una curva per ogni modello e questo permette di 
+studiare il suo comportamento. Generalmente si confronta il singolo modello con il
+classificatore perfetto (verde) e quello randomico (rosso). Il modello migliore è
+il dominante. Quando le linee si intersecano allora si deve studiare l'area sottesa 
+all'area AUC (scalare). Quindi prendo quello con AUC maggiore. Può essere utilizzato 
+in trainig e testing.
+Hanno delle limitazioni:
+- AUC sono inutili quando le classi hanno diversa importanza 
+- sensibile allo sbilanciamento perché una classe sarà più pesante sui risultati
+
+
+Curve di apprendimento sono delle curve che possiamo disegnare che dicono al variare
+della numerosità del campione come si comporta il modello in termini di accuratezza.
+Le barre blu rappresentano la varianza della predizione. I punti rappresentano
+le media della metrica scelta delle singole esecuzioni del metodo eseguiti su tutte le combinazioni
+di 5 cambino di training. 
+Quanti dati sono necessari per avere un modello con performance accettabile in termini
+di tempo di apprendimento e della performance. Molto pesante ma spesso si costruisce 
+parzialmente.
+
+Prob grande => 10000 istanze 
+Più grande il campione allora si effettuerà una suddivisione train test 80 20
+
+Se il modello deve essere messo in produzione allora effettuo il training su tutto 
+dataset.
+
+I dati di test non devono essere usati per il tuning degli iperparametri. GLi
+iperparametri possono essere i k cluster o anche le soglie del modello e si trovano
+sul validation.
+
+Per dataset piccoli si esegue train test più volte in crossvalidation.
+
+Per la generazione degli insiemi per crossvalidation spesso chiedono la stratificazione
+ovvero se ho una classe popolosa allora questa deve essere uguale sia in training sia in
+test. Si deve sempre stratificare (generalmente si usa k=10 fold). 
+
+Quando abbiamo dataset estremamente piccoli <100 istanze e quindi si usa la tecninca
+di leave-one-out. Crossvalidation di 1 test e tutto il resto training
+
+\section{Affidabilità delle misure di performance}
+Ogni iterazione della k-fold mi da una misura di performance, posso calcolare la media
+tra tutte le performance. Non si può utilizzare la media per confrontare perché 
+perdiamo la variabilità. Quello che si fa è stimare gli intervalli di confidenza
+perché:
+\begin{itemize}
+    \item si capisce la posizione della media
+    \item ci da la robustezza  (ampiezza intervallo di confidenza) meglio quello
+\end{itemize}
+2 modelli
+
+stessa media , il primo IC 0.7,0.8 mentre il secondo 0.5 e 1, il migliore è quello
+col più piccolo intervallo. Se gli intervalli non si sovrappongono e hanno la 
+stessa ampiezza è la situazione migliore.
+
+Altro approccio di confronto tra modelli si usa il test di significatività 
+- test paired quando entrambi i modelli hanno imparato nello stesso modo sugli stessi dati
+- test unpaird altrimenti
+
+Non guardare solo la performance numerica
+Considera sempre la complessità
