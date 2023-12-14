@@ -1079,33 +1079,39 @@ $\mathcal{O}(|P| \log |T|)$.
     Possiamo costruire il suffix array $S$ come:
     \begin{itemize}
         \item Generiamo tutti i suffissi di $T$:
-              \begin{equation}
-                  \begin{array}{c|l}
-                      1 & ggtcagtc\$ \\
-                      2 & gtcagtc\$  \\
-                      3 & tcagtc\$   \\
-                      4 & cagtc\$    \\
-                      5 & agtc\$     \\
-                      6 & gtc\$      \\
-                      7 & tc\$       \\
-                      8 & c\$        \\
-                      9 & \$         \\
-                  \end{array}
-              \end{equation}
+              \begin{table}[!ht]
+                  \centering
+                  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+                      \hline
+                      SA & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+                      1  & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      2  & g  & t  & c  & a  & g  & t  & c  & \$ & ~  \\ \hline
+                      3  & t  & c  & a  & g  & t  & c  & \$ & ~  & ~  \\ \hline
+                      4  & c  & a  & g  & t  & c  & \$ & ~  & ~  & ~  \\ \hline
+                      5  & a  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  \\ \hline
+                      6  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      7  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      8  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      9  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                  \end{tabular}
+              \end{table}
         \item Ordiniamo i suffissi in ordine lessicografico:
-              \begin{equation}
-                  \begin{array}{c|l}
-                      9 & \$         \\
-                      5 & agtc\$     \\
-                      8 & c\$        \\
-                      4 & cagtc\$    \\
-                      1 & ggtcagtc\$ \\
-                      6 & gtc\$      \\
-                      2 & gtcagtc\$  \\
-                      7 & tc\$       \\
-                      3 & tcagtc\$   \\
-                  \end{array}
-              \end{equation}
+              \begin{table}[!ht]
+                  \centering
+                  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+                      \hline
+                      SA & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+                      9  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      5  & a  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  \\ \hline
+                      8  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      4  & c  & a  & g  & t  & c  & \$ & ~  & ~  & ~  \\ \hline
+                      1  & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      6  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      2  & g  & t  & c  & a  & g  & t  & c  & \$ & ~  \\ \hline
+                      7  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      3  & t  & c  & a  & g  & t  & c  & \$ & ~  & ~  \\ \hline
+                  \end{tabular}
+              \end{table}
         \item Otteniamo il suffix array $S$ come: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
     \end{itemize}
 \end{esempio}
@@ -1123,7 +1129,7 @@ La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
     \item Ricerca del pattern $P$ nel testo $T$ utilizzando il suffix array $S$.
           L'operazione di ricerca avviene in tempo $\theta(m \log n)$.
 \end{enumerate}
-Per prima cosa si può osservare che: % aggiungere esempi alle osservazioni
+Per prima cosa si può osservare che:
 \begin{itemize}
     \item Se $P$ occorre $k$ volta in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
           Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$ possiamo
@@ -1242,39 +1248,47 @@ Dopo questo preambolo si può definire
     La $BWT$ $B$ di un testo $T$ lungo $n$ è un array di lunghezza $n$ tale che
     $B[i]=r_i[n]$ se e solo se $r_i$ è l'$i$-esima rotazione nell'ordinamento
     lessicografico delle rotazioni di $T$.
+
+    In altri termini, $B[i]$ è l'ultimo simbolo della rotazione $r_i$ che è
+    l'$i$-esima rotazione nell'ordinamento lessicografico e che sarà la
+    $q$-rotazione per un certo valore $q$.
 \end{definizione}
 Ecco un esempio di costruzione:
 \begin{esempio}
-    Sia $T = ggtcagtc\$$
-    % da trasformare in tabella 
-    Elenchiamo tutte le rotazioni del testo
-    \begin{equation}
-        \begin{array}{c}
-            B[1] = ggtcagtc\$ \\
-            B[2] = gtcagtc\$g \\
-            B[3] = tcagtc\$gg \\
-            B[4] = cagtc\$ggt \\
-            B[5] = agtc\$ggtc \\
-            B[6] = gtc\$ggtca \\
-            B[7] = tc\$ggtcag \\
-            B[8] = c\$ggtcagt \\
-            B[9] = \$ggtcagtc \\
-        \end{array}
-    \end{equation}
+    Sia $T = ggtcagtc\$$. Elenchiamo tutte le rotazioni del testo
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+            \hline
+            BWT & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+            1   & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+            2   & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
+            3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
+            4   & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
+            5   & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
+            6   & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
+            7   & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
+            8   & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
+            9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
+        \end{tabular}
+    \end{table}
     ordiniamo le rotazioni secono l'ordine lessico grafico:
-    \begin{equation}
-        \begin{array}{c}
-            B[9] = \$ggtcagtc \\
-            B[5] = agtc\$ggtc \\
-            B[8] = c\$ggtcagt \\
-            B[4] = cagtc\$ggt \\
-            B[1] = ggtcagtc\$ \\
-            B[6] = gtc\$ggtca \\
-            B[2] = gtcagtc\$g \\
-            B[7] = tc\$ggtcag \\
-            B[3] = tcagtc\$gg \\
-        \end{array}
-    \end{equation}
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+            \hline
+            BWT & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+            9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
+            5   & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
+            8   & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
+            4   & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
+            1   & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+            6   & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
+            2   & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
+            7   & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
+            3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
+        \end{tabular}
+    \end{table}
     Quindi la $BWT$ è data dall'ultima colonna della tabella:
     \begin{equation}
         B = [c, c, t, t, \$, a, g, g, g]
@@ -1298,71 +1312,93 @@ in posizione $F[i]$ del vettore $F$.
           nel testo il simbolo $F[i]$. Per ogni posizione $i$ tale che $B[i]$ è
           diverso da $\$$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
           Se $B[i] = \$$, allora $F[i] = T[1]$
-    \item \textbf{Proprietà 2} (last-first mapping): l'$r$-esimo simbolo $\sigma$ 
-    in $B$ e l'$r$-esimo simbolo simobolo $\sigma$ in $F$ sono lo stesso simbolo 
-    del testo $T$.
+    \item \textbf{Proprietà 2} (\textbf{Last-First mapping}): l'$r$-esimo simbolo
+          $\sigma$ in $B$ e l'$r$-esimo simbolo simobolo $\sigma$ in $F$ sono lo
+          stesso simbolo del testo $T$.
 \end{itemize}
 \begin{nota}
     Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$,
 \end{nota}
-
-\begin{definizione}
-    La definizione formale di BWT è $B[i]$ è l'ultimo simbolo della rotazione
-    $r_i$ che è l'$i$-esima rotazione nell'ordinamento lessicografico e che sarà
-    la $q$-rotazione per un certo valore $q$.
-\end{definizione}
-
-\begin{esempio}
+\begin{esempio} %% Non so se è l'esempio giusto
     \begin{equation}
         B = [c, c, t, t, \$, a, g, g, g]
     \end{equation}
-    Allora $B[4]$ è la $4$-rotazione che termina con il carattere $B[4]$ e 
+    Allora $B[4]$ è la $4$-rotazione che termina con il carattere $B[4]$ il quale
+    coincide con il carattere in posizione $F[9]$.
 \end{esempio}
-
 La proprietà $2$ viene implementata con la \textbf{Last-First function}.
-\begin{definizione}
-    la \textbf{Last-First function} sarà la funzione che
+\begin{definizione}[\textbf{Last-First function}]
+    La \textbf{Last-First function} è una funzione definita come:
     \begin{equation}
         j = LF(i)
     \end{equation}
-    dove $j$ è la posizione in $F$ corrispondente al carattere $i$ di $B$.
-\end{definizione} 
+    tale che il simbolo $B[i]$ e il simbolo $F[j]$ sono lo stesso simbolo.
+\end{definizione}
 Questa funzione si deve calcolare in tempo costante.
 
-\begin{esempio} [ricostruzione di T usando BWT e le proprietà (esercizio di esame)]
-    Per la ricostruzione di $T$ si effettua dal fondo in tempo lineare al testo. 
-    Si inizia ricavando $F$ da $B$ ordinando quest'ultimo. 
-    Si parta $F[1] = \$$, applico al prima proprietà che mi dice che $B[1]$ precede
-    $F[1]$.
-    Calcolo $k = LF(B[1])$ quindi trovo il succesivo simbolo in $F$ e si riesegue
-    ricorsimente i passi precedenti.
-\end{esempio}
+Utilizzando le due proprietà possiamo ricostruire il testo $T$ partendo dalla BWT e
+dal vettore $F$.
+\begin{esempio} [Ricostruzione del testo $T$ usando BWT e le proprietà. (Esercizio
+        di esame)]
+    Per la ricostruzione del testo $T$ procede costruendolo dal fondo. Si inizia
+    ricavando $F$ da $B$, questo avviene ordinando, secondo l'ordinamento lessicografico
+    il vettore BWT.
 
+    Ottenuto il vettore $F$ si procede a ricostruire il testo $T$ partendo dal fondo
+    nel seguente modo:
+    \begin{itemize}
+        \item Si parte dal simbolo $\$$, che è il primo elemento nell'array $F$.
+        \item Da questo utilizzando la proprietà 1 si trova il simbolo $B[1]$ che
+              precede $\$$.
+        \item A questo punto, utilizzando la proprietà 2 si trova la posizione
+              del carattere $B[1]$ in $F$, ovvero $LF(1)$.
+        \item Si ripete il procedimento fino a quando non si arriva al simbolo $\$$.
+    \end{itemize}
+\end{esempio}
 Riassumendo:
 \begin{itemize}
     \item Il simbolo $B[i]$ della BWT è l'ultimo simbolo della $i$-esima rotazione
-    $r_i$
-    \item supponiamo che $r_i$ sia la rotazione che inizia in posizione $q$ del
-    testo, cioè $q$-rotazione
-    \item l'ultimo simbolo di $r_i$ è il simbolo $T[q-1]$
-    \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q-1]$
-    \item la rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo 
-    che precede $q$-Prefisso
-    \item sicuramente, il $q$.suffisso e l'$i$-esimo nell'ordinamento lessicografico
-    dei suffissi di $T$ (per il teorema introdotto), si ha questa sincronizzazione
-    per il $\$$.
-    \item In conclusione, $B[i]$ è il simbolo...
+          $r_i$.
+    \item Supponiamo che $r_i$ sia la rotazione che inizia in posizione $q$ del
+          testo, cioè $q$-rotazione.
+    \item L'ultimo simbolo di $r_i$ è il simbolo $T[q-1]$.
+    \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q-1]$.
+    \item La rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo
+          che precede $q$-suffiso.
+    \item Sicuramente, il $q$-suffisso e l'$i$-esimo nell'ordinamento lessicografico
+          dei suffissi di $T$ (per il teorema introdotto), si ha questa sincronizzazione
+          per il $\$$. %% Mettere riferimento al teorema
+    \item In conclusione, $B[i]$ è il simbolo che precede l'iesimo suffiss
+          nell'ordinamento lessicografico dei simboli di $T$.
 \end{itemize}
-BWT e SA sono in relazione più precisamente si ha una corrispondenza degli indici
-delle $r_i$, vero per il simbolo $\$$. Quindi 
-$$B[i] = T[S[i]-1] \ T[S[i]] = F[i]$$
-Quindi possiamo ripensare LF mapping come il suffisso che inizia con l'$r$-esimo
-simbolo $\sigma$ della BWT è l'$r$-esimo simbolo che inizia con $\sigma$...
+Attraverso queste osservazioni, possiamo affermare che BWT e SA sono in relazione,
+più precisamente si ha una corrispondenza degli indici delle $r_i$, vero per il
+simbolo $\$$. Quindi
+\begin{equation}
+    B[i] = T[S[i]-1] \ T[S[i]] = F[i]
+\end{equation}
+\textbf{Last-First mapping} può essere definita come il suffisso che inizia con
+l'$r$-esimo simbolo $\sigma$ della BWT è l'$r$-esimo suffisso di $T$ che inizia
+con il simbolo $\sigma$ nell'ordinamento lessicografico dei suffissi di $T$.
 
-Quindi $j=LF(i)$ fonrisce la posizione $j$ nel SA del suffisso che inizia con $B[i]$.
+La funzione $j = LF(i)$ fornisce la posizione $j$ del suffisso che inizia con $B[i]$.
 
-Per costruire BWT dal SA si implementa l'equazione $B[i] = T[S[i]-1]$, l'algoritmo
-è lineare.
+Possiamo quindi definire la procedeura di calcolo della BWT partendo dal suffix
+array come:
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{BWT}{T}
+        \State $n \gets |T|$
+        \State $S \gets \Call{SuffixArray}{T}$
+        \State $B \gets \emptyset$
+        \For{$i \gets 1 \textbf{ to } n$}
+        \State $B[i] \gets T[S[i] - 1]$
+        \EndFor
+        \State \Return $B$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo per il passaggio da SA a BWT}
+\end{algorithm}
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
 BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
