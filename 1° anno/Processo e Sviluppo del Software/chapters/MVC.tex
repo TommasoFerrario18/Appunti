@@ -125,8 +125,9 @@ Possiamo definire anche i design pattern per l'implementazione della view:
           \textit{eXtensible Style Language for Transformations} (XSLT). Si ha quindi che ci
           si concentra sull'entità che deve essere trasformata, piuttosto che sulla pagina
           di output. Si ha una produzione interamente dinamica della pagina da parte del
-          transformer. Si hanno specifiche regole di trasformazioni per passare da XML e
-          XSTL ad HTML, con regole a seconda dei tag.
+          transformer. Il trasformer legge la conversione XML e le regole XSLT,
+          crea la pagina dinamicamente, inserendo i dati del model definito come
+          XML nel posto specificato dalle regole XSLT.
 
           Purtroppo è difficile includere la logica di implementazione nella view
           anche se il testing è facile. È facile da applicare a dati in formato
@@ -140,17 +141,18 @@ Possiamo definire anche i design pattern per l'implementazione della view:
               \item Si genera un pagina logica.
               \item Si renderizza la pagina.
           \end{enumerate}
+          Spesso collassano in un'unica fase.
+
+          Dal punto di vista implementativo si può implementare secondo due metodologie:
+          \begin{itemize}
+              \item 2 passi XSLT: Una sequenza di due trasformazione XSLT, la prima per la
+                    costruzione della pagina logica e la seconda per il suo render.
+              \item template-view: Una vista template con tag custom, la pagina HTML è quindi
+                    la pagina logica e i tag custom il render.
+          \end{itemize}
           Si ha che il “Look \& Feel” è facile da cambiare perché il rendering
           non è ottenuto tramite interazione con la strutturazione delle informazioni
           che devono essere visualizzate nella pagina.
-
-          Dal punto di vista implementativo quindi si ha:
-          \begin{itemize}
-              \item Una sequenza di due trasformazione XSLT, la prima per la
-                    costruzione della pagina logica e la seconda per il suo render.
-              \item Una vista template con tag custom, la pagina HTML è quindi
-                    la pagina logica e i tag custom il render.
-          \end{itemize}
 \end{itemize}
 \section{Object Relational Mapping}
 Come sappiamo non si ha una relazione diretta tra programmazione a oggetti e
@@ -383,3 +385,108 @@ i pattern appena discussi sono tutti supportati dai moderni framework ORM.
 Con questo pattern si hanno semplici oggetti, senza un chiaro concetto di identità,
 che possono essere inclusi in oggetti che fungono da alter-ego delle tabelle
 anziché creare tabelle dedicate.
+
+\subsection{JPA}
+Standard di implementazione di ORM in Java.
+Grande set di pattern/meccanismi già implementati mediante:
+\begin{itemize}
+      \item sistema di annotazioni
+      \item servizio
+\end{itemize}
+
+Avremo 4 macroelementi:
+\begin{itemize}
+      \item database: che saverà degli oggetti, istanze di entity class, classi
+      con un mapping ad un record. Il mapping è garantito attraverso le annotazioni
+      \item classi della logica di dominio
+      \item entity manager: servizio che permette di lavorare sulle entità persistenti
+\end{itemize}
+
+\subsubsection{Entity manager}
+Gli oggetti persistenti sono anche chiamati come Pojo perché oggetti normali Java
+ma con annotazioni. Sono uguali fino a quando non interagiscono con l'entity manager.
+
+Pojo possono avere 2 stati:
+\begin{itemize}
+      \item managed: entity manager è consapevole nella presenza in memoria
+      \item unmanaged: entity manager non è consapevole nella presenza in memoria
+\end{itemize}
+Essenziale lo stato per implementare il pattern Unit of Work e Identity map.
+In caso di creazione o cancellazione di entità dobbiamo notificarlo alla UoW mentre
+nel caso di modifica queste vengono applicate automaticamente. 
+EM cattura le notifiche e c'è una trasparenza nella notifica.
+
+Un'entità diventa managed quando si crea da una classe con annotazione entity mentre
+è unmanaged sono quegli oggetti che si inviano tra Sistemi distribuiti o che si ricevono.
+quindi in questo caso bisogna notificarlo all'EM.
+
+Il servizio EM è in grado di gestire solo le classi che dichiariamo (insimee di classi persistenti = persistence unit)
+e vengono dichiarati nel file persistence.xml e si deve specificare una connessione al db.
+A runtime la persistence unit si chiama persistence context. (si possono dichiarare più persistence unit e context)
+
+l'annotazioen @Entity specifica un oggetto persistente e avremo una tabella 
+per pemorizzare gli oggetti con le colonne con gli stessi nomi degli attributi.
+Si possono utilizzare annotazioni per modificare il mapping come i nomi dei fields 
+e delle tabelle. 
+
+Definito il mapping utilizzeremo EM per accedere ai dati. Creiamo l'EM e per 
+notificare la creazione si usa la funzione di persist. (UoW) La scrittura non è 
+immediata perché aspetta quando si aprirà la transazione. Dall'EM posso recuperare
+l'entità con i metodi finder che chiedono la classe dell'oggetto richiesto e id.
+Il risultato dei metodi sono sempre oggetti.
+getReference è caricamento Lazy
+Un altro modo di estrazione degli oggetti è attraverso una query simile a SQL,
+non si usano i nomi delle tabelle o field delle tabelle ma bensì ai nomi delle classi
+e attributi (sempre secondo Obj oriented).
+Per modificare le entità si modificano gli attributi e alla prossima transazione
+verrà salvata in automatico. La modifica non viene riportata dal db se l'entità
+è unmanaged. Per renderla effettiva allora si usa merge che:
+\begin{itemize}
+      \item se l'entità non esiste allora viene inserita
+      \item se esiste un'altra entità si sovrascrive l'unmanaged sul db
+\end{itemize}
+
+refresh posso aggiornare l'entità 
+
+per aprire e chiudere la transaction ci sono dei metodi dell'EM. 
+
+
+SequenceGen(nome generatore in Java, nome generatore nel DB)
+
+Cerca di usare sempre un'attributo ad hoc per le chiavi
+
+possiamo fare il mapping di un'entità su più tabelle con SecondaryTable e l'entità
+sarà partizionata tra le due tabelle che hanno i record associati con lo stesso id.
+Utile per accedere a database legacy e codificare più tabelle in un'entità.
+
+Mapping delle associazioni comportano il caricamento anche delle entità associate
+
+1-1 monodirezionale: mappato come relazione 1-1 in dib con una fk nella tabella 
+padre. Posso fare il join con chiavi primarie quindi diventà un'entita spartita 
+tra 2 tabelle
+
+1-n monodirezionale: in memoria Customer con collezione sui telefoni e lo possiamo
+gestire con una tabella di join. Si deve specificare il join table e le colonne 
+delle fk.
+
+n-1 monodirezionale: esattamente uguale a 1-n ma al contrario
+
+relazioni bidirezionali: raramente si utilizzano e per crearlo aggiungo un field
+in entrabe le classi e nel mapping specifico da una parte la colonna uguale all'altra.
+
+n-m monodirezionale: 
+
+Si progetta direttamente le classi e non il DB.
+
+Si mappa Ereditarietà perché permette di ridurre la duplicazione e di risolvere
+le query correttamente.
+
+single table: tutto in una tabella e si introduce un attributo discriminatore.
+richiede che sia possibile avere null negli attributi. Veloce e semplice ma 
+si vincola ad non avere not null.
+
+1 tabella per classe: supporta i constraint, mapping semplice, ma complesso la
+gestione em e il DBMS deve supportare la union.
+
+1 tabella per sottoclasse: supporta i constraint, non necessita union, ma lento
+e 1 istanza in più tabelle. (ottimale in termini di spazio)
