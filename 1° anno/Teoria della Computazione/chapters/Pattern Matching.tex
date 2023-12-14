@@ -1031,173 +1031,216 @@ Vediamo ora come è possibile implementare l'algoritmo per la scansione del test
 \end{enumerate}
 
 \section{Strutture di indicizzazione del testo}
-Per rendere più efficiente la ricerca di un pattern esatto si effettuano delle 
+Per rendere più efficiente la ricerca di un pattern esatto si effettuano delle
 operazioni di preprocessing del testo che permettono di ristrutturarlo per accedere
 velocemente alle sue porzioni.
 
-Le strutture di indicizzazione sono strutture che manipolano l'input, occupano
-molta memoria, ma permettono di rendere più efficiente l'interrogazione sull'input.
-La loro costruzione è molto complessa.
+Le strutture di indicizzazione sono strutture che manipolano l'input in modo da
+rendere più efficiente le operazioni su di esso, ma hanno il problema che richiedono
+molta memoria. Inoltre, la loro costruzione risulta complessa.
 
 Queste strutture si basano su:
 \begin{itemize}
-    \item \textbf{ordine lessicografico}: si definisce un ordine lessicografico 
-        dei caratteri dell'alfabeto per poter determinare un ordine delle parole
-    \item \textbf{carattere terminatore} $\$ $: carattere più piccolo dell'alfabeto che
-        serve come carattere per identificare il termine della stringa
+    \item \textbf{Ordine lessicografico}: si definisce un ordine lessicografico
+          dei caratteri dell'alfabeto per poter determinare un ordine delle parole.
+    \item \textbf{Carattere terminatore} $\$ $: carattere più piccolo dell'alfabeto che
+          serve come carattere per identificare il termine della stringa.
 \end{itemize}
 In aggiunta dovremo definire:
-\begin{definizione}
-    Il suffisso di indice $q$ ($q$-suffisso) è il suffisso che inizia nella posizione 
+\begin{definizione}[\textbf{q-suffisso}]
+    Il suffisso di indice $q$ ($q$-suffisso) è il suffisso che inizia nella posizione
     $q$ del testo, quindi $T[q:]= T[q:|T|]$
 \end{definizione}
-Il suffisso del carattere determinatore è il carattere terminatore stesso.
-\begin{definizione}
-    Definiremo l'ordinamento dei suffissi nel segunete modo. Dati due suffissi $s$ 
+Il suffisso del carattere terminatore è il carattere terminatore stesso.
+\begin{definizione}[\textbf{Ordinamento dei suffissi}]
+    Definiremo l'ordinamento dei suffissi nel segunete modo. Dati due suffissi $s$
     e $s'$, sia $i$ la più piccola posizione tale che $s[i]\ne s'[i]$, dove:
     \begin{itemize}
         \item $s \prec s'\iff s[i] < s'[i]$
-        \item $s \succ s'\iff s[i] > s'[i]$ 
+        \item $s \succ s'\iff s[i] > s'[i]$
     \end{itemize}
 \end{definizione}
-
 \subsection{Suffix Array}
-Sono stati inventati da Myers e Manber nel 1990, non contiene l'informazione sui
-simboli del testo, occupa $\Theta(nlogn)$ e la ricerca esatta di un pattern $P$ 
-su un testo $T$ in $|P|log|T|$.
-
-\begin{definizione}
-    Il suffix array di un testo $T$ lungo $n$ è un array $S$ lungo $n$, tale che
-    $S[i]= q$ se e solo se il $q$-suffisso è l'$i$-esimo suffisso nell'ordinamento
-    lessicografico dei suffissi di $T$. 
+Questa struttura di indicizzazione è stata inventata da Myers e Manber nel 1990,
+non contiene l'informazione sui simboli del testo e occupa $\Theta(n \log n)$ spazio.
+Si può effettuare la ricerca esatta di un pattern $P$  su un testo $T$ in
+$\mathcal{O}(|P| \log |T|)$.
+\begin{definizione}[\textbf{Suffix Array}]
+    Il \textbf{suffix array} di un testo $T$ lungo $n$ è un array $S$ lungo $n$,
+    tale che $S[i]= q$ se e solo se il $q$-suffisso è l'$i$-esimo suffisso
+    nell'ordinamento lessicografico dei suffissi di $T$.
 \end{definizione}
-
 \begin{esempio}
-    Supponiamo che $T=ggtcagtc\$$ allora costruiamo il suffix array.
-    
-    Per prima cosa elenchiamo tutti i suffissi che iniziano ad ogni posizione del testo $T$:
-    $$s[1] = ggtcagtc\$$$
-    $$s[2] = gtcagtc\$$$
-    $$s[3] = tcagtc\$$$
-    $$s[4] = cagtc\$$$
-    $$s[5] = agtc\$$$
-    $$s[6] = gtc\$$$
-    $$s[7] = tc\$$$
-    $$s[8] = c\$$$
-    $$s[9] = \$$$
-    Ora riordiniamo i suffissi per ordine lessicografico:
-    $$s[9] = \$$$
-    $$s[5] = agtc\$$$
-    $$s[8] = c\$$$
-    $$s[4] = cagtc\$$$
-    $$s[1] = ggtcagtc\$$$
-    $$s[6] = gtc\$$$
-    $$s[2] = gtcagtc\$$$
-    $$s[7] = tc\$$$
-    $$s[3] = tcagtc\$$$
-    Quindi nel suffix array avvrò le posizioni di inizio dei suffissi ordinati:
+    Consideriamo il testo $T = ggtcagtc\$$, il cui ordinamento lessicografico è
+    definito come:
     \begin{equation}
-        SA = \left[ 9,5,8,4,1,6,2,7,3 \right]
+        \$ < a < c < g < t
     \end{equation}
+    Possiamo costruire il suffix array $S$ come:
+    \begin{itemize}
+        \item Generiamo tutti i suffissi di $T$:
+              \begin{equation}
+                  \begin{array}{c|l}
+                      1 & ggtcagtc\$ \\
+                      2 & gtcagtc\$  \\
+                      3 & tcagtc\$   \\
+                      4 & cagtc\$    \\
+                      5 & agtc\$     \\
+                      6 & gtc\$      \\
+                      7 & tc\$       \\
+                      8 & c\$        \\
+                      9 & \$         \\
+                  \end{array}
+              \end{equation}
+        \item Ordiniamo i suffissi in ordine lessicografico:
+              \begin{equation}
+                  \begin{array}{c|l}
+                      9 & \$         \\
+                      5 & agtc\$     \\
+                      8 & c\$        \\
+                      4 & cagtc\$    \\
+                      1 & ggtcagtc\$ \\
+                      6 & gtc\$      \\
+                      2 & gtcagtc\$  \\
+                      7 & tc\$       \\
+                      3 & tcagtc\$   \\
+                  \end{array}
+              \end{equation}
+        \item Otteniamo il suffix array $S$ come: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
+    \end{itemize}
 \end{esempio}
+Possiamo interpretare il suffix array come un array di indici, dove ogni elemento
+$S[i]$ rappresenta la posizione del suffisso $i$-esimo nell'ordinamento.
 
-Per effettuare la ricerca esatta del pattern sul suffix array ci serve la struttura
-già costruita e il testo e verrà effettuata in un $O(|T|log|T|)$.
+Lo spazio richiesto per la memorizzazione del suffix array è $\Theta(n \log n)$.
+\subsubsection{Ricerca esatta}
+Vediamo ora il funzionamento della ricerca esatta di un pattern $P$ di lunghezza
+$m$ in testo $T$ di lunghezza $n$.
 
+La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
+\begin{enumerate}
+    \item Preprocessing del testo $T$ per costruire il suffix array $S$.
+    \item Ricerca del pattern $P$ nel testo $T$ utilizzando il suffix array $S$.
+          L'operazione di ricerca avviene in tempo $\theta(m \log n)$.
+\end{enumerate}
 Per prima cosa si può osservare che: % aggiungere esempi alle osservazioni
 \begin{itemize}
-    \item Se $P$ occorre $k$ volta in $T$ allora $P$ è prefisso di $k$ suffissi di $T$
+    \item Se $P$ occorre $k$ volta in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
+          Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$ possiamo
+          osservare che $P$ occorre $2$ volte in $T$ il che implica che $P$ è
+          prefisso di due suffissi di $T$ ovvero $2$-suffisso e $5$-suffisso.
     \item Gli indici dei $k$ suffissi sono le occorrenze di $P$ e sono consecutivi
-        nel suffix array
+          nel suffix array. Ad esempio, dato il testo $T = xabxab\$$ possiamo
+          calcolare il suo suffix array e ottenere $S=[7, 5, 2, 6, 3, 4, 1]$. Se
+          consideriamo il pattern $P = ab$ possiamo osservare che  esso occorre
+          $2$ volte in $T$ nelle posizioni $2$ e $5$ che sono consecutive.
     \item Se $P$ è prefisso del $q$-suffisso ed è minore (maggiore) di un $q'$-suffisso,
-        allora anche il $q$-suffisso sarà minore (maggiore) del $q'$-suffisso.
+          allora anche il $q$-suffisso sarà minore (maggiore) del $q'$-suffisso.
 \end{itemize}
-
 Quindi l'algortmo di ricerca sarà:
 \begin{enumerate}
-    \item Si inizializza un intervallo di posizioni $[L,R]=[1,|T|]$ 
-    \item \label{passo-2-sa} Si considera il suffisso di indice $S[p]$ con $p=\left\lfloor\frac{R-L}{2}\right\rfloor$,
-    in tempo $O(m)$ si controlla:
-    \begin{itemize}
-        \item $P\prec S[p]\text{-suffisso}$: si ripete il punto \ref{passo-2-sa}
-            ponendo $[L,R]=[L,p]$
-        \item $P\succ S[p]\text{-suffisso}$: si ripete il punto \ref{passo-2-sa}
-        ponendo $[L,R]=[p+1,R]$
-        \item $P$ occorre come prefisso in $S[p]\text{-suffisso}$: si termina e 
-        si restituisce la posizione $S[p]$
-    \end{itemize}
+    \item Si inizializza un intervallo di posizioni $[L,R]=[1,|T|]$
+    \item \label{passo-2-sa} Si considera il suffisso di indice $S[p]$ con
+          $p=\left\lfloor\frac{R-L}{2}\right\rfloor$,in tempo $O(m)$ si controlla:
+          \begin{itemize}
+              \item $P\prec S[p]\text{-suffisso}$: si ripete il punto \ref{passo-2-sa}
+                    ponendo $[L,R]=[L,p]$
+              \item $P\succ S[p]\text{-suffisso}$: si ripete il punto \ref{passo-2-sa}
+                    ponendo $[L,R]=[p+1,R]$
+              \item $P$ occorre come prefisso in $S[p]\text{-suffisso}$: si termina e
+                    si restituisce la posizione $S[p]$
+          \end{itemize}
 \end{enumerate}
-Questo algoritmo trova la prima occorrenza del $P$ in tempo $O(|P|log |T|)$.
+Questo algoritmo trova la prima occorrenza del $P$ in tempo $O(|P| \log |T|)$.
+\begin{algorithm}[!ht]
+    \begin{algorithmic}
+        \Function{SuffixArraySearch}{$T, P$}
+        \State $n \gets |T|$
+        \State $m \gets |P|$
+        \State $S \gets$ \Call{SuffixArray}{$T$}
+        \State $l \gets 1$
+        \State $r \gets n$
+        \While{$l \leq r$}
+        \State $p \gets \lfloor (l + r) / 2 \rfloor$
+        \If{$P < S[p]-$suffisso}
+        \State $r \gets p - 1$
+        \ElsIf{$P > S[p]-$suffisso}
+        \State $l \gets p + 1$
+        \Else
+        \State \Return $p$
+        \EndIf
+        \EndWhile
+        \State \Return $-1$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo di ricerca esatta di un pattern}
+\end{algorithm}
 \subsection{Burrows Wheeler Transform}
 Proposta da Burrows e Wheeler nel '94, costruisce una permutazione reversibile
 dei simboli del testo, occupa uno spazio di $\Theta(|T|log |\Sigma|)$ ed è usata
 in B-zip 2.
 
-Definiremo
-\begin{definizione}
-    La rotazione di indice $q$ ($q$-rotazione) è la concatenazione 
+Prima di definire la trasformata di Burrows-Wheeler, definiamo il concetto di
+\textbf{rotazione di indice $q$}.
+\begin{definizione}[\textbf{q-rotazione}]
+    La rotazione di indice $q$ ($q$-rotazione) è la concatenazione
     del $q$- suffisso $T[q,|T|]$ e del prefisso $T[1,q-1]$.
 \end{definizione}
 \begin{esempio}
-    Dato il seguente testo $T=ggtcagtc\$$, allora la $3$-rotazione è 
+    Dato il seguente testo $T=ggtcagtc\$$, allora la $3$-rotazione è:
     $$tcagtc\$gg$$
-    Mentre la $9$-rotazione coincide con
+        Mentre la $9$-rotazione coincide con:
     $$\$ggtcagtc$$
-    Mentre la $1$-rotazione coincide con
+        Mentre la $1$-rotazione coincide con:
     $$ggtcagtc\$$$
 \end{esempio}
-
 Possiamo osservare che la $q$-rotazione $r$ è una stringa lunga $n$ che ha:
 \begin{enumerate}
-    \item il $q$-suffisso come prefisso
-    \item il prefisso lungo $q-1$ come suffisso
+    \item il $q$-suffisso come prefisso.
+    \item il prefisso lungo $q-1$ come suffisso.
 \end{enumerate}
 Questo significa che:
 \begin{itemize}
     \item $r[1]$ è uguale a $T[q]$ (primo simborlo del $q$-suffisso)
-    \item $r[n]$ è uguale a $T[q-1]$ se $q>1$
-    \item $r[n]$ è uguale a $T[n]$ se $q=1$ 
-    
+    \item $r[n]$ è uguale a $T[q-1]$ se $q>1$, questo implica che:
+          \begin{itemize}
+              \item L'ultimo simbolo della $q$-rotazione è il simbolo iniziale
+                    della $q-1$-rotazione
+              \item il $q-1$-suffisso contiene il $q$-suffisso come suffisso se
+                    $q>1$
+          \end{itemize}
+    \item $r[n]$ è uguale a $T[n]$ se $q=1$, questo implica che:
+          \begin{itemize}
+              \item l'ultimo simbolo della $q$-rotazione è il simbolo iniziale
+                    della $n$-rotazione (e quindi dell'$n$-suffisso)
+          \end{itemize}
 \end{itemize}
-Il punto 2 implica che:
-\begin{itemize}
-    \item L'ultimo simbolo della $q$-rotazione è il simbolo iniziale della 
-    $q-1$-rotazione 
-    \item il $q-1$-suffisso contiene il $q$-suffisso come suffisso se $q>1$
-\end{itemize}
-Il punto 3 implica che:
-\begin{itemize}
-    \item l'ultimo simbolo della $q$-rotazione è il simbolo iniziale della $n$-rotazione
-    (e quindi dell'$n$-suffisso)
-\end{itemize}
-
 Definiremo anche una regola di ordinamento
-\begin{definizione}
-    Date due rotazioni $r$ e $r'$ , sia $i$ la più piccola posizione tale che $r[i]\ne r'[i]$, dove:
+\begin{definizione}[\textbf{Ordinamento delle rotazioni}]
+    Date due rotazioni $r$ e $r'$, sia $i$ la più piccola posizione tale che
+    $r[i]\ne r'[i]$, dove:
     \begin{itemize}
         \item $r \prec r'\iff r[i] < r'[i]$
-        \item $r \succ r'\iff r[i] > r'[i]$ 
+        \item $r \succ r'\iff r[i] > r'[i]$
     \end{itemize}
 \end{definizione}
-
-Possiamo introdurre questi teoremi 
+Possiamo introdurre questi teoremi
 \begin{teorema}
     Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tal che:
     \begin{itemize}
         \item $r_1\prec r_2$
-        \item $r_1[n]=r_2[n]$ 
+        \item $r_1[n]=r_2[n]$
     \end{itemize}
     Allora $(q-1)$-rotazione $r'_1$ è minore della $(p-1)$-rotazione $r'_2$
 \end{teorema}
 \begin{teorema}
-    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tal che $r_1[n]\prec r_2[n]$, 
+    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tal che $r_1[n]\prec r_2[n]$,
     Allora $(q-1)$-rotazione $r'_1$ è minore della $(p-1)$-rotazione $r'_2$
 \end{teorema}
-
 Dopo questo preambolo si può definire
-\begin{definizione}
-    La $BWT$ $B$ di un testo $T$ lungo $n$ è un array di lunghezza $n$ tale che 
-    $B[i]=r_i[n]$ se e solo se $r_i$ è l'$i$-esima rotazione nell'ordinamento 
+\begin{definizione}[\textbf{Burrows Wheeler Transform}]
+    La $BWT$ $B$ di un testo $T$ lungo $n$ è un array di lunghezza $n$ tale che
+    $B[i]=r_i[n]$ se e solo se $r_i$ è l'$i$-esima rotazione nell'ordinamento
     lessicografico delle rotazioni di $T$.
 \end{definizione}
 Ecco un esempio di costruzione:
@@ -1205,31 +1248,61 @@ Ecco un esempio di costruzione:
     Sia $T = ggtcagtc\$$
     % da trasformare in tabella 
     Elenchiamo tutte le rotazioni del testo
-    $$B[1] = ggtcagtc\&$$
-    $$B[2] = gtcagtc\&g$$
-    $$B[3] = tcagtc\&gg$$
-    $$B[4] = cagtc\&ggt$$
-    $$B[5] = agtc\&ggtc$$
-    $$B[6] = gtc\&ggtca$$
-    $$B[7] = tc\&ggtcag$$
-    $$B[8] = c\&ggtcagt$$
-    $$B[9] = \&ggtcagtc$$
-    ordiniamo le rotazioni secono l'ordine lessico grafico
-    $$B[9] = \&ggtcagtc$$
-
-    ... LA B è l'ultima colonna 
+    \begin{equation}
+        \begin{array}{c}
+            B[1] = ggtcagtc\$ \\
+            B[2] = gtcagtc\$g \\
+            B[3] = tcagtc\$gg \\
+            B[4] = cagtc\$ggt \\
+            B[5] = agtc\$ggtc \\
+            B[6] = gtc\$ggtca \\
+            B[7] = tc\$ggtcag \\
+            B[8] = c\$ggtcagt \\
+            B[9] = \$ggtcagtc \\
+        \end{array}
+    \end{equation}
+    ordiniamo le rotazioni secono l'ordine lessico grafico:
+    \begin{equation}
+        \begin{array}{c}
+            B[9] = \$ggtcagtc \\
+            B[5] = agtc\$ggtc \\
+            B[8] = c\$ggtcagt \\
+            B[4] = cagtc\$ggt \\
+            B[1] = ggtcagtc\$ \\
+            B[6] = gtc\$ggtca \\
+            B[2] = gtcagtc\$g \\
+            B[7] = tc\$ggtcag \\
+            B[3] = tcagtc\$gg \\
+        \end{array}
+    \end{equation}
+    Quindi la $BWT$ è data dall'ultima colonna della tabella:
+    \begin{equation}
+        B = [c, c, t, t, \$, a, g, g, g]
+    \end{equation}
 \end{esempio}
-La costruzione della $BWT$ si effettua in tempo % dp non sono riuscito a copiare
+Lo spazio richiesto per la memorizzazione della trasformata di Burrows-Wheeler è
+$\theta(n \log |\Sigma|)$.
 
-% riguarda le proprietà
-Considerando la prima colonna della $BWT$ di un testo allora si ha la certezza che $F$,
-il vettore della prima colonna, è sempre ordinato, in aggiunta si può osservare
-che per ogni posizione $i$, il simbolo $B[i]$ precende nel testo il simbolo $F[i]$.
+A questo punto definiamo $F$ come l'array di lunghezza $n$ dei simboli iniziali
+delle rtazioni ordinate. Tale array fornisce sempre l'ordinameto lessicografico
+dei simboli del testo.
 
+Sia $B[i] = r_i[n]$ con $r_i$ $i$-esima più piccola rotazione nell'ordinamento
+lessicografico. Se $r_i$ è la $q$-rotazione di $T$, allora $B[i]$ è l'ultimo
+simbolo della qrotazione, cioè $T[q-1]$.
+
+Il primo simbolo della $q$-rotazione è il simbolo $T[q]$ e coincide con il simbolo
+in posizione $F[i]$ del vettore $F$.
+\begin{itemize}
+    \item \textbf{Proprietà 1}: per ogni posizione $i$, il simbolo $B[i]$ precede
+          nel testo il simbolo $F[i]$. Per ogni posizione $i$ tale che $B[i]$ è
+          diverso da $\$$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
+          Se $B[i] = \$$, allora $F[i] = T[1]$
+\end{itemize}
 \begin{nota}
     Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$,
 \end{nota}
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
-BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in 
+BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
 un testo $T$ è in $\Theta(|P|)$
