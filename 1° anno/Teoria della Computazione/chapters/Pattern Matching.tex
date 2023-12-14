@@ -1298,10 +1298,71 @@ in posizione $F[i]$ del vettore $F$.
           nel testo il simbolo $F[i]$. Per ogni posizione $i$ tale che $B[i]$ è
           diverso da $\$$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
           Se $B[i] = \$$, allora $F[i] = T[1]$
+    \item \textbf{Proprietà 2} (last-first mapping): l'$r$-esimo simbolo $\sigma$ 
+    in $B$ e l'$r$-esimo simbolo simobolo $\sigma$ in $F$ sono lo stesso simbolo 
+    del testo $T$.
 \end{itemize}
 \begin{nota}
     Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$,
 \end{nota}
+
+\begin{definizione}
+    La definizione formale di BWT è $B[i]$ è l'ultimo simbolo della rotazione
+    $r_i$ che è l'$i$-esima rotazione nell'ordinamento lessicografico e che sarà
+    la $q$-rotazione per un certo valore $q$.
+\end{definizione}
+
+\begin{esempio}
+    \begin{equation}
+        B = [c, c, t, t, \$, a, g, g, g]
+    \end{equation}
+    Allora $B[4]$ è la $4$-rotazione che termina con il carattere $B[4]$ e 
+\end{esempio}
+
+La proprietà $2$ viene implementata con la \textbf{Last-First function}.
+\begin{definizione}
+    la \textbf{Last-First function} sarà la funzione che
+    \begin{equation}
+        j = LF(i)
+    \end{equation}
+    dove $j$ è la posizione in $F$ corrispondente al carattere $i$ di $B$.
+\end{definizione} 
+Questa funzione si deve calcolare in tempo costante.
+
+\begin{esempio} [ricostruzione di T usando BWT e le proprietà (esercizio di esame)]
+    Per la ricostruzione di $T$ si effettua dal fondo in tempo lineare al testo. 
+    Si inizia ricavando $F$ da $B$ ordinando quest'ultimo. 
+    Si parta $F[1] = \$$, applico al prima proprietà che mi dice che $B[1]$ precede
+    $F[1]$.
+    Calcolo $k = LF(B[1])$ quindi trovo il succesivo simbolo in $F$ e si riesegue
+    ricorsimente i passi precedenti.
+\end{esempio}
+
+Riassumendo:
+\begin{itemize}
+    \item Il simbolo $B[i]$ della BWT è l'ultimo simbolo della $i$-esima rotazione
+    $r_i$
+    \item supponiamo che $r_i$ sia la rotazione che inizia in posizione $q$ del
+    testo, cioè $q$-rotazione
+    \item l'ultimo simbolo di $r_i$ è il simbolo $T[q-1]$
+    \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q-1]$
+    \item la rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo 
+    che precede $q$-Prefisso
+    \item sicuramente, il $q$.suffisso e l'$i$-esimo nell'ordinamento lessicografico
+    dei suffissi di $T$ (per il teorema introdotto), si ha questa sincronizzazione
+    per il $\$$.
+    \item In conclusione, $B[i]$ è il simbolo...
+\end{itemize}
+BWT e SA sono in relazione più precisamente si ha una corrispondenza degli indici
+delle $r_i$, vero per il simbolo $\$$. Quindi 
+$$B[i] = T[S[i]-1] \ T[S[i]] = F[i]$$
+Quindi possiamo ripensare LF mapping come il suffisso che inizia con l'$r$-esimo
+simbolo $\sigma$ della BWT è l'$r$-esimo simbolo che inizia con $\sigma$...
+
+Quindi $j=LF(i)$ fonrisce la posizione $j$ nel SA del suffisso che inizia con $B[i]$.
+
+Per costruire BWT dal SA si implementa l'equazione $B[i] = T[S[i]-1]$, l'algoritmo
+è lineare.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
 BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
