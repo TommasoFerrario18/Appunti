@@ -1,4 +1,4 @@
-\chapter{Logiche temporali e model checking}
+\chapter{Model checking}
 \section{Introduzione}
 Le \textbf{logiche temporali} sono una famiglia di logiche matematiche che
 permette di esprimere proprietà che cambiano nel tempo.
@@ -181,3 +181,74 @@ Definiremo la relazione $\vDash$ per induzione.
               \end{itemize}
     \end{itemize}
 \end{definizione}
+
+\begin{esempio}
+    Ecco alcuni esempi:
+    \begin{itemize}
+        \item $FG\alpha$: esprime che da un certo momento in poi $\alpha$ sarà
+        invariante, se $\alpha = \perp$ allo stato iniziale ma $FG\alpha = \top$
+        vale dallo stato iniziale allora significa che non si tornerà più in quello
+        stato
+        \item $GF\alpha$: $\alpha$ è vera in un numero infinito di stati
+        \item $G\lnot (cs_1\land cs_2)$: mutua esclusione se $cs_1$ indica il 
+        processo è nella sezione critica, viceversa $cs_2$.
+        \item $G(req \implies XF ack)$: 
+        \item $G(req \implies (req U ack))$: se c'è la richiesta allora la richiesta
+        è pendente fino a quando si ha un'ack. Si differenzia da quella precedente
+        dal momento che la richiesta deve rimanere fino a quando non si manda l'ack.
+        \item $G(req \implies ((req\land \lnot ack) U (\lnot req \land ack)))$: 
+        si chiede di non rispondere all'inizio e dopo la risposta la richiesta 
+        viene cancellata
+    \end{itemize}
+\end{esempio}
+
+\begin{esempio}
+    esempio diagramma.
+\end{esempio}
+
+Come per tutte le logiche si può definire una equivalenza tra formule.
+\begin{definizione}
+    Definiremo
+    \begin{equation}
+        \alpha \equiv \beta \iff \forall \pi : ( \pi \vDash \alpha \iff \pi \vDash \beta)
+    \end{equation}
+\end{definizione}
+
+Si possono definire le prime equivalenze:
+\begin{itemize}
+    \item $F\alpha \equiv \alpha \lor X F \alpha$
+    \item $G\alpha \equiv \alpha \land X G \alpha$
+    \item $\alpha U \beta \equiv \beta \lor (\alpha \land X(\alpha U \beta))$
+    \item $FGF \alpha \equiv GF\alpha$
+    \item $GFG\alpha \equiv FG\alpha$
+    \item $\top U\alpha \equiv F\alpha$: questo significa che l'operatore $F$ non è
+    essenziale
+    \item $\lnot F \lnot \alpha\equiv G\alpha$: questo significa che $G$ può essere
+    definito a partire da $F$ quindi l'insieme minimale di operazioni sono 
+    $\{X,U\}$. Questo insieme minimale non è unico.
+\end{itemize}
+
+Le equivalenze spesso sfruttano la ricorsione dal momento che si basano su sistemi 
+di transizione.
+
+Le equivalenze logiche permettono di definire degli \textbf{operatori derivati},
+per velocizzare la scrittura delle formule:
+\begin{itemize}
+    \item \textbf{until debole}: $\alpha W \beta \equiv G\alpha \lor 
+    (\alpha U \beta)$
+    \item \textbf{release}: $\alpha R \beta$ per cui
+    \begin{equation}
+        \pi\vDash\alpha R \beta \iff \forall k\ge 0:(\pi^{(k)}\vDash \beta\lor 
+        \exists h<k:\pi^{(h)}\vDash \alpha)
+    \end{equation}
+    In sostanza o $\beta$ è sempre vera oppure $\beta$ sarà falsa solo quando 
+    $\alpha$ diventa vera. Definito in questo modo allora si può dire 
+    \begin{equation}
+        \alpha R \beta \equiv \beta W (\alpha \land \beta)
+    \end{equation}
+\end{itemize}
+
+Attenzione all'uso della negazione nelle formule LTL, cosa significa "non è vero
+$F\alpha$"?  Significa che $\exists$ un cammino per cui non vale $F\alpha$.  Mentre
+$\lnot F\alpha \equiv G\lnot \alpha$ quindi $\lnot F\alpha$ non è la negazione di
+$F\alpha$. Qundi dobbiamo stare attenti ai quantificatori universali nascosti.
