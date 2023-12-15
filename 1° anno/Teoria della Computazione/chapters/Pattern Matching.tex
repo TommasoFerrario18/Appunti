@@ -1399,7 +1399,137 @@ array come:
     \end{algorithmic}
     \caption{Algoritmo per il passaggio da SA a BWT}
 \end{algorithm}
+
+\subsubsection{Ricerca esatta con BWT}
+Definiremo 
+\begin{definizione} [(rispetto a BWT)]
+    $Q$-intervallo è l'intervallo $[b,E)$ di posizioni della BWT che contengono
+    i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso 
+\end{definizione}
+\begin{definizione} [(rispetto a SA)]
+    $Q$-intervallo è l'intervallo $[b,E)$ di posizioni SA che contengono
+    i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso 
+\end{definizione}
+\begin{esempio}
+    % trascrivi esempio    
+\end{esempio}
+Se noi leggiamo tutti gli indici del SA di un $[b,e)$ $Q$-intervallo rappresentano gli
+indici dei suffissi che hanno come prefisso $Q$. (occorrenze di $Q$ nel testo)
+
+Se noi leggiamo gli indici del BWT sono i simboli precedenti ai suffissi che hanno
+come prefisso $Q$. (simboli precedenti all'occorrenza di $Q$ nel testo).
+
+Il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se $[b,e)$.
+
+\begin{esempio}
+    Sia $aca$-intervallo allora questo corrisponde a $[4,6)$ quindi saranno un
+    totale di $6-4$ occorrenze di $aca$ nel BWT.
+\end{esempio}
+
+\begin{definizione}
+    la backward extension di $\sigma$ con un $Q$-intervalo allora significa calcolare
+    il $\sigma Q$-intervallo
+\end{definizione}
+
+L'algoritmo di ricerca consiste nel:
+\begin{enumerate}
+    \item suffisso $\epsilon$ del pattern $P$
+    \item si considera il $\epsilon$-intervallo, cioè $[1,n+1)$ e si inizializza
+    un indice di posizione $i=m$. 
+    \item si effettua una backward extension con il simbolo $P[i]$ per ottenere
+    $P[i]Q$-intervallo $[b_p, e_p)$ che fornisce le occorrenze di $P[i,m]$:
+    \begin{itemize}
+        \item se il risultato è l'intervallo vuoto allora $P$ non ha occorrenze in $T$
+        quindi si termina l'esecuzione 
+        \item se il risultato non è l'intervallo vuoto allora:
+        \begin{itemize}
+            \item se $i>1$ allora si calcola $i--$ e si ripete il punto $2$
+            \item se $i=1$ allora ho trovato il $P$-intervallo e si ritorna l'occorrenza
+        \end{itemize}
+    \end{itemize}
+\end{enumerate} 
+
+Per capire se $P$ occorre in $T$ allora si hanno al massimo $m$ iterazioni sul 
+testo in cui calcoliamo il $Q'$-intervallo. Se occorre $P$ in $T$ allora servono
+un totale di $m$ iterazioni, altrimenti saranno minori. La complessità quindi sarà
+$O(mlogn)$. Per rendere il calcolo di costante la backward extension dobbiamo:
+\begin{itemize}
+    \item siano $i_1,<i_2<\dots<i_k$ le $k$ posizioni di $[b,e)$ tali che
+    \begin{equation}
+        B[i_q] = \sigma \ 1\le p \le K
+    \end{equation}
+    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$
+    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$
+    \item ...
+\end{itemize}
+Da notare che backward extension il nuovo intervallo viene definito dalle posizioni
+limite prese dal SA alla posizione BWT coincidente al carattere da cercare.
+
+Algoritmo che non è lineare perché non abbiamo definito il calcolo costante di LF.
+
+
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
 BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
 un testo $T$ è in $\Theta(|P|)$
+
+La struttura composta da due funzioni:
+\begin{itemize}
+    \item $c: \Sigma \to \left\{0,1,2,3,\dots,n\right\}$: dove 
+    \begin{equation}
+        c(\sigma) = numero di simboli della BWT che sono < \sigma    
+    \end{equation}
+    \item $occ:  \left\{0,1,2,3,\dots,n+1\right\}\times \Sigma\to \left\{0,1,2,3,\dots,n\right\}$: dove 
+    \begin{equation}
+        Occ(i,\sigma) = numero di simboli di \sigma che occorrono in B[1,i-1]   
+    \end{equation}
+\end{itemize} 
+\begin{esempio}
+    $T=ggtcagtc\$$
+    $$c(\$) = 0$$
+    $$c(a) = 1$$
+    $$c(c) = 2$$
+    $$c(g) = 4$$
+    $$c(t) = 7$$
+\end{esempio} 
+$c(\sigma)$ ci dice il numero di suffissi che iniziano con un simbolo $<\sigma$ e 
+la massima posizione nel SA di un suffisso che inizia con un simbolo $<\sigma$.
+\begin{esempio}
+    $BWT=cctt\$aggg$
+    $$Occ(1,\sigma) = 00000$$
+    $$Occ(2,\sigma) = 00100$$
+    $$Occ(3,\sigma) = 00200$$
+    $$Occ(4,\sigma) = 00201$$
+    $$Occ(5,\sigma) = 00202$$
+    $$Occ(6,\sigma) = 10202$$
+    $$Occ(7,\sigma) = 11202$$
+    $$Occ(8,\sigma) = 11212$$
+    $$Occ(9,\sigma) = 11222$$
+    $$Occ(10,\sigma) = 11232$$
+    Copio la riga precedente modificando la colonna del carattere che leggiamo nella
+    nuova posizione di BWT. 
+\end{esempio}
+L'ultima riga della tabella ci dice la distribuzione dei simboli.
+
+\begin{esempio}
+    Possiamo quindi ottenere $c(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori 
+    delle colonne precedenti sulla riga.
+    
+    $$c(\$) = 0$$
+    $$c(a) = 1$$
+    $$c(c) = 2$$
+    $$c(g) = 4$$
+    $$c(t) = 7$$
+\end{esempio}
+
+Algoritmo
+
+Definiamo il calcolo di LF in tempo costante
+\begin{osservazione}
+    prop.
+\end{osservazione}
+
+$LF(i)$ la possiamo ottenere calcolando il numero di suffissi che iniziano con un
+carattere più piccolo di $B[i]$ con un il numero di simboli si $B[i]$ che occorrono
+nella BWT prima della posizione $i$. 
+$$LF(i) = c(B[i]) + Occ(i, B[i]) +1$$
