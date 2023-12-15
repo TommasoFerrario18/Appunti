@@ -1,0 +1,49 @@
+\chapter{Deeplearning}
+problemi:
+\begin{itemize}
+    \item Supervisionato: dataset con istanze e etichette
+    \item Non supervisionato: dataset con istanze senza etichette
+\end{itemize}
+Architetture come autoencoder sono reti che apprendono in modo supervisionato
+senza avere la label, riducendo l'errore sulla ricostruzione dell'input. Il loro
+risultato è proprio dovuto al loro collo di bottiglia. A sx si codifica mentre a
+dx si decodifica. Quindi si avranno 2 reti:
+\begin{itemize}
+    \item una che implementa una funzione di codifica
+    \item una che implementa una funzione di decodifica
+\end{itemize} 
+Si applica la Backprog. sulla autoencoder si perché si applica su ciascun 
+neurone di uscita, la struttura deve rimanere fissa con un collo di bottiglia.
+Inoltre non ci devono essere connessioni che saltano i layer.
+
+Le architetture odierne di deeplearning si basano su neuroni e utilizzano i 
+\textbf{tranformer}, componenti con neuroni che apprendono prendendo in input
+sia il nuovo input e un output vecchio. fondamentali saranno i componenti "Attention"
+che cambiano effettivamente i valori. Prima di arrivare qui si è passati agli autoencoder,
+reti neurali a collo di bottiglia che ricostruiscono l'input. 
+Word2Vec modello neurale basato sul non supervisionato e prende le parole e produce 
+un vettore associato. L'assegnamento del vettore alla parola si determina in base
+a quali parole si hanno vicine in tutti i testi raggiungibili. Quindi la rete 
+riesce a codificare come vettori simili parole simili, infatti c'è una corrispodenza
+geometrica col significato. 
+Successivamente si è passati ai denoising autoencoder, ovvero rimozione del rumore
+e ricostruzione dell'input originale.
+
+Attention introdotto prima sono composti da 3 elementi in input che permette di
+assegnare diversi pesi agli elementi in input, questo lo vogliamo dare in automatico,
+quindi queste sono reti. (ex: parole ambigue si interpretano in base al contesto)
+
+I tranformer introducono la ricorrenza dei dati in modo da considerare in input
+i vecchi dati sfasati con un meccanismo di attection.
+
+I modelli generativi vengono allenati in 2 fasi:
+\begin{itemize}
+    \item pretraining generico: allenamento non supervisionato mascherando l'input 
+    senza un task (più pesante)
+    \item finetuning: si prende la rete preallenata e si addestra per un task
+    specifico (supervisionato)
+\end{itemize}
+
+Successivamente entra in gioco GPT, sempre in trasformer basato su attection sempre
+addestrata in 2 fasi. con la possibilità di effettuare il reinforcement learning 
+(migliora nettamentess).
