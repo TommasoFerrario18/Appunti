@@ -1401,39 +1401,82 @@ array come:
 \end{algorithm}
 
 \subsubsection{Ricerca esatta con BWT}
-Definiremo 
-\begin{definizione} [(rispetto a BWT)]
-    $Q$-intervallo è l'intervallo $[b,E)$ di posizioni della BWT che contengono
+Per prima cosa diremo data la stringa $Q\in \Sigma^\ast$ 
+\begin{definizione} [$Q$-intervallo rispetto alla BWT]
+    $Q$-intervallo è l'intervallo $[b,e)$ di posizioni della BWT che contengono
     i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso 
 \end{definizione}
-\begin{definizione} [(rispetto a SA)]
-    $Q$-intervallo è l'intervallo $[b,E)$ di posizioni SA che contengono
-    i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso 
+\begin{definizione} [$Q$-intervallo rispetto al SA]
+    $Q$-intervallo è l'intervallo $[b,e)$ di posizioni del SA che contengono
+    gli indici dei suffissi che condividono la striga $Q$ come prefisso 
 \end{definizione}
+Si può osservare che $\varepsilon$-intervallo coicide con l'intervallo $[1,n+1)$.
 \begin{esempio}
-    % trascrivi esempio    
+    Dato l'alfabeto ordinato $\Sigma=\left\{\$, a, c, g, t\right\}$ e il testo
+    $T=acaaacatat\$$ allora possiamo costruire il SA e BWT.
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|c|c|l|c|}
+            \hline
+            Indici & SA  & suffissi ordinati  & BWT \\ \hline
+            1 & 11 & \$ & t \\ \hline
+            2 & 3 & aaacatat\$ & c \\ \hline
+            3 & 4 & aacatat\$ & a \\ \hline
+            4 & 1 & acaaacatat\$ & \$ \\ \hline
+            5 & 5 & acatat\$ & a \\ \hline
+            6 & 9 & at\$ & t \\ \hline
+            7 & 7 & atat\$ & c \\ \hline
+            8 & 2 & caaacatat\$ & a \\ \hline
+            9 & 6 & catat\$ & a \\ \hline
+            10 & 10 & t\$ & a \\ \hline
+            11 & 8 & tat\$ & a \\ \hline
+        \end{tabular}
+    \end{table}
+    
+    possiamo effettuare le seguenti query:
+    \begin{itemize}
+        \item $aca$-intervallo equivale a $[4,6)$
+        \item $a$-intervallo equivale a $[2,8)$
+        \item $cat$-intervallo equivale a $[9,10)$
+        \item $\varepsilon$-intervallo equivale a $[1,12)$
+    \end{itemize}
 \end{esempio}
-Se noi leggiamo tutti gli indici del SA di un $[b,e)$ $Q$-intervallo rappresentano gli
-indici dei suffissi che hanno come prefisso $Q$. (occorrenze di $Q$ nel testo)
 
-Se noi leggiamo gli indici del BWT sono i simboli precedenti ai suffissi che hanno
-come prefisso $Q$. (simboli precedenti all'occorrenza di $Q$ nel testo).
+Dato un $Q$-intervallo si possono effettuare le seguenti osservazioni:
+\begin{itemize}
+    \item Se noi leggiamo tutti gli indici del SA di un $[b,e)\equiv Q$-intervallo,
+    questi rappresentano gli indici dei suffissi che hanno come prefisso $Q$. Quindi
+    rappresentano le occorrenze di $Q$ nel testo.
+    \item Se noi leggiamo gli indici del BWT di un $[b,e)\equiv Q$-intervallo, 
+    sono i simboli precedenti ai suffissi che hanno come prefisso $Q$. Quindi 
+    rappresentano i simboli precedenti all'occorrenza di $Q$ nel testo.
+\end{itemize}
 
-Il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se $[b,e)$.
+Quindi possiamo dire che il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se $[b,e)\equiv Q$-
+intervallo.
 
 \begin{esempio}
-    Sia $aca$-intervallo allora questo corrisponde a $[4,6)$ quindi saranno un
-    totale di $6-4$ occorrenze di $aca$ nel BWT.
+    Dall'esempio precedente il $aca$-intervallo corrisponde a $[4,6)$ quindi saranno un
+    totale di $6-4= 2$ occorrenze di $aca$ nel testo, iniziano alle posizioni 
+    $1,5$ del testo e sono precedute dai simbli $\$,a$
 \end{esempio}
 
+Successivamente definiamo
 \begin{definizione}
-    la backward extension di $\sigma$ con un $Q$-intervalo allora significa calcolare
-    il $\sigma Q$-intervallo
+    la backward extension di un $Q$-intervalo $[b,e)$ con il carattere $\sigma$ è il
+    $\sigma Q$-intervalo, cioè l'intervallo relativo alla stringa ottenuta concatenando 
+    il simbolo $\sigma$ con $Q$.
 \end{definizione}
+\begin{esempio}
+    Riprendendo l'esempio precedente, dato il $a$-intervallo, vogliamo trovare la 
+    backward extension di $a$-intervallo col carattere $c$. Questo coincide con
+    il  $gaca$-intervallo ovvero $[8,10)$.
+\end{esempio}
 
-L'algoritmo di ricerca consiste nel:
+L'algoritmo di ricerca esatta per BWT è composto dai seguenti passi:
 \begin{enumerate}
-    \item suffisso $\epsilon$ del pattern $P$
+    \item si parte dal suffisso $\epsilon$ del pattern $P$
     \item si considera il $\epsilon$-intervallo, cioè $[1,n+1)$ e si inizializza
     un indice di posizione $i=m$. 
     \item si effettua una backward extension con il simbolo $P[i]$ per ottenere
@@ -1449,24 +1492,74 @@ L'algoritmo di ricerca consiste nel:
     \end{itemize}
 \end{enumerate} 
 
-Per capire se $P$ occorre in $T$ allora si hanno al massimo $m$ iterazioni sul 
-testo in cui calcoliamo il $Q'$-intervallo. Se occorre $P$ in $T$ allora servono
-un totale di $m$ iterazioni, altrimenti saranno minori. La complessità quindi sarà
-$O(mlogn)$. Per rendere il calcolo di costante la backward extension dobbiamo:
+Possiamo effettuare le seguenti osservazioni:
+\begin{itemize}
+    \item Per capire se $P$ occorre in $T$ allora si hanno al massimo $m$ iterazioni sul 
+    testo in cui calcoliamo il $Q'$-intervallo
+    \item Se occorre $P$ in $T$ allora servono un totale di $m$ iterazioni, 
+    altrimenti saranno minori
+    \item Se $P$ non occorre in $T$,
+    supponendo che $p$ è la posizione di $P$ per cui il $P[p,m]$-intervallo è vuoto,
+    allora l'ultimo suffisso che occorre in $T$ è $P[p+1,m]$ in un numero di iterazioni
+    $P[p+1,m]+1$
+    \item La complessità quindi sarà $O(mlogn)$
+\end{itemize}
+
+Possiamo rimuovere il $logn$ nell'equazione del tempo rendendo costante 
+il calcolo della backward extension. Possiamo osservare che per un $Q$-intervallo,
+e dato un simbolo $\sigma$:
 \begin{itemize}
     \item siano $i_1,<i_2<\dots<i_k$ le $k$ posizioni di $[b,e)$ tali che
     \begin{equation}
         B[i_q] = \sigma \ 1\le p \le K
     \end{equation}
     \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$
-    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$
-    \item ...
+    \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1\le p \le k$
+    \item Quindi  $B[i_p]+S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
+    che inizia con $B[i_p]$ e che ha $\sigma Q$ come prefisso
+    \item $B[i_p] + S[i_p]$-suffisso per LF-mapping avrà una posizione
+    nel Suffix Array data da $j_p = LF(i_p)$ all'interno di  $j_1,<j_2<\dots<j_k$,
+    dove  $[j_1,j_k)$ è il $\sigma Q$-intervallo
 \end{itemize}
-Da notare che backward extension il nuovo intervallo viene definito dalle posizioni
+Da notare che, la backward extension viene definita dalle posizioni
 limite prese dal SA alla posizione BWT coincidente al carattere da cercare.
 
-Algoritmo che non è lineare perché non abbiamo definito il calcolo costante di LF.
+Quindi la procedura sarà
 
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{backward$\_$extend}{b,e,$\sigma$}
+        \State $i_1 \gets \min_{x\in [b,e)} x \ \text{t.c.} \ B[i_1]=\sigma$
+        \State $i_k \gets \max_{x\in [b,e)} x \ \text{t.c.} \ B[i_k]=\sigma$
+        \State \Return $[LF(i_1), LF(i_k)+1)$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo per il calcolo della backward extension}
+\end{algorithm}
+
+Quindi ora si può mostrare l'algoritmo di ricerca esatta
+
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{search$\_$pattern}{P, T}
+            \State $n \gets |T|$
+            \State $[b,e) \gets [1, n+1)$
+            \State $i \gets |P|$
+            \While{$[b,e) \ \ne \ \text{null}\land i\ge 1$}
+                \State $\sigma \gets P[i]$
+                \State $[b,e) \gets\Call{backward\_extend}{b,e,\sigma}$
+                \State $i\gets i-1$
+            \EndWhile
+            \If{$[b,e)\ \ne \ \text{null}$}
+                \State $\text{out } T[b], T[b+1], \dots, T[e-1]$
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo di ricerca esatta del pattern nel testo}
+\end{algorithm}
+
+Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo 
+costante di $LF$.
 
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
