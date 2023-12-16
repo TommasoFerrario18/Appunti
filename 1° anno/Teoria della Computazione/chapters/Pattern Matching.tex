@@ -1079,33 +1079,39 @@ $\mathcal{O}(|P| \log |T|)$.
     Possiamo costruire il suffix array $S$ come:
     \begin{itemize}
         \item Generiamo tutti i suffissi di $T$:
-              \begin{equation}
-                  \begin{array}{c|l}
-                      1 & ggtcagtc\$ \\
-                      2 & gtcagtc\$  \\
-                      3 & tcagtc\$   \\
-                      4 & cagtc\$    \\
-                      5 & agtc\$     \\
-                      6 & gtc\$      \\
-                      7 & tc\$       \\
-                      8 & c\$        \\
-                      9 & \$         \\
-                  \end{array}
-              \end{equation}
+              \begin{table}[!ht]
+                  \centering
+                  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+                      \hline
+                      SA & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+                      1  & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      2  & g  & t  & c  & a  & g  & t  & c  & \$ & ~  \\ \hline
+                      3  & t  & c  & a  & g  & t  & c  & \$ & ~  & ~  \\ \hline
+                      4  & c  & a  & g  & t  & c  & \$ & ~  & ~  & ~  \\ \hline
+                      5  & a  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  \\ \hline
+                      6  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      7  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      8  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      9  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                  \end{tabular}
+              \end{table}
         \item Ordiniamo i suffissi in ordine lessicografico:
-              \begin{equation}
-                  \begin{array}{c|l}
-                      9 & \$         \\
-                      5 & agtc\$     \\
-                      8 & c\$        \\
-                      4 & cagtc\$    \\
-                      1 & ggtcagtc\$ \\
-                      6 & gtc\$      \\
-                      2 & gtcagtc\$  \\
-                      7 & tc\$       \\
-                      3 & tcagtc\$   \\
-                  \end{array}
-              \end{equation}
+              \begin{table}[!ht]
+                  \centering
+                  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+                      \hline
+                      SA & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+                      9  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      5  & a  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  \\ \hline
+                      8  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      4  & c  & a  & g  & t  & c  & \$ & ~  & ~  & ~  \\ \hline
+                      1  & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      6  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      2  & g  & t  & c  & a  & g  & t  & c  & \$ & ~  \\ \hline
+                      7  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      3  & t  & c  & a  & g  & t  & c  & \$ & ~  & ~  \\ \hline
+                  \end{tabular}
+              \end{table}
         \item Otteniamo il suffix array $S$ come: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
     \end{itemize}
 \end{esempio}
@@ -1123,7 +1129,7 @@ La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
     \item Ricerca del pattern $P$ nel testo $T$ utilizzando il suffix array $S$.
           L'operazione di ricerca avviene in tempo $\theta(m \log n)$.
 \end{enumerate}
-Per prima cosa si può osservare che: % aggiungere esempi alle osservazioni
+Per prima cosa si può osservare che:
 \begin{itemize}
     \item Se $P$ occorre $k$ volta in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
           Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$ possiamo
@@ -1242,39 +1248,47 @@ Dopo questo preambolo si può definire
     La $BWT$ $B$ di un testo $T$ lungo $n$ è un array di lunghezza $n$ tale che
     $B[i]=r_i[n]$ se e solo se $r_i$ è l'$i$-esima rotazione nell'ordinamento
     lessicografico delle rotazioni di $T$.
+
+    In altri termini, $B[i]$ è l'ultimo simbolo della rotazione $r_i$ che è
+    l'$i$-esima rotazione nell'ordinamento lessicografico e che sarà la
+    $q$-rotazione per un certo valore $q$.
 \end{definizione}
 Ecco un esempio di costruzione:
 \begin{esempio}
-    Sia $T = ggtcagtc\$$
-    % da trasformare in tabella 
-    Elenchiamo tutte le rotazioni del testo
-    \begin{equation}
-        \begin{array}{c}
-            B[1] = ggtcagtc\$ \\
-            B[2] = gtcagtc\$g \\
-            B[3] = tcagtc\$gg \\
-            B[4] = cagtc\$ggt \\
-            B[5] = agtc\$ggtc \\
-            B[6] = gtc\$ggtca \\
-            B[7] = tc\$ggtcag \\
-            B[8] = c\$ggtcagt \\
-            B[9] = \$ggtcagtc \\
-        \end{array}
-    \end{equation}
+    Sia $T = ggtcagtc\$$. Elenchiamo tutte le rotazioni del testo
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+            \hline
+            BWT & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+            1   & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+            2   & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
+            3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
+            4   & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
+            5   & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
+            6   & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
+            7   & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
+            8   & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
+            9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
+        \end{tabular}
+    \end{table}
     ordiniamo le rotazioni secono l'ordine lessico grafico:
-    \begin{equation}
-        \begin{array}{c}
-            B[9] = \$ggtcagtc \\
-            B[5] = agtc\$ggtc \\
-            B[8] = c\$ggtcagt \\
-            B[4] = cagtc\$ggt \\
-            B[1] = ggtcagtc\$ \\
-            B[6] = gtc\$ggtca \\
-            B[2] = gtcagtc\$g \\
-            B[7] = tc\$ggtcag \\
-            B[3] = tcagtc\$gg \\
-        \end{array}
-    \end{equation}
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+            \hline
+            BWT & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
+            9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
+            5   & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
+            8   & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
+            4   & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
+            1   & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+            6   & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
+            2   & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
+            7   & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
+            3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
+        \end{tabular}
+    \end{table}
     Quindi la $BWT$ è data dall'ultima colonna della tabella:
     \begin{equation}
         B = [c, c, t, t, \$, a, g, g, g]
@@ -1298,11 +1312,367 @@ in posizione $F[i]$ del vettore $F$.
           nel testo il simbolo $F[i]$. Per ogni posizione $i$ tale che $B[i]$ è
           diverso da $\$$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
           Se $B[i] = \$$, allora $F[i] = T[1]$
+    \item \textbf{Proprietà 2} (\textbf{Last-First mapping}): l'$r$-esimo simbolo
+          $\sigma$ in $B$ e l'$r$-esimo simbolo simobolo $\sigma$ in $F$ sono lo
+          stesso simbolo del testo $T$.
 \end{itemize}
 \begin{nota}
     Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$,
 \end{nota}
+\begin{esempio} %% Non so se è l'esempio giusto
+    \begin{equation}
+        B = [c, c, t, t, \$, a, g, g, g]
+    \end{equation}
+    Allora $B[4]$ è la $4$-rotazione che termina con il carattere $B[4]$ il quale
+    coincide con il carattere in posizione $F[9]$.
+\end{esempio}
+La proprietà $2$ viene implementata con la \textbf{Last-First function}.
+\begin{definizione}[\textbf{Last-First function}]
+    La \textbf{Last-First function} è una funzione definita come:
+    \begin{equation}
+        j = LF(i)
+    \end{equation}
+    tale che il simbolo $B[i]$ e il simbolo $F[j]$ sono lo stesso simbolo.
+\end{definizione}
+Questa funzione si deve calcolare in tempo costante.
+
+Utilizzando le due proprietà possiamo ricostruire il testo $T$ partendo dalla BWT e
+dal vettore $F$.
+\begin{esempio} [Ricostruzione del testo $T$ usando BWT e le proprietà. (Esercizio
+        di esame)]
+    Per la ricostruzione del testo $T$ procede costruendolo dal fondo. Si inizia
+    ricavando $F$ da $B$, questo avviene ordinando, secondo l'ordinamento lessicografico
+    il vettore BWT.
+
+    Ottenuto il vettore $F$ si procede a ricostruire il testo $T$ partendo dal fondo
+    nel seguente modo:
+    \begin{itemize}
+        \item Si parte dal simbolo $\$$, che è il primo elemento nell'array $F$.
+        \item Da questo utilizzando la proprietà 1 si trova il simbolo $B[1]$ che
+              precede $\$$.
+        \item A questo punto, utilizzando la proprietà 2 si trova la posizione
+              del carattere $B[1]$ in $F$, ovvero $LF(1)$.
+        \item Si ripete il procedimento fino a quando non si arriva al simbolo $\$$.
+    \end{itemize}
+\end{esempio}
+Riassumendo:
+\begin{itemize}
+    \item Il simbolo $B[i]$ della BWT è l'ultimo simbolo della $i$-esima rotazione
+          $r_i$.
+    \item Supponiamo che $r_i$ sia la rotazione che inizia in posizione $q$ del
+          testo, cioè $q$-rotazione.
+    \item L'ultimo simbolo di $r_i$ è il simbolo $T[q-1]$.
+    \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q-1]$.
+    \item La rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo
+          che precede $q$-suffiso.
+    \item Sicuramente, il $q$-suffisso e l'$i$-esimo nell'ordinamento lessicografico
+          dei suffissi di $T$ (per il teorema introdotto), si ha questa sincronizzazione
+          per il $\$$. %% Mettere riferimento al teorema
+    \item In conclusione, $B[i]$ è il simbolo che precede l'iesimo suffiss
+          nell'ordinamento lessicografico dei simboli di $T$.
+\end{itemize}
+Attraverso queste osservazioni, possiamo affermare che BWT e SA sono in relazione,
+più precisamente si ha una corrispondenza degli indici delle $r_i$, vero per il
+simbolo $\$$. Quindi
+\begin{equation}
+    B[i] = T[S[i]-1] \ T[S[i]] = F[i]
+\end{equation}
+\textbf{Last-First mapping} può essere definita come il suffisso che inizia con
+l'$r$-esimo simbolo $\sigma$ della BWT è l'$r$-esimo suffisso di $T$ che inizia
+con il simbolo $\sigma$ nell'ordinamento lessicografico dei suffissi di $T$.
+
+La funzione $j = LF(i)$ fornisce la posizione $j$ del suffisso che inizia con $B[i]$.
+
+Possiamo quindi definire la procedeura di calcolo della BWT partendo dal suffix
+array come:
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{BWT}{T}
+        \State $n \gets |T|$
+        \State $S \gets \Call{SuffixArray}{T}$
+        \State $B \gets \emptyset$
+        \For{$i \gets 1 \textbf{ to } n$}
+        \State $B[i] \gets T[S[i] - 1]$
+        \EndFor
+        \State \Return $B$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo per il passaggio da SA a BWT}
+\end{algorithm}
+\subsubsection{Ricerca esatta con BWT}
+Sia $Q$ una stringa definita su un alfabeto $\Sigma$ ($Q\in \Sigma^\ast$) possiamo
+definire il $Q$-intervallo.
+\begin{definizione} [\textbf{$Q$-intervallo rispetto alla BWT}]
+    $Q$-intervallo è l'intervallo $[b,e)$ di posizioni della BWT che contengono
+    i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso.
+\end{definizione}
+\begin{definizione} [\textbf{$Q$-intervallo rispetto al SA}]
+    $Q$-intervallo è l'intervallo $[b,e)$ di posizioni del SA che contengono
+    gli indici dei suffissi che condividono la striga $Q$ come prefisso
+\end{definizione}
+Si può osservare che per $Q = \varepsilon$ si ha il $\varepsilon$-intervallo,
+il quale coicide con l'intervallo $[1,n+1)$.
+\begin{esempio}
+    Dato l'alfabeto ordinato $\Sigma=\left\{\$, a, c, g, t\right\}$ e il testo
+    $T=acaaacatat\$$ allora possiamo costruire il SA e BWT.
+
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|c|c|l|c|}
+            \hline
+            Indici & SA & suffissi ordinati & BWT \\ \hline
+            1      & 11 & \$                & t   \\ \hline
+            2      & 3  & aaacatat\$        & c   \\ \hline
+            3      & 4  & aacatat\$         & a   \\ \hline
+            4      & 1  & acaaacatat\$      & \$  \\ \hline
+            5      & 5  & acatat\$          & a   \\ \hline
+            6      & 9  & at\$              & t   \\ \hline
+            7      & 7  & atat\$            & c   \\ \hline
+            8      & 2  & caaacatat\$       & a   \\ \hline
+            9      & 6  & catat\$           & a   \\ \hline
+            10     & 10 & t\$               & a   \\ \hline
+            11     & 8  & tat\$             & a   \\ \hline
+        \end{tabular}
+    \end{table}
+
+    possiamo effettuare le seguenti query:
+    \begin{itemize}
+        \item $aca$-intervallo equivale a $[4,6)$
+        \item $a$-intervallo equivale a $[2,8)$
+        \item $cat$-intervallo equivale a $[9,10)$
+        \item $\varepsilon$-intervallo equivale a $[1,12)$
+    \end{itemize}
+\end{esempio}
+Dato un $Q$-intervallo $[b, e)$ si possono effettuare le seguenti osservazioni:
+\begin{itemize}
+    \item Dato un suffix array $S$,possiamo trovare gli indici dei suffissi
+          che condividono $Q$ come prefisso come:
+          \begin{equation}
+              SA[b], SA[b + 1], \dots, SA[e - 1]
+          \end{equation}
+          ovvero stiamo identificando le occorrenze esatte di $Q$ nel testo.
+    \item Data una BWT $B$, possiamo trovare i simboli che precedono i suffissi
+          che condividono $Q$ come prefisso come:
+          \begin{equation}
+              B[b], B[b + 1], \dots, B[e - 1]
+          \end{equation}
+          ovvero i simboli che precedono le occorrenze esatte di $Q$ nel testo $T$.
+\end{itemize}
+Quindi possiamo dire che il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se $[b,e)\equiv Q$-
+intervallo.
+\begin{esempio}
+    Dall'esempio precedente il $aca$-intervallo corrisponde a $[4,6)$ quindi
+    saranno un totale di $6-4= 2$ occorrenze di $aca$ nel testo, iniziano alle
+    posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$
+\end{esempio}
+Successivamente definiamo
+\begin{definizione}[\textbf{backward extension}]
+    La \textbf{backward extension} di un $Q$-intervalo $[b,e)$ con il carattere
+    $\sigma$ è il $\sigma Q$-intervalo, cioè l'intervallo relativo alla stringa
+    ottenuta concatenando il simbolo $\sigma$ con $Q$.
+\end{definizione}
+\begin{esempio}
+    Riprendendo l'esempio precedente, dato il $a$-intervallo, vogliamo trovare la
+    backward extension di $a$-intervallo col carattere $c$. Questo coincide con
+    il  $gaca$-intervallo ovvero $[8,10)$.
+\end{esempio}
+Avendo definito questi concetti, possiamo definire l'algoritmo di ricerca esatta
+di un pattern $P$ lungo $m$ in un testo $T$ utilizzando la $BWT$. Tale algoritmo
+è composto dai seguenti passi:
+\begin{enumerate}
+    \item Si parte dal suffisso $\epsilon$ del pattern $P$.
+    \item Si considera il $\epsilon$-intervallo, cioè $[1,n+1)$ e si inizializza
+          un indice di posizione $i=m$.
+    \item Si effettua una backward extension con il simbolo $P[i]$ per ottenere
+          $P[i]Q$-intervallo $[b_p, e_p)$ che fornisce le occorrenze di $P[i,m]$:
+          \begin{itemize}
+              \item Se il risultato è l'intervallo vuoto allora $P$ non ha
+                    occorrenze in $T$ quindi si termina l'esecuzione.
+              \item Se il risultato non è l'intervallo vuoto allora:
+                    \begin{itemize}
+                        \item se $i>1$ allora si calcola $i--$ e si ripete il punto $3$.
+                        \item se $i=1$ allora ho trovato il $P$-intervallo e
+                              si ritorna l'occorrenza.
+                    \end{itemize}
+          \end{itemize}
+\end{enumerate}
+Possiamo effettuare le seguenti osservazioni:
+\begin{itemize}
+    \item Per capire se $P$ occorre in $T$ allora si hanno al massimo $m$
+          iterazioni sul testo in cui calcoliamo il $Q'$-intervallo.
+    \item Se occorre $P$ in $T$ allora servono un totale di $m$ iterazioni,
+          altrimenti saranno minori.
+    \item Se $P$ non occorre in $T$, supponendo che $p$ è la posizione di $P$
+          per cui il $P[p,m]$-intervallo è vuoto, allora l'ultimo suffisso che
+          occorre in $T$ è $P[p+1,m]$ in un numero di iterazioni $P[p+1,m]+1$
+    \item La complessità quindi sarà $O(mlogn)$.
+\end{itemize}
+Possiamo rimuovere il $\log n$ nell'equazione del tempo rendendo costante
+il calcolo della backward extension. Possiamo osservare che per un $Q$-intervallo
+($[b, e)$), e dato un simbolo $\sigma$:
+\begin{itemize}
+    \item Siano $i_1,<i_2<\dots<i_k$ le $k$ posizioni di $[b,e)$ tali che
+          \begin{equation}
+              B[i_q] = \sigma \ 1\le p \le K
+          \end{equation}
+    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$.
+    \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1\le p \le k$.
+    \item Quindi  $B[i_p]+S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
+          che inizia con $B[i_p]$ e che ha $\sigma Q$ come prefisso.
+    \item $B[i_p] + S[i_p]$-suffisso per LF-mapping avrà una posizione
+          nel Suffix Array data da $j_p = LF(i_p)$ all'interno di  $j_1,<j_2<\dots<j_k$,
+          dove $[j_1,j_k)$ è il $\sigma Q$-intervallo.
+\end{itemize}
+Da notare che, la backward extension viene definita dalle posizioni limite prese
+dal SA alla posizione BWT coincidente al carattere da cercare.
+
+Quindi la procedura sarà definita come:
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{backward$\_$extend}{b,e,$\sigma$}
+        \State $i_1 \gets \min_{x\in [b,e)} x \ \text{t.c.} \ B[i_1]=\sigma$
+        \State $i_k \gets \max_{x\in [b,e)} x \ \text{t.c.} \ B[i_k]=\sigma$
+        \State \Return $[LF(i_1), LF(i_k)+1)$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo per il calcolo della backward extension}
+\end{algorithm}
+Quindi ora si può mostrare l'algoritmo di ricerca esatta è:
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{search$\_$pattern}{P, T}
+        \State $n \gets |T|$
+        \State $[b,e) \gets [1, n+1)$
+        \State $i \gets |P|$
+        \While{$[b,e) \ \ne \ \text{null}\land i\ge 1$}
+        \State $\sigma \gets P[i]$
+        \State $[b,e) \gets\Call{backward\_extend}{b,e,\sigma}$
+        \State $i\gets i-1$
+        \EndWhile
+        \If{$[b,e)\ \ne \ \text{null}$}
+        \State $\text{out } T[b], T[b+1], \dots, T[e-1]$
+        \EndIf
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo di ricerca esatta del pattern nel testo}
+\end{algorithm}
+Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
 BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
 un testo $T$ è in $\Theta(|P|)$
+
+L'FM-index è una struttura dati che permette di rappresentare una BWT in modo
+numerico.
+\begin{definizione}[\textbf{FM-index}]
+    Dato un testo $T$ di lunghezza $n$, l'FM-index è una coppia di funzioni:
+    \begin{itemize}
+        \item $C$ definita come:
+              \begin{equation}
+                  C: \Sigma \to \{0, 1, \dots, n\}
+              \end{equation}
+              dove $C(\sigma)$ rappresenta il numero di simboli della BWT che sono
+              minori di $\sigma$.
+        \item $Occ$ definita come:
+              \begin{equation}
+                  Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
+              \end{equation}
+              dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del simbolo
+              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
+    \end{itemize}
+\end{definizione}
+\begin{esempio}
+    Dato il testo $T=ggtcagtc\$$, possiamo definire la funzione $C$ come:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            $\sigma$ & $C(\sigma)$ \\ \hline
+            \$       & 0           \\ \hline
+            a        & 1           \\ \hline
+            c        & 2           \\ \hline
+            g        & 4           \\ \hline
+            t        & 7           \\ \hline
+        \end{tabular}
+    \end{table}
+\end{esempio}
+In generale, $C(\sigma)$ fornisce:
+\begin{itemize}
+    \item il numero di suffissi che iniziano con un simbolo minore di $\sigma$.
+    \item la massima posizione nel suffix array di un suffisso che inizia con un
+          simbolo minore di $\sigma$.
+\end{itemize}
+\begin{esempio}
+    Data la seguente BWT $BWT=cctt\$aggg$, possiamo definire la funzione $Occ$ come:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|l|l|l|l|}
+            \hline
+            $Occ(i, \sigma)$ & \$ & a & c & g & t \\ \hline
+            $Occ(0,\sigma)$  & 0  & 0 & 0 & 0 & 0 \\ \hline
+            $Occ(1,\sigma)$  & 0  & 0 & 1 & 0 & 0 \\ \hline
+            $Occ(2,\sigma)$  & 0  & 0 & 2 & 0 & 0 \\ \hline
+            $Occ(3,\sigma)$  & 0  & 0 & 2 & 0 & 0 \\ \hline
+            $Occ(4,\sigma)$  & 0  & 0 & 2 & 0 & 1 \\ \hline
+            $Occ(5,\sigma)$  & 0  & 0 & 2 & 0 & 2 \\ \hline
+            $Occ(6,\sigma)$  & 1  & 1 & 2 & 0 & 2 \\ \hline
+            $Occ(7,\sigma)$  & 1  & 1 & 2 & 0 & 2 \\ \hline
+            $Occ(8,\sigma)$  & 1  & 1 & 2 & 1 & 2 \\ \hline
+            $Occ(9,\sigma)$  & 1  & 1 & 2 & 2 & 2 \\ \hline
+            $Occ(10,\sigma)$ & 1  & 1 & 2 & 3 & 2 \\ \hline
+        \end{tabular}
+    \end{table}
+    Copio la riga precedente modificando la colonna del carattere che leggiamo nella
+    nuova posizione di BWT.
+\end{esempio}
+L'ultima riga della tabella ci dice la distribuzione dei simboli.
+\begin{esempio}
+    Possiamo quindi ottenere $c(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
+    delle colonne precedenti sulla riga.
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            $\sigma$ & $C(\sigma)$ \\ \hline
+            \$       & 0           \\ \hline
+            a        & 1           \\ \hline
+            c        & 2           \\ \hline
+            g        & 4           \\ \hline
+            t        & 7           \\ \hline
+        \end{tabular}
+    \end{table}
+\end{esempio}
+La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
+incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo in posizione $i$ è
+uguale a $\sigma$.
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{Build-FMindex}{$B$}
+        \State $n \gets |B|$
+        \State $C \gets \text{array di dimensione } |\Sigma|$
+        \State $Occ \gets \text{matrice di dimensione } n + 1 \times |\Sigma|$
+        \For{$\sigma$}
+        \State $Occ[1, \sigma] \gets 0$
+        \EndFor
+        \For{$i \gets 1$ \textbf{to} $n$}
+        \For{$\sigma$ \textbf{in} $\Sigma$}
+        \State $Occ[i + 1, \sigma] \gets Occ[i, \sigma]$
+        \EndFor
+        \State $Occ[i + 1, B[i]] \gets Occ[i + 1, B[i]] + 1$
+        \EndFor
+        \State $C[\$] \gets 0$
+        \For{$\sigma$ \textbf{in} $\Sigma$}
+        \State $\sigma' \gets \text{simbolo precedente di } \sigma$
+        \State $C[\sigma] \gets C[\sigma'] + Occ[n + 1, \sigma']$
+        \EndFor
+        \State \Return $C, Occ$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
+in tempo costante calcolando il numero di suffissi che iniziano con un carattere
+più piccolo di $B[i]$ con un il numero di simboli si $B[i]$ che occorrono nella
+BWT prima della posizione $i$.
+\begin{equation}
+    j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
+\end{equation}
