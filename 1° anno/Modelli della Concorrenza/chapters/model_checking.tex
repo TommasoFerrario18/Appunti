@@ -204,7 +204,11 @@ Definiremo la relazione $\vDash$ per induzione.
 \begin{esempio} % Reti di petri?
     Consideriamo la seguente rete di Petri, la quale rappresenta due processi che
     vogliono accedere ad una risorsa condivisa.
-    %% TODO: Inserire immagine della rete di petri
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/model/retePetriEsempio.png}
+        \caption{Rete di Petri per il model checking}
+    \end{figure}
     Questa rete è composta da:
     \begin{itemize}
         \item $rd$ la risorsa disponibile.
@@ -220,7 +224,11 @@ Definiremo la relazione $\vDash$ per induzione.
 
     Possiamo quindi definire il grafo dei casi dove per semplicità utilizziamo il
     nodo $1$ come stato iniziale:
-    %% TODO: Inserire immagine del grafo dei casi
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/model/GrafoDeiCasi.png}
+        \caption{Grafo dei casi della rete di Petri}
+    \end{figure}
     dove ogni nodo è rappresentato da:
     \begin{itemize}
         \item $1=\{rd,snc1,snc2\}$
