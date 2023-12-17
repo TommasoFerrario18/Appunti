@@ -554,7 +554,7 @@ Se $\langle N = (B, E, F); \phi \rangle$ è un processo non sequenziale di
 $\Sigma = (S, T, F, c_{in})$ sistema elementare finito e senza contatti allora:
 \begin{itemize}
     \item $N = (B, E, F)$ è $K$-densa
-    \item $\forall K \in B$, $K\ B$-taglio di $N$ è tale che: $K$ è finito e
+    \item $\forall K \subseteq B$, $K\ B$-taglio di $N$ è tale che: $K$ è finito e
           $\exists c \in C_{\Sigma}: \ \phi(K) = c$
 \end{itemize}
 I B-tagli corrispondono ai casi raggiungibili perché sono contemporaneamente veri.
@@ -674,10 +674,12 @@ Le reti ad alto livello, anche dette \textbf{reti colorate}, permettono di
 ristabilire l'informazione persa con le reti Posti e transizioni assegnando una
 struttura dati alle marche. Addirittura, una marca potrebbe rappresentare un
 processo a sé stante.
-\begin{definizione}[\textbf{Regola di scatto}]
+\begin{definizione}[\textbf{Regola di scatto}] 
+    Sapendo che $M:S\to \mathbb{N}$ è la funzione che restituisce la marcatura di
+    uno stato e $t\in T$ è un evento:
     \begin{equation}
         M[t > \ \text{se e solo se} \ \forall s \in S \ M(s) \geq W(s, t) \ \land
-        \ M(s) \ \text{è} \ W(t, s) \leq K(s)
+        \ M(s) \ + \ W(t, s) \leq K(s)
     \end{equation}
     \begin{equation}
         M[t > M' \ \text{se e solo se} \ M[t > \ \land \ \forall s \in S \ M'(s)
