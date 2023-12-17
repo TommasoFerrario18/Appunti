@@ -141,8 +141,8 @@ Definiremo il problema di \textbf{string matching approssimato} formalmente nel 
 \begin{itemize}
     \item \textbf{input}: testo $T$ e un pattern $P$, rispettivamente $|T|=n$ e
           $|P|=m$, definiti entrambi su un alfabeto $\Sigma$, infine, una soglia $k$ di errore.
-    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$
-          respittano la soglia di errore $k$.
+    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ che
+          respettano la soglia di errore $k$.
 \end{itemize}
 Introducendo una soglia di errore abbiamo bisogno di definire una metrica per
 calcolarlo. Per fare ciò si utilizza la \textit{distanza di edit} (ED) tra due
@@ -156,10 +156,11 @@ stringa nell'altra.
 \end{nota}
 \begin{definizione}[\textbf{Occorrenza approssimata}]
     Una posizione $i$ del testo $T$, tale che esista almeno una sottostringa
-    $S = T[i - L + 1,i]$ con $ED(P, S) \leq k$, è un'occorrenza approssimata di
+    $S = T[i - L + 1,i]$, con $ED(P, S) \leq k$, che è un'occorrenza approssimata di
     $P$ in $T$.
 \end{definizione}
 \begin{nota}
+    Si può aggiungere:
     \begin{enumerate}
         \item Se $ED(P, S) \leq k$, allora $i$ è occorrenza approssimata.
         \item $ED(P, S) \geq abs(m - L) \ \Rightarrow \ $se $abs(m - L) > k$
@@ -172,7 +173,7 @@ Quindi il problema formale dello \textbf{string matching approssimato} verrà de
           e $|P|=m$, definiti entrambi su un alfabeto $\Sigma$, infine, una soglia $k$
           di errore.
     \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ tale
-          che  $ED(E,S)\le k$.
+          che  $ED(P,S)\le k$.
 \end{itemize}
 Avendo definito il problema in questo modo è possibile definire un semplice
 algoritmo che mi permette di calcolare l'output del problema. Questo algoritmo
@@ -195,9 +196,10 @@ utilizza una finestra $W$, di dimensione variabile, che scorre sul testo.
         \While {$i \leq n$}
         \State $L \gets  m - k$
         \While {$L \leq m + k \ \land \ i - L + 1 \geq 1$}
-        \If {$ED(P, T[i - L + i, i]) \leq k$}
+        \If {$ED(P, T[i - L + 1, i]) \leq k$}
         \State $\text{output } i$
         \EndIf
+        \State $L \gets L + 1$
         \EndWhile
         \State $i \gets i + 1$
         \EndWhile
@@ -634,8 +636,8 @@ simbolo di $P$ e dal simbolo di $T$ in posizione $i + 1$.
     implicitamente fa riferimento ad un confronto iniziale fittizio tra $T[i]$ e
     $P[0]$ (simbolo inesistente) che di default viene considerato un match.
 \end{nota}
-Nel caso in cui $j = m + 1$, allora $p = i + m - \phi(m) - 1$ e il confronto
-riparte dal primo simbolo di $P$ e dal simbolo di $T$ in posizione $i + m - \phi(m)$.
+Nel caso in cui $j = m + 1$, allora $p = i + m - \phi(m)$ e il confronto
+riparte dalla posizione $\phi(m) + 1$ di $P$ e dal simbolo di $T$ in posizione $i + m$.
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|l|l|l|}
@@ -802,10 +804,15 @@ definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1
     Inoltre, sappiamo per definizione che:
     \begin{itemize}
         \item $D_0 = 00\dots0$ dato che $P[1, j] \neq suff(T[1, 0]) \ \forall j$
-        \item $D_i[m] = 1$ se e solo se $P[1, m] = suff(T[i-m + 1, i])$ ovvero
+        \item $D_i[m] = 1$ se e solo se $P[1, m] = suff(T[1, i]) = T[i-m+1, i]$ ovvero
               si ha un’occorrenza esatta di $P$ in $T$ nella posizione $i - m + 1$.
     \end{itemize}
 \end{definizione}
+\begin{nota}
+    Nota che da $D_i$ possiamo anche ottenere la lunghezza del bordo del pattern
+    quando $LSB$ di $D_i$ è a $1$ allora la lunghezza del bordo coincide con la posizione 
+    del bit a $1$ più più vicino all'$LSB$. 
+\end{nota}
 Ovviamente calcolare $D_i$ è sempre troppo costoso, infatti, $D_i$ viene sempre
 ottenuto a partire da $D_{i-1}$, portando a modificare l'algoritmo di scansione
 del testo nel seguente modo:
@@ -822,11 +829,6 @@ Vediamo ora come si calcola il valore di $D_i$ a partire da $D_{i - 1}$:
               D_i[1] = 1 \text{\textbf{AND}} B_{T[i]}[1]
           \end{equation}
           Perché $D_i[1] = 1\iff P[1,1] =suff(T[1,i])\iff P[1] = T[i]\iff B_{T[i]}[1]$.
-          Si aggiunge $1$ per semplificare le operazioni bit a bit.
-    \item Se $J =  1$ allora posso calcolarla come:
-          \begin{equation}
-              D_i[j] = 1 \text{\textbf{AND}} B_{T[i]}[1]
-          \end{equation}
           Si aggiunge $1$ per semplificare le operazioni bit a bit.
     \item Se $j > 1$ allora posso calcolarla come:
           \begin{equation}
@@ -860,7 +862,7 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
 \end{algorithm}
 \begin{esempio}
     Siano un testo $T=babcabaadc$ e un pattern $P=abcaba$ tale che $|T| = 10$ e $|P|=6$.
-    Entrambe le stringhe costruite sun un alfabeto $\Sigma=\left\{a,b,c,d\right\}$,
+    Entrambe le stringhe costruite su un alfabeto $\Sigma=\left\{a,b,c,d\right\}$,
     allora costruiamo la tabella $B_\sigma$:
     \begin{table}[!ht]
         \centering
@@ -893,7 +895,7 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
     \end{itemize}
 \end{esempio}
 \section{Algoritmo di Wu e Manber}
-L'algoritmo risolvere problemi di \textbf{stringmatching approssimati} e il funziondefinizione amento
+L'algoritmo risolvere problemi di \textbf{stringmatching approssimati} e il funzionamento
 è simile a \textbf{BYG}.
 Riprendiamo la definizione di ricerca approssimata di un pattern $P$ in un testo $T$:
 \begin{definizione}[\textbf{Occorrenza approssimata}]
@@ -911,12 +913,13 @@ Come gli algoritmi visti fino a questo momento, quello di Wu e Manber è basato 
 \end{enumerate}
 \subsection{Scansione del testo}
 Dato che la fase di preprocessing è equivalente a quella per l'algoritmo BYG,
-passiamo subito alla scansione del testo. Per fare ciò dobbiamo definire la word
-$D_i^h$, con $0 \leq h \leq k$ e $0 \leq i \leq n$.
+passiamo subito alla scansione del testo. 
 
-Partiamo definiendo $P[1, j] = suff_h(T[1, i])$ ovvero $P[1, j]$ è uguale a un
-suffisso di $T[1, i]$ a meno di $h$ errori. In altre parole, riesco a trovare un
-suffisso $S$ di $T[1, i]$ tale che $ED(P[1, j], S) \leq h$.
+\begin{definizione}
+    Definiamo $P[1, j] = suff_h(T[1, i])$ ovvero $P[1, j]$ è uguale a un
+    suffisso di $T[1, i]$ a meno di $h$ errori. In altre parole, riesco a trovare un
+    suffisso $S$ di $T[1, i]$ tale che $ED(P[1, j], S) \leq h$.
+\end{definizione}
 
 Estenderemo la definizione di $D_i$ di ShiftAND al caso in cui si ammettono al più $h$ errori.
 \begin{definizione}[\textbf{Word $D_i^h$}]
@@ -939,7 +942,7 @@ Vediamo ora alcuni casi particolare:
           \end{itemize}
           Si ottiene quindi una word dove i primi $h$ bit sono uguali a $1$ e i
           restanti $m - h$ bit sono posti a $0$.
-    \item $D_i^h [m] = i \iff P[1, m] = suff_h(T[1, i])$, ovvero se $P[1, m]$ è un
+    \item $D_i^h [m] = 1 \iff P[1, m] = suff_h(T[1, i])$, ovvero se $P[1, m]$ è un
           suffisso di $T[1, i]$ a meno di $h$ errori, allora $D_i^h[m] = 1$. Nel
           caso particolare in cui $h = 0$ si ha un occorrenza esatta in $i - m + 1$.
           Mentre nel caso in cui $h = k$ si ha un'occorrenza approssimata in posizione $i$.
@@ -1131,7 +1134,7 @@ La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
 \end{enumerate}
 Per prima cosa si può osservare che:
 \begin{itemize}
-    \item Se $P$ occorre $k$ volta in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
+    \item Se $P$ occorre $k$ volte in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
           Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$ possiamo
           osservare che $P$ occorre $2$ volte in $T$ il che implica che $P$ è
           prefisso di due suffissi di $T$ ovvero $2$-suffisso e $5$-suffisso.
@@ -1232,7 +1235,7 @@ Definiremo anche una regola di ordinamento
 \end{definizione}
 Possiamo introdurre questi teoremi
 \begin{teorema}
-    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tal che:
+    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che:
     \begin{itemize}
         \item $r_1\prec r_2$
         \item $r_1[n]=r_2[n]$
@@ -1240,7 +1243,7 @@ Possiamo introdurre questi teoremi
     Allora $(q-1)$-rotazione $r'_1$ è minore della $(p-1)$-rotazione $r'_2$
 \end{teorema}
 \begin{teorema}
-    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tal che $r_1[n]\prec r_2[n]$,
+    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che $r_1[n]\prec r_2[n]$,
     Allora $(q-1)$-rotazione $r'_1$ è minore della $(p-1)$-rotazione $r'_2$
 \end{teorema}
 Dopo questo preambolo si può definire
@@ -1256,6 +1259,7 @@ Dopo questo preambolo si può definire
 Ecco un esempio di costruzione:
 \begin{esempio}
     Sia $T = ggtcagtc\$$. Elenchiamo tutte le rotazioni del testo
+
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
@@ -1272,7 +1276,9 @@ Ecco un esempio di costruzione:
             9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
         \end{tabular}
     \end{table}
+
     ordiniamo le rotazioni secono l'ordine lessico grafico:
+    
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
@@ -1289,7 +1295,9 @@ Ecco un esempio di costruzione:
             3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
         \end{tabular}
     \end{table}
+
     Quindi la $BWT$ è data dall'ultima colonna della tabella:
+
     \begin{equation}
         B = [c, c, t, t, \$, a, g, g, g]
     \end{equation}
@@ -1297,21 +1305,24 @@ Ecco un esempio di costruzione:
 Lo spazio richiesto per la memorizzazione della trasformata di Burrows-Wheeler è
 $\theta(n \log |\Sigma|)$.
 
-A questo punto definiamo $F$ come l'array di lunghezza $n$ dei simboli iniziali
-delle rtazioni ordinate. Tale array fornisce sempre l'ordinameto lessicografico
-dei simboli del testo.
+\begin{definizione}
+    Definiamo $F$ come l'array di lunghezza $n$ dei simboli iniziali
+    delle rotazioni ordinate. Tale array fornisce sempre l'ordinameto lessicografico
+    dei simboli del testo.
+\end{definizione}
 
 Sia $B[i] = r_i[n]$ con $r_i$ $i$-esima più piccola rotazione nell'ordinamento
 lessicografico. Se $r_i$ è la $q$-rotazione di $T$, allora $B[i]$ è l'ultimo
-simbolo della qrotazione, cioè $T[q-1]$.
+simbolo della $q$-rotazione, cioè $T[q-1]$.
 
 Il primo simbolo della $q$-rotazione è il simbolo $T[q]$ e coincide con il simbolo
 in posizione $F[i]$ del vettore $F$.
+
+Della BWT possiamo riconoscere le seguenti proprietà:
 \begin{itemize}
     \item \textbf{Proprietà 1}: per ogni posizione $i$, il simbolo $B[i]$ precede
-          nel testo il simbolo $F[i]$. Per ogni posizione $i$ tale che $B[i]$ è
-          diverso da $\$$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
-          Se $B[i] = \$$, allora $F[i] = T[1]$
+          nel testo il simbolo $F[i]$. Se $B[i] = \$$, allora $F[i] = T[1]$, inoltre, 
+          $B[1] \ne \$ = T[n-1] $ e  $F[1] = \$ $
     \item \textbf{Proprietà 2} (\textbf{Last-First mapping}): l'$r$-esimo simbolo
           $\sigma$ in $B$ e l'$r$-esimo simbolo simobolo $\sigma$ in $F$ sono lo
           stesso simbolo del testo $T$.
@@ -1341,7 +1352,7 @@ dal vettore $F$.
 \begin{esempio} [Ricostruzione del testo $T$ usando BWT e le proprietà. (Esercizio
         di esame)]
     Per la ricostruzione del testo $T$ procede costruendolo dal fondo. Si inizia
-    ricavando $F$ da $B$, questo avviene ordinando, secondo l'ordinamento lessicografico
+    ricavando $F$ da $B$, questo avviene ordinando, secondo l'ordinamento lessicografico,
     il vettore BWT.
 
     Ottenuto il vettore $F$ si procede a ricostruire il testo $T$ partendo dal fondo
@@ -1368,7 +1379,7 @@ Riassumendo:
     \item Sicuramente, il $q$-suffisso e l'$i$-esimo nell'ordinamento lessicografico
           dei suffissi di $T$ (per il teorema introdotto), si ha questa sincronizzazione
           per il $\$$. %% Mettere riferimento al teorema
-    \item In conclusione, $B[i]$ è il simbolo che precede l'iesimo suffiss
+    \item In conclusione, $B[i]$ è il simbolo che precede l'$i$-esimo suffisso
           nell'ordinamento lessicografico dei simboli di $T$.
 \end{itemize}
 Attraverso queste osservazioni, possiamo affermare che BWT e SA sono in relazione,

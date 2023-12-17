@@ -94,6 +94,8 @@ Si hanno quindi due casistiche:
           sia grande è necessario che la quantità $\langle w, x_i \rangle + b$ abbia
           un grande valore negativo
 \end{enumerate}
+Il margine funzionale specifica quanta è buona la classificazione ma non non misura
+la distanza degli esempi dall'iperpiano.
 \begin{teorema}
     Se $\hat{\gamma}_i > 0$, per ogni $classificazione_i$ la classificazione è
     approvata in quanto le classi sono linearmente separabili e l'iperpiano
@@ -133,6 +135,8 @@ scala. Bisogna studiare la distanza $d$ del punto $x$ dall'iperpiano. Si ha quin
         \rho =  \min_{i = 1, \dots, n} {\gamma}_i
     \end{equation}
 \end{definizione}
+A differenza del margine funzionale, il margine geometrico ci specifica quanto
+sono distanti i punti dall'iperpiano.
 \begin{teorema}
     Se $\gamma_i > 0$, per ogni $classificazione_i$ la classificazione è approvata
     analogamente a quanto detto per il margine funzionale.
@@ -142,7 +146,11 @@ geometrica dall'iperpiano, il margine geometrico rende meglio l'idea della dista
 di un punto da un iperpiano in $\mathbb{R}^n$.
 
 Inoltre, si ha che il margine geometrico è invariante rispetto alla scala di $w$
-e quindi possiamo scalare l'iperpiano senza cambiamenti, non variando il margine.
+e quindi possiamo scalare l'iperpiano senza cambiamenti della distanza dei punti 
+rispento all'iperpiano, in questo modo il margine rimane invariato. Al contrario
+il margine funzionale è variante perché cambiando la scala di $w$ allora cambiava
+anche il valore del margine, cambiando la semantica della classificazione, ciò
+comporta errori.
 
 Dalla formula notiamo che, posto $\| w \| = 1$ si scala l'iperpiano $(w, b)$:
 \begin{equation}
