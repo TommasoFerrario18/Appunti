@@ -335,3 +335,214 @@ Attenzione all'uso della negazione nelle formule LTL, cosa significa "non è ver
 $F\alpha$"?  Significa che $\exists$ un cammino per cui non vale $F\alpha$.  Mentre
 $\lnot F\alpha \equiv G\lnot \alpha$ quindi $\lnot F\alpha$ non è la negazione di
 $F\alpha$. Qundi dobbiamo stare attenti ai quantificatori universali nascosti.
+
+Negli esercizi sulla logica temporale ci possono essere diverse risposte giuste.
+Ecco degli esercizi sulla logica temporale lineare.
+\begin{esempio}
+    Traduci questa frase:
+    \begin{center}
+        Chi ruba, presto o tardi finirà in galera.
+    \end{center}
+    possiamo considerare 2 proposizioni atomiche:
+    \begin{itemize}
+        \item $hr$: ho rubato 
+        \item $c$: sono in carcere
+    \end{itemize}
+    Si può riformulare la frase come una legge, quindi come una cosa che vale sempre,
+    portandoci ad utilizzare l'operatore $G$. In aggiunta, possiamo riformularla
+    in un modo che ha una semantica più vicina alla semantica degli operatori logici
+    \begin{center}
+        Se rubi, in futuro finirai in galera.
+    \end{center}
+    Si può tradurre in
+    \begin{equation}
+        G(hr\implies XF \ c)
+    \end{equation}
+    Utilizziamo l'operatore $X$ per evitare che nel momento in cui rubo allora 
+    subito finisco in galera.
+
+    Possiamo provare a tradurre la frase
+    \begin{center}
+        Solo chi ruba finirà in galera.
+    \end{center}
+    Quindi si può tradurre 
+    \begin{equation}
+        \lnot c \ W \ hr \equiv G(c \iff hr)
+    \end{equation}
+\end{esempio}
+\begin{esempio}
+    Traduci questa frase:
+    \begin{center}
+        Chi ruba finirà in carcere, ma solo dopo avere parlato con un avvocato.
+    \end{center}
+    si aggiunge anche la proposizione atomica: "ho parlato con un avvocato"
+    \begin{equation}
+        G(hr\implies (XF \ c \land (\lnot c \ U \ pa)))
+    \end{equation}
+    Si potrebbe pensare che $XF \ c$ si possa escludere ma in realtà no perché
+    $U$ porta a dire che dopo aver parlato con un affocato non vuol dire che $c$
+    diventi vera.
+\end{esempio}
+\begin{esempio}
+    Traduci questa frase:
+    \begin{center}
+        Se la cabina è in movimento verso l'alto, si trova all'altezza del secondo
+        piano, ed è stato premuto il pulsante interno di richiesta del quinto piano,
+        allora la cabina non cambierà direzione fino a quando avrà raggiunto il 
+        quinto piano.
+    \end{center}
+    si specificano le proposizioni atomiche:
+    \begin{itemize}
+        \item $su$: "la cabina sta salendo"
+        \item $p_i$: "cabina all'altezza del piano $i$"
+        \item $r_i$: "pulsante interno del piano $i$ è stato premuto"
+    \end{itemize} 
+
+    \begin{equation}
+        G((su \land p_2 \land r_5)\implies(su \ U \ p_5))
+    \end{equation}
+\end{esempio}
+
+Precedentemente abbiamo osservato che LTL permette di esprimere diverse proprietà
+dei sistemi reattivi, ma non permette di esprimere:
+\begin{center}
+    esiste un cammino in cui $\alpha$
+\end{center}
+Il problema è che queste proprietà sono utili, quindi si utilizzerà un nuovo 
+linguaggio logico.
+
+\begin{nota}
+    Spesso si vuole esprime le possibili computazioni di un sistema allora possiamo
+    costruire un albero (simile all'\textbf{unfolding} per le reti di petri) che
+    rappresenta la computazione rispetto gli stati globali.
+
+    L'albero può essere construito in modo induttivo:
+    \begin{itemize}
+        \item si sceglie lo stato iniziale
+        \item se si hanno transizioni verso altri stati allora li aggiungo come 
+        prossimi nodi
+        \item così via ricorsivamente, se ci sono archi all'indietro allora 
+        si ricrea un altro nodo in avanti.
+    \end{itemize}
+    Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock allora
+    il nodo sarà pozzo.
+\end{nota}
+
+\section{Coomputation tree logic}
+Si baserà sugli alberi delle computazioni.
+
+Definiremo la \textbf{sintassi} attraverso le $FbF_{CTL}$.
+\begin{itemize}
+    \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP =\left\{p1,p2,\dots\right\}$
+    \item $\forall \alpha, \beta \in FbF_{CTL}$
+    \begin{itemize}
+        \item $\lnot\alpha, \alpha \lor \beta \in FbF_{CTL}$ 
+        \item $AX \ \alpha, EX \ \alpha \in FbF_{CTL}$ per ogni / esiste un cammino 
+        dallo stato corrente tale che nello stato prossimo vale $\alpha$
+        \item $AF \ \alpha, EF \ \alpha \in FbF_{CTL}$ per ogni / esiste un cammino 
+        dallo stato corrente tale che prima o poi vale $\alpha$
+        \item $AG \ \alpha, EG \ \alpha \in FbF_{CTL}$ per ogni / esiste un cammino 
+        dallo stato corrente tale che vale sempre $\alpha$
+        \item $A(\alpha \ U \ \beta), E(\alpha \ U \ \beta)\in FbF_{CTL}$ per ogni / esiste 
+        un cammino dallo stato corrente tale che $\alpha$ è vera fino a quando $\beta$
+        non diventa vera. ($\beta$ deve per forza diventare vera)
+    \end{itemize}
+\end{itemize}
+
+Quindi ogni occorrenza di un operatore temporale sarà associata ad un quantificatore
+$A=\forall$ e $E= \exists$ che si applica ai cammini.
+
+\begin{esempio}
+    Traduciamo 
+    \begin{center}
+        Dopo l'accensione della spia, sarà sempre possibile riportare il sistema 
+        allo stato iniziale
+    \end{center}
+    Definiamo:
+    \begin{itemize}
+        \item $s$: la spia è accesa
+        \item $init$: il sistema si trova nello stato iniziale 
+    \end{itemize}
+    \begin{equation}
+        AG(s\implies AXEF \ init)
+    \end{equation}
+\end{esempio}
+
+\begin{esempio} [Esercizio d'esame]
+    % esempio slide 20
+    
+    In generale conviene smontare la formula, analizzare gli elementi semplici, 
+    come $F$ e $q$ per la prima. Controlliamo per ogni stato dove vale $q$ e allora
+    per quello vale $F$, quindi in $s_1, s_0$ è vera. Successivamente ragiono
+    sui cammini che partono dagli altri stati, in questo caso è vero per $S_3$ ma
+    non per $s_2$, dal momento che quest'ultimo è un cappio quindi può non andare
+    mai in $s_3$.
+
+    Nel secondo caso (versione LTL) non basta analizzare dove valvono $p$ o $q$ perchè abbiamo $G$
+    quindi dobbiamo controllare anche tutti gli stati successivi. $s_0$ è falsa
+    perché arriva in $s_2$ e rimanerci dove nessuno delle due sono vere. $s_2,s_3$
+    vero ma anche $s_1$ è falsa.
+
+    Nel seocndo caso (versione CTL) è vera per tutti gli stati perché esiste sempre
+    un cammino con una deviazione in cui vale $p\lor q$.
+    
+    Nel terzo caso (versione LTL) non è vera in $s_0$ perché abbiamo trovato un cammino per cui
+    non è vera $s_0\to s_1\to s_0$. Mentre $s_1$ è verificata.
+
+    Nel terzo caso (versione CTL) è vera in $s_0$ perché abbiamo trovato un cammino per cui
+    è vera $s_0\to s_1\to s_0$ e a noi ne basta una sola.
+
+    Nel quarto caso non vale in $s_2$ perché possiamo rimanere all'infinito, Mentre
+    negli altri è sempre vera.
+\end{esempio}
+
+\begin{nota}
+    Ricorda che per la semantica della logica $LTL$ allora tutte le $FbF_{LTL}$
+    sono equivalenti alle $FbF_{CTL}$ che hanno l'operatore $A$ e viceversa.
+\end{nota}
+
+Anche per questa logica definiremo l'equivalenza logica.
+\begin{definizione}[\textbf{Equivalenza tra formule}]
+    Possiamo definire l'\textbf{equivalenza tra formule} come:
+    \begin{equation}
+        \alpha \equiv \beta \iff \forall \pi : ( \pi \vDash \alpha \iff \pi \vDash 
+        \beta)
+    \end{equation}
+\end{definizione}
+
+In entrambe le logice possiamo esprimere 2 proprietà:
+\begin{itemize}
+    \item \textbf{invariante}: si possono avere delle formule sempre vere
+    \begin{equation}
+        AG\lnot p \equiv G\lnot p
+    \end{equation}
+    \item \textbf{rieattiva}: il valore logico di una formula implica la veridicità
+    di un'altra
+    \begin{equation}
+        AG (p\implies AF \ q) \equiv G(p\implies F \ q)
+    \end{equation}
+\end{itemize}
+
+\begin{osservazione}[Reset property]
+    La logica CTL può esprimera la seguente proprietà
+    \begin{center}
+        Possiamo osservale che $AG \ EF \ p$ da ogni stato raggiungibili in ogni cammino
+    è sempre possibile raggiungere uno stato nel quale vale $p$
+    \end{center}
+    Questa non è possibile esprimerla in LTL.
+    La logica CTL può esprimere la seguente proprietà
+    \begin{center}
+        In ogni cammino, prima o poi si raggiungerò uno stato a partire dal quale $p$
+        rimane sempre vera
+    \end{center}
+    Questa proprietà non può essere espressa in CTL.
+\end{osservazione}
+Quindi CTL e LTL sono delle logiche temporali che hanno poteri espressivi diversi,
+ci sono formule che non possono essere espresse nell'altra logica.
+
+Quello che si fa è definire l'estensione di CTL (CTL$^\ast$) che consiste nel rimuovere il vincolo
+di CTL che afferma che ci deve essere sempre un quantificatore. Sarà importante
+decidere quale logica usare, ricorda che più la logica è espressiva e maggiore sarà 
+il costo degli algoritmi per dimostrare le proprietà.
+
+% grafico Eulero Ven delle proprietà espressibili tramite le precedenti logiche.
