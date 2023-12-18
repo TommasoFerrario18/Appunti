@@ -23,17 +23,45 @@ ha una label, ma quello che si vuole ottenere è l'input stesso. L'obiettivo
 alla loro struttura a collo di bottiglia che separa la rete in due:
 \begin{itemize}
     \item \textbf{Enconder}: impara a codificare l'input utilizzando poche
-          informazioni (funzione di codifica).
+          informazioni (funzione di codifica, spesso segnata come $Enc(X) = Z$).
     \item \textbf{Denconder}: impara a decodificare l'input partendo da poche
-          informazioni (funzione di decodifica).
+          informazioni (funzione di decodifica, spesso segnata come $Dec(Z) = Y$).
 \end{itemize}
 L'algortimo di apprendimento di queste reti spesso è una delle tante implementazioni
-di backpropagation, applicandolo su ciascun neurone di uscita.
+di backpropagation, applicandolo su ciascun neurone di uscita. Più precisamente
+l'apprendimento si effettua definendo una funzione di loss $\mathcal{L}$ che calcolerà
+la distanza tra l'output del decoder $Y$ e l'input $X$.
+\begin{equation}
+      \mathcal{L} = \| X - Y \|
+\end{equation}
 
 Per gli autoencoder si deve obbligatoriamente avere sempre una struttura a clessidra
 con la strozzatura centrale, la quale permette di generare la codifica e separare
 le due reti. In aggiunta, l'architettura non prevede che ci siano collegamenti
 tra encoder e decoder altrimenti la codifica nella strozzatura non è più consistente.
+
+L'encoder della rete non fa altro che trovare una codifica dell'input in uno spazio
+di dimensioni ridotto, questo significa che equivale a calcolare la PCA sull'input,
+con la differenza che uno utilizza una rete neurale mentre l'altro è un processo 
+iterativo basato sugli autovalori e autovettori. Più precisamente PCA cambia il
+sistema di riferimento dello spazio in modo tale che gli assi siano in direzione
+della massima variabilità. Vista questa dualità con la PCA, gli autoencoder possono 
+trovare una rappresentazione dell'input a dimensioni minori per risolvere dei task
+specifici. La rappresentazione codificata prenderà il nome di \textbf{rappresentazione
+latente}.
+
+L'autoencoder può essere utilizzato anche per effettuare task di classificazione
+più precisamente si allena l'autoencoder e nel mentre si allena una rete che prende
+la rappresentazione latente e la classifica. Quindi la rete sarà formata da:
+\begin{itemize}
+      \item encoder $Z = Enc_{\theta_1}(X)$
+      \item classificatore $ \hat{y} = F(Z)$
+      \item decoder $Y = Dec_{\theta_2}(Z)$
+\end{itemize}
+La loss dovrà essere l'unione delle loss del classificatore e dell'autoencoder.
+\begin{equation}
+      \mathcal{L} = \| X - Y \| + \| y - \hat{y} \| 
+\end{equation}
 
 Le architetture odierne di deeplearning si basano su strutture neurali e utilizzano i
 \textbf{transformer}, componenti neurali che prendono in input sia il nuovo input,
