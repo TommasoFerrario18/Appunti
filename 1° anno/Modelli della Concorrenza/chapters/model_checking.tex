@@ -380,7 +380,7 @@ Ecco degli esercizi sulla logica temporale lineare.
         G(hr\implies (XF \ c \land (\lnot c \ U \ pa)))
     \end{equation}
     Si potrebbe pensare che $XF \ c$ si possa escludere ma in realtà no perché
-    $U$ porta a dire che dopo aver parlato con un affocato non vuol dire che $c$
+    $U$ porta a dire che dopo aver parlato con un avvocato non vuol dire che $c$
     diventi vera.
 \end{esempio}
 \begin{esempio}
@@ -434,6 +434,7 @@ Si baserà sugli alberi delle computazioni.
 Definiremo la \textbf{sintassi} attraverso le $FbF_{CTL}$.
 \begin{itemize}
     \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP =\left\{p1,p2,\dots\right\}$
+    insieme delle preposizioni atomiche.
     \item $\forall \alpha, \beta \in FbF_{CTL}$
     \begin{itemize}
         \item $\lnot\alpha, \alpha \lor \beta \in FbF_{CTL}$ 
@@ -464,7 +465,7 @@ $A=\forall$ e $E= \exists$ che si applica ai cammini.
         \item $init$: il sistema si trova nello stato iniziale 
     \end{itemize}
     \begin{equation}
-        AG(s\implies AXEF \ init)
+        AG(s\implies AX \ EF \ init)
     \end{equation}
 \end{esempio}
 
@@ -497,6 +498,7 @@ $A=\forall$ e $E= \exists$ che si applica ai cammini.
 \end{esempio}
 
 \begin{nota}
+    % non ho capito se è corretto o meno
     Ricorda che per la semantica della logica $LTL$ allora tutte le $FbF_{LTL}$
     sono equivalenti alle $FbF_{CTL}$ che hanno l'operatore $A$ e viceversa.
 \end{nota}
@@ -523,26 +525,32 @@ In entrambe le logice possiamo esprimere 2 proprietà:
     \end{equation}
 \end{itemize}
 
-\begin{osservazione}[Reset property]
-    La logica CTL può esprimera la seguente proprietà
-    \begin{center}
-        Possiamo osservale che $AG \ EF \ p$ da ogni stato raggiungibili in ogni cammino
+Il problema è che le due logiche non hanno la stessa potenza espressiva ma nessuna
+delle due è più espressiva rispetto all'altra. Infatti per esempio la logica CTL 
+può esprimera la seguente proprietà (\textbf{reset property})
+\begin{center}
+    Da ogni stato raggiungibile in ogni cammino
     è sempre possibile raggiungere uno stato nel quale vale $p$
-    \end{center}
-    Questa non è possibile esprimerla in LTL.
-    La logica CTL può esprimere la seguente proprietà
-    \begin{center}
-        In ogni cammino, prima o poi si raggiungerò uno stato a partire dal quale $p$
-        rimane sempre vera
-    \end{center}
-    Questa proprietà non può essere espressa in CTL.
-\end{osservazione}
+\end{center}
+Esprimibile secondo la seguente formula $AG \ EF \ p$, per cui non esiste una formula
+LTL che possa esprimere la proprietà.
+
+Al contrario la logica LTL può esprimere la seguente proprietà
+\begin{center}
+    In ogni cammino, prima o poi si raggiungerò uno stato a partire dal quale $p$
+    rimane sempre vera
+\end{center}
+Esprimibile secondo la seguente formula $F \ G \ p$, per cui non esiste una formula
+CTL che possa esprimere la proprietà.
+
 Quindi CTL e LTL sono delle logiche temporali che hanno poteri espressivi diversi,
-ci sono formule che non possono essere espresse nell'altra logica.
+ci sono formule che possono essere espresse in una logica ma non nell'altra.
 
 Quello che si fa è definire l'estensione di CTL (CTL$^\ast$) che consiste nel rimuovere il vincolo
-di CTL che afferma che ci deve essere sempre un quantificatore. Sarà importante
-decidere quale logica usare, ricorda che più la logica è espressiva e maggiore sarà 
-il costo degli algoritmi per dimostrare le proprietà.
+di CTL che afferma che ci deve essere sempre un quantificatore per ogni operatore
+temporale. 
+
+Sarà importante decidere quale logica usare, ricorda che più la logica è espressiva e 
+maggiore sarà il costo degli algoritmi per dimostrare le proprietà.
 
 % grafico Eulero Ven delle proprietà espressibili tramite le precedenti logiche.
