@@ -45,7 +45,7 @@ Stringhe, ovvero cercare all'interno di un testo $T$ le occorrenze di un pattern
                   \item \textbf{Improprio} altrimenti
               \end{itemize}
               È possibile definire il suffisso nullo ovvero quello composto da zero
-              caratteri ($X[i,|X|]=\epsilon \ \to \ i = |X| + 1$).
+              caratteri ($X[i,|X|]=\varepsilon \ \to \ i = |X| + 1$).
     \end{itemize}
 \end{definizione}
 \begin{nota}
@@ -305,6 +305,105 @@ Dallo stato $0$ si arriva allo stato $0$ per qualsiasi simbolo diverso da P[1].
 Dallo stato $0$ si arriva allo stato $1$ attraverso il simbolo $P[1]$. Dallo stato
 $j = m$ si arriva sempre a uno stato $k \leq m$, dallo stato $m$ si può giungere
 quindi di nuovo allo stato $m$.
+
+\subsubsection{Calcolo della funzione di transizione $\delta$}
+L'algoritmo più semplice che permette di calcolare i valori della funzione di
+transizione $\delta$ consiste nell’applicare la funzione di transizione $\delta$ per
+come è definita senza sfruttare i valori che sono già stati computati.
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{Trivial-build-transition-function}{$P$}
+        \State $m\gets |P|$
+        \State $\delta \gets empty\_table (m + 1) \times | \Sigma|$
+        \For{$j \gets 0 \ \text{to} \ m - 1$}
+        \State $\delta(j, P[j + 1]) \gets j + 1$
+        \EndFor
+        \For{$j \gets 0 \ \text{to} \ m$}
+        \For{$\sigma \in \Sigma$}
+        \State $\delta(j, \sigma) \gets |B(P[1, j]\sigma)|$
+        \EndFor
+        \EndFor
+        \State $\text{\textbf{return}} \ \delta$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo banale per il calcolo della funzione di transizione $\delta$}
+\end{algorithm}
+Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3 | \Sigma|)$,
+questo è dovuto al fatto che per calcolare il bordo è necessario un tempo, nel
+caso peggiore pari a $\mathcal{O}(m^2)$.
+
+Per migliorare i tempi cambieremo approccio, definniremo $\delta_j$ come la funzione 
+di transizione di $P[1, j]$, ovvero come una funzione:
+\begin{equation}
+    \delta_j: \{0, 1, \dots, j\} \times \Sigma \to \{0, 1, \dots, j\}
+\end{equation}
+per questa funzione possiamo definire due casi particolari:
+\begin{itemize}
+    \item $\delta_0$ ovvero la funzione di transizione di $P[1, 0]$ che per
+          definizione è $\varepsilon$, quindi il valore di tale funzione è sempre $0$.
+    \item $\delta_m$ ovvero la funzione di transizione di $P[1, m]$ la quale
+          corrisponde precisamente alla funzione di transizione del pattern $P$.
+\end{itemize}
+Possiamo definire il calcolo della funzione di transizione $\delta$ per un pattern
+$P$ di lunghezza $m$ utilizzando l'induzione nel seguente modo:
+\begin{itemize}
+    \item \textbf{Caso base}: calcolo $\delta_0$
+    \item \textbf{Passo induttivo}: calcolo $\delta_j$ da $\delta_{j - 1}$ in questo caso
+          dobbiamo distinguere il caso in cui $j = 1$ e i restanti.
+          \begin{itemize}
+              \item Nel caso in cui $j = 1$, possiamo definire la funzione di
+                    transizione come:
+                    \begin{enumerate}
+                        \item Prendo il valore $0$ contenuto nella cella della
+                              riga $0$ di $\delta_0$ in corrispondenza del simbolo $P[1]$
+                        \item Sostituisco il valore $0$ con il valore $1$ (stato
+                              successivo a $0$).
+                        \item Aggiungo una nuova riga (corrispondente allo stato $1$)
+                        \item Copio la riga che corrisponde allo stato 0 nella riga
+                              che corrisponde allo stato $1$
+                        \item Rinomino $\delta_0$ in $\delta_1$
+                    \end{enumerate}
+              \item Mentre nel caso in cui $j \neq 1$ possiamo definire la
+                    funzione di transizione come:
+                    \begin{enumerate}
+                        \item Prendo il valore $k$ contenuto nella cella della
+                              riga $j-1$ di $\delta_{j-1}$ in corrispondenza del simbolo $P[j]$
+                        \item Sostituisco il valore $k$ con il valore $j$ (stato
+                              successivo a $j - 1$)
+                        \item Aggiungo una nuova riga (corrispondente allo stato $j$)
+                        \item Copio la riga che corrisponde allo stato $k$ nella
+                              riga che corrisponde allo stato $j$
+                        \item Rinomino $\delta_{j-1}$ in $\delta_j$
+                    \end{enumerate}
+          \end{itemize}
+\end{itemize}
+\begin{nota}
+    Dimostrazione tramite esempi su slide.
+\end{nota}
+Con queste informazioni possiamo definire un algoritmo che mi permette di calcolare
+la funzione di transizione $\delta$ in tempo $\theta(m \cdot |\Sigma|)$. Tale
+algoritmo sfrutta le informazioni precedentemente calcolate.
+\begin{algorithm}[!ht]
+    \begin{algorithmic}
+        \Function{Build-transition-function}{$P$}
+        \State $m\gets |P|$
+        \State $\delta \gets empty\_table (m + 1) \times | \Sigma|$
+        \For{$\sigma \in \Sigma$}
+        \State $\delta(0, \sigma) \gets 0$
+        \EndFor
+        \For{$j \gets 1 \ \text{to} \ m$}
+        \State $k \gets \delta(j - 1, P[j])$
+        \State $\delta(j - 1, P[j]) \gets j$
+        \For{$\sigma \in \Sigma$}
+        \State $\delta(j, \sigma) \gets \delta(k, \sigma)$
+        \EndFor
+        \EndFor
+        \State $\text{\textbf{return}} \ \delta$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Algoritmo per il calcolo della funzione di transizione $\delta$}
+\end{algorithm}
+
 \subsection{Scansione del testo}
 La scansione del testo inizia da uno stato iniziale $j_0 = 0$. Partendo da questo
 stato, leggo il simbolo in posizione $i$ del testo ($T[i]$) e mi sposto nello stato
@@ -470,103 +569,6 @@ Questo algoritmo viene eseguito in tempo $\theta(n)$.
         \label{fig:enter-label}
     \end{figure}
 \end{esempio}
-\subsection{Calcolo della funzione di transizione $\delta$}
-L'algoritmo più semplice che permette di calcolare i valori della funzione di
-transizione $\delta$ consiste nell’applicare la funzione di transizione $\delta$ per
-come è definita senza sfruttare i valori che sono già stati computati.
-\begin{algorithm}
-    \begin{algorithmic}
-        \Function{Trivial-build-transition-function}{$P$}
-        \State $m\gets |P|$
-        \State $\delta \gets empty\_table (m + 1) \times | \Sigma|$
-        \For{$j \gets 0 \ \text{to} \ m - 1$}
-        \State $\delta(j, P[j + 1]) \gets j + 1$
-        \EndFor
-        \For{$j \gets 0 \ \text{to} \ m$}
-        \For{$\sigma \in \Sigma$}
-        \State $\delta(j, \sigma) \gets |B(P[1, j]\sigma)|$
-        \EndFor
-        \EndFor
-        \State $\text{\textbf{return}} \ \delta$
-        \EndFunction
-    \end{algorithmic}
-    \caption{Algoritmo banale per il calcolo della funzione di transizione $\delta$}
-\end{algorithm}
-Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3 | \Sigma|)$,
-questo è dovuto al fatto che per calcolare il bordo è necessario un tempo, nel
-caso peggiore pari a $\mathcal{O}(m^2)$.
-
-Definiamo $\delta_j$ come la funzione di transizione di $P[1, j]$, ovvero come
-una funzione:
-\begin{equation}
-    \delta_j: \{0, 1, \dots, j\} \times \Sigma \to \{0, 1, \dots, j\}
-\end{equation}
-per questa funzione possiamo definire due casi particolari:
-\begin{itemize}
-    \item $\delta_0$ ovvero la funzione di transizione di $P[1, 0]$ che per
-          definizione è $\varepsilon$, quindi il valore di tale funzione è sempre $0$.
-    \item $\delta_m$ ovvero la funzione di transizione di $P[1, m]$ la quale
-          corrisponde precisamente alla funzione di transizione del pattern $P$.
-\end{itemize}
-Possiamo definire il calcolo della funzione di transizione $delta$ per un pattern
-$P$ di lunghezza $m$ utilizzando l'induzione nel seguente modo:
-\begin{itemize}
-    \item Caso base: calcolo $\delta_0$
-    \item Passo induttivo: calcolo $\delta_j$ da $\delta_{j - 1}$ in questo caso
-          dobbiamo distinguere il caso in cui $j = 1$ e i restanti.
-          \begin{itemize}
-              \item Nel caso in cui $j = 1$, possiamo definire la funzione di
-                    transizione come:
-                    \begin{enumerate}
-                        \item Prendo il valore $0$ contenuto nella cella della
-                              riga $0$ di $\delta_0$ in corrispondenza del simbolo $P[1]$
-                        \item Sostituisco il valore $0$ con il valore $1$ (stato
-                              successivo a $0$).
-                        \item Aggiungo una nuova riga (corrispondente allo stato $1$)
-                        \item Copio la riga che corrisponde allo stato 0 nella riga
-                              che corrisponde allo stato $1$
-                        \item Rinomino $\delta_0$ in $\delta_1$
-                    \end{enumerate}
-              \item Mentre nel caso in cui $j \neq 1$ possiamo definire la
-                    funzione di transizione come:
-                    \begin{enumerate}
-                        \item Prendo il valore $k$ contenuto nella cella della
-                              riga $j-1$ di $\delta_{j-1}$ in corrispondenza del simbolo $P[j]$
-                        \item Sostituisco il valore $k$ con il valore $j$ (stato
-                              successivo a $j - 1$)
-                        \item Aggiungo una nuova riga (corrispondente allo stato $j$)
-                        \item Copio la riga che corrisponde allo stato $k$ nella
-                              riga che corrisponde allo stato $j$
-                        \item Rinomino $\delta_{j-1}$ in $\delta_j$
-                    \end{enumerate}
-          \end{itemize}
-\end{itemize}
-\begin{nota}
-    Dimostrazione tramite esempi su slide.
-\end{nota}
-Con queste informazioni possiamo definire un algoritmo che mi permette di calcolare
-la funzione di transizione $\delta$ in tempo $\theta(m \cdot |\Sigma|)$. Tale
-algoritmo sfrutta le informazioni precedentemente calcolate.
-\begin{algorithm}[!ht]
-    \begin{algorithmic}
-        \Function{Build-transition-function}{$P$}
-        \State $m\gets |P|$
-        \State $\delta \gets empty\_table (m + 1) \times | \Sigma|$
-        \For{$\sigma \in \Sigma$}
-        \State $\delta(0, \sigma) \gets 0$
-        \EndFor
-        \For{$j \gets 1 \ \text{to} \ m$}
-        \State $k \gets \delta(j - 1, P[j])$
-        \State $\delta(j - 1, P[j]) \gets j$
-        \For{$\sigma \in \Sigma$}
-        \State $\delta(j, \sigma) \gets \delta(k, \sigma)$
-        \EndFor
-        \EndFor
-        \State $\text{\textbf{return}} \ \delta$
-        \EndFunction
-    \end{algorithmic}
-    \caption{Algoritmo per il calcolo della funzione di transizione $\delta$}
-\end{algorithm}
 \newpage
 \section{Algoritmo di Knuth-Morris-Pratt}
 Questo algoritmo per la ricerca esatta è basato su un'analisi del pattern. Si hanno due fasi:
@@ -958,66 +960,79 @@ Nello specifico, se all'iterazione $k$ si ha che $D_i^k[m] = 1$, allora si ha in
 output l'occorrenza approssimata $i$.
 
 Fino ad ora abbiamo definito come calcolare il caso in cui $h = 0$ oppure il caso
-in cui $i = 0$. Vediamo ora come calcolare il caso in cui $i > 0, h > 0$.
+in cui $i = 0$. Vediamo ora come calcolare il caso in cui $i > 0, h > 0$:
+\begin{itemize}
+    \item $j > 1$, in questa situazione possiamo avere il caso in cui si ha un \textbf{match}
+    tra $P[j]$ e $T[i]$  \textbf{senza errori}
+    \begin{equation}
+        D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_h(T[1, i - 1]) \  \textbf{AND} \ T[i] = P[j]
+    \end{equation}
+    ovvero $D_i^h[j] = 1$ se e solo se $P[1, j - 1]$ è un suffisso di $T[1, i - 1]$
+    a meno di $h$ errori e $T[i] = P[j]$. Questo significa che $D_i^h[j] = 1$ se e solo se:
+    \begin{equation}
+        D_{i - 1}^h[j - 1] = D_{i - 1}^h [j - 1] = 1 \ \textbf{AND} \ B_{T[i]} [j] =  1
+    \end{equation}
+    Possiamo inoltre avere il caso  in cui \textbf{non si ha un match} tra $P[j]$ e $T[i]$,
+    quindi si usa un'\textbf{operazione di sostituzione}.
+    \begin{equation}
+        D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_{h - 1}(T[1, i - 1])
+    \end{equation}
+    ovvero non ho ancora raggiunto il limite di errori e quindi posso ancora avere
+    errori senza superare la soglia $h$. Questo significa che $D_i^h[j] = 1$ se e solo se:
+    \begin{equation}
+        D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j - 1] = 1
+    \end{equation}
+    Possiamo avere il caso in cui \textbf{non si ha un match} tra $P[j]$ e $T[i]$,
+    quindi si usa un'\textbf{operazione di inserimento} in $T$.
+    \begin{equation}
+        D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j] = suff_{h - 1}(T[1, i - 1])
+    \end{equation}
+    ovvero non ho ancora raggiunto il limite di errori. Questo significa che $D_i^h[j] = 1$
+    se e solo se:
+    \begin{equation}
+        D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j] = 1
+    \end{equation}
+    L'ultimo caso è in cui \textbf{non si ha un match} tra $P[j]$ e $T[i]$,
+    quindi si usa un'\textbf{operazione di inserimento} in $P$.
+    \begin{equation}
+        D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_{h - 1}(T[1, i])
+    \end{equation}
+    ovvero non ho ancora raggiunto il limite di errori. Questo significa che $D_i^h[j] = 1$
+    se e solo se:
+    \begin{equation}
+        D_i^h[j] = 1 \Leftarrow D_{i}^{h - 1} [j - 1] = 1
+    \end{equation}
+    A questo punto posso riassumere queste casistiche in un'unica formula:
+    \begin{equation}
+        D_{i}^{h} [j] = (D_{i - 1}^{h} [j - 1] \ \textbf{AND} \ B_{T[i]} [j]) \
+        \textbf{OR} \ D_{i - 1}^{h - 1} [j - 1] \ \textbf{OR} \ D_{i - 1}^{h - 1} [j]
+        \ \textbf{OR} \ D_{i}^{h - 1} [j - 1]
+    \end{equation}
+    \item  $j = 1$, abbiamo le stesse casistiche di prima, quindi possiamo sostituire
+    alla formula precedente il valore di $j$, comportando che ci richiedono dei valori
+    che non possiamo conoscere come $D_{i -1}^h[0]$. Quindi, per risolvere questo 
+    problema, sostituiamo questi valori con $1$, ottenendo:
+    \begin{equation}
+        D_{i}^{h} [j] = (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR} \ 1 \
+        \textbf{OR} \ D_{i - 1}^{h - 1} [j] \ \textbf{OR} \ 1
+    \end{equation}
+\end{itemize}
 
-Partiamo considerando il caso in cui $j > 1$, in questa situazione abbiamo che:
-\begin{equation}
-    D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_h(T[1, i - 1]) \  \textbf{AND} \ T[i] = P[j]
-\end{equation}
-ovvero $D_i^h[j] = 1$ se e solo se $P[1, j - 1]$ è un suffisso di $T[1, i - 1]$
-a meno di $h$ errori e $T[i] = P[j]$. Questo significa che $D_i^h[j] = 1$ se e solo se:
-\begin{equation}
-    D_{i - 1}^h[j - 1] = D_{i - 1}^h [j - 1] = 1 \ \textbf{AND} \ B_{T[i]} [j] =  1
-\end{equation}
-Quello appena visto non è l'unico caso, infatti possiamo avere anche:
-\begin{equation}
-    D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_{h - 1}(T[1, i - 1])
-\end{equation}
-ovvero non ho ancora raggiunto il limite di errori e quindi posso ancora avere
-errori senza superare la soglia $h$. Questo significa che $D_i^h[j] = 1$ se e solo se:
-\begin{equation}
-    D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j - 1] = 1
-\end{equation}
-Un altra casistica è data dal fatto che posso avere un carattere in meno nel testo,
-ottenendo quindi:
-\begin{equation}
-    D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j] = suff_{h - 1}(T[1, i - 1])
-\end{equation}
-ovvero non ho ancora raggiunto il limite di errori. Questo significa che $D_i^h[j] = 1$
-se e solo se:
-\begin{equation}
-    D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j] = 1
-\end{equation}
-Il quarto e ultimo caso è dato dal fatto che posso modificare il pattern, ovvero:
-\begin{equation}
-    D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_{h - 1}(T[1, i])
-\end{equation}
-ovvero non ho ancora raggiunto il limite di errori. Questo significa che $D_i^h[j] = 1$
-se e solo se:
-\begin{equation}
-    D_i^h[j] = 1 \Leftarrow D_{i}^{h - 1} [j - 1] = 1
-\end{equation}
-A questo punto posso riassumere queste casistiche in un'unica formula:
-\begin{equation}
-    D_{i}^{h} [j] = (D_{i - 1}^{h} [j - 1] \ \textbf{AND} \ B_{T[i]} [j]) \
-    \textbf{OR} \ D_{i - 1}^{h - 1} [j - 1] \ \textbf{OR} \ D_{i - 1}^{h - 1} [j]
-    \ \textbf{OR} \ D_{i}^{h - 1} [j - 1]
-\end{equation}
-Manca ora da analizzare il caso in cui $j = 1$, in questo caso se sostituiamo
-$j = 1$ alla formula appena trovata otteniamo dei valori che non possiamo conoscere
-(come ad esempio $D_{i -1}^h[0]$). Quindi, per risolvere questo problema, sostituiamo
-questi valori con $1$, ottenendo:
-\begin{equation}
-    D_{i}^{h} [j] = (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR} \ 1 \
-    \textbf{OR} \ D_{i - 1}^{h - 1} [j] \ \textbf{OR} \ 1
-\end{equation}
-Definiendo la formula in questo modo possiamo sostituire tutte le operazioni che
+Si possono unire i due macrocasi sopracitati, sostituendo tutte le operazioni che
 controllano il bit in posizione $j - 1$ con l'operazione RSHIFT1, ottenendo:
 \begin{equation}
     D_{i}^{h} [j] = (RSHIFT1(D_{i - 1}^{h} [j]) \ \textbf{AND} \ B_{T[i]} [j]) \
     \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1} [j])  \ \textbf{OR} \ D_{i - 1}^{h - 1} [j] \
     \textbf{OR} \ RSHIFT1(D_{i}^{h - 1} [j])
 \end{equation}
+
+Si potrà poi generalizzare calcolando $D_i^h$ in una sola volta.
+\begin{equation}
+    D_{i}^{h}= (RSHIFT1(D_{i - 1}^{h}) \ \textbf{AND} \ B_{T[i]}) \
+    \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1})  \ \textbf{OR} \ D_{i - 1}^{h - 1} \
+    \textbf{OR} \ RSHIFT1(D_{i}^{h - 1})
+\end{equation}
+
 Vediamo ora come è possibile implementare l'algoritmo per la scansione del testo:
 \begin{enumerate}
     \item Inizializzazione della parola $D_0^0$ a $00\dots0$.
@@ -1135,9 +1150,9 @@ La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
 Per prima cosa si può osservare che:
 \begin{itemize}
     \item Se $P$ occorre $k$ volte in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
-          Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$ possiamo
+          Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$, possiamo
           osservare che $P$ occorre $2$ volte in $T$ il che implica che $P$ è
-          prefisso di due suffissi di $T$ ovvero $2$-suffisso e $5$-suffisso.
+          prefisso di due suffissi di $T$, ovvero $2$-suffisso e $5$-suffisso.
     \item Gli indici dei $k$ suffissi sono le occorrenze di $P$ e sono consecutivi
           nel suffix array. Ad esempio, dato il testo $T = xabxab\$$ possiamo
           calcolare il suo suffix array e ottenere $S=[7, 5, 2, 6, 3, 4, 1]$. Se
@@ -1193,7 +1208,7 @@ Prima di definire la trasformata di Burrows-Wheeler, definiamo il concetto di
 \textbf{rotazione di indice $q$}.
 \begin{definizione}[\textbf{q-rotazione}]
     La rotazione di indice $q$ ($q$-rotazione) è la concatenazione
-    del $q$- suffisso $T[q,|T|]$ e del prefisso $T[1,q-1]$.
+    del $q$-suffisso $T[q,|T|]$ e del prefisso $T[1,q-1]$.
 \end{definizione}
 \begin{esempio}
     Dato il seguente testo $T=ggtcagtc\$$, allora la $3$-rotazione è:
@@ -1208,7 +1223,7 @@ Possiamo osservare che la $q$-rotazione $r$ è una stringa lunga $n$ che ha:
     \item il $q$-suffisso come prefisso.
     \item il prefisso lungo $q-1$ come suffisso.
 \end{enumerate}
-Questo significa che:
+Questo significa che per la rotazione $q$-rotazione denominata $r$:
 \begin{itemize}
     \item $r[1]$ è uguale a $T[q]$ (primo simborlo del $q$-suffisso)
     \item $r[n]$ è uguale a $T[q-1]$ se $q>1$, questo implica che:
@@ -1324,7 +1339,7 @@ Della BWT possiamo riconoscere le seguenti proprietà:
           nel testo il simbolo $F[i]$. Se $B[i] = \$$, allora $F[i] = T[1]$, inoltre, 
           $B[1] \ne \$ = T[n-1] $ e  $F[1] = \$ $
     \item \textbf{Proprietà 2} (\textbf{Last-First mapping}): l'$r$-esimo simbolo
-          $\sigma$ in $B$ e l'$r$-esimo simbolo simobolo $\sigma$ in $F$ sono lo
+          $\sigma$ in $B$ e l'$r$-esimo simbolo simbolo $\sigma$ in $F$ sono lo
           stesso simbolo del testo $T$.
 \end{itemize}
 \begin{nota}
@@ -1363,7 +1378,7 @@ dal vettore $F$.
               precede $\$$.
         \item A questo punto, utilizzando la proprietà 2 si trova la posizione
               del carattere $B[1]$ in $F$, ovvero $LF(1)$.
-        \item Si ripete il procedimento fino a quando non si arriva al simbolo $\$$.
+        \item Si ripete il procedimento fino a quando non si arriva al simbolo $\$$ in BWT.
     \end{itemize}
 \end{esempio}
 Riassumendo:
@@ -1386,7 +1401,7 @@ Attraverso queste osservazioni, possiamo affermare che BWT e SA sono in relazion
 più precisamente si ha una corrispondenza degli indici delle $r_i$, vero per il
 simbolo $\$$. Quindi
 \begin{equation}
-    B[i] = T[S[i]-1] \ T[S[i]] = F[i]
+    B[i] = T[S[i]-1] \ \ \ T[S[i]] = F[i]
 \end{equation}
 \textbf{Last-First mapping} può essere definita come il suffisso che inizia con
 l'$r$-esimo simbolo $\sigma$ della BWT è l'$r$-esimo suffisso di $T$ che inizia
@@ -1485,7 +1500,7 @@ Successivamente definiamo
 \begin{esempio}
     Riprendendo l'esempio precedente, dato il $a$-intervallo, vogliamo trovare la
     backward extension di $a$-intervallo col carattere $c$. Questo coincide con
-    il  $gaca$-intervallo ovvero $[8,10)$.
+    il  $ca$-intervallo ovvero $[8,10)$.
 \end{esempio}
 Avendo definito questi concetti, possiamo definire l'algoritmo di ricerca esatta
 di un pattern $P$ lungo $m$ in un testo $T$ utilizzando la $BWT$. Tale algoritmo
@@ -1495,7 +1510,7 @@ di un pattern $P$ lungo $m$ in un testo $T$ utilizzando la $BWT$. Tale algoritmo
     \item Si considera il $\epsilon$-intervallo, cioè $[1,n+1)$ e si inizializza
           un indice di posizione $i=m$.
     \item Si effettua una backward extension con il simbolo $P[i]$ per ottenere
-          $P[i]Q$-intervallo $[b_p, e_p)$ che fornisce le occorrenze di $P[i,m]$:
+          $P[i]Q$-intervallo $[b_p, e_p)$ che fornisce le occorrenze di $P[i,m] = P[m,m]$:
           \begin{itemize}
               \item Se il risultato è l'intervallo vuoto allora $P$ non ha
                     occorrenze in $T$ quindi si termina l'esecuzione.
@@ -1515,7 +1530,7 @@ Possiamo effettuare le seguenti osservazioni:
           altrimenti saranno minori.
     \item Se $P$ non occorre in $T$, supponendo che $p$ è la posizione di $P$
           per cui il $P[p,m]$-intervallo è vuoto, allora l'ultimo suffisso che
-          occorre in $T$ è $P[p+1,m]$ in un numero di iterazioni $P[p+1,m]+1$
+          occorre in $T$ è $P[p+1,m]$ in un numero di iterazioni $|P[p+1,m]|+1$
     \item La complessità quindi sarà $O(mlogn)$.
 \end{itemize}
 Possiamo rimuovere il $\log n$ nell'equazione del tempo rendendo costante
@@ -1524,13 +1539,13 @@ il calcolo della backward extension. Possiamo osservare che per un $Q$-intervall
 \begin{itemize}
     \item Siano $i_1,<i_2<\dots<i_k$ le $k$ posizioni di $[b,e)$ tali che
           \begin{equation}
-              B[i_q] = \sigma \ 1\le p \le K
+              B[i_p] = \sigma \ 1\le p \le k
           \end{equation}
     \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$.
     \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1\le p \le k$.
-    \item Quindi  $B[i_p]+S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
+    \item Quindi  $B[i_p] \cdot S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
           che inizia con $B[i_p]$ e che ha $\sigma Q$ come prefisso.
-    \item $B[i_p] + S[i_p]$-suffisso per LF-mapping avrà una posizione
+    \item $B[i_p] \cdot S[i_p]$-suffisso per LF-mapping avrà una posizione
           nel Suffix Array data da $j_p = LF(i_p)$ all'interno di  $j_1,<j_2<\dots<j_k$,
           dove $[j_1,j_k)$ è il $\sigma Q$-intervallo.
 \end{itemize}
@@ -1538,6 +1553,7 @@ Da notare che, la backward extension viene definita dalle posizioni limite prese
 dal SA alla posizione BWT coincidente al carattere da cercare.
 
 Quindi la procedura sarà definita come:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
@@ -1548,7 +1564,9 @@ Quindi la procedura sarà definita come:
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
+
 Quindi ora si può mostrare l'algoritmo di ricerca esatta è:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
@@ -1567,6 +1585,7 @@ Quindi ora si può mostrare l'algoritmo di ricerca esatta è:
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
+
 Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
