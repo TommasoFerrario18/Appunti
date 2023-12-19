@@ -10,9 +10,9 @@ tempo.
 Sono stati introdotti diversi modelli per modellare i sistemi concorrenti, ora
 si introdurranno nuove tecniche di analisi.
 
-Esempio produttore consumatore in Java. Esempio concorrente e gli elementi sono
-indipendenti quindi si devono sincronizzare quando si accede al buffer. Vogliamo
-garantire la correttezza del programma:
+Per esempio nel caso del produttore e consumatore, i soggetti sono
+indipendenti quindi si devono sincronizzare per l'accesso si accede al buffer.
+Per questi programmi sarà importante garantire la correttezza del programma:
 \begin{itemize}
     \item Ogni oggetto deve essere prima prodotto
     \item Ogni oggetto non può essere consumato più di una volta
@@ -20,7 +20,7 @@ garantire la correttezza del programma:
 \end{itemize}
 Le reti di Petri ci permettono di controllare se si mantiene la mutua esclusione,
 ovvero che non esista una  marcatura in cui entrambi i processi non possono essere
-negli stati $c_1$ e $c_2$. Noi vorremmo modellare il blocco di uno dei due
+negli stati della sezione critica. Noi vorremmo modellare il blocco di uno dei due
 processi se uno si trova nella zona critica.
 
 Vogliamo quindi un modello per verificare se sono valide delle proprietà di
@@ -118,7 +118,7 @@ Definiamo anche le formule ben formate $FBF_{LTL}$:
               \item $X\alpha$ "next $\alpha$" nel prossimo stato $\alpha$ è vera.
               \item $F\alpha$ "future $\alpha$" prima o poi $\alpha$ sarà vera.
               \item $G\alpha$ "globally $\alpha$" $\alpha$ è sempre vera.
-              \item $\alpha\mathbb{U}\beta$ "until $\alpha$" $\alpha$ è vera fino
+              \item $\alpha U\beta$ "until $\alpha$" $\alpha$ è vera fino
                     a quando $\beta$ diventa vera.
           \end{itemize}
           sono formule ben formate.
@@ -170,7 +170,7 @@ Definiremo la relazione $\vDash$ per induzione.
                             \vDash \beta$
                   \item $\pi\vDash G\beta \iff \forall i \in \mathbb{N}:\pi^{(i)}
                             \vDash \beta$
-                  \item $\pi \vDash \beta \mathbb{U} \gamma \iff$:
+                  \item $\pi \vDash \beta U  \gamma \iff$:
                         \begin{itemize}
                             \item $\exists i \in \mathbb{N}$ tale che $\pi^{(i)}\vDash
                                       \gamma$ cioè $\pi\vDash F\gamma$
@@ -240,7 +240,7 @@ Definiremo la relazione $\vDash$ per induzione.
         \item $7=\{sc1, req 2\}$
         \item $8=\{req1,sc2\}$
     \end{itemize}
-    Una volta cstruita la struttura, definiamo delle formule che vogliamo siano
+    Una volta costruita la struttura, definiamo delle formule che vogliamo siano
     vere per la situazione in analisi. Studiamo quindi:
     \begin{itemize}
         \item $G\neq (sc_1\land sc_2)$: esprime che non si può raggiungere
@@ -285,9 +285,9 @@ equivalenza tra formule.
     Vediamo ora alcuni esempi di equivalenza tra formule:
     \begin{itemize}
         \item $F\alpha \equiv \alpha \lor XF\alpha$ se prima o poi $\alpha$ sarà
-              vera, allora o è vera in questo stato oppure dal prssimo stato
+              vera, allora o è vera in questo stato oppure dal prosssimo stato
               $\alpha$ sarà prima o poi vera.
-        \item $G\alpha \equiv \alpha \land XG\alpha$ se $\alpha$ Se è sempre vera,
+        \item $G\alpha \equiv \alpha \land XG\alpha$ Se $\alpha$  è sempre vera,
               allora è vera in questo stato e dal prossimo stato sarà sempre vera.
         \item $\alpha U \beta \equiv \beta \lor (\alpha \land X(\alpha U \beta))$
               se $\beta$ è vera non ci interessa altro, oppure $\alpha$ è vera e
@@ -544,14 +544,14 @@ In entrambe le logice, LTL e CTL, possiamo esprimere le seguenti proprietà:
           \begin{equation}
               AG\lnot p \equiv G\lnot p
           \end{equation}
-    \item \textbf{Rieattiva}: il valore logico di una formula implica la veridicità
+    \item \textbf{Reattiva}: il valore logico di una formula implica la veridicità
           di un'altra:
           \begin{equation}
               AG (p\implies AF \ q) \equiv G(p\implies F \ q)
           \end{equation}
 \end{itemize}
 Le due logiche non hanno la stessa potenza espressiva ma nessuna delle due è più
-espressiva rispetto all'altra. Infatti per esempio la logica CTL può esprimera
+espressiva rispetto all'altra. Infatti per esempio la logica CTL può esprimere
 la seguente proprietà (\textbf{reset property}):
 \begin{center}
     Da ogni stato raggiungibile in ogni cammino è sempre possibile raggiungere
@@ -571,7 +571,7 @@ CTL che possa esprimere la proprietà.
 Quindi CTL e LTL sono delle logiche temporali che hanno poteri espressivi diversi,
 ovvero esistono formule che possono essere espresse in una logica ma non nell'altra.
 
-Per ovvieare a questo problema si definisce l'estensione di CTL (CTL$^\ast$),
+Per ovviare a questo problema si definisce l'estensione di CTL (CTL$^\ast$),
 in particolare, si rimuove dalla logica CTL il vincolo di avere un quantificatore
 che precede ogni operatore temporale.
 
