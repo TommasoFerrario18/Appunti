@@ -1639,10 +1639,9 @@ numerico.
                   C: \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $C(\sigma)$ rappresenta il numero di simboli della BWT che sono
-              minori di $\sigma$. Conta quanti sono i suffissi che iniziano con
-              un simbolo inferiore a $\sigma$ e ritorna la posizione nell'ordine
-              lessicografico dell'ultimo suffisso che inizia ocn un simbolo più
-              piccolo di $\sigma$.
+              minori di $\sigma$. Fornisce quanti sono i suffissi che iniziano con
+              un simbolo inferiore a $\sigma$ e ritorna l'ultima posizione nel SA
+              dell'ultimo suffisso che inizia con un simbolo più piccolo di $\sigma$.
         \item $Occ$ definita come:
               \begin{equation}
                   Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
@@ -1697,9 +1696,9 @@ In generale, $C(\sigma)$ fornisce:
     Copio la riga precedente modificando la colonna del carattere che leggiamo nella
     nuova posizione di BWT.
 \end{esempio}
-L'ultima riga della tabella ci dice la distribuzione dei simboli.
+
 \begin{esempio}
-    Possiamo quindi ottenere $c(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
+    Possiamo quindi ottenere $C(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
     delle colonne precedenti sulla riga.
     \begin{table}[!ht]
         \centering
@@ -1715,8 +1714,9 @@ L'ultima riga della tabella ci dice la distribuzione dei simboli.
     \end{table}
 \end{esempio}
 La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
-incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo in posizione $i$ è
+incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è
 uguale a $\sigma$.
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
@@ -1741,15 +1741,22 @@ uguale a $\sigma$.
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
+
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
-in tempo costante calcolando il numero di suffissi che iniziano con un carattere
-più piccolo di $B[i]$ con un il numero di simboli si $B[i]$ che occorrono nella
-BWT prima della posizione $i$.
+in tempo costante, questo è possibile scomponendo l'indice da trovare come:
+\begin{itemize}
+    \item numero di suffissi che iniziano con un carattere
+    più piccolo di $B[i]$ ($C(B[i])$)
+    \item il numero di simboli si $B[i]$ che occorrono nella
+    BWT prima della posizione $i$. ($Occ(i, B[i]) + 1$)
+\end{itemize} 
+
 \begin{equation}
     j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
 \end{equation}
-Utilizzando l'FM-index possiamo definire il caloclo della backward extension in
-tempo costante. Questo ci permette di definire un algoritmo per la ricerca esatta
+
+L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward extension in
+tempo costante}. Questo ci permette di definire un algoritmo per la ricerca esatta
 in tempo lineare rispetto alla dimensione del pattern.
 
 Vediamo ora come utilizzare l'FM-index per calcolare la \textbf{backward
@@ -1760,14 +1767,14 @@ Vediamo ora come utilizzare l'FM-index per calcolare la \textbf{backward
 \end{itemize}
 Quindi possiamo dire che il nuovo intervallo $[b',e')$ si ottiene come:
 \begin{itemize}
-    \item $b' = LF(i_1) = C(\sigma) + Occ(i_1,\sigma)+1$
-    \item $e' = LF(i_k) + 1 = C(\sigma) + Occ(i_1,\sigma) + 1 + 1$
+    \item $b' = LF(i_1) = C(B[i_1]) + Occ(i_1,B[i_1])+1$
+    \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_1,B[i_k]) + 1 + 1$
 \end{itemize}
 Però non è ancora costante perché dobbiamo trovare $i_1, \ i_k$.
 
-Effettuiamo le seguenti osservazioni:
+Possiamo però osservare che:
 \begin{itemize}
-    \item In $B[b,i_1]$ non esistono simboli uguali a $\sigma$ quindi il numero
+    \item Nel sottoarray della BWT $B[b,i_1-1]$ non esistono simboli uguali a $\sigma$ quindi il numero
           di simboli $\sigma$ in $B[1,i_1-1]$ ($Occ(i_1,\sigma)$) è uguale al numero
           di simboli di $\sigma$  in $B[1,b-1]$ ($Occ(b,\sigma)$) allora:
           \begin{equation}
@@ -1775,11 +1782,12 @@ Effettuiamo le seguenti osservazioni:
           \end{equation}
           Quindi la ricerca di $i_1$ è costante.
     \item $Occ(i_k,\sigma)$ è il numero di $\sigma$ in $B[1,i_k-1]$, inoltre
-          sappiamo che $B[i_k]=\sigma$. Questo significa che $B[i_k]=\sigma$,
-          quindi implica che $Occ(i_k,\sigma) + 1 = Occ(i_k + 1,\sigma)$.
-          Quindi $B[i_k + 1, e - 1]$ non esistono simboli uguali a $\sigma$
+          sappiamo che $B[i_k]=\sigma$. Questo significa che $Occ(i_k,\sigma) + 1 $ 
+          corrisponde al numero di simboli di $\sigma$ in $B[1,i_k]$, ovvero 
+          $ Occ(i_k ,\sigma)+1= Occ(i_k + 1,\sigma)$.
+          Quindi possiamo dire $B[i_k + 1, e - 1]$ non esistono simboli uguali a $\sigma$,
           allora il numero di simboli $\sigma$ in $B[1, i_k]$ ($Occ(i_k + 1,
-              \sigma)$) uguale al numero di simboli $\sigma$ in $B[1, e - 1]$,
+              \sigma)$) uguale al numero di simboli $\sigma$ in $B[1, e - 1]$ ($ Occ(e, \sigma)$),
           possiamo quindi dire:
           \begin{equation}
               Occ(i_k + 1, \sigma) = Occ(e, \sigma)
@@ -1808,11 +1816,12 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
 \end{algorithm}
 \begin{nota}
     L'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è reversibile
-    e si può ricavare testo e BWT. Infatti da $C$ ricaviamo il $SA$ mentre da $Occ$
+    e si può ricavare il testo e BWT. Infatti da $C$ ricaviamo il $SA$ mentre da $Occ$
     ricaviamo la $BWT$, quindi da questi posso ricostruire il testo $T$.
 
     Quindi l'FM-index è un \textbf{self-index}.
 \end{nota}
+
 \begin{esempio}
     Per dimostrare che l'FM-index è un self-index mostriamo un esempio di come da
     esso è possibile ricavare la BWT e di conseguenza il testo.
