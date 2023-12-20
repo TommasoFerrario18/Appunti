@@ -1583,13 +1583,18 @@ numerico.
                   C: \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $C(\sigma)$ rappresenta il numero di simboli della BWT che sono
-              minori di $\sigma$.
+              minori di $\sigma$. Conta quanti sono i suffissi che iniziano con
+              un simbolo inferiore a $\sigma$ e ritorna la posizione nell'ordine
+              lessicografico dell'ultimo suffisso che inizia ocn un simbolo più
+              piccolo di $\sigma$.
         \item $Occ$ definita come:
               \begin{equation}
                   Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del simbolo
-              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
+              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$. Quindi ogni
+              riga rappresenta la distribuzione dei simboli nella BWT fino alla 
+              cella $i$.
     \end{itemize}
 \end{definizione}
 \begin{esempio}
@@ -1687,3 +1692,107 @@ BWT prima della posizione $i$.
 \begin{equation}
     j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
 \end{equation}
+
+Si può utilizzare la FM-index è utile anche per calcolare in tempo costante la
+\textbf{backward extension}, supponendo che:
+\begin{itemize}
+    \item $i_1$: è la più piccola possizione di $[b,e)$ tale che $B[i_1]=\sigma$
+    \item $i_k$: è la più grande possizione di $[b,e)$ tale che $B[i_k]=\sigma$
+\end{itemize}
+Quindi possiamo dire che il nuovo intervallo $[b',e')$:
+\begin{itemize}
+    \item $b' = LF(i_1) = C(\sigma) + Occ(i_1,\sigma)+1$
+    \item $e' = LF(i_k) + 1 = C(\sigma) + Occ(i_1,\sigma) + 1 + 1$
+\end{itemize}
+Però non è ancora costante perché dobbiamo trovare $i_1,i_k$.
+
+Effettuiamo le seguenti osservazioni:
+\begin{itemize}
+    \item In $B[b,i_1]$ non esistono simboli uguali a $\sigma$ quindi il numero
+    di simboli $\sigma$ in $B[1,i_1-1]$ ($Occ(i_1,\sigma)$) è uguale  al numero
+    di simboli di $\sigma$  in $B[1,b-1]$ ($Occ(b,\sigma)$)  allora 
+    \begin{equation}
+        Occ(i_1,\sigma) = Occ(b,\sigma)
+    \end{equation}
+    Quindi la ricerca di $i_1$ è costante.
+    \item $Occ(i_k,\sigma)$ è il numero di $\sigma$ in $B[1,i_k-1]$ e $B[i_k]=\sigma$
+    questo significa che $B[i_k]=\sigma$ quindi implica che $Occ(i_k,\sigma)+1=Occ(i_k+1,\sigma)$
+    Quindi $B[i_k+1,e-1]$ non esistono simboli uguali a $\sigma$ allora il numero
+    di simboli $\sigma$ in $B[1,i_k]$ ($Occ(i_k+1,\sigma)$) $\dots$
+    $Occ(i_k+1,\sigma)$
+\end{itemize}
+Se $e'=b'\implies (\sigma \cdot Q)$-intervallo è vuoto.
+
+Così la complessità in tempo costante.
+\begin{nota}
+    l'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è reversibile
+    e si può ricavare testo e BWT. Infatti da $C$ ricaviamo il $SA$ mentre da $Occ$
+    ricaviamo la $BWT$, quindi da questi posso ricostruire il testo $T$.
+\end{nota}
+\begin{esempio}
+    Ricava la BWT dalla Occ.
+    \begin{equation}
+        B= \left[c,c,t,t,\$,a,g,g,g \right]
+    \end{equation} 
+
+    l'algoritmo è: il simbolo $i$-esimo della $BWT$ è la colonna che è cambiata
+        dalla riga $i-1$.
+\end{esempio}
+\begin{esempio}
+    Specificare il $b$-intervallo conoscendo $C(\sigma)$. Sarà $[C(b)+1, C(k)+1)$
+    con $k$ il carattere successivo al carattere $b$. Questo è vero perché $C$
+    ritorno il numero di suffissi nell'ordine lessicografico che iniziano con un
+    carattere minore di $b$.
+\end{esempio}
+
+\begin{esempio}
+    Data la $BWT=accgt\$ac$ di un testo $T$, specfica l'FM-index, inoltre calcola
+    la posizione $j$ nel SA del suffisso che inizia col terzo simbolo della BWT.
+    
+    Ricaviamo $C(\sigma)$ da $Occ(|BWT| + 1, \sigma)$ ovvero 
+    $$C(\sigma) = 0, 1, 3, 6, 7$$
+    
+    Ricaviamo il $Occ(i, \sigma)$
+    $$Occ(i, \sigma) =\$ , a , c , g , t $$
+    $$Occ(0, \sigma) = 0 , 0 , 0 , 0 , 0 $$ 
+    $$Occ(1, \sigma) = 0 , 1 , 0 , 0 , 0 $$ 
+    $$Occ(2, \sigma) = 0 , 1 , 1 , 0 , 0 $$ 
+    $$Occ(3, \sigma) = 0 , 1 , 2 , 0 , 0 $$ 
+    $$Occ(4, \sigma) = 0 , 1 , 2 , 1 , 0 $$ 
+    $$Occ(5, \sigma) = 0 , 1 , 2 , 1 , 1 $$ 
+    $$Occ(6, \sigma) = 1 , 1 , 2 , 1 , 1 $$ 
+    $$Occ(7, \sigma) = 1 , 2 , 2 , 1 , 1 $$ 
+    $$Occ(8, \sigma) = 1 , 2 , 3 , 1 , 1 $$ 
+    Posizione $j$ nel $SA$ del suffisso che inizia con $B[3]$.
+    $$ j = LF(B[3]) = C(B[3]) + Occ(3, B[3]) + 1$$ 
+\end{esempio}
+\begin{esempio}
+    Data $BWT =t\$ccaacc$ di un testo e sapendo che $c$-intervallo è $[4,8)$
+    specifica utilizzando $B$:
+    \begin{itemize}
+        \item quante volte la stringa $cc$ occorre in $T$ e specificare il $cc$-intervallo
+        \item quante volte la stringa $tc$ occorre in $T$ e specificare il $tc$-intervallo
+    \end{itemize}
+    In aggiunta indica quali sono i simboli che nel testo precedono le occorrenze 
+    di $cc$ e le occorrenze di $tc$.
+    
+    Per sapere se occorre $cc$ basta prendere il $c$-intervallo e controllare all'interno
+    se ci sono $c$, in questo caso $2$. Per il caso $tc$ no.
+    
+    i simboli che recedono le occorrenze sono per entrambi $a$, ricavate dal $SA$
+    alla posizione accociate alla ultima $c$.
+\end{esempio}
+\begin{esempio}
+    Ho un testo per cui 
+    $$C = 0,1,4,6,6$$
+    Dire se 
+    $$Occ(11, \sigma) =1 , 2 , 3 , 2 , 2$$
+    è compatibile con $C$? No perché $C(c) = 3 \ne 4$ e $C(t) = 8 \ne 6$.
+
+    Dire quanti sono i simboli di $g$
+\end{esempio}
+\begin{esempio}
+    Dalla faunzione $Occ$ determinare $C = 0,1,3,4,8$  e determina $B[4] = g$.
+
+    Ti può chiedere se esiste un $\sigma\cdot q$-intervallo guardando $Occ$.
+\end{esempio}
