@@ -652,37 +652,57 @@ indichiamo l'insieme dei minoranti di $B$. Diremo che:
 \begin{definizione}
     Sia $(A,\le)$ un insieme parzialmente ordinato e $B\subseteq A$:
     \begin{itemize}
-        \item Se $x\in B$ è il \textbf{minimo} di $B$ se $x\le y,\forall y\in B$, quindi $x$ è
-        anche un minorante per $B$. (max 1)
-        \item Se $x\in B$ è il \textbf{massimo} di $B$ se $x\ge y,\forall y\in B$, quindi $x$ è
-        anche un maggiorante per $B$. (max 1)
-        \item Se $x\in B$ è il \textbf{minimale} in $B$ se $x\ge y,\forall y\in B$, quindi $x$ è
-        anche un minorante per $B$. (ne possono esistere di più)
+        \item Se $x\in B$ è il \textbf{minimo} di $B$ se $x\le y,\forall y\in B$, 
+        quindi $x$ è anche un minorante per $B$. (max 1)
+        \item Se $x\in B$ è il \textbf{massimo} di $B$ se $x\ge y,\forall y\in B$, 
+        quindi $x$ è anche un maggiorante per $B$. (max 1)
+        \item Se $x\in B$ è il \textbf{minimale} in $B$ se $x\ge y \implies x=y$.
+        \item Se $x\in B$ è il \textbf{massimale} in $B$ se $x\le y \implies x=y$.
     \end{itemize}      
 \end{definizione}
 
-Se $x\in B$ è il \textbf{massimale}...
+\begin{definizione}
+    Se $x$ è il minimo di $B^\ast$, diciamo che $x$ è l'\textbf{estremo superiore}
+    (join) di $B$, e scriviamo $x=\sup B$ , o anche $x=\bigvee B$.
+
+    Se $x$ è il massimo di $B_\ast$, diciamo che $x$ è l'\textbf{estremo inferiore}
+    (meet) di $B$, e scriviamo $x=\inf B$ , o anche $x=\bigwedge B$.
+
+    In particolare, se $B = \{x, y\}$, scriveremo $x \lor y$ per indicare $\bigvee B$,
+    se esiste, e $x \land y$ per $\bigwedge B$.
+\end{definizione}
 
 \begin{esempio} 
-    estremo superiore è l'unione mentre l'estremo inferiore è l'intersezione.
-
-
+    Consideriamo i seguenti esempi:
+    \begin{itemize}
+        \item $(2^A, \subseteq)$: potremo dire che l'estremo superiore è l'unione
+        mentre l'estremo inferiore è l'intersezione.
+        \item $(\mathbb{N}^+,|)$: potremmo dire che l'estremo inferiore è MCD, Mentre
+        l'estremo superiore è mcm.
+    \end{itemize}
 \end{esempio}
 
 Le relazioni di ordine parziale possiamo rappresentarle come diagrammi di Hasse,
-in cui si rappresentano le relazioni mostrando i collegamenti col successivo, sequenza
+in cui si rappresentano le relazioni mostrando i collegamenti col successivo, senza
 rappresentare la riflessività e la transitività.
 
 \begin{definizione}
-    Definiremo un \textbf{reticolo}  come un insieme parzialemnte ordinato $(L,\le)$,
+    Definiremo un \textbf{reticolo}  come un insieme parzialmente ordinato $(L,\le)$,
     tale che, per ongi $x,y\in L$ esistono il minimo e massimo.
 \end{definizione}
+
 Per i reticoli si può dimostrare per induzione che per ogni coppia esiste il join
 e il meet.
 
 \begin{definizione}
     Un reticolo si dice \textbf{completo} se per ogni sottoinsieme finito esistono
     il meet e join. 
+\end{definizione}
+
+\begin{definizione}
+    Siano due insiemi parzialmente ordinati $(A,\le)$ e $(B,\le)$. Definiremo una
+    funzione di $f:A\to B$ si dice \textbf{monotona} se, per ogni $x,y\in A$, allora
+    $x\le y\implies f(x)\le f(y)$
 \end{definizione}
 
 \begin{definizione}
