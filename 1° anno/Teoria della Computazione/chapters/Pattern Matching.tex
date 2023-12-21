@@ -624,15 +624,23 @@ Essa è definita come segue:
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|>{\columncolor[HTML]{EFEFEF}}c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
-            \cellcolor[HTML]{EFEFEF}\textbf{j} & \cellcolor[HTML]{EFEFEF}\textbf{0}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{1}  & \cellcolor[HTML]{EFEFEF}\textbf{2}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{3}  & \cellcolor[HTML]{EFEFEF}\textbf{4}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{5}  & \cellcolor[HTML]{EFEFEF}\textbf{6}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{7}  & \cellcolor[HTML]{EFEFEF}\textbf{8}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{9}  & \cellcolor[HTML]{EFEFEF}\textbf{10}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{11} & \cellcolor[HTML]{EFEFEF}\textbf{12}
-                                               & \cellcolor[HTML]{EFEFEF}\textbf{13}                                                                                       \\	\hline
-            $\phi$                             & -1                                  & 0                                   & 0 & 0 & 1 & 2 & 1 & 1 & 2 & 3 & 4 & 5 & 6 & 2 \\\hline
+            \cellcolor[HTML]{EFEFEF}\textbf{j}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{0}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{1}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{2}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{3}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{4}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{5}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{6}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{7}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{8}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{9}  &
+            \cellcolor[HTML]{EFEFEF}\textbf{10} &
+            \cellcolor[HTML]{EFEFEF}\textbf{11} &
+            \cellcolor[HTML]{EFEFEF}\textbf{12} &
+            \cellcolor[HTML]{EFEFEF}\textbf{13}                                  \\	\hline
+            $\phi$                              & -1 & 0 & 0 & 0 & 1 & 2 & 1 & 1
+                                                & 2  & 3 & 4 & 5 & 6 & 2         \\\hline
         \end{tabular}
     \end{table}
 \end{esempio}
@@ -1242,9 +1250,9 @@ Prima di definire la trasformata di Burrows-Wheeler, definiamo il concetto di
 \begin{esempio}
     Dato il seguente testo $T=ggtcagtc\$$, allora la $3$-rotazione è:
     $$tcagtc\$gg$$
-        Mentre la $9$-rotazione coincide con:
+    Mentre la $9$-rotazione coincide con:
     $$\$ggtcagtc$$
-        Mentre la $1$-rotazione coincide con:
+    Mentre la $1$-rotazione coincide con:
     $$ggtcagtc\$$$
 \end{esempio}
 Possiamo osservare che la $q$-rotazione $r$ è una stringa lunga $n$ che ha:
@@ -1631,13 +1639,17 @@ numerico.
                   C: \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $C(\sigma)$ rappresenta il numero di simboli della BWT che sono
-              minori di $\sigma$.
+              minori di $\sigma$. Fornisce quanti sono i suffissi che iniziano con
+              un simbolo inferiore a $\sigma$ e ritorna l'ultima posizione nel SA
+              dell'ultimo suffisso che inizia con un simbolo più piccolo di $\sigma$.
         \item $Occ$ definita come:
               \begin{equation}
                   Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del simbolo
-              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
+              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$. Quindi ogni
+              riga rappresenta la distribuzione dei simboli nella BWT fino alla
+              cella $i$.
     \end{itemize}
 \end{definizione}
 \begin{esempio}
@@ -1684,9 +1696,9 @@ In generale, $C(\sigma)$ fornisce:
     Copio la riga precedente modificando la colonna del carattere che leggiamo nella
     nuova posizione di BWT.
 \end{esempio}
-L'ultima riga della tabella ci dice la distribuzione dei simboli.
+
 \begin{esempio}
-    Possiamo quindi ottenere $c(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
+    Possiamo quindi ottenere $C(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
     delle colonne precedenti sulla riga.
     \begin{table}[!ht]
         \centering
@@ -1702,8 +1714,9 @@ L'ultima riga della tabella ci dice la distribuzione dei simboli.
     \end{table}
 \end{esempio}
 La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
-incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo in posizione $i$ è
+incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è
 uguale a $\sigma$.
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
@@ -1728,10 +1741,222 @@ uguale a $\sigma$.
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
+
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
-in tempo costante calcolando il numero di suffissi che iniziano con un carattere
-più piccolo di $B[i]$ con un il numero di simboli si $B[i]$ che occorrono nella
-BWT prima della posizione $i$.
+in tempo costante, questo è possibile scomponendo l'indice da trovare come:
+\begin{itemize}
+    \item numero di suffissi che iniziano con un carattere
+    più piccolo di $B[i]$ ($C(B[i])$)
+    \item il numero di simboli si $B[i]$ che occorrono nella
+    BWT prima della posizione $i$. ($Occ(i, B[i]) + 1$)
+\end{itemize} 
+
 \begin{equation}
     j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
 \end{equation}
+
+L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward extension in
+tempo costante}. Questo ci permette di definire un algoritmo per la ricerca esatta
+in tempo lineare rispetto alla dimensione del pattern.
+
+Vediamo ora come utilizzare l'FM-index per calcolare la \textbf{backward
+    extension} in tempo costante. Supponiamo che:
+\begin{itemize}
+    \item $i_1$: è la più piccola posizione di $[b,e)$ tale che $B[i_1]=\sigma$
+    \item $i_k$: è la più grande posizione di $[b,e)$ tale che $B[i_k]=\sigma$
+\end{itemize}
+Quindi possiamo dire che il nuovo intervallo $[b',e')$ si ottiene come:
+\begin{itemize}
+    \item $b' = LF(i_1) = C(B[i_1]) + Occ(i_1,B[i_1])+1$
+    \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_1,B[i_k]) + 1 + 1$
+\end{itemize}
+Però non è ancora costante perché dobbiamo trovare $i_1, \ i_k$.
+
+Possiamo però osservare che:
+\begin{itemize}
+    \item Nel sottoarray della BWT $B[b,i_1-1]$ non esistono simboli uguali a $\sigma$ quindi il numero
+          di simboli $\sigma$ in $B[1,i_1-1]$ ($Occ(i_1,\sigma)$) è uguale al numero
+          di simboli di $\sigma$  in $B[1,b-1]$ ($Occ(b,\sigma)$) allora:
+          \begin{equation}
+              Occ(i_1,\sigma) = Occ(b,\sigma)
+          \end{equation}
+          Quindi la ricerca di $i_1$ è costante.
+    \item $Occ(i_k,\sigma)$ è il numero di $\sigma$ in $B[1,i_k-1]$, inoltre
+          sappiamo che $B[i_k]=\sigma$. Questo significa che $Occ(i_k,\sigma) + 1 $ 
+          corrisponde al numero di simboli di $\sigma$ in $B[1,i_k]$, ovvero 
+          $ Occ(i_k ,\sigma)+1= Occ(i_k + 1,\sigma)$.
+          Quindi possiamo dire $B[i_k + 1, e - 1]$ non esistono simboli uguali a $\sigma$,
+          allora il numero di simboli $\sigma$ in $B[1, i_k]$ ($Occ(i_k + 1,
+              \sigma)$) uguale al numero di simboli $\sigma$ in $B[1, e - 1]$ ($ Occ(e, \sigma)$),
+          possiamo quindi dire:
+          \begin{equation}
+              Occ(i_k + 1, \sigma) = Occ(e, \sigma)
+          \end{equation}
+\end{itemize}
+Possiamo quindi esprimere il calcolo della backward extension come:
+\begin{equation}
+    \begin{array}{c}
+        b' = C(\sigma) + Occ(b, \sigma) + 1 \\
+        e' = C(\sigma) + Occ(e, \sigma) + 1
+    \end{array}
+\end{equation}
+\begin{nota}
+    Se $b' = e'$ allora il $Q$-intervallo è vuoto.
+\end{nota}
+Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
+($\mathcal{O}(1)$):
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{backwardExtension}{$b, e, \sigma$}
+        \State $b' \gets C(\sigma) + Occ(b, \sigma) + 1$
+        \State $e' \gets C(\sigma) + Occ(e, \sigma) + 1$
+        \State \Return $[b', e')$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\begin{nota}
+    L'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è reversibile
+    e si può ricavare il testo e BWT. Infatti da $C$ ricaviamo il $SA$ mentre da $Occ$
+    ricaviamo la $BWT$, quindi da questi posso ricostruire il testo $T$.
+
+    Quindi l'FM-index è un \textbf{self-index}.
+\end{nota}
+
+\begin{esempio}
+    Per dimostrare che l'FM-index è un self-index mostriamo un esempio di come da
+    esso è possibile ricavare la BWT e di conseguenza il testo.
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            0  & 0 & 0 & 0 & 0 \\ \hline
+            0  & 0 & 1 & 0 & 0 \\ \hline
+            0  & 0 & 2 & 0 & 0 \\ \hline
+            0  & 0 & 2 & 0 & 1 \\ \hline
+            0  & 0 & 2 & 0 & 2 \\ \hline
+            1  & 0 & 2 & 0 & 2 \\ \hline
+            1  & 1 & 2 & 0 & 2 \\ \hline
+            1  & 1 & 2 & 1 & 2 \\ \hline
+            1  & 1 & 2 & 2 & 2 \\ \hline
+            1  & 1 & 2 & 3 & 2 \\ \hline \\ \hline
+            \$ & a & c & g & t \\ \hline
+        \end{tabular}
+    \end{table}
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            $\sigma$ & C($\sigma$) \\ \hline
+            \$       & 0           \\ \hline
+            a        & 1           \\ \hline
+            c        & 2           \\ \hline
+            g        & 4           \\ \hline
+            t        & 7           \\ \hline
+        \end{tabular}
+    \end{table}
+    \begin{equation}
+        B= \left[c,c,t,t,\$,a,g,g,g \right]
+    \end{equation}
+    L'algoritmo per ottenere la BWT è il seguente:
+    \begin{itemize}
+        \item Si scorre la matrice associata alla $Occ$ una riga alla volta.
+        \item Per ogni riga si trova il valore che è stato incrementato rispetto
+              alla riga precedente. Quel valore è il carattere in posizione $i$
+              della BWT.
+    \end{itemize}
+\end{esempio}
+\begin{esempio}
+    Si consideri la funzione $C$ riportata nella tabella \ref{tab:esempioC}.
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            $\sigma$ & C($\sigma$) \\ \hline
+            \$       & 0           \\ \hline
+            a        & 1           \\ \hline
+            c        & 3           \\ \hline
+            g        & 7           \\ \hline
+            t        & 7           \\ \hline
+        \end{tabular}
+        \caption{Funzione $C$}
+        \label{tab:esempioC}
+    \end{table}
+    Dire se il $b$-intervallo, ovvero il $Q$-intervallo con $Q=b$ è vuoto. Se non
+    lo è, specificare il $b$-intervallo.
+
+    Sarà $[C(b)+1, C(k)+1)$ con $k$ il carattere successivo al carattere $b$.
+    Questo è vero perché $C$ ritorno il numero di suffissi nell'ordine
+    lessicografico che iniziano con un carattere minore di $b$.
+\end{esempio}
+\begin{esempio}
+    Data la $BWT=accgt\$ac$ di un testo $T$, si richiede di specificare l'FM-index
+        supponendo $\Sigma = \{a, c, g, t\}$. Calcolare poi tramite FM-index la
+        posizione $j$ nel Suffix Array del suffisso che inizia col terzo simbolo
+        della BWT.
+
+        Ricaviamo $C(\sigma)$ da $Occ(|BWT| + 1, \sigma)$ ovvero:
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|c|c|}
+                \hline
+                $\sigma$ & C($\sigma$) \\ \hline
+                \$       & 0           \\ \hline
+                a        & 1           \\ \hline
+                c        & 3           \\ \hline
+                g        & 6           \\ \hline
+                t        & 7           \\ \hline
+            \end{tabular}
+        \end{table}
+        Ricaviamo il $Occ(i, \sigma)$:
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                0  & 0 & 0 & 0 & 0 \\ \hline
+                0  & 1 & 0 & 0 & 0 \\ \hline
+                0  & 1 & 1 & 0 & 0 \\ \hline
+                0  & 1 & 2 & 0 & 0 \\ \hline
+                0  & 1 & 2 & 1 & 0 \\ \hline
+                0  & 1 & 2 & 1 & 1 \\ \hline
+                0  & 1 & 2 & 1 & 1 \\ \hline
+                1  & 1 & 2 & 1 & 1 \\ \hline
+                1  & 2 & 2 & 1 & 1 \\ \hline  \\ \hline
+                \$ & a & c & g & t \\ \hline
+            \end{tabular}
+        \end{table}
+        Posizione $j$ nel Suffix Array del suffisso che inizia con $B[3]$ si ottiene come:
+    \begin{equation}
+        j = LF(B[3]) = C(B[3]) + Occ(3, B[3]) + 1
+    \end{equation}
+\end{esempio}
+%% Da completare
+\begin{esempio}
+    Data $BWT =t\$ccaacc$ di un testo e sapendo che $c$-intervallo è $[4,8)$
+        specifica utilizzando $B$:
+        \begin{itemize}
+            \item quante volte la stringa $cc$ occorre in $T$ e specificare il $cc$-intervallo
+            \item quante volte la stringa $tc$ occorre in $T$ e specificare il $tc$-intervallo
+        \end{itemize}
+        In aggiunta indica quali sono i simboli che nel testo precedono le occorrenze
+        di $cc$ e le occorrenze di $tc$.
+
+        Per sapere se occorre $cc$ basta prendere il $c$-intervallo e controllare all'interno
+        se ci sono $c$, in questo caso $2$. Per il caso $tc$ no.
+
+        i simboli che recedono le occorrenze sono per entrambi $a$, ricavate dal $SA$
+        alla posizione accociate alla ultima $c$.
+\end{esempio}
+\begin{esempio}
+    Ho un testo per cui
+    $$C = 0,1,4,6,6$$
+    Dire se
+    $$Occ(11, \sigma) =1 , 2 , 3 , 2 , 2$$
+    è compatibile con $C$? No perché $C(c) = 3 \ne 4$ e $C(t) = 8 \ne 6$.
+
+    Dire quanti sono i simboli di $g$
+\end{esempio}
+\begin{esempio}
+    Dalla faunzione $Occ$ determinare $C = 0,1,3,4,8$  e determina $B[4] = g$.
+
+    Ti può chiedere se esiste un $\sigma\cdot q$-intervallo guardando $Occ$.
+\end{esempio}
