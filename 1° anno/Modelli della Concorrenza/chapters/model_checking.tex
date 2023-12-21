@@ -11,7 +11,7 @@ Sono stati introdotti diversi modelli per modellare i sistemi concorrenti, ora
 si introdurranno nuove tecniche di analisi.
 
 Per esempio nel caso del produttore e consumatore, i soggetti sono
-indipendenti quindi si devono sincronizzare per l'accesso si accede al buffer.
+indipendenti quindi si devono sincronizzare per l'accesso di chi accede al buffer.
 Per questi programmi sarà importante garantire la correttezza del programma:
 \begin{itemize}
     \item Ogni oggetto deve essere prima prodotto
@@ -29,13 +29,13 @@ interesse e se il modello rappresenta effettivamente il sistema.
     Un sistema è \textbf{reattivo} se è un sistema concorrente, distribuito e
     asincrono.
 \end{definizione}
-Una sottoclasse dei sistemi reattivi sono quelli sincroni con un clock ma è una
+Una sottoclasse dei sistemi reattivi sono quelli sincroni con un clock, ma è una
 semplificazione.
 
-I sistemi reattivi non obbediscono più al paradigma input-computazione output,
+I sistemi reattivi non obbediscono più al paradigma input-computazione-output,
 rendendo quindi impossibile utilizzare le triple di Hoare per dimostrare la
 correttezza di un programma. Possiamo sempre riutilizzare la logica di hoare per
-dimostrare alcuni pezzi ma dovremmo usare un modo per unire i risultati.
+dimostrare alcuni pezzi, ma dovremmo usare un modo per unire i risultati.
 
 Al posto delle triple di Hoare, utilizzeremo delle \textbf{asserzioni}, ovvero
 delle frasi conteneti elementi temporali che descrivono il comportamento del sistema.
@@ -191,7 +191,8 @@ Definiremo la relazione $\vDash$ per induzione.
         \item $GF\alpha$: $\alpha$ è vera in un numero infinito di stati
         \item $G\lnot (cs_1\land cs_2)$: mutua esclusione se $cs_1$ indica il
               processo è nella sezione critica, viceversa $cs_2$.
-        \item $G(req \implies XF ack)$:
+        \item $G(req \implies XF ack)$: se si manda una richiesta, dallo stato successivo
+              prima o poi si riceverà un ack.
         \item $G(req \implies (req U ack))$: se c'è la richiesta allora la richiesta
               è pendente fino a quando si ha un'ack. Si differenzia da quella
               precedente dal momento che la richiesta deve rimanere fino a quando
@@ -243,7 +244,7 @@ Definiremo la relazione $\vDash$ per induzione.
     Una volta costruita la struttura, definiamo delle formule che vogliamo siano
     vere per la situazione in analisi. Studiamo quindi:
     \begin{itemize}
-        \item $G\neq (sc_1\land sc_2)$: esprime che non si può raggiungere
+        \item $G\lnot (sc_1\land sc_2)$: esprime che non si può raggiungere
               uno stato in cui entrambi i processi sono nella sezione critica.
         \item $G\,(req1\implies F\,sc1)$: esprime che se il processo 1 fa richiesta
               allora prima o poi entrerà nella sezione critica.
@@ -253,16 +254,17 @@ Definiremo la relazione $\vDash$ per induzione.
     cammini. Tuttavia, questo caso è complesso e i possibili cammini massimali
     sono potenzialmente infiniti.
 
-    Una via più facile è, osservando che dallo stato si possono raggiungere tutti
+    Per la prima formula, la via più facile è, osservando che dallo stato si possono raggiungere tutti
     gli altri stati, scorrere la tabella delle formule vere in ciascun stato e
-    osservare che in nessun stato è vera la formule $sc_1 \land sc_2$.
+    osservare che in nessun stato è vera la formule $sc_1 \land sc_2$. Quindi non 
+    sarà vera globalmente.
 
     Per la seconda formula non possiamo più applicare questa strategia, ma possiamo
     cercare di confutare la formula: basta trovare un cammino massimale che non
     soddisfi la formula.
 
     In ogni caso questa seconda formula non è valida in quando potrei avere il
-    cammino $(1)(2,4,8)^\omega$ in cui anche il secondo processo fa richiesta e
+    cammino $\pi^{(1)}(2,4,8)^\omega$ in cui anche il secondo processo fa richiesta e
     ci entra. Posso entrare in un loop in cui solamente il processo due prende
     ogni volta la risorsa quindi la formula non è valida in quel cammino massimale.
 
@@ -314,12 +316,14 @@ sono:
     \item \textbf{Until debole}: $\alpha W \beta \equiv G\alpha \lor
               (\alpha U \beta)$ con questo operatore si può esprimere la proprietà
           in cui $\alpha$ è sempre vera oppure $\alpha$ è vera fino a quando
-          $\beta$ diventa vera.
+          $\beta$ diventa vera. $W$ differisce da $U$ perché non si richiede che 
+          la seconda formula diventi vera per rendere vera $W$.
     \item \textbf{Release}: $\alpha R \beta$ per cui
           \begin{equation}
               \pi\vDash\alpha R \beta \iff \forall k\ge 0:(\pi^{(k)}\vDash \beta\lor
               \exists h<k:\pi^{(h)}\vDash \alpha)
           \end{equation}
+
           In sostanza o $\beta$ è sempre vera oppure $\beta$ potrà essere falsa
           solo quando $\alpha$ diventa vera. Definito in questo modo allora si può dire
           \begin{equation}
