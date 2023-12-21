@@ -1363,33 +1363,32 @@ $\theta(n \log |\Sigma|)$.
     dei simboli del testo.
 \end{definizione}
 
-Sia $B[i] = r_i[n]$ con $r_i$ $i$-esima più piccola rotazione nell'ordinamento
-lessicografico. Se $r_i$ è la $q$-rotazione di $T$, allora $B[i]$ è l'ultimo
-simbolo della $q$-rotazione, cioè $T[q-1]$.
-
-Il primo simbolo della $q$-rotazione è il simbolo $T[q]$ e coincide con il simbolo
+Quindi il primo simbolo della $q$-rotazione è il simbolo $T[q]$ e coincide con il simbolo
 in posizione $F[i]$ del vettore $F$.
 
-Della BWT possiamo riconoscere le seguenti proprietà:
+Della BWT possiamo introdurre le seguenti proprietà:
 \begin{itemize}
     \item \textbf{Proprietà 1}: per ogni posizione $i$, il simbolo $B[i]$ precede
-          nel testo il simbolo $F[i]$. Se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
-          $B[1] \ne \$ = T[n-1] $ e  $F[1] = \$ $
+          nel testo il simbolo $F[i]$.
     \item \textbf{Proprietà 2} (\textbf{Last-First mapping}): l'$r$-esimo simbolo
           $\sigma$ in $B$ e l'$r$-esimo simbolo simbolo $\sigma$ in $F$ sono lo
           stesso simbolo del testo $T$.
 \end{itemize}
 \begin{nota}
-    Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$,
+    Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$.
+
+    Forlmalmente, se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
+    $B[1] \ne \$$ perché sarà $B[1]= T[n-1] $ quindi $F[1] = \$ $
 \end{nota}
 \begin{esempio} %% Non so se è l'esempio giusto
     \begin{equation}
-        B = [c, c, t, t, \$, a, g, g, g]
+        B = [c, c, t, t, \$, a, g, g, g] \ \ F = [\$, a, c, c, g, g, g, t, t]
     \end{equation}
     Allora $B[4]$ è la $4$-rotazione che termina con il carattere $B[4]$ il quale
     coincide con il carattere in posizione $F[9]$.
 \end{esempio}
-La proprietà $2$ viene implementata con la \textbf{Last-First function}.
+
+La \textbf{proprietà} $2$ viene implementata con la \textbf{Last-First function}.
 \begin{definizione}[\textbf{Last-First function}]
     La \textbf{Last-First function} è una funzione definita come:
     \begin{equation}
@@ -1397,7 +1396,8 @@ La proprietà $2$ viene implementata con la \textbf{Last-First function}.
     \end{equation}
     tale che il simbolo $B[i]$ e il simbolo $F[j]$ sono lo stesso simbolo.
 \end{definizione}
-Questa funzione si deve calcolare in tempo costante.
+
+Questa funzione può essere calcolata in tempo costante.
 
 Utilizzando le due proprietà possiamo ricostruire il testo $T$ partendo dalla BWT e
 dal vettore $F$.
@@ -1440,6 +1440,7 @@ simbolo $\$$. Quindi
 \begin{equation}
     B[i] = T[S[i]-1] \ \ \ T[S[i]] = F[i]
 \end{equation}
+
 \textbf{Last-First mapping} può essere definita come il suffisso che inizia con
 l'$r$-esimo simbolo $\sigma$ della BWT è l'$r$-esimo suffisso di $T$ che inizia
 con il simbolo $\sigma$ nell'ordinamento lessicografico dei suffissi di $T$.
@@ -1602,7 +1603,7 @@ Quindi la procedura sarà definita come:
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
 
-Quindi ora si può mostrare l'algoritmo di ricerca esatta è:
+Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
 
 \begin{algorithm}
     \begin{algorithmic}
@@ -1623,7 +1624,8 @@ Quindi ora si può mostrare l'algoritmo di ricerca esatta è:
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
 
-Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$.
+Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$ e quindi 
+della Backward Extension, utilizzando FM-Index.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
 BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
@@ -1638,10 +1640,8 @@ numerico.
               \begin{equation}
                   C: \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
-              dove $C(\sigma)$ rappresenta il numero di simboli della BWT che sono
-              minori di $\sigma$. Fornisce quanti sono i suffissi che iniziano con
-              un simbolo inferiore a $\sigma$ e ritorna l'ultima posizione nel SA
-              dell'ultimo suffisso che inizia con un simbolo più piccolo di $\sigma$.
+              dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta la BWT che sono
+              minori di $\sigma$.
         \item $Occ$ definita come:
               \begin{equation}
                   Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
@@ -1827,19 +1827,19 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
     esso è possibile ricavare la BWT e di conseguenza il testo.
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|c|c|c|c|c|}
+        \begin{tabular}{|c|c|c|c|c|c|}
             \hline
-            0  & 0 & 0 & 0 & 0 \\ \hline
-            0  & 0 & 1 & 0 & 0 \\ \hline
-            0  & 0 & 2 & 0 & 0 \\ \hline
-            0  & 0 & 2 & 0 & 1 \\ \hline
-            0  & 0 & 2 & 0 & 2 \\ \hline
-            1  & 0 & 2 & 0 & 2 \\ \hline
-            1  & 1 & 2 & 0 & 2 \\ \hline
-            1  & 1 & 2 & 1 & 2 \\ \hline
-            1  & 1 & 2 & 2 & 2 \\ \hline
-            1  & 1 & 2 & 3 & 2 \\ \hline \\ \hline
-            \$ & a & c & g & t \\ \hline
+            $Occ(i,\sigma)$ & $\$$ & $a$ & $c$ & $g$ & $t$ \\ \hline
+            $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\ \hline
+            $1$ & $0$ & $0$ & $1$ & $0$ & $0$ \\ \hline
+            $2$ & $0$ & $0$ & $2$ & $0$ & $0$ \\ \hline
+            $3$ & $0$ & $0$ & $2$ & $0$ & $1$ \\ \hline
+            $4$ & $0$ & $0$ & $2$ & $0$ & $2$ \\ \hline
+            $5$ & $1$ & $0$ & $2$ & $0$ & $2$ \\ \hline
+            $6$ & $1$ & $1$ & $2$ & $0$ & $2$ \\ \hline
+            $7$ & $1$ & $1$ & $2$ & $1$ & $2$ \\ \hline
+            $8$ & $1$ & $1$ & $2$ & $2$ & $2$ \\ \hline
+            $9$ & $1$ & $1$ & $2$ & $3$ & $2$ \\ \hline
         \end{tabular}
     \end{table}
     \begin{table}[!ht]
@@ -1885,7 +1885,7 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
     lo è, specificare il $b$-intervallo.
 
     Sarà $[C(b)+1, C(k)+1)$ con $k$ il carattere successivo al carattere $b$.
-    Questo è vero perché $C$ ritorno il numero di suffissi nell'ordine
+    Questo è vuoto perché $C$ ritorna il numero di suffissi nell'ordine
     lessicografico che iniziano con un carattere minore di $b$.
 \end{esempio}
 \begin{esempio}
