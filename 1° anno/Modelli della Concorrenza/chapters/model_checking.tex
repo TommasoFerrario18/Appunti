@@ -586,3 +586,212 @@ per dimostrare le proprietà, sarà quindi importante decidere quale logica usar
     \includegraphics[width=0.5\textwidth]{img/model/logicheTemprali.png}
     \caption{Relazione tra le logiche temporali}
 \end{figure}
+
+Come abbiamo dimostrato quando sono equivalenti le FbF, potremmo anche voler
+controllare se due modelli di Kripke sono equivalenti. Ragionevolmente potremmo
+voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva. 
+
+\begin{definizione}
+    Diremo due modelli $M_1$ e $M_2$, con stati iniziali $q_0$ e $s_0$, si descrivono
+    \textbf{equivalenti} rispetto a una logica $L$ se, $\forall \alpha \in FbF$
+    $\dots$ 
+\end{definizione}
+
+\begin{esempio}
+    Controlla se i due sono equivalenti.
+    
+    Immagine.
+
+    Si procede nel seguente modo:
+    \begin{itemize}
+        \item per ciascuno dei due modelli, elencano tutti i cammini massimali dei 
+        due modelli attraverso la sintassi delle espressioni regolari e rimuoviamo
+        i duplicati.
+        \item sostituisco per tutto l'elenco dei cammini massimali come sequenze
+        di insiemi di $AP$ vere rispetto allo stato associato. 
+        \item se le espressioni dei cammini massimali di un modello sono uguali 
+        all'altro allora i due modelli sono equivalenti.
+    \end{itemize}
+\end{esempio}
+\begin{nota}
+    Il numero dei casi raggiungibili di una rete di petri è $\le |P(c_{in})|$, se
+    gli eventi abilitati sono indipendenti allora $|C_\Sigma| = |P(c_{in})|$.
+\end{nota}
+
+\section{Insiemi parzialmente ordinati}
+\begin{definizione}
+    Definiremo una relazione de'ordine parziale su un insieme $A$: $\le\subseteq A\times A$.
+    Allora $\le$ deve essere:
+    \begin{itemize}
+        \item \textbf{riflessiva}: $\forall a\in A, a\le a$
+        \item \textbf{antisimmetrica}: $\forall a,b\in A, ((a\le b) \land (b\le a)) \implies a=b$
+        \item \textbf{transitiva}: $\forall a,b,c\in A, ((a\le b) \land (b\le c)) \implies a\le c$
+    \end{itemize}
+\end{definizione}
+Inoltre $x\ge y \equiv y\le x$, possiamo definire un ordine completo ovvero $x<y$
+che vuol dire che $x\le y\land x\not y$.
+
+Qual è la pià piccola relazione d'ordine parziale su $A$? La relazione identità
+
+Raffiniamento di una relazione d'ordine parziale
+
+\begin{definizione}
+    Sia $(A,\le)$ un insieme parzialmente ordinato e $B\subseteq A$:
+    \begin{itemize}
+        \item $x\in A$ è un \textbf{maggiorante} di $B$ se $y\le x,\forall y\in B$
+        \item $x\in A$ è un \textbf{minorante} di $B$ se $x\le y,\forall y\in B$
+    \end{itemize}
+    Può essere che $x\in B$ perché $B\subseteq A\implies x\in B\implies x\in A$
+\end{definizione}
+Indichiamo con $B^\ast$ l'insieme dei maggioranti di $B$, mentre con $B_\ast$ 
+indichiamo l'insieme dei minoranti di $B$. Diremo che:
+\begin{itemize}
+    \item $B$ è \textbf{limitato superiormente} se $B^\ast \ne \emptyset$
+    \item $B$ è \textbf{limitato inferiormente} se $B_\ast \ne \emptyset$
+\end{itemize}
+\begin{definizione}
+    Sia $(A,\le)$ un insieme parzialmente ordinato e $B\subseteq A$:
+    \begin{itemize}
+        \item Se $x\in B$ è il \textbf{minimo} di $B$ se $x\le y,\forall y\in B$, quindi $x$ è
+        anche un minorante per $B$. (max 1)
+        \item Se $x\in B$ è il \textbf{massimo} di $B$ se $x\ge y,\forall y\in B$, quindi $x$ è
+        anche un maggiorante per $B$. (max 1)
+        \item Se $x\in B$ è il \textbf{minimale} in $B$ se $x\ge y,\forall y\in B$, quindi $x$ è
+        anche un minorante per $B$. (ne possono esistere di più)
+    \end{itemize}      
+\end{definizione}
+
+Se $x\in B$ è il \textbf{massimale}...
+
+\begin{esempio} 
+    estremo superiore è l'unione mentre l'estremo inferiore è l'intersezione.
+
+
+\end{esempio}
+
+Le relazioni di ordine parziale possiamo rappresentarle come diagrammi di Hasse,
+in cui si rappresentano le relazioni mostrando i collegamenti col successivo, sequenza
+rappresentare la riflessività e la transitività.
+
+\begin{definizione}
+    Definiremo un \textbf{reticolo}  come un insieme parzialemnte ordinato $(L,\le)$,
+    tale che, per ongi $x,y\in L$ esistono il minimo e massimo.
+\end{definizione}
+Per i reticoli si può dimostrare per induzione che per ogni coppia esiste il join
+e il meet.
+
+\begin{definizione}
+    Un reticolo si dice \textbf{completo} se per ogni sottoinsieme finito esistono
+    il meet e join. 
+\end{definizione}
+
+\begin{definizione}
+    Definiremo funzioni $f:X\to X$ allora diremo un elemento $x\in X$ è un \textbf{punto 
+    fisso} di $f$ se $f(x)=x$    
+\end{definizione}
+\begin{esempio}
+    per esempio:
+    \begin{itemize}
+        \item $f:\mathbb{R}\to\mathbb{R}=x^2$ ha i seguenti punti fissi $\{0,1\}$
+        \item $f:\mathbb{R}^*\to\mathbb{R}=log(x)$ non ha punti fissi
+        \item $h:\mathbb{R}\to\mathbb{R}=log(x)$ non ha punti fissi
+    \end{itemize}
+\end{esempio}
+
+Possiamo definire funzioni monotone
+\begin{definizione}
+    Dati due insiemi parzialmente ordinati allora una funzione è monotona
+    si mantiene l'ordine nel dal dominio al codominio
+\end{definizione}
+A noi interesseranno le funzioni monotone da un insieme su se stesso.
+Se una funzione è monotona allora possiamo chiederci se esistono un minimo e un 
+massimo punto fisso.
+\begin{esempio}
+    Consideriamo $A = 2^\mathbb{N}$ e $S\subseteq \mathbb{N}$, $f(S)=S\cup \{2,7\}$.
+    Tutti i punti fissi sono gli insiemi che contengono $\{2,7\}$, il minimo è
+    $\{2,7\}$, il massimo è $\mathbb{N}$.
+\end{esempio}
+
+\begin{teorema}[\textbf{Knaster-Tarski}]
+    Sia $(L,\le)$ un reticolo completo e $f:L\to L$ sia una funzioen monotona.
+    Allora $f$ ha un minimo e un massimo punto fisso.
+    \begin{proof}
+        La dimostrazione si vedrà per il caso $L=2^A$, fissato un $A$, Quindi
+        $$f:2^A\to 2^A$$
+        Il primo passo è di costruire un insieme $Z=\{T\subseteq A | F(T)\subseteq T\}$
+        quindi gli elementi di $Z$ si chiamano \textbf{pre-fissi}. Possiamo essere certi
+        che $Z\ne \emptyset$ perché l'immagine di $f$ porta ad $A$ quindi saranno 
+        nello stesso insieme. Inoltre $Z$ contiente tutti i punti fissi per la sua definizione.
+
+        Possiamo calcolare $m=\bigcap Z$ dal momento che $Z\ne \emptyset$. Inoltre
+        $\forall S\in Z$ allora $m\subseteq S$, per di più sapendo che $f$ è monotona
+        allora $f(m)\subseteq f(S)$. Inoltre, per definizione di $f$ abbiamo che
+        $f(S)\subseteq S$ allora per la transitività di $\subseteq$ allora 
+        $$f(m)\subseteq f(S)\subseteq S$$
+
+        In aggiunta, $f(m)\subseteq \bigcap Z= m$, quindi $m\in Z$ ed è il minimo.
+        Vogliamo dimostrare che sia un punto fisso. Sapendo che $f(m)\subseteq m$
+        possiamo dire che $f(f(m))\subseteq f(m)$, quindi per definizione di $Z$
+        allora $f(m)\in Z$. Dal momento che $m$ è il più piccolo elemento di $Z$ 
+        allora $m\subseteq f(m)\implies m =f(m)$ quindi è un punto fisso, inoltre,
+        è il punto fisso minimo.
+
+        Possiamo fare il ragionamento speculare per dimostrare il massimo punto
+        fisso, in questo caso al posto che usare $\bigcap$ con $\bigcup$ e $\subseteq$
+        e poi avremo \textbf{post-fissi}.
+    \end{proof} 
+\end{teorema}
+
+Questo teorema sfruttano
+\begin{teorema}
+    Sia $f:2^A\to 2^A$ monotona allora diremo che $f$ è \textbf{continua} se
+    $\forall X_1\subseteq X_2\subseteq \dots \subseteq X_n$ se 
+    $f(X_1)\subseteq f(X_2)\subseteq \dots \subseteq f(X_n)$ 
+    Allora
+    $$f(\bigcup X_i)=\bigcup f(X_i)$$
+\end{teorema}
+Ci interessa la continuità della funzione perchè:
+\begin{itemize}
+    \item Il minimo punto fisso di $f$ si può ottenere calcolando 
+    calcolando ricorsivamente $f(\emptyset)$ fino a quando non troviamo il primo 
+    punto fisso
+    \item il massimo punto fisso di $f$ si può ottenere calcolando 
+    calcolando ricorsivamente $f(A)$ fino a quando non troviamo il primo punto
+    fisso
+\end{itemize}
+
+Possiamo legare questi teoremi alle logiche temporali CTL per avere un algoritmo
+di dimostrazione della formula. Supponiamo $AFp$, partiamo dall'insieme in cui
+tutti gli stati è vera $p$, allarghiamo questo insieme agli elementi che portano in
+questo insieme allora $AFp$ vale sempre. Ricorro in questo modo fino non posso
+aggiungere altri stati (punto fisso). Il problema è trovare questa funzione $f$
+che mi permetta di applicare questo algoritmo. 
+Per una formula $Gp$ è il contrario, si parte dall'insieme di stati per cui non
+vale $p$ e ricorro da quali stati ricado in questa regione fino a quando non cambia
+nulla, il risultato è l'insieme complemento.
+
+\subsection{Algoritmo per CTL}
+Sia $M=(Q,T,I)$, allora estendo 
+
+Consideriamo la formula $\alpha\equiv AF\beta$, a questa associamo una traduzione
+in funzione
+\begin{equation}
+    f_\alpha:2^Q\to 2^Q
+\end{equation}
+Per ogni $H\subseteq Q$ alllora
+\begin{equation}
+    f_\alpha(H) = [[\beta]]\cup \{q\in Q|\forall (q,q')\in T:q'\in H\}
+\end{equation}
+Definita in questo modo allora $f$ è monotona e continua, quindi possiamo usare
+l'algoritmo per ottenere il minimo punto fisso di insiemi per cui vale la formula.
+
+
+Col medesimo ragionamento possiamo considerare la formula $EG\beta$ 
+calcolando $g$ come un'intersezione. In questo caso cercheremo il massimo punto
+fisso di stati per cui non vale la formula.
+
+Dal momento che abbiamo visto l'insieme degli operatori minimali allora, ragionando
+secondo un algoritmo, allora definiremo solo una funzione per $X$ e una per $U$
+per la dimostrazione e poi trasformeremo le formule in quegli operatori.
+
+Cerca la funzione che dimostra $\alpha U \beta$ portalo all'orale.
