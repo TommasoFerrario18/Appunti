@@ -256,7 +256,7 @@ Definiremo la relazione $\vDash$ per induzione.
 
     Per la prima formula, la via più facile è, osservando che dallo stato si possono raggiungere tutti
     gli altri stati, scorrere la tabella delle formule vere in ciascun stato e
-    osservare che in nessun stato è vera la formule $sc_1 \land sc_2$. Quindi non 
+    osservare che in nessun stato è vera la formule $sc_1 \land sc_2$. Quindi non
     sarà vera globalmente.
 
     Per la seconda formula non possiamo più applicare questa strategia, ma possiamo
@@ -316,7 +316,7 @@ sono:
     \item \textbf{Until debole}: $\alpha W \beta \equiv G\alpha \lor
               (\alpha U \beta)$ con questo operatore si può esprimere la proprietà
           in cui $\alpha$ è sempre vera oppure $\alpha$ è vera fino a quando
-          $\beta$ diventa vera. $W$ differisce da $U$ perché non si richiede che 
+          $\beta$ diventa vera. $W$ differisce da $U$ perché non si richiede che
           la seconda formula diventi vera per rendere vera $W$.
     \item \textbf{Release}: $\alpha R \beta$ per cui
           \begin{equation}
@@ -586,232 +586,274 @@ per dimostrare le proprietà, sarà quindi importante decidere quale logica usar
     \includegraphics[width=0.5\textwidth]{img/model/logicheTemprali.png}
     \caption{Relazione tra le logiche temporali}
 \end{figure}
-
 Come abbiamo dimostrato quando sono equivalenti le FbF, potremmo anche voler
 controllare se due modelli di Kripke sono equivalenti. Ragionevolmente potremmo
-voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva. 
-
-\begin{definizione}
-    Diremo due modelli $M_1$ e $M_2$, con stati iniziali $q_0$ e $s_0$, si descrivono
-    \textbf{equivalenti} rispetto a una logica $L$ se, $\forall \alpha \in FbF$
-    $\dots$ 
+voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva.
+\begin{definizione}[\textbf{Equivalenza tra modelli}]
+    Diremo due modelli $M_1$ e $M_2$, con stati iniziali $q_0$ e $s_0$, si dicono
+    \textbf{equivalenti} rispetto a una logica $L$ se, $\forall \alpha \in FbF_L$
+    vale che:
+    \begin{equation}
+        M_1, q_0 \models \alpha \iff M_2, S_0 \models \alpha
+    \end{equation}
 \end{definizione}
-
-\begin{esempio}
+Per dimostrare che due modelli sono equivalenti devo:
+\begin{itemize}
+    \item Definire tutti i cammini massimali di $M_1$ e $M_2$ nella forma simil
+          regex e si rimuovono i duplicati.
+    \item Trasformare le espressioni ottenute sostituendo i nomi degli stati con
+          le preposizioni atomiche che sono vere in un determinato stato.
+    \item Se le espressioni dei cammini massimali di un modello sono uguali
+          all'altro allora i due modelli sono equivalenti.
+\end{itemize}
+\begin{esempio} %% TODO: Da mettere l'esempio
     Controlla se i due sono equivalenti.
-    
-    Immagine.
 
-    Si procede nel seguente modo:
-    \begin{itemize}
-        \item per ciascuno dei due modelli, elencano tutti i cammini massimali dei 
-        due modelli attraverso la sintassi delle espressioni regolari e rimuoviamo
-        i duplicati.
-        \item sostituisco per tutto l'elenco dei cammini massimali come sequenze
-        di insiemi di $AP$ vere rispetto allo stato associato. 
-        \item se le espressioni dei cammini massimali di un modello sono uguali 
-        all'altro allora i due modelli sono equivalenti.
-    \end{itemize}
+    Immagine.
 \end{esempio}
 \begin{nota}
-    Il numero dei casi raggiungibili di una rete di petri è $\le |P(c_{in})|$, se
-    gli eventi abilitati sono indipendenti allora $|C_\Sigma| = |P(c_{in})|$.
+    Il numero dei casi raggiungibili di una rete di petri è $\leq |P(c_{in})|$,
+    se gli eventi abilitati sono indipendenti allora $|C_\Sigma| = |P(c_{in})|$.
 \end{nota}
-
 \section{Insiemi parzialmente ordinati}
-\begin{definizione}
-    Definiremo una relazione de'ordine parziale su un insieme $A$: $\le\subseteq A\times A$.
-    Allora $\le$ deve essere:
+\begin{definizione}[\textbf{Relazione d'ordine parziale}]
+    Definiremo una \textbf{relazione d'ordine parziale} su un insieme $A$ una
+    relazione binaria definita come:
+    \begin{equation}
+        \leq \subseteq A \times A
+    \end{equation}
+    Allora $\leq$ deve soddisfare le seguenti proprietà:
     \begin{itemize}
-        \item \textbf{riflessiva}: $\forall a\in A, a\le a$
-        \item \textbf{antisimmetrica}: $\forall a,b\in A, ((a\le b) \land (b\le a)) \implies a=b$
-        \item \textbf{transitiva}: $\forall a,b,c\in A, ((a\le b) \land (b\le c)) \implies a\le c$
+        \item \textbf{Riflessiva}: $\forall x \in A, x \leq x$
+        \item \textbf{Antisimmetrica}: $\forall x, y \in A, x \leq y \land y
+                  \leq x \implies x = y$
+        \item \textbf{Transitiva}: $\forall x, y, z \in A, x \leq y \land y \leq
+                  z \implies x \leq z$
     \end{itemize}
 \end{definizione}
-Inoltre $x\ge y \equiv y\le x$, possiamo definire un ordine completo ovvero $x<y$
-che vuol dire che $x\le y\land x\not y$.
-
-Qual è la pià piccola relazione d'ordine parziale su $A$? La relazione identità
-
+Inoltre $x \geq y \equiv y \leq x$, possiamo definire un ordine completo ovvero
+$x < y$ che vuol dire che $x \leq y \land x \neq y$.
+\begin{osservazione}
+    La più piccola relazione d'ordine parziale è la relazione identità.
+\end{osservazione}
+%% TODO: Altre osservazioni
 Raffiniamento di una relazione d'ordine parziale
-
-\begin{definizione}
-    Sia $(A,\le)$ un insieme parzialmente ordinato e $B\subseteq A$:
+\begin{definizione}[\textbf{Maggiorante, Minorante}]
+    Sia $(A,\leq)$ un insieme parzialmente ordinato e $B\subseteq A$ allora:
     \begin{itemize}
-        \item $x\in A$ è un \textbf{maggiorante} di $B$ se $y\le x,\forall y\in B$
-        \item $x\in A$ è un \textbf{minorante} di $B$ se $x\le y,\forall y\in B$
+        \item $x \in A$ è un \textbf{maggiorante} di $B$ se $\forall y \in B, y \leq x$
+        \item $x \in A$ è un \textbf{minorante} di $B$ se $\forall y \in B, x \leq y$
     \end{itemize}
     Può essere che $x\in B$ perché $B\subseteq A\implies x\in B\implies x\in A$
 \end{definizione}
-Indichiamo con $B^\ast$ l'insieme dei maggioranti di $B$, mentre con $B_\ast$ 
-indichiamo l'insieme dei minoranti di $B$. Diremo che:
+Utilizziamo la notazione $B^\ast$ per indicare l'insieme dei maggioranti di $B$,
+e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
 \begin{itemize}
-    \item $B$ è \textbf{limitato superiormente} se $B^\ast \ne \emptyset$
-    \item $B$ è \textbf{limitato inferiormente} se $B_\ast \ne \emptyset$
+    \item $B$ è \textbf{limitato superiormente} se $B^\ast \neq \emptyset$
+    \item $B$ è \textbf{limitato inferiormente} se $B_\ast \neq \emptyset$
 \end{itemize}
-\begin{definizione}
-    Sia $(A,\le)$ un insieme parzialmente ordinato e $B\subseteq A$:
+\begin{definizione}[\textbf{Massimo, Minimo, Massimale, Minimale}]
+    Sia $(A,\leq)$ un insieme parzialmente ordinato e $B \subseteq A$:
     \begin{itemize}
-        \item Se $x\in B$ è il \textbf{minimo} di $B$ se $x\le y,\forall y\in B$, 
-        quindi $x$ è anche un minorante per $B$. (max 1)
-        \item Se $x\in B$ è il \textbf{massimo} di $B$ se $x\ge y,\forall y\in B$, 
-        quindi $x$ è anche un maggiorante per $B$. (max 1)
-        \item Se $x\in B$ è il \textbf{minimale} in $B$ se $x\ge y \implies x=y$.
-        \item Se $x\in B$ è il \textbf{massimale} in $B$ se $x\le y \implies x=y$.
-    \end{itemize}      
+        \item Se $x \in B$ è il \textbf{minimo} di $B$ se $x \leq y, \forall y
+                  \in B$, quindi $x$ è anche un minorante per $B$. (max 1)
+        \item Se $x \in B$ è il \textbf{massimo} di $B$ se $x \geq y,\forall y
+                  \in B$, quindi $x$ è anche un maggiorante per $B$. (max 1)
+        \item Se $x \in B$ è il \textbf{minimale} in $B$ se $x \geq y \implies
+                  x = y$.
+        \item Se $x \in B$ è il \textbf{massimale} in $B$ se $x \leq y \implies
+                  x = y$.
+    \end{itemize}
 \end{definizione}
-
-\begin{definizione}
+\begin{definizione}[\textbf{Estremo superiore, Estremo inferiore}]
     Se $x$ è il minimo di $B^\ast$, diciamo che $x$ è l'\textbf{estremo superiore}
-    (join) di $B$, e scriviamo $x=\sup B$ , o anche $x=\bigvee B$.
+    (\textit{join}) di $B$, e scriviamo $x = \sup B$ , o anche $x = \bigvee B$.
 
     Se $x$ è il massimo di $B_\ast$, diciamo che $x$ è l'\textbf{estremo inferiore}
-    (meet) di $B$, e scriviamo $x=\inf B$ , o anche $x=\bigwedge B$.
+    (\textit{meet}) di $B$, e scriviamo $x = \inf B$ , o anche $x = \bigwedge B$.
 
-    In particolare, se $B = \{x, y\}$, scriveremo $x \lor y$ per indicare $\bigvee B$,
-    se esiste, e $x \land y$ per $\bigwedge B$.
+    In particolare, se $B = \{x, y\}$, scriveremo $x \lor y$ per indicare $\bigvee
+        B$, se esiste, e $x \land y$ per $\bigwedge B$.
 \end{definizione}
-
-\begin{esempio} 
+\begin{esempio}
     Consideriamo i seguenti esempi:
     \begin{itemize}
         \item $(2^A, \subseteq)$: potremo dire che l'estremo superiore è l'unione
-        mentre l'estremo inferiore è l'intersezione.
+              mentre l'estremo inferiore è l'intersezione.
         \item $(\mathbb{N}^+,|)$: potremmo dire che l'estremo inferiore è MCD, Mentre
-        l'estremo superiore è mcm.
+              l'estremo superiore è mcm.
     \end{itemize}
 \end{esempio}
-
 Le relazioni di ordine parziale possiamo rappresentarle come diagrammi di Hasse,
 in cui si rappresentano le relazioni mostrando i collegamenti col successivo, senza
 rappresentare la riflessività e la transitività.
-
-\begin{definizione}
-    Definiremo un \textbf{reticolo}  come un insieme parzialmente ordinato $(L,\le)$,
-    tale che, per ongi $x,y\in L$ esistono il minimo e massimo.
+\begin{definizione}[\textbf{Reticolo}]
+    Definiremo un \textbf{reticolo} come un insieme parzialmente ordinato $(L,
+        \leq)$, tale che, per ongi $x,y\in L$ esistono il minimo ($x \lor y$) e
+    massimo ($x \land y$).
 \end{definizione}
-
 Per i reticoli si può dimostrare per induzione che per ogni coppia esiste il join
 e il meet.
-
-\begin{definizione}
+\begin{definizione}[\textbf{Reticlo complemento}]
     Un reticolo si dice \textbf{completo} se per ogni sottoinsieme finito esistono
-    il meet e join. 
+    il meet e join.
 \end{definizione}
-
-\begin{definizione}
-    Siano due insiemi parzialmente ordinati $(A,\le)$ e $(B,\le)$. Definiremo una
-    funzione di $f:A\to B$ si dice \textbf{monotona} se, per ogni $x,y\in A$, allora
-    $x\le y\implies f(x)\le f(y)$
+\begin{definizione}[\textbf{Funzione monotona}]
+    Siano due insiemi parzialmente ordinati $(A,\leq)$ e $(B,\leq)$. Definiremo
+    una funzione di $f: A \to B$ si dice \textbf{monotona} se, per ogni $x, y
+        \in A$, allora:
+    \begin{equation}
+        x \leq y \implies f(x) \leq f(y)
+    \end{equation}
+    In altri termini, dati due insiemi parzialmente ordinati allora una funzione
+    è monotona se mantiene l'ordine nel dal dominio al codominio.
 \end{definizione}
-
-\begin{definizione}
-    Definiremo funzioni $f:X\to X$ allora diremo un elemento $x\in X$ è un \textbf{punto 
-    fisso} di $f$ se $f(x)=x$    
+\begin{definizione}[\textbf{Punto fisso}]
+    Data una funzione $f: X \to X$, un elemento $x \in X$ si dice \textbf{punto
+        fisso} di $f$ se $f(x) = x$.
 \end{definizione}
 \begin{esempio}
-    per esempio:
+    Vediamo alcuni esempi di punti fissi:
     \begin{itemize}
-        \item $f:\mathbb{R}\to\mathbb{R}=x^2$ ha i seguenti punti fissi $\{0,1\}$
-        \item $f:\mathbb{R}^*\to\mathbb{R}=log(x)$ non ha punti fissi
-        \item $h:\mathbb{R}\to\mathbb{R}=log(x)$ non ha punti fissi
+        \item $f: \mathbb{R} \to \mathbb{R}$ $f(x) = x^2$ ha due punti fissi,
+              $0$ e $1$.
+        \item $g: \mathbb{R} \to \mathbb{R}$ $g(x) = \log(x)$ non ha punti fissi
+              ($\emptyset$).
+        \item $h: \mathbb{R} \to \mathbb{R}$ $h(x) = x$ l'insieme dei punti fissi
+              è: $\mathbb{R}$.
     \end{itemize}
 \end{esempio}
-
-Possiamo definire funzioni monotone
-\begin{definizione}
-    Dati due insiemi parzialmente ordinati allora una funzione è monotona
-    si mantiene l'ordine nel dal dominio al codominio
-\end{definizione}
 A noi interesseranno le funzioni monotone da un insieme su se stesso.
-Se una funzione è monotona allora possiamo chiederci se esistono un minimo e un 
-massimo punto fisso.
+Se $(A, \leq)$ è un insieme parzialmente ordinato, e $f: A \to A$ è una funzione
+monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
 \begin{esempio}
     Consideriamo $A = 2^\mathbb{N}$ e $S\subseteq \mathbb{N}$, $f(S)=S\cup \{2,7\}$.
     Tutti i punti fissi sono gli insiemi che contengono $\{2,7\}$, il minimo è
     $\{2,7\}$, il massimo è $\mathbb{N}$.
 \end{esempio}
-
 \begin{teorema}[\textbf{Knaster-Tarski}]
-    Sia $(L,\le)$ un reticolo completo e $f:L\to L$ sia una funzioen monotona.
+    Sia $(L,\leq)$ un reticolo completo e $f: L \to L$ sia una funzione monotona.
     Allora $f$ ha un minimo e un massimo punto fisso.
     \begin{proof}
-        La dimostrazione si vedrà per il caso $L=2^A$, fissato un $A$, Quindi
-        $$f:2^A\to 2^A$$
-        Il primo passo è di costruire un insieme $Z=\{T\subseteq A | F(T)\subseteq T\}$
-        quindi gli elementi di $Z$ si chiamano \textbf{pre-fissi}. Possiamo essere certi
-        che $Z\ne \emptyset$ perché l'immagine di $f$ porta ad $A$ quindi saranno 
-        nello stesso insieme. Inoltre $Z$ contiente tutti i punti fissi per la sua definizione.
-
-        Possiamo calcolare $m=\bigcap Z$ dal momento che $Z\ne \emptyset$. Inoltre
-        $\forall S\in Z$ allora $m\subseteq S$, per di più sapendo che $f$ è monotona
-        allora $f(m)\subseteq f(S)$. Inoltre, per definizione di $f$ abbiamo che
-        $f(S)\subseteq S$ allora per la transitività di $\subseteq$ allora 
-        $$f(m)\subseteq f(S)\subseteq S$$
-
-        In aggiunta, $f(m)\subseteq \bigcap Z= m$, quindi $m\in Z$ ed è il minimo.
-        Vogliamo dimostrare che sia un punto fisso. Sapendo che $f(m)\subseteq m$
-        possiamo dire che $f(f(m))\subseteq f(m)$, quindi per definizione di $Z$
-        allora $f(m)\in Z$. Dal momento che $m$ è il più piccolo elemento di $Z$ 
-        allora $m\subseteq f(m)\implies m =f(m)$ quindi è un punto fisso, inoltre,
-        è il punto fisso minimo.
-
+        Analizziamo la dimostrazione nel caso particolare in cui $L = \mathcal{P}(A)$
+        e $f: \mathcal{P}(A) \to \mathcal{P}(A)$ è monotona.
+        \begin{enumerate}
+            \item Costruiamo l'insieme $Z = \{T \subseteq A \mid f(T) \subseteq
+                      T\}$. Gli elementi di questo insieme $Z$ saranno chiamati
+                  \textbf{punti pre-fissi}. È importante notare che l'insieme $Z$
+                  non può essere vuoto, in quanto $A \in Z$. Inoltre, se $f$ ha
+                  dei punti fissi $Z$ li contiene tutti.
+            \item A questo punto poniamo $m = \bigcap Z$ dal momento che $Z \neq
+                      \emptyset$
+            \item Per ogni $S \in Z$ allora $m \subseteq S$, per di più sapendo
+                  che $f$ è monotona possiamo dire che:
+                  \begin{equation}
+                      f(m) \subseteq f(S)
+                  \end{equation}
+            \item Inoltre, per definizione di $f$ abbiamo che $f(S) \subseteq S$
+                  allora per la transitività di $\subseteq$ abbiamo:
+                  \begin{equation}
+                      f(m) \subseteq f(S) \subseteq S
+                  \end{equation}
+            \item Dal punto precedente possiamo arrivare a dire che $f(m) \subseteq
+                      \bigcap Z = m$, questo perché se $f(m)$ è un sottoinsieme di
+                  tutti i sottoinsiemi di $Z$ sarà un sotto insieme della loro
+                  intersezione, quindi $m \in Z$ ed è il minimo.
+            \item Vogliamo ora dimostrare che sia punto fisso. Sapendo che
+                  $f(m) \subseteq m$ possiamo dire che:
+                  \begin{equation}
+                      f(f(m)) \subseteq f(m)
+                  \end{equation}
+                  quindi per definizione di $Z$ sappiamo che $f(m)\in Z$.
+            \item Dal momento che $m$ è il più piccolo elemento di $Z$ abbiamo:
+                  \begin{equation}
+                      m \subseteq f(m) \implies m = f(m)
+                  \end{equation}
+                  quindi è un punto fisso, inoltre, è il punto fisso minimo.
+        \end{enumerate}
         Possiamo fare il ragionamento speculare per dimostrare il massimo punto
         fisso, in questo caso al posto che usare $\bigcap$ con $\bigcup$ e $\subseteq$
         e poi avremo \textbf{post-fissi}.
-    \end{proof} 
+    \end{proof}
 \end{teorema}
-
-Questo teorema sfruttano
-\begin{teorema}
-    Sia $f:2^A\to 2^A$ monotona allora diremo che $f$ è \textbf{continua} se
-    $\forall X_1\subseteq X_2\subseteq \dots \subseteq X_n$ se 
-    $f(X_1)\subseteq f(X_2)\subseteq \dots \subseteq f(X_n)$ 
-    Allora
-    $$f(\bigcup X_i)=\bigcup f(X_i)$$
+Sfruttando il teorema di Knaster-Tarski possiamo ottenere il seguente teorema:
+\begin{teorema}[\textbf{Teorema di Kleene}]
+    Sia $f:2^A \to 2^A$ monotona allora diremo che $f$ è \textbf{continua} se
+    \begin{equation}
+        X_1 \subseteq X_2 \subseteq \dots \subseteq X_n \subseteq \dots
+    \end{equation}
+    e come conseguenza del fatto che sia monotona si ha anche:
+    \begin{equation}
+        f(X_1) \subseteq f(X_2) \subseteq \dots \subseteq f(X_n) \subseteq \dots
+    \end{equation}
+    allora:
+    \begin{equation}
+        f(\bigcup_{i=1}^{\infty} X_i) = \bigcup_{i=1}^{\infty} f(X_i)
+    \end{equation}
 \end{teorema}
-Ci interessa la continuità della funzione perchè:
+Ci interessa la continuità della funzione perchè, se $f$ è continua, allora:
 \begin{itemize}
-    \item Il minimo punto fisso di $f$ si può ottenere calcolando 
-    calcolando ricorsivamente $f(\emptyset)$ fino a quando non troviamo il primo 
-    punto fisso
-    \item il massimo punto fisso di $f$ si può ottenere calcolando 
-    calcolando ricorsivamente $f(A)$ fino a quando non troviamo il primo punto
-    fisso
+    \item Il minimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
+          $f(\emptyset)$ fino a quando non troviamo il primo punto fisso.
+          \begin{equation}
+              f(\emptyset), f(f(\emptyset)), f(f(f(\emptyset))), \dots
+          \end{equation}
+    \item il massimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
+          $f(A)$ fino a quando non troviamo il primo punto fisso.
+          \begin{equation}
+              f(A), f(f(A)), f(f(f(A))), \dots
+          \end{equation}
 \end{itemize}
 
 Possiamo legare questi teoremi alle logiche temporali CTL per avere un algoritmo
 di dimostrazione della formula. Supponiamo $AFp$, partiamo dall'insieme in cui
 tutti gli stati è vera $p$, allarghiamo questo insieme agli elementi che portano in
-questo insieme allora $AFp$ vale sempre. Ricorro in questo modo fino non posso
-aggiungere altri stati (punto fisso). Il problema è trovare questa funzione $f$
-che mi permetta di applicare questo algoritmo. 
-Per una formula $Gp$ è il contrario, si parte dall'insieme di stati per cui non
-vale $p$ e ricorro da quali stati ricado in questa regione fino a quando non cambia
-nulla, il risultato è l'insieme complemento.
-
+questo insieme allora $AFp$ vale sempre. Ripeto questa operazione fino a quando
+non posso aggiungere altri stati (punto fisso). Il problema è trovare questa
+funzione $f$ che mi permetta di applicare questo algoritmo. Per una formula $Gp$
+è il contrario, si parte dall'insieme di stati per cui non vale $p$ e ricorro da
+quali stati ricado in questa regione fino a quando non cambia nulla, il risultato
+è l'insieme complemento.
 \subsection{Algoritmo per CTL}
-Sia $M=(Q,T,I)$, allora estendo 
-
-Consideriamo la formula $\alpha\equiv AF\beta$, a questa associamo una traduzione
-in funzione
+Sia $M=(Q,T,I)$, allora posso definire:
+\begin{definizione}[\textbf{Estensione}]
+    Sia $\alpha$ una formula CTL, definiamo l'\textbf{estensione} di $\alpha$ come:
+    \begin{equation}
+        [[\alpha]] = \{q \in Q \mid M, q \models \alpha\}
+    \end{equation}
+\end{definizione}
+A questo punto consideriamo la formula $\alpha \equiv A F \beta$, a cui è associata
+la funzione $f_\alpha: \mathcal{P}(Q) \to \mathcal{P}(Q)$. Per ogni $H \subseteq Q$
+si ha:
 \begin{equation}
-    f_\alpha:2^Q\to 2^Q
+    f_\alpha(H) = [[\beta]] \cup \{q \in Q \mid \forall(q, q') \in T: q ' \in H\}
 \end{equation}
-Per ogni $H\subseteq Q$ alllora
-\begin{equation}
-    f_\alpha(H) = [[\beta]]\cup \{q\in Q|\forall (q,q')\in T:q'\in H\}
-\end{equation}
+\begin{osservazione}
+    $f_\alpha (\emptyset) = [[\beta]]$.
+\end{osservazione}
 Definita in questo modo allora $f$ è monotona e continua, quindi possiamo usare
 l'algoritmo per ottenere il minimo punto fisso di insiemi per cui vale la formula.
+\begin{center}
+    $[[\alpha]]$ è il minimo punto fisso di $f_\alpha$.
+\end{center}
 
-
-Col medesimo ragionamento possiamo considerare la formula $EG\beta$ 
-calcolando $g$ come un'intersezione. In questo caso cercheremo il massimo punto
-fisso di stati per cui non vale la formula.
-
-Dal momento che abbiamo visto l'insieme degli operatori minimali allora, ragionando
-secondo un algoritmo, allora definiremo solo una funzione per $X$ e una per $U$
-per la dimostrazione e poi trasformeremo le formule in quegli operatori.
-
-Cerca la funzione che dimostra $\alpha U \beta$ portalo all'orale.
+Col medesimo ragionamento possiamo considerare la formula  $\alpha \equiv E G
+    \beta$, a cui è associata la funzione $g_\alpha: \mathcal{P}(Q) \to \mathcal{P}(Q)$.
+Per ogni $H \subseteq Q$ si ha:
+\begin{equation}
+    g_\alpha(H) = [[\beta]] \cap \{q \in Q \mid \exists(q, q') \in T: q ' \in H\}
+\end{equation}
+\begin{osservazione}
+    $g_\alpha (Q) = [[\beta]]$.
+\end{osservazione}
+In questo caso cercheremo il massimo punto fisso di stati per cui non vale la
+formula.
+\begin{center}
+    $[[\alpha]]$ è il massimo punto fisso di $g_\alpha$.
+\end{center}
+Dal momento che abbiamo visto l'insieme degli operatori minimali allora,
+ragionando secondo un algoritmo, allora definiremo solo una funzione per $X$ e
+una per $U$ per la dimostrazione e poi trasformeremo le formule in quegli operatori.
+\begin{nota}
+    Cerca la funzione che dimostra $\alpha U \beta$ portalo all'orale.
+\end{nota}
