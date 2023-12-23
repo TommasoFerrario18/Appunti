@@ -1,14 +1,14 @@
 \chapter{Deeplearning}
 Le principali tipologie di apprendimento sono:
 \begin{itemize}
-      \item \textbf{Supervisionato} (Supervised): i dati utilizzati per l'apprendimento
-            sono etichettati (label).
+      \item \textbf{Supervisionato} (Supervised): i dati utilizzati per
+            l'apprendimento sono etichettati (label).
       \item \textbf{Non supervisionato} (Unsupervised): i dati utilizzati per
             l'apprendimento non sono etichettati.
 \end{itemize}
 Inizialmente, le architetture di deeplearning sono state composte da particolari
 strutture simili agli enconder-decoder chiamate \textbf{autoencoder}. Queste
-strutture sono reti neurali, costruite con una particolare struttura a clessidera,
+strutture sono reti neurali, costruite con una particolare struttura a clessidra,
 il cui compito è quello di imparare come ricostruire l'input.
 \begin{figure}[!ht]
       \centering
@@ -27,7 +27,7 @@ alla loro struttura a collo di bottiglia che separa la rete in due:
       \item \textbf{Denconder}: impara a decodificare l'input partendo da poche
             informazioni (funzione di decodifica, spesso segnata come $Dec(Z) = Y$).
 \end{itemize}
-L'algortimo di apprendimento di queste reti spesso è una delle tante implementazioni
+L'algoritmo di apprendimento di queste reti spesso è una delle tante implementazioni
 di backpropagation, applicandolo su ciascun neurone di uscita. Più precisamente
 l'apprendimento si effettua definendo una \textbf{funzione di loss} $\mathcal{L}$
 che calcolerà la distanza tra l'output del decoder $Y$ e l'input $X$.
@@ -83,7 +83,7 @@ rappresentate in una regione vicina dello spazio. Questo è dato dal fatto che
 le reti vengono allenate su tutti i testi raggiungibili e l'assegnamento del vettore
 si effettua in base a quante volte due parole vengono veste vicine in una frase.
 Quindi la rete riesce a codificare come vettori simili parole simili, infatti c'è
-una corrispodenza geometrica col significato.
+una corrispondenza geometrica col significato.
 
 Successivamente si è passati ai \textbf{denoising autoencoder}, ovvero rimozione
 del rumore e ricostruzione dell'input originale. Queste reti vengono allenate dando
@@ -96,7 +96,7 @@ agli elementi in input. Queste reti permettono quindi di cambiare i pesi degli i
 portando a dei vantaggi notevoli, per esempio, si possono interpretare parole ambigue
 in base al contesto.
 
-Infine, si è passati ai tranformer, introcendo la ricorrenza dei dati in modo da
+Infine, si è passati ai tranformer, introducendo la ricorrenza dei dati in modo da
 considerare in input i vecchi dati della rete, sfasati, con un meccanismo di
 Attention.
 
@@ -106,7 +106,7 @@ I modelli di deeplearning vengono allenati in 2 fasi:
             la rete in modo generale senza specificare un particolare task. Questa
             fase è la più pesante e permette di definire un primo stato di partenza
             dei parametri.
-      \item \textbf{finetuning}: si prende la rete preallenata e si addestra per un
+      \item \textbf{finetuning}: si prende la rete pre-allenata e si addestra per un
             task specifico utilizzando la metodologia supervisionata.
 \end{itemize}
 In questo modo è possibile ridurre i tempi di addestramento e rendere riutilizzabile
