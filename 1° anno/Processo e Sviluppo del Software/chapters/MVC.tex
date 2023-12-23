@@ -531,3 +531,145 @@ le gerarchie. Il mapping deve essere fatto in modo esplicito:
 \end{itemize}
 Si mappa Ereditarietà perché permette di ridurre la duplicazione e di risolvere
 le query correttamente.
+\section{Gestione delle dipendenze}
+Vogliamo sviluppare codice in classi che siano il più indipendenti possibili e con
+più disaccoppiamento possibile, si può considerare ciascuna classe come un singolo
+componente, le quali possono essere componibili tra di loro per risolvere un problema
+o implementare un servizio. Mantenendo l'indiependenza tra i componenti del sistema
+si introduce una semplicità nella fase di manutenzione e evoluzione del sistema.
+
+Le dipendenze tra i componenti possono essere soddisfatte in due modi:
+\begin{itemize}
+      \item \textbf{Dinamicamente}: a runtime i componenti indipendenti vengono
+            collegati, quindi si ha alto disaccoppiamento.
+      \item \textbf{Staticamente}: si inserisce all'interno del componente parte
+            del codice del compoente dipendente, in questo caso si ha una mancanza
+            di disaccoppaimento perché la classe sarà meno riutilizzabile, dal
+            momento che, esportandola, esporteremo anche la classe dipendente.
+\end{itemize}
+Nella gestione delle dipendenze un aspetto fondamentale è il \textbf{decoupling},
+ovvero si rendono indipendeti le componenti da pubblicare anche se a runtime tali
+componenti devono comunque interagire.
+
+Si hanno quindi alcuni design pattern per gestire le dipendenze dinamicamente:
+\begin{itemize}
+      \item \textbf{Inversion control}: si ha un elemento esterno che definisce
+            il valore della dipendenza, servizio che riempie i riferimenti
+            dall'esterno (dependency injection).
+      \item \textbf{Service locator}: si implementa un componente che gestisce
+            le dipendenze per accedere ai componenti, in questo caso i riferimenti
+            non vengono risolti in modo automantico, ma sarà il componente che
+            manualmente farà richiesta al servizio di registry che ritornerà il
+            componente cercato.
+\end{itemize}
+\subsection{Inversion control (Dipendency Injection)}
+Si utilizza un componente esterno, chiamato \textbf{assembler} che si occupa di
+connettere i componenti in automatico a runtime senza una loro effettiva richiesta.
+
+La dipendenza viene risolta, attraverso l'assembler, alla creazione dell'oggetto
+in modo trasparente. Questa operazione può essere fatta tramite:
+\begin{itemize}
+      \item \textbf{Costruttore}: si ha un attributo della classe che rappresenta
+            la dipendenza e lo si inizializza attraverso il costruttore.
+      \item \textbf{Metodi setter}: si ha un attributo della classe che rappresenta
+            la dipendenza e lo si inizializza attraverso uno specifico metodo
+            setter.
+      \item \textbf{Interfacce}: si ha un attributo della classe e un'interfaccia
+            che dichiara il setter, l'assembler utilizza il metodo setter definito
+            nell'interfaccia per risolvere la dipendenza. (utilizzata raramente)
+      \item \textbf{Reflection}: non si utilizza un metodo ma bensì le annotazioni.
+            In Java, si utilizza @Autowired la quale specifica che deve essere
+            risolta la dipendenza e con @Component che specifica cosa utilizzare
+            per riempire gli Autowired.
+\end{itemize}
+Generalmente l'assembler viene fornito dal framework e può essere configurato
+utilizzando un file di configurazioni o attraverso delle annotazioni.
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/mvc/inversion-control.png}
+      \caption{Inversion control implementation}
+\end{figure}
+\subsection{Service locator (Dependency lookup)}
+Si utilizza una classe che implementa servizio di locazione, solitamente si realizza
+utilizzando una classe singleton la quale contiene una mappa chiave-valore che
+tiene traccia dei componenti instanziati.
+
+In sostanza si definiscono i singoli componenti che implementano un'interfaccia
+factory. Quando noi definiamo i servizi si definisce un attributo del tipo del
+factory che verrà associato attraverso reflection.
+
+A questo punto la classe che deve soddisfare la dipendenza fa un accesso al service
+locator chiedendo che venga ritornato un riferimento al componente che deve essere
+utilizzato.
+
+Quando si chiama il componente si utilizza il factory che fa la chiamata al lookup.
+\section{Transaction}
+Importante sarà definire le transazioni quando si accede al database, questo può
+essere fatto attraverso le dichiarazioni specificate con le annotazioni.
+
+Il ciclo vita delle transazioni è il seguente:
+\begin{itemize}
+      \item \textbf{inizio}: iniziano con la chiamata di un metodo che ha un'annotazione
+            di apertura della transazione.
+      \item \textbf{fine}: finiscono con la chiamata di un metodo che ha un'annotazione
+            di chiusura della transazione.
+\end{itemize}
+In questo modo si separa la logica transazionale dalla logica di business perché
+la prima viene gestita dal framework attraverso le annotazioni. Le annotazioni
+transazionali si possono applicare alla classe (i metodi e attributi ereditano
+l'annotazione) oppure a livello di metodo e attributo della classe. Se si specifica
+l'annotazione a livello di classe, allora le annotazioni a livello di metodo saranno
+un override di quella della classe.
+
+Esistono vari tipi di annotazioni:
+\begin{itemize}
+      \item \textbf{Not supported}: il codice eseguito non fa parte della transazione.
+      \item \textbf{Supports}: dipende dal chiamante, se c'è una transazione in
+            corso anche il codice del metodo comparirà nella transazione, altrimenti,
+            se non c'è la transazione allora il codice non appartiene alla transazione.
+      \item \textbf{Required}: richiede che deve essere presente una transaction,
+            se il chiamante non è in una transazione allora si avvia una nuova
+            transazione, al contrario usa quella del chiamante.
+      \item \textbf{RequiresNew}: crea una nuova transaction ad hoc per l'esecuzione.
+      \item \textbf{Mandatory}: il codice deve essere eseguito in una transaction
+            del chiamante, se il chiamante non ha attivato una transaction allora
+            viene generata un'eccezione.
+      \item \textbf{Never}: non deve mai essere eseguito il codice in una transazione,
+            se il chiamante ha attivato una transazione allora questo ritorna
+            un'eccezione.
+\end{itemize}
+Parlando di persistenza e transazioni parliamo anche di isolation e database
+locking, ovvero quando si creano transazioni non necessariamente sono perfettamente
+“isolate”. L'isolation può essere configurato per permettere un certo livello di
+interferenza con la creazione temporanea di oggetti da parte di transazioni non
+ancor concluse ma che possono essere letti da altre transaction. Se si modella
+erroneamente la semantica transazionale allora si può avere:
+\begin{itemize}
+      \item \textbf{Dirty reads}: vengono letti i dati modificati da una transaction
+            non ancora terminata, quindi si possono leggere dati che potrebbero
+            non essere scritti sul database.
+      \item \textbf{Unrepeatible reads}: transazioni che leggono lo stesso valore
+            nella stessa transazione possono ritornare valori diversi. Questo
+            può essere dovuto dal fatto che una transazione legge la stessa cosa
+            ma tra le due letture c'è una \textit{modifica} del valore.
+      \item \textbf{Phantom reads}: transazioni effettuano due letture, la seconda
+            legge nuovi record che vengono \textit{inesriti} da una transazione
+            tra le due.
+\end{itemize}
+Questo può essere risolto a livello di DBMS specificando le seguenti tipologie
+di isolazioni:
+\begin{itemize}
+      \item \textbf{Read uncommitted}: si hanno dirty reads, unrepeatible reads e
+            phantom reads.
+      \item \textbf{Read committed}: si hanno unrepeatible reads e phantom reads.
+      \item \textbf{Repeatable read}: si ha phantom reads.
+      \item \textbf{Serializable}: isolation perfetta.
+\end{itemize}
+Si può definire l'isolation a livello di codice con annotazioni. La scelta del livello
+di isolation comporta:
+\begin{itemize}
+      \item \textbf{Forte indipendenza}: performance basse perché si perde
+            concorrenza
+      \item \textbf{Bassa indipendenza}: performance alte perché si ha
+            concorrenza.
+\end{itemize}
