@@ -4,7 +4,7 @@ Nella logica proposizionale, dal punto di vista teorico, il significato di una
 formula è rappresentato dal suo valore di verità.
 
 Una volta definite sintassi e semantica, possiamo usare una logica per costruire
-delle dimostrazioni; aver definito una semantica non vuol dire che di fronte ad
+delle dimostrazioni. Aver definito una semantica non vuol dire che di fronte ad
 una formula si è in grado di dire subito se sia valida o meno, dunque con la logica
 si sviluppa un metodo di dimostrazione e si cerca, in un numero finito di passi,
 di dimostrare la validità di una certa formula.
@@ -28,22 +28,22 @@ Per costruire il linguaggio avremmo bisogno di:
           false o sempre vere.
     \item $\lnot, \ \land, \ \lor, \ \implies, \ \iff$ sono i connettivi logici,
           utilizzati per creare formule complesse.
-    \item $(, \ )$ sono i demilitatori, utilizzati per la creazione di formule
+    \item $(, \ )$ sono i delimitatori, utilizzati per la creazione di formule
           complesse.
 \end{itemize}
 Adesso dobbiamo definire la grammatica della logica proposizionale, per fare ciò
 si utilizza una definizione induttiva.
 \begin{definizione}[\textbf{Formule ben formate}]
-    Definiamo l'insieme delle formule ben formate $F_p$ come:
+    Definiamo l'insieme delle formule ben formate $FbF_p$ come:
     \begin{itemize}
-        \item $\bot, \ \top \in F_p$ le costanti logiche sono delle formule ben
+        \item $\bot, \ \top \in FbF_p$ le costanti logiche sono delle formule ben
               formate.
-        \item $\forall p_i \in PA, \ p_i \in F_p$ le proposizioni atomiche sono
+        \item $\forall p_i \in PA, \ p_i \in FbF_p$ le proposizioni atomiche sono
               formule ben formate.
-        \item Se $A, B \in F_p$ allora:
+        \item Se $A, B \in FbF_p$ allora:
               \begin{equation}
                   (\lnot A), \ (A \land B), \ (A \lor B), \ (A \implies B), \
-                  (A \iff B) \ \in F_p
+                  (A \iff B) \ \in FbF_p
               \end{equation}
         \item Nient'altro è una formula ben formata.
     \end{itemize}
@@ -65,12 +65,12 @@ I connettivi della logica proposizionale hanno i seguenti valori di verità:
 \begin{equation}
     \begin{array}{ccccccc}
         \toprule
-        \text{A} & \text{B} & A \land B & A \lor B & \lnot A & A \implies B & A \iff B \\
+        A & B & A \land B & A \lor B & \lnot A & A \implies B & A \iff B \\
         \midrule
-        F        & F        & F         & F        & T       & T            & T        \\
-        F        & T        & F         & T        & T       & T            & F        \\
-        T        & F        & F         & T        & F       & F            & F        \\
-        T        & T        & T         & T        & F       & T            & T        \\
+        F & F & F         & F        & T       & T            & T        \\
+        F & T & F         & T        & T       & T            & F        \\
+        T & F & F         & T        & F       & F            & F        \\
+        T & T & T         & T        & F       & T            & T        \\
         \bottomrule
     \end{array}
 \end{equation}
@@ -78,7 +78,7 @@ Questa funzione di valutazione può essere estesa induttivamente ad una funzione
 definita su tutte le formule ben formate, tale funzione prende il nome di
 \textbf{funzione di interpretazione} ed è definita come:
 \begin{equation}
-    I_v: F_p \to \{0, 1\}
+    I_v: FbF_p \to \{0, 1\}
 \end{equation}
 \begin{enumerate}
     \item $I_v (\bot) = 0$ e $I_v (\top) = 1$ le costanti logiche hanno valore
@@ -101,13 +101,13 @@ Vediamo ora un'po di terminologia:
 \begin{itemize}
     \item $A$ è \textbf{soddisfatta} da $I_v$ se $I_v(A) = 1$.
     \item $A$ è \textbf{soddisfacibile} se esiste $I_v$ tale che $I_v(A) = 1$.
-    \item $A$ è una \textbf{tautologia} se $I_v(A) = 1$ per ogni $I_v$
-    \item $A$ è una \textbf{contraddizione} se $I_v(A) = 0$ per ogni $I_v$
+    \item $A$ è una \textbf{tautologia} se $I_v(A) = 1$ per ogni $I_v$.
+    \item $A$ è una \textbf{contraddizione} se $I_v(A) = 0$ per ogni $I_v$.
 \end{itemize}
 \begin{definizione}[\textbf{Logicamente equivalenti}]
     Due formule ben formate $A$ e $B$ sono logicamente equivalenti allora:
     \begin{equation}
-        A\equiv B \iff I_v(A)=I_v(B), \ \forall I_v
+        A \equiv B \iff I_v(A) = I_v(B), \ \forall I_v
     \end{equation}
 \end{definizione}
 Si possono definire le seguenti \textbf{equivalenze logiche}:
@@ -124,7 +124,7 @@ atomiche, cioè una scelta di valori di verità per tutte le proposizioni atomic
 \begin{definizione}[\textbf{Modello}]
     Un \textbf{modello} è un sottoinsieme delle proposizioni atomiche $M
         \subseteq PA$ a cui è associata un'interpretazione definita come $I_M:
-        F_p \to \{0, 1\}$ tale che:
+        FbF_p \to \{0, 1\}$ tale che:
     \begin{equation}
         I_M(p_i) = 1 \ \text{se e solo se} \ p_i \in M
     \end{equation}
@@ -143,8 +143,8 @@ atomiche, cioè una scelta di valori di verità per tutte le proposizioni atomic
 \begin{definizione}[\textbf{Soddisfacibilità}]
     Se $M \models A$ per qualche $M$, allora $A$ è soddisfacibile.
 \end{definizione}
-\begin{definizione}
-    Se $M \models A$ non è soddisfatta da nessun $M$, allora $A$ è insoddisfacibile.
+\begin{definizione}[\textbf{Insoddisfacibilità}]
+    Se $M \models A$ non è soddisfatta da nessun $M$, allora $A$ è insoddisfabile.
 \end{definizione}
 \subsection{Apparato deduttivo}
 Possiamo ora rappresentare l'apparato deduttivo della logica proposizionale. Esso
@@ -152,7 +152,8 @@ Possiamo ora rappresentare l'apparato deduttivo della logica proposizionale. Ess
 \begin{equation}
     \frac{A_1, \dots, A_n}{B}
 \end{equation}
-dove $A_i \in F_p$ sono le premesse, mentre $B \in F_p$ è la conclusione.
+dove $A_i \in FbF_p$ sono le \textit{premesse}, mentre $B \in FbF_p$ è la
+\textit{conclusione}.
 
 Alcune regole di inferenza sono ad esempio:
 \begin{itemize}
@@ -167,37 +168,37 @@ Alcune regole di inferenza sono ad esempio:
           \end{equation}
     \item Modus Ponens:
           \begin{equation}
-              \frac{A \ \ A \to B}{B}
+              \frac{A \ \ A \implies B}{B}
           \end{equation}
     \item Modus Tollens:
           \begin{equation}
-              \frac{A \to B \ \ \lnot B}{\lnot A}
+              \frac{A \implies B \ \ \lnot B}{\lnot A}
           \end{equation}
 \end{itemize}
 Le regole di inferenza sono la base da cui è possibile costruire le dimostrazioni.
 \begin{definizione}[\textbf{Dimostrazione}]
-    Una dimostrazione è definita come una catena di regole $A_1,\dots, A_n \vdash
-        B$, ovvero da $A_1, \dots, A_n$ si deriva $B$.
+    Una \textbf{dimostrazione} è definita come una catena di regole $A_1, \dots,
+        A_n \vdash B$, ovvero da $A_1, \dots, A_n$ si deriva $B$.
 \end{definizione}
 Abbiamo ora due nozioni distinte:
 \begin{itemize}
     \item La validità in un modello $\models$.
-    \item La derivabilità $\vdash$ introdotta perché in generale non siamo in grado
-          di decidere direttamente la nozione semantica di validità e quindi
-          cerchiamo di dimostrare una cosa.
+    \item La derivabilità $\vdash$ introdotta perché in generale non siamo in
+          grado di decidere direttamente la nozione semantica di validità e
+          quindi cerchiamo di dimostrare una cosa.
 \end{itemize}
 \begin{teorema}[\textbf{Validità, Correttezza}]
     Se $A_1, \dots, A_n \vdash B$ allora $A_1, \dots, A_n \models B$. Ovvero, se
     riusciamo a derivare $B$ da $A_1, \dots, A_n$ in ogni modello in cui sono
     vere $A_1, \dots, A_n$ allora è vera anche $B$.
 \end{teorema}
-Questo teorema ci dice che abbiamo scelto bene le regole di inferenza e che queste
-non ci permettono di derivare cose non vere. Se questo teorema è valido, la
-logica è corretta.
+Questo teorema ci dice che abbiamo scelto bene le regole di inferenza e che
+queste non ci permettono di derivare cose non vere. Se questo teorema è valido,
+la logica è corretta.
 \begin{teorema}[\textbf{Completezza}]
     Se $A_1, \dots, A_n \models B$ allora $A_1, \dots, A_n \vdash B$, ovvero se
-    in ogni modello in cui sono vere $A_1, \dots, A_n$ ed è vera anche $B$, si
-    può derivare $B$ da $A_1, \dots, A_n$.
+    in ogni modello in cui sono vere $A_1, \dots, A_n$ ed è soddisfatta anche
+    $B$, si può derivare $B$ da $A_1, \dots, A_n$.
 \end{teorema}
 Questo teorema ci dice che possiamo dimostrare tutto ciò che è vero. Se questo
 teorema è valido, la logica è completa.
@@ -205,7 +206,7 @@ teorema è valido, la logica è completa.
 Questa logica si può vedere come costruita su due livelli diversi poiché permette
 di stabilire e definire il criterio di correttezza per un dato programma.
 In particolare, definisce questa correttezza tramite le definizioni di
-\textit{precondizioni} e \textit{postcondizioni} che sono delle formule della
+\textit{precondizioni} e \textit{post-condizioni} rappresentate da formule della
 logica proposizionale.
 \subsection{Primo livello}
 Al primo livello avremmo le proposizioni atomiche definite come relazioni fra le
@@ -215,8 +216,9 @@ tra le variabili e le costanti.
 Per dare una semantica, alle varie proposizioni atomiche definiamo la nozione di
 \textbf{stato della memoria}.
 \begin{definizione}[\textbf{Stato di memoria}]
-    Sia $V$ l'insieme delle variabili del programma, definiamo uno stato della
-    memoria come una fotografia della memoria del programma in un certo istante.
+    Sia $V$ l'insieme delle variabili del programma, definiamo uno \textbf{stato
+        della memoria} come una fotografia della memoria del programma in un
+    certo istante.
 
     Possiamo definire più formalmente quest'idea di stato della memoria come una
     funzione definita dall'insieme delle variabili ai numeri interi che assegna
@@ -235,9 +237,9 @@ il nome di triple di Hoare, le quali sono definite come:
 \end{equation}
 dove:
 \begin{itemize}
-    \item $\{\alpha\}$ è una formula che rappresenta le pre-condizioni.
-    \item $C$ rappresenta un programma o un comando.
-    \item $\{\beta\}$ è una formula che rappresenta le post-condizioni.
+    \item $\{\alpha\}$: è una formula che rappresenta le precondizioni.
+    \item $C$: rappresenta un programma o un comando.
+    \item $\{\beta\}$: è una formula che rappresenta le post-condizioni.
 \end{itemize}
 Le triple di Hoare si leggono come segue:
 \begin{center}
@@ -249,19 +251,21 @@ Le triple di Hoare si leggono come segue:
 Definiamo ora il linguaggio che useremo con le triple di Hoare:
 \begin{itemize}
     \item Espressioni aritmetiche $E$ definite come:
-          \begin{equation}
-              \forall z \in \mathbb{Z} \ z \in E \ \land \ \forall e_1, e_2 \in
-              E \ (e_1 + e_2), (e_1 - e_2), -e_1, (e_1 \ast e_2), (e_1 / e_2),
-              (e_1 \% e_2) \in E
-          \end{equation}
+          \begin{itemize}
+              \item Se $z \in \mathbb{Z}$ allora $z$ è un'espressione aritmetica
+                    $z \in E$.
+              \item $\forall e_1, e_2 \in E$ allora: $(e_1 + e_2), (e_1 - e_2),
+                        - e_1, (e_1 \ast e_2), (e_1 / e_2), (e_1 \% e_2) \in E$
+          \end{itemize}
     \item Espressioni logiche $B$ definite come:
-          \begin{equation}
-              true, \ false \in B \ \land \ b_1,b_2\in B
-          \end{equation}
-          \begin{equation}
-              (b_1 \& b_2), (b_1 | b_2), !b_1 \in B \ \land \ \forall e_1,e_2\in
-              E (e_1 < e_2), (e_1 == e_2),(e_1 != e_2 ), (e_1 <= e_2)\in B
-          \end{equation}
+          \begin{itemize}
+              \item Le costanti logiche $true$ e $false$ sono espressioni logiche
+                    $true, \ false \in B$.
+              \item $\forall b_1, b_2 \in B$ allora: $ (b_1 \& b_2), (b_1 | b_2),
+                        !b_1 \in B$
+              \item $\forall e_1,e_2\in E$ allora $(e_1 < e_2), (e_1 == e_2),
+                        (e_1 != e_2 ), (e_1 <= e_2) \in B$
+          \end{itemize}
     \item Comandi $C$ definiti come:
           \begin{itemize}
               \item $\text{skip} \in C$ questa istruzione non modifica la memoria.
@@ -273,7 +277,7 @@ Definiamo ora il linguaggio che useremo con le triple di Hoare:
                         \text{else} \ D \ \text{endif} \ \in C$ dove $B$ è un
                     espressione logica, mentre $C, D$ è sono dei comandi.
               \item Operatore di iterazione $\text{while} \ B \ \text{do} \ C \
-                        \text{endwhile}$ dove $B \in C$ è un espressione logica
+                        \text{endwhile}$ dove $B$ è un espressione logica
                     e $C$ è un comando.
           \end{itemize}
 \end{itemize}
@@ -299,38 +303,36 @@ che è una tripla $T$.
 
 Vediamo ora come definire le regole di derivazione per i comandi introdotti:
 \begin{enumerate}
-    \item Per il comando \textbf{skip} definiamo la seguente regola di derivazione:
+    \item \textbf{Skip}:
           \begin{equation}
               \frac{}{\{p\} \text{ skip } \{p\}}
           \end{equation}
           in questo caso la premessa è vuota e, visto che con questa operazione
-          non modifico lo stato della memoria, le pre-condizioni e le post-condizioni
-          sono le stesse.
-    \item Per il comando \textbf{sequenza} definiamo la seguente regola di
-          derivazione:
+          non modifico lo stato della memoria, le pre-condizioni e le
+          post-condizioni sono le stesse.
+    \item \textbf{Sequenza}:
           \begin{equation}
               \frac{\{p\} \text{ C } \{p'\} \ \ \{p'\} \text{ D } \{q\}}{\{p\}
                   \text{ C; D } \{p\}}
           \end{equation}
           se le post-condizioni di C e le pre-condizioni di D sono le stesse
           posso mettere in sequenza i comandi ottenendo lo stesso risultato.
-    \item Per il comando \textbf{scelta} definiamo la seguente regola di derivazione:
+    \item \textbf{Scelta}:
           \begin{equation}
               \frac{\{p \land B\} \text{ C } \{q\} \ \ \{p \land \lnot B\}
                   \text{ D } \{q\}}{\{p\} \text{ if B then C else D endif } \{q\}}
           \end{equation}
           Se dimostriamo che:
           \begin{itemize}
-              \item Eseguendo C da uno stato dove vale la precondizione $p$ e
+              \item Eseguendo $C$ da uno stato dove vale la precondizione $p$ e
                     vale anche la condizione $B$ al termine dell'esecuzione vale
                     $q$.
-              \item Eseguendo $C$ da uno stato dove vale $p$ ma non vale $B$
+              \item Eseguendo $D$ da uno stato dove vale $p$ ma non vale $B$
                     arriviamo comunque ad uno stato dove vale $q$.
           \end{itemize}
           Possiamo derivare la regola della scelta dove prima dell'esecuzione
           dell'$if$ vale $p$ mentre dopo vale $q$.
-    \item Per il comando \textbf{implicazione} definiamo la seguente regola di
-          derivazione:
+    \item \textbf{Implicazione} o \textbf{Conseguenza}:
           \begin{equation}
               \frac{p \to p' \ \ \{p'\} \text{ C } \{q\}}{\{p\} \text{ C } \{q\}}
           \end{equation}
@@ -342,25 +344,23 @@ Vediamo ora come definire le regole di derivazione per i comandi introdotti:
           osserviamo una condizione che implica la precondizione della tripla,
           possiamo derivare la tripla con la condizione osservata al posto della
           precondizione. Discorso analogo è valido anche per la post-condizione.
-    \item Per il comando \textbf{assegnamento} definiamo la seguente regola di
-          derivazione:
+    \item \textbf{Assegnamento}:
           \begin{equation}
               \frac{}{\{q[E/q]\} \text{ x } := \text{ E }\{q\}}
           \end{equation}
           dove con $q[E / x]$ indico il fatto che sostituisco ogni occorrenza di
           $x$ in $q$ con $E$.
-    \item Per il comando \textbf{iterazione} (correttezza parziale) definiamo la
-          seguente regola di derivazione:
+    \item \textbf{Iterazione} (correttezza parziale):
           \begin{equation}
-              \frac{\{inv \land B\} \text{ C } \{inv\}}{\{inv\} \text{ while B
-                      do C endwhile } \{inv \land \lnot B\}}
+              \frac{\{inv \land B\} \text{ C } \{inv\}}{\{inv\} \text{ while } B
+                  \text{ do C endwhile } \{inv \land \lnot B\}}
           \end{equation}
           l'idea per le istruzioni iterative è di trovare una formula che sia
-          invariante rispetto al blocco dell'istruzione iterativa. Se troviamo
-          un'invariante possiamo dire che se questa formula è vera all'inizio
-          dell'istruzione iterativa, lo sarà anche alla fine e in più possiamo
-          dire che al termine del blocco iterativo vale anche la negazione della
-          condizione di ciclo.
+          \textbf{invariante} rispetto al blocco dell'istruzione iterativa. Se
+          troviamo un'invariante possiamo dire che se questa formula è vera
+          all'inizio dell'istruzione iterativa, lo sarà anche alla fine e in più
+          possiamo dire che al termine del blocco iterativo vale anche la
+          negazione della condizione di ciclo.
 
           In generale, avendo un'istruzione $W = \text{ while B do C endwhile }$,
           se deriviamo $\vdash \{p \land B\} C \{p\}$, allora possiamo dire che
@@ -369,14 +369,14 @@ Vediamo ora come definire le regole di derivazione per i comandi introdotti:
           Data un'istruzione iterativa, non c'è un solo invariante. Ad esempio,
           $True$ è invariante per ogni istruzione iterativa. Generalmente ci
           interessano gli invarianti utili alla dimostrazione in corso. Nella
-          pratica, le istruzioni iterative sono inserite in programmi, di conseguenza
-          la scelta dell'invariante dipende dal contesto e si abbina alla regola
-          dell'implicazione.
+          pratica, le istruzioni iterative sono inserite in programmi, di
+          conseguenza la scelta dell'invariante dipende dal contesto e si abbina
+          alla regola dell'implicazione.
 
           A volte l'invariante non è assoluto, ma lo diventa aggiungendoci la
-          condizione di ciclo. L'invariante in genere è violata guardando lo
-          stato della memoria durante l'esecuzione del blocco, ma viene ripristinata
-          al termine del blocco.
+          condizione di ciclo. L'invariante in genere è violato guardando lo
+          stato della memoria durante l'esecuzione del blocco, ma viene
+          ripristinato al termine del blocco.
 \end{enumerate}
 \begin{definizione}[\textbf{Invariante di un ciclo}]
     Possiamo definire l'\textbf{invariante di un ciclo} come una formula che se
@@ -399,17 +399,17 @@ Come notazione usiamo che:
 \begin{equation}
     \vdash \{p\} \text{ C } \{q\}
 \end{equation}
-dove $\vdash$ segnala che la tripla è stata dimostrata/derivabile con le regole
-di derivazione (si parla quindi di sintassi, viene infatti ignorato il
-significato ma si cerca solo di applicare le regole, ottenendo al conclusione
-come risultato di una catena di regole).
+dove $\vdash$ segnala che la tripla è stata dimostrata con le regole di
+derivazione (si parla quindi di sintassi, viene infatti ignorato il significato
+ma si cerca solo di applicare le regole, ottenendo al conclusione come risultato
+di una catena di regole).
 
 Usiamo anche:
 \begin{equation}
     \models \{p\} \text{ C } \{q\}
 \end{equation}
-dove $\models$ indica che la tripla è vera (si parla quindi di semantica, riferendosi
-al significato).
+dove $\models$ indica che la tripla è vera (si parla quindi di semantica,
+riferendosi al significato).
 
 Dato che si ha completezza e correttezza dell'apparato deduttivo si hanno due
 situazioni.
@@ -418,7 +418,10 @@ situazioni.
     \item Ogni tripla vera vorremmo fosse anche derivabile e il discorso verrà
           approfondito in seguito per la logica di Hoare
 \end{itemize}
-$\vdash$ può avere a pedice una sigla per la regola rappresentata.
+\begin{nota}
+    Negli esercizi si assegna a $\vdash$ una sigla, posizionata come pedice o
+    apice, per rappresentare la regola che viene applicata.
+\end{nota}
 \subsection{Correttezza totale}
 Vogliamo ora analizzare la correttezza totale dell'istruzione while, ovvero si
 vuole verificare anche la terminazione del ciclo:
@@ -459,9 +462,9 @@ Allora:
     $E \geq 0$ può essere sostituito da qualsiasi numero.
 \end{nota}
 \subsection{Schema generale per la dimostrazione}
-Consideriamo una generale istruzione composta da una precondizione $p$ e una post
-condizione $q$ e chiamiamo le istruzioni in sequenza $V$, $W$ e $Z$. Inoltre,
-supponiamo che $V$ e $Z$ non contengano istruzioni di iterazioni.
+Consideriamo una generale istruzione composta da una precondizione $p$ e una
+post-condizione $q$ e chiamiamo le istruzioni in sequenza $V$, $W$ e $Z$.
+Inoltre, supponiamo che $V$ e $Z$ non contengano istruzioni di iterazioni.
 \begin{equation}
     \{p\} \ V; \ W; \ Z \ \{q\}
 \end{equation}
@@ -509,8 +512,8 @@ Per fare ciò definiamo:
                         \bigcap_{p \in F} m(p)$.
           \end{itemize}
 \end{itemize}
-A questo punto possiamo esprimere le formule della logica proposizionale attraverso
-operazioni tra insiemi:
+A questo punto possiamo esprimere le formule della logica proposizionale
+attraverso operazioni tra insiemi:
 \begin{itemize}
     \item $m(\lnot q) = \Sigma \backslash m(q)$
     \item $m(p \lor q) = m(p) \cup m(q)$
@@ -533,7 +536,7 @@ operazioni tra insiemi:
               $q$ è più debole (mi da un'informazione minore) di $p$
     \end{itemize}
 \end{nota}
-Definite queste operazioni possiamo definire i criteri di scelta della pre-condizione
+Definite queste operazioni possiamo definire i criteri di scelta della precondizione
 \textit{migliore} $C \{q\}$ cerchiamo la pre-condizione più debole
 (\textbf{weakest precondition}) $p$ tale che:
 \begin{equation}
@@ -554,6 +557,6 @@ Le regole di calcolo di $wp$ sono:
           occorrenze di $x$ con $E$.
     \item \textbf{Sequenza}: $wp(C_1;C_2, q) = wp(C_1, wp(C_2, q))$
     \item \textbf{Scelta}: $wp(C, q) = (B \land wp(C_1, q)) \lor (\lnot B \land
-              wp(C_2, q)$ dove $C$ è definita come: $C: \text{if} \ B \
+              wp(C_2, q))$ dove $C$ è definita come: $C: \text{if} \ B \
               \text{then} \ C_1 \ \text{else} \ C_2 \ \text{endif}$
 \end{itemize}
