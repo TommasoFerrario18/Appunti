@@ -54,7 +54,7 @@ più precisamente si allena l'autoencoder e nel mentre si allena una rete che pr
 la rappresentazione latente e la classifica. Quindi la rete sarà formata da:
 \begin{itemize}
       \item encoder $Z = Enc_{\theta_1}(X)$
-      \item classificatore $ \hat{y} = F(Z)$
+      \item classificatore $ \hat{y} = F_{\theta_3}(Z)$
       \item decoder $Y = Dec_{\theta_2}(Z)$
 \end{itemize}
 La loss dovrà essere l'unione delle loss del classificatore e dell'autoencoder.
@@ -81,7 +81,7 @@ modo è possibile rappresentare le singole parole in uno spazio $n$-dimensionale
 Questa proprietà ha permesso di scoprire una proprietà: parole simili vengono
 rappresentate in una regione vicina dello spazio. Questo è dato dal fatto che
 le reti vengono allenate su tutti i testi raggiungibili e l'assegnamento del vettore
-si effettua in base a quante volte due parole vengono veste vicine in una frase.
+si effettua in base a quante volte due parole vengono viste vicine in una frase.
 Quindi la rete riesce a codificare come vettori simili parole simili, infatti c'è
 una corrispondenza geometrica col significato.
 
