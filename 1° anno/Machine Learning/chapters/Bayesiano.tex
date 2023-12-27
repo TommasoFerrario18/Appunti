@@ -1,8 +1,8 @@
 \chapter{Apprendimento Bayesiano}
 Ci sono stati 2 modi per rappresentare la probabilità:
 \begin{itemize}
-    \item \textbf{soggettivo} (grado di conoscenza o probabilità Bayesiana): la probabilità
-          di un evento sapendo che è accaduto un altro evento.
+    \item \textbf{soggettivo} (grado di conoscenza o probabilità Bayesiana): la
+          probabilità di un evento sapendo che è accaduto un altro evento.
     \item \textbf{oggettivo} (Long-term Frequency): la probabilità di un evento
           è il limite della sua frequenza relativa in molti tentativi.
 \end{itemize}
@@ -11,9 +11,9 @@ questo è un'interpretazione oggettiva perché si sfruttano delle formule e poi
 abbiamo dei casi immutabili. Mi baso su parametri fissati e quindi calcolo la
 probabilità in base ai parametri.
 
-L'\textbf{apprendimento bayesiano} è un approccio all'apprendimento automatico che si basa
-sulla probabilità bayesiana. L'idea è quella di utilizzare la probabilità per
-rappresentare la conoscenza incerta e quindi aggiornare la probabilità in base
+L'\textbf{apprendimento bayesiano} è un approccio all'apprendimento automatico 
+che si basa sulla probabilità bayesiana. L'idea è quella di utilizzare la probabilità 
+per rappresentare la conoscenza incerta e quindi aggiornare la probabilità in base
 ai nuovi dati. Quindi non cerchiamo l'ipotesi che combacia con i dati ma cerchiamo
 l'ipotesi più probabile.
 
@@ -92,8 +92,8 @@ Viene anche definita come \textbf{ipotesi MAP} (\textit{Maximum A Posteriori}).
 \end{equation}
 dove $D$ rappresenta il dataset, argmax è l'ipotesi $h$ che massimizza la probabilità
 a posteriori, si esclude dai conti $P(D)$ perché non stiamo cercando la probabilità
-di $P(h|D)$, ma bensì stiamo cercardo quella che tra tutte ha probabilità massima,
-di conseguenzza $P(D)$ non modifica i risultati.
+di $P(h|D)$, ma bensì stiamo cercando quella che tra tutte ha probabilità massima,
+di conseguenza $P(D)$ non modifica i risultati.
 
 Spesso si assume che tutte le ipotesi siano equiprobabili (distribuzione uniforme),
 quindi si ha la possibilità di semplificare i conti, perché, con lo stesso
@@ -147,7 +147,7 @@ Supponiamo di conoscere $P(D| h)$ per conoscere \textit{cosa} posso calcolare:
 Posso escludere $P(D)$ dal denominatore perché è una costante, se vogliamo
 conoscere la posterior ci serve conoscere il denominatore.
 \begin{definizione}[\textbf{Indipendeza condizionata}]
-    \textbf{Indipendeza condizionata}:
+    \textbf{Indipendenza condizionata}:
     \begin{equation}
         P(X, Y|Z) = P(X|Z) \cdot P(Y|Z)
     \end{equation}
@@ -227,7 +227,7 @@ Algoritmo naive bayes:
             P(x_6) = \sum_{i = 0}^{|H|} P(x_6, h_i) = \sum_{i = 0}^{|H|}
             P(A =  1, B = 1, C = 0 | T = i) \cdot P(T = i) \\
             = P(A = 1 | T = 0) \cdot P(B = 1 | T = 0) \cdot P(C = 0 | T = 0)
-            \cdot P(T = 0) + \\ P(A = 1 | T = 1) \cdot P(B = 1 | T = 1)
+            \cdot P(T = 0) +                               \\ P(A = 1 | T = 1) \cdot P(B = 1 | T = 1)
             \cdot P(C = 0 | T = 1) \cdot P(T = 1)
         \end{aligned}
     \end{equation}

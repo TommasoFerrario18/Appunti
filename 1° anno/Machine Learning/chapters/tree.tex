@@ -18,8 +18,9 @@ Possiamo quindi scegliere, al posto delle classiche funzioni booleane, alberi di
 decisione per rappresentare un modello che applicato ad esempi non visti ci dirà
 se applicare in output un'etichetta vera o falsa in base a quanto appreso. Per
 classificare un'occorrenza si parte dal nodo radice dell'albero, si verificano
-i tratti indicati da questo nodo e si procede lungo il ramo dell'albero confrontandoli
-con il valore dell'attributo. Si ripete questo controllo fino ad arrivare alle foglie.
+i tratti indicati da questo nodo e si procede lungo il ramo dell'albero
+confrontandoli con il valore dell'attributo. Si ripete questo controllo fino ad
+arrivare alle foglie.
 
 La flessibilità nella costruzione dell'albero sta nel scegliere gli attributi e
 i valori di ognuno. Con l'algoritmo ID3 si costruiscono alberi decisionali in base
@@ -126,12 +127,14 @@ Iniziamo a vedere l'algoritmo anche se saranno necessarie molte specifiche:
 \begin{algorithm}[!ht]
     \begin{algorithmic}
         \Function{ID3}{}
-        \State $A \gets$ \textit{il ``miglior'' attributo di decisione per il prossimo nodo}
+        \State $A \gets$ \textit{il ``miglior'' attributo di decisione per il
+            prossimo nodo}
         \State \textit{Assegno A come attributo di decisione per il nodo}
         \For {\textit{Ogni valore dell'attributo A}}
         \State \textit{Creo un discendente}
         \EndFor
-        \State \textit{Ordina gli esempi di training alla foglia in base al valore dell'attributo del branch}
+        \State \textit{Ordina gli esempi di training alla foglia in base al valore
+            dell'attributo del branch}
         \If {\textit{Ho classificato tutti gli esempi di training}}
         \State \textit{Mi fermo}
         \Else
@@ -166,9 +169,10 @@ ovvero il contenuto informativo dell'insieme.
     la variabile $n$ per rappresentare i valori di $S$ a cui è associata un'etichetta
     negativa. Posso quindi riscrivere la sommatoria nel caso booleano come:
     \begin{equation}
-        I\left(\frac{p}{p + n}, \frac{n}{p + n}\right) = -\frac{p}{p + n} \log_2 \left( \frac{p}{p + n} \right) - \frac{n}{p + n} \log_2 \left(\frac{n}{p + n}\right)
+        I\left(\frac{p}{p + n}, \frac{n}{p + n}\right) = -\frac{p}{p + n} \log_2
+        \left( \frac{p}{p + n} \right) - \frac{n}{p + n} \log_2 \left(\frac{n}{p
+            + n}\right)
     \end{equation}
-
     Se inoltre diciamo che $p_{+}$ è la proporzione di esempi positivi e $p_{-}$
     di quelli negativi possiamo misurare l'impurità di $S$ utilizzando l'entropia:
     \begin{equation}
@@ -189,9 +193,11 @@ calcolato su ogni attributo $A$ presente nelle istanze contenute in $S$:
     IG(S, A) = I\left(\frac{p}{p + n}, \frac{n}{p + n}\right) - remainder(A)
 \end{equation}
 dove $remainder(A)$ rappresenta la somma pesata sul totale delle entropie calcolate
-sui sotto-insiemi che si vanno a creare se si sceglie $A$ come attributo per lo split dei dati.
+sui sotto-insiemi che si vanno a creare se si sceglie $A$ come attributo per lo
+split dei dati.
 \begin{equation}
-    remainder(A) = \sum_{i=1}^v \frac{p_i + n_i}{p + n} \cdot I\left(\frac{p_i}{p_i + n_i}, \frac{n_i}{p_i + n_i}\right)
+    remainder(A) = \sum_{i=1}^v \frac{p_i + n_i}{p + n} \cdot I\left(\frac{p_i}
+    {p_i + n_i}, \frac{n_i}{p_i + n_i}\right)
 \end{equation}
 Si sceglie l'attributo il valore dell'information gain più alto.
 
@@ -204,13 +210,12 @@ Facciamo qualche osservazione finale sull'algoritmo ID3:
     \item Fa scelte basate su una ricerca statistica, facendo sparire incertezze
           sui dati.
     \item Il bias non è sulla classe iniziale, essendo lo spazio delle ipotesi
-          completo, ma sulla scelta di solo alcune funzioni, preferendo alberi corti e
-          posizionando attributi ad alto information gain vicino alla radice. Il bias è
-          quindi sulla preferenza di alcune ipotesi. Si usa il criterio euristico
-          di rasoio di Occam.
+          completo, ma sulla scelta di solo alcune funzioni, preferendo alberi
+          corti e posizionando attributi ad alto information gain vicino alla
+          radice. Il bias è quindi sulla preferenza di alcune ipotesi. Si usa il
+          criterio euristico di rasoio di Occam.
     \item H è l'insieme potenza delle istanze X.
 \end{itemize}
-
 Viene introdotto però l'\textbf{overfitting}.
 \begin{definizione}
     Definiamo formalmente l'\textbf{overfitting} come l'adattamento eccessivo,
@@ -224,10 +229,9 @@ Viene introdotto però l'\textbf{overfitting}.
     ma che non hanno riscontro nel resto dei casi quindi le prestazioni sui dati
     non visionati saranno drasticamente peggiori. L'opposto è l'underfitting.
 \end{definizione}
-
 Se misuro l'errore di una ipotesi $h$ sul training set ($error_{train}(h)$) e poi
-misuro l'errore di quella ipotesi sull'intero set delle possibili istanze $D$ ($error_D(h)$)
-ho che l'ipotesi $h$ va in overfit sul quel data set se:
+misuro l'errore di quella ipotesi sull'intero set delle possibili istanze $D$
+($error_D(h)$) ho che l'ipotesi $h$ va in overfit sul quel data set se:
 \begin{equation}
     error_{train}(h) < error_{train}(h') \ \land \ error_D(h) > error_D(h')
 \end{equation}
@@ -236,11 +240,13 @@ errore maggiore di $h$ sul training set, ma l'errore commesso sull'intero datase
 è minore di $h$. Il problema è che non posso sapere se esiste tale $h'$.
 
 Per evitare il problema uso sempre il rasoio di Occam scegliendo ipotesi semplici
-ed evitando di far crescere l'albero quando lo “split” non è statisticamente significativo.
+ed evitando di far crescere l'albero quando lo “split” non è statisticamente
+significativo.
 
 Un altro modo è quello di togliere pezzi, all'albero, che toccano poche istanze
 o pure calcolare una misura di complessità dell'albero, minimizzando la grandezza
-dell'albero e gli errori del training set, usando il \textbf{Minimum Description Length} (MDL).
+dell'albero e gli errori del training set, usando il \textbf{Minimum Description
+    Length} (MDL).
 
 In ID3 quindi posso scegliere sia in base all'information gain massimo o
 all'entropia minima tra gli attributi.

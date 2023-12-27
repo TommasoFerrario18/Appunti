@@ -7,34 +7,36 @@ Le tecniche di apprendimento sono:
 \end{itemize}
 Spesso si può usare l'apprendimento non supervisionato al posto del supervisionato,
 perché potrebbe ottenere dei risultati migliori, soprattutto quando il dataset è
-pieno di rumore. I sistemi non supervisionati tornano comodi quando la distribuzione dei
-valori degli attributi è informazione sufficiente per separare le istanze in più
+pieno di rumore. I sistemi non supervisionati tornano comodi quando la distribuzione
+dei valori degli attributi è informazione sufficiente per separare le istanze in più
 classi, si hanno quindi domini dove questo fattore è determinante.
 
-Il fatto di utilizzare un apprendimento non supervisionato porta a diversi \textbf{vantaggi}:
+Il fatto di utilizzare un apprendimento non supervisionato porta a diversi
+\textbf{vantaggi}:
 \begin{itemize}
     \item non è richiesta alcuna conoscenza a priori quindi evito problemi legati
           ad eventuali etichette errate (errori umani ridotti)
     \item tutte le classi che hanno caratteristiche uniche vengono identificate
     \item efficaci con elementi di tipo numerico perché vengono rappresentate in
-          uno spazio di punti o di ordinamento intrinseco grazie al calcolo delle distanze
+          uno spazio di punti o di ordinamento intrinseco grazie al calcolo delle
+          distanze.
 \end{itemize}
 Il \textbf{lato negativo} del fatto che l'apprendimento è non supervisionato:
 \begin{itemize}
-    \item le classi ottenute potrebbero non avere significati
-    \item l'utente ha poco controllo sulla procedura e sui risultati
-    \item scarsa efficacia su elementi ordinati in modo arbitrario o parziale
+    \item le classi ottenute potrebbero non avere significati.
+    \item l'utente ha poco controllo sulla procedura e sui risultati.
+    \item scarsa efficacia su elementi ordinati in modo arbitrario o parziale.
 \end{itemize}
 Il \textbf{clustering} consiste nel  separare, categorizzare, raggruppare in
 autonomia con un apprendimento \textbf{non supervisionato}.
 Per il clustering, la fase di apprendimento cambia, ma la fase predizione rimane
 identica perché ho trovato una regola che spiega il dataset. Il criterio per cui
-raggruppare è arbitrario, non si conoscono il numero di gruppi in cui partizionare il dataset
-e si dovrà trovare un modo per valutare il raggruppamento ottenuto.
+raggruppare è arbitrario, non si conoscono il numero di gruppi in cui partizionare
+il dataset e si dovrà trovare un modo per valutare il raggruppamento ottenuto.
 In sostanza si cerca una regola che possa spiegare come raggruppare i dati senza
-avere una label di riferimento e il numero di gruppi. La ricerca del raggruppamento migliore
-si baserà sempre sulla ricerca dell'ipotesi più semplice. Non conoscendo le
-label allora raggrupperemo sfruttando le \textbf{distanze}, ovvero un elemento
+avere una label di riferimento e il numero di gruppi. La ricerca del raggruppamento
+migliore si baserà sempre sulla ricerca dell'ipotesi più semplice. Non conoscendo
+le label allora raggrupperemo sfruttando le \textbf{distanze}, ovvero un elemento
 fa parte di un raggruppamento noto se si trova vicino agli elementi di quel
 raggruppamento.
 
@@ -81,7 +83,7 @@ Si hanno quindi due criteri da rispettare:
               particolare della distanza di Minkowski con $p=\infty$.
     \end{itemize}
 \end{definizione}
-Esistono diverse tipi di clustering, possiamo principlamente inividuare:
+Esistono diverse tipi di clustering, possiamo principalmente individuare:
 \begin{itemize}
     \item \textbf{Clustering gerarchico}: si costruisce una gerarchia di cluster.
           Si parte da un cluster che contiene tutti gli elementi e si procede a dividere
@@ -113,7 +115,7 @@ di minimizzare le distanze tra gli elementi di un cluster e il centroide dello s
 Spostando i centroidi si ottiene una nuova partizione.
 \begin{definizione}[\textbf{Centroide}]
     Nel caso dell'algoritmo $k-$means il \textbf{centroide} è ottenuto come media
-    di tutti i punti apparteneti al cluster.
+    di tutti i punti appartenenti al cluster.
 \end{definizione}
 L'algoritmo del $k-$means lavora con dati numerici nel seguente modo:
 \begin{enumerate}
@@ -138,26 +140,28 @@ pari a: $\mathcal{O}(tKn)$ con:
 \textbf{K-means} ha diversi problemi:
 \begin{itemize}
     \item ha una sensibilità rispetto alla scelta dei centroidi iniziali,
-    sperimentalmente si è dimostrato che brutti valori iniziali invalidano l'intero
-    processo
-    \item non si può predire il numero di cluster non conoscendo a priori i dati, 
-    in aggiunta, non esiste un $K$ ottimale e non ci sono proprietà che ce lo possano 
-    suggerire. si possono però usare delle approssimazioni studiando gli iperparametri. 
-    Non sapendo a priori il numero di $K$ posso ottenere scarsi risultati magari non
-    avendo abbastanza centroidi. Adattarsi ad un numero “errato” di centroidi può
-    portare a risultati “sporchi”.
+          sperimentalmente si è dimostrato che brutti valori iniziali invalidano
+          l'intero processo.
+    \item non si può predire il numero di cluster non conoscendo a priori i dati,
+          in aggiunta, non esiste un $K$ ottimale e non ci sono proprietà che ce
+          lo possano suggerire. si possono però usare delle approssimazioni
+          studiando gli iperparametri. Non sapendo a priori il numero di $K$ posso
+          ottenere scarsi risultati magari non avendo abbastanza centroidi.
+          Adattarsi ad un numero “errato” di centroidi può portare a risultati
+          “sporchi”.
     \item l'algoritmo è sensibile rispetto alle dimensioni geometriche che hanno
-    le istanze nello spazio, infatti, lavorando sui centroidi potrebbe classificare in modo
-    errato questo dettaglio, non distinguendo i corretti insiemi di punti. 
+          le istanze nello spazio, infatti, lavorando sui centroidi potrebbe
+          classificare in modo errato questo dettaglio, non distinguendo i corretti
+          insiemi di punti.
     \item l'algoritmo è sensibile anche alla densità degli esempi, infatti se non
-    avessimo $k$ sufficientemente grande allora si potrebbe arrivare a classificazioni
-    errate
+          avessimo $k$ sufficientemente grande allora si potrebbe arrivare a
+          classificazioni errate.
 \end{itemize}
 
 In ogni caso mappa sensatamente i vari elementi in base alle loro caratteristiche
 e quindi è un approccio parecchio usato, essendo generalmente efficacie. Per risolvere
-i problemi introdotti precedentemente, si può provare ad aumentare il numero di 
-cluster, unendo poi, in un secondo passaggio, i vari cluster secondo certi criteri, 
+i problemi introdotti precedentemente, si può provare ad aumentare il numero di
+cluster, unendo poi, in un secondo passaggio, i vari cluster secondo certi criteri,
 magari avendo una netta separazione lineare tra cluster. Così si possono risolvere
 i problemi legati alla distribuzione geometrica degli esempi, però rimane sempre
 il problema dell'identificare le posizioni di inizializzazione dei centroidi migliori.
@@ -169,15 +173,15 @@ migliore di un altro. Tale misura si basa sempre sul concetto di distanza.
 Fissando una misura di distanza tra istanze $i,j$, $d(i, j)$, definiremo:
 \begin{enumerate}
     \item Distanza media \textbf{intra-cluster}, ovvero simiglianza tra elementi
-    dello stesso cluster:
-        \begin{equation}
-            a(i) = \frac{1}{|C_i| - 1} \sum_{j \in C_i, j \neq i} d(i, j)
-        \end{equation}
+          dello stesso cluster:
+          \begin{equation}
+              a(i) = \frac{1}{|C_i| - 1} \sum_{j \in C_i, j \neq i} d(i, j)
+          \end{equation}
     \item Distanza media \textbf{inter-cluster}, ovvero simiglianza tra un elemento
-    di un claster rispetto a tutti gli elementi tra gli altri cluster:
-        \begin{equation}
-            b(i) = \min_{k \neq i} \frac{1}{|C_k|} \sum_{j \in C_k} d(i, j)
-        \end{equation}
+          di un claster rispetto a tutti gli elementi tra gli altri cluster:
+          \begin{equation}
+              b(i) = \min_{k \neq i} \frac{1}{|C_k|} \sum_{j \in C_k} d(i, j)
+          \end{equation}
 \end{enumerate}
 ottenendo quindi la silhouette per il punto i come:
 \begin{equation}
