@@ -1,8 +1,9 @@
 \chapter{Pattern Matching su Stringhe}
 \section{Introduzione}
-Il problema del Pattern Matching consiste cercare un motivo all'interno di un oggetto
-più o meno complesso. In questo corso ci si concentrerà sul Pattern Matching su
-Stringhe, ovvero cercare all'interno di un testo $T$ le occorrenze di un pattern $P$.
+Il problema del pattern matching consiste cercare un motivo all'interno di un
+oggetto più o meno complesso. In questo corso ci si concentrerà sul pattern matching
+su stringhe, ovvero cercare all'interno di un testo $T$ le occorrenze di un
+pattern $P$.
 \begin{definizione}[\textbf{Stringa}]
     Definiamo una \textbf{stringa} $X$ come una giustapposizione di simboli
     appartenenti a un alfabeto $\Sigma$.
@@ -64,7 +65,7 @@ Stringhe, ovvero cercare all'interno di un testo $T$ le occorrenze di un pattern
     \end{itemize}
 \end{nota}
 Quando si parla di string matching possiamo definire due tipi. Dati un pattern
-$P$ e un testo $T$ possiamo definire lo String Matching:
+$P$ e un testo $T$ possiamo definire lo string matching:
 \begin{enumerate}
     \item \textbf{Esatto}: consiste nel cercare le occorrenze esatte di $P$ in $T$.
     \item \textbf{Approssimato}: consiste nel cercare le occorrenze approssimate
@@ -215,35 +216,35 @@ Un automa è un modello di calcolo che riconosce un linguaggio, ovvero un insiem
 di stringhe che godono di una proprietà. Gli automi a stati finiti riconoscono
 un linguaggio regolare.
 \begin{definizione} [\textbf{Automa a stati finiti}]
-    Un Automa a Stati Finiti è formalmente una quintupla:
+    Un \textbf{Automa a Stati Finiti} è formalmente una quintupla:
     \begin{equation}
-        A = (Q, \Sigma, \delta, q_0, F)
+        A = (Q, \ \Sigma, \ \delta, \ q_0, \ F)
     \end{equation}
     dove:
     \begin{itemize}
-        \item $Q$, insieme finito di stati.
+        \item $Q$, insieme \textit{finito} di stati.
         \item $\Sigma$, alfabeto in input.
-        \item $\delta: Q \times \Sigma \to Q$, funzione di transizione.
-              $\delta(q,\sigma)$ è lo stato di arrivo a partire da $q$ dopo la
-              lettura di $\sigma$.
+        \item $\delta: Q \times \Sigma \to Q$, funzione di transizione, dove
+              $\delta(q,\sigma)$ rappresenta lo stato di arrivo a partire da $q$
+              dopo la lettura di $\sigma$.
         \item $q_0$, stato iniziale.
         \item $F$ (sottoinsieme di $Q$), insieme degli stati accettanti.
     \end{itemize}
 \end{definizione}
 Gli automi a stati finiti possono essere rappresentati attraverso un diagramma di
 stato, ovvero attraverso una struttura a grafo dove i vertici sono gli stati.
-Esiste l'arco $(q_1,q_2)$ se almeno un simbolo $\sigma$ è tale per cui $\delta
-    (q_1,\sigma) = q_2$. L'arco $(q_1,q_2)$ viene etichettato dalla lista di simboli
-che permettono la transizione da $q_1$ a $q_2$. Lo stato iniziale $q_0$ è indicato
-tramite un arco entrante che non esce da uno stato, mentre gli stati accettanti
-sono indicati da un doppio bordo.
+Esiste l'arco $(q_1, q_2)$ se almeno un simbolo $\sigma$ è tale per cui $\delta
+    (q_1,\sigma) = q_2$. L'arco $(q_1, q_2)$ viene etichettato dalla lista di
+simboli che permettono la transizione da $q_1$ a $q_2$. Lo stato iniziale $q_0$
+è indicato tramite un arco entrante che non esce da uno stato, mentre gli stati
+accettanti sono indicati da un doppio bordo.
 
-È possibile rappresentare la funzione di transizione $\delta$ degli automi attraverso
-una matrice $T$ con $|Q|$ righe e $|\Sigma|$ colonne. Nella generica cella
-$(q, \sigma)$ sarà contenuto il valore di $\delta(q, \sigma)$, ovvero lo stato di
-arrivo a partire dallo stato $q$ attraverso il simbolo $\sigma$.
+È possibile rappresentare la funzione di transizione $\delta$ degli automi
+attraverso una matrice $T$ con $|Q|$ righe e $|\Sigma|$ colonne. Nella generica
+cella $(q, \sigma)$ sarà contenuto il valore di $\delta(q, \sigma)$, ovvero lo
+stato che raggiungo partendo dallo stato $q$ leggendo il simbolo $\sigma$.
 \begin{equation}
-    T[q,\sigma] = q'\iff \delta(q,\sigma) = q'
+    T[q,\sigma] = q' \iff \delta(q,\sigma) = q'
 \end{equation}
 \begin{definizione}[\textbf{Bordo}]
     Il \textbf{bordo} di una stringa $X$ è il più lungo prefisso \textbf{proprio}
@@ -260,14 +261,14 @@ arrivo a partire dallo stato $q$ attraverso il simbolo $\sigma$.
     \end{itemize}
 \end{esempio}
 \begin{nota}
-    Il bordo di un simbolo è sempre vuoto.
+    Il bordo di una stringa composta da un solo simbolo è sempre vuoto.
 \end{nota}
 \begin{definizione}[\textbf{Concatenazione}]
     La \textbf{concatenazione} di un simbolo $\sigma$ con la stringa $X$ è la
     stringa $X\sigma$.
 \end{definizione}
 Possiamo definire ora l'automa a stati finiti per la ricerca esatta di un pattern
-$P$ di lunghezza $m$ definito su alfabeto $\Sigma$ è la quintupla $(Q, \Sigma,
+$P$ di lunghezza $m$ definito su alfabeto $\Sigma$ come la quintupla $(Q, \Sigma,
     \delta, q_0, F)$ con:
 \begin{itemize}
     \item $Q = \{0, 1, \dots, m\}$
@@ -276,15 +277,15 @@ $P$ di lunghezza $m$ definito su alfabeto $\Sigma$ è la quintupla $(Q, \Sigma,
     \item $q_0 = 0$ è lo stato iniziale.
     \item $F = \{m\}$ è lo stato accettante.
 \end{itemize}
-A questo punto il processo di ricerca esatta attraverso un automa a stati finiti
+A questo punto, il processo di ricerca esatta attraverso un automa a stati finiti
 è composto da:
 \begin{enumerate}
     \item \textbf{Preprocessing del pattern}: costruisco l'automa per il pattern
-          $P$ che consiste nel calcolo della funzione di transizione $\delta$ in
-          tempo $\theta(m \cdot |\Sigma|)$.
+          $P$. Questo punto consiste nel calcolo della funzione di transizione
+          $\delta$ in tempo $\theta(m \cdot |\Sigma|)$.
     \item \textbf{Ricerca nel testo}: uso dell'automa per riconoscere, in un testo
-          $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$. La
-          scansione del testo $T$ avviene in tempo $\theta(n)$
+          $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$.
+          La scansione del testo $T$ avviene in tempo $\theta(n)$
 \end{enumerate}
 \subsection{Funzione di transizione}
 La funzione di transizione $\delta$ per un pattern $P$ di lunghezza $m$ definito
@@ -299,12 +300,15 @@ che $\delta(j, \sigma)$ è lo stato in cui si arriva da $j$ attraverso $\sigma$:
 dove $k$ è la lunghezza del bordo del prefisso di $P$ di lunghezza $1, j$ a cui
 è concatenato $\sigma$, ovvero:
 \begin{equation}
-    k = |B(P[1, j]\sigma)| \ \ k \leq j
+    k = |B(P[1, j]\sigma)|, \ \text{con} \ k \leq j
 \end{equation}
-Dallo stato $0$ si arriva allo stato $0$ per qualsiasi simbolo diverso da P[1].
-Dallo stato $0$ si arriva allo stato $1$ attraverso il simbolo $P[1]$. Dallo stato
-$j = m$ si arriva sempre a uno stato $k \leq m$, dallo stato $m$ si può giungere
-quindi di nuovo allo stato $m$.
+\begin{itemize}
+    \item Dallo stato $0$ si arriva allo stato $0$ per qualsiasi simbolo diverso
+          da $P[1]$.
+    \item Dallo stato $0$ si arriva allo stato $1$ attraverso il simbolo $P[1]$.
+    \item  Dallo stato $j = m$ si arriva sempre a uno stato $k \leq m$, dallo
+          stato $m$ si può giungere quindi di nuovo allo stato $m$.
+\end{itemize}
 \subsubsection{Calcolo della funzione di transizione $\delta$}
 L'algoritmo più semplice che permette di calcolare i valori della funzione di
 transizione $\delta$ consiste nell'applicare la funzione di transizione $\delta$
@@ -312,7 +316,7 @@ per come è definita senza sfruttare i valori che sono già stati computati.
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Trivial-build-transition-function}{$P$}
-        \State $m\gets |P|$
+        \State $m \gets |P|$
         \State $\delta \gets empty\_table (m + 1) \times | \Sigma|$
         \For{$j \gets 0 \ \text{to} \ m - 1$}
         \State $\delta(j, P[j + 1]) \gets j + 1$
@@ -322,16 +326,16 @@ per come è definita senza sfruttare i valori che sono già stati computati.
         \State $\delta(j, \sigma) \gets |B(P[1, j]\sigma)|$
         \EndFor
         \EndFor
-        \State $\text{\textbf{return}} \ \delta$
+        \State \Return $\delta$
         \EndFunction
     \end{algorithmic}
     \caption{Algoritmo banale per il calcolo della funzione di transizione $\delta$}
 \end{algorithm}
-Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3 | \Sigma|)$,
-questo è dovuto al fatto che per calcolare il bordo è necessario un tempo, nel
-caso peggiore pari a $\mathcal{O}(m^2)$.
+Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3
+    |\Sigma|)$, questo è dovuto al fatto che per calcolare il bordo è necessario
+un tempo, nel caso peggiore pari a $\mathcal{O}(m^2)$.
 
-Per migliorare i tempi cambieremo approccio, definniremo $\delta_j$ come la funzione
+Per migliorare i tempi cambieremo approccio, definiamo $\delta_j$ come la funzione
 di transizione di $P[1, j]$, ovvero come una funzione:
 \begin{equation}
     \delta_j: \{0, 1, \dots, j\} \times \Sigma \to \{0, 1, \dots, j\}
@@ -339,14 +343,16 @@ di transizione di $P[1, j]$, ovvero come una funzione:
 per questa funzione possiamo definire due casi particolari:
 \begin{itemize}
     \item $\delta_0$ ovvero la funzione di transizione di $P[1, 0]$ che per
-          definizione è $\varepsilon$, quindi il valore di tale funzione è sempre $0$.
+          definizione è $\varepsilon$, quindi il valore di tale funzione è sempre
+          $0$.
     \item $\delta_m$ ovvero la funzione di transizione di $P[1, m]$ la quale
           corrisponde precisamente alla funzione di transizione del pattern $P$.
 \end{itemize}
 Possiamo definire il calcolo della funzione di transizione $\delta$ per un pattern
 $P$ di lunghezza $m$ utilizzando l'induzione nel seguente modo:
 \begin{itemize}
-    \item \textbf{Caso base}: calcolo $\delta_0$.
+    \item \textbf{Caso base}: calcolo $\delta_0$. Questo risulta banale in quanto
+          il valore di $\delta_0$ è sempre $0$.
     \item \textbf{Passo induttivo}: calcolo $\delta_j$ da $\delta_{j - 1}$ in
           questo caso dobbiamo distinguere il caso in cui $j = 1$ e i restanti.
           \begin{itemize}
@@ -358,23 +364,25 @@ $P$ di lunghezza $m$ utilizzando l'induzione nel seguente modo:
                               simbolo $P[1]$.
                         \item Sostituisco il valore $0$ con il valore $1$ (stato
                               successivo a $0$).
-                        \item Aggiungo una nuova riga (corrispondente allo stato $1$)
-                        \item Copio la riga che corrisponde allo stato 0 nella riga
-                              che corrisponde allo stato $1$.
+                        \item Aggiungo una nuova riga (corrispondente allo stato
+                              $1$)
+                        \item Copio la riga che corrisponde allo stato $0$ nella
+                              riga che corrisponde allo stato $1$.
                         \item Rinomino $\delta_0$ in $\delta_1$.
                     \end{enumerate}
               \item Mentre nel caso in cui $j \neq 1$ possiamo definire la
                     funzione di transizione come:
                     \begin{enumerate}
                         \item Prendo il valore $k$ contenuto nella cella della
-                              riga $j-1$ di $\delta_{j-1}$ in corrispondenza del
-                              simbolo $P[j]$
+                              riga $j - 1$ di $\delta_{j - 1}$ in corrispondenza
+                              del simbolo $P[j]$
                         \item Sostituisco il valore $k$ con il valore $j$ (stato
                               successivo a $j - 1$)
-                        \item Aggiungo una nuova riga (corrispondente allo stato $j$)
+                        \item Aggiungo una nuova riga (corrispondente allo stato
+                              $j$)
                         \item Copio la riga che corrisponde allo stato $k$ nella
                               riga che corrisponde allo stato $j$
-                        \item Rinomino $\delta_{j-1}$ in $\delta_j$
+                        \item Rinomino $\delta_{j - 1}$ in $\delta_j$
                     \end{enumerate}
           \end{itemize}
 \end{itemize}
@@ -387,7 +395,7 @@ algoritmo sfrutta le informazioni precedentemente calcolate.
 \begin{algorithm}[!ht]
     \begin{algorithmic}
         \Function{Build-transition-function}{$P$}
-        \State $m\gets |P|$
+        \State $m \gets |P|$
         \State $\delta \gets empty\_table (m + 1) \times | \Sigma|$
         \For{$\sigma \in \Sigma$}
         \State $\delta(0, \sigma) \gets 0$
@@ -459,66 +467,74 @@ $j_i$ attraverso la funzione di transizione $\delta(j_{i - 1}, T[i])$.
         \label{fig:scansione}
     \end{figure}
 \end{esempio}
-A questo punto è necessario identificare un'occorrenza esatta del pattern $P$ nel
-testo $T$. Per risolvere questo, partiamo dalla successione di stati che abbiamo
-definito per la scansione del testo. Essa corrisponde a una successione di posizioni
-su $P$, o in altre parole, a una successione di lunghezze di prefissi del pattern $P$.
+A questo punto è necessario identificare un'occorrenza esatta del pattern $P$
+nel testo $T$. Per risolvere questo, partiamo dalla successione di stati che
+abbiamo definito per la scansione del testo. Essa corrisponde a una successione
+di posizioni su $P$, o in altre parole, a una successione di lunghezze di
+prefissi del pattern $P$.
 \begin{teorema}
     $j_i$, con $0 \leq i \leq n$, è la lunghezza del \textbf{più lungo} prefisso
     di $P$ uguale a una sottostringa di $T$ che finisce in posizione $i$.
 \end{teorema}
 \begin{dimostrazione}
-    È possibile dimostrare il teorema precedente con una dimostrazione per induzione:
+    È possibile dimostrare il teorema precedente con una dimostrazione per
+    induzione:
     \begin{enumerate}
         \item \textbf{Caso base}: per lo stato $j_0 = 0$ il teorema è banalmente
               dimostrabile, in quanto il prefisso di lunghezza $0$ è il prefisso
               nullo che è sottostringa di $T$.
-        \item \textbf{Passo induttivo}: se $j_{i-1}$ è la lunghezza del più lungo
-              prefisso di $P$ uguale alla sottostringa di $T$ che finisce in posizione
-              $i-1$, allora $j_i$ è la lunghezza del più lungo prefisso di $P$ uguale
-              alla sottostringa di $T$ che finisce in posizione $i$.
+        \item \textbf{Passo induttivo}: se $j_{i - 1}$ è la lunghezza del più
+              lungo prefisso di $P$ uguale alla sottostringa di $T$ che finisce
+              in posizione $i - 1$, allora $j_i$ è la lunghezza del più lungo
+              prefisso di $P$ uguale alla sottostringa di $T$ che finisce in
+              posizione $i$.
 
               Per dimostrare il passo induttivo ci basiamo sulla seguente ipotesi:
-              $j_{i-1}$ è la lunghezza del più lungo prefisso di $P$ uguale a una
-              sottostringa di $T$ che finisce in posizione $i-1$.
+              $j_{i - 1}$ è la lunghezza del più lungo prefisso di $P$ uguale a
+              una sottostringa di $T$ che finisce in posizione $i - 1$.
               \begin{itemize}
-                  \item \textbf{Caso 1}: $j_{i - 1} < m$ e $P[j_{i - 1} + 1] = T[i]$
-                        questo implica $j_i = \delta(j_{i - 1}, T[i]) = j_{i - 1} + 1$
+                  \item \textbf{Caso 1}: $j_{i - 1} < m$ e $P[j_{i - 1} + 1] =
+                            T[i]$ questo implica $j_i = \delta(j_{i - 1}, T[i])
+                            = j_{i - 1} + 1$
                         \begin{itemize}
-                            \item $j_{i - 1} \neq 0$: la tesi è confermata
+                            \item $j_{i - 1} \neq 0$: la tesi è confermata.
                             \item $j_{i - 1} = 0$ vuol dire che il carattere
-                                  corrisponde con il carattere iniziale del pattern
+                                  corrisponde con il carattere iniziale del pattern.
                         \end{itemize}
-                  \item \textbf{Caso 2}: $j_{i - 1} = m$ oppure
-                        $P[j_{i - 1} + 1] \neq T[i]$ questo implica
-                        $j_i = \delta(j_{i - 1}, T[i]) = k$ dove $k$ è la lunghezza del
-                        bordo di $P[1, j_{i - 1}]T[i]$.
+                  \item \textbf{Caso 2}: $j_{i - 1} = m$ oppure $P[j_{i - 1} + 1]
+                            \neq T[i]$ questo implica $j_i = \delta(j_{i - 1},
+                            T[i]) = k$ dove $k$ è la lunghezza del bordo di
+                        $P[1, j_{i - 1}]T[i]$.
                         \begin{itemize}
                             \item $0 < j_{i - 1} < m$: in questo caso il valore
-                                  di $k$ mi rappresenta una parte del testo per cui ho
-                                  già verificato un'occorrenza esatta, questo mi viene
-                                  garantito dalla definizione di bordo.
-                            \item $j_{i - 1} = 0$ vuol dire che sono rimasto nello stato 0.
+                                  di $k$ mi rappresenta una parte del testo per
+                                  cui ho già verificato un'occorrenza esatta,
+                                  questo mi viene garantito dalla definizione di
+                                  bordo.
+                            \item $j_{i - 1} = 0$ vuol dire che sono rimasto
+                                  nello stato 0.
                             \item $j_{i - 1} = m$ ho trovato un'occorrenza esatta
                                   del pattern, inoltre per evitare di perdere delle
-                                  occorrenze mi sposto in base alla lunghezza del bordo
-                                  del pattern concatenato con il carattere successivo.
+                                  occorrenze mi sposto in base alla lunghezza del
+                                  bordo del pattern concatenato con il carattere
+                                  successivo.
                         \end{itemize}
               \end{itemize}
     \end{enumerate}
 \end{dimostrazione}
 Questo teorema mi fornisce la garanzia che non sto perdendo delle occorrenze.
-Inoltre, posso trovare la posizione di inizio dell'occorrenza esatta come $i - j + 1$.
-Nel caso in cui $j_i = m$ ho identificato un'occorrenza esatta del pattern $P$.
+Inoltre, posso trovare la posizione di inizio dell'occorrenza esatta come $i - j
+    + 1$. Nel caso in cui $j_i = m$ ho identificato un'occorrenza esatta del
+pattern $P$.
 
 Possiamo riassumere la scansione del testo come:
 \begin{enumerate}
     \item Si parte dallo stato iniziale $0$ e si effettua una scansione di $T$
           dal primo all'ultimo simbolo.
     \item Per ogni posizione $i$ di $T$ si effettua la transizione dallo stato
-          corrente $j_c$ al nuovo stato $j_f = \delta(j_c, T[i])$
+          corrente $j_c$ al nuovo stato $j_f = \delta(j_c, T[i])$.
     \item Ogni volta che lo stato $j_f$ è lo stato accettante ($m$), viene prodotta
-          in output l'occorrenza $i - m + 1$
+          in output l'occorrenza $i - m + 1$.
 \end{enumerate}
 \begin{algorithm}
     \begin{algorithmic}
@@ -594,22 +610,25 @@ Questo algoritmo viene eseguito in tempo $\theta(n)$.
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.3\textwidth]{img/pattern/ASF.png}
-        \caption{Esecuzione dell'algoritmo per la ricerca esatta con Automa a Stati Finiti}
+        \caption{Esecuzione dell'algoritmo per la ricerca esatta con Automa a
+            Stati Finiti}
         \label{fig:enter-label}
     \end{figure}
 \end{esempio}
 \newpage
 \section{Algoritmo di Knuth-Morris-Pratt}
-Questo algoritmo per la ricerca esatta è basato su un'analisi del pattern. Si hanno due fasi:
+Questo algoritmo per la ricerca esatta è basato su un'analisi del pattern. Si
+hanno due fasi:
 \begin{enumerate}
     \item \textbf{Preprocessing del pattern}: questa fase consiste nel calcolo
-          della prefix function $\phi$, che è una funzione che associa ad ogni posizione
-          del pattern la lunghezza del più lungo prefisso del pattern che è anche un
-          suffisso del pattern. Questa funzione è calcolata in tempo lineare rispetto
-          alla lunghezza del pattern $\mathcal{O}(m)$.
+          della \textbf{prefix function} $\phi$, che è una funzione che associa
+          ad ogni posizione del pattern la lunghezza del più lungo prefisso del
+          pattern che è anche un suffisso del pattern. Questa funzione è calcolata
+          in tempo lineare rispetto alla lunghezza del pattern $\mathcal{O}(m)$.
     \item \textbf{Scansione del testo}: questa fase consiste nel confrontare il
-          pattern con il testo cercando di identificare le occorrenze esatte di esso.
-          Questa fase è eseguita in tempo lineare rispetto alla lunghezza del testo $\mathcal{O}(n)$.
+          pattern con il testo cercando di identificare le occorrenze esatte di
+          esso. Questa fase è eseguita in tempo lineare rispetto alla lunghezza
+          del testo $\mathcal{O}(n)$.
 \end{enumerate}
 La \textbf{prefix function} o funzione di fallimento $\phi$ è definita come segue:
 \begin{equation}
@@ -617,7 +636,10 @@ La \textbf{prefix function} o funzione di fallimento $\phi$ è definita come seg
 \end{equation}
 Essa è definita come segue:
 \begin{equation}
-    \phi(j) = \begin{cases} |B(P[1, j])| & \text{se } 1 \leq j \leq m \\-1 & \text{se } j = 0 \end{cases}
+    \phi(j) = \begin{cases}
+        |B(P[1, j])| & \text{se } 1 \leq j \leq m \\
+        -1           & \text{se } j = 0
+    \end{cases}
 \end{equation}
 \begin{esempio}
     Calcoliamo $\phi$ sul pattern $P=abcabaabcabab$ con $m=13$.
@@ -644,7 +666,7 @@ Essa è definita come segue:
         \end{tabular}
     \end{table}
 \end{esempio}
-Questo algoritmo è un’evoluzione dell'algoritmo banale per la ricerca delle
+Questo algoritmo è un'evoluzione dell'algoritmo banale per la ricerca delle
 occorrenze di un pattern in un testo. In particolare, l'algoritmo KMP consiste in:
 \begin{enumerate}
     \item Viene usata una finestra $W$ di lunghezza $m$ che scorre sul testo $T$
@@ -652,20 +674,26 @@ occorrenze di un pattern in un testo. In particolare, l'algoritmo KMP consiste i
     \item Si confrontano i simboli di $P$ con i corrispondenti simboli di $T$
           all'interno della finestra $W$ andando da sinistra a destra e partendo
           dal primo simbolo di $P$.
-    \item Non appena si incontra un mismatch oppure ogni simbolo di $P$ ha un
-          match con il corrispondente simbolo in $W$ (i è occorrenza esatta), $W$ viene
-          spostata a destra nella posizione $p = i + j - \phi(j - 1) - 1$, dove $j$ è
-          l'indice del simbolo di $P$ che ha causato il mismatch, mentre $i$ è
-          la posizione iniziale di $W$.
+    \item Non appena si incontra un \textit{mismatch} oppure ogni simbolo di $P$
+          ha un match con il corrispondente simbolo in $W$ (i è occorrenza esatta),
+          $W$ viene spostata a destra nella posizione:
+          \begin{equation}
+              p = i + j - \phi(j - 1) - 1
+          \end{equation}
+          dove $j$ è l'indice del simbolo di $P$ che ha causato il mismatch,
+          mentre $i$ è la posizione iniziale di $W$.
     \item L'ultima posizione di $W$ è $n - m + 1$.
 \end{enumerate}
 Riassumendo:
 \begin{itemize}
     \item $W$ viene spostata dalla posizione $i$ alla posizione $p$, dove:
-          $$p = i + j - \phi(j - 1) - 1$$ con $j$ indice del simbolo di $P$ che ha
-          causato il mismatch per $W$ in posizione $i$.
-    \item Il confronto riparte dal simbolo di $P$ in posizione $j = \phi(j - 1) + 1$
-          e dal simbolo di $T$ in posizione $i + j - 1$.
+          \begin{equation}
+              p = i + j - \phi(j - 1) - 1
+          \end{equation}
+          con $j$ indice del simbolo di $P$ che ha causato il mismatch per $W$
+          in posizione $i$.
+    \item Il confronto riparte dal simbolo di $P$ in posizione $j = \phi(j - 1)
+              + 1$ e dal simbolo di $T$ in posizione $i + j - 1$.
 \end{itemize}
 Nel caso in cui $j = 1$, allora $p = i + 1$ e il confronto riparte dal primo
 simbolo di $P$ e dal simbolo di $T$ in posizione $i + 1$.
@@ -676,38 +704,41 @@ simbolo di $P$ e dal simbolo di $T$ in posizione $i + 1$.
     $P[0]$ (simbolo inesistente) che di default viene considerato un match.
 \end{nota}
 Nel caso in cui $j = m + 1$, allora $p = i + m - \phi(m)$ e il confronto
-riparte dalla posizione $\phi(m) + 1$ di $P$ e dal simbolo di $T$ in posizione $i + m$.
+riparte dalla posizione $\phi(m) + 1$ di $P$ e dal simbolo di $T$ in posizione
+$i + m$.
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|l|l|l|}
         \hline
-                           & Automa a stati finiti       & KMP              \\ \hline
-        Preprocessing di P & $\mathcal{O}(m | \Sigma |)$ & $\mathcal{O}(m)$ \\ \hline
-        Scansione di T     & $\mathcal{O}(n)$            & $\mathcal{O}(n)$ \\ \hline
-        Spazio             & $\mathcal{O}(m | \Sigma |)$ & $\mathcal{O}(m)$ \\ \hline
+                           & Automa a stati finiti     & KMP              \\ \hline
+        Preprocessing di P & $\mathcal{O}(m |\Sigma|)$ & $\mathcal{O}(m)$ \\ \hline
+        Scansione di T     & $\mathcal{O}(n)$          & $\mathcal{O}(n)$ \\ \hline
+        Spazio             & $\mathcal{O}(m |\Sigma|)$ & $\mathcal{O}(m)$ \\ \hline
     \end{tabular}
 \end{table}
-Le differenze tra l'algoritmo basato sull'automa e KMP sono:
+Le differenze tra l'algoritmo basato sull'automa a stati finiti e KMP sono:
 \begin{itemize}
     \item Automa:
           \begin{itemize}
               \item Efficiente per pattern piccoli, perché la memoria è contenuta
-                    quindi le costanti all'interno del calcolo del tempo sono migliori.
-              \item Richiede più tempo e memoria per pattern grandi, perché sprechiamo
-                    tempo nel calcolo del $\delta$.
-              \item Ricerca di P in testi diversi utilizzando lo stesso automa
+                    quindi le costanti all'interno del calcolo del tempo sono
+                    migliori.
+              \item Richiede più tempo e memoria per pattern grandi, perché
+                    sprechiamo tempo nel calcolo del $\delta$.
+              \item Ricerca di P in testi diversi utilizzando lo stesso automa.
           \end{itemize}
           KMP:
           \begin{itemize}
-              \item Efficiente per pattern grandi
-              \item Richiede più tempo per pattern piccoli
+              \item Efficiente per pattern grandi.
+              \item Richiede più tempo per pattern piccoli.
           \end{itemize}
 \end{itemize}
 \section{Algoritmo di Baeza-Yates e Gonnet}
 La ricerca esatta effettuata attraverso questo algoritmo effettua un confronto
-tra i simboli del pattern e del testo in maniera non esplicita, ovvero non confronta
-carattere per carattere. In questo algoritmo vengono effettuate in parallelo operazioni
-bit a bit su word di bit, viene anche chiamato \textit{algoritmo bit parallel}.
+tra i simboli del pattern e del testo in maniera non esplicita, ovvero non
+confronta carattere per carattere. In questo algoritmo vengono effettuate in
+parallelo operazioni bit a bit su word di bit, viene anche chiamato
+\textit{algoritmo bit parallel}.
 
 Questo algoritmo segue il paradigma \textbf{shift-and} ovvero compie fondamentalmente
 due sole operazioni:
@@ -719,8 +750,8 @@ Come gli algoritmi visti fin ora, anche in questo caso possiamo descrivere il su
 funzionamento attraverso due fasi:
 \begin{itemize}
     \item \textbf{Preprocessing del pattern} $P$ nel quale vengono calcolate
-          $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene eseguita
-          in tempo $\theta(|\Sigma| + m)$.
+          $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
+          eseguita in tempo $\theta(m + |\Sigma|)$.
     \item \textbf{Scansione del testo} $T$ per cercare le occorrenze esatte del
           pattern $P$. Questa operazione viene eseguita in tempo $\theta(n)$.
 \end{itemize}
@@ -737,27 +768,32 @@ stessa lunghezza. Il valore restituito da queste operazioni è una nuova word in
 cui ogni bit è il risultato dell'operazione tra i bit corrispondenti nelle word
 in input. Tra queste operazioni abbiamo:
 \begin{itemize}
-    \item \textbf{Congiunzione logica} $\to$ AND. Questa operazione è implementata come:
+    \item \textbf{Congiunzione logica} $\to$ AND. Questa operazione è implementata
+          come:
           \begin{equation}
               w = w_1 \ \text{AND} \ w_2
           \end{equation}
           restituisce una word $w$ tale che:
-          \begin{itemize}
-              \item $w[j] = 1$ se e solo se $w_1[j] \ \text{AND} \ w_2[j] =  1$.
-              \item $w[j] = 0$ altrimenti.
-          \end{itemize}
+          \begin{equation}
+              w[j] = \begin{cases}
+                  1 & \text{se } w_1[j] = 1 \ \text{AND} \ w_2[j] = 1 \\
+                  0 & \text{altrimenti}
+              \end{cases}
+          \end{equation}
     \item \textbf{Disgiunzione logica} (inclusiva) $\to$ OR. Questa operazione è
           implementata come:
           \begin{equation}
               w = w_1 \ \text{OR} \ w_2
           \end{equation}
           restituisce una word $w$ tale che:
-          \begin{itemize}
-              \item $w[j] = 1$ se e solo se $w_1[j] \ \text{OR} \ w_2[j] =  1$.
-              \item $w[j] = 0$ altrimenti.
-          \end{itemize}
-    \item \textbf{Shift dei bit} di una posizione a destra con bit più significativo a $0$
-          $\to$ RSHIFT. Questa operazione è implementata come:
+          \begin{equation}
+              w[j] = \begin{cases}
+                  1 & \text{se } w_1[j] = 1 \ \text{OR} \ w_2[j] = 1 \\
+                  0 & \text{altrimenti}
+              \end{cases}
+          \end{equation}
+    \item \textbf{Shift dei bit} di una posizione a destra con bit più significativo
+          a $0$ $\to$ RSHIFT. Questa operazione è implementata come:
           \begin{equation}
               w = \text{RSHIFT}(w_1)
           \end{equation}
@@ -766,20 +802,25 @@ in input. Tra queste operazioni abbiamo:
               \item $w[j] = w_1[j - 1]$ se $j \geq 2$.
               \item $w[1] = 0$ altrimenti.
           \end{itemize}
-    \item \textbf{Shift dei bit} di una posizione a destra con bit più significativo a $1$
-          $\to$ RSHIFT1. Questa operazione viene implementata come un RSHIFT seguito
-          da un OR con una maschera in cui nella prima posizione è presente 1 e nelle altre 0.
+    \item \textbf{Shift dei bit} di una posizione a destra con bit più significativo
+          a $1$ $\to$ RSHIFT1. Questa operazione viene implementata come un RSHIFT
+          seguito da un OR con una maschera in cui nella prima posizione è presente
+          1 e nelle altre 0.
 \end{itemize}
 \subsection{Preprocessing del pattern}
-Dato un pattern di lunghezza $m$ e $\sigma$ in $\Sigma$, $B_{\sigma}$ è una word di $m$ bit tale che:
+Dato un pattern $P$ di lunghezza $m$ e $\sigma$ in $\Sigma$, $B_{\sigma}$ è una
+word di $m$ bit tale che:
 \begin{equation}
     B_{\sigma}[j] = 1 \iff P[j] = \sigma
 \end{equation}
 Viene creata una word per ogni simbolo dell'alfabeto $\Sigma$ e viene memorizzata
 in una tabella $B$. Con questa rappresentazione posso effettuare le query del tipo:
-"il simbolo in posizione $j$ di $P$ è uguale a un certo simbolo $\sigma$".
+\begin{center}
+    Il simbolo in posizione $j$ di $P$ è uguale a un certo simbolo $\sigma$
+\end{center}
 \begin{esempio}
-    Calcoliamo la tabella $B$ per un pattern $P=abcaba$ su un alfabeto $\Sigma=\left\{a,b,c,d\right\}$.
+    Calcoliamo la tabella $B$ per un pattern $P=abcaba$ su un alfabeto $\Sigma =
+        \{a, b, c, d\}$.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -794,17 +835,18 @@ in una tabella $B$. Con questa rappresentazione posso effettuare le query del ti
 \end{esempio}
 Vediamo ora come calcolare la tabella $B$:
 \begin{enumerate}
-    \item tutte le word $B_{\sigma}$ vengono inizializzate a $m$ bit a $0$.
-    \item viene creata una maschera $M$ di $m$ bit tutti uguali a $0$ tranne il
+    \item Tutte le word $B_{\sigma}$ vengono inizializzate a $m$ bit a $0$.
+    \item Viene creata una maschera $M$ di $m$ bit tutti uguali a $0$ tranne il
           più significativo che è uguale a $1$.
-    \item si esegue una scansione di $P$ da sinistra a destra, e per ogni posizione
+    \item Si esegue una scansione di $P$ da sinistra a destra, e per ogni posizione
           $j$ vengono eseguite le due operazioni bit a bit:
           \begin{itemize}
               \item $B_{P[j]} = M \ \textbf{OR} \ B_{P[j]}$
               \item $M = \textbf{RSHIFT} (M)$
           \end{itemize}
 \end{enumerate}
-L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| + m)$ ed è il seguente:
+L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| +
+    m)$ ed è il seguente:
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Compute-table-B}{$P$}
@@ -828,60 +870,86 @@ L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| +
 La procedura per la scansione del testo è rappresentata come:
 \begin{enumerate}
     \item Il testo $T$ viene scandito dalla prima all'ultima posizione.
-    \item Per ogni posizione $i$ del testo $T$ viene calcolata una word $D_i$ di $m$ bit.
+    \item Per ogni posizione $i$ del testo $T$ viene calcolata una word $D_i$ di
+          $m$ bit.
     \item Ogni volta che in $D_i$ il bit meno significativo è uguale a $1$, allora
           $i - m + 1$ è occorrenza esatta di $P$ in $T$.
 \end{enumerate}
 Dobbiamo ora definire cosa si intende con la word $D_i$. Prima di fare ciò dobbiamo
 definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1,i]$.
 \begin{definizione}[\textbf{Word $D_i$}]
-    Dati $P$ lungo $m$ e $T$ lungo $n$, $D_i$ ($0 \leq i \leq n$) è una word di
-    $m$ bit tale che:
+    Dati un pattern $P$ lungo $m$ e un testo $T$ lungo $n$, $D_i$ ($0 \leq i \leq
+        n$) è una word di $m$ bit tale che:
     \begin{equation}
         D_i[j] = 1 \iff P[1,j] = suff(T[1,i])
     \end{equation}
     Inoltre, sappiamo per definizione che:
     \begin{itemize}
         \item $D_0 = 00\dots0$ dato che $P[1, j] \neq suff(T[1, 0]) \ \forall j$
-        \item $D_i[m] = 1$ se e solo se $P[1, m] = suff(T[1, i]) = T[i-m+1, i]$ ovvero
-              si ha un’occorrenza esatta di $P$ in $T$ nella posizione $i - m + 1$.
+        \item $D_i[m] = 1$ se e solo se $P[1, m] = suff(T[1, i]) = T[i - m + 1,
+                          i]$ ovvero si ha un'occorrenza esatta di $P$ in $T$
+              nella posizione $i - m + 1$.
     \end{itemize}
 \end{definizione}
 \begin{nota}
-    Nota che da $D_i$ possiamo anche ottenere la lunghezza del bordo del pattern
-    quando $LSB$ di $D_i$ è a $1$ allora la lunghezza del bordo coincide con la posizione
-    del bit a $1$ più più vicino all'$LSB$.
+    Nota che da $D_i$ possiamo anche ottenere la lunghezza del bordo del pattern.
+    In generale, data una word $D_i$, la lunghezza del bordo del pattern $P$ è
+    uguale a $j$ se e solo se $D_i[m] = 1$ e $j$ è la più grande posizione $< m$
+    tale che $D_i[j] = 1$.
+
+    Con posizione più grande si intende quella più a destra diversa da $m$.
 \end{nota}
+\begin{esempio}
+    Data la word:
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+            D\_i & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0  & 1  & 0  & 0  & 0  & 0  & 1  \\ \hline
+            ~    & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+        \end{tabular}
+    \end{table}
+    possiamo calcolare il bordo del pattern in quanto l'ultimo bit è uguale a $1$.
+    Dato che il bit con valore uguale a $1$ più a destra, diverso da $m$, è in
+    posizione $11$, allora la lunghezza del bordo è:
+    \begin{equation}
+        |B(P)| = 11
+    \end{equation}
+\end{esempio}
 Ovviamente calcolare $D_i$ è sempre troppo costoso, infatti, $D_i$ viene sempre
-ottenuto a partire da $D_{i-1}$, portando a modificare l'algoritmo di scansione
+ottenuto a partire da $D_{i - 1}$, portando a modificare l'algoritmo di scansione
 del testo nel seguente modo:
 \begin{itemize}
     \item Inizia dalla word $D_0 = 00\dots0$
-    \item Per ogni $i$ da $1$ a $n$ calcola la word $D_i$ a partire dalla word $D_{i-1}$.
+    \item Per ogni $i$ da $1$ a $n$ calcola la word $D_i$ a partire dalla word
+          $D_{i - 1}$.
     \item Ogni volta che $D_i$ ha il bit meno significativo uguale a $1$, viene
-          prodotta in output l'occorrenza $i- m + 1$.
+          prodotta in output l'occorrenza $i - m + 1$.
 \end{itemize}
 Vediamo ora come si calcola il valore di $D_i$ a partire da $D_{i - 1}$:
 \begin{itemize}
     \item Se $j =  1$ allora posso calcolarla come:
           \begin{equation}
-              D_i[1] = 1 \text{\textbf{AND}} B_{T[i]}[1]
+              D_i[1] = 1 \textbf{AND} B_{T[i]}[1]
           \end{equation}
-          Perché $D_i[1] = 1\iff P[1,1] =suff(T[1,i])\iff P[1] = T[i]\iff B_{T[i]}[1]$.
-          Si aggiunge $1$ per semplificare le operazioni bit a bit.
+          Perché $D_i[1] = 1 \iff P[1,1] = suff(T[1,i]) \iff P[1] = T[i] \iff
+              B_{T[i]}[1]$. Si aggiunge $1$ per semplificare le operazioni bit
+          a bit.
     \item Se $j > 1$ allora posso calcolarla come:
           \begin{equation}
-              D_i[j] = D_{i - 1}[j - 1] \text{\textbf{AND}} B_{T[i]}[j]
+              D_i[j] = D_{i - 1}[j - 1] \textbf{AND} B_{T[i]}[j]
           \end{equation}
-          Perché $D_i[j] = 1 \iff P[1,j] = suff(T[1,i]) \iff P[1,j-1] = suff(T[1,i-1])
-              \text{\textbf{AND}} P[j] = T[i] \iff D_{i-1}[j-1] \text{\textbf{AND}} B_{T[i]}[j]$.
+          Perché $D_i[j] = 1 \iff P[1,j] = suff(T[1,i]) \iff P[1,j - 1] =
+              suff(T[1,i - 1]) \textbf{AND} P[j] = T[i] \iff D_{i - 1}[j - 1]
+              \textbf{AND} B_{T[i]}[j]$.
 \end{itemize}
 In questo modo stiamo ancora aggiornando un bit alla volta, ma sfruttando le
-operazioni bit a bit si possono aggiornare tutti in tempo \textbf{costante} nel seguente modo:
+operazioni bit a bit si possono aggiornare tutti in tempo \textbf{costante} nel
+seguente modo:
 \begin{equation}
-    D_i = \text{\textbf{RSHIFT1}}(D_{i - 1}) \ \text{\textbf{AND}} \ B_{T[i]}
+    D_i = \textbf{RSHIFT1}(D_{i - 1}) \ \textbf{AND} \ B_{T[i]}
 \end{equation}
-Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in tempo $\theta(n)$
+Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
+tempo $\theta(n)$
 \begin{algorithm}
     \begin{algorithmic}
         \Function{BYG}{$B, T$}
@@ -890,8 +958,8 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
         \State $M \gets 00\dots01$
         \For{$i \gets 1 \ \text{to} \ n$}
         \State $\sigma \gets T[i]$
-        \State $D \gets \text{\textbf{RSHIFT1}}(D_{i - 1}) \ \text{\textbf{AND}} \ B_{T[i]}$
-        \If{$(D \ \text{\textbf{AND}} M) = M$}
+        \State $D \gets \textbf{RSHIFT1}(D_{i - 1}) \ \textbf{AND} \ B_{T[i]}$
+        \If{$(D \ \textbf{AND} M) = M$}
         \State \text{output} $i - m + 1$
         \EndIf
         \EndFor
@@ -900,9 +968,9 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
     \caption{Algoritmo per la scansione del testo}
 \end{algorithm}
 \begin{esempio}
-    Siano un testo $T=babcabaadc$ e un pattern $P=abcaba$ tale che $|T| = 10$ e $|P|=6$.
-    Entrambe le stringhe costruite su un alfabeto $\Sigma=\left\{a,b,c,d\right\}$,
-    allora costruiamo la tabella $B_\sigma$:
+    Siano un testo $T = babcabaadc$ e un pattern $P = abcaba$ tale che $|T| = 10$
+    e $|P|=6$. Entrambe le stringhe costruite su un alfabeto $\Sigma = \{a, b, c,
+        d\}$, allora costruiamo la tabella $B_\sigma$:
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -916,21 +984,36 @@ Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
     \end{table}
     I singoli passi sono i seguenti:
     \begin{itemize}
-        \item Quindi partiremo da $D_0 = 000000$, leggo il primo simbolo del testo $T[1] = b$ e poi calcolo
-              $$D_1=RSHIFT1(D_{0}) \text{ AND } B_b = 100000 \text{ AND } 010010 = 000000$$
-        \item leggo il secondo simbolo del testo $T[2] = a$ e poi calcolo $D_2$
-              $$D_2 = 100000 \text{ AND } 100101 = 100000 $$
-        \item leggo il secondo simbolo del testo $T[3] = b$ e poi calcolo $D_3$
-              $$D_3 = 110000 \text{ AND } 010010 = 010000 $$
-        \item leggo il secondo simbolo del testo $T[4] = c$ e poi calcolo $D_4$
-              $$D_4 = 101100 \text{ AND } 001000 = 001000 $$
-        \item leggo il secondo simbolo del testo $T[5] = a$ e poi calcolo $D_5$
-              $$D_5 = 100100 \text{ AND } 100101 = 100100 $$
+        \item Quindi partiremo da $D_0 = 000000$, leggo il primo simbolo del
+              testo $T[1] = b$ e poi calcolo:
+              \begin{equation}
+                  D_1=RSHIFT1(D_{0}) \text{ AND } B_b = 100000 \text{ AND }
+                  010010 = 000000
+              \end{equation}
+        \item Leggo il secondo simbolo del testo $T[2] = a$ e poi calcolo $D_2$:
+              \begin{equation}
+                  D_2 = 100000 \text{ AND } 100101 = 100000
+              \end{equation}
+        \item Leggo il secondo simbolo del testo $T[3] = b$ e poi calcolo $D_3$:
+              \begin{equation}
+                  D_3 = 110000 \text{ AND } 010010 = 010000
+              \end{equation}
+        \item Leggo il secondo simbolo del testo $T[4] = c$ e poi calcolo $D_4$:
+              \begin{equation}
+                  D_4 = 101100 \text{ AND } 001000 = 001000
+              \end{equation}
+        \item Leggo il secondo simbolo del testo $T[5] = a$ e poi calcolo $D_5$:
+              \begin{equation}
+                  D_5 = 100100 \text{ AND } 100101 = 100100
+              \end{equation}
         \item $\dots$
-        \item leggo il secondo simbolo del testo $T[7] = a$ e poi calcolo $D_7$
-              $$D_6 = 101001 \text{ AND } 100101 = 100001 $$
+        \item Leggo il secondo simbolo del testo $T[7] = a$ e poi calcolo $D_7$
+              \begin{equation}
+                  D_6 = 101001 \text{ AND } 100101 = 100001
+              \end{equation}
         \item Ho il bit LSB di $D_6$ uguale a $1$, quindi ho trovato un match che
-              corrisponde a $i-m+1 =7-6+1= 2$. Poi continuo fino a quando non termino $T$.
+              corrisponde a $i - m + 1 = 7 - 6 + 1 = 2$. Poi continuo fino a
+              quando non termino $T$.
     \end{itemize}
 \end{esempio}
 \section{Algoritmo di Wu e Manber}
@@ -1250,9 +1333,9 @@ Prima di definire la trasformata di Burrows-Wheeler, definiamo il concetto di
 \begin{esempio}
     Dato il seguente testo $T=ggtcagtc\$$, allora la $3$-rotazione è:
     $$tcagtc\$gg$$
-    Mentre la $9$-rotazione coincide con:
+        Mentre la $9$-rotazione coincide con:
     $$\$ggtcagtc$$
-    Mentre la $1$-rotazione coincide con:
+        Mentre la $1$-rotazione coincide con:
     $$ggtcagtc\$$$
 \end{esempio}
 Possiamo osservare che la $q$-rotazione $r$ è una stringa lunga $n$ che ha:
@@ -1624,7 +1707,7 @@ Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
 
-Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$ e quindi 
+Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$ e quindi
 della Backward Extension, utilizzando FM-Index.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
@@ -1746,17 +1829,17 @@ Avendo definito queste due funzioni possiamo definire il calcolo della LF-functi
 in tempo costante, questo è possibile scomponendo l'indice da trovare come:
 \begin{itemize}
     \item numero di suffissi che iniziano con un carattere
-    più piccolo di $B[i]$ ($C(B[i])$)
+          più piccolo di $B[i]$ ($C(B[i])$)
     \item il numero di simboli si $B[i]$ che occorrono nella
-    BWT prima della posizione $i$. ($Occ(i, B[i]) + 1$)
-\end{itemize} 
+          BWT prima della posizione $i$. ($Occ(i, B[i]) + 1$)
+\end{itemize}
 
 \begin{equation}
     j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
 \end{equation}
 
 L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward extension in
-tempo costante}. Questo ci permette di definire un algoritmo per la ricerca esatta
+    tempo costante}. Questo ci permette di definire un algoritmo per la ricerca esatta
 in tempo lineare rispetto alla dimensione del pattern.
 
 Vediamo ora come utilizzare l'FM-index per calcolare la \textbf{backward
@@ -1782,8 +1865,8 @@ Possiamo però osservare che:
           \end{equation}
           Quindi la ricerca di $i_1$ è costante.
     \item $Occ(i_k,\sigma)$ è il numero di $\sigma$ in $B[1,i_k-1]$, inoltre
-          sappiamo che $B[i_k]=\sigma$. Questo significa che $Occ(i_k,\sigma) + 1 $ 
-          corrisponde al numero di simboli di $\sigma$ in $B[1,i_k]$, ovvero 
+          sappiamo che $B[i_k]=\sigma$. Questo significa che $Occ(i_k,\sigma) + 1 $
+          corrisponde al numero di simboli di $\sigma$ in $B[1,i_k]$, ovvero
           $ Occ(i_k ,\sigma)+1= Occ(i_k + 1,\sigma)$.
           Quindi possiamo dire $B[i_k + 1, e - 1]$ non esistono simboli uguali a $\sigma$,
           allora il numero di simboli $\sigma$ in $B[1, i_k]$ ($Occ(i_k + 1,
@@ -1830,16 +1913,16 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
         \begin{tabular}{|c|c|c|c|c|c|}
             \hline
             $Occ(i,\sigma)$ & $\$$ & $a$ & $c$ & $g$ & $t$ \\ \hline
-            $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\ \hline
-            $1$ & $0$ & $0$ & $1$ & $0$ & $0$ \\ \hline
-            $2$ & $0$ & $0$ & $2$ & $0$ & $0$ \\ \hline
-            $3$ & $0$ & $0$ & $2$ & $0$ & $1$ \\ \hline
-            $4$ & $0$ & $0$ & $2$ & $0$ & $2$ \\ \hline
-            $5$ & $1$ & $0$ & $2$ & $0$ & $2$ \\ \hline
-            $6$ & $1$ & $1$ & $2$ & $0$ & $2$ \\ \hline
-            $7$ & $1$ & $1$ & $2$ & $1$ & $2$ \\ \hline
-            $8$ & $1$ & $1$ & $2$ & $2$ & $2$ \\ \hline
-            $9$ & $1$ & $1$ & $2$ & $3$ & $2$ \\ \hline
+            $0$             & $0$  & $0$ & $0$ & $0$ & $0$ \\ \hline
+            $1$             & $0$  & $0$ & $1$ & $0$ & $0$ \\ \hline
+            $2$             & $0$  & $0$ & $2$ & $0$ & $0$ \\ \hline
+            $3$             & $0$  & $0$ & $2$ & $0$ & $1$ \\ \hline
+            $4$             & $0$  & $0$ & $2$ & $0$ & $2$ \\ \hline
+            $5$             & $1$  & $0$ & $2$ & $0$ & $2$ \\ \hline
+            $6$             & $1$  & $1$ & $2$ & $0$ & $2$ \\ \hline
+            $7$             & $1$  & $1$ & $2$ & $1$ & $2$ \\ \hline
+            $8$             & $1$  & $1$ & $2$ & $2$ & $2$ \\ \hline
+            $9$             & $1$  & $1$ & $2$ & $3$ & $2$ \\ \hline
         \end{tabular}
     \end{table}
     \begin{table}[!ht]
