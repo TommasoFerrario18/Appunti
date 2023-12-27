@@ -256,7 +256,7 @@ Quindi la funzione di decisione associata alla soluzione può essere scritta in
 termini del prodotto interno tra i vettori di supporto (support vector) $x_i$ e
 il vettore da classificare $x$.
 \section{Punti non sono linearmente separabili}
-Quando si lavora con punti non lineare separabili si usa lo stesso approccio,
+Quando si lavora con punti non linearmente separabili si usa lo stesso approccio,
 rivedendo la formulazione del problema tramite i \textbf{metodi kernel}.
 Si cerca di mappare lo spazio di input in un nuovo spazio che è a dimensione maggiore
 in cui i punti siano linearmente separabili, in questo modo è possibile classificare
@@ -285,7 +285,7 @@ pesante ma è semplificato nel caso di funzioni kernel.
 \end{definizione}
 \begin{definizione}[\textbf{Kernel trick}]
     Si definisce quindi il \textbf{kernel trick} che consiste nel computare il
-    prodotto interno del trasformare di due vettori $x$ e $y$, tramite $\Phi$,
+    prodotto interno dele trasformate dei due vettori $x$ e $y$, tramite $\Phi$,
     senza computare le trasformate, semplificando il calcolo di:
     \begin{equation}
         sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle \Phi(x_i), \Phi(x)\rangle + b \right)
