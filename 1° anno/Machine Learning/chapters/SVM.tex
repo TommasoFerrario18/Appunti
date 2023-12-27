@@ -1,20 +1,20 @@
 \chapter{Support Vector Machines}
 Precedentemente abbiamo introdotto:
 \begin{itemize}
-    \item \textbf{percettrone semplice}: è un algoritmo di apprendimento efficiente
-          solo per funzioni di separazione lineare
-    \item \textbf{percettrone multistrato}: è un algoritmo difficile da addestrare
+    \item \textbf{Percettrone semplice}: è un algoritmo di apprendimento efficiente
+          solo per funzioni di separazione lineare.
+    \item \textbf{Percettrone multistrato}: è un algoritmo difficile da addestrare
           perché deve aggiornare molti pesi e ci sono molti minimi locali, apprende
-          solo funzioni non lineari complesse
+          sia funzionil lineari che non lineari.
 \end{itemize}
 Le \textbf{Support Vector Machines} (SVM) sono un algoritmo efficiente per
 apprendere funzioni di separazione non lineari complesse.
 
 Anche nel caso delle SVM viene ripreso comunque il concetto di separazione lineare
-ma con una scelta dell'iperpiano migliore. Si usa la \textit{teoria statistica dell'apprendimento},
-utilizzando la \textbf{programmazione matematica}, la quale dice che tra
-tutti gli iperpiani che possiamo usare per separare due classi, si sceglie
-quello che sia in grado di etichettare meglio nel futuro. L'intuizione
+ma con una scelta dell'iperpiano migliore. Si usa la \textit{teoria statistica
+    dell'apprendimento}, utilizzando la \textbf{programmazione matematica}, la quale
+dice che tra tutti gli iperpiani che possiamo usare per separare due classi, si
+sceglie quello che sia in grado di etichettare meglio nel futuro. L'intuizione
 è quella di prendere un iperpiano ottimo rispetto alla misura della distanza minima
 che si ha tra gli esempi. Si guardano quindi tutti i punti del training set e
 cerco di piazzare in mezzo l'iperpiano, in modo che intorno ad esso ci sia massima
@@ -22,7 +22,6 @@ ampiezza. Tale ampiezza è detta \textbf{margine}.
 \begin{definizione}[\textbf{Margine}]
     Il margine è la distanza tra i vettori di supporto e l'iperpiano.
 \end{definizione}
-
 Se riuscissimo a separare i dati con un largo margine avremmo ragione di credere
 che il classificatore sia “più robusto” tanto da avere una migliore generalizzazione.
 Quando arriva quindi un nuovo punto, generato con la stessa regola degli altri,
@@ -63,8 +62,8 @@ Si ha che il vettore $w$ mi dirà l'inclinazione del piano mentre $b$ è la dist
 tra l'origine e il piano, queste due variabili identificano i vari iperpiani
 possibili tra cui cercare il migliore.
 
-L'ipotesi quindi tra $w$ e $b$ è una funzione che prende il segno di
-$\langle w, x \rangle + b$ per associare l'etichetta:
+L'ipotesi quindi tra $w$ e $b$ è una funzione che prende il segno di $\langle w,
+    x \rangle + b$ per associare l'etichetta:
 \begin{equation}
     h_{w,b} (x) = sgn(\langle w, x \rangle + b)
 \end{equation}
@@ -80,7 +79,8 @@ e negativo più vicino, allora definiamo:
     \begin{equation}
         \hat{\gamma}_i = y_i( \langle w, x_i \rangle + b )
     \end{equation}
-    e quindi il margine funzionale dell'iperpiano rispetto al training set $S$ è definito come:
+    e quindi il margine funzionale dell'iperpiano rispetto al training set $S$ è
+    definito come:
     \begin{equation}
         \hat{\rho} = \min_{i = 1, \dots, n} \hat{\gamma}_i
     \end{equation}
@@ -88,13 +88,13 @@ e negativo più vicino, allora definiamo:
 Si hanno quindi due casistiche:
 \begin{enumerate}
     \item Se si ha un punto $x_i$ tale che $y_i = +1$, perché il margine
-          funzionale sia grande è necessario che la quantità $\langle w, x_i \rangle + b$
-          abbia un grande valore positivo.
+          funzionale sia grande è necessario che la quantità $\langle w, x_i
+              \rangle + b$ abbia un grande valore positivo.
     \item Se si ha un punto $x_i$ tale che $y_i = -1$, perché il margine funzionale
-          sia grande è necessario che la quantità $\langle w, x_i \rangle + b$ abbia
-          un grande valore negativo
+          sia grande è necessario che la quantità $\langle w, x_i \rangle + b$
+          abbia un grande valore negativo.
 \end{enumerate}
-Il margine funzionale specifica quanta è buona la classificazione ma non non misura
+Il margine funzionale specifica quanta è buona la classificazione, ma non misura
 la distanza degli esempi dall'iperpiano.
 \begin{teorema}
     Se $\hat{\gamma}_i > 0$, per ogni $classificazione_i$ la classificazione è
@@ -117,8 +117,9 @@ si ottengono:
           invertito se $c < 0$.
 \end{itemize}
 ma dato che il margine funzionale viene moltiplicato per $c$, non possiamo usarlo
-come distanza di un punto dall'iperpiano, perché non è \textbf{invariante} rispetto alla
-scala. Bisogna studiare la distanza $d$ del punto $x$ dall'iperpiano. Si ha quindi:
+come distanza di un punto dall'iperpiano, perché non è \textbf{invariante} rispetto
+alla scala. Bisogna studiare la distanza $d$ del punto $x$ dall'iperpiano. Si ha
+quindi:
 \begin{equation}
     d = \frac{\sum_{i = 1} ^ n w_i \cdot x_i + b}{\| w \|} =
     \frac{\langle w, x_i \rangle + b}{\|  w \|}
@@ -146,8 +147,8 @@ geometrica dall'iperpiano, il margine geometrico rende meglio l'idea della dista
 di un punto da un iperpiano in $\mathbb{R}^n$.
 
 Inoltre, si ha che il margine geometrico è invariante rispetto alla scala di $w$
-e quindi possiamo scalare l'iperpiano senza cambiamenti della distanza dei punti 
-rispento all'iperpiano, in questo modo il margine rimane invariato. Al contrario
+e quindi possiamo scalare l'iperpiano senza cambiamenti della distanza dei punti
+rispetto all'iperpiano, in questo modo il margine rimane invariato. Al contrario
 il margine funzionale è variante perché cambiando la scala di $w$ allora cambiava
 anche il valore del margine, cambiando la semantica della classificazione, ciò
 comporta errori.
@@ -208,7 +209,8 @@ Lo scalo quindi in modo da avere l'iperpiano canonico, con margine funzionale
 pari a 1:
 \begin{equation*}
     \begin{aligned}
-        \max \frac{1}{\|w\|} \\ \text{s.t.} \ y_i(\langle w, x_i \rangle + b) \leq \gamma
+        \max \frac{1}{\|w\|} \\ \text{s.t.} \ y_i(\langle w, x_i \rangle + b)
+        \leq \gamma
     \end{aligned}
 \end{equation*}
 Si cerca quindi di rendere massimo $\frac{1}{\|w\|}$ che equivale a rendere
@@ -272,40 +274,46 @@ superiore in cui siano linearmente separabili.
 
 In questo nuovo spazio la funzione di decisione che classifica l'input $x$ è:
 \begin{equation}
-    sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle \Phi(x_i), \Phi(x)\rangle + b \right)
+    sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle \Phi(x_i), \Phi(x)\rangle + b
+    \right)
 \end{equation}
 Il calcolo delle funzioni di trasformazione $\Phi$ è generalmente computazionalmente
 pesante ma è semplificato nel caso di funzioni kernel.
 \begin{definizione}[\textbf{Funzione kernel}]
-    Data una trasformazione $\Phi: \mathbb{R}^n \to \mathbb{R}^m$ una 
+    Data una trasformazione $\Phi: \mathbb{R}^n \to \mathbb{R}^m$ una
     \textbf{funzione kernel} è una mappa:
     \begin{equation}
-        K: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R} \ \text{tale che} \  K(x, y) = \Phi(x) \cdot \Phi(y)
+        K: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R} \ \text{tale che} \
+        K(x, y) = \Phi(x) \cdot \Phi(y)
     \end{equation}
 \end{definizione}
 \begin{definizione}[\textbf{Kernel trick}]
-    Si definisce quindi il \textbf{kernel trick} che consiste nel computare il
-    prodotto interno del trasformare di due vettori $x$ e $y$, tramite $\Phi$,
-    senza computare le trasformate, semplificando il calcolo di:
+    Si definisce quindi il \textbf{kernel trick} ovvero una procedura che permette
+    di computare il prodotto interno delle trasformazioni dei due vettori $x$ e
+    $y$, ovvero $\langle\Phi(x), \ \Phi(y)\rangle$, senza computare le
+    trasformazioni. Questo permette di semplificare il calcolo di:
     \begin{equation}
-        sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle \Phi(x_i), \Phi(x)\rangle + b \right)
+        sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle \Phi(x_i), \Phi(x) \rangle
+        + b \right)
     \end{equation}
-    sostituendo $\Phi(x_i) \cdot \Phi(x)$ con $K(x_i, x)$, ottenendo:
+    sostituendo $\langle\Phi(x), \ \Phi(y)\rangle$ con $K(x_i, x)$, ottenendo:
     \begin{equation}
         sgn\left(\sum_{i \in Q} \alpha_i \cdot K(x_i, x) + b \right)
     \end{equation}
-    Non si cercano tutte le possibili trasformazioni ma solo alcune.
 \end{definizione}
+\begin{nota}
+    Non si cercano tutte le possibili trasformazioni ma solo alcune.
+\end{nota}
 \begin{esempio}
-    Sia $\phi:\mathbb{R}^2\rightarrow\mathbb{R}^3$ la funzione di trasformazione
+    Sia $\Phi:\mathbb{R}^2\rightarrow\mathbb{R}^3$ la funzione di trasformazione
     definita nel seguente modo:
     \begin{equation}
-        \phi(x,y) =(x^2,y^2,\sqrt{2xy})
+        \Phi(x,y) =(x^2,y^2,\sqrt{2xy})
     \end{equation}
-    avremo che $p_1=(x_1,x_2),p_2=(x_2,y_2)\in \mathbb{R}^2$, allora ho
-    $K(p_1,p_2) =  \langle \Phi(p_1), \Phi(p_2) \rangle \in\mathbb{R}^3$,
+    avremo che $p_1 = (x_1, y_1), p_2 = (x_2, y_2) \in \mathbb{R}^2$, allora ho
+    $K(p_1, p_2) = \langle \Phi(p_1), \Phi(p_2) \rangle \in\mathbb{R}^3$,
     più precisamente:
-    $$K(p_1,p_2) = \langle\left(\begin{array}{c}
+    $$K(p_1,p_2) = \left\langle\left(\begin{array}{c}
                 x_1^2 \\
                 y_1^2 \\
                 \sqrt{2x_1y_1}
@@ -313,29 +321,32 @@ pesante ma è semplificato nel caso di funzioni kernel.
                 x_2^2 \\
                 y_2^2 \\
                 \sqrt{2x_2y_2}
-            \end{array}\right)\rangle= (x_1x_2)^2+(y_1y_2)^2+ 2\sqrt{x_1y_1x_2y_2}$$
+            \end{array}\right)\right\rangle = (x_1 \cdot x_2)^2 + (y_1 \cdot
+        y_2)^2 + 2 \sqrt{x_1 \cdot y_1 \cdot x_2 \cdot y_2}$$
 \end{esempio}
 Si hanno alcune proprietà:
 \begin{itemize}
     \item Se i dati sono mappati in uno spazio di dimensioni sufficientemente
-          elevate, saranno quasi sempre linearmente separabili
+          elevate, saranno quasi sempre linearmente separabili.
     \item Quattro dimensioni sono sufficienti per separare linearmente un cerchio
-          in qualsiasi punto del piano
+          in qualsiasi punto del piano.
     \item Cinque dimensioni sono sufficienti per separare linearmente qualsiasi
-          ellisse
+          ellisse.
     \item Se abbiamo $N$ esempi sono sempre separabili in spazi di dimensioni
-          $N - 1$ o più
+          $N - 1$ o più.
     \item Calcolare $K(x, y)$ può essere molto economico anche se $\Phi(x)$ è
-          molto costoso, ad esempio con vettori di dimensione elevata e, in tali casi
-          (che vanno dimostrati), si addestrano le SVM nello spazio di dimensionalità
-          maggiore senza mai dover trovare o rappresentare esplicitamente i vettori $\Phi(x)$
+          molto costoso, ad esempio con vettori di dimensione elevata e, in tali
+          casi (che vanno dimostrati), si addestrano le SVM nello spazio di
+          dimensionalità maggiore senza mai dover trovare o rappresentare
+          esplicitamente i vettori $\Phi(x)$.
 \end{itemize}
 Vediamo una lista di kernel standard:
 \begin{itemize}
     \item \textbf{Lineare}: $K(x, y) = x \cdot y$
     \item \textbf{Polinomiale}: $K(x, y) = (1 + x \cdot y)^d$
     \item \textbf{Radial basis function}: $K(x, y) = e^{-\gamma \| x - y\|^2}$
-    \item \textbf{Gaussian radial basis function}: $K(x, y) = e^{\frac{-(x-y)^2}{2 \cdot \sigma^2}}$
+    \item \textbf{Gaussian radial basis function}: $K(x, y) = e^{\frac{-(x-y)^2}
+                      {2 \cdot \sigma^2}}$
     \item \textbf{Percettrone multistrato}: $K(x, y) = \tanh(b(x \cdot y) - c)$
 \end{itemize}
 \begin{teorema}
@@ -344,11 +355,56 @@ Vediamo una lista di kernel standard:
 \begin{teorema}[\textbf{Teorema di Mercer}]
     Ogni matrice simmetrica e definita positiva è un kernel.
 \end{teorema}
-
+\begin{definizione}[\textbf{Gram matrix}]
+    Definiamo \textbf{kernel matrix}, detta anche \textbf{matrice di Gram},
+    dato un kernel $K$ e un insieme di punti $x_1, \dots, x_n$ come una matrice
+    dove ogni componente è:
+    \begin{equation}
+        G_{i, j} = \langle \Phi(x_i), \Phi(x_j) \rangle = K(x_i, x_j)
+    \end{equation}
+\end{definizione}
+\begin{esempio}
+    Considerando il seguente dataset:
+    \begin{equation}
+        x_1 = [1, 2], \ x_2 = [3, 4], \ x_3 = [5, 6]
+    \end{equation}
+    dove a ogni istanza è associata la rispettiva classe:
+    \begin{equation}
+        y_1 = 1, \ y_2 = -1, \ y_3 = 1
+    \end{equation}
+    e il seguente kernel:
+    \begin{equation}
+        K(x, y) = x^T \cdot y
+    \end{equation}
+    si vuole calcolare la matrice di Gram per il kernel $K$ usando il dataset.
+    Dalla definizione della matrice di Gram si ha che:
+    \begin{equation}
+        G = \left[
+            \begin{array}{ccc}
+                K(x_1, x_1) & K(x_1, x_2) & K(x_1, x_3) \\
+                K(x_2, x_1) & K(x_2, x_2) & K(x_2, x_3) \\
+                K(x_3, x_1) & K(x_3, x_2) & K(x_3, x_3) \\
+            \end{array}
+            \right] = \left[
+            \begin{array}{ccc}
+                1 \cdot 1 + 2 \cdot 2 & 1 \cdot 3 + 2 \cdot 4 & 1 \cdot 5 + 2 \cdot 6 \\
+                3 \cdot 1 + 4 \cdot 2 & 3 \cdot 3 + 4 \cdot 4 & 3 \cdot 5 + 4 \cdot 6 \\
+                5 \cdot 1 + 6 \cdot 2 & 5 \cdot 3 + 6 \cdot 4 & 5 \cdot 5 + 6 \cdot 6 \\
+            \end{array}
+            \right] = \left[
+            \begin{array}{ccc}
+                5  & 11 & 17 \\
+                11 & 25 & 39 \\
+                17 & 39 & 61 \\
+            \end{array}
+            \right]
+    \end{equation}
+\end{esempio}
+\section{Classificazione multi-classe}
 SVM può essere applicato a problemi non binari tramite \textit{one vs rest},
 ovvero consiste nell'effettuare, per ogni classe, un'esecuzione di SVM tra la singola classe
 contro tutte le altre. In aggiunta, si combinano tutti gli iperpiani trovati
-tra di loro per effettuare la classificazione multiclasse.
+tra di loro per effettuare la classificazione multi-classe.
 
 Si ha quindi l'addestramento di un singolo classificatore per classe, con i campioni
 di quella classe considerati come positivi e tutti gli altri campioni come negativi.
