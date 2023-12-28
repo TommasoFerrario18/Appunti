@@ -798,14 +798,14 @@ monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
                   \end{equation}
             \item Dal punto precedente possiamo arrivare a dire che $M = \bigcup Z \subseteq
                   f(M)$, questo perché l'unione appartiene a $Z$ per definizione, 
-                  quindi $m \in Z$ ed è il minimo.
+                  quindi $M \in Z$ ed è il massimo.
             \item Vogliamo ora dimostrare che sia punto fisso. Sapendo che
                   $M \subseteq f(M)$ possiamo dire che:
                   \begin{equation}
                       f(M) \subseteq f(f(M))
                   \end{equation}
                   quindi per definizione di $Z$ sappiamo che $f(M)\in Z$.
-            \item Dal momento che $m$ è il più piccolo elemento di $Z$ abbiamo:
+            \item Dal momento che $M$ è il più grande elemento di $Z$ abbiamo:
                   \begin{equation}
                     f(M) \subseteq M \implies M = f(M)
                   \end{equation}
@@ -894,3 +894,7 @@ una per $U$ per la dimostrazione e poi trasformeremo le formule in quegli operat
 \begin{nota}
     Cerca la funzione che dimostra $\alpha U \beta$ portalo all'orale.
 \end{nota}
+Definiamo una funzione per $\gamma \equiv \alpha U \beta$, cioè $f_\gamma$:
+\begin{equation}
+    f_\gamma(H) = [[\beta]] \cap \{q\in [[\alpha]] \mid \exists (q, q')\in T, q'\in H\}
+\end{equation}
