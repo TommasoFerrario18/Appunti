@@ -1,21 +1,24 @@
 \chapter{Apprendimento Bayesiano}
-Ci sono stati 2 modi per rappresentare la probabilità:
+Ci sono 2 modi per rappresentare la probabilità:
 \begin{itemize}
-    \item \textbf{soggettivo} (grado di conoscenza o probabilità Bayesiana): la
+    \item \textbf{Soggettivo} (grado di conoscenza o probabilità Bayesiana): la
           probabilità di un evento sapendo che è accaduto un altro evento.
-    \item \textbf{oggettivo} (Long-term Frequency): la probabilità di un evento
+    \item \textbf{Oggettivo} (Long-term Frequency): la probabilità di un evento
           è il limite della sua frequenza relativa in molti tentativi.
 \end{itemize}
-La probabilità in termini di limite sulle frequenze a lungo termine dei casi,
-questo è un'interpretazione oggettiva perché si sfruttano delle formule e poi
-abbiamo dei casi immutabili. Mi baso su parametri fissati e quindi calcolo la
-probabilità in base ai parametri.
+Un esempio di probabilità oggettiva è rappresentato dalla probabilità in termini
+di limite sulle frequenze a lungo termine dei casi. Questo perché si sfruttano
+delle formule e poi abbiamo dei casi immutabili. Mi baso su parametri fissati e
+quindi calcolo la probabilità in base ai parametri.
 
-L'\textbf{apprendimento bayesiano} è un approccio all'apprendimento automatico 
-che si basa sulla probabilità bayesiana. L'idea è quella di utilizzare la probabilità 
-per rappresentare la conoscenza incerta e quindi aggiornare la probabilità in base
-ai nuovi dati. Quindi non cerchiamo l'ipotesi che combacia con i dati ma cerchiamo
-l'ipotesi più probabile.
+L'\textbf{apprendimento bayesiano} è un approccio dell'apprendimento automatico
+che si basa sulla probabilità bayesiana. L'idea è quella di utilizzare la
+probabilità per rappresentare la conoscenza incerta e quindi aggiornarla in base
+ai nuovi dati.
+\begin{center}
+    Quindi non cerchiamo l'ipotesi che combacia con i dati ma cerchiamo l'ipotesi
+    più probabile.
+\end{center}
 
 L'apprendimento bayesiano è importante per due motivi:
 \begin{enumerate}
@@ -57,19 +60,19 @@ $h$ dato un insieme di dati $D$. La regola di Bayes è la seguente:
 dove:
 \begin{itemize}
     \item $P(h|D)$ è la probabilità dell'ipotesi $h$ dato il dataset $D$
-          (\textbf{posterior}), è la probabilità che l'ipotesi  dopo aver osservato
+          (\textbf{posterior}), è la probabilità che l'ipotesi dopo aver osservato
           l'evidenza.
     \item $P(D|h)$ è la probabilità del dataset $D$ dato l'ipotesi $h$
-          (\textbf{likelihood}), è la probabilità di osservare l'evidenza $D$ dato che
-          l'ipotesi $h$ è vera.
+          (\textbf{likelihood}), è la probabilità di osservare l'evidenza $D$ 
+          dato che l'ipotesi $h$ è vera.
     \item $P(h)$ è la probabilità dell'ipotesi $h$ (\textbf{prior}), ovvero la
           probabilità dell'ipotesi prima di osservare l'evidenza. È un informazione
           a priori, il grado di fiducia rispetto all'ipotesi prima di osservare
           l'evidenza. Prima si fissa la prior e poi si osserva l'evidenza.
     \item $P(D)$ è la probabilità del dataset $D$ (\textbf{evidence}), ovvero
-          la probabilità di osservare l'evidenza $D$. È la probabilità di come si
-          comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il dataset e
-          quindi al distribuzione dei dati.
+          la probabilità di osservare l'evidenza $D$. È la probabilità di come 
+          si comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il 
+          dataset e quindi la distribuzione dei dati.
 
           Quando ho due eventi indipendenti la probabilità congiunta è il prodotto
           delle due probabilità:
@@ -82,7 +85,6 @@ dove:
               P(D) = \sum_{h \in H} P(D, h) \cdot P(h)
           \end{equation}
 \end{itemize}
-
 Con la formula di Bayes si può calcolare la probabilità a posteriori. L'ipotesi
 che meglio si adatta ai dati è quella che ha la probabilità a posteriori più alta.
 Viene anche definita come \textbf{ipotesi MAP} (\textit{Maximum A Posteriori}).
@@ -106,7 +108,7 @@ dell'\textbf{ipotesi ML} (\textit{Maximum Likelihood}), perché prenderemo $h$:
 potendo quindi trascurare $P(h)$ in quanto equivalente per tutte le ipotesi.
 
 Si può utilizzare la formula di Bayes per specificare un algoritmo di apprendimento
-molto semplice detto \textbf{algoritmo Brute-Force map learning}, che si articola
+molto semplice detto \textbf{algoritmo Brute-Force MAP learning}, che si articola
 nei seguenti passi:
 \begin{enumerate}
     \item Per ogni ipotesi $h \in H$ calcolo la probabilità a posteriori $P(h|D)$,
@@ -124,7 +126,8 @@ nei seguenti passi:
     ottenere. Nello specifico si hanno: $\prod_{i=1}^n |D_i|$ combinazioni, dove
     $D_i$ è il dominio della variabile $X_i$.
 \end{nota}
-Il modo per semplificare l'apprendimento bayesiano è quello di usare il \textbf{naive bayes}.
+Il modo per semplificare l'apprendimento bayesiano è quello di usare il 
+\textbf{naive bayes}.
 
 Usando la formula di Bayes posso calcolare la probabilità dell'ipotesi $h$ dato
 il training set $D$: $P(h|D)$. Tale probabilità prende il nome di \textbf{posterior},
@@ -232,8 +235,8 @@ Algoritmo naive bayes:
         \end{aligned}
     \end{equation}
 \end{esempio}
-In generale per tutte le feature non vale l'\textbf{indipendenza condizionata}, ma
-è stato dimostrato che la correttezza rimane invariata.
+In generale per tutte le feature non vale l'\textbf{indipendenza condizionata}, 
+ma è stato dimostrato che la correttezza rimane invariata.
 
 I principali problemi del \textbf{Naive Bayes} si hanno quando non si hanno abbastanza
 dati per il training del modello. In questi casi risulta complesso stimare le
@@ -252,8 +255,8 @@ Nella realtà si assumono che tutti gli attributi derivino da distribuzioni gaus
 per semplificare i conti.
 
 Per classificare si calcolano sempre le probabilità, più precisamente la prior si
-deriva dalla probabilità che una classe $c$ venga osservata tra le etichette del dataset.
-La likelihood si può calcolare usando la gaussiana:
+deriva dalla probabilità che una classe $c$ venga osservata tra le etichette del 
+dataset. La likelihood si può calcolare usando la gaussiana:
 \begin{equation}
     P(x_i|c_j) = \frac{1}{\sqrt{2 \pi \sigma_{i, j}^2}} \cdot e^{-\frac{(x_i -
                 \mu_{i,j})^2}{2 \sigma_{i,j}^2}}
