@@ -195,7 +195,8 @@ rappresentato dal suo grafo dei casi.
               \begin{equation}
                   A = \{(c, U, c') | c, c' \in C_{\Sigma}, U \in U_{\Sigma}, c[U > c'\}
               \end{equation}
-              I nodi sono i casi sequenziali mentre gli archi sono gli eventi
+              I nodi sono i casi sequenziali mentre gli archi sono gli insiemi
+              di eventi indipendenti
     \end{itemize}
 \end{definizione}
 \begin{definizione}[\textbf{Grafo dei casi sequenziale}]
@@ -205,6 +206,7 @@ rappresentato dal suo grafo dei casi.
     \begin{equation}
         A=\left\{(c,e,c')|c,c'\in C_\Sigma, e\in E: c[e>c' \right\}
     \end{equation}
+    I nodi sono i casi sequenziali mentre gli archi sono gli eventi
 \end{definizione}
 
 \subsection{Diamond property}
@@ -457,14 +459,11 @@ dall'uno all'altro.
               quindi $C$ è una clique della relazione \textbf{co}.
         \item \textbf{taglio} se e solo se $C$ è un \textbf{co-set} massimale
               (tutti gli elementi nel taglio sono in relazione \textbf{co})
-              \begin{equation}
-                  \forall z\in X, \exists v\in C, z \ \textbf{li} \ v
-              \end{equation}
     \end{itemize}
-    Definiamo $C$ come \textbf{co-set} massimale se e solo se $\forall y \in X \cap C$
+    Definiamo $C$ come \textbf{co-set} massimale se e solo se $\forall y \in X \backslash C$
     si ha che:
     \begin{equation}
-        \exists c \in C: y \not\textbf{co} \ c
+        \exists c \in C: y \textbf{li} \ c
     \end{equation}
     Quindi in $C$ definito o come \textbf{co-set} o come \textbf{taglio} si ha
     che \textbf{co} è transitività.
@@ -477,14 +476,11 @@ dall'uno all'altro.
     \begin{itemize}
         \item \textbf{li-set} se e solo se $\forall x, y \in L: \ x \ \textbf{li} \ y$
         \item \textbf{linea} se e solo se $L$ è un \textbf{li-set} massimale.
-              \begin{equation}
-                  \forall z\in X, \exists v\in C, z \ \textbf{li} \ v
-              \end{equation}
     \end{itemize}
     Definiamo $L$ come \textbf{li-set} massimale se e solo se $\forall y \in X
         \backslash L$ si ha che:
     \begin{equation}
-        \exists l \in L: \ y \not\textbf{li}  \ l
+        \exists l \in L: \ y \textbf{co}  \ l
     \end{equation}
     Si ha quindi che:
     \begin{itemize}
@@ -585,9 +581,28 @@ struttura che mi raccolga tutti i possibili processi sequenziali.
     \end{itemize}
 \end{definizione}
 In queste reti è ancora possibile associare a $N$ un ordine parziale
-$(X, \leq) = (B \cup E, F^{\ast})$. Se i due elementi non sono ordinati allora
-saranno o in relazione $co$ o in \textbf{conflitto}. Estenderemo la relazione $co$
-specificando $x\text{ co }y$ aggiunge il fatto che $\lnot x\#y$.
+$(X, \leq) = (B \cup E, F^{\ast})$:
+\begin{itemize}
+    \item $x \textbf{li} y$ sse $x\le y$ o $y\le x$
+    \item $x\#y$ sse $\exists e_1,e_2\in E :^{\bullet}e_1 \cap ^{\bullet} e_2\ne \emptyset
+    \land e_1\le x \land e_2\le y$
+    \item $x\text{ co }y$ sse $\lnot (x<y)$ e $\lnot (y<x)$ e $\lnot x\#y$
+\end{itemize}
+
+Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \textbf{conflitto}. 
+
+\begin{nota}
+    La proprietà 2 e 3 delle reti causali in and tra loro implicano la proprietà 3
+    delle reti di occorrenze. Un ragionamento analogo può essere fatto per le proprietà
+    2 e 4 delle reti causali, le quali in and implicano la proprietà 4 delle reti
+    di occorrenza.
+\end{nota}
+
+\begin{nota}
+    Un processo non sequenziale può essere definito anche richiedendo che $\phi$
+    soddisfi: (1),(2),(3') e (4'), dove 3' e 4' implicano le proprietà 3 e 4
+    delle reti di occorrenza.
+\end{nota}
 \begin{definizione}[\textbf{Processo ramificato}]
     Sia $\Sigma = (S,T, F, c_{in})$ un sistema elementare senza contatti e finito.
     $\langle N = (B, E, F); \phi \rangle$ è un \textbf{processo ramificato} di $\Sigma$
@@ -608,15 +623,6 @@ specificando $x\text{ co }y$ aggiunge il fatto che $\lnot x\#y$.
               \end{enumerate}
     \end{itemize}
 \end{definizione}
-La proprietà 2 e 3 delle reti causali in and tra loro implicano la proprietà 3
-delle reti di occorrenze. Un ragionamento analogo può essere fatto per le proprietà
-2 e 4 delle reti causali, le quali in and implicano la proprietà 4 delle reti
-di occorrenza.
-\begin{nota}
-    Un processo non sequenziale può essere definito anche richiedendo che $\phi$
-    soddisfi: (1),(2),(3') e (4'), dove 3' e 4' implicano le proprietà 3 e 4
-    delle reti di occorrenza.
-\end{nota}
 \begin{definizione}[\textbf{Prefisso}]
     Sia $\Sigma = (S,T, F, c_{in})$ un sistema elementare finito e senza contatti
     e siano $\Pi_1 = \langle N_1; \phi_1 \rangle$, $\Pi_2 = \langle N_2; \phi_2 \rangle$
@@ -627,7 +633,7 @@ di occorrenza.
     $N_2$ e $\phi_{2|N_1} = \phi_1$ ($\phi_2$ ”ristretto” a $N_1$ è uguale a $\phi_1$).
 \end{definizione}
 \begin{definizione}[\textbf{Unfolding}]
-    $\Sigma$ ammette un unico processo ramificato che è massimale rispetto alla
+    $\Sigma$, sistema elementare, ammette un unico processo ramificato che è massimale rispetto alla
     relazione di prefisso tra processi. Tale processo massimale è chiamato
     \textbf{unfolding} di $\Sigma$, denotato $Unf (\Sigma)$.
 \end{definizione}
