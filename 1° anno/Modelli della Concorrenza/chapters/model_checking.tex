@@ -594,7 +594,7 @@ voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva.
     \textbf{equivalenti} rispetto a una logica $L$ se, $\forall \alpha \in FbF_L$
     vale che:
     \begin{equation}
-        M_1, q_0 \models \alpha \iff M_2, S_0 \models \alpha
+        M_1, q_0 \models \alpha \iff M_2, s_0 \models \alpha
     \end{equation}
 \end{definizione}
 Per dimostrare che due modelli sono equivalenti devo:
@@ -656,9 +656,9 @@ e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
     Sia $(A,\leq)$ un insieme parzialmente ordinato e $B \subseteq A$:
     \begin{itemize}
         \item Se $x \in B$ è il \textbf{minimo} di $B$ se $x \leq y, \forall y
-                  \in B$, quindi $x$ è anche un minorante per $B$. (max 1)
+                  \in B$, quindi $x$ è anche un \textbf{minorante} per $B$. (max 1)
         \item Se $x \in B$ è il \textbf{massimo} di $B$ se $x \geq y,\forall y
-                  \in B$, quindi $x$ è anche un maggiorante per $B$. (max 1)
+                  \in B$, quindi $x$ è anche un \textbf{maggiorante} per $B$. (max 1)
         \item Se $x \in B$ è il \textbf{minimale} in $B$ se $x \geq y \implies
                   x = y$.
         \item Se $x \in B$ è il \textbf{massimale} in $B$ se $x \leq y \implies
@@ -706,7 +706,7 @@ e il meet.
         x \leq y \implies f(x) \leq f(y)
     \end{equation}
     In altri termini, dati due insiemi parzialmente ordinati allora una funzione
-    è monotona se mantiene l'ordine nel dal dominio al codominio.
+    è monotona se mantiene l'ordine dal dominio al codominio.
 \end{definizione}
 \begin{definizione}[\textbf{Punto fisso}]
     Data una funzione $f: X \to X$, un elemento $x \in X$ si dice \textbf{punto
@@ -736,7 +736,9 @@ monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
     Allora $f$ ha un minimo e un massimo punto fisso.
     \begin{proof}
         Analizziamo la dimostrazione nel caso particolare in cui $L = \mathcal{P}(A)$
-        e $f: \mathcal{P}(A) \to \mathcal{P}(A)$ è monotona.
+        e $f: \mathcal{P}(A) \to \mathcal{P}(A)$ è monotona. 
+        
+        L'esistenza del minimo punto fisso viene dimostrata nei seguenti passaggi:
         \begin{enumerate}
             \item Costruiamo l'insieme $Z = \{T \subseteq A \mid f(T) \subseteq
                       T\}$. Gli elementi di questo insieme $Z$ saranno chiamati
@@ -774,6 +776,41 @@ monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
         Possiamo fare il ragionamento speculare per dimostrare il massimo punto
         fisso, in questo caso al posto che usare $\bigcap$ con $\bigcup$ e $\subseteq$
         e poi avremo \textbf{post-fissi}.
+
+        L'esistenza del massimo punto fisso viene dimostrata nei seguenti passaggi:
+        \begin{enumerate}
+            \item Costruiamo l'insieme $Z = \{T\in Z \mid  A \subseteq T \land T \subseteq
+                  f(T) \}$. Gli elementi di questo insieme $Z$ saranno chiamati
+                  \textbf{punti post-fissi}. È importante notare che l'insieme $Z$
+                  non può essere vuoto, in quanto $A \in Z$. Inoltre, se $f$ ha
+                  dei punti fissi $Z$ li contiene tutti.
+            \item A questo punto poniamo $M = \bigcup Z$ dal momento che $Z \neq
+                      \emptyset$
+            \item Per ogni $S \in Z$ allora $S\subseteq M$, per di più sapendo
+                  che $f$ è monotona possiamo dire che:
+                  \begin{equation}
+                      f(S) \subseteq f(M)
+                  \end{equation}
+            \item Inoltre, per definizione di $f$ abbiamo che $S \subseteq f(S)$
+                  allora per la transitività di $\subseteq$ abbiamo:
+                  \begin{equation}
+                     S \subseteq f(S) \subseteq M
+                  \end{equation}
+            \item Dal punto precedente possiamo arrivare a dire che $M = \bigcup Z \subseteq
+                  f(M)$, questo perché l'unione appartiene a $Z$ per definizione, 
+                  quindi $m \in Z$ ed è il minimo.
+            \item Vogliamo ora dimostrare che sia punto fisso. Sapendo che
+                  $M \subseteq f(M)$ possiamo dire che:
+                  \begin{equation}
+                      f(M) \subseteq f(f(M))
+                  \end{equation}
+                  quindi per definizione di $Z$ sappiamo che $f(M)\in Z$.
+            \item Dal momento che $m$ è il più piccolo elemento di $Z$ abbiamo:
+                  \begin{equation}
+                    f(M) \subseteq M \implies M = f(M)
+                  \end{equation}
+                  quindi è un punto fisso, inoltre, è il punto fisso massimo.
+        \end{enumerate}
     \end{proof}
 \end{teorema}
 Sfruttando il teorema di Knaster-Tarski possiamo ottenere il seguente teorema:
