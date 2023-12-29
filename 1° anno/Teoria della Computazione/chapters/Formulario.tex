@@ -41,7 +41,8 @@ Notazione utilizzata:
     \item $T$ = testo
     \item $m$ = lunghezza del pattern
     \item $n$ = lunghezza del testo
-    \item $D_i$ = $i$-esima word
+    \item $D_i$ = word riferita al carattere $T[i]$, il bit $j$-esimo è 1 se e
+          solo se $P[1, j] = suff(T[1, i])$.
 \end{itemize}
 Formule utili:
 \begin{itemize}
@@ -51,6 +52,40 @@ Formule utili:
           \end{itemize}
     \item Calcolo della $i$-esima word:
           \begin{equation}
-              D_i = \textbf{RSHIFT1}(D_{j - 1}) \textbf{AND} B_{\sigma}
+              D_i = \textbf{RSHIFT1}(D_{j - 1}) \ \textbf{AND} \ B_{T[i]}
+          \end{equation}
+\end{itemize}
+\subsection{Pattern Matching algoritmo di Wu-Manber}
+Notazione utilizzata:
+\begin{itemize}
+    \item $P$ = pattern
+    \item $T$ = testo
+    \item $m$ = lunghezza del pattern
+    \item $n$ = lunghezza del testo
+    \item $k$ = numero di errori
+    \item $suff_h$ = suffisso con al più $h$ errori
+    \item $D_i^h$ = word di bit, riferita al carattere $T[i]$ dove il bit
+          $j$-esimo è 1 se e solo se $P[1, j] = suff_h(T[1, i])$.
+\end{itemize}
+Formule utili:
+\begin{itemize}
+    \item Posizione dell'occorrenza approssimata:
+          \begin{itemize}
+              \item $i - m + 1$ se $h = 0$ (Posizione di inizio, in quanto si
+                    tratta di un match esatto)
+              \item $i$ se $h = k$  (Posizione di fine, in quanto si tratta di
+                    un match approssimato)
+          \end{itemize}
+    \item Calcolo della $i$-esima word:
+          \begin{equation}
+              D_i^h = \begin{array}{l}
+                  \textbf{RSHIFT1}(D_{i - 1}^h) \ \textbf{AND} \ B_{T[i]} \\
+                  \textbf{OR}                                             \\
+                  \textbf{RSHIFT1}(D_{i - 1}^{h - 1})                     \\
+                  \textbf{OR}                                             \\
+                  D_{i - 1}^{h - 1}                                       \\
+                  \textbf{OR}                                             \\
+                  \textbf{RSHIFT1}(D_{i}^{h - 1})
+              \end{array}
           \end{equation}
 \end{itemize}
