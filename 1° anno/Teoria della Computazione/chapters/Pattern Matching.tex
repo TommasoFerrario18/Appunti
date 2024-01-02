@@ -1694,17 +1694,16 @@ Dato un $Q$-intervallo $[b, e)$ si possono effettuare le seguenti osservazioni:
           \begin{equation}
               B[b], B[b + 1], \dots, B[e - 1]
           \end{equation}
-          ovvero i simboli che precedono le occorrenze esatte di $Q$ nel testo 
+          ovvero i simboli che precedono le occorrenze esatte di $Q$ nel testo
           $T$.
 \end{itemize}
-Quindi possiamo dire che il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se 
+Quindi possiamo dire che il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se
 $[b,e) \equiv Q$-intervallo.
 \begin{esempio}
-    Dall'esempio \ref{esempio-bwt} il $aca$-intervallo corrisponde a $[4,6)$ 
-    quindi saranno un totale di $6 - 4= 2$ occorrenze di $aca$ nel testo, 
+    Dall'esempio \ref{esempio-bwt} il $aca$-intervallo corrisponde a $[4,6)$
+    quindi saranno un totale di $6 - 4= 2$ occorrenze di $aca$ nel testo,
     iniziano alle posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$.
 \end{esempio}
-%% TODO studio da qui
 Successivamente definiamo
 \begin{definizione}[\textbf{backward extension}]
     La \textbf{backward extension} di un $Q$-intervalo $[b,e)$ con il carattere
@@ -1712,26 +1711,28 @@ Successivamente definiamo
     ottenuta concatenando il simbolo $\sigma$ con $Q$.
 \end{definizione}
 \begin{esempio}
-    Riprendendo l'esempio precedente, dato il $a$-intervallo, vogliamo trovare la
-    backward extension di $a$-intervallo col carattere $c$. Questo coincide con
-    il  $ca$-intervallo ovvero $[8,10)$.
+    Riprendendo l'esempio \ref{esempio-bwt}, dato l'$a$-intervallo, vogliamo
+    trovare la backward extension di $a$-intervallo col carattere $c$. Questo
+    coincide con il  $ca$-intervallo ovvero $[8,10)$.
 \end{esempio}
 Avendo definito questi concetti, possiamo definire l'algoritmo di ricerca esatta
 di un pattern $P$ lungo $m$ in un testo $T$ utilizzando la $BWT$. Tale algoritmo
 è composto dai seguenti passi:
 \begin{enumerate}
-    \item Si parte dal suffisso $\epsilon$ del pattern $P$.
-    \item Si considera il $\epsilon$-intervallo, cioè $[1,n+1)$ e si inizializza
-          un indice di posizione $i=m$.
-    \item Si effettua una backward extension con il simbolo $P[i]$ per ottenere
-          $P[i]Q$-intervallo $[b_p, e_p)$ che fornisce le occorrenze di $P[i,m] = P[m,m]$:
+    \item Si parte dal suffisso $\varepsilon$ del pattern $P$.
+    \item Si considera il $\varepsilon$-intervallo, cioè $[1, n + 1)$ e si
+          inizializza un indice di posizione $i = m$.
+    \item \label{ricercaesatta-3} Si effettua una backward extension con il
+          simbolo $P[i]$ per ottenere $P[i]Q$-intervallo $[b_p, e_p)$ che
+          fornisce le occorrenze di $P[i,m]$:
           \begin{itemize}
               \item Se il risultato è l'intervallo vuoto allora $P$ non ha
                     occorrenze in $T$ quindi si termina l'esecuzione.
               \item Se il risultato non è l'intervallo vuoto allora:
                     \begin{itemize}
-                        \item se $i>1$ allora si calcola $i--$ e si ripete il punto $3$.
-                        \item se $i=1$ allora ho trovato il $P$-intervallo e
+                        \item Se $i > 1$ allora si calcola $i - 1$ e si ripete
+                              il punto \ref{ricercaesatta-3}.
+                        \item Se $i = 1$ allora ho trovato il $P$-intervallo e
                               si ritorna l'occorrenza.
                     \end{itemize}
           \end{itemize}
@@ -1743,156 +1744,167 @@ Possiamo effettuare le seguenti osservazioni:
     \item Se occorre $P$ in $T$ allora servono un totale di $m$ iterazioni,
           altrimenti saranno minori.
     \item Se $P$ non occorre in $T$, supponendo che $p$ è la posizione di $P$
-          per cui il $P[p,m]$-intervallo è vuoto, allora l'ultimo suffisso che
-          occorre in $T$ è $P[p+1,m]$ in un numero di iterazioni $|P[p+1,m]|+1$
-    \item La complessità quindi sarà $O(mlogn)$.
+          per cui il $P[p, m]$-intervallo è vuoto, allora l'ultimo suffisso che
+          occorre in $T$ è $P[p + 1, m]$ in un numero di iterazioni $|P[p + 1,
+              m]| + 1$
+    \item La complessità quindi sarà $O(m \lg n)$.
 \end{itemize}
 Possiamo rimuovere il $\log n$ nell'equazione del tempo rendendo costante
 il calcolo della backward extension. Possiamo osservare che per un $Q$-intervallo
 ($[b, e)$), e dato un simbolo $\sigma$:
 \begin{itemize}
-    \item Siano $i_1,<i_2<\dots<i_k$ le $k$ posizioni di $[b,e)$ tali che
+    \item Siano $i_1 < i_2 < \dots < i_k$ le $k$ posizioni di $[b,e)$ tali che:
           \begin{equation}
-              B[i_p] = \sigma \ 1\le p \le k
+              B[i_p] = \sigma \ \text{con} \ 1 \leq p \leq k
           \end{equation}
-    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$.
-    \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1\le p \le k$.
-    \item Quindi  $B[i_p] \cdot S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
+    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1 \leq p \leq k$.
+    \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1 \leq p \leq k$.
+    \item Quindi $B[i_p] \cdot S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
           che inizia con $B[i_p]$ e che ha $\sigma Q$ come prefisso.
     \item $B[i_p] \cdot S[i_p]$-suffisso per LF-mapping avrà una posizione
-          nel Suffix Array data da $j_p = LF(i_p)$ all'interno di  $j_1,<j_2<\dots<j_k$,
-          dove $[j_1,j_k)$ è il $\sigma Q$-intervallo.
+          nel Suffix Array data da $j_p = LF(i_p)$ all'interno di $j_1 < j_2 <
+              \dots < j_k$, dove $[j_1,j_k)$ è il $\sigma Q$-intervallo.
 \end{itemize}
-Da notare che, la backward extension viene definita dalle posizioni limite prese
-dal SA alla posizione BWT coincidente al carattere da cercare.
-
+\begin{nota}
+    La backward extension è definita dalle posizioni limite prese dal SA alla
+    posizione BWT coincidente al carattere da cercare.
+\end{nota}
 Quindi la procedura sarà definita come:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
-        \State $i_1 \gets \min_{x\in [b,e)} x \ \text{t.c.} \ B[i_1]=\sigma$
-        \State $i_k \gets \max_{x\in [b,e)} x \ \text{t.c.} \ B[i_k]=\sigma$
+        \State $i_1 \gets \min_{x\in [b,e)} x \ \text{t.c.} \ B[i_1] = \sigma$
+        \State $i_k \gets \max_{x\in [b,e)} x \ \text{t.c.} \ B[i_k] = \sigma$
         \State \Return $[LF(i_1), LF(i_k)+1)$
         \EndFunction
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
-
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
         \State $n \gets |T|$
         \State $[b,e) \gets [1, n+1)$
         \State $i \gets |P|$
-        \While{$[b,e) \ \ne \ \text{null}\land i\ge 1$}
+        \While{$[b,e) \ \neq \ \text{null}\land i\ge 1$}
         \State $\sigma \gets P[i]$
-        \State $[b,e) \gets\Call{backward\_extend}{b,e,\sigma}$
+        \State $[b,e) \gets$\Call{$backward\_extend$}{$b,e,\sigma$}
         \State $i\gets i-1$
         \EndWhile
-        \If{$[b,e)\ \ne \ \text{null}$}
+        \If{$[b,e)\ \neq \ \text{null}$}
         \State $\text{out } T[b], T[b+1], \dots, T[e-1]$
         \EndIf
         \EndFunction
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
-
-Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$ e quindi
-della Backward Extension, utilizzando FM-Index.
+La complessità di questo algoritmo risulta lineare ($O(m)$) solo se definiamo il
+calcolo della $LF$-function in tempo costante, e di cnseguenza anche quello della
+Backward Extension. Questo è possibile utilizzando l'FM-Index.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
-BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
-un testo $T$ è in $\Theta(|P|)$
+BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$
+di lunghezza $m$ in un testo $T$ di lunghezza $n$ richiede un tempo pari a
+$\Theta(|P|) = \Theta(m)$.
 
 L'FM-index è una struttura dati che permette di rappresentare una BWT in modo
 numerico.
 \begin{definizione}[\textbf{FM-index}]
-    Dato un testo $T$ di lunghezza $n$, l'FM-index è una coppia di funzioni:
+    Dato un testo $T$ di lunghezza $n$, l'\textbf{FM-index} è una coppia di
+    funzioni $C$ e $Occ$ definite come:
     \begin{itemize}
-        \item $C$ definita come:
-              \begin{equation}
+        \item \begin{equation}
                   C: \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
-              dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta la BWT che sono
-              minori di $\sigma$.
-        \item $Occ$ definita come:
-              \begin{equation}
+              dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta
+              la BWT che sono minori di $\sigma$.
+        \item \begin{equation}
                   Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
-              dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del simbolo
-              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$. Quindi ogni
-              riga rappresenta la distribuzione dei simboli nella BWT fino alla
-              cella $i$.
+              dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del
+              simbolo $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
+              Quindi ogni riga rappresenta la distribuzione dei simboli nella BWT
+              fino alla cella $i$.
     \end{itemize}
 \end{definizione}
-\begin{esempio}
-    Dato il testo $T=ggtcagtc\$$, possiamo definire la funzione $C$ come:
+\begin{esempio}[Costruzione della funzione $C$]
+    Dato il testo $T = ggtcagtc\$$, possiamo definire la funzione $C$ come:
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|l|l|}
+        \begin{tabular}{|l|c|}
             \hline
-            $\sigma$ & $C(\sigma)$ \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 2           \\ \hline
-            g        & 4           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 2                    \\ \hline
+            g                 & 4                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
     \end{table}
 \end{esempio}
 In generale, $C(\sigma)$ fornisce:
 \begin{itemize}
-    \item il numero di suffissi che iniziano con un simbolo minore di $\sigma$.
-    \item la massima posizione nel suffix array di un suffisso che inizia con un
+    \item Il numero di suffissi che iniziano con un simbolo minore di $\sigma$.
+    \item La massima posizione nel suffix array di un suffisso che inizia con un
           simbolo minore di $\sigma$.
 \end{itemize}
-\begin{esempio}
-    Data la seguente BWT $BWT=cctt\$aggg$, possiamo definire la funzione $Occ$ come:
+\begin{esempio}[Costruzione della funzione $Occ$]
+    Data la seguente BWT $B = cctt\$aggg$, possiamo definire la funzione $Occ$
+    come:
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|l|l|l|l|l|l|}
+        \begin{tabular}{|
+                >{\columncolor[HTML]{EFEFEF}}l |c|c|c|c|c|}
             \hline
-            $Occ(i, \sigma)$ & \$ & a & c & g & t \\ \hline
-            $Occ(0,\sigma)$  & 0  & 0 & 0 & 0 & 0 \\ \hline
-            $Occ(1,\sigma)$  & 0  & 0 & 1 & 0 & 0 \\ \hline
-            $Occ(2,\sigma)$  & 0  & 0 & 2 & 0 & 0 \\ \hline
-            $Occ(3,\sigma)$  & 0  & 0 & 2 & 0 & 0 \\ \hline
-            $Occ(4,\sigma)$  & 0  & 0 & 2 & 0 & 1 \\ \hline
-            $Occ(5,\sigma)$  & 0  & 0 & 2 & 0 & 2 \\ \hline
-            $Occ(6,\sigma)$  & 1  & 1 & 2 & 0 & 2 \\ \hline
-            $Occ(7,\sigma)$  & 1  & 1 & 2 & 0 & 2 \\ \hline
-            $Occ(8,\sigma)$  & 1  & 1 & 2 & 1 & 2 \\ \hline
-            $Occ(9,\sigma)$  & 1  & 1 & 2 & 2 & 2 \\ \hline
-            $Occ(10,\sigma)$ & 1  & 1 & 2 & 3 & 2 \\ \hline
+            \textbf{$Occ(i, \sigma)$}  &
+            \cellcolor[HTML]{EFEFEF}\$ &
+            \cellcolor[HTML]{EFEFEF}a  &
+            \cellcolor[HTML]{EFEFEF}c  &
+            \cellcolor[HTML]{EFEFEF}g  &
+            \cellcolor[HTML]{EFEFEF}t                      \\ \hline
+            \textbf{$Occ(0,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
+            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
+            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
+            \textbf{$Occ(5,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(6,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
+            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
+            \textbf{$Occ(10,\sigma)$}  & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
     \end{table}
+
     Copio la riga precedente modificando la colonna del carattere che leggiamo nella
     nuova posizione di BWT.
 \end{esempio}
-
-\begin{esempio}
-    Possiamo quindi ottenere $C(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
-    delle colonne precedenti sulla riga.
+\begin{esempio}[Calcolo della funzione $C$ da $Occ$]
+    Possiamo quindi ottenere $C(\sigma)$ da $Occ(|BWT| + 1,\sigma)$. Per fare ciò,
+    si sommano i valori delle colonne precedenti sulla riga.
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|l|l|}
+        \begin{tabular}{|l|c|}
             \hline
-            $\sigma$ & $C(\sigma)$ \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 2           \\ \hline
-            g        & 4           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 2                    \\ \hline
+            g                 & 4                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
+        \caption{Calcolo della funzione $C$ da $Occ$}
     \end{table}
 \end{esempio}
+\newpage
 La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
-incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è
-uguale a $\sigma$.
+incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è uguale a
+$\sigma$. In caso contrario si copia il valore di $Occ(i - 1, \sigma)$.
 
+Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
@@ -1917,54 +1929,57 @@ uguale a $\sigma$.
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
-
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
-in tempo costante, questo è possibile scomponendo l'indice da trovare come:
+in tempo costante, questo è possibile scomponendo l'indice $j$ da calcolare come:
 \begin{itemize}
-    \item numero di suffissi che iniziano con un carattere
-          più piccolo di $B[i]$ ($C(B[i])$)
-    \item il numero di simboli si $B[i]$ che occorrono nella
-          BWT prima della posizione $i$. ($Occ(i, B[i]) + 1$)
+    \item Numero di suffissi che iniziano con un carattere più piccolo di $B[i]$
+          ($C(B[i])$).
+    \item Il numero di simboli si $B[i]$ che occorrono nella BWT prima della
+          posizione $i$. ($Occ(i, B[i]) + 1$)
 \end{itemize}
-
 \begin{equation}
     j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
 \end{equation}
-
-L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward extension in
-    tempo costante}. Questo ci permette di definire un algoritmo per la ricerca esatta
-in tempo lineare rispetto alla dimensione del pattern.
+L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward
+    extension in tempo costante}. Questo ci permette di definire un algoritmo
+per la ricerca esatta in tempo lineare rispetto alla dimensione del pattern.
 
 Vediamo ora come utilizzare l'FM-index per calcolare la \textbf{backward
     extension} in tempo costante. Supponiamo che:
 \begin{itemize}
-    \item $i_1$: è la più piccola posizione di $[b,e)$ tale che $B[i_1]=\sigma$
-    \item $i_k$: è la più grande posizione di $[b,e)$ tale che $B[i_k]=\sigma$
+    \item $i_1$: è la più piccola posizione di $[b,e)$ tale che $B[i_1] = \sigma$
+    \item $i_k$: è la più grande posizione di $[b,e)$ tale che $B[i_k] = \sigma$
 \end{itemize}
 Quindi possiamo dire che il nuovo intervallo $[b',e')$ si ottiene come:
 \begin{itemize}
-    \item $b' = LF(i_1) = C(B[i_1]) + Occ(i_1,B[i_1])+1$
-    \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_1,B[i_k]) + 1 + 1$
+    \item $b' = LF(i_1) = C(B[i_1]) + Occ(i_1, B[i_1]) + 1 = C(\sigma) + Occ(i_1,
+              \sigma) + 1$
+    \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_k, B[i_k]) + 1 + 1 = C(\sigma) +
+              Occ(i_k, \sigma) + 1 + 1$
 \end{itemize}
 Però non è ancora costante perché dobbiamo trovare $i_1, \ i_k$.
 
 Possiamo però osservare che:
 \begin{itemize}
-    \item Nel sottoarray della BWT $B[b,i_1-1]$ non esistono simboli uguali a $\sigma$ quindi il numero
-          di simboli $\sigma$ in $B[1,i_1-1]$ ($Occ(i_1,\sigma)$) è uguale al numero
-          di simboli di $\sigma$  in $B[1,b-1]$ ($Occ(b,\sigma)$) allora:
+    \item Nel sottoarray della BWT $B[b, i_1 - 1]$ non esistono simboli uguali a
+          $\sigma$, quindi il numero di simboli $\sigma$ in $B[1, i_1 - 1]$
+          ($Occ(i_1, \sigma)$) è uguale al numero di simboli di $\sigma$ in
+          $B[1, b - 1]$ ($Occ(b,\sigma)$) allora:
           \begin{equation}
               Occ(i_1,\sigma) = Occ(b,\sigma)
           \end{equation}
           Quindi la ricerca di $i_1$ è costante.
-    \item $Occ(i_k,\sigma)$ è il numero di $\sigma$ in $B[1,i_k-1]$, inoltre
-          sappiamo che $B[i_k]=\sigma$. Questo significa che $Occ(i_k,\sigma) + 1 $
-          corrisponde al numero di simboli di $\sigma$ in $B[1,i_k]$, ovvero
-          $ Occ(i_k ,\sigma)+1= Occ(i_k + 1,\sigma)$.
-          Quindi possiamo dire $B[i_k + 1, e - 1]$ non esistono simboli uguali a $\sigma$,
-          allora il numero di simboli $\sigma$ in $B[1, i_k]$ ($Occ(i_k + 1,
-              \sigma)$) uguale al numero di simboli $\sigma$ in $B[1, e - 1]$ ($ Occ(e, \sigma)$),
-          possiamo quindi dire:
+    \item $Occ(i_k, \sigma)$ è il numero di $\sigma$ in $B[1, i_k - 1]$, inoltre
+          sappiamo che $B[i_k] = \sigma$. Questo significa che $Occ(i_k, \sigma)
+              + 1$ corrisponde al numero di simboli di $\sigma$ in $B[1, i_k]$,
+          ovvero:
+          \begin{equation}
+              Occ(i_k, \sigma) + 1 = Occ(i_k + 1, \sigma)
+          \end{equation}
+          Quindi possiamo dire che in $B[i_k + 1, e - 1]$ non esistono simboli
+          uguali a $\sigma$, allora il numero di simboli $\sigma$ in $B[1, i_k]$
+          ($Occ(i_k + 1, \sigma)$) uguale al numero di simboli $\sigma$ in
+          $B[1, e - 1]$ ($Occ(e, \sigma)$), possiamo quindi dire:
           \begin{equation}
               Occ(i_k + 1, \sigma) = Occ(e, \sigma)
           \end{equation}
@@ -1977,10 +1992,10 @@ Possiamo quindi esprimere il calcolo della backward extension come:
     \end{array}
 \end{equation}
 \begin{nota}
-    Se $b' = e'$ allora il $Q$-intervallo è vuoto.
+    Se $b' = e'$ allora il $\sigma Q$-intervallo è vuoto.
 \end{nota}
-Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
-($\mathcal{O}(1)$):
+Con queste informazioni possiamo scrivere l'algoritmo per calcolare la backward
+extension in tempo costante ($\mathcal{O}(1)$):
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backwardExtension}{$b, e, \sigma$}
@@ -1991,49 +2006,61 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
     \end{algorithmic}
 \end{algorithm}
 \begin{nota}
-    L'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è reversibile
-    e si può ricavare il testo e BWT. Infatti da $C$ ricaviamo il $SA$ mentre da $Occ$
-    ricaviamo la $BWT$, quindi da questi posso ricostruire il testo $T$.
+    L'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è
+    reversibile e si può ricavare il testo e la BWT. Infatti da $C$ ricaviamo il
+    $SA$ mentre da $Occ$ ricaviamo la $BWT$, quindi da questi posso ricostruire
+    il testo $T$.
 
     Quindi l'FM-index è un \textbf{self-index}.
 \end{nota}
-
-\begin{esempio}
+\begin{esempio}[FM-index è un self-index]
     Per dimostrare che l'FM-index è un self-index mostriamo un esempio di come da
     esso è possibile ricavare la BWT e di conseguenza il testo.
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|c|c|c|c|c|c|}
+        \begin{tabular}{|
+                >{\columncolor[HTML]{EFEFEF}}c |c|c|c|c|c|}
             \hline
-            $Occ(i,\sigma)$ & $\$$ & $a$ & $c$ & $g$ & $t$ \\ \hline
-            $0$             & $0$  & $0$ & $0$ & $0$ & $0$ \\ \hline
-            $1$             & $0$  & $0$ & $1$ & $0$ & $0$ \\ \hline
-            $2$             & $0$  & $0$ & $2$ & $0$ & $0$ \\ \hline
-            $3$             & $0$  & $0$ & $2$ & $0$ & $1$ \\ \hline
-            $4$             & $0$  & $0$ & $2$ & $0$ & $2$ \\ \hline
-            $5$             & $1$  & $0$ & $2$ & $0$ & $2$ \\ \hline
-            $6$             & $1$  & $1$ & $2$ & $0$ & $2$ \\ \hline
-            $7$             & $1$  & $1$ & $2$ & $1$ & $2$ \\ \hline
-            $8$             & $1$  & $1$ & $2$ & $2$ & $2$ \\ \hline
-            $9$             & $1$  & $1$ & $2$ & $3$ & $2$ \\ \hline
+            \textbf{$Occ(i, \sigma)$}  &
+            \cellcolor[HTML]{EFEFEF}\$ &
+            \cellcolor[HTML]{EFEFEF}a  &
+            \cellcolor[HTML]{EFEFEF}c  &
+            \cellcolor[HTML]{EFEFEF}g  &
+            \cellcolor[HTML]{EFEFEF}t                      \\ \hline
+            0                          & 0 & 0 & 0 & 0 & 0 \\ \hline
+            1                          & 0 & 0 & 1 & 0 & 0 \\ \hline
+            2                          & 0 & 0 & 2 & 0 & 0 \\ \hline
+            3                          & 0 & 0 & 2 & 0 & 1 \\ \hline
+            4                          & 0 & 0 & 2 & 0 & 2 \\ \hline
+            5                          & 1 & 0 & 2 & 0 & 2 \\ \hline
+            6                          & 1 & 1 & 2 & 0 & 2 \\ \hline
+            7                          & 1 & 1 & 2 & 1 & 2 \\ \hline
+            8                          & 1 & 1 & 2 & 2 & 2 \\ \hline
+            9                          & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
+        \caption{Funzione $Occ$}
     \end{table}
+
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|}
             \hline
-            $\sigma$ & C($\sigma$) \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 2           \\ \hline
-            g        & 4           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 2                    \\ \hline
+            g                 & 4                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
+        \caption{Funzione $C$}
     \end{table}
+
+    Partendo da queste due funzioni la BWT è:
     \begin{equation}
-        B= \left[c,c,t,t,\$,a,g,g,g \right]
+        B = [c,c,t,t,\$,a,g,g,g]
     \end{equation}
-    L'algoritmo per ottenere la BWT è il seguente:
+    L'algoritmo utilizzato per ottenere la BWT è il seguente:
     \begin{itemize}
         \item Si scorre la matrice associata alla $Occ$ una riga alla volta.
         \item Per ogni riga si trova il valore che è stato incrementato rispetto
@@ -2041,34 +2068,57 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
               della BWT.
     \end{itemize}
 \end{esempio}
+
 \begin{esempio}
     Si consideri la funzione $C$ riportata nella tabella \ref{tab:esempioC}.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|}
             \hline
-            $\sigma$ & C($\sigma$) \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 3           \\ \hline
-            g        & 7           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 3                    \\ \hline
+            g                 & 7                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
         \caption{Funzione $C$}
         \label{tab:esempioC}
     \end{table}
-    Dire se il $b$-intervallo, ovvero il $Q$-intervallo con $Q=b$ è vuoto. Se non
-    lo è, specificare il $b$-intervallo.
+    Dire se il $b$-intervallo, ovvero il $Q$-intervallo con $Q = b$ è vuoto. Se
+    non lo è, specificare il $b$-intervallo.
 
-    Sarà $[C(b)+1, C(k)+1)$ con $k$ il carattere successivo al carattere $b$.
-    Questo è vuoto perché $C$ ritorna il numero di suffissi nell'ordine
-    lessicografico che iniziano con un carattere minore di $b$.
+    Per verificare se il $b$-intervallo è vuoto, basta verificare se $C(b) =
+        C(b + 1)$. Se questo è vero allora l'intervallo è vuoto.
+
+    Nel caso in analisi $C(b) = 3$ e $C(b + 1) = 7$, quindi l'intervallo non è
+    vuoto. Il $b$-intervallo è $[C(b) + 1, C(b + 1) + 1) = [4, 8)$.
 \end{esempio}
+
 \begin{esempio}
-    Data la $BWT=accgt\$ac$ di un testo $T$, si richiede di specificare l'FM-index
-        supponendo $\Sigma = \{a, c, g, t\}$. Calcolare poi tramite FM-index la
-        posizione $j$ nel Suffix Array del suffisso che inizia col terzo simbolo
-        della BWT.
+    Data la BWT $B = accgt\$ac$ di un testo $T$, si richiede di specificare
+        l'FM-index supponendo $\Sigma = \{a, c, g, t\}$. Calcolare poi tramite
+        FM-index la posizione $j$ nel Suffix Array del suffisso che inizia col
+        terzo simbolo della BWT.
+
+        Ricaviamo il $Occ(i, \sigma)$:
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                0  & 0 & 0 & 0 & 0 \\ \hline
+                0  & 1 & 0 & 0 & 0 \\ \hline
+                0  & 1 & 1 & 0 & 0 \\ \hline
+                0  & 1 & 2 & 0 & 0 \\ \hline
+                0  & 1 & 2 & 1 & 0 \\ \hline
+                0  & 1 & 2 & 1 & 1 \\ \hline
+                1  & 1 & 2 & 1 & 1 \\ \hline
+                1  & 2 & 2 & 1 & 1 \\ \hline
+                1  & 2 & 3 & 1 & 1 \\ \hline
+                \$ & a & c & g & t \\ \hline
+            \end{tabular}
+        \end{table}
 
         Ricaviamo $C(\sigma)$ da $Occ(|BWT| + 1, \sigma)$ ovvero:
         \begin{table}[!ht]
@@ -2083,56 +2133,190 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
                 t        & 7           \\ \hline
             \end{tabular}
         \end{table}
-        Ricaviamo il $Occ(i, \sigma)$:
-        \begin{table}[!ht]
-            \centering
-            \begin{tabular}{|c|c|c|c|c|}
-                \hline
-                0  & 0 & 0 & 0 & 0 \\ \hline
-                0  & 1 & 0 & 0 & 0 \\ \hline
-                0  & 1 & 1 & 0 & 0 \\ \hline
-                0  & 1 & 2 & 0 & 0 \\ \hline
-                0  & 1 & 2 & 1 & 0 \\ \hline
-                0  & 1 & 2 & 1 & 1 \\ \hline
-                0  & 1 & 2 & 1 & 1 \\ \hline
-                1  & 1 & 2 & 1 & 1 \\ \hline
-                1  & 2 & 2 & 1 & 1 \\ \hline  \\ \hline
-                \$ & a & c & g & t \\ \hline
-            \end{tabular}
-        \end{table}
-        Posizione $j$ nel Suffix Array del suffisso che inizia con $B[3]$ si ottiene come:
+
+        Posizione $j$ nel Suffix Array del suffisso che inizia con $B[3]$ si
+    ottiene come:
     \begin{equation}
-        j = LF(B[3]) = C(B[3]) + Occ(3, B[3]) + 1
+        j = LF(B[3]) = C(B[3]) + Occ(3, B[3]) + 1 = 3 + 1 + 1 = 5
     \end{equation}
 \end{esempio}
-%% Da completare
 \begin{esempio}
     Data $BWT =t\$ccaacc$ di un testo e sapendo che $c$-intervallo è $[4,8)$
-        specifica utilizzando $B$:
+        specificare utilizzando $B$:
         \begin{itemize}
-            \item quante volte la stringa $cc$ occorre in $T$ e specificare il $cc$-intervallo
-            \item quante volte la stringa $tc$ occorre in $T$ e specificare il $tc$-intervallo
+            \item Quante volte la stringa $cc$ occorre in $T$ e specificare il
+                  $cc$-intervallo.
+            \item Quante volte la stringa $tc$ occorre in $T$ e specificare il
+                  $tc$-intervallo.
         \end{itemize}
         In aggiunta indica quali sono i simboli che nel testo precedono le occorrenze
         di $cc$ e le occorrenze di $tc$.
 
-        Per sapere se occorre $cc$ basta prendere il $c$-intervallo e controllare all'interno
-        se ci sono $c$, in questo caso $2$. Per il caso $tc$ no.
+        Per sapere se occorre la stringa $cc$ bisogna considerare il $c$-intervallo
+        e controllare se al suo interno sono presenti delle $c$, nel caso
+        dell'esempio, considerando l'intervallo $[4, 8)$ sono presenti $2$
+        simboli $c$. Mentre per il caso della stringa $tc$ non è presente nessuna
+        occorrenza.
 
-        i simboli che recedono le occorrenze sono per entrambi $a$, ricavate dal $SA$
-        alla posizione accociate alla ultima $c$.
+        Per calcolare i simboli che precedono le occorrenze  di $cc$ si calcola
+        LF-function della stringa e si verificano i simboli presenti nella BWT
+        in quelle posizioni. Nel caso della stringa $cc$ il simbolo che precede
+        entrambe le occorrenze è $a$.
 \end{esempio}
 \begin{esempio}
-    Ho un testo per cui
-    $$C = 0,1,4,6,6$$
-    Dire se
-    $$Occ(11, \sigma) =1 , 2 , 3 , 2 , 2$$
-    è compatibile con $C$? No perché $C(c) = 3 \ne 4$ e $C(t) = 8 \ne 6$.
+    Per un testo $\$$-terminato di lunghezza $n = 10$ la funzione $C$ di FM-index è:
+    \begin{equation}
+        \begin{array}{c | c}
+            \sigma & C(\sigma) \\
+            \$     & 0         \\
+            a      & 1         \\
+            c      & 4         \\
+            g      & 6         \\
+            t      & 6         \\
+        \end{array}
+    \end{equation}
+    \begin{enumerate}
+        \item Dire se una funzione $Occ$ che per $i = 11$ vale:
+              \begin{equation}
+                  \begin{array}{c | c c c c c}
+                      \sigma          & \$ & a & c & g & t \\
+                      Occ(11, \sigma) & 1  & 2 & 3 & 2 & 2 \\
+                  \end{array}
+              \end{equation}
+              è compatibile con la funzione $C$. In caso contrario, spiegare
+              perché.
+        \item Dire inoltre (in base alla funzione $C$) quanti sono i simboli
+              di $g$ e quanti sono i simboli di $t$ nel testo.
+    \end{enumerate}
 
-    Dire quanti sono i simboli di $g$
+    La funzione $Occ$ non è compatibile con $C$ perché la distribuzione dei simboli
+    derivata dalla funzione $C$ è:
+    \begin{equation}
+        \begin{array}{c l}
+            C(a) - C(\$) = 1 & \text{simboli } \$ \\
+            C(c) - C(a) = 3  & \text{simboli } a  \\
+            C(g) - C(c) = 2  & \text{simboli } c  \\
+            C(t) - C(g) = 0  & \text{simboli } g  \\
+            10 - C(t) = 4    & \text{simboli } t  \\
+        \end{array}
+    \end{equation}
+    che è diversa da quella specificata dalla funzione $Occ$. Infatti, per esempio:
+    \begin{enumerate}
+        \item $Occ(11, \$) + Occ(11, a) = 3$ mentre $C(c) = 4$.
+        \item $Occ(11, \$) + Occ(11, a) + Occ(11, c) + Occ(11, g) = 8$ mentre
+              $C(t) = 6$.
+    \end{enumerate}
+    Il numero di simboli $g$ è $C(t) - C(g) = 0$ mentre il numero di simboli $t$
+    è $n - C(t) = 4$.
 \end{esempio}
 \begin{esempio}
-    Dalla faunzione $Occ$ determinare $C = 0,1,3,4,8$  e determina $B[4] = g$.
+    Data la funzione $Occ$ riportata nella tabella \ref{tab:esempioOcc}, determinate:
+    \begin{itemize}
+        \item La funzione $C$.
+        \item Il simbolo della BWT in posizione $4$.
+    \end{itemize}
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{cccccc}
+            \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}1}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}2}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}3}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}4}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}5}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}6}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}7}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}8}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}9}  &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}10} &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{3}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}11} &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{4}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+                                                            &
+            \cellcolor[HTML]{EFEFEF}\$                      &
+            \cellcolor[HTML]{EFEFEF}a                       &
+            \cellcolor[HTML]{EFEFEF}c                       &
+            \cellcolor[HTML]{EFEFEF}g                       &
+            \cellcolor[HTML]{EFEFEF}t
+        \end{tabular}
+        \caption{Funzione $Occ$} \label{tab:esempioOcc}
+    \end{table}
 
-    Ti può chiedere se esiste un $\sigma\cdot q$-intervallo guardando $Occ$.
+    La funzione $C$ si ricava da $Occ$ come:
+    \begin{equation}
+        \begin{array}{c | c | l}
+            \sigma & C(\sigma) &                                                    \\
+            \$     & 0         &                                                    \\
+            a      & 1         & Occ(11, \$)                                        \\
+            c      & 3         & Occ(11, \$) + Occ(11, a)                           \\
+            g      & 4         & Occ(11, \$) + Occ(11, a) + Occ(11, c)              \\
+            t      & 8         & Occ(11, \$) + Occ(11, a) + Occ(11, c) + Occ(11, g) \\
+        \end{array}
+    \end{equation}
+
+    Il simbolo in posizione $4$ della BWT è $g$. Perché è il valore che è stato
+    incrementato nella riga $5$ della matrice $Occ$ rispetto alla riga $4$.
+
+    Inoltre, sapendo che $[2, 4)$ è il Q-intervallo per $Q = a$, dire sulla base
+    di FM-index se la stringa $aa$ occorre nel testo $T$.
+
+    La stringa $aa$ occorre nel testo $T$ se in $[2, 4)$ esiste almeno un simbolo
+    $a$. Dobbiamo quindi controllare le righe della matrice $Occ$ relative
+    all'intervallo $[2, 4)$ e verificare se è presente almeno un simbolo $a$.
+    Nel caso dell'esempio, l'intervallo $[2, 4)$ è composto dalle righe $2$ e $3$
+    della matrice $Occ$. Nella riga $3$ è presente un simbolo $a$, quindi la
+    stringa $aa$ occorre nel testo $T$.
 \end{esempio}
