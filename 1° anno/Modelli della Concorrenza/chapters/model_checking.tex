@@ -175,7 +175,7 @@ Definiremo la relazione $\vDash$ per induzione.
                   \item $\pi \vDash \beta U \gamma \iff$:
                         \begin{itemize}
                             \item $\exists i \in \mathbb{N}$ tale che: $\pi^{(i)}
-                                      \vDash \gamma$ cioè $\pi \vDash F \gamma$
+                                      \vDash \gamma$ cioè $\pi \vDash F \gamma$.
                             \item $\forall h, 0 \leq h < i, \pi^{(h)} \vDash \beta$
                         \end{itemize}
                         Se $\gamma$ è vera fin da subito, quindi $i = 0$ allora
@@ -417,6 +417,11 @@ permette di esprimere proprietà del tipo:
 \begin{center}
     \emph{``esiste un cammino in cui $\alpha$''}
 \end{center}
+Attraverso le formule della logica LTL possiamo esprimere solo proprietà in cui
+si richiede che una certa formula sia vera \textit{in tutti} i cammini massimali.
+Non possono essere espresse proprietà relative all'esistenza di un cammino in cui
+una certa formula è vera.
+
 Il problema è che queste proprietà sono utili, per risolvere questa mancanza
 introduciamo una nuova logica. Questa logica può essere interpretata attraverso
 il concetto di \textbf{albero di computazione}.
@@ -654,10 +659,12 @@ Per dimostrare che due modelli sono equivalenti devo:
                   \item Modello $M_2$:
                         \begin{equation}
                             \begin{array}{l}
-                                \{q\} \ (\{r\} \ \{q\})^\omega = (\{q\} \ \{r\})^\omega \\
-                                (\{q\} \ \{r\})^{\omega}                                \\
-                                (\{q\} \ \{r\})^\ast \ \{p\}^\omega                     \\
-                                (\{q\} \ \{r\})^\ast \ \{q\} \ (\{r\} \ \{q\})^\omega = (\{q\} \ \{r\})^\omega
+                                \{q\} \ (\{r\} \ \{q\})^\omega = (\{q\} \
+                                \{r\})^\omega                       \\
+                                (\{q\} \ \{r\})^{\omega}            \\
+                                (\{q\} \ \{r\})^\ast \ \{p\}^\omega \\
+                                (\{q\} \ \{r\})^\ast \ \{q\} \ (\{r\} \
+                                \{q\})^\omega = (\{q\} \ \{r\})^\omega
                             \end{array}
                         \end{equation}
               \end{itemize}
@@ -690,14 +697,16 @@ $x < y$ che vuol dire che $x \leq y \land x \neq y$.
     La più piccola relazione d'ordine parziale è la relazione identità.
 \end{osservazione}
 %% TODO: Altre osservazioni
-Raffinamento di una relazione d'ordine parziale
+Raffinamento di una relazione d'ordine parziale:
 \begin{definizione}[\textbf{Maggiorante, Minorante}]
-    Sia $(A,\leq)$ un insieme parzialmente ordinato e $B\subseteq A$ allora:
+    Sia $(A,\leq)$ un insieme parzialmente ordinato e $B \subseteq A$ allora:
     \begin{itemize}
-        \item $x \in A$ è un \textbf{maggiorante} di $B$ se $\forall y \in B, y \leq x$
-        \item $x \in A$ è un \textbf{minorante} di $B$ se $\forall y \in B, x \leq y$
+        \item $x \in A$ è un \textbf{maggiorante} di $B$ se $\forall y \in B, y
+                  \leq x$
+        \item $x \in A$ è un \textbf{minorante} di $B$ se $\forall y \in B, x
+                  \leq y$
     \end{itemize}
-    Può essere che $x\in B$ perché $B\subseteq A\implies x\in B\implies x\in A$
+    Può essere che $x \in B$ perché $B \subseteq A \implies x \in B \implies x \in A$.
 \end{definizione}
 Utilizziamo la notazione $B^\ast$ per indicare l'insieme dei maggioranti di $B$,
 e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
@@ -738,8 +747,8 @@ e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
     \end{itemize}
 \end{esempio}
 Le relazioni di ordine parziale possiamo rappresentarle come diagrammi di Hasse,
-in cui si rappresentano le relazioni mostrando i collegamenti col successivo, senza
-rappresentare la riflessività e la transitività.
+in cui si rappresentano le relazioni mostrando i collegamenti col successivo, 
+senza rappresentare la riflessività e la transitività.
 \begin{definizione}[\textbf{Reticolo}]
     Definiremo un \textbf{reticolo} come un insieme parzialmente ordinato $(L,
         \leq)$, tale che, per ogni $x,y\in L$ esistono il minimo ($x \lor y$) e
@@ -851,7 +860,7 @@ Ci interessa la continuità della funzione perché, se $f$ è continua, allora:
           \begin{equation}
               f(\emptyset), f(f(\emptyset)), f(f(f(\emptyset))), \dots
           \end{equation}
-    \item il massimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
+    \item Il massimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
           $f(A)$ fino a quando non troviamo il primo punto fisso.
           \begin{equation}
               f(A), f(f(A)), f(f(f(A))), \dots
