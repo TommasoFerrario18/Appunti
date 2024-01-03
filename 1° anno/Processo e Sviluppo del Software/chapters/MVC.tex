@@ -1,9 +1,9 @@
 \chapter{Model-View-Controller}
-Il \textbf{Model-View-controller} (\textbf{MVC}) è un pattern architetturale molto
-diffuso nello sviluppo di sistemi software, in particolare nell'ambito della
-programmazione orientata agli oggetti e in applicazioni web, in grado di separare
-la logica di presentazione dei dati dalla logica di business. Partiamo analizzando
-il pattern architetturale:
+Il \textbf{Model-View-controller} (\textbf{MVC}) è un pattern architetturale
+molto diffuso nello sviluppo di sistemi software, in particolare nell'ambito
+della programmazione orientata agli oggetti e in applicazioni web, in grado di
+separare la logica di presentazione dei dati dalla logica di business. Partiamo
+analizzando il pattern architetturale:
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/mvc/mvcpattern.png}
@@ -17,20 +17,20 @@ tratteggiate gli eventi. Analizzando meglio le tre componenti si ha che:
             metodi per accedere ai dati utili dell'applicazione. È implementato
             dalle classi che realizzano la logica applicativa.
       \item \textbf{View}: renderizza il modello, richiede l'aggiornamento dai
-            modelli, invia le operazioni dell'utente al \textit{controller} e gli
-            permette di selezionare la vista. Visualizza i dati contenuti nel
-            model e si occupa dell'interazione con utenti e agenti. Presenta lo
-            stato del model all'utente.
+            modelli, invia le operazioni dell'utente al \textit{controller} e
+            gli permette di selezionare la vista. Visualizza i dati contenuti
+            nel model e si occupa dell'interazione con utenti e agenti. Presenta
+            lo stato del model all'utente.
       \item \textbf{Controller}: definisce il comportamento dell'applicazione,
-            riceve i comandi dell'utente (in genere attraverso il \textit{View})
+            riceve i comandi dell'utente (in genere attraverso la \textit{View})
             e li attua modificando lo stato degli altri due componenti. Si ha un
             controller per funzionalità. È un mediatore tra view e controller.
 \end{itemize}
 La \textit{view} raccoglie gli input dell'utente e li inoltra al \textit{controller},
-che li mappa in operazioni sul \textit{model}, che viene modificato. A questo punto
-il controller seleziona la nuova view da mostrare all'utente, che a sua volta
-interagisce per avere i dati con il model. Cambi del model sono notificati alla
-view per eventuali cambiamenti dei dati.
+che li mappa in operazioni sul \textit{model}, che viene modificato. A questo
+punto il controller seleziona la nuova view da mostrare all'utente, che a sua
+volta interagisce per avere i dati con il model. Cambi del model sono notificati
+alla view per eventuali cambiamenti dei dati.
 
 Per la costruzione del controller si hanno vari design pattern tra cui:
 \begin{itemize}
@@ -51,20 +51,20 @@ Per la costruzione del controller si hanno vari design pattern tra cui:
                   \item Prepara i dati da mostrare nella view successiva.
                   \item Porta il controllo (e i dati) alla view.
             \end{enumerate}
-            Dal punto di vista implementativo si possono usare soluzioni con poca
-            logica di controllo o con una forte logica di controllo. Con questo
-            pattern si implementa un controller per ciascuna pagina logica, avendo,
-            per la scalabilità, la crescita finita del controller proporzionale
-            al numero di pagine necessarie, producendo un numero comunque finito
-            e gestibile di file di codice piccoli.
-      \item \textbf{Front Controller}: definisce un singolo componente per gestire
-            tutte le richieste. Ogni volta che si riceve una richiesta, il front
-            controller rappresentato dall'\textbf{handler} si avvale della
-            collaborazione di una gerarchia di classi, le quali rappresentano i
-            comandi che possono essere richiesti dall'utente attraverso
-            l'interfaccia. Questo approccio risulta scalabile perché al crescere
-            della dimensione dell'applicazione ciò che cresce non è l'handler ma
-            cresce la gerarchia dei comandi. Nel dettaglio l'handler:
+            Dal punto di vista implementativo si possono usare soluzioni con
+            poca logica di controllo o con una forte logica di controllo. Con
+            questo pattern si implementa un controller per ciascuna pagina
+            logica, avendo, per la scalabilità, la crescita finita del controller
+            proporzionale al numero di pagine necessarie, producendo un numero
+            comunque finito e gestibile di file di codice piccoli.
+      \item \textbf{Front Controller}: definisce un singolo componente per
+            gestire tutte le richieste. Ogni volta che si riceve una richiesta,
+            il front controller rappresentato dall'\textbf{handler} si avvale
+            della collaborazione di una gerarchia di classi, le quali
+            rappresentano i comandi che possono essere richiesti dall'utente
+            attraverso l'interfaccia. Questo approccio risulta scalabile perché
+            al crescere della dimensione dell'applicazione ciò che cresce non è
+            l'handler ma cresce la gerarchia dei comandi. Nel dettaglio l'handler:
             \begin{itemize}
                   \item Riceve la richiesta dal server.
                   \item Esegue operazioni generali/comuni a tutti i comandi.
@@ -79,19 +79,21 @@ Per la costruzione del controller si hanno vari design pattern tra cui:
                   \item Determina la vista successiva.
                   \item Dà il controllo al View.
             \end{itemize}
-            Il front controller è più complesso del page controller. Inoltre evita
-            la duplicazione del codice tra i vari controller, permette una semplice
-            configurazione del server avendo una sola servlet, permette di gestire
-            dinamicamente nuovi comandi, facilita l'estensione del controller e
-            i comandi possono essere implementati sia come metodi, sia come classi.
-            Al crescere dell'applicazione cresce la gerarchia di comandi, mantenendo
-            quasi invariato il front controller.
-      \item \textbf{Intercepting Filter}: è utile per gestire richieste e risposte
-            prima che vengano servite. Viene spesso usato insieme al front
-            controller per “decorare” richieste e risposte con funzioni aggiuntive.
+            Il front controller è più complesso del page controller. Inoltre
+            vita la duplicazione del codice tra i vari controller, permette una
+            semplice configurazione del server avendo una sola servlet, permette
+            di gestire dinamicamente nuovi comandi, facilita l'estensione del
+            controller e i comandi possono essere implementati sia come metodi,
+            sia come classi. Al crescere dell'applicazione cresce la gerarchia
+            di comandi, mantenendo quasi invariato il front controller.
+      \item \textbf{Intercepting Filter}: è utile per gestire richieste e
+            risposte prima che vengano servite. Viene spesso usato insieme al
+            front controller per “decorare” richieste e risposte con funzioni
+            aggiuntive.
 
-            Dal punto di vista implementativo il web server fornisce Filter Manager
-            e Filter chain, dovendo quindi implementare e dichiarare solo i filters.
+            Dal punto di vista implementativo il web server fornisce Filter
+            Manager e Filter chain, dovendo quindi implementare e dichiarare
+            solo i filters.
             \begin{figure}[!ht]
                   \centering
                   \includegraphics[width=0.5\textwidth]{img/mvc/filter.png}
@@ -107,19 +109,19 @@ Per la costruzione del controller si hanno vari design pattern tra cui:
       \item \textbf{Application Controller}: usato in quanto all'aumentare della
             complessità del flusso, la gestione del flusso potrebbe essere
             concentrata in una classe. Solitamente viene usato dal page controller
-            o dal front conteoller.
+            o dal front controller.
 \end{itemize}
-Possiamo definire anche i design pattern per l'implementazione della view:
+Possiamo definire anche i design pattern per l'implementazione della \textit{view}:
 \begin{itemize}
       \item \textbf{Template View}: che genera codice HTML dalle pagine template
             che includono chiamate al modello. Dove nel codice HTML si hanno vari
             marker e l'\textbf{helper} genera i dati del dominio e separa la vista
             dalla logica di implementazione.
 
-            L'helper è creato dal controller ed è accedibile da una vista. Si usano
-            anche i metodi helper del controller per recuperare i dati dal Model,
-            permettendo di preparare dei dati ad hoc per la parte di presentazione,
-            tramite getter specifici.
+            L'helper è creato dal controller ed è accessibile da una vista. Si
+            usano anche i metodi helper del controller per recuperare i dati dal
+            Model, permettendo di preparare dei dati ad hoc per la parte di
+            presentazione, tramite getter specifici.
       \item \textbf{Transformation View}: che trasforma le entità di dominio in
             HTML. Dove per il model tipicamente ogni classe implementa un metodo
             \textit{.toXML()} mentre per il transformer si ha tipicamente
@@ -127,16 +129,16 @@ Possiamo definire anche i design pattern per l'implementazione della view:
                   Transformations} (XSLT). Si ha quindi che ci si concentra
             sull'entità che deve essere trasformata, piuttosto che sulla pagina
             di output. Si ha una produzione interamente dinamica della pagina da
-            parte del transformer. Il trasformer legge la conversione XML e le
+            parte del transformer. Il transformer legge la conversione XML e le
             regole XSLT, crea la pagina dinamicamente, inserendo i dati del model
             definito come XML nel posto specificato dalle regole XSLT.
 
-            Purtroppo è difficile includere la logica di implementazione nella view
-            anche se il testing è facile. È facile da applicare a dati in formato
-            XML anche se What You See Is What You Get (WYSIWYG) sarebbe più intuitivo
-            e facile da implementare. Al contrario di template view non vediamo
-            cosa stiamo facendo fino a che non visualizziamo. Template view è usato
-            spesso per costruire solo parti di pagine.
+            Purtroppo è difficile includere la logica di implementazione nella
+            view anche se il testing è facile. È facile da applicare a dati in
+            formato XML anche se What You See Is What You Get (WYSIWYG) sarebbe
+            più intuitivo e facile da implementare. Al contrario di template view
+            non vediamo cosa stiamo facendo fino a che non visualizziamo.
+            Template view è usato spesso per costruire solo parti di pagine.
       \item \textbf{Two-Steps View} dove si ha la generazione della pagina HTML
             in due passaggi:
             \begin{enumerate}
@@ -151,8 +153,9 @@ Possiamo definire anche i design pattern per l'implementazione della view:
                   \item 2 passi XSLT: Una sequenza di due trasformazione XSLT,
                         la prima per la costruzione della pagina logica e la
                         seconda per il suo render.
-                  \item template-view: Una vista template con tag custom, la pagina
-                        HTML è quindi la pagina logica e i tag custom il render.
+                  \item template-view: Una vista template con tag custom, la
+                        pagina HTML è quindi la pagina logica e i tag custom il
+                        render.
             \end{itemize}
             Si ha che il “Look \& Feel” è facile da cambiare perché il rendering
             non è ottenuto tramite interazione con la strutturazione delle
@@ -163,23 +166,25 @@ Come sappiamo non si ha una relazione diretta tra programmazione a oggetti e
 modello relazionale. Per questo si usa l'\textbf{Object Relational Mapping}
 (\textbf{ORM}) quando si lavora con la programmazione a oggetti e dati persistenti
 in un database con le classi che vanno \textit{mappate} nelle entità e viceversa.
-Molti dei concetti si applicano ad altri mapping con modelli anche NoSQL. Si sfrutta
-quindi un \textbf{API gateway} tra il client e le risorse dati che “incapsula”
-l'accesso a una risorsa esterna con una classe e traduce le richieste di accesso
-alla risorsa esterna in chiamate all'API. Con questo approccio si nasconde l'accesso
-alle risorse e la complessità delle API.
+Molti dei concetti si applicano ad altri mapping con modelli anche NoSQL. Si
+sfrutta quindi un \textbf{API gateway} tra il client e le risorse dati che
+“incapsula” l'accesso a una risorsa esterna con una classe e traduce le
+richieste di accesso alla risorsa esterna in chiamate all'API. Con questo
+approccio si nasconde l'accesso alle risorse e la complessità delle API.
 
 Si hanno tipicamente 4 pattern per il database gateway:
 \begin{itemize}
-      \item \textbf{Table Data Gateway}: che prevede un oggetto per tabella. Prevede
-            classi stateless ed è comodo nel paradigma procedurale ma meno in
-            quello ad oggetti, in quanto i metodi ritornano dati row e non oggetti.
-      \item \textbf{Row Data Gateway}: che prevede un oggetto per record. Si possono
-            avere più copie di oggetti persistenti in memoria, avendo una classe
-            gateway che funge da alter-ego del database che viene chiamata dalla
-            classe coi metodi finder.
+      \item \textbf{Table Data Gateway}: che prevede un oggetto per tabella.
+            Prevede classi stateless ed è comodo nel paradigma procedurale ma
+            meno in quello ad oggetti, in quanto i metodi ritornano dati row e
+            non oggetti.
+      \item \textbf{Row Data Gateway}: che prevede un oggetto per record. Si
+            possono avere più copie di oggetti persistenti in memoria, avendo
+            una classe gateway che funge da alter-ego del database che viene
+            chiamata dalla classe coi metodi finder.
       \item \textbf{Active Record}: che prevede un oggetto per record.
-      \item \textbf{Data Mapper}: che prevede un layer applicativo dedicato all'ORM.
+      \item \textbf{Data Mapper}: che prevede un layer applicativo dedicato
+            all'ORM.
 \end{itemize}
 \subsection{Active record}
 Considerate le classi che implementano i dati che devono essere persistenti si
@@ -187,16 +192,16 @@ arricchiscono le classi con metodi per permettere l'interazione col database. Un
 \textbf{active record} include quindi:
 \begin{itemize}
       \item La business logic.
-      \item Il mapping logico al database, avendo  metodi statici come \textit{finder}
-            (invocabili avendo accesso alla classe) che comunque restituiscono
-            risultati già nel dominio (oggetti o collezioni di oggetti) e non
-            statici i metodi gateway per lavorare con le istanze.
+      \item Il mapping logico al database, avendo  metodi statici come
+            \textit{finder} (invocabili avendo accesso alla classe) che comunque
+            restituiscono risultati già nel dominio (oggetti o collezioni di
+            oggetti) e non statici i metodi gateway per lavorare con le istanze.
 \end{itemize}
 Tra i metodi abbiamo quindi:
 \begin{itemize}
-      \item \textbf{Load}: che crea un'istanza a partire dai risultati di una query
-            SQL. Potrebbe essere necessario creare altri oggetti con accesso a
-            più tabelle nel casi di reference.
+      \item \textbf{Load}: che crea un'istanza a partire dai risultati di una
+            query SQL. Potrebbe essere necessario creare altri oggetti con
+            accesso a più tabelle nel casi di reference.
       \item \textbf{Costruttore}: per creare nuove istanze che saranno poi rese
             persistenti invocando metodi appositi.
       \item \textbf{Finder} (statici): che incapsulano la query SQL e ritornano
@@ -214,14 +219,14 @@ Tra i metodi abbiamo quindi:
             Per farlo si ha un attributo identificatore nella classe che compare
             anche nel record e che serve per trovare il record corrispondente ad
             un oggetto.
-      \item \textbf{Getter} e \textbf{Setter}: che a seconda del caso devono essere
-            subito sincronizzati con il database.
+      \item \textbf{Getter} e \textbf{Setter}: che a seconda del caso devono
+            essere subito sincronizzati con il database.
       \item \textbf{Business}.
 \end{itemize}
 Non è il metodo migliore dal momento che nella stessa classe ho sia i metodi
 della logica di business, sia i metodi per il mapping nel database. In aggiunta,
-forza anche la corrispondenza perfetta tra OOP e ER design. Il lato positivo è la
-semplicità.
+forza anche la corrispondenza perfetta tra OOP e ER design. Il lato positivo è
+la semplicità.
 \subsection{Data mapper}
 Con il pattern \textbf{Data Mapper} invece si ha un layer software indipendente,
 dedicato alla persistenza e all'ORM, in modo che la logica di dominio non conosca
@@ -229,9 +234,10 @@ la struttura del database e nemmeno le query SQL. Si usano quindi interfacce per
 consentire l'accesso ai mapper indipendentemente dalla loro implementazione.
 
 Framework moderni implementano questo tipo di pattern (che offre la parte di
-mapping senza doverli implementare, a solo configurare).
+mapping senza doverli implementare, ma solo configurare).
 \subsection{Ulteriori pattern ORM}
-In generale si hanno dei pattern di comportamento per risolvere altri problemi ORM:
+In generale si hanno dei pattern di comportamento per risolvere altri problemi
+di ORM:
 \begin{itemize}
       \item \textbf{Unit of work}
       \item \textbf{Identity map}
@@ -246,19 +252,19 @@ e anche pattern strutturali:
 \end{itemize}
 \subsubsection{Unit of work}
 In questo caso si approfondiscono le operazioni ACID cercando di capire quando
-sincronizzare le informazioni in memory con il database. Questo aspetto è importante
-introducendo il concetto di \textbf{business transaction} per operazioni con
-semantica di tipo all or nothing dove o si accettano tutte le operazioni richieste
-o nessuna. Le business transaction vanno quindi mappate nelle \textbf{system
-      transaction} fatte dal sistema sul database.
+sincronizzare le informazioni in memory con il database. Questo aspetto è
+importante introducendo il concetto di \textbf{business transaction} per
+operazioni con semantica di tipo all or nothing dove o si accettano tutte le
+operazioni richieste o nessuna. Le business transaction vanno quindi mappate
+nelle \textbf{system transaction} fatte dal sistema sul database.
 
 Si hanno varie soluzioni:
 \begin{itemize}
       \item \ref{fig:bt-uguale-st} aggiornare il database ogni volta che si ha
-            una modifica in memoria. Si lega la business transaction con la system
-            transaction. Infattibile perché si avrebbe che la transazione del DB
-            sarebbe troppo lunga, comportando che l'aggiornamento impedisce
-            l'accesso agli altri.
+            una modifica in memoria. Si lega la business transaction con la
+            system transaction. Infattibile perché si avrebbe che la transazione
+            del database sarebbe troppo lunga, comportando che l'aggiornamento
+            impedisce l'accesso agli altri.
             \begin{figure}[!ht]
                   \centering
                   \includegraphics[width=0.5\textwidth]{img/mvc/bt-uguale-st.png}
@@ -272,8 +278,8 @@ Si hanno varie soluzioni:
             \begin{figure}[!ht]
                   \centering
                   \includegraphics[width=0.5\textwidth]{img/mvc/op-uguale-st.png}
-                  \caption{System transaction per ogni singola operazione nella Business
-                        transaction}
+                  \caption{System transaction per ogni singola operazione nella
+                        Business transaction}
                   \label{fig:op-uguale-st}
             \end{figure}
       \item \ref{fig:bt-uguale-st1} aggiornamento finale al termine della business
@@ -286,9 +292,9 @@ Si hanno varie soluzioni:
             \end{figure}
 \end{itemize}
 La \textbf{unit of work} quindi traccia ogni cambiamento (coi metodi register) e
-lo attuta in una singola system transaction finale (con il commit). Per fare questo
-incapsula ogni update/insert/delete, mantenendo l'integrità del database ed
-evitando deadlock.
+lo attuta in una singola system transaction finale (con il commit). Per fare
+questo incapsula ogni update/insert/delete, mantenendo l'integrità del database
+ed evitando deadlock.
 
 A proposito di \textit{locking} si ha che due business transaction possono essere
 attive nello stesso momento e bisogna capire come devono lavorare sul database.
@@ -304,37 +310,41 @@ In questo caso si hanno due strategie:
             caso si ricarica il record tramite un rollback.
       \item \textbf{Pessimistic locking}: usato quando hanno alte probabilità di
             generare conflitti. Gli oggetti sono bloccati non appena vengono
-            usati riducendo la concorrenza. Non si permette quindi alle transazioni
-            di lavorare concorrentemente riducendo però le prestazioni del sistema
-            ma aumentando la sicurezza.
+            usati riducendo la concorrenza. Non si permette quindi alle
+            transazioni di lavorare concorretemene riducendo però le prestazioni
+            del sistema ma aumentando la sicurezza.
 \end{itemize}
 Poi, per avvisare la unit of work che un'operazione di persistenza è stata
 schedulata, si hanno due pattern:
 \begin{itemize}
       \item \textbf{Caller registration}: dove chi modifica l'entità lo notifica
             direttamente alla unit of work. Questa soluzione è rischiosa in quanto
-            il programmatore potrebbe dimenticarsi ma permette maggior flessibilità,
-            permettendo di decidere dinamicamente se i cambiamenti devono
-            “riflettersi” sullo storage persistente.
-      \item \textbf{Object registration}: dove è l'entità modificata a notifica la
-            unit of work, che però deve obbligatoriamente avere accesso globale.
+            il programmatore potrebbe dimenticarsi ma permette maggior
+            flessibilità, permettendo di decidere dinamicamente se i cambiamenti
+            devono “riflettersi” sullo storage persistente.
+      \item \textbf{Object registration}: dove è l'entità modificata a notificare
+            la unit of work, che però deve obbligatoriamente avere accesso globale.
             Ogni cambiamento viene comunque notificato. Solitamente si usa questa
             soluzione ma nella variante in cui le classi persistenti non includono
-            il codice per la notifica ma tramite una strumentazione trasparente
+            il codice per la notifica, ma tramite una strumentazione trasparente
             offerta dai framework.
 \end{itemize}
 \subsubsection{Identity map}
 In questo caso si studia il load di un'istanza direttamente a partire dal database.
 Se un certo record viene richiesto due volte si generano due oggetti uguali.
 In pratica uno stesso oggetto può essere caricato più volte, o da azioni differenti
-dello stesso utente rischiando inconsistenze, se una istanza viene modificata,
-oltre ad avere ridondanza di dati o da utenti diversi in questo spesso è intenzionale.
+dello stesso utente rischiando di creare inconsistenze, ad esempio se una istanza
+viene modificata. Questo porta ad avere dati inconsistenti, oltre a questo può
+essere presente una ridondanza di dati e in determinati casi problemi di
+sicurezza in quanto utenti diversi possono cercare di forzare queste
+inconsistenze in modo intenzionale.
 
 \textbf{Identity map} è quindi un oggetto con la responsabilità di identificare
 gli oggetti caricati in una sessione, funzionando come una sorta di cache,
 controllando l'eventuale presenza dell'oggetto “in cache” prima di caricarne uno
-nuovo, se già presente si ritorna un riferimento all'oggetto. Identity map quindi
-mantiene i riferimenti agli oggetti tramite un sistema chiave-valore.
+nuovo dal database. Se l'oggetto è già presente si ritorna un riferimento
+all'oggetto. Identity map quindi mantiene i riferimenti agli oggetti tramite un
+sistema chiave-valore.
 
 Generalmente la chiave della mappa è quella primaria del database. Si hanno
 diverse identity map:
@@ -353,10 +363,10 @@ alcuni attributi lasciando comunque possibilità si caricare in seguito ulterior
 attributi non ancora inizializzati se ce ne fosse necessità, in modo on-demand,
 tramite i finder.
 \subsubsection{Value holder}
-Con questa tecnica si usa un oggetto, il value holder, come uno storage
+Con questa tecnica si usa un oggetto, ossia il value holder, come uno storage
 intermediario per un attributo. Anche in questo caso si ha un'inizializzazione
 “lazy” implementata da questo oggetto che caso per caso potrebbe essere istanziato
-con diverse strategie di load. Si separa la locgia di dominio da quella “lazy”
+con diverse strategie di load. Si separa la logica di dominio da quella “lazy”
 di loading.
 \subsubsection{Identify field}
 Normalmente si hanno:
@@ -378,8 +388,8 @@ Si hanno infatti due tipi di chiave:
             dall'applicazione). Si ha comunque rischio di duplicazione, avere
             assenza di valore e avere cambiamenti sulla logica di dominio che
             impattano su quella di persistenza.
-      \item Chiavi dedicate, sia semplici (un solo attributi) che composte (di più
-            attributi), avendo una chiave per tabella e una per database.
+      \item Chiavi dedicate, sia semplici (un solo attributi) che composte (di
+            più attributi), avendo una chiave per tabella e una per database.
             Nella pratica spesso hanno tipo long che ben supporta il check di
             uguaglianza (==) e la generazione di nuove chiavi.
 \end{itemize}
@@ -390,9 +400,9 @@ Si hanno varie strategie per la generazione delle chiavi:
             software e libreria.
       \item Dall'applicazione, principalmente in due modi:
             \begin{itemize}
-                  \item \textbf{Table scan}, usando una query SQL per determinare
+                  \item \textbf{Table scan}: usando una query SQL per determinare
                         il valore della prossima chiave.
-                  \item \textbf{Key table}, usando tabelle speciali con il nome
+                  \item \textbf{Key table}: usando tabelle speciali con il nome
                         delle altre tabelle e il valore successivo della chiave.
             \end{itemize}
 \end{itemize}
@@ -400,18 +410,18 @@ I moderni framework ORM supportano i vari design pattern appena discussi e quell
 mancanti, relativi a chiavi esterne, cascading, ereditarietà $\dots$ In ogni caso
 i pattern appena discussi sono tutti supportati dai moderni framework ORM.
 \subsubsection{Embedded value}
-Con questo pattern si hanno semplici oggetti, senza un chiaro concetto di identità,
-che possono essere inclusi in oggetti che fungono da alter-ego delle tabelle
-anziché creare tabelle dedicate.
+Con questo pattern si hanno semplici oggetti, senza un chiaro concetto di
+identità, che possono essere inclusi in oggetti che fungono da alter-ego delle
+tabelle anziché creare tabelle dedicate.
 \subsection{JPA}
-\textbf{Java Persistence API} (JPA) è unos standard di implementazione di ORM nel
+\textbf{Java Persistence API} (JPA) è uno standard di implementazione di ORM nel
 linguaggio Java. Questa implementazione consiste in un grande set di pattern/
 meccanismi già implementati mediante:
 \begin{itemize}
       \item Sistema di annotazioni.
       \item Servizio.
 \end{itemize}
-Si hanno 4 macroelementi:
+Si hanno 4 macro-elementi:
 \begin{itemize}
       \item \textbf{Database}: che salverà degli oggetti, istanze di entity class,
             classi con un mapping ad un record. Il mapping è garantito attraverso
@@ -419,6 +429,7 @@ Si hanno 4 macroelementi:
       \item Classi della logica di dominio.
       \item \textbf{Entity manager}: servizio che permette di lavorare sulle entità
             persistenti
+      \item %% TODO: manca il 4 punto non lo trovo sulle slide
 \end{itemize}
 \subsubsection{Entity manager}
 Gli oggetti persistenti sono anche chiamati come \textbf{Pojo} (\textit{Plain Old
@@ -427,7 +438,8 @@ fino a quando non interagiscono con l'entity manager.
 
 Ogni Pojo in memoria può trovarsi in 2 stati:
 \begin{itemize}
-      \item \textbf{managed}: entity manager è consapevole nella presenza in memoria.
+      \item \textbf{managed}: entity manager è consapevole nella presenza in
+            memoria.
       \item \textbf{unmanaged}: entity manager non è consapevole nella presenza
             in memoria.
 \end{itemize}
@@ -441,15 +453,15 @@ Un'entità diventa managed quando si crea da una classe con annotazione
 parti. In questo caso bisogna notificarlo all'Entity Manager.
 
 Il servizio Entity Manager è in grado di gestire solo le classi che dichiariamo
-(insimee di classi persistenti = persistence unit) e vengono dichiarati nel file
+(insieme di classi persistenti = persistence unit) e vengono dichiarati nel file
 persistence.xml e si deve specificare una connessione al database. A runtime la
 persistence unit si chiama persistence context. (si possono dichiarare più
 persistence unit e context)
 
-L'annotazioen @Entity specifica un oggetto persistente e avremo una tabella
+L'annotazione @Entity specifica un oggetto persistente e avremo una tabella
 per memorizzare gli oggetti con le colonne con gli stessi nomi degli attributi.
-Si possono utilizzare annotazioni per modificare il mapping come i nomi dei fields
-e delle tabelle.
+Si possono utilizzare annotazioni per modificare il mapping come i nomi dei
+fields e delle tabelle.
 
 Definito il mapping utilizzeremo Entity Manager per accedere ai dati. Creiamo
 l'Entity Manager e per notificare la creazione si usa la funzione di persist.
@@ -457,60 +469,61 @@ l'Entity Manager e per notificare la creazione si usa la funzione di persist.
 Dall'Entity Manager posso recuperare l'entità con i metodi finder che chiedono la
 classe dell'oggetto richiesto e id. Il risultato dei metodi sono sempre oggetti.
 getReference è caricamento Lazy.
-Un altro modo di estrazione degli oggetti è attraverso una query simile a SQL, non
-si usano i nomi delle tabelle o field delle tabelle ma bensì ai nomi delle classi
-e attributi (sempre secondo object oriented).
+Un altro modo di estrazione degli oggetti è attraverso una query simile a SQL,
+non si usano i nomi delle tabelle o field delle tabelle ma bensì ai nomi delle
+classi e attributi (sempre secondo object oriented).
 Per modificare le entità si modificano gli attributi e alla prossima transazione
-verrà salvata in automatico. La modifica non viene riportata al database se l'entità
-è unmanaged. Per renderla effettiva allora si usa merge che:
+verrà salvata in automatico. La modifica non viene riportata al database se
+l'entità è unmanaged. Per renderla effettiva allora si usa merge che:
 \begin{itemize}
       \item se l'entità non esiste allora viene inserita.
       \item se esiste un'altra entità si sovrascrive l'unmanaged sul database.
 \end{itemize}
+Utilizzando il metodo refresh posso aggiornare i campi dell'entità con i valori
+dei campi che sono salvati all'interno del database.
 
-refresh posso aggiornare l'entità
+Per aprire e chiudere la transaction ci sono dei metodi dell'Entity Manager.
 
-per aprire e chiudere la transaction ci sono dei metodi dell'Entity Manager.
-
-SequenceGen(nome generatore in Java, nome generatore nel DB)
+SequenceGen(nome generatore in Java, nome generatore nel database)
 
 Cerca di usare sempre un'attributo ad hoc per le chiavi.
 
 Possiamo fare il mapping di un'entità su più tabelle con SecondaryTable e l'entità
-sarà partizionata tra le due tabelle che hanno i record associati con lo stesso id.
-Utile per accedere a database legacy e codificare più tabelle in un'entità.
+sarà partizionata tra le due tabelle che hanno i record associati con lo stesso
+id. Utile per accedere a database legacy e codificare più tabelle in un'entità.
 
 Mapping delle associazioni comportano il caricamento anche delle entità associate.
 Vediamo ora come implementare le associazioni:
 \begin{itemize}
-      \item \textbf{One-to-One} monodirezionale: si hanno due modi per mappare
+      \item \textbf{One-to-One} mono-direzionale: si hanno due modi per mappare
             una relazione 1 a 1:
             \begin{enumerate}
                   \item Utilizzando una chiave esterna nella tabella padre che punta
                         alla tabella figlia.
-                  \item Effettuando la join sulle chiavi primarie, in questo modo si
-                        ha un entità suddivisa in due tabelle.
+                  \item Effettuando la join sulle chiavi primarie, in questo modo
+                        si ha un entità suddivisa in due tabelle.
             \end{enumerate}
-      \item \textbf{One-to-Many} monodirezionale: nella parte a 1 si memorizza
+      \item \textbf{One-to-Many} mono-direzionale: nella parte a 1 si memorizza
             una collection della parte a molti. Questo può essere gestito con una
             tabella di join, specificando il nome della tabella e le chiavi da
             utilizzare.
-      \item \textbf{Many-to-One} monodirezionale: si applica lo stesso ragionamento
+      \item \textbf{Many-to-One} mono-direzionale: si applica lo stesso ragionamento
             della one-to-many invertendo i ruoli.
       \item \textbf{Relazioni bidirezionali}: sono raramente utilizzate. Si possono
-            creare aggiungo un campo in entrabe le classi e specificando in una
+            creare aggiungo un campo in entrambe le classi e specificando in una
             delle due entità il mapping al campo della classe a cui fare riferimento.
       \item \textbf{Many-to-Many}: si crea una tabella di join utilizzando le
             chiavi primarie delle due entità. Nelle classi è possibile esprimere
             un campo di tipo collection che rappresenta gli elementi dell'altra
-            classe che partecipano alla relazione.
+            classe che partecipa alla relazione.
 \end{itemize}
-
-Utilizzando questo approccio si progettano direttamente le classi e non il database.
-
-Dato che nella programmazione a oggetti posso avere delle gerarchie tra gli oggetti,
-ma questi non sono supportati dal modello relazionale, si ha la necessità di mappare
-le gerarchie. Il mapping deve essere fatto in modo esplicito:
+\begin{nota}
+      Utilizzando questo approccio si progettano direttamente le classi e non il
+      database.
+\end{nota}
+Dato che nella programmazione a oggetti posso avere delle gerarchie tra gli
+oggetti, ma questi non sono supportati dal modello relazionale, si ha la necessità
+di mappare le gerarchie. Il mapping deve essere fatto in modo esplicito:
 \begin{itemize}
       \item \textbf{Single table}: tutto in una tabella e si introduce un attributo
             discriminatore. Richiede che sia possibile avere null negli attributi.
@@ -526,29 +539,30 @@ le gerarchie. Il mapping deve essere fatto in modo esplicito:
             caratterizzate solo dall'id e dagli attributi extra rispetto alla
             classe padre. Si ha quindi un mapping “uno a uno”. Questa strategia
             supporta i vincoli tabellari e non richiede la SQL UNION ma si ha un
-            istanza “splittata” su più tabelle ed è generalmente una soluzione
+            istanza “suddivisa” su più tabelle ed è generalmente una soluzione
             lenta in esecuzione (dovendo eseguire i join).
 \end{itemize}
 Si mappa Ereditarietà perché permette di ridurre la duplicazione e di risolvere
 le query correttamente.
 \section{Gestione delle dipendenze}
-Vogliamo sviluppare codice in classi che siano il più indipendenti possibili e con
-più disaccoppiamento possibile, si può considerare ciascuna classe come un singolo
-componente, le quali possono essere componibili tra di loro per risolvere un problema
-o implementare un servizio. Mantenendo l'indiependenza tra i componenti del sistema
-si introduce una semplicità nella fase di manutenzione e evoluzione del sistema.
+Vogliamo sviluppare codice in classi che siano il più indipendenti possibili e
+con più disaccoppiamento possibile, si può considerare ciascuna classe come un
+singolo componente, le quali possono essere componibili tra di loro per risolvere
+un problema o implementare un servizio. Mantenendo l'indipendenza tra i componenti
+del sistema si introduce una semplicità nella fase di manutenzione e evoluzione
+del sistema.
 
 Le dipendenze tra i componenti possono essere soddisfatte in due modi:
 \begin{itemize}
       \item \textbf{Dinamicamente}: a runtime i componenti indipendenti vengono
             collegati, quindi si ha alto disaccoppiamento.
       \item \textbf{Staticamente}: si inserisce all'interno del componente parte
-            del codice del compoente dipendente, in questo caso si ha una mancanza
-            di disaccoppaimento perché la classe sarà meno riutilizzabile, dal
+            del codice del componete dipendente, in questo caso si ha una mancanza
+            di disaccoppiamento perché la classe sarà meno riutilizzabile, dal
             momento che, esportandola, esporteremo anche la classe dipendente.
 \end{itemize}
 Nella gestione delle dipendenze un aspetto fondamentale è il \textbf{decoupling},
-ovvero si rendono indipendeti le componenti da pubblicare anche se a runtime tali
+ovvero si rendono indipendenti le componenti da pubblicare anche se a runtime tali
 componenti devono comunque interagire.
 
 Si hanno quindi alcuni design pattern per gestire le dipendenze dinamicamente:
@@ -558,11 +572,11 @@ Si hanno quindi alcuni design pattern per gestire le dipendenze dinamicamente:
             dall'esterno (dependency injection).
       \item \textbf{Service locator}: si implementa un componente che gestisce
             le dipendenze per accedere ai componenti, in questo caso i riferimenti
-            non vengono risolti in modo automantico, ma sarà il componente che
+            non vengono risolti in modo automatico, ma sarà il componente che
             manualmente farà richiesta al servizio di registry che ritornerà il
             componente cercato.
 \end{itemize}
-\subsection{Inversion control (Dipendency Injection)}
+\subsection{Inversion control (Dependency Injection)}
 Si utilizza un componente esterno, chiamato \textbf{assembler} che si occupa di
 connettere i componenti in automatico a runtime senza una loro effettiva richiesta.
 
@@ -590,11 +604,11 @@ utilizzando un file di configurazioni o attraverso delle annotazioni.
       \caption{Inversion control implementation}
 \end{figure}
 \subsection{Service locator (Dependency lookup)}
-Si utilizza una classe che implementa servizio di locazione, solitamente si realizza
-utilizzando una classe singleton la quale contiene una mappa chiave-valore che
-tiene traccia dei componenti instanziati.
+Si utilizza una classe che implementa servizio di locazione, solitamente si
+realizza utilizzando una classe singleton la quale contiene una mappa chiave-valore
+che tiene traccia dei componenti istanziati.
 
-In sostanza si definiscono i singoli componenti che implementano un'interfaccia
+In sostanza, si definiscono i singoli componenti che implementano un'interfaccia
 factory. Quando noi definiamo i servizi si definisce un attributo del tipo del
 factory che verrà associato attraverso reflection.
 
@@ -607,7 +621,7 @@ Quando si chiama il componente si utilizza il factory che fa la chiamata al look
 Importante sarà definire le transazioni quando si accede al database, questo può
 essere fatto attraverso le dichiarazioni specificate con le annotazioni.
 
-Il ciclo vita delle transazioni è il seguente:
+Il ciclo di vita delle transazioni è il seguente:
 \begin{itemize}
       \item \textbf{inizio}: iniziano con la chiamata di un metodo che ha un'annotazione
             di apertura della transazione.
@@ -618,15 +632,17 @@ In questo modo si separa la logica transazionale dalla logica di business perch�
 la prima viene gestita dal framework attraverso le annotazioni. Le annotazioni
 transazionali si possono applicare alla classe (i metodi e attributi ereditano
 l'annotazione) oppure a livello di metodo e attributo della classe. Se si specifica
-l'annotazione a livello di classe, allora le annotazioni a livello di metodo saranno
-un override di quella della classe.
+l'annotazione a livello di classe, allora le annotazioni a livello di metodo
+saranno un override di quella della classe.
 
 Esistono vari tipi di annotazioni:
 \begin{itemize}
-      \item \textbf{Not supported}: il codice eseguito non fa parte della transazione.
+      \item \textbf{Not supported}: il codice eseguito non fa parte della
+            transazione.
       \item \textbf{Supports}: dipende dal chiamante, se c'è una transazione in
-            corso anche il codice del metodo comparirà nella transazione, altrimenti,
-            se non c'è la transazione allora il codice non appartiene alla transazione.
+            corso anche il codice del metodo comparirà nella transazione,
+            altrimenti, se non c'è la transazione allora il codice non appartiene
+            alla transazione.
       \item \textbf{Required}: richiede che deve essere presente una transaction,
             se il chiamante non è in una transazione allora si avvia una nuova
             transazione, al contrario usa quella del chiamante.
@@ -642,7 +658,7 @@ Parlando di persistenza e transazioni parliamo anche di isolation e database
 locking, ovvero quando si creano transazioni non necessariamente sono perfettamente
 “isolate”. L'isolation può essere configurato per permettere un certo livello di
 interferenza con la creazione temporanea di oggetti da parte di transazioni non
-ancor concluse ma che possono essere letti da altre transaction. Se si modella
+ancora concluse ma che possono essere letti da altre transaction. Se si modella
 erroneamente la semantica transazionale allora si può avere:
 \begin{itemize}
       \item \textbf{Dirty reads}: vengono letti i dati modificati da una transaction
@@ -653,11 +669,11 @@ erroneamente la semantica transazionale allora si può avere:
             può essere dovuto dal fatto che una transazione legge la stessa cosa
             ma tra le due letture c'è una \textit{modifica} del valore.
       \item \textbf{Phantom reads}: transazioni effettuano due letture, la seconda
-            legge nuovi record che vengono \textit{inesriti} da una transazione
+            legge nuovi record che vengono \textit{inseriti} da una transazione
             tra le due.
 \end{itemize}
 Questo può essere risolto a livello di DBMS specificando le seguenti tipologie
-di isolazioni:
+di isolamento:
 \begin{itemize}
       \item \textbf{Read uncommitted}: si hanno dirty reads, unrepeatible reads e
             phantom reads.
@@ -665,8 +681,8 @@ di isolazioni:
       \item \textbf{Repeatable read}: si ha phantom reads.
       \item \textbf{Serializable}: isolation perfetta.
 \end{itemize}
-Si può definire l'isolation a livello di codice con annotazioni. La scelta del livello
-di isolation comporta:
+Si può definire l'isolation a livello di codice con annotazioni. La scelta del
+livello di isolation comporta:
 \begin{itemize}
       \item \textbf{Forte indipendenza}: performance basse perché si perde
             concorrenza

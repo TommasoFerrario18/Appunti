@@ -79,13 +79,15 @@ per il modello selezionato.
           è quella di evento, ovvero un sottoinsieme dello spazio campione. Si ha quindi
           che, preso un concetto $A \subseteq X$:
           \begin{equation}
-              f_A: X \to \{0, 1\} \ \Longrightarrow \ f_A(x) = \begin{cases} 1 & \text{se} \ x \in A \\ 0 & \text{altrimenti}\end{cases}
+              f_A: X \to \{0, 1\} \ \Longrightarrow \ f_A(x) = \begin{cases} 1 &
+              \text{se} \ x \in A \\ 0 & \text{altrimenti}\end{cases}
           \end{equation}
     \item $h$, \textbf{ipotesi}, $h \subseteq X$. ovvero una congiunzione $\land$
           di vincoli sugli attributi. Tale ipotesi è \textbf{consistente}, ovvero è
           coerente con tutti gli esempi.
           \begin{equation}
-              Consistente(h, D) \equiv \forall \langle x, c(x) \rangle \in D \text{ vale } h(x) = c(x)
+              Consistente(h, D) \equiv \forall \langle x, c(x) \rangle \in D
+              \text{ vale } h(x) = c(x)
           \end{equation}
           Un'istanza $x$ \textbf{soddisfa} un'ipotesi $h$ se e solo se tutti i
           vincoli espressi da $h$ sono soddisfatti dai valori di $x$ e si indica con:
@@ -106,17 +108,19 @@ per il modello selezionato.
     \item \textbf{Linguaggio delle ipotesi}, è il linguaggio che definisce lo
           spazio delle ipotesi/modelli.
     \item \textbf{Cross validation}, è una tecnica statistica utilizzabile in
-          presenza di una buona numerosità del dataset di training. Tale tecnica consiste
-          nella suddivisione del dataset totale in k parti (k-fold validation) e,
-          ad ogni passo, la parte $ \left(\frac{1}{k}\right)$-esima del dataset viene
-          ad essere il validation dataset, mentre la restante parte costituisce il
-          training dataset. Così, per ognuna delle k parti si allena il modello,
-          evitando quindi problemi di overfitting, ma anche di campionamento
-          asimmetrico del training dataset, tipico della suddivisione del dataset in due sole parti.
+          presenza di una buona numerosità del dataset di training. Tale tecnica
+          consiste nella suddivisione del dataset totale in k parti (k-fold
+          validation) e, ad ogni passo, la parte $ \left(\frac{1}{k}\right)$-esima
+          del dataset viene ad essere il validation dataset, mentre la restante
+          parte costituisce il training dataset. Così, per ognuna delle k parti
+          si allena il modello, evitando quindi problemi di overfitting, ma anche
+          di campionamento asimmetrico del training dataset, tipico della
+          suddivisione del dataset in due sole parti.
     \item \textbf{Bias}: è un fenomeno che si verifica a causa di presupposti
-          errati nel processo di apprendimento automatico. Il bias è come un errore
-          sistematico che si verifica quando un algoritmo produce risultati sistematicamente
-          distorti a causa di alcune ipotesi errate nel processo di apprendimento automatico.
+          errati nel processo di apprendimento automatico. Il bias è come un
+          errore sistematico che si verifica quando un algoritmo produce risultati
+          sistematicamente distorti a causa di alcune ipotesi errate nel processo
+          di apprendimento automatico.
     \item \textbf{Version space} ($VS_{H, D}$): dove $H$ rappresenta lo spazio
           delle ipotesi e $D$ il dataset. È il sotto-insieme dello spazio delle ipotesi
           che è anche consistente con il dataset:
@@ -274,5 +278,6 @@ non ho l'ipotesi più generale.
 \end{algorithm}
 \begin{osservazione}
     Un modello che non fa ipotesi preliminari per quanto riguarda l'identità del
-    concetto target non ha alcuna base razionale per classificare eventuali nuove istanze.
+    concetto target non ha alcuna base razionale per classificare eventuali nuove
+    istanze.
 \end{osservazione}

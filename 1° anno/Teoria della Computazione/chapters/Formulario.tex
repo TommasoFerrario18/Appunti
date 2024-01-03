@@ -1,0 +1,127 @@
+\chapter{Appendice}
+\section{Formulario}
+\subsection{Pattern Matching algoritmo di Knuth-Morris-Pratt}
+Notazione utilizzata:
+\begin{itemize}
+    \item $P$ = pattern
+    \item $T$ = testo
+    \item $m$ = lunghezza del pattern
+    \item $n$ = lunghezza del testo
+    \item $B(P[1, j])$ = bordo di $P[1, j]$
+    \item $p$ = posizione della nuova finestra
+    \item $i$ = posizione della finestra
+    \item $j$ = posizione della scansione nel pattern
+\end{itemize}
+Formule utili:
+\begin{itemize}
+    \item Posizione della nuova finestra:
+          \begin{equation}
+              p = i + j - \phi(j - 1) - 1
+          \end{equation}
+    \item Posizione da cui riparte la scansione del testo:
+          \begin{equation}
+              i = i + j - 1
+          \end{equation}
+    \item Posizione da cui riparte la scansione del pattern:
+          \begin{equation}
+              j = \phi(j - 1) + 1
+          \end{equation}
+    \item Calcolo della prefix function:
+          \begin{equation}
+              \phi(j) = \begin{cases}
+                  |B(P[1, j])| & \text{se } 1 \leq j \leq m \\
+                  -1           & \text{se } j = 0
+              \end{cases}
+          \end{equation}
+\end{itemize}
+\subsection{Pattern Matching algoritmo di Baeza-Yates e Gonnet}
+Notazione utilizzata:
+\begin{itemize}
+    \item $P$ = pattern
+    \item $T$ = testo
+    \item $m$ = lunghezza del pattern
+    \item $n$ = lunghezza del testo
+    \item $D_i$ = word riferita al carattere $T[i]$, il bit $j$-esimo è 1 se e
+          solo se $P[1, j] = suff(T[1, i])$.
+\end{itemize}
+Formule utili:
+\begin{itemize}
+    \item Posizione dell'occorrenza esatta:
+          \begin{itemize}
+              \item $i = i - m + 1$
+          \end{itemize}
+    \item Calcolo della $i$-esima word:
+          \begin{equation}
+              D_i = \textbf{RSHIFT1}(D_{j - 1}) \ \textbf{AND} \ B_{T[i]}
+          \end{equation}
+\end{itemize}
+\subsection{Pattern Matching algoritmo di Wu-Manber}
+Notazione utilizzata:
+\begin{itemize}
+    \item $P$ = pattern
+    \item $T$ = testo
+    \item $m$ = lunghezza del pattern
+    \item $n$ = lunghezza del testo
+    \item $k$ = numero di errori
+    \item $suff_h$ = suffisso con al più $h$ errori
+    \item $D_i^h$ = word di bit, riferita al carattere $T[i]$ dove il bit
+          $j$-esimo è 1 se e solo se $P[1, j] = suff_h(T[1, i])$.
+\end{itemize}
+Formule utili:
+\begin{itemize}
+    \item Posizione dell'occorrenza approssimata:
+          \begin{itemize}
+              \item $i - m + 1$ se $h = 0$ (Posizione di inizio, in quanto si
+                    tratta di un match esatto)
+              \item $i$ se $h = k$  (Posizione di fine, in quanto si tratta di
+                    un match approssimato)
+          \end{itemize}
+    \item Calcolo della $i$-esima word:
+          \begin{equation}
+              D_i^h = \begin{array}{l}
+                  \textbf{RSHIFT1}(D_{i - 1}^h) \ \textbf{AND} \ B_{T[i]} \\
+                  \textbf{OR}                                             \\
+                  \textbf{RSHIFT1}(D_{i - 1}^{h - 1})                     \\
+                  \textbf{OR}                                             \\
+                  D_{i - 1}^{h - 1}                                       \\
+                  \textbf{OR}                                             \\
+                  \textbf{RSHIFT1}(D_{i}^{h - 1})
+              \end{array}
+          \end{equation}
+\end{itemize}
+\subsection{Strutture di indicizzazione}
+Notazione utilizzata:
+\begin{itemize}
+    \item $P$ = pattern
+    \item $T$ = testo
+    \item $m$ = lunghezza del pattern
+    \item $n$ = lunghezza del testo
+    \item $B$ = BWT del testo
+    \item $SA$ = suffix array del testo
+    \item $C$ = array dei caratteri FM-index
+    \item $Occ$ = array delle occorrenze FM-index
+    \item $Q-suffisso$ = suffisso che inizia con $Q$
+    \item $LF(i)$ = posizione del suffisso precedente a $i$ nel suffix array
+    \item $B[i]$ = carattere in posizione $i$ della BWT
+    \item $F$ = array dei first character, si ottiene ordinado i valori della BWT.
+\end{itemize}
+Formule utili:
+\begin{itemize}
+    \item Relazione tra BWT e SA:
+          \begin{equation}
+              B[i] = T[SA[i] - 1] \ \ T[SA[i]] = F[i]
+          \end{equation}
+    \item Per ogni posizione $i$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
+    \item Posizione $j$ nel suffix array del suffisso che inizia con $B[i]$ si ottiene come:
+          \begin{equation}
+              j = LF(i) = C(B[i]) + Occ(i, B[i])
+          \end{equation}
+    \item Calcolo del $Q$-intervallo ($[b, e)$) dopo la backward extension con
+          $\sigma$:
+          \begin{equation}
+              \begin{array}{l}
+                  b' = C(\sigma) + Occ(b, \sigma) + 1 \\
+                  e' = C(\sigma) + Occ(e, \sigma)
+              \end{array}
+          \end{equation}
+\end{itemize}
