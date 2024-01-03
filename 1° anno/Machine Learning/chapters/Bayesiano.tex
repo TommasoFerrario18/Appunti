@@ -39,8 +39,8 @@ Si hanno alcune difficoltà nell'apprendimento bayesiano:
 \begin{itemize}
     \item La \textbf{probabilità bayesiana} è una probabilità \textbf{soggettiva},
           quindi dipende dalla conoscenza pregressa.
-    \item Si hanno costi \textbf{computazionali elevati}, perché si ha una complessità
-          esponenziale rispetto al numero di variabili.
+    \item Si hanno costi \textbf{computazionali elevati}, perché si ha una
+          complessità esponenziale rispetto al numero di variabili.
 \end{itemize}
 La statistica bayesiana è una probabilità soggettiva. Si ha una natura soggettiva
 perché si ha una conoscenza incerta a cui viene associata una probabilità. Si
@@ -63,15 +63,15 @@ dove:
           (\textbf{posterior}), è la probabilità che l'ipotesi dopo aver osservato
           l'evidenza.
     \item $P(D|h)$ è la probabilità del dataset $D$ dato l'ipotesi $h$
-          (\textbf{likelihood}), è la probabilità di osservare l'evidenza $D$ 
+          (\textbf{likelihood}), è la probabilità di osservare l'evidenza $D$
           dato che l'ipotesi $h$ è vera.
     \item $P(h)$ è la probabilità dell'ipotesi $h$ (\textbf{prior}), ovvero la
           probabilità dell'ipotesi prima di osservare l'evidenza. È un informazione
           a priori, il grado di fiducia rispetto all'ipotesi prima di osservare
           l'evidenza. Prima si fissa la prior e poi si osserva l'evidenza.
     \item $P(D)$ è la probabilità del dataset $D$ (\textbf{evidence}), ovvero
-          la probabilità di osservare l'evidenza $D$. È la probabilità di come 
-          si comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il 
+          la probabilità di osservare l'evidenza $D$. È la probabilità di come
+          si comporta l'evidenza senza considerare l'ipotesi. L'evidenza è il
           dataset e quindi la distribuzione dei dati.
 
           Quando ho due eventi indipendenti la probabilità congiunta è il prodotto
@@ -126,7 +126,7 @@ nei seguenti passi:
     ottenere. Nello specifico si hanno: $\prod_{i=1}^n |D_i|$ combinazioni, dove
     $D_i$ è il dominio della variabile $X_i$.
 \end{nota}
-Il modo per semplificare l'apprendimento bayesiano è quello di usare il 
+Il modo per semplificare l'apprendimento bayesiano è quello di usare il
 \textbf{naive bayes}.
 
 Usando la formula di Bayes posso calcolare la probabilità dell'ipotesi $h$ dato
@@ -168,7 +168,7 @@ di semplificare il calcolo utilizzando la proprietà dell'indipendenza condizion
 \begin{equation}
     P(D|h) = \prod_{i = 0}^{|D|} P(d_i|h)
 \end{equation}
-Questo ci permette di definire il classificatore Bayesano naive è definito come:
+Questo ci permette di definire il classificatore Bayesano naive come:
 \begin{equation}
     f_{NB} = \text{argmax}_{h_i \in H} P(h_i) \cdot \prod_{i = 0}^{|D|} P(d_i|h_i)
 \end{equation}
@@ -204,7 +204,8 @@ Algoritmo naive bayes:
         P(T = 0 | A = 1, B = 1, C = 0) = \\ P(A = 1 | T = 0) \cdot P(B = 1 | T = 0)
         \cdot P(C = 0 | T = 0) \cdot P(T = 0)
     \end{equation}
-    A questo punto utilizzando i valori presenti nel dataset posso effettuare i calcoli:
+    A questo punto utilizzando i valori presenti nel dataset posso effettuare i
+    calcoli:
     \begin{equation}
         P(T = 0 | A = 1, B = 1, C = 0) = \frac{1}{2} \cdot 1 \cdot 0 \cdot \frac{2}{5} = 0
     \end{equation}
@@ -230,41 +231,44 @@ Algoritmo naive bayes:
             P(x_6) = \sum_{i = 0}^{|H|} P(x_6, h_i) = \sum_{i = 0}^{|H|}
             P(A =  1, B = 1, C = 0 | T = i) \cdot P(T = i) \\
             = P(A = 1 | T = 0) \cdot P(B = 1 | T = 0) \cdot P(C = 0 | T = 0)
-            \cdot P(T = 0) +                               \\ P(A = 1 | T = 1) \cdot P(B = 1 | T = 1)
-            \cdot P(C = 0 | T = 1) \cdot P(T = 1)
+            \cdot P(T = 0) +                               \\ P(A = 1 | T = 1)
+            \cdot P(B = 1 | T = 1) \cdot P(C = 0 | T = 1) \cdot P(T = 1)
         \end{aligned}
     \end{equation}
 \end{esempio}
-In generale per tutte le feature non vale l'\textbf{indipendenza condizionata}, 
+In generale per tutte le feature non vale l'\textbf{indipendenza condizionata},
 ma è stato dimostrato che la correttezza rimane invariata.
 
-I principali problemi del \textbf{Naive Bayes} si hanno quando non si hanno abbastanza
-dati per il training del modello. In questi casi risulta complesso stimare le
-probabilità numericamente. Inoltre, se non osserviamo nessuna feature con una
-particolare etichetta avremo una probabilità uguale a $0$. La soluzione per
-quest'ultimo consiste nel aggiungere un piccolo numero di elementi in modo da
-non rendere nulla la probabilità ma molto vicina allo zero.
+I principali problemi del \textbf{Naive Bayes} si hanno quando non si hanno
+abbastanza dati per il training del modello. In questi casi risulta complesso
+stimare le probabilità numericamente. Inoltre, se non osserviamo nessuna feature
+con una particolare etichetta avremo una probabilità uguale a $0$. La soluzione
+per quest'ultimo consiste nel aggiungere un piccolo numero di elementi in modo
+da non rendere nulla la probabilità ma molto vicina allo zero.
 \section{Gaussian Naive Bayes}
 \textbf{Naive bayes} stima le probabilità basandosi sulle frequenze della classe
 di ciascuna feature presente nel training set, quindi funziona solo nel calcolo
 di distribuzioni discrete. Se le feature sono continue, la probabilità di una
 feature può essere stimata usando la loro distribuzione continua oppure
 approssimando con una \textbf{distribuzione gaussiana}.
-
-Nella realtà si assumono che tutti gli attributi derivino da distribuzioni gaussiane
-per semplificare i conti.
-
-Per classificare si calcolano sempre le probabilità, più precisamente la prior si
-deriva dalla probabilità che una classe $c$ venga osservata tra le etichette del 
-dataset. La likelihood si può calcolare usando la gaussiana:
-\begin{equation}
-    P(x_i|c_j) = \frac{1}{\sqrt{2 \pi \sigma_{i, j}^2}} \cdot e^{-\frac{(x_i -
-                \mu_{i,j})^2}{2 \sigma_{i,j}^2}}
-\end{equation}
-dove $\mu_{i, j}$ rappresenta la media dell'i-esimo elemento della classe j-esima
-e $\sigma_{i, j}$ la deviazione standard dell'i-esimo elemento della classe j-esima,
-statistiche calcolate dal dataset. Dove $i$ sono le feature e $j$ sono le classi.
-
+\begin{nota}
+    Nella realtà si assumono che tutti gli attributi derivino da distribuzioni
+    gaussiane per semplificare i conti.
+\end{nota}
+Nella fase di classificazione si calcolano sempre le probabilità. Nello specifico:
+\begin{itemize}
+    \item La \textit{prior} è la probabilità che una classe $c$ venga osservata
+          tra le etichette del dataset.
+    \item La \textit{likelihood} può essere calcolata usando la seguente formula:
+          \begin{equation}
+              P(x_i|c_j) = \frac{1}{\sqrt{2 \pi \sigma_{i, j}^2}} \cdot e^{-
+                      \frac{(x_i - \mu_{i,j})^2}{2 \sigma_{i,j}^2}}
+          \end{equation}
+          dove $\mu_{i, j}$ rappresenta la media dell'i-esimo elemento della
+          classe j-esima e $\sigma_{i, j}$ la deviazione standard dell'i-esimo
+          elemento della classe j-esima, statistiche calcolate dal dataset.
+          Dove $i$ sono le feature e $j$ sono le classi.
+\end{itemize}
 La previsione di un nuovo elemento può essere fatta come:
 \begin{equation*}
     P(c_i | x) \stackrel{Bayes}{=} \frac{P(X | c_j) \cdot P(c_j)}{P(x)} \\

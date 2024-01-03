@@ -71,9 +71,7 @@ Si hanno quindi due criteri da rispettare:
                         d(e_i, e_j) = \sqrt{\sum_{k=1}^n (e_{ik} - e_{jk})^2}
                   \end{equation}
             \item \textbf{Distanza di Manhattan}: non è invariante rispetto a
-                  traslazioni o rotazioni degli assi e pone meno enfasi sulle
-                  variabili con distanze maggiori, non elevando al quadrato le
-                  differenze.
+                  traslazioni o rotazioni degli assi.
                   \begin{equation}
                         d(e_i, e_j) = \sum_{k=1}^n |e_{ik} - e_{jk}|
                   \end{equation}
@@ -81,11 +79,14 @@ Si hanno quindi due criteri da rispettare:
                   \begin{equation}
                         d(e_i, e_j) = \sqrt[p]{\sum_{k=1}^n |e_{ik} - e_{jk}|^p}
                   \end{equation}
-                  La distanza di Manhattan è un caso particolare della distanza
-                  di Minkowski con $p = 1$. Inoltre, anche la distanza euclidea
-                  è un caso particolare della distanza di Minkowski con $p = 2$.
-                  La distanza di Minkowski è un caso particolare della distanza
-                  di Minkowski con $p = \infty$.
+                  \begin{itemize}
+                        \item La distanza di Manhattan è un caso particolare
+                              della distanza di Minkowski con $p = 1$.
+                        \item La distanza euclidea è un caso particolare della
+                              distanza di Minkowski con $p = 2$.
+                        \item La distanza di Chebyshev è un caso particolare
+                              della distanza di Minkowski con $p = \infty$.
+                  \end{itemize}
       \end{itemize}
 \end{definizione}
 Esistono diversi tipi di clustering, possiamo principalmente individuare:

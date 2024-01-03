@@ -136,20 +136,20 @@ quindi:
         \rho =  \min_{i = 1, \dots, n} {\gamma}_i
     \end{equation}
 \end{definizione}
-A differenza del margine funzionale, il margine geometrico ci specifica quanto
+A differenza del margine funzionale, quello geometrico ci specifica quanto
 sono distanti i punti dall'iperpiano.
 \begin{teorema}
     Se $\gamma_i > 0$, per ogni $classificazione_i$ la classificazione è approvata
     analogamente a quanto detto per il margine funzionale.
 \end{teorema}
 Dato un punto positivo/negativo il margine geometrico rappresenta la sua distanza
-geometrica dall'iperpiano, il margine geometrico rende meglio l'idea della distanza
-di un punto da un iperpiano in $\mathbb{R}^n$.
+geometrica dall'iperpiano, rende meglio l'idea della distanza di un punto da un 
+iperpiano in $\mathbb{R}^n$.
 
-Inoltre, si ha che il margine geometrico è invariante rispetto alla scala di $w$
-e quindi possiamo scalare l'iperpiano senza cambiamenti della distanza dei punti
-rispetto all'iperpiano, in questo modo il margine rimane invariato. Al contrario
-il margine funzionale è variante perché cambiando la scala di $w$ allora cambiava
+Inoltre, si ha che è invariante rispetto alla scala di $w$ e quindi possiamo 
+scalare l'iperpiano senza cambiamenti della distanza dei punti rispetto 
+all'iperpiano, in questo modo il margine rimane invariato. Al contrario il 
+margine funzionale è variante perché cambiando la scala di $w$ allora cambiava
 anche il valore del margine, cambiando la semantica della classificazione, ciò
 comporta errori.
 
@@ -258,7 +258,7 @@ Quindi la funzione di decisione associata alla soluzione può essere scritta in
 termini del prodotto interno tra i vettori di supporto (support vector) $x_i$ e
 il vettore da classificare $x$.
 \section{Punti non sono linearmente separabili}
-Quando si lavora con punti non lineare separabili si usa lo stesso approccio,
+Quando si lavora con punti non linearmente separabili si usa lo stesso approccio,
 rivedendo la formulazione del problema tramite i \textbf{metodi kernel}.
 Si cerca di mappare lo spazio di input in un nuovo spazio che è a dimensione maggiore
 in cui i punti siano linearmente separabili, in questo modo è possibile classificare
@@ -277,8 +277,8 @@ In questo nuovo spazio la funzione di decisione che classifica l'input $x$ è:
     sgn\left(\sum_{i \in Q} \alpha_i \cdot \langle \Phi(x_i), \Phi(x)\rangle + b
     \right)
 \end{equation}
-Il calcolo delle funzioni di trasformazione $\Phi$ è generalmente computazionalmente
-pesante ma è semplificato nel caso di funzioni kernel.
+Il calcolo delle funzioni di trasformazione $\Phi$ è in generale computazionalmente
+pesante, ma è semplificato nel caso di funzioni kernel.
 \begin{definizione}[\textbf{Funzione kernel}]
     Data una trasformazione $\Phi: \mathbb{R}^n \to \mathbb{R}^m$ una
     \textbf{funzione kernel} è una mappa:
