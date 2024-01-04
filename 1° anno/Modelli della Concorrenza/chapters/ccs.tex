@@ -26,7 +26,7 @@ composizionalità dei processi.
         \{x = V\} \ p_1 | p_2 \ \{x = 2 \lor x = 3\}
     \end{equation}
     avendo quindi una situazione di non determinismo. Inoltre, definendo un nuovo
-    problema $p_1'$ possiamo osservare come la proprietà di composizionalità non
+    programma $p_1'$ possiamo osservare come la proprietà di composizionalità non
     risulta più valida.
     \begin{equation}
         p_1' = \{x = V\} \ x = 1; x = x + 1 \ \{x = 2\}
@@ -36,8 +36,8 @@ composizionalità dei processi.
         \{x = V\} \ p_1' | p_2 \ \{x = 2 \lor x = 3 \lor x = 4\}
     \end{equation}
 \end{esempio}
-Per mantenere il principio di composizionalità si cambia linguaggio di rappresentazione.
-Per modellare sistemi concorrenti esistono diverse cose:
+Per mantenere il principio di composizionalità si cambia linguaggio di
+rappresentazione. Per modellare sistemi concorrenti esistono diverse cose:
 \begin{itemize}
     \item \textbf{Algebre di processi}: CCS e CSP
     \item \textbf{Automi a stati finiti}: tutti gli automi a stati finiti e i
@@ -52,8 +52,8 @@ Hoare ha introdotto un nuovo paradigma di programmazione, il paradigma \textbf{C
 più una memoria condivisa, ma un insieme di processi ciascuno con una sua memoria
 privata. Si ha un'interazione tra processi tramite lo scambio di messaggi del
 tipo hand-shacking, avendo quindi la sincronizzazione basata sullo scambio
-di informazioni. Viene fatto anche un processo particolare rappresentante la memoria
-condivisa. Avremo quindi:
+di informazioni. Viene fatto anche un processo particolare rappresentante la
+memoria condivisa. Avremo quindi:
 \begin{equation}
     x \ | \ p_1 \ | \ p_2
 \end{equation}
@@ -61,21 +61,22 @@ dove $x$ che rappresenta la memoria condivisa dai due processi.
 
 Un diverso paradigma è quello proposto da Milner, il quale propose il lambda
 calcolo ($\lambda$-calcolo) per passare dal paradigma sequenziale a quello
-concorrente. In questo si studia in modo approfondito la composizionalità, sfruttando
-la composizione tra funzioni, cercando di non perderla nel concorrente.
+concorrente. In questo si studia in modo approfondito la composizionalità,
+sfruttando la composizione tra funzioni, cercando di non perderla nel concorrente.
 Introduce quindi una sorta di $\lambda$-calcolo concorrente, introducendo il
 \textbf{CCS} (\textit{Calculus of Communicating Systems}), in cui pensa ad un
 calcolo algebrico per sistemi comunicanti. Adotta anche lui un paradigma che
 studia un sistema formato da componenti, chiamati processi. Questi processi
-comunicano tramite la sincronizzazione delle operazioni. Per la gestione di queste
-si utilizza la seguente notazione:
+comunicano tramite la sincronizzazione delle operazioni. Per la gestione di
+queste si utilizza la seguente notazione:
 \begin{itemize}
     \item \textbf{$a$}: indichiamo un processo generico che invia il messaggio.
     \item \textbf{$\overline{a}$}: indichiamo un processo generico che riceve.
 \end{itemize}
-Un \textbf{sistema}, quindi, è un insieme di processi il cui comportamento è gestito da
-un calcolo algebrico, si punta alle algebre di processi, ovvero linguaggi di
-specifica di sistemi concorrenti che si ispirano al calcolo dei sistemi comunicanti.
+Un \textbf{sistema}, quindi, è un insieme di processi il cui comportamento è
+gestito da un calcolo algebrico, si punta alle algebre di processi, ovvero
+linguaggi di specifica di sistemi concorrenti che si ispirano al calcolo dei
+sistemi comunicanti.
 
 I messaggi di scambio corrispondono ad uno scambio di valori di variabili e questo
 è rappresentabile dall'algebra. Utilizzando questa tecnica, i processi possono
@@ -86,31 +87,33 @@ Dato un sistema $P$, si scrive:
 \begin{equation}
     P = p_1 \ | \ p_2 \ | \ p_3
 \end{equation}
-se $P$ è formato dai processi $p_1$, $p_2$ e $p_3$, processi che sono interagenti a
-due a due. Ogni processo ha comunque una memoria privata.
+se $P$ è formato dai processi $p_1$, $p_2$ e $p_3$, processi che sono interagenti
+a due a due. Ogni processo ha comunque una memoria privata.
 
-Milner risolve il problema della \textit{composizionalità} tramite l'uso di diverse
-porte che permettono ad un processo di comunicare con altri o con l'ambiente esterno.
-Quindi ogni processo può essere visto come un insieme di sotto-processi interagenti
-che però interagiscono tramite sincronizzazione con i processi esterni tramite
-una porta. Bisogna comunque mantenere il comportamento complessivo. Per il
-processo esterno è come se sostituissi il processo con cui comunica con il suo
-sotto-processo. Si introduce il concetto di \textbf{equivalenza all'osservazione},
-che permette di sostituire un processo $p_i$ con uno $p_i'$ se sono equivalenti
-rispetto all'osservazione, ovvero se e solo se un qualsiasi osservatore esterno
-non è in grado di distinguere i due processi.
+Milner risolve il problema della \textit{composizionalità} tramite l'uso di
+diverse porte che permettono ad un processo di comunicare con altri o con
+l'ambiente esterno. Quindi ogni processo può essere visto come un insieme di
+sotto-processi interagenti che però interagiscono tramite sincronizzazione con i
+processi esterni tramite una porta. Bisogna comunque mantenere il comportamento
+complessivo. Per il processo esterno è come se sostituissi il processo con cui
+comunica con il suo sotto-processo. Si introduce il concetto di
+\textbf{equivalenza all'osservazione}, che permette di sostituire un processo
+$p_i$ con uno $p_i'$ se sono equivalenti rispetto all'osservazione, ovvero se e
+solo se un qualsiasi osservatore esterno non è in grado di distinguere i due
+processi.
 
 Con il termine \textit{osservare} ci si riferisce all'interazione con il sistema
 dove agisce il processo. Questo deve essere valido per ogni possibile osservatore.
 Se questo è garantito la sostituzione di un processo non va a modificare
 l'esecuzione complessiva, senza incorrere in deadlock o altre problematiche.
-Per verificare l'equivalenza esistono diverse tecniche tra cui la \textbf{bisimulazione}.
+Per verificare l'equivalenza esistono diverse tecniche tra cui la
+\textbf{bisimulazione}.
 \section{Labeled Transition System}
 Per modellare la semantica interleaving delle algebre dei processi si utilizzano
 i \textbf{Labeled Transition System} (LTS).
 \begin{definizione}[\textbf{Labeled Transition System}]
     Possiamo definire un \textbf{Labeled Transition System} (\textit{LTS}) come
-    un automa che specifica il comportament di un processo. Esso è definito a
+    un automa che specifica il comportamento di un processo. Esso è definito a
     partire da una quadrupla:
     \begin{equation}
         LTS = (S, Act, T, s_0)
@@ -140,11 +143,12 @@ La transizione $s \xrightarrow{a} s'$ può essere estesa a:
         \item \textbf{Passo induttivo}: $w = a \cdot x$ con $a \in Act$ e
               $x \in Act^*$, allora:
               \begin{equation}
-                  s \xrightarrow{a\cdot x} s' \iff s \xrightarrow{a} s'' \xrightarrow{x} s'
+                  s \xrightarrow{a\cdot x} s' \iff s \xrightarrow{a} s''
+                  \xrightarrow{x} s'
               \end{equation}
     \end{itemize}
 \end{dimostrazione}
-Quindi si può definire l'estenzione:
+Quindi si può definire l'estensione:
 \begin{equation}
     \xrightarrow{}  = \bigcup_{a \in Act} \xrightarrow{a}
 \end{equation}
@@ -170,11 +174,11 @@ astrae tutte le questioni legate ai dati.
               \end{equation}
         \item $Act = A \ \cup  \ \overline{A} \ \cup \ \{\tau\}$: insieme delle
               azioni, dove $\tau \notin A$ corrisponde all'\textbf{azione di
-                  sincronizzazione} tra $a$ e $\overline{a}$, ovvero la sincronizzazione
-              è avvenuta. $A$ e $\overline{A}$ sono azioni \textbf{osservabili}
-              e si indica con: $$L = A \cup \overline{A}$$ mentre $\tau$ non è
-              osservabile. Ricordando che osservare un'azione significa poter
-              interagire con essa.
+                  sincronizzazione} tra $a$ e $\overline{a}$, ovvero la
+              sincronizzazione è avvenuta. $A$ e $\overline{A}$ sono azioni
+              \textbf{osservabili} e si indica con: $$L = A \cup \overline{A}$$
+              mentre $\tau$ non è osservabile. Ricordando che osservare un'azione
+              significa poter interagire con essa.
     \end{itemize}
 \end{definizione}
 Alla fine un processo CCS è definito così:
@@ -185,7 +189,7 @@ Significa che $P$ esegue $a$ e si comporta come $P$ (ricorsione).
 \begin{equation}
     P_1 = a.P_2, P_1, P_2 \in K
 \end{equation}
-Ogni process CCS può essere descritto da un LTS associato e attraverso delle
+Ogni processo CCS può essere descritto da un LTS associato e attraverso delle
 regole di inferenza strutturate nel seguente modo:
 \begin{equation}
     \frac{Premesse}{Conseguenze}
@@ -193,16 +197,16 @@ regole di inferenza strutturate nel seguente modo:
 Dare un significato tramite LTS, regole di inferenza e sintassi, è detto
 semantica operazionale strutturale.
 \begin{itemize}
-    \item Processo vuoto: è definito come $P = \textbf{Nil}$ o 0 che ha un solo
-          stato senza transazioni.
+    \item \textbf{Processo vuoto}: è definito come $P = \textbf{Nil}$ o 0 che ha
+          un solo stato senza transazioni.
           \begin{center}
-            \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
-                \node[state] (q_0) {$Nil$};
-            \end{tikzpicture}
+              \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+                  \node[state] (q_0) {$Nil$};
+              \end{tikzpicture}
           \end{center}
     \item \textbf{Prefisso}: in cui si ha $\alpha \cdot P$ dove $P \in Proc_{CCS}$
-          e $\alpha \in Act$. Questo può essere rappresentato mediante inferenza nel
-          seguente modo:
+          e $\alpha \in Act$. Questo può essere rappresentato mediante inferenza
+          nel seguente modo:
           \begin{equation}
               \frac{}{\alpha \cdot P \xrightarrow{\alpha} P}
           \end{equation}
@@ -214,10 +218,10 @@ semantica operazionale strutturale.
                   (q_0) edge  node {$\alpha$} (q_1);
               \end{tikzpicture}
           \end{center}
-    \item \textbf{Somma}: siano $p_1, p_2 \in Proc_{CCS}$ posso comporli utilizzando
-          l'operatore $+$ nel seguente modo $p_1 + p_2$. In questo caso per definire
-          le regole di inferenza necessito $\alpha, \beta \in Act$ e
-          $p_1', p_2' \in Proc_{CCS}$:
+    \item \textbf{Somma}: siano $p_1, p_2 \in Proc_{CCS}$ posso comporli
+          utilizzando l'operatore $+$ nel seguente modo $p_1 + p_2$. In questo
+          caso per definire le regole di inferenza necessito $\alpha, \beta \in
+              Act$ e $p_1', p_2' \in Proc_{CCS}$:
           \begin{equation}
               \frac{p_1 + p_2 \xrightarrow{\alpha} p_1'}{p_1 + p_2
                   \xrightarrow{\alpha} p_1'}
@@ -268,7 +272,8 @@ semantica operazionale strutturale.
                   \xrightarrow{\alpha} p_1 | p_2'}
               \ \ \lor \ \
               \frac{p_1 \xrightarrow{\alpha} p_1' \land p_2
-                  \xrightarrow{\overline{\alpha}} p_2'}{p_1 | p_2 \xrightarrow{\tau} p_1' | p_2'}
+                  \xrightarrow{\overline{\alpha}} p_2'}{p_1 | p_2
+                  \xrightarrow{\tau} p_1' | p_2'}
           \end{equation}
           in quest'ultimo caso, non potremo più avere altre sincronizzazioni.
           \begin{center}
@@ -373,10 +378,10 @@ si aspetta che:
     \item $p \simeq q$ allora $p$ e $q$ devono avere la stessa possibilità di
           generare deadlock nell'interazione con l'ambiente.
     \item $\simeq$ deve essere una congruenza rispetto agli operatori CCS, cioè
-          deve essere possibile sostituire un sottoprocesso con un suo equivalente.
+          deve essere possibile sostituire un sotto-processo con un suo equivalente.
 \end{itemize}
 \begin{definizione}[\textbf{Isomorfismo}]
-    Dati due sistemi di transione etichettati $LTS_1 = (Q_1, Act_1, T_1, q_{01})$
+    Dati due sistemi di transizione etichettati $LTS_1 = (Q_1, Act_1, T_1, q_{01})$
     e $LTS_1 = (Q_2, Act_2, T_2, q_{02})$, possiamo affermare che
     $LTS_1$ è \textbf{isomorfo} a $LTS_2$ se e solo se:
     \begin{itemize}
@@ -505,13 +510,13 @@ simula $M_1$.
     Vediamo se i due processi sono anche bisimili.
     \begin{itemize}
         \item Da $p_1$ possiamo eseguire l'azione $a$ e possiamo fare lo stesso
-              anche da $p_2$. Dobbiamo però chiederci se gli stati di arrivo sono anche
-              essi in relazione di bisimulazione.
-        \item Gli stati interessati sono $b \cdot Nil$ e $b \cdot Nil + c \cdot Nil$:
-              dal primo possiamo eseguire $b$, che è fattibile anche dal secondo, ma
-              dal secondo possiamo eseguire $c$, che non è eseguibile dal primo (la
-              bisimulazione richiede che entrambi gli stati siano simili tra loro),
-              dunque i due processi non sono bisimili.
+              anche da $p_2$. Dobbiamo però chiederci se gli stati di arrivo sono
+              anche essi in relazione di bisimulazione.
+        \item Gli stati interessati sono $b \cdot Nil$ e $b \cdot Nil + c \cdot
+                  Nil$: dal primo possiamo eseguire $b$, che è fattibile anche
+              dal secondo, ma dal secondo possiamo eseguire $c$, che non è
+              eseguibile dal primo (la bisimulazione richiede che entrambi gli
+              stati siano simili tra loro), dunque i due processi non sono bisimili.
     \end{itemize}
     Formalmente:
     \begin{itemize}
@@ -519,7 +524,8 @@ simula $M_1$.
         \item $p_2 \xrightarrow{a} b \cdot Nil + c \cdot Nil$
     \end{itemize}
     $b \cdot Nil \stackrel{Bis}{\not\sim} b \cdot Nil + c \cdot Nil$ inoltre,
-    possiamo osservare che: $b \cdot Nil \stackrel{T}{\not\sim} b \cdot Nil + c \cdot Nil$
+    possiamo osservare che: $b \cdot Nil \stackrel{T}{\not\sim} b \cdot Nil + c 
+    \cdot Nil$
 \end{esempio}
 \begin{esempio}
     Consideriamo due processi che simulano dei buffer che possono contenere due
@@ -786,7 +792,7 @@ che permetta di dimostrare la congruenza, tale che:
 \end{enumerate}
 Il problema della bisimulazione è che confronta i processi in base alle azioni che
 devono essere atomiche, se dovessimo raffinare un'azione in 2 più piccole allora
-le equivalenze di bisibulazione perdono effetto.
+le equivalenze di bisimulazione perdono effetto.
 
 Dal momento che gli LTS hanno un esecuzione non deterministica e questo
 non permette di evidenziare le dipendenze o le indipendenze, per questo sono

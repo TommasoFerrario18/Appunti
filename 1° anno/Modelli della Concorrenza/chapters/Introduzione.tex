@@ -1,26 +1,29 @@
 \chapter{Introduzione}
 Possiamo definire diverse semantiche per la programmazione sequenziale:
 \begin{itemize}
-    \item \textbf{Operazionale}: ho una macchina astratta e definisco i vari passi
-          della computazione:
+    \item \textbf{Operazionale}: ho una macchina astratta e definisco i vari
+          passi della computazione:
           \begin{equation}
               Input \longrightarrow M \longrightarrow Output
           \end{equation}
-    \item \textbf{Denotazionale}: dato un programma funzionale $P$ ho una funzione
-          definita come:
+    \item \textbf{Denotazionale}: dato un programma funzionale $P$ ho una
+          funzione definita come:
           \begin{equation}
               f: \text{Dati}_{I} \to \text{Dati}_{O} \ ( \lambda-\text{calcolo})
           \end{equation}
-    \item \textbf{Assiomatica}: l'input e l'output sono rappresentati come formule
-          logiche. Questa tipologia prende il nome di \textit{Triple di Hoare}.
+    \item \textbf{Assiomatica}: l'input e l'output sono rappresentati come
+          formule logiche. Questa tipologia prende il nome di \textit{Triple di
+              Hoare}.
           \begin{equation}
               \{Input\} P \{Output\}
           \end{equation}
 \end{itemize}
-Nella programmazione sequenziale si hanno due punti chiave che devono essere garantiti:
+Nella programmazione sequenziale si hanno due punti chiave che devono essere
+garantiti:
 \begin{itemize}
     \item \textbf{Terminazione del programma}.
-    \item \textbf{Composizionalità} tra più comandi per ottenere un programma, ovvero:
+    \item \textbf{Composizionalità} tra più comandi per ottenere un programma,
+          ovvero:
           \begin{equation}
               \begin{aligned}
                   s_1: x = 2 \ \ \{x = V\} \ x = 2 \ \{x = 2\} \\
@@ -28,8 +31,8 @@ Nella programmazione sequenziale si hanno due punti chiave che devono essere gar
                   \{x = V\} \ s_1; \ s_2 \ \{x = 3\}           \\
               \end{aligned}
           \end{equation}
-          Se esiste un programma $s_1'$ tale che mi permette di ottenere lo stesso
-          risultato si $s_1$, allora posso sostituirlo a $s_1$.
+          Se esiste un programma $s_1'$ tale che mi permette di ottenere lo
+          stesso risultato si $s_1$, allora posso sostituirlo a $s_1$.
           \begin{equation}
               \begin{aligned}
                   s_1': \{x = V\} \ x = 1; \ x = x + 1  \ \{x = 2\} \\
