@@ -554,6 +554,15 @@ $\Sigma = (S, T, F, c_{in})$ sistema elementare finito e senza contatti allora:
           $\exists c \in C_{\Sigma}: \ \phi(K) = c$
 \end{itemize}
 I B-tagli corrispondono ai casi raggiungibili perché sono contemporaneamente veri.
+\begin{nota}
+    In sostanza per accorgersi subito se è un processo sequenziale allora:
+    \begin{itemize}
+        \item devono comparire tutti gli stati del caso iniziale
+        \item se c'è un evento allora devono essere rappresentate tutte le sue 
+        precondizioni e postcondizioni
+        \item non ci devono essere conflitti nel processo non sequenziale
+    \end{itemize} 
+\end{nota}
 \subsection{Reti di Occorrenze}
 Vogliamo avere una struttura che registri tutti i comportamenti possibili
 registrando le dipendenze e le indipendenze tra i processi. Posso avere una

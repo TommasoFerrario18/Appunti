@@ -26,7 +26,7 @@ composizionalità dei processi.
         \{x = V\} \ p_1 | p_2 \ \{x = 2 \lor x = 3\}
     \end{equation}
     avendo quindi una situazione di non determinismo. Inoltre, definendo un nuovo
-    problema $p_1'$ possiamo osservare come la proprietà di composizionalità non
+    problema $p_1'$ possiamo osservare come la proprietà di compo<sizionalità non
     risulta più valida.
     \begin{equation}
         p_1' = \{x = V\} \ x = 1; x = x + 1 \ \{x = 2\}
@@ -219,10 +219,10 @@ semantica operazionale strutturale.
           le regole di inferenza necessito $\alpha, \beta \in Act$ e
           $p_1', p_2' \in Proc_{CCS}$:
           \begin{equation}
-              \frac{p_1 + p_2 \xrightarrow{\alpha} p_1'}{p_1 + p_2
+              \frac{p_1 \xrightarrow{\alpha} p_1'}{p_1 + p_2
                   \xrightarrow{\alpha} p_1'}
               \ \ \lor \ \
-              \frac{p_1 + p2 \xrightarrow{\beta} p_2'}{p_1 + p_2
+              \frac{p_2 \xrightarrow{\beta} p_2'}{p_1 + p_2
                   \xrightarrow{\beta} p_2'}
           \end{equation}
           \begin{center}
@@ -383,8 +383,8 @@ si aspetta che:
         \item $\alpha: Q_1 \to Q_2$ è una funzione biunivoca.
         \item $\beta: Act_1 \to Act_2$ è una funzione biunivoca.
         \item $\alpha(q_{01}) = q_{02}$
-        \item $(q_1, a, q_2) \in Act_1 \iff (\alpha(q_1), \beta(a), \alpha(q_1'))
-                  \in Act_2$
+        \item $(q_1, a, q_2) \in T_1 \iff (\alpha(q_1), \beta(a), \alpha(q_1'))
+                  \in T_2$
     \end{itemize}
 \end{definizione}
 Questa definizione è troppo stretta perché è come sostituire cose uguali.
