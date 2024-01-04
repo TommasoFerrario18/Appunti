@@ -1017,61 +1017,69 @@ tempo $\theta(n)$
     \end{itemize}
 \end{esempio}
 \section{Algoritmo di Wu e Manber}
-L'algoritmo risolvere problemi di \textbf{stringmatching approssimati} e il funzionamento
-è simile a \textbf{BYG}.
-Riprendiamo la definizione di ricerca approssimata di un pattern $P$ in un testo $T$:
+L'algoritmo risolvere problemi di \textbf{string matching approssimati} e il
+funzionamento è simile all'algoritmo \textbf{BYG}.
+Riprendiamo la definizione di ricerca approssimata di un pattern $P$ in un testo
+$T$:
 \begin{definizione}[\textbf{Occorrenza approssimata}]
-    Una posizione $i$ del testo $T$ tale che esista una sottostringa $S =T[i - L + 1]$
-    tale che $ED(P, S) \leq k$ è detta \textbf{occurrenza approssimata} di $P$ in $T$.
+    Una posizione $i$ del testo $T$ tale che esista una sottostringa $S = T[i -
+                L + 1]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
+        approssimata} di $P$ in $T$.
 \end{definizione}
-
-Come gli algoritmi visti fino a questo momento, quello di Wu e Manber è basato su due fasi:
+Come gli algoritmi visti fino a questo momento, quello di Wu e Manber è
+strutturato in due fasi:
 \begin{enumerate}
-    \item \textbf{prepocessing} del pattern $P$ nel quale vengono calcolate $|\Sigma|$
-          \textbf{words} ognuna di $m$ bit. Questa operazione viene eseguita in tempo
-          $\theta(|\Sigma| + m)$. (\textit{uguale a quello dell'algoritmo BYG})
-    \item \textbf{Scansione del testo} $T$ per cercare le occorrenze approssimate del pattern $P$.
-          Questa operazione viene eseguita in tempo $\theta(k \cdot n)$.
+    \item \textbf{Preprocessing} del pattern $P$ nel quale vengono calcolate
+          $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
+          eseguita in tempo $\theta(|\Sigma| + m)$. (\textit{uguale a quello
+              dell'algoritmo BYG})
+    \item \textbf{Scansione del testo} $T$ per cercare le occorrenze approssimate
+          del pattern $P$. Questa operazione viene eseguita in tempo
+          $\theta(k \cdot n)$.
 \end{enumerate}
 \subsection{Scansione del testo}
 Dato che la fase di preprocessing è equivalente a quella per l'algoritmo BYG,
 passiamo subito alla scansione del testo.
-
 \begin{definizione}
     Definiamo $P[1, j] = suff_h(T[1, i])$ ovvero $P[1, j]$ è uguale a un
-    suffisso di $T[1, i]$ a meno di $h$ errori. In altre parole, riesco a trovare un
-    suffisso $S$ di $T[1, i]$ tale che $ED(P[1, j], S) \leq h$.
+    suffisso di $T[1, i]$ a meno di $h$ errori. In altre parole, riesco a
+    trovare un suffisso $S$ di $T[1, i]$ tale che $ED(P[1, j], S) \leq h$.
 \end{definizione}
-
-Estenderemo la definizione di $D_i$ di ShiftAND al caso in cui si ammettono al più $h$ errori.
+Estenderemo la definizione di $D_i$ di Shift-AND al caso in cui si ammettono al
+più $h$ errori.
 \begin{definizione}[\textbf{Word $D_i^h$}]
-    Dati un pattern $P$ lungo $m$, un testo $T$ lungo $n$ e una soglia di errore $k$,
-    possiamo definire la \textbf{word $D_i^h$} come una word di $m$ bit tale che:
+    Dati un pattern $P$ lungo $m$, un testo $T$ lungo $n$ e una soglia di errore
+    $k$, possiamo definire la \textbf{word $D_i^h$} come una word di $m$ bit
+    tale che:
     \begin{equation}
         D_i^h[j] = 1 \iff P[1, j] = suff_h(T[1, i])
     \end{equation}
 \end{definizione}
 Vediamo ora alcuni casi particolare:
 \begin{itemize}
-    \item $D_i^0$: ovvero la la word con $h = 0$, è per definizione la word $D_i$
-          dell'algoritmo BYG.
+    \item $D_i^0$: ovvero la la word con $h = 0$, è per definizione la word
+          $D_i$ dell'algoritmo BYG.
     \item $D_0^h$: ovvero la word con $i = 0$, è tale che:
           \begin{itemize}
-              \item $j \leq h \implies D_0^h[j] = 1$, questo perché $P[1, j]$ è un
-                    prefisso di $T[1, 0]$ e quindi $ED(P[1, j], T[1, 0]) \leq h$.
-              \item $j > h \implies D_0^h[j] = 0$, questo perché $P[1, j]$ non è un
-                    prefisso di $T[1, 0]$ e quindi $ED(P[1, j], T[1, 0]) > h$.
+              \item $j \leq h \implies D_0^h[j] = 1$, questo perché $P[1, j]$ è
+                    un prefisso di $T[1, 0]$ e quindi $ED(P[1, j], T[1, 0])
+                        \leq h$.
+              \item $j > h \implies D_0^h[j] = 0$, questo perché $P[1, j]$ non
+                    è un prefisso di $T[1, 0]$ e quindi $ED(P[1, j], T[1, 0]) >
+                        h$.
           \end{itemize}
           Si ottiene quindi una word dove i primi $h$ bit sono uguali a $1$ e i
           restanti $m - h$ bit sono posti a $0$.
-    \item $D_i^h [m] = 1 \iff P[1, m] = suff_h(T[1, i])$, ovvero se $P[1, m]$ è un
-          suffisso di $T[1, i]$ a meno di $h$ errori, allora $D_i^h[m] = 1$. Nel
-          caso particolare in cui $h = 0$ si ha un occorrenza esatta in $i - m + 1$.
-          Mentre nel caso in cui $h = k$ si ha un'occorrenza approssimata in posizione $i$.
+    \item $D_i^h [m] = 1 \iff P[1, m] = suff_h(T[1, i])$, ovvero se $P[1, m]$ è
+          un suffisso di $T[1, i]$ a meno di $h$ errori, allora $D_i^h[m] = 1$.
+          Nel caso particolare in cui $h = 0$ si ha un occorrenza esatta in $i -
+              m + 1$. Mentre nel caso in cui $h = k$ si ha un'occorrenza
+          approssimata in posizione $i$.
 \end{itemize}
 \begin{nota}
-    In generale, $D_i^{h'}[j] = 1$ implica $D_i^{h}[j] = 1$ con $h > h'$. Inoltre,
-    $D_{i}^{h} [j] = 1$ implica $D_{i}^{h + 1}[j + 1] = 1$ e $D_{i}^{h + 1}[j - 1] = 1$
+    In generale, $D_i^{h'}[j] = 1$ implica $D_i^{h}[j] = 1$ con $h > h'$.
+    Inoltre, $D_{i}^{h} [j] = 1$ implica $D_{i}^{h + 1}[j + 1] = 1$ e
+    $D_{i}^{h + 1}[j - 1] = 1$.
 \end{nota}
 Definita la word $D_i^h$, possiamo definire la scansione del testo $T$ come una
 successione di $k + 1$ scansioni, dove solamente all'iterazione $k$ si vanno a
@@ -1079,120 +1087,138 @@ verificare i bit finali delle word per cercare l'occorrenza approssimata.
 Nello specifico, se all'iterazione $k$ si ha che $D_i^k[m] = 1$, allora si ha in
 output l'occorrenza approssimata $i$.
 
-Fino ad ora abbiamo definito come calcolare il caso in cui $h = 0$ oppure il caso
-in cui $i = 0$. Vediamo ora come calcolare il caso in cui $i > 0, h > 0$:
+Fino ad ora abbiamo definito come calcolare il caso in cui $h = 0$ oppure il
+caso in cui $i = 0$. Vediamo ora come calcolare il caso in cui $i > 0, h > 0$:
 \begin{itemize}
-    \item $j > 1$, in questa situazione possiamo avere il caso in cui si ha un \textbf{match}
-          tra $P[j]$ e $T[i]$  \textbf{senza errori}
-          \begin{equation}
-              D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_h(T[1, i - 1]) \  \textbf{AND} \ T[i] = P[j]
-          \end{equation}
-          ovvero $D_i^h[j] = 1$ se e solo se $P[1, j - 1]$ è un suffisso di $T[1, i - 1]$
-          a meno di $h$ errori e $T[i] = P[j]$. Questo significa che $D_i^h[j] = 1$ se e solo se:
-          \begin{equation}
-              D_{i - 1}^h[j - 1] = D_{i - 1}^h [j - 1] = 1 \ \textbf{AND} \ B_{T[i]} [j] =  1
-          \end{equation}
-          Possiamo inoltre avere il caso  in cui \textbf{non si ha un match} tra $P[j]$ e $T[i]$,
-          quindi si usa un'\textbf{operazione di sostituzione}.
-          \begin{equation}
-              D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_{h - 1}(T[1, i - 1])
-          \end{equation}
-          ovvero non ho ancora raggiunto il limite di errori e quindi posso ancora avere
-          errori senza superare la soglia $h$. Questo significa che $D_i^h[j] = 1$ se e solo se:
-          \begin{equation}
-              D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j - 1] = 1
-          \end{equation}
-          Possiamo avere il caso in cui \textbf{non si ha un match} tra $P[j]$ e $T[i]$,
-          quindi si usa un'\textbf{operazione di inserimento} in $T$.
-          \begin{equation}
-              D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j] = suff_{h - 1}(T[1, i - 1])
-          \end{equation}
-          ovvero non ho ancora raggiunto il limite di errori. Questo significa che $D_i^h[j] = 1$
-          se e solo se:
-          \begin{equation}
-              D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j] = 1
-          \end{equation}
-          L'ultimo caso è in cui \textbf{non si ha un match} tra $P[j]$ e $T[i]$,
-          quindi si usa un'\textbf{operazione di inserimento} in $P$.
-          \begin{equation}
-              D_i^h[j] = 1 \iff P[1, j] =suff_h(T[1, i]) \Leftarrow P[1, j - 1] = suff_{h - 1}(T[1, i])
-          \end{equation}
-          ovvero non ho ancora raggiunto il limite di errori. Questo significa che $D_i^h[j] = 1$
-          se e solo se:
-          \begin{equation}
-              D_i^h[j] = 1 \Leftarrow D_{i}^{h - 1} [j - 1] = 1
-          \end{equation}
+    \item $j > 1$: in questa situazione possiamo distinguere i seguenti casi:
+          \begin{itemize}
+              \item Si ha un \textbf{match} tra $P[j]$ e $T[i]$ \textbf{senza
+                        errori}:
+                    \begin{equation}
+                        D_i^h[j] = 1 \iff P[1, j] = suff_h(T[1, i]) \Leftarrow
+                        P[1, j - 1] = suff_h(T[1, i - 1]) \  \textbf{AND} \ T[i]
+                        = P[j]
+                    \end{equation}
+                    ovvero $D_i^h[j] = 1$ se e solo se $P[1, j - 1]$ è un
+                    suffisso di $T[1, i - 1]$ a meno di $h$ errori e $T[i] =
+                        P[j]$. Questo significa che $D_i^h[j] = 1$ se e solo se:
+                    \begin{equation}
+                        D_{i - 1}^h[j - 1] = D_{i - 1}^h [j - 1] = 1 \
+                        \textbf{AND} \ B_{T[i]} [j] =  1
+                    \end{equation}
+              \item \textbf{Non si ha un match} tra $P[j]$ e $T[i]$,
+                    quindi si effettua un'\textbf{operazione di sostituzione}.
+                    \begin{equation}
+                        D_i^h[j] = 1 \iff P[1, j] = suff_h(T[1, i]) \Leftarrow
+                        P[1, j - 1] = suff_{h - 1}(T[1, i - 1])
+                    \end{equation}
+                    ovvero non ho ancora raggiunto il limite di errori e quindi
+                    posso ancora avere errori senza superare la soglia $h$.
+                    Questo significa che $D_i^h[j] = 1$ se e solo se:
+                    \begin{equation}
+                        D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j - 1] = 1
+                    \end{equation}
+              \item \textbf{Non si ha un match} tra $P[j]$ e $T[i]$, quindi si
+                    effettua un'\textbf{operazione di inserimento} in $T$.
+                    \begin{equation}
+                        D_i^h[j] = 1 \iff P[1, j] = suff_h(T[1, i]) \Leftarrow
+                        P[1, j] = suff_{h - 1}(T[1, i - 1])
+                    \end{equation}
+                    ovvero non ho ancora raggiunto il limite di errori. Questo
+                    significa che $D_i^h[j] = 1$ se e solo se:
+                    \begin{equation}
+                        D_i^h[j] = 1 \Leftarrow D_{i - 1}^{h - 1} [j] = 1
+                    \end{equation}
+              \item \textbf{Non si ha un match} tra $P[j]$ e $T[i]$, quindi si
+                    effettua un'\textbf{operazione di inserimento} in $P$.
+                    \begin{equation}
+                        D_i^h[j] = 1 \iff P[1, j] = suff_h(T[1, i]) \Leftarrow
+                        P[1, j - 1] = suff_{h - 1}(T[1, i])
+                    \end{equation}
+                    ovvero non ho ancora raggiunto il limite di errori. Questo
+                    significa che $D_i^h[j] = 1$ se e solo se:
+                    \begin{equation}
+                        D_i^h[j] = 1 \Leftarrow D_{i}^{h - 1} [j - 1] = 1
+                    \end{equation}
+          \end{itemize}
           A questo punto posso riassumere queste casistiche in un'unica formula:
           \begin{equation}
-              D_{i}^{h} [j] = (D_{i - 1}^{h} [j - 1] \ \textbf{AND} \ B_{T[i]} [j]) \
-              \textbf{OR} \ D_{i - 1}^{h - 1} [j - 1] \ \textbf{OR} \ D_{i - 1}^{h - 1} [j]
-              \ \textbf{OR} \ D_{i}^{h - 1} [j - 1]
+              D_{i}^{h} [j] =
+              (D_{i - 1}^{h} [j - 1] \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR}
+              \ D_{i - 1}^{h - 1} [j - 1] \ \textbf{OR}
+              \ D_{i - 1}^{h - 1} [j] \ \textbf{OR}
+              \ D_{i}^{h - 1} [j - 1]
           \end{equation}
-    \item  $j = 1$, abbiamo le stesse casistiche di prima, quindi possiamo sostituire
-          alla formula precedente il valore di $j$, comportando che ci richiedono dei valori
-          che non possiamo conoscere come $D_{i -1}^h[0]$. Quindi, per risolvere questo
-          problema, sostituiamo questi valori con $1$, ottenendo:
+    \item  $j = 1$, abbiamo le stesse casistiche di prima, quindi possiamo
+          sostituire alla formula precedente il valore di $j$, comportando che
+          ci richiedono dei valori che non possiamo conoscere come
+          $D_{i - 1}^h[0]$. Quindi, per risolvere questo problema, sostituiamo
+          questi valori con $1$, ottenendo:
           \begin{equation}
-              D_{i}^{h} [j] = (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR} \ 1 \
-              \textbf{OR} \ D_{i - 1}^{h - 1} [j] \ \textbf{OR} \ 1
+              D_{i}^{h} [j] =
+              (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR}
+              \ 1 \ \textbf{OR}
+              \ D_{i - 1}^{h - 1} [j] \ \textbf{OR}
+              \ 1
           \end{equation}
 \end{itemize}
-
-Si possono unire i due macrocasi sopracitati, sostituendo tutte le operazioni che
-controllano il bit in posizione $j - 1$ con l'operazione RSHIFT1, ottenendo:
+Si possono unire i due macro casi sopracitati, sostituendo tutte le operazioni
+che controllano il bit in posizione $j - 1$ con l'operazione RSHIFT1, ottenendo:
 \begin{equation}
-    D_{i}^{h} [j] = (RSHIFT1(D_{i - 1}^{h} [j]) \ \textbf{AND} \ B_{T[i]} [j]) \
-    \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1} [j])  \ \textbf{OR} \ D_{i - 1}^{h - 1} [j] \
-    \textbf{OR} \ RSHIFT1(D_{i}^{h - 1} [j])
+    D_{i}^{h} [j] =
+    (RSHIFT1(D_{i - 1}^{h} [j]) \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR} \
+    RSHIFT1(D_{i - 1}^{h - 1} [j]) \ \textbf{OR} \
+    D_{i - 1}^{h - 1} [j] \ \textbf{OR} \
+    RSHIFT1(D_{i}^{h - 1} [j])
 \end{equation}
-
 Si potrà poi generalizzare calcolando $D_i^h$ in una sola volta.
 \begin{equation}
     D_{i}^{h}= (RSHIFT1(D_{i - 1}^{h}) \ \textbf{AND} \ B_{T[i]}) \
     \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1})  \ \textbf{OR} \ D_{i - 1}^{h - 1} \
     \textbf{OR} \ RSHIFT1(D_{i}^{h - 1})
 \end{equation}
-
 Vediamo ora come è possibile implementare l'algoritmo per la scansione del testo:
 \begin{enumerate}
     \item Inizializzazione della parola $D_0^0$ a $00\dots0$.
-    \item Calcolo di $D_i^0$ per $i = 1, \dots, n$, utilizzando l'algoritmo di BYG.
+    \item Calcolo di $D_i^0$ per $i = 1, \dots, n$, utilizzando l'algoritmo di
+          BYG.
     \item Per $h$ da $1$ a $k$:
           \begin{enumerate}
               \item Calcolo di $D_0^h$.
               \item Per $i$ da $1$ a $n$:
                     \begin{enumerate}
                         \item Calcolo di $D_i^h$ a partire da $D_{i - 1}^h$.
-                        \item Se $D_i^h[m] = 1 \ \textbf{AND} \ h = k$ allora output $i$.
+                        \item Se $D_i^h[m] = 1 \ \textbf{AND} \ h = k$ allora
+                              output $i$.
                     \end{enumerate}
           \end{enumerate}
 \end{enumerate}
-
 \section{Strutture di indicizzazione del testo}
 Per rendere più efficiente la ricerca di un pattern esatto si effettuano delle
-operazioni di preprocessing del testo che permettono di ristrutturarlo per accedere
-velocemente alle sue porzioni.
+operazioni di preprocessing del testo che permettono di ristrutturarlo per
+accedere velocemente alle sue porzioni.
 
 Le strutture di indicizzazione sono strutture che manipolano l'input in modo da
-rendere più efficiente le operazioni su di esso, ma hanno il problema che richiedono
-molta memoria. Inoltre, la loro costruzione risulta complessa.
+rendere più efficiente le operazioni su di esso, ma hanno il problema che
+richiedono molta memoria. Inoltre, la loro costruzione risulta complessa.
 
 Queste strutture si basano su:
 \begin{itemize}
     \item \textbf{Ordine lessicografico}: si definisce un ordine lessicografico
-          dei caratteri dell'alfabeto per poter determinare un ordine delle parole.
-    \item \textbf{Carattere terminatore} $\$ $: carattere più piccolo dell'alfabeto che
-          serve come carattere per identificare il termine della stringa.
+          dei caratteri dell'alfabeto per poter determinare un ordine delle
+          parole.
+    \item \textbf{Carattere terminatore} $\$$: è il carattere più piccolo
+          dell'alfabeto che serve per identificare il termine della stringa.
 \end{itemize}
 In aggiunta dovremo definire:
 \begin{definizione}[\textbf{q-suffisso}]
-    Il suffisso di indice $q$ ($q$-suffisso) è il suffisso che inizia nella posizione
-    $q$ del testo, quindi $T[q:]= T[q:|T|]$
+    Il suffisso di indice $q$ ($q$-suffisso) è il suffisso che inizia nella
+    posizione $q$ del testo, quindi $T[q:]= T[q:|T|]$.
 \end{definizione}
 Il suffisso del carattere terminatore è il carattere terminatore stesso.
 \begin{definizione}[\textbf{Ordinamento dei suffissi}]
-    Definiremo l'ordinamento dei suffissi nel segunete modo. Dati due suffissi $s$
-    e $s'$, sia $i$ la più piccola posizione tale che $s[i]\ne s'[i]$, dove:
+    Definiremo l'ordinamento dei suffissi nel segunete modo. Dati due suffissi
+    $s$ e $s'$, sia $i$ la più piccola posizione tale che $s[i] \neq s'[i]$, dove:
     \begin{itemize}
         \item $s \prec s'\iff s[i] < s'[i]$
         \item $s \succ s'\iff s[i] > s'[i]$
@@ -1200,9 +1226,9 @@ Il suffisso del carattere terminatore è il carattere terminatore stesso.
 \end{definizione}
 \subsection{Suffix Array}
 Questa struttura di indicizzazione è stata inventata da Myers e Manber nel 1990,
-non contiene l'informazione sui simboli del testo e occupa $\Theta(n \log n)$ spazio.
-Si può effettuare la ricerca esatta di un pattern $P$  su un testo $T$ in
-$\mathcal{O}(|P| \log |T|)$.
+non contiene l'informazione sui simboli del testo e occupa $\Theta(n \log n)$
+spazio. Questa struttura permette di effettuare la ricerca esatta di un pattern
+$P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
 \begin{definizione}[\textbf{Suffix Array}]
     Il \textbf{suffix array} di un testo $T$ lungo $n$ è un array $S$ lungo $n$,
     tale che $S[i]= q$ se e solo se il $q$-suffisso è l'$i$-esimo suffisso
@@ -1214,43 +1240,64 @@ $\mathcal{O}(|P| \log |T|)$.
     \begin{equation}
         \$ < a < c < g < t
     \end{equation}
-    Possiamo costruire il suffix array $S$ come:
+    Possiamo costruire il suffix array $S$ nel seguente modo:
     \begin{itemize}
         \item Generiamo tutti i suffissi di $T$:
               \begin{table}[!ht]
                   \centering
-                  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+                  \begin{tabular}{|
+                          >{\columncolor[HTML]{EFEFEF}}l|lllllllll|}
                       \hline
-                      SA & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
-                      1  & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
-                      2  & g  & t  & c  & a  & g  & t  & c  & \$ & ~  \\ \hline
-                      3  & t  & c  & a  & g  & t  & c  & \$ & ~  & ~  \\ \hline
-                      4  & c  & a  & g  & t  & c  & \$ & ~  & ~  & ~  \\ \hline
-                      5  & a  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  \\ \hline
-                      6  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      7  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      8  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      9  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
+                      \textbf{SA}                        &
+                      \cellcolor[HTML]{EFEFEF}\textbf{1} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{2} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{3} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{4} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{5} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{6} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{7} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{8} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{9}                                              \\ \hline
+                      \textbf{1}                         & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      \textbf{2}                         & g  & t  & c  & a  & g  & t  & c  & \$ &    \\ \hline
+                      \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ &    &    \\ \hline
+                      \textbf{4}                         & c  & a  & g  & t  & c  & \$ &    &    &    \\ \hline
+                      \textbf{5}                         & a  & g  & t  & c  & \$ &    &    &    &    \\ \hline
+                      \textbf{6}                         & g  & t  & c  & \$ &    &    &    &    &    \\ \hline
+                      \textbf{7}                         & t  & c  & \$ &    &    &    &    &    &    \\ \hline
+                      \textbf{8}                         & c  & \$ &    &    &    &    &    &    &    \\ \hline
+                      \textbf{9}                         & \$ &    &    &    &    &    &    &    &    \\ \hline
                   \end{tabular}
               \end{table}
         \item Ordiniamo i suffissi in ordine lessicografico:
               \begin{table}[!ht]
                   \centering
-                  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+                  \begin{tabular}{|
+                          >{\columncolor[HTML]{EFEFEF}}l |lllllllll|}
                       \hline
-                      SA & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
-                      9  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      5  & a  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  \\ \hline
-                      8  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      4  & c  & a  & g  & t  & c  & \$ & ~  & ~  & ~  \\ \hline
-                      1  & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
-                      6  & g  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      2  & g  & t  & c  & a  & g  & t  & c  & \$ & ~  \\ \hline
-                      7  & t  & c  & \$ & ~  & ~  & ~  & ~  & ~  & ~  \\ \hline
-                      3  & t  & c  & a  & g  & t  & c  & \$ & ~  & ~  \\ \hline
+                      \textbf{SA}                        &
+                      \cellcolor[HTML]{EFEFEF}\textbf{1} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{2} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{3} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{4} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{5} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{6} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{7} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{8} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{9}                                              \\ \hline
+                      \textbf{9}                         & \$ &    &    &    &    &    &    &    &    \\ \hline
+                      \textbf{5}                         & a  & g  & t  & c  & \$ &    &    &    &    \\ \hline
+                      \textbf{8}                         & c  & \$ &    &    &    &    &    &    &    \\ \hline
+                      \textbf{4}                         & c  & a  & g  & t  & c  & \$ &    &    &    \\ \hline
+                      \textbf{1}                         & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      \textbf{6}                         & g  & t  & c  & \$ &    &    &    &    &    \\ \hline
+                      \textbf{2}                         & g  & t  & c  & a  & g  & t  & c  & \$ &    \\ \hline
+                      \textbf{7}                         & t  & c  & \$ &    &    &    &    &    &    \\ \hline
+                      \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ &    &    \\ \hline
                   \end{tabular}
               \end{table}
-        \item Otteniamo il suffix array $S$ come: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
+        \item Otteniamo il suffix array $S$ prendendo la colonna contenete gli
+              indici dei suffissi: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
     \end{itemize}
 \end{esempio}
 Possiamo interpretare il suffix array come un array di indici, dove ogni elemento
@@ -1265,37 +1312,43 @@ La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
 \begin{enumerate}
     \item Preprocessing del testo $T$ per costruire il suffix array $S$.
     \item Ricerca del pattern $P$ nel testo $T$ utilizzando il suffix array $S$.
-          L'operazione di ricerca avviene in tempo $\theta(m \log n)$.
+          L'operazione di ricerca avviene in tempo $\Theta(m \log n)$.
 \end{enumerate}
 Per prima cosa si può osservare che:
 \begin{itemize}
-    \item Se $P$ occorre $k$ volte in $T$ allora $P$ è prefisso di $k$ suffissi di $T$.
-          Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$, possiamo
-          osservare che $P$ occorre $2$ volte in $T$ il che implica che $P$ è
-          prefisso di due suffissi di $T$, ovvero $2$-suffisso e $5$-suffisso.
+    \item Se $P$ occorre $k$ volte in $T$ allora $P$ è prefisso di $k$ suffissi
+          di $T$. Ad esempio, dato il testo $T = xabxab\$$ e il pattern $P = ab$,
+          possiamo osservare che $P$ occorre $2$ volte in $T$ il che implica che
+          $P$ è prefisso di due suffissi di $T$, ovvero $2$-suffisso e
+          $5$-suffisso.
     \item Gli indici dei $k$ suffissi sono le occorrenze di $P$ e sono consecutivi
           nel suffix array. Ad esempio, dato il testo $T = xabxab\$$ possiamo
           calcolare il suo suffix array e ottenere $S=[7, 5, 2, 6, 3, 4, 1]$. Se
           consideriamo il pattern $P = ab$ possiamo osservare che  esso occorre
           $2$ volte in $T$ nelle posizioni $2$ e $5$ che sono consecutive.
-    \item Se $P$ è prefisso del $q$-suffisso ed è minore (maggiore) di un $q'$-suffisso,
-          allora anche il $q$-suffisso sarà minore (maggiore) del $q'$-suffisso.
+    \item Se $P$ occorre in posizione $q$ di $T$ ed è lessicograficamente minore
+          (maggiore) del suffisso di indice $q'$, allora anche il suffisso di
+          indice $q$ (che contiene $P$ come prefisso) è lessicograficamente
+          minore (maggiore) del suffisso di indice $q'$.
 \end{itemize}
 Quindi l'algortmo di ricerca sarà:
 \begin{enumerate}
-    \item Si inizializza un intervallo di posizioni $[L,R]=[1,|T|]$
+    \item Si inizializza un intervallo di posizioni $[L,R] = [1, |T|]$.
     \item \label{passo-2-sa} Si considera il suffisso di indice $S[p]$ con
-          $p=\left\lfloor\frac{R-L}{2}\right\rfloor$,in tempo $O(m)$ si controlla:
+          $p = \left\lfloor \frac{R - L}{2} \right\rfloor$, e in tempo $O(m)$ si
+          controlla:
           \begin{itemize}
-              \item $P\prec S[p]\text{-suffisso}$: si ripete il punto \ref{passo-2-sa}
-                    ponendo $[L,R]=[L,p]$
-              \item $P\succ S[p]\text{-suffisso}$: si ripete il punto \ref{passo-2-sa}
-                    ponendo $[L,R]=[p+1,R]$
-              \item $P$ occorre come prefisso in $S[p]\text{-suffisso}$: si termina e
-                    si restituisce la posizione $S[p]$
+              \item $P \prec S[p]$-suffisso: si ripete il punto \ref{passo-2-sa}
+                    ponendo $[L, R] = [L, p]$.
+              \item $P \succ S[p]$-suffisso: si ripete il punto \ref{passo-2-sa}
+                    ponendo $[L, R] = [p + 1, R]$.
+              \item $P$ occorre come prefisso in $S[p]$-suffisso: si termina e
+                    si restituisce la posizione $S[p]$.
           \end{itemize}
 \end{enumerate}
-Questo algoritmo trova la prima occorrenza del $P$ in tempo $O(|P| \log |T|)$.
+Questo algoritmo trova un'occorrenza del pattern $P$ in tempo $O(|P| \log |T|)$.
+Nel caso in cui si desidera ottenere tutte le occorrenze di $P$ in $T$ è
+necessario modificarlo.
 \begin{algorithm}[!ht]
     \begin{algorithmic}
         \Function{SuffixArraySearch}{$T, P$}
@@ -1321,45 +1374,48 @@ Questo algoritmo trova la prima occorrenza del $P$ in tempo $O(|P| \log |T|)$.
 \end{algorithm}
 \subsection{Burrows Wheeler Transform}
 Proposta da Burrows e Wheeler nel '94, costruisce una permutazione reversibile
-dei simboli del testo, occupa uno spazio di $\Theta(|T|log |\Sigma|)$ ed è usata
-in B-zip 2.
+dei simboli del testo, occupa uno spazio di $\Theta(|T| \log |\Sigma|)$ ed è
+usata in B-zip 2.
 
 Prima di definire la trasformata di Burrows-Wheeler, definiamo il concetto di
 \textbf{rotazione di indice $q$}.
 \begin{definizione}[\textbf{q-rotazione}]
-    La rotazione di indice $q$ ($q$-rotazione) è la concatenazione
-    del $q$-suffisso $T[q,|T|]$ e del prefisso $T[1,q-1]$.
+    La rotazione di indice $q$ ($q$-rotazione) è la concatenazione del
+    $q$-suffisso $T[q, |T|]$ e del prefisso $T[1, q - 1]$.
+    \begin{equation}
+        r_q = T[q, |T|] \cdot T[1, q - 1]
+    \end{equation}
 \end{definizione}
 \begin{esempio}
-    Dato il seguente testo $T=ggtcagtc\$$, allora la $3$-rotazione è:
-    $$tcagtc\$gg$$
-        Mentre la $9$-rotazione coincide con:
-    $$\$ggtcagtc$$
-        Mentre la $1$-rotazione coincide con:
-    $$ggtcagtc\$$$
+    Dato il seguente testo $T = ggtcagtc\$$, allora possiamo calcolare:
+    \begin{itemize}
+        \item La $3$-rotazione come: $$tcagtc\$gg$$
+        \item La $9$-rotazione come: $$\$ggtcagtc$$
+        \item La $1$-rotazione come: $$ggtcagtc\$$$
+    \end{itemize}
 \end{esempio}
 Possiamo osservare che la $q$-rotazione $r$ è una stringa lunga $n$ che ha:
 \begin{enumerate}
-    \item il $q$-suffisso come prefisso.
-    \item il prefisso lungo $q-1$ come suffisso.
+    \item Il $q$-suffisso come prefisso.
+    \item Il prefisso lungo $q - 1$ come suffisso.
 \end{enumerate}
 Questo significa che per la rotazione $q$-rotazione denominata $r$:
 \begin{itemize}
-    \item $r[1]$ è uguale a $T[q]$ (primo simborlo del $q$-suffisso)
-    \item $r[n]$ è uguale a $T[q-1]$ se $q>1$, questo implica che:
+    \item $r[1]$ è uguale a $T[q]$ (primo simbolo del $q$-suffisso).
+    \item $r[n]$ è uguale a $T[q - 1]$ se $q > 1$, questo implica che:
           \begin{itemize}
               \item L'ultimo simbolo della $q$-rotazione è il simbolo iniziale
-                    della $q-1$-rotazione
-              \item il $q-1$-suffisso contiene il $q$-suffisso come suffisso se
-                    $q>1$
+                    della $q - 1$-rotazione.
+              \item Il $q - 1$-suffisso contiene il $q$-suffisso come suffisso
+                    se $q > 1$.
           \end{itemize}
-    \item $r[n]$ è uguale a $T[n]$ se $q=1$, questo implica che:
+    \item $r[n]$ è uguale a $T[n]$ se $q = 1$, questo implica che:
           \begin{itemize}
-              \item l'ultimo simbolo della $q$-rotazione è il simbolo iniziale
+              \item L'ultimo simbolo della $q$-rotazione è il simbolo iniziale
                     della $n$-rotazione (e quindi dell'$n$-suffisso)
           \end{itemize}
 \end{itemize}
-Definiremo anche una regola di ordinamento
+Definiremo anche una regola di ordinamento:
 \begin{definizione}[\textbf{Ordinamento delle rotazioni}]
     Date due rotazioni $r$ e $r'$, sia $i$ la più piccola posizione tale che
     $r[i]\ne r'[i]$, dove:
@@ -1368,23 +1424,23 @@ Definiremo anche una regola di ordinamento
         \item $r \succ r'\iff r[i] > r'[i]$
     \end{itemize}
 \end{definizione}
-Possiamo introdurre questi teoremi
+Possiamo introdurre questi teoremi:
 \begin{teorema}
     Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che:
     \begin{itemize}
-        \item $r_1\prec r_2$
-        \item $r_1[n]=r_2[n]$
+        \item $r_1 \prec r_2$
+        \item $r_1[n] = r_2[n]$
     \end{itemize}
-    Allora $(q-1)$-rotazione $r'_1$ è minore della $(p-1)$-rotazione $r'_2$
+    Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
 \end{teorema}
 \begin{teorema}
-    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che $r_1[n]\prec r_2[n]$,
-    Allora $(q-1)$-rotazione $r'_1$ è minore della $(p-1)$-rotazione $r'_2$
+    Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che $r_1[n] \prec r_2[n]$,
+    Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
 \end{teorema}
-Dopo questo preambolo si può definire
+Dopo questo preambolo si può definire la trasformata di Burrows-Wheeler:
 \begin{definizione}[\textbf{Burrows Wheeler Transform}]
     La $BWT$ $B$ di un testo $T$ lungo $n$ è un array di lunghezza $n$ tale che
-    $B[i]=r_i[n]$ se e solo se $r_i$ è l'$i$-esima rotazione nell'ordinamento
+    $B[i] = r_i[n]$ se e solo se $r_i$ è l'$i$-esima rotazione nell'ordinamento
     lessicografico delle rotazioni di $T$.
 
     In altri termini, $B[i]$ è l'ultimo simbolo della rotazione $r_i$ che è
@@ -1393,84 +1449,120 @@ Dopo questo preambolo si può definire
 \end{definizione}
 Ecco un esempio di costruzione:
 \begin{esempio}
-    Sia $T = ggtcagtc\$$. Elenchiamo tutte le rotazioni del testo
-
-    \begin{table}[!ht]
-        \centering
-        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
-            \hline
-            BWT & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
-            1   & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
-            2   & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
-            3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
-            4   & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
-            5   & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
-            6   & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
-            7   & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
-            8   & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
-            9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
-        \end{tabular}
-    \end{table}
-
-    ordiniamo le rotazioni secono l'ordine lessico grafico:
-
-    \begin{table}[!ht]
-        \centering
-        \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
-            \hline
-            BWT & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  \\ \hline
-            9   & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
-            5   & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
-            8   & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
-            4   & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
-            1   & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
-            6   & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
-            2   & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
-            7   & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
-            3   & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
-        \end{tabular}
-    \end{table}
-
-    Quindi la $BWT$ è data dall'ultima colonna della tabella:
-
+    Consideriamo il testo $T = ggtcagtc\$$, il cui ordinamento lessicografico è
+    definito come:
     \begin{equation}
-        B = [c, c, t, t, \$, a, g, g, g]
+        \$ < a < c < g < t
     \end{equation}
+    Possiamo costruire la Burrows Wheeler Transform $BWT$ nel seguente modo:
+    \begin{itemize}
+        \item Elenchiamo tutte le rotazioni del testo \ref{tab:rotazioni}:
+              \begin{table}[!ht]
+                  \centering
+                  \begin{tabular}{|
+                          >{\columncolor[HTML]{EFEFEF}}l |lllllllll|}
+                      \hline
+                      \textbf{BWT}                       &
+                      \cellcolor[HTML]{EFEFEF}\textbf{1} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{2} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{3} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{4} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{5} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{6} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{7} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{8} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{9}                                              \\ \hline
+                      \textbf{1}                         & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      \textbf{2}                         & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
+                      \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
+                      \textbf{4}                         & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
+                      \textbf{5}                         & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
+                      \textbf{6}                         & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
+                      \textbf{7}                         & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
+                      \textbf{8}                         & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
+                      \textbf{9}                         & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
+                  \end{tabular}
+                  \caption{Rotazioni del testo}
+                  \label{tab:rotazioni}
+              \end{table}
+        \item Ordiniamo le rotazioni secondo l'ordine lessicografico \ref{tab:rotazioni-ord}:
+              \begin{table}[!ht]
+                  \centering
+                  \begin{tabular}{|
+                          >{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|l|l|l|l|l|}
+                      \hline
+                      \textbf{BWT}                       &
+                      \cellcolor[HTML]{EFEFEF}\textbf{1} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{2} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{3} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{4} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{5} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{6} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{7} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{8} &
+                      \cellcolor[HTML]{EFEFEF}\textbf{9}                                              \\ \hline
+                      \textbf{9}                         & \$ & g  & g  & t  & c  & a  & g  & t  & c  \\ \hline
+                      \textbf{5}                         & a  & g  & t  & c  & \$ & g  & g  & t  & c  \\ \hline
+                      \textbf{8}                         & c  & \$ & g  & g  & t  & c  & a  & g  & t  \\ \hline
+                      \textbf{4}                         & c  & a  & g  & t  & c  & \$ & g  & g  & t  \\ \hline
+                      \textbf{1}                         & g  & g  & t  & c  & a  & g  & t  & c  & \$ \\ \hline
+                      \textbf{6}                         & g  & t  & c  & \$ & g  & g  & t  & c  & a  \\ \hline
+                      \textbf{2}                         & g  & t  & c  & a  & g  & t  & c  & \$ & g  \\ \hline
+                      \textbf{7}                         & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
+                      \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
+                  \end{tabular}
+                  \caption{Rotazioni ordinate lessicograficamente}
+                  \label{tab:rotazioni-ord}
+              \end{table}
+        \item La $BWT$ è data dall'ultima colonna della tabella:
+              \begin{equation}
+                  B = [c, c, t, t, \$, a, g, g, g]
+              \end{equation}
+    \end{itemize}
 \end{esempio}
 Lo spazio richiesto per la memorizzazione della trasformata di Burrows-Wheeler è
-$\theta(n \log |\Sigma|)$.
-
+$\Theta(n \log |\Sigma|)$.
 \begin{definizione}
-    Definiamo $F$ come l'array di lunghezza $n$ dei simboli iniziali
-    delle rotazioni ordinate. Tale array fornisce sempre l'ordinameto lessicografico
+    Definiamo $F$ come l'array di lunghezza $n$ dei simboli iniziali delle
+    rotazioni ordinate. Tale array fornisce sempre l'ordinamento lessicografico
     dei simboli del testo.
 \end{definizione}
-
-Quindi il primo simbolo della $q$-rotazione è il simbolo $T[q]$ e coincide con il simbolo
-in posizione $F[i]$ del vettore $F$.
+Quindi il primo simbolo della $q$-rotazione è il simbolo $T[q]$ e coincide con
+il simbolo in posizione $F[i]$ del vettore $F$.
 
 Della BWT possiamo introdurre le seguenti proprietà:
 \begin{itemize}
-    \item \textbf{Proprietà 1}: per ogni posizione $i$, il simbolo $B[i]$ precede
-          nel testo il simbolo $F[i]$.
-    \item \textbf{Proprietà 2} (\textbf{Last-First mapping}): l'$r$-esimo simbolo
-          $\sigma$ in $B$ e l'$r$-esimo simbolo $\sigma$ in $F$ sono lo
-          stesso simbolo del testo $T$.
+    \item \textbf{Proprietà 1} \label{proprietà-1}: per ogni posizione $i$, il
+          simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
+    \item \textbf{Proprietà 2} \label{lfmapping} (\textbf{Last-First mapping}):
+          l'$r$-esimo simbolo $\sigma$ in $B$ e l'$r$-esimo simbolo $\sigma$ in
+          $F$ sono lo stesso simbolo del testo $T$.
 \end{itemize}
 \begin{nota}
     Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$.
 
     Forlmalmente, se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
-    $B[1] \ne \$$ perché sarà $B[1]= T[n-1] $ quindi $F[1] = \$ $
+    $B[1] \neq \$$ perché sarà $B[1] = T[n - 1] $ quindi $F[1] = \$$
 \end{nota}
 \begin{esempio} %% Non so se è l'esempio giusto
     \begin{equation}
-        B = [c, c, t, t, \$, a, g, g, g] \ \ F = [\$, a, c, c, g, g, g, t, t]
+        \begin{array}{l|l c l}
+              & F  & \dots & B  \\
+            \hline
+            1 & \$ & \dots & c  \\
+            2 & a  & \dots & c  \\
+            3 & c  & \dots & t  \\
+            4 & c  & \dots & t  \\
+            5 & g  & \dots & \$ \\
+            6 & g  & \dots & a  \\
+            7 & g  & \dots & g  \\
+            8 & t  & \dots & g  \\
+            9 & t  & \dots & g  \\
+        \end{array}
     \end{equation}
     Allora $B[4]$ è la $4$-rotazione che termina con il carattere $B[4]$ il quale
     coincide con il carattere in posizione $F[9]$.
 \end{esempio}
-
 La \textbf{proprietà} $2$ viene implementata con la \textbf{Last-First function}.
 \begin{definizione}[\textbf{Last-First function}]
     La \textbf{Last-First function} è una funzione definita come:
@@ -1479,26 +1571,26 @@ La \textbf{proprietà} $2$ viene implementata con la \textbf{Last-First function
     \end{equation}
     tale che il simbolo $B[i]$ e il simbolo $F[j]$ sono lo stesso simbolo.
 \end{definizione}
-
 Questa funzione può essere calcolata in tempo costante.
 
-Utilizzando le due proprietà possiamo ricostruire il testo $T$ partendo dalla BWT e
-dal vettore $F$.
-\begin{esempio} [Ricostruzione del testo $T$ usando BWT e le proprietà. (Esercizio
-        di esame)]
+Utilizzando le due proprietà possiamo ricostruire il testo $T$ partendo dalla
+BWT e dal vettore $F$.
+\begin{esempio} [Ricostruzione del testo $T$ usando BWT e le proprietà.
+        (Esercizio di esame)]
     Per la ricostruzione del testo $T$ procede costruendolo dal fondo. Si inizia
-    ricavando $F$ da $B$, questo avviene ordinando, secondo l'ordinamento lessicografico,
-    il vettore BWT.
+    ricavando $F$ da $B$, questo avviene ordinando, secondo l'ordinamento
+    lessicografico, il vettore $B$.
 
-    Ottenuto il vettore $F$ si procede a ricostruire il testo $T$ partendo dal fondo
-    nel seguente modo:
+    Ottenuto il vettore $F$ si procede a ricostruire il testo $T$ partendo dal
+    fondo nel seguente modo:
     \begin{itemize}
         \item Si parte dal simbolo $\$$, che è il primo elemento nell'array $F$.
-        \item Da questo utilizzando la proprietà 1 si trova il simbolo $B[1]$ che
-              precede $\$$.
-        \item A questo punto, utilizzando la proprietà 2 si trova la posizione
-              del carattere $B[1]$ in $F$, ovvero $LF(1)$.
-        \item Si ripete il procedimento fino a quando non si arriva al simbolo $\$$ in BWT.
+        \item Da questo utilizzando la \textit{proprietà 1} \ref{proprietà-1} si
+              trova il simbolo $B[1]$ che precede $\$$.
+        \item A questo punto, utilizzando la \textit{proprietà 2} \ref{lfmapping}
+              si trova la posizione del carattere $B[1]$ in $F$, ovvero $LF(1)$.
+        \item Si ripete il procedimento fino a quando non si arriva al simbolo
+              $\$$ in BWT.
     \end{itemize}
 \end{esempio}
 Riassumendo:
@@ -1507,13 +1599,13 @@ Riassumendo:
           $r_i$.
     \item Supponiamo che $r_i$ sia la rotazione che inizia in posizione $q$ del
           testo, cioè $q$-rotazione.
-    \item L'ultimo simbolo di $r_i$ è il simbolo $T[q-1]$.
-    \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q-1]$.
+    \item L'ultimo simbolo di $r_i$ è il simbolo $T[q - 1]$.
+    \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q - 1]$.
     \item La rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo
           che precede $q$-suffiso.
     \item Sicuramente, il $q$-suffisso e l'$i$-esimo nell'ordinamento lessicografico
-          dei suffissi di $T$ (per il teorema introdotto), si ha questa sincronizzazione
-          per il $\$$. %% Mettere riferimento al teorema
+          dei suffissi di $T$ (per il teorema introdotto), si ha questa
+          sincronizzazione per il $\$$. %% Mettere riferimento al teorema
     \item In conclusione, $B[i]$ è il simbolo che precede l'$i$-esimo suffisso
           nell'ordinamento lessicografico dei simboli di $T$.
 \end{itemize}
@@ -1523,7 +1615,6 @@ simbolo $\$$. Quindi
 \begin{equation}
     B[i] = T[S[i]-1] \ \ \ T[S[i]] = F[i]
 \end{equation}
-
 \textbf{Last-First mapping} può essere definita come il suffisso che inizia con
 l'$r$-esimo simbolo $\sigma$ della BWT è l'$r$-esimo suffisso di $T$ che inizia
 con il simbolo $\sigma$ nell'ordinamento lessicografico dei suffissi di $T$.
@@ -1547,8 +1638,8 @@ array come:
     \caption{Algoritmo per il passaggio da SA a BWT}
 \end{algorithm}
 \subsubsection{Ricerca esatta con BWT}
-Sia $Q$ una stringa definita su un alfabeto $\Sigma$ ($Q\in \Sigma^\ast$) possiamo
-definire il $Q$-intervallo.
+Sia $Q$ una stringa definita su un alfabeto $\Sigma$ ($Q \in \Sigma^\ast$)
+possiamo definire il $Q$-intervallo.
 \begin{definizione} [\textbf{$Q$-intervallo rispetto alla BWT}]
     $Q$-intervallo è l'intervallo $[b,e)$ di posizioni della BWT che contengono
     i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso.
@@ -1559,29 +1650,29 @@ definire il $Q$-intervallo.
 \end{definizione}
 Si può osservare che per $Q = \varepsilon$ si ha il $\varepsilon$-intervallo,
 il quale coicide con l'intervallo $[1,n+1)$.
-\begin{esempio}
-    Dato l'alfabeto ordinato $\Sigma=\left\{\$, a, c, g, t\right\}$ e il testo
+\begin{esempio} \label{esempio-bwt}
+    Dato l'alfabeto ordinato $\Sigma=\{\$, a, c, g, t\}$ e il testo
     $T=acaaacatat\$$ allora possiamo costruire il SA e BWT.
-
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|l|c|}
             \hline
-            Indici & SA & suffissi ordinati & BWT \\ \hline
-            1      & 11 & \$                & t   \\ \hline
-            2      & 3  & aaacatat\$        & c   \\ \hline
-            3      & 4  & aacatat\$         & a   \\ \hline
-            4      & 1  & acaaacatat\$      & \$  \\ \hline
-            5      & 5  & acatat\$          & a   \\ \hline
-            6      & 9  & at\$              & t   \\ \hline
-            7      & 7  & atat\$            & c   \\ \hline
-            8      & 2  & caaacatat\$       & a   \\ \hline
-            9      & 6  & catat\$           & a   \\ \hline
-            10     & 10 & t\$               & a   \\ \hline
-            11     & 8  & tat\$             & a   \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{Indici} & \textbf{SA} & \textbf{Suffissi ordinati} & \textbf{BWT} \\ \hline
+            1               & 11          & \$                         & t            \\ \hline
+            2               & 3           & aaacatat\$                 & c            \\ \hline
+            3               & 4           & aacatat\$                  & a            \\ \hline
+            4               & 1           & acaaacatat\$               & \$           \\ \hline
+            5               & 5           & acatat\$                   & a            \\ \hline
+            6               & 9           & at\$                       & t            \\ \hline
+            7               & 7           & atat\$                     & c            \\ \hline
+            8               & 2           & caaacatat\$                & a            \\ \hline
+            9               & 6           & catat\$                    & a            \\ \hline
+            10              & 10          & t\$                        & a            \\ \hline
+            11              & 8           & tat\$                      & a            \\ \hline
         \end{tabular}
+        \caption{Suffix array e BWT del testo $T=acaaacatat\$$}
     \end{table}
-
     possiamo effettuare le seguenti query:
     \begin{itemize}
         \item $aca$-intervallo equivale a $[4,6)$
@@ -1603,14 +1694,15 @@ Dato un $Q$-intervallo $[b, e)$ si possono effettuare le seguenti osservazioni:
           \begin{equation}
               B[b], B[b + 1], \dots, B[e - 1]
           \end{equation}
-          ovvero i simboli che precedono le occorrenze esatte di $Q$ nel testo $T$.
+          ovvero i simboli che precedono le occorrenze esatte di $Q$ nel testo
+          $T$.
 \end{itemize}
-Quindi possiamo dire che il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se $[b,e)\equiv Q$-
-intervallo.
+Quindi possiamo dire che il numero di occorrenze di $Q$ in $T$ sarà $e-b$ se
+$[b,e) \equiv Q$-intervallo.
 \begin{esempio}
-    Dall'esempio precedente il $aca$-intervallo corrisponde a $[4,6)$ quindi
-    saranno un totale di $6-4= 2$ occorrenze di $aca$ nel testo, iniziano alle
-    posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$
+    Dall'esempio \ref{esempio-bwt} il $aca$-intervallo corrisponde a $[4,6)$
+    quindi saranno un totale di $6 - 4= 2$ occorrenze di $aca$ nel testo,
+    iniziano alle posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$.
 \end{esempio}
 Successivamente definiamo
 \begin{definizione}[\textbf{backward extension}]
@@ -1619,26 +1711,28 @@ Successivamente definiamo
     ottenuta concatenando il simbolo $\sigma$ con $Q$.
 \end{definizione}
 \begin{esempio}
-    Riprendendo l'esempio precedente, dato il $a$-intervallo, vogliamo trovare la
-    backward extension di $a$-intervallo col carattere $c$. Questo coincide con
-    il  $ca$-intervallo ovvero $[8,10)$.
+    Riprendendo l'esempio \ref{esempio-bwt}, dato l'$a$-intervallo, vogliamo
+    trovare la backward extension di $a$-intervallo col carattere $c$. Questo
+    coincide con il  $ca$-intervallo ovvero $[8,10)$.
 \end{esempio}
 Avendo definito questi concetti, possiamo definire l'algoritmo di ricerca esatta
 di un pattern $P$ lungo $m$ in un testo $T$ utilizzando la $BWT$. Tale algoritmo
 è composto dai seguenti passi:
 \begin{enumerate}
-    \item Si parte dal suffisso $\epsilon$ del pattern $P$.
-    \item Si considera il $\epsilon$-intervallo, cioè $[1,n+1)$ e si inizializza
-          un indice di posizione $i=m$.
-    \item Si effettua una backward extension con il simbolo $P[i]$ per ottenere
-          $P[i]Q$-intervallo $[b_p, e_p)$ che fornisce le occorrenze di $P[i,m] = P[m,m]$:
+    \item Si parte dal suffisso $\varepsilon$ del pattern $P$.
+    \item Si considera il $\varepsilon$-intervallo, cioè $[1, n + 1)$ e si
+          inizializza un indice di posizione $i = m$.
+    \item \label{ricercaesatta-3} Si effettua una backward extension con il
+          simbolo $P[i]$ per ottenere $P[i]Q$-intervallo $[b_p, e_p)$ che
+          fornisce le occorrenze di $P[i,m]$:
           \begin{itemize}
               \item Se il risultato è l'intervallo vuoto allora $P$ non ha
                     occorrenze in $T$ quindi si termina l'esecuzione.
               \item Se il risultato non è l'intervallo vuoto allora:
                     \begin{itemize}
-                        \item se $i>1$ allora si calcola $i--$ e si ripete il punto $3$.
-                        \item se $i=1$ allora ho trovato il $P$-intervallo e
+                        \item Se $i > 1$ allora si calcola $i - 1$ e si ripete
+                              il punto \ref{ricercaesatta-3}.
+                        \item Se $i = 1$ allora ho trovato il $P$-intervallo e
                               si ritorna l'occorrenza.
                     \end{itemize}
           \end{itemize}
@@ -1650,156 +1744,167 @@ Possiamo effettuare le seguenti osservazioni:
     \item Se occorre $P$ in $T$ allora servono un totale di $m$ iterazioni,
           altrimenti saranno minori.
     \item Se $P$ non occorre in $T$, supponendo che $p$ è la posizione di $P$
-          per cui il $P[p,m]$-intervallo è vuoto, allora l'ultimo suffisso che
-          occorre in $T$ è $P[p+1,m]$ in un numero di iterazioni $|P[p+1,m]|+1$
-    \item La complessità quindi sarà $O(mlogn)$.
+          per cui il $P[p, m]$-intervallo è vuoto, allora l'ultimo suffisso che
+          occorre in $T$ è $P[p + 1, m]$ in un numero di iterazioni $|P[p + 1,
+              m]| + 1$
+    \item La complessità quindi sarà $O(m \lg n)$.
 \end{itemize}
 Possiamo rimuovere il $\log n$ nell'equazione del tempo rendendo costante
 il calcolo della backward extension. Possiamo osservare che per un $Q$-intervallo
 ($[b, e)$), e dato un simbolo $\sigma$:
 \begin{itemize}
-    \item Siano $i_1,<i_2<\dots<i_k$ le $k$ posizioni di $[b,e)$ tali che
+    \item Siano $i_1 < i_2 < \dots < i_k$ le $k$ posizioni di $[b,e)$ tali che:
           \begin{equation}
-              B[i_p] = \sigma \ 1\le p \le k
+              B[i_p] = \sigma \ \text{con} \ 1 \leq p \leq k
           \end{equation}
-    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1\le p \le k$.
-    \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1\le p \le k$.
-    \item Quindi  $B[i_p] \cdot S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
+    \item $B[i_p]$ precede $S[i_p]$-suffisso per $1 \leq p \leq k$.
+    \item $S[i_p]$-suffisso ha $Q$ come prefisso per $1 \leq p \leq k$.
+    \item Quindi $B[i_p] \cdot S[i_p]$-suffisso per $1\le p \le k$ è il suffisso
           che inizia con $B[i_p]$ e che ha $\sigma Q$ come prefisso.
     \item $B[i_p] \cdot S[i_p]$-suffisso per LF-mapping avrà una posizione
-          nel Suffix Array data da $j_p = LF(i_p)$ all'interno di  $j_1,<j_2<\dots<j_k$,
-          dove $[j_1,j_k)$ è il $\sigma Q$-intervallo.
+          nel Suffix Array data da $j_p = LF(i_p)$ all'interno di $j_1 < j_2 <
+              \dots < j_k$, dove $[j_1,j_k)$ è il $\sigma Q$-intervallo.
 \end{itemize}
-Da notare che, la backward extension viene definita dalle posizioni limite prese
-dal SA alla posizione BWT coincidente al carattere da cercare.
-
+\begin{nota}
+    La backward extension è definita dalle posizioni limite prese dal SA alla
+    posizione BWT coincidente al carattere da cercare.
+\end{nota}
 Quindi la procedura sarà definita come:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
-        \State $i_1 \gets \min_{x\in [b,e)} x \ \text{t.c.} \ B[i_1]=\sigma$
-        \State $i_k \gets \max_{x\in [b,e)} x \ \text{t.c.} \ B[i_k]=\sigma$
+        \State $i_1 \gets \min_{x\in [b,e)} x \ \text{t.c.} \ B[i_1] = \sigma$
+        \State $i_k \gets \max_{x\in [b,e)} x \ \text{t.c.} \ B[i_k] = \sigma$
         \State \Return $[LF(i_1), LF(i_k)+1)$
         \EndFunction
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
-
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
         \State $n \gets |T|$
         \State $[b,e) \gets [1, n+1)$
         \State $i \gets |P|$
-        \While{$[b,e) \ \ne \ \text{null}\land i\ge 1$}
+        \While{$[b,e) \ \neq \ \text{null}\land i\ge 1$}
         \State $\sigma \gets P[i]$
-        \State $[b,e) \gets\Call{backward\_extend}{b,e,\sigma}$
+        \State $[b,e) \gets$\Call{$backward\_extend$}{$b,e,\sigma$}
         \State $i\gets i-1$
         \EndWhile
-        \If{$[b,e)\ \ne \ \text{null}$}
+        \If{$[b,e)\ \neq \ \text{null}$}
         \State $\text{out } T[b], T[b+1], \dots, T[e-1]$
         \EndIf
         \EndFunction
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
-
-Algoritmo è lineare ($O(m)$) solo se definiamo il calcolo costante di $LF$ e quindi
-della Backward Extension, utilizzando FM-Index.
+La complessità di questo algoritmo risulta lineare ($O(m)$) solo se definiamo il
+calcolo della $LF$-function in tempo costante, e di cnseguenza anche quello della
+Backward Extension. Questo è possibile utilizzando l'FM-Index.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
-BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$ in
-un testo $T$ è in $\Theta(|P|)$
+BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$
+di lunghezza $m$ in un testo $T$ di lunghezza $n$ richiede un tempo pari a
+$\Theta(|P|) = \Theta(m)$.
 
 L'FM-index è una struttura dati che permette di rappresentare una BWT in modo
 numerico.
 \begin{definizione}[\textbf{FM-index}]
-    Dato un testo $T$ di lunghezza $n$, l'FM-index è una coppia di funzioni:
+    Dato un testo $T$ di lunghezza $n$, l'\textbf{FM-index} è una coppia di
+    funzioni $C$ e $Occ$ definite come:
     \begin{itemize}
-        \item $C$ definita come:
-              \begin{equation}
+        \item \begin{equation}
                   C: \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
-              dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta la BWT che sono
-              minori di $\sigma$.
-        \item $Occ$ definita come:
-              \begin{equation}
+              dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta
+              la BWT che sono minori di $\sigma$.
+        \item \begin{equation}
                   Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
-              dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del simbolo
-              $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$. Quindi ogni
-              riga rappresenta la distribuzione dei simboli nella BWT fino alla
-              cella $i$.
+              dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del
+              simbolo $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
+              Quindi ogni riga rappresenta la distribuzione dei simboli nella BWT
+              fino alla cella $i$.
     \end{itemize}
 \end{definizione}
-\begin{esempio}
-    Dato il testo $T=ggtcagtc\$$, possiamo definire la funzione $C$ come:
+\begin{esempio}[Costruzione della funzione $C$]
+    Dato il testo $T = ggtcagtc\$$, possiamo definire la funzione $C$ come:
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|l|l|}
+        \begin{tabular}{|l|c|}
             \hline
-            $\sigma$ & $C(\sigma)$ \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 2           \\ \hline
-            g        & 4           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 2                    \\ \hline
+            g                 & 4                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
     \end{table}
 \end{esempio}
 In generale, $C(\sigma)$ fornisce:
 \begin{itemize}
-    \item il numero di suffissi che iniziano con un simbolo minore di $\sigma$.
-    \item la massima posizione nel suffix array di un suffisso che inizia con un
+    \item Il numero di suffissi che iniziano con un simbolo minore di $\sigma$.
+    \item La massima posizione nel suffix array di un suffisso che inizia con un
           simbolo minore di $\sigma$.
 \end{itemize}
-\begin{esempio}
-    Data la seguente BWT $BWT=cctt\$aggg$, possiamo definire la funzione $Occ$ come:
+\begin{esempio}[Costruzione della funzione $Occ$]
+    Data la seguente BWT $B = cctt\$aggg$, possiamo definire la funzione $Occ$
+    come:
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|l|l|l|l|l|l|}
+        \begin{tabular}{|
+                >{\columncolor[HTML]{EFEFEF}}l |c|c|c|c|c|}
             \hline
-            $Occ(i, \sigma)$ & \$ & a & c & g & t \\ \hline
-            $Occ(0,\sigma)$  & 0  & 0 & 0 & 0 & 0 \\ \hline
-            $Occ(1,\sigma)$  & 0  & 0 & 1 & 0 & 0 \\ \hline
-            $Occ(2,\sigma)$  & 0  & 0 & 2 & 0 & 0 \\ \hline
-            $Occ(3,\sigma)$  & 0  & 0 & 2 & 0 & 0 \\ \hline
-            $Occ(4,\sigma)$  & 0  & 0 & 2 & 0 & 1 \\ \hline
-            $Occ(5,\sigma)$  & 0  & 0 & 2 & 0 & 2 \\ \hline
-            $Occ(6,\sigma)$  & 1  & 1 & 2 & 0 & 2 \\ \hline
-            $Occ(7,\sigma)$  & 1  & 1 & 2 & 0 & 2 \\ \hline
-            $Occ(8,\sigma)$  & 1  & 1 & 2 & 1 & 2 \\ \hline
-            $Occ(9,\sigma)$  & 1  & 1 & 2 & 2 & 2 \\ \hline
-            $Occ(10,\sigma)$ & 1  & 1 & 2 & 3 & 2 \\ \hline
+            \textbf{$Occ(i, \sigma)$}  &
+            \cellcolor[HTML]{EFEFEF}\$ &
+            \cellcolor[HTML]{EFEFEF}a  &
+            \cellcolor[HTML]{EFEFEF}c  &
+            \cellcolor[HTML]{EFEFEF}g  &
+            \cellcolor[HTML]{EFEFEF}t                      \\ \hline
+            \textbf{$Occ(0,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
+            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
+            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
+            \textbf{$Occ(5,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(6,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
+            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
+            \textbf{$Occ(10,\sigma)$}  & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
     \end{table}
+
     Copio la riga precedente modificando la colonna del carattere che leggiamo nella
     nuova posizione di BWT.
 \end{esempio}
-
-\begin{esempio}
-    Possiamo quindi ottenere $C(\sigma)$ da $Occ(|BWT|,\sigma)$. Si sommano i valori
-    delle colonne precedenti sulla riga.
+\begin{esempio}[Calcolo della funzione $C$ da $Occ$]
+    Possiamo quindi ottenere $C(\sigma)$ da $Occ(|BWT| + 1,\sigma)$. Per fare ciò,
+    si sommano i valori delle colonne precedenti sulla riga.
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|l|l|}
+        \begin{tabular}{|l|c|}
             \hline
-            $\sigma$ & $C(\sigma)$ \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 2           \\ \hline
-            g        & 4           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 2                    \\ \hline
+            g                 & 4                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
+        \caption{Calcolo della funzione $C$ da $Occ$}
     \end{table}
 \end{esempio}
+\newpage
 La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
-incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è
-uguale a $\sigma$.
+incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è uguale a
+$\sigma$. In caso contrario si copia il valore di $Occ(i - 1, \sigma)$.
 
+Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
@@ -1824,54 +1929,57 @@ uguale a $\sigma$.
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
-
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
-in tempo costante, questo è possibile scomponendo l'indice da trovare come:
+in tempo costante, questo è possibile scomponendo l'indice $j$ da calcolare come:
 \begin{itemize}
-    \item numero di suffissi che iniziano con un carattere
-          più piccolo di $B[i]$ ($C(B[i])$)
-    \item il numero di simboli si $B[i]$ che occorrono nella
-          BWT prima della posizione $i$. ($Occ(i, B[i]) + 1$)
+    \item Numero di suffissi che iniziano con un carattere più piccolo di $B[i]$
+          ($C(B[i])$).
+    \item Il numero di simboli si $B[i]$ che occorrono nella BWT prima della
+          posizione $i$. ($Occ(i, B[i]) + 1$)
 \end{itemize}
-
 \begin{equation}
     j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
 \end{equation}
-
-L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward extension in
-    tempo costante}. Questo ci permette di definire un algoritmo per la ricerca esatta
-in tempo lineare rispetto alla dimensione del pattern.
+L'FM-index è fondamentalmente anche per definire il calcolo della \textbf{backward
+    extension in tempo costante}. Questo ci permette di definire un algoritmo
+per la ricerca esatta in tempo lineare rispetto alla dimensione del pattern.
 
 Vediamo ora come utilizzare l'FM-index per calcolare la \textbf{backward
     extension} in tempo costante. Supponiamo che:
 \begin{itemize}
-    \item $i_1$: è la più piccola posizione di $[b,e)$ tale che $B[i_1]=\sigma$
-    \item $i_k$: è la più grande posizione di $[b,e)$ tale che $B[i_k]=\sigma$
+    \item $i_1$: è la più piccola posizione di $[b,e)$ tale che $B[i_1] = \sigma$
+    \item $i_k$: è la più grande posizione di $[b,e)$ tale che $B[i_k] = \sigma$
 \end{itemize}
 Quindi possiamo dire che il nuovo intervallo $[b',e')$ si ottiene come:
 \begin{itemize}
-    \item $b' = LF(i_1) = C(B[i_1]) + Occ(i_1,B[i_1])+1$
-    \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_1,B[i_k]) + 1 + 1$
+    \item $b' = LF(i_1) = C(B[i_1]) + Occ(i_1, B[i_1]) + 1 = C(\sigma) + Occ(i_1,
+              \sigma) + 1$
+    \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_k, B[i_k]) + 1 + 1 = C(\sigma) +
+              Occ(i_k, \sigma) + 1 + 1$
 \end{itemize}
 Però non è ancora costante perché dobbiamo trovare $i_1, \ i_k$.
 
 Possiamo però osservare che:
 \begin{itemize}
-    \item Nel sottoarray della BWT $B[b,i_1-1]$ non esistono simboli uguali a $\sigma$ quindi il numero
-          di simboli $\sigma$ in $B[1,i_1-1]$ ($Occ(i_1,\sigma)$) è uguale al numero
-          di simboli di $\sigma$  in $B[1,b-1]$ ($Occ(b,\sigma)$) allora:
+    \item Nel sottoarray della BWT $B[b, i_1 - 1]$ non esistono simboli uguali a
+          $\sigma$, quindi il numero di simboli $\sigma$ in $B[1, i_1 - 1]$
+          ($Occ(i_1, \sigma)$) è uguale al numero di simboli di $\sigma$ in
+          $B[1, b - 1]$ ($Occ(b,\sigma)$) allora:
           \begin{equation}
               Occ(i_1,\sigma) = Occ(b,\sigma)
           \end{equation}
           Quindi la ricerca di $i_1$ è costante.
-    \item $Occ(i_k,\sigma)$ è il numero di $\sigma$ in $B[1,i_k-1]$, inoltre
-          sappiamo che $B[i_k]=\sigma$. Questo significa che $Occ(i_k,\sigma) + 1 $
-          corrisponde al numero di simboli di $\sigma$ in $B[1,i_k]$, ovvero
-          $ Occ(i_k ,\sigma)+1= Occ(i_k + 1,\sigma)$.
-          Quindi possiamo dire $B[i_k + 1, e - 1]$ non esistono simboli uguali a $\sigma$,
-          allora il numero di simboli $\sigma$ in $B[1, i_k]$ ($Occ(i_k + 1,
-              \sigma)$) uguale al numero di simboli $\sigma$ in $B[1, e - 1]$ ($ Occ(e, \sigma)$),
-          possiamo quindi dire:
+    \item $Occ(i_k, \sigma)$ è il numero di $\sigma$ in $B[1, i_k - 1]$, inoltre
+          sappiamo che $B[i_k] = \sigma$. Questo significa che $Occ(i_k, \sigma)
+              + 1$ corrisponde al numero di simboli di $\sigma$ in $B[1, i_k]$,
+          ovvero:
+          \begin{equation}
+              Occ(i_k, \sigma) + 1 = Occ(i_k + 1, \sigma)
+          \end{equation}
+          Quindi possiamo dire che in $B[i_k + 1, e - 1]$ non esistono simboli
+          uguali a $\sigma$, allora il numero di simboli $\sigma$ in $B[1, i_k]$
+          ($Occ(i_k + 1, \sigma)$) uguale al numero di simboli $\sigma$ in
+          $B[1, e - 1]$ ($Occ(e, \sigma)$), possiamo quindi dire:
           \begin{equation}
               Occ(i_k + 1, \sigma) = Occ(e, \sigma)
           \end{equation}
@@ -1884,10 +1992,10 @@ Possiamo quindi esprimere il calcolo della backward extension come:
     \end{array}
 \end{equation}
 \begin{nota}
-    Se $b' = e'$ allora il $Q$-intervallo è vuoto.
+    Se $b' = e'$ allora il $\sigma Q$-intervallo è vuoto.
 \end{nota}
-Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
-($\mathcal{O}(1)$):
+Con queste informazioni possiamo scrivere l'algoritmo per calcolare la backward
+extension in tempo costante ($\mathcal{O}(1)$):
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backwardExtension}{$b, e, \sigma$}
@@ -1898,49 +2006,61 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
     \end{algorithmic}
 \end{algorithm}
 \begin{nota}
-    L'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è reversibile
-    e si può ricavare il testo e BWT. Infatti da $C$ ricaviamo il $SA$ mentre da $Occ$
-    ricaviamo la $BWT$, quindi da questi posso ricostruire il testo $T$.
+    L'FM-Index è indipendente dal testo e BWT, inoltre, la struttura è
+    reversibile e si può ricavare il testo e la BWT. Infatti da $C$ ricaviamo il
+    $SA$ mentre da $Occ$ ricaviamo la $BWT$, quindi da questi posso ricostruire
+    il testo $T$.
 
     Quindi l'FM-index è un \textbf{self-index}.
 \end{nota}
-
-\begin{esempio}
+\begin{esempio}[FM-index è un self-index]
     Per dimostrare che l'FM-index è un self-index mostriamo un esempio di come da
     esso è possibile ricavare la BWT e di conseguenza il testo.
     \begin{table}[!ht]
         \centering
-        \begin{tabular}{|c|c|c|c|c|c|}
+        \begin{tabular}{|
+                >{\columncolor[HTML]{EFEFEF}}c |c|c|c|c|c|}
             \hline
-            $Occ(i,\sigma)$ & $\$$ & $a$ & $c$ & $g$ & $t$ \\ \hline
-            $0$             & $0$  & $0$ & $0$ & $0$ & $0$ \\ \hline
-            $1$             & $0$  & $0$ & $1$ & $0$ & $0$ \\ \hline
-            $2$             & $0$  & $0$ & $2$ & $0$ & $0$ \\ \hline
-            $3$             & $0$  & $0$ & $2$ & $0$ & $1$ \\ \hline
-            $4$             & $0$  & $0$ & $2$ & $0$ & $2$ \\ \hline
-            $5$             & $1$  & $0$ & $2$ & $0$ & $2$ \\ \hline
-            $6$             & $1$  & $1$ & $2$ & $0$ & $2$ \\ \hline
-            $7$             & $1$  & $1$ & $2$ & $1$ & $2$ \\ \hline
-            $8$             & $1$  & $1$ & $2$ & $2$ & $2$ \\ \hline
-            $9$             & $1$  & $1$ & $2$ & $3$ & $2$ \\ \hline
+            \textbf{$Occ(i, \sigma)$}  &
+            \cellcolor[HTML]{EFEFEF}\$ &
+            \cellcolor[HTML]{EFEFEF}a  &
+            \cellcolor[HTML]{EFEFEF}c  &
+            \cellcolor[HTML]{EFEFEF}g  &
+            \cellcolor[HTML]{EFEFEF}t                      \\ \hline
+            0                          & 0 & 0 & 0 & 0 & 0 \\ \hline
+            1                          & 0 & 0 & 1 & 0 & 0 \\ \hline
+            2                          & 0 & 0 & 2 & 0 & 0 \\ \hline
+            3                          & 0 & 0 & 2 & 0 & 1 \\ \hline
+            4                          & 0 & 0 & 2 & 0 & 2 \\ \hline
+            5                          & 1 & 0 & 2 & 0 & 2 \\ \hline
+            6                          & 1 & 1 & 2 & 0 & 2 \\ \hline
+            7                          & 1 & 1 & 2 & 1 & 2 \\ \hline
+            8                          & 1 & 1 & 2 & 2 & 2 \\ \hline
+            9                          & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
+        \caption{Funzione $Occ$}
     \end{table}
+
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|}
             \hline
-            $\sigma$ & C($\sigma$) \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 2           \\ \hline
-            g        & 4           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 2                    \\ \hline
+            g                 & 4                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
+        \caption{Funzione $C$}
     \end{table}
+
+    Partendo da queste due funzioni la BWT è:
     \begin{equation}
-        B= \left[c,c,t,t,\$,a,g,g,g \right]
+        B = [c,c,t,t,\$,a,g,g,g]
     \end{equation}
-    L'algoritmo per ottenere la BWT è il seguente:
+    L'algoritmo utilizzato per ottenere la BWT è il seguente:
     \begin{itemize}
         \item Si scorre la matrice associata alla $Occ$ una riga alla volta.
         \item Per ogni riga si trova il valore che è stato incrementato rispetto
@@ -1948,34 +2068,57 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
               della BWT.
     \end{itemize}
 \end{esempio}
+
 \begin{esempio}
     Si consideri la funzione $C$ riportata nella tabella \ref{tab:esempioC}.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|}
             \hline
-            $\sigma$ & C($\sigma$) \\ \hline
-            \$       & 0           \\ \hline
-            a        & 1           \\ \hline
-            c        & 3           \\ \hline
-            g        & 7           \\ \hline
-            t        & 7           \\ \hline
+            \rowcolor[HTML]{EFEFEF}
+            \textbf{$\sigma$} & \textbf{$C(\sigma)$} \\ \hline
+            \$                & 0                    \\ \hline
+            a                 & 1                    \\ \hline
+            c                 & 3                    \\ \hline
+            g                 & 7                    \\ \hline
+            t                 & 7                    \\ \hline
         \end{tabular}
         \caption{Funzione $C$}
         \label{tab:esempioC}
     \end{table}
-    Dire se il $b$-intervallo, ovvero il $Q$-intervallo con $Q=b$ è vuoto. Se non
-    lo è, specificare il $b$-intervallo.
+    Dire se il $b$-intervallo, ovvero il $Q$-intervallo con $Q = b$ è vuoto. Se
+    non lo è, specificare il $b$-intervallo.
 
-    Sarà $[C(b)+1, C(k)+1)$ con $k$ il carattere successivo al carattere $b$.
-    Questo è vuoto perché $C$ ritorna il numero di suffissi nell'ordine
-    lessicografico che iniziano con un carattere minore di $b$.
+    Per verificare se il $b$-intervallo è vuoto, basta verificare se $C(b) =
+        C(b + 1)$. Se questo è vero allora l'intervallo è vuoto.
+
+    Nel caso in analisi $C(b) = 3$ e $C(b + 1) = 7$, quindi l'intervallo non è
+    vuoto. Il $b$-intervallo è $[C(b) + 1, C(b + 1) + 1) = [4, 8)$.
 \end{esempio}
+
 \begin{esempio}
-    Data la $BWT=accgt\$ac$ di un testo $T$, si richiede di specificare l'FM-index
-        supponendo $\Sigma = \{a, c, g, t\}$. Calcolare poi tramite FM-index la
-        posizione $j$ nel Suffix Array del suffisso che inizia col terzo simbolo
-        della BWT.
+    Data la BWT $B = accgt\$ac$ di un testo $T$, si richiede di specificare
+        l'FM-index supponendo $\Sigma = \{a, c, g, t\}$. Calcolare poi tramite
+        FM-index la posizione $j$ nel Suffix Array del suffisso che inizia col
+        terzo simbolo della BWT.
+
+        Ricaviamo il $Occ(i, \sigma)$:
+        \begin{table}[!ht]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                0  & 0 & 0 & 0 & 0 \\ \hline
+                0  & 1 & 0 & 0 & 0 \\ \hline
+                0  & 1 & 1 & 0 & 0 \\ \hline
+                0  & 1 & 2 & 0 & 0 \\ \hline
+                0  & 1 & 2 & 1 & 0 \\ \hline
+                0  & 1 & 2 & 1 & 1 \\ \hline
+                1  & 1 & 2 & 1 & 1 \\ \hline
+                1  & 2 & 2 & 1 & 1 \\ \hline
+                1  & 2 & 3 & 1 & 1 \\ \hline
+                \$ & a & c & g & t \\ \hline
+            \end{tabular}
+        \end{table}
 
         Ricaviamo $C(\sigma)$ da $Occ(|BWT| + 1, \sigma)$ ovvero:
         \begin{table}[!ht]
@@ -1990,56 +2133,190 @@ Vediamo ora l'algoritmo per calcolare la backward extension in tempo costante
                 t        & 7           \\ \hline
             \end{tabular}
         \end{table}
-        Ricaviamo il $Occ(i, \sigma)$:
-        \begin{table}[!ht]
-            \centering
-            \begin{tabular}{|c|c|c|c|c|}
-                \hline
-                0  & 0 & 0 & 0 & 0 \\ \hline
-                0  & 1 & 0 & 0 & 0 \\ \hline
-                0  & 1 & 1 & 0 & 0 \\ \hline
-                0  & 1 & 2 & 0 & 0 \\ \hline
-                0  & 1 & 2 & 1 & 0 \\ \hline
-                0  & 1 & 2 & 1 & 1 \\ \hline
-                0  & 1 & 2 & 1 & 1 \\ \hline
-                1  & 1 & 2 & 1 & 1 \\ \hline
-                1  & 2 & 2 & 1 & 1 \\ \hline  \\ \hline
-                \$ & a & c & g & t \\ \hline
-            \end{tabular}
-        \end{table}
-        Posizione $j$ nel Suffix Array del suffisso che inizia con $B[3]$ si ottiene come:
+
+        Posizione $j$ nel Suffix Array del suffisso che inizia con $B[3]$ si
+    ottiene come:
     \begin{equation}
-        j = LF(B[3]) = C(B[3]) + Occ(3, B[3]) + 1
+        j = LF(B[3]) = C(B[3]) + Occ(3, B[3]) + 1 = 3 + 1 + 1 = 5
     \end{equation}
 \end{esempio}
-%% Da completare
 \begin{esempio}
     Data $BWT =t\$ccaacc$ di un testo e sapendo che $c$-intervallo è $[4,8)$
-        specifica utilizzando $B$:
+        specificare utilizzando $B$:
         \begin{itemize}
-            \item quante volte la stringa $cc$ occorre in $T$ e specificare il $cc$-intervallo
-            \item quante volte la stringa $tc$ occorre in $T$ e specificare il $tc$-intervallo
+            \item Quante volte la stringa $cc$ occorre in $T$ e specificare il
+                  $cc$-intervallo.
+            \item Quante volte la stringa $tc$ occorre in $T$ e specificare il
+                  $tc$-intervallo.
         \end{itemize}
         In aggiunta indica quali sono i simboli che nel testo precedono le occorrenze
         di $cc$ e le occorrenze di $tc$.
 
-        Per sapere se occorre $cc$ basta prendere il $c$-intervallo e controllare all'interno
-        se ci sono $c$, in questo caso $2$. Per il caso $tc$ no.
+        Per sapere se occorre la stringa $cc$ bisogna considerare il $c$-intervallo
+        e controllare se al suo interno sono presenti delle $c$, nel caso
+        dell'esempio, considerando l'intervallo $[4, 8)$ sono presenti $2$
+        simboli $c$. Mentre per il caso della stringa $tc$ non è presente nessuna
+        occorrenza.
 
-        i simboli che recedono le occorrenze sono per entrambi $a$, ricavate dal $SA$
-        alla posizione accociate alla ultima $c$.
+        Per calcolare i simboli che precedono le occorrenze  di $cc$ si calcola
+        LF-function della stringa e si verificano i simboli presenti nella BWT
+        in quelle posizioni. Nel caso della stringa $cc$ il simbolo che precede
+        entrambe le occorrenze è $a$.
 \end{esempio}
 \begin{esempio}
-    Ho un testo per cui
-    $$C = 0,1,4,6,6$$
-    Dire se
-    $$Occ(11, \sigma) =1 , 2 , 3 , 2 , 2$$
-    è compatibile con $C$? No perché $C(c) = 3 \ne 4$ e $C(t) = 8 \ne 6$.
+    Per un testo $\$$-terminato di lunghezza $n = 10$ la funzione $C$ di FM-index è:
+    \begin{equation}
+        \begin{array}{c | c}
+            \sigma & C(\sigma) \\
+            \$     & 0         \\
+            a      & 1         \\
+            c      & 4         \\
+            g      & 6         \\
+            t      & 6         \\
+        \end{array}
+    \end{equation}
+    \begin{enumerate}
+        \item Dire se una funzione $Occ$ che per $i = 11$ vale:
+              \begin{equation}
+                  \begin{array}{c | c c c c c}
+                      \sigma          & \$ & a & c & g & t \\
+                      Occ(11, \sigma) & 1  & 2 & 3 & 2 & 2 \\
+                  \end{array}
+              \end{equation}
+              è compatibile con la funzione $C$. In caso contrario, spiegare
+              perché.
+        \item Dire inoltre (in base alla funzione $C$) quanti sono i simboli
+              di $g$ e quanti sono i simboli di $t$ nel testo.
+    \end{enumerate}
 
-    Dire quanti sono i simboli di $g$
+    La funzione $Occ$ non è compatibile con $C$ perché la distribuzione dei simboli
+    derivata dalla funzione $C$ è:
+    \begin{equation}
+        \begin{array}{c l}
+            C(a) - C(\$) = 1 & \text{simboli } \$ \\
+            C(c) - C(a) = 3  & \text{simboli } a  \\
+            C(g) - C(c) = 2  & \text{simboli } c  \\
+            C(t) - C(g) = 0  & \text{simboli } g  \\
+            10 - C(t) = 4    & \text{simboli } t  \\
+        \end{array}
+    \end{equation}
+    che è diversa da quella specificata dalla funzione $Occ$. Infatti, per esempio:
+    \begin{enumerate}
+        \item $Occ(11, \$) + Occ(11, a) = 3$ mentre $C(c) = 4$.
+        \item $Occ(11, \$) + Occ(11, a) + Occ(11, c) + Occ(11, g) = 8$ mentre
+              $C(t) = 6$.
+    \end{enumerate}
+    Il numero di simboli $g$ è $C(t) - C(g) = 0$ mentre il numero di simboli $t$
+    è $n - C(t) = 4$.
 \end{esempio}
 \begin{esempio}
-    Dalla faunzione $Occ$ determinare $C = 0,1,3,4,8$  e determina $B[4] = g$.
+    Data la funzione $Occ$ riportata nella tabella \ref{tab:esempioOcc}, determinate:
+    \begin{itemize}
+        \item La funzione $C$.
+        \item Il simbolo della BWT in posizione $4$.
+    \end{itemize}
+    \begin{table}[!ht]
+        \centering
+        \begin{tabular}{cccccc}
+            \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}1}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}2}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}3}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}4}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}5}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}6}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}7}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}8}  &
+            \multicolumn{1}{c|}{0}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}9}  &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}10} &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{3}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+            \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}11} &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{2}                          &
+            \multicolumn{1}{c|}{1}                          &
+            \multicolumn{1}{c|}{4}                          &
+            \multicolumn{1}{c|}{2}                            \\ \cline{2-6}
+                                                            &
+            \cellcolor[HTML]{EFEFEF}\$                      &
+            \cellcolor[HTML]{EFEFEF}a                       &
+            \cellcolor[HTML]{EFEFEF}c                       &
+            \cellcolor[HTML]{EFEFEF}g                       &
+            \cellcolor[HTML]{EFEFEF}t
+        \end{tabular}
+        \caption{Funzione $Occ$} \label{tab:esempioOcc}
+    \end{table}
 
-    Ti può chiedere se esiste un $\sigma\cdot q$-intervallo guardando $Occ$.
+    La funzione $C$ si ricava da $Occ$ come:
+    \begin{equation}
+        \begin{array}{c | c | l}
+            \sigma & C(\sigma) &                                                    \\
+            \$     & 0         &                                                    \\
+            a      & 1         & Occ(11, \$)                                        \\
+            c      & 3         & Occ(11, \$) + Occ(11, a)                           \\
+            g      & 4         & Occ(11, \$) + Occ(11, a) + Occ(11, c)              \\
+            t      & 8         & Occ(11, \$) + Occ(11, a) + Occ(11, c) + Occ(11, g) \\
+        \end{array}
+    \end{equation}
+
+    Il simbolo in posizione $4$ della BWT è $g$. Perché è il valore che è stato
+    incrementato nella riga $5$ della matrice $Occ$ rispetto alla riga $4$.
+
+    Inoltre, sapendo che $[2, 4)$ è il Q-intervallo per $Q = a$, dire sulla base
+    di FM-index se la stringa $aa$ occorre nel testo $T$.
+
+    La stringa $aa$ occorre nel testo $T$ se in $[2, 4)$ esiste almeno un simbolo
+    $a$. Dobbiamo quindi controllare le righe della matrice $Occ$ relative
+    all'intervallo $[2, 4)$ e verificare se è presente almeno un simbolo $a$.
+    Nel caso dell'esempio, l'intervallo $[2, 4)$ è composto dalle righe $2$ e $3$
+    della matrice $Occ$. Nella riga $3$ è presente un simbolo $a$, quindi la
+    stringa $aa$ occorre nel testo $T$.
 \end{esempio}

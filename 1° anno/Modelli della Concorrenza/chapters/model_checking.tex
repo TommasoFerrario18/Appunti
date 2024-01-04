@@ -4,28 +4,28 @@ Le \textbf{logiche temporali} sono una famiglia di logiche matematiche che
 permette di esprimere proprietà che cambiano nel tempo.
 
 Quando si analizzano sistemi reattivi (quindi concorrenti) allora non vale più
-il ragionamento di avere uno stato precedente e uno stato successivo che varia nel
-tempo.
+il ragionamento di avere uno stato precedente e uno stato successivo che varia
+nel tempo.
 
 Sono stati introdotti diversi modelli per modellare i sistemi concorrenti, ora
 si introdurranno nuove tecniche di analisi.
 
-Per esempio nel caso del produttore e consumatore, i soggetti sono
-indipendenti quindi si devono sincronizzare per l'accesso di chi accede al buffer.
-Per questi programmi sarà importante garantire la correttezza del programma:
+Per esempio nel caso del produttore e consumatore, i soggetti sono indipendenti
+quindi si devono sincronizzare per l'accesso al buffer. Per questi programmi
+sarà importante garantire la correttezza del programma:
 \begin{itemize}
-    \item Ogni oggetto deve essere prima prodotto
-    \item Ogni oggetto non può essere consumato più di una volta
-    \item Il sistema non raggiunge mai uno stato di \textbf{deadlock}
+    \item Ogni oggetto deve essere prima prodotto.
+    \item Ogni oggetto non può essere consumato più di una volta.
+    \item Il sistema non raggiunge mai uno stato di \textbf{deadlock}.
 \end{itemize}
 Le reti di Petri ci permettono di controllare se si mantiene la mutua esclusione,
-ovvero che non esista una  marcatura in cui entrambi i processi non possono essere
-negli stati della sezione critica. Noi vorremmo modellare il blocco di uno dei due
-processi se uno si trova nella zona critica.
+ovvero che non esista una marcatura in cui entrambi i processi non possono essere
+negli stati della sezione critica. Noi vorremmo modellare il blocco di uno dei
+due processi se uno si trova nella zona critica.
 
 Vogliamo quindi un modello per verificare se sono valide delle proprietà di
 interesse e se il modello rappresenta effettivamente il sistema.
-\begin{definizione}
+\begin{definizione}[\textbf{Sistema reattivo}]
     Un sistema è \textbf{reattivo} se è un sistema concorrente, distribuito e
     asincrono.
 \end{definizione}
@@ -38,14 +38,15 @@ correttezza di un programma. Possiamo sempre riutilizzare la logica di hoare per
 dimostrare alcuni pezzi, ma dovremmo usare un modo per unire i risultati.
 
 Al posto delle triple di Hoare, utilizzeremo delle \textbf{asserzioni}, ovvero
-delle frasi conteneti elementi temporali che descrivono il comportamento del sistema.
+delle frasi al cui interno sono presenti elementi temporali che descrivono il
+comportamento del sistema.
 \begin{esempio}
-    Se è stato spedito un messaggio allora questo prima o poi verrà ricevuto dal
-    destinatario
+    Se è stato spedito un messaggio allora questo \textit{prima o poi} verrà
+    ricevuto dal destinatario.
 \end{esempio}
 \begin{esempio}
-    Se si accende una spia di allarme allora questa sarà accesa fino a quando non
-    si spegne il dispositivo
+    Se si accende una spia di allarme allora questa sarà accesa \textit{fino a
+        quando} non si spegne il dispositivo
 \end{esempio}
 Vediamo ora come possiamo procedere nell'analisi dei sistemi concorrenti. Il
 problema che vogliamo risolvere è quello di stabilire se un sistema reattivo è
@@ -63,26 +64,26 @@ corretto. Per fare ciò, seguiremo il seguente schema:
     \end{equation}
     dove:
     \begin{itemize}
-        \item $Q$ insieme degli stati (non per forza finito)
-        \item $T\subseteq Q\times Q$ insiemi di transizioni di stato
+        \item $Q$ insieme degli stati (non per forza finito).
+        \item $T \subseteq Q \times Q$ insiemi di transizioni di stato.
     \end{itemize}
 \end{definizione}
 \begin{definizione}[\textbf{Cammino}]
-    Definiriremo un \textbf{cammino} come una sequeza di stati $\pi$ dove
+    Definiremo un \textbf{cammino} come una sequenza di stati $\pi$ dove:
     \begin{equation}
         \pi = q_0q_1\dots q_n \ (q_i,q_{i+1})\in T \ \forall i
     \end{equation}
     (combacia con la definizione di cammino su grafi).
 \end{definizione}
 \begin{definizione}[\textbf{Suffisso}]
-    Definiriremo un \textbf{suffisso} di ordine $i$ per un cammino $\pi$ è il
+    Definiremo un \textbf{suffisso} di ordine $i$ per un cammino $\pi$ è il
     cammino che inizia da uno stato di indice $i$.
     \begin{equation}
         \pi^{(i)} = q_iq_{i+1}\dots q_n
     \end{equation}
 \end{definizione}
 \begin{definizione}[\textbf{Cammino massimale}]
-    Definiriremo un \textbf{cammino massimale} se il cammino è finito e non può
+    Definiremo un \textbf{cammino massimale} se il cammino è finito e non può
     essere esteso, cioè solo quando il cammino raggiunge uno stato che non ha
     transizioni uscenti. (cammino massimale finito)
 \end{definizione}
@@ -90,17 +91,17 @@ Il cammino massimale è infinito quando non si ha uno stato pozzo.
 \begin{nota}
     Ogni suffisso di un cammino massimale è a sua volta un cammino massimale.
 \end{nota}
-Posso rappresentare un cammino espandendo la definizione delle espressioni regolari,
-aggiungendo $^\omega$ per rappresentare una sequenza infinita. Bisogna prestare
-particolare attenzione al fatto che $\omega \neq \ast$, inaftti $\ast$ mi rappresenta
-una sequenza arbitraria di valori.
+Posso rappresentare un cammino espandendo la definizione delle espressioni
+regolari, aggiungendo $^\omega$ per rappresentare una sequenza infinita. Bisogna
+prestare particolare attenzione al fatto che $\omega \neq \ast$, infatti $\ast$
+rappresenta una sequenza arbitraria di valori.
 \begin{nota}
     Posso esprimere un cammino come un suffisso di ordine 0.
 \end{nota}
 \section{Logica Temporale Lineare}
 Definiamo la \textbf{sintassi} partendo dalle proposizioni atomiche:
 \begin{equation}
-    AP=\{ p_1,p_2,\dots,p_i,\dots \}
+    AP = \{p_1, p_2, \dots, p_i, \dots\}
 \end{equation}
 composte dalle asserzioni considerate vere a prescindere.
 \begin{esempio}
@@ -110,15 +111,16 @@ Definiamo anche le formule ben formate $FBF_{LTL}$:
 \begin{itemize}
     \item Ogni proposizione atomica è una formula ben formata.
     \item $\top$ e $\bot$ sono formule ben formate.
-    \item se $\alpha,\beta\in FBF$ allora $\alpha\lor \beta,\lnot \alpha \in FBF$
-          (da queste si derivano tutti i connettivi logici).
-    \item Operatori temporali siano $\alpha$ e $\beta$ formule ben formate, allora
-          anche:
+    \item Se $\alpha, \beta \in FBF_{LTL}$ allora $\alpha \lor \beta, \lnot
+              \alpha \in FBF_{LTL}$ (da queste si derivano tutti i connettivi
+          logici).
+    \item \textbf{Operatori temporali}: siano $\alpha$ e $\beta$ formule ben
+          formate, allora anche:
           \begin{itemize}
               \item $X\alpha$ "next $\alpha$" nel prossimo stato $\alpha$ è vera.
               \item $F\alpha$ "future $\alpha$" prima o poi $\alpha$ sarà vera.
               \item $G\alpha$ "globally $\alpha$" $\alpha$ è sempre vera.
-              \item $\alpha U\beta$ "until $\alpha$" $\alpha$ è vera fino
+              \item $\alpha U \beta$ "until $\alpha$" $\alpha$ è vera fino
                     a quando $\beta$ diventa vera.
           \end{itemize}
           sono formule ben formate.
@@ -128,16 +130,16 @@ i sistemi di transizione e li arricchiscono associando a ogni stato $q \in Q$
 l'insieme delle proposizioni atomiche che sono vere in $q$. Quindi possiamo
 definire:
 \begin{equation}
-    I \ : \ Q \rightarrow 2 ^{AP}
+    I \ : \ Q \to 2^{AP}
 \end{equation}
-dove $2^{AP}$ è l'insieme delle parti di $AP$. Un modello di Kripke sarà definito
-come:
+dove $2^{AP}$ è l'insieme delle parti di $AP$. Un modello di Kripke sarà
+definito come:
 \begin{equation}
-    A=(Q,T,I)
+    A = (Q, T, I)
 \end{equation}
 Con un modello di Kripke possiamo identificare per uno stato quali sono le
-proposizioni atomiche vere e per capire se le FBF sono vere allora dovrò analizzare
-i cammini che partono dallo stato in esame.
+proposizioni atomiche vere e per capire se le $FBF_{LTL}$ sono vere allora dovrò
+analizzare i cammini che partono dallo stato in esame.
 
 Vediamo ora come associare una semantica alle formule ben formate. Per fare ciò
 procediamo in due fasi:
@@ -147,37 +149,37 @@ procediamo in due fasi:
     \item Diciamo che la formula è vera rispetto a uno stato $q$ se è vera in
           tutti i cammini massimali che partono da $q$.
 \end{enumerate}
-Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata allora
+Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata allora:
 \begin{equation}
     \pi \vDash \alpha \iff \ \text{significa che} \ \alpha \ \text{è vera nel cammino}
     \ \pi
 \end{equation}
 Definiremo la relazione $\vDash$ per induzione.
 \begin{definizione}
-    Supponiamo che $\alpha$ e $\beta$
-    siano due formule ben formate e $p$ una preposizione atomica:
+    Supponiamo che $\alpha$ e $\beta$ siano due formule ben formate e $p$ una
+    preposizione atomica:
     \begin{itemize}
         \item $\pi \vDash \top$
         \item $\pi \not\vDash \bot$
         \item $\pi \vDash p \iff p\in I(q_0)$
         \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
-        \item $\pi \vDash  \alpha \lor \beta \iff (\pi \vDash \alpha)\lor (\pi \vDash
-                  \beta) $
-        \item Operatori temporali: supponiamo $\beta, \gamma \in FBF$
+        \item $\pi \vDash \alpha \lor \beta \iff (\pi \vDash \alpha) \lor (\pi
+                  \vDash \beta) $
+        \item Operatori temporali: supponiamo $\beta, \gamma \in FBF_{LTL}$
               \begin{itemize}
-                  \item $\pi\vDash X\beta \iff \pi^{(1)}\vDash \beta$
-                  \item $\pi\vDash F\beta \iff \exists i \in \mathbb{N}:\pi^{(i)}
-                            \vDash \beta$
-                  \item $\pi\vDash G\beta \iff \forall i \in \mathbb{N}:\pi^{(i)}
-                            \vDash \beta$
-                  \item $\pi \vDash \beta U  \gamma \iff$:
+                  \item $\pi \vDash X\beta \iff \pi^{(1)}\vDash \beta$
+                  \item $\pi \vDash F \beta \iff \exists i \in \mathbb{N}:
+                            \pi^{(i)} \vDash \beta$
+                  \item $\pi \vDash G \beta \iff \forall i \in \mathbb{N}:
+                            \pi^{(i)} \vDash \beta$
+                  \item $\pi \vDash \beta U \gamma \iff$:
                         \begin{itemize}
-                            \item $\exists i \in \mathbb{N}$ tale che $\pi^{(i)}\vDash
-                                      \gamma$ cioè $\pi\vDash F\gamma$
-                            \item $\forall h, 0\le h < i, \pi^{(h)}\vDash \beta$
+                            \item $\exists i \in \mathbb{N}$ tale che: $\pi^{(i)}
+                                      \vDash \gamma$ cioè $\pi \vDash F \gamma$.
+                            \item $\forall h, 0 \leq h < i, \pi^{(h)} \vDash \beta$
                         \end{itemize}
-                        Se $\gamma$ è vera fin da subito, quindi $i=0$ allora $\beta$
-                        è superfluo
+                        Se $\gamma$ è vera fin da subito, quindi $i = 0$ allora
+                        $\beta$ è superfluo.
               \end{itemize}
     \end{itemize}
 \end{definizione}
@@ -185,30 +187,31 @@ Definiremo la relazione $\vDash$ per induzione.
     Ecco alcuni esempi:
     \begin{itemize}
         \item $FG\alpha$: esprime che da un certo momento in poi $\alpha$ sarà
-              invariante, se $\alpha = \perp$ allo stato iniziale ma $FG\alpha = \top$
-              vale dallo stato iniziale allora significa che non si tornerà più
-              in quello stato.
-        \item $GF\alpha$: $\alpha$ è vera in un numero infinito di stati
-        \item $G\lnot (cs_1\land cs_2)$: mutua esclusione se $cs_1$ indica il
+              invariante, se $\alpha = \perp$ allo stato iniziale ma $FG\alpha =
+                  \top$ vale dallo stato iniziale allora significa che non si
+              tornerà più in quello stato.
+        \item $GF\alpha$: $\alpha$ è vera in un numero infinito di stati.
+        \item $G\lnot (cs_1\land cs_2)$: mutua esclusione se $cs_1$ indica che il
               processo è nella sezione critica, viceversa $cs_2$.
-        \item $G(req \implies XF ack)$: se si manda una richiesta, dallo stato successivo
-              prima o poi si riceverà un ack.
-        \item $G(req \implies (req U ack))$: se c'è la richiesta allora la richiesta
-              è pendente fino a quando si ha un'ack. Si differenzia da quella
-              precedente dal momento che la richiesta deve rimanere fino a quando
-              non si manda l'ack.
+        \item $G(req \implies XF ack)$: se si manda una richiesta, dallo stato
+              successivo prima o poi si riceverà un ack.
+        \item $G(req \implies (req U ack))$: se c'è la richiesta allora la
+              richiesta è pendente fino a quando si ha un'ack. Si differenzia da
+              quella precedente dal momento che la richiesta deve rimanere fino
+              a quando non si manda l'ack.
         \item $G(req \implies ((req\land \lnot ack) U (\lnot req \land ack)))$:
               si chiede di non rispondere all'inizio e dopo la risposta la richiesta
-              viene cancellata
+              viene cancellata.
     \end{itemize}
 \end{esempio}
 \begin{esempio}
-    Consideriamo la seguente rete di Petri, la quale rappresenta due processi che
-    vogliono accedere ad una risorsa condivisa.
+    Consideriamo la seguente rete di Petri ()\ref{fig:retePetriEsempio}), la
+    quale rappresenta due processi che vogliono accedere ad una risorsa condivisa.
     \begin{figure}
         \centering
         \includegraphics[width=0.5\textwidth]{img/model/retePetriEsempio.png}
         \caption{Rete di Petri per il model checking}
+        \label{fig:retePetriEsempio}
     \end{figure}
     Questa rete è composta da:
     \begin{itemize}
@@ -244,9 +247,9 @@ Definiremo la relazione $\vDash$ per induzione.
     Una volta costruita la struttura, definiamo delle formule che vogliamo siano
     vere per la situazione in analisi. Studiamo quindi:
     \begin{itemize}
-        \item $G\lnot (sc_1\land sc_2)$: esprime che non si può raggiungere
+        \item $G \lnot (sc_1\land sc_2)$: esprime che non si può raggiungere
               uno stato in cui entrambi i processi sono nella sezione critica.
-        \item $G\,(req1\implies F\,sc1)$: esprime che se il processo 1 fa richiesta
+        \item $G (req1 \implies F sc1)$: esprime che se il processo 1 fa richiesta
               allora prima o poi entrerà nella sezione critica.
     \end{itemize}
     Per verificare le formule dovremmo considerare tutti i cammini massimali che
@@ -254,19 +257,20 @@ Definiremo la relazione $\vDash$ per induzione.
     cammini. Tuttavia, questo caso è complesso e i possibili cammini massimali
     sono potenzialmente infiniti.
 
-    Per la prima formula, la via più facile è, osservando che dallo stato si possono raggiungere tutti
-    gli altri stati, scorrere la tabella delle formule vere in ciascun stato e
-    osservare che in nessun stato è vera la formule $sc_1 \land sc_2$. Quindi non
-    sarà vera globalmente.
+    Per la prima formula, la via più facile è, osservando che dallo stato si
+    possono raggiungere tutti gli altri stati, scorrere la tabella delle formule
+    vere in ciascun stato e osservare che in nessun stato è vera la formule
+    $sc_1 \land sc_2$. Quindi non sarà vera globalmente.
 
-    Per la seconda formula non possiamo più applicare questa strategia, ma possiamo
-    cercare di confutare la formula: basta trovare un cammino massimale che non
-    soddisfi la formula.
+    Per la seconda formula non possiamo più applicare questa strategia, ma
+    possiamo cercare di confutare la formula: basta trovare un cammino massimale
+    che non soddisfi la formula.
 
     In ogni caso questa seconda formula non è valida in quando potrei avere il
-    cammino $\pi^{(1)}(2,4,8)^\omega$ in cui anche il secondo processo fa richiesta e
-    ci entra. Posso entrare in un loop in cui solamente il processo due prende
-    ogni volta la risorsa quindi la formula non è valida in quel cammino massimale.
+    cammino $\pi^{(1)}(2,4,8)^\omega$ in cui anche il secondo processo fa
+    richiesta e ci entra. Posso entrare in un loop in cui solamente il processo
+    due prende ogni volta la risorsa quindi la formula non è valida in quel
+    cammino massimale.
 
     Possiamo comunque trovare cammini in cui vale, come $(1,3,6)^\omega$, in
     quanto in quei tre stati $req1$ è sempre falsa.
@@ -280,14 +284,15 @@ equivalenza tra formule.
 \begin{definizione}[\textbf{Equivalenza tra formule}]
     Possiamo definire l'\textbf{equivalenza tra formule} come:
     \begin{equation}
-        \alpha \equiv \beta \iff \forall \pi : ( \pi \vDash \alpha \iff \pi \vDash \beta)
+        \alpha \equiv \beta \iff \forall \pi: ( \pi \vDash \alpha \iff
+        \pi \vDash \beta)
     \end{equation}
 \end{definizione}
 \begin{esempio}
     Vediamo ora alcuni esempi di equivalenza tra formule:
     \begin{itemize}
         \item $F\alpha \equiv \alpha \lor XF\alpha$ se prima o poi $\alpha$ sarà
-              vera, allora o è vera in questo stato oppure dal prosssimo stato
+              vera, allora o è vera in questo stato oppure dal prossimo stato
               $\alpha$ sarà prima o poi vera.
         \item $G\alpha \equiv \alpha \land XG\alpha$ Se $\alpha$  è sempre vera,
               allora è vera in questo stato e dal prossimo stato sarà sempre vera.
@@ -295,14 +300,14 @@ equivalenza tra formule.
               se $\beta$ è vera non ci interessa altro, oppure $\alpha$ è vera e
               dal prossimo stato $\alpha$ sarà vera fino a quando $\beta$ diventa
               vera.
-        \item $FGF \alpha \equiv GF\alpha$ se prima o poi $\alpha$ sarà vera, allora
-              da un certo momento in poi $\alpha$ sarà sempre vera.
+        \item $FGF \alpha \equiv GF\alpha$ se prima o poi $\alpha$ sarà vera,
+              allora da un certo momento in poi $\alpha$ sarà sempre vera.
         \item $GFG\alpha \equiv FG\alpha$ se $\alpha$ è sempre vera, allora da un
               certo momento in poi $\alpha$ sarà sempre vera.
         \item $\top U\alpha \equiv F\alpha$: questo significa che l'operatore
-              $F$ non è essenziale
-        \item $\lnot F \lnot \alpha\equiv G\alpha$: questo significa che $G$ può
-              essere definito a partire da $F$ quindi l'insieme minimale di
+              $F$ non è essenziale.
+        \item $\lnot F \lnot \alpha \equiv G \alpha$: questo significa che $G$
+              può essere definito a partire da $F$ quindi l'insieme minimale di
               operazioni sono $\{X,U\}$. Questo insieme minimale non è unico.
     \end{itemize}
 \end{esempio}
@@ -320,12 +325,12 @@ sono:
           la seconda formula diventi vera per rendere vera $W$.
     \item \textbf{Release}: $\alpha R \beta$ per cui
           \begin{equation}
-              \pi\vDash\alpha R \beta \iff \forall k\ge 0:(\pi^{(k)}\vDash \beta\lor
-              \exists h<k:\pi^{(h)}\vDash \alpha)
+              \pi \vDash \alpha R \beta \iff \forall k \geq 0: (\pi^{(k)} \vDash
+              \beta \lor \exists h < k: \pi^{(h)} \vDash \alpha)
           \end{equation}
-
           In sostanza o $\beta$ è sempre vera oppure $\beta$ potrà essere falsa
-          solo quando $\alpha$ diventa vera. Definito in questo modo allora si può dire
+          solo quando $\alpha$ diventa vera. Definito in questo modo allora si
+          può dire:
           \begin{equation}
               \alpha R \beta \equiv \beta W (\alpha \land \beta)
           \end{equation}
@@ -336,9 +341,9 @@ sono:
     operatori minimale per le logiche temporali è $\{X,U\}$.
 \end{definizione}
 Attenzione all'uso della negazione nelle formule LTL, cosa significa "non è vero
-$F\alpha$"?  Significa che $\exists$ un cammino per cui non vale $F\alpha$.  Mentre
+$F\alpha$"? Significa che $\exists$ un cammino per cui non vale $F\alpha$. Mentre
 $\lnot F\alpha \equiv G\lnot \alpha$ quindi $\lnot F\alpha$ non è la negazione di
-$F\alpha$. Qundi dobbiamo stare attenti ai quantificatori universali nascosti.
+$F\alpha$. Quindi dobbiamo stare attenti ai quantificatori universali nascosti.
 
 Negli esercizi sulla logica temporale ci possono essere diverse risposte giuste.
 Ecco degli esercizi sulla logica temporale lineare.
@@ -352,15 +357,16 @@ Ecco degli esercizi sulla logica temporale lineare.
         \item $hr$: ho rubato
         \item $c$: sono in carcere
     \end{itemize}
-    Si può riformulare la frase come una legge, quindi come una cosa che vale sempre,
-    portandoci ad utilizzare l'operatore $G$. In aggiunta, possiamo riformularla
-    in un modo che ha una semantica più vicina alla semantica degli operatori logici
+    Si può riformulare la frase come una legge, quindi come una cosa che vale
+    sempre, portandoci ad utilizzare l'operatore $G$. In aggiunta, possiamo
+    riformularla in un modo che ha una semantica più vicina alla semantica degli
+    operatori logici.
     \begin{center}
         Se rubi, in futuro finirai in galera.
     \end{center}
     Si può tradurre in
     \begin{equation}
-        G(hr\implies XF \ c)
+        G(hr \implies XF \ c)
     \end{equation}
     Utilizziamo l'operatore $X$ per evitare che nel momento in cui rubo allora
     subito finisco in galera.
@@ -390,10 +396,10 @@ Ecco degli esercizi sulla logica temporale lineare.
 \begin{esempio}
     Traduci questa frase:
     \begin{center}
-        Se la cabina è in movimento verso l'alto, si trova all'altezza del secondo
-        piano, ed è stato premuto il pulsante interno di richiesta del quinto piano,
-        allora la cabina non cambierà direzione fino a quando avrà raggiunto il
-        quinto piano.
+        Se la cabina è in movimento verso l'alto, si trova all'altezza del
+        secondo piano, ed è stato premuto il pulsante interno di richiesta del
+        quinto piano, allora la cabina non cambierà direzione fino a quando avrà
+        raggiunto il quinto piano.
     \end{center}
     si specificano le proposizioni atomiche:
     \begin{itemize}
@@ -401,17 +407,21 @@ Ecco degli esercizi sulla logica temporale lineare.
         \item $p_i$: "cabina all'altezza del piano $i$"
         \item $r_i$: "pulsante interno del piano $i$ è stato premuto"
     \end{itemize}
-
     \begin{equation}
         G((su \land p_2 \land r_5)\implies(su \ U \ p_5))
     \end{equation}
 \end{esempio}
 La logica temporale che abbiamo studiato fino a questo momento (LTL) permette di
-esprimere diverse prprietà dei sistemi reattivi, ma ha dei limiti, infatti non
+esprimere diverse proprietà dei sistemi reattivi, ma ha dei limiti, infatti non
 permette di esprimere proprietà del tipo:
 \begin{center}
     \emph{``esiste un cammino in cui $\alpha$''}
 \end{center}
+Attraverso le formule della logica LTL possiamo esprimere solo proprietà in cui
+si richiede che una certa formula sia vera \textit{in tutti} i cammini massimali.
+Non possono essere espresse proprietà relative all'esistenza di un cammino in cui
+una certa formula è vera.
+
 Il problema è che queste proprietà sono utili, per risolvere questa mancanza
 introduciamo una nuova logica. Questa logica può essere interpretata attraverso
 il concetto di \textbf{albero di computazione}.
@@ -424,20 +434,20 @@ il concetto di \textbf{albero di computazione}.
     \textbf{computazioni} del sistema.
 \end{definizione}
 \begin{nota}
-    Spesso si vuole esprime le possibili computazioni di un sistema allora possiamo
-    costruire un albero (simile all'\textbf{unfolding} per le reti di petri) che
-    rappresenta la computazione rispetto gli stati globali.
+    Spesso si vuole esprime le possibili computazioni di un sistema allora
+    possiamo costruire un albero (simile all'\textbf{unfolding} per le reti di
+    petri) che rappresenta la computazione rispetto gli stati globali.
 
-    L'albero può essere construito in modo induttivo:
+    L'albero può essere costruito in modo induttivo:
     \begin{itemize}
-        \item Si sceglie lo stato iniziale
+        \item Si sceglie lo stato iniziale.
         \item Se si hanno transizioni verso altri stati allora li aggiungo come
-              prossimi nodi
+              prossimi nodi.
         \item Così via ricorsivamente, se ci sono archi all'indietro allora
               si ricrea un altro nodo in avanti.
     \end{itemize}
-    Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock allora
-    il nodo sarà pozzo.
+    Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock
+    allora il nodo sarà pozzo.
 \end{nota}
 \section{Computation Tree Logic - CTL}
 Possiamo definire ora la logica CTL (\textbf{Computation Tree Logic}), ovvero
@@ -445,7 +455,7 @@ una logica temporale che si basa sugli alberi di computazione.
 
 Definiremo la \textbf{sintassi} attraverso le $FbF_{CTL}$.
 \begin{itemize}
-    \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP =\left\{p1,p2,\dots\right\}$
+    \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP = \{p1,p2,\dots\}$
           insieme delle preposizioni atomiche.
     \item $\forall \alpha, \beta \in FbF_{CTL}$
           \begin{itemize}
@@ -470,8 +480,8 @@ sui cammini. Essi sono definiti come segue:
     \item $E$ è il quantificatore esistenziale e si interpreta come esiste un
           cammino tale che.
 \end{itemize}
-Quindi ogni occorrenza di un operatore temporale sarà associata ad un quantificatore
-$A=\forall$ e $E= \exists$ che si applica ai cammini.
+Quindi ogni occorrenza di un operatore temporale sarà associata ad un
+quantificatore $A = \forall$ e $E = \exists$ che si applica ai cammini.
 \begin{esempio}
     Traduciamo
     \begin{center}
@@ -514,7 +524,7 @@ $A=\forall$ e $E= \exists$ che si applica ai cammini.
               da $s_2$, dal momento che in quest'ultimo stato è presente un
               cappio quindi può non andare mai in $s_3$.
         \item $GF(p \lor q)$: avendo questa formula non basta analizzare dove
-              valgono $p$ o $q$ perchè abbiamo $G$ quindi dobbiamo controllare
+              valgono $p$ o $q$ perché abbiamo $G$ quindi dobbiamo controllare
               anche che per tutti gli stati successivi $p$ o $q$ siano vere.
               Partendo dallo stato $s_0$ la formula è falsa in quanto si arriva
               in $s_2$ dove nessuno delle due sono vere. $s_2,s_3$ vero ma anche
@@ -542,7 +552,7 @@ Anche per questa logica definiremo l'equivalenza logica.
         \beta)
     \end{equation}
 \end{definizione}
-In entrambe le logice, LTL e CTL, possiamo esprimere le seguenti proprietà:
+In entrambe le logiche, LTL e CTL, possiamo esprimere le seguenti proprietà:
 \begin{itemize}
     \item \textbf{Invariante}: si possono avere delle formule sempre vere:
           \begin{equation}
@@ -559,14 +569,14 @@ espressiva rispetto all'altra. Infatti per esempio la logica CTL può esprimere
 la seguente proprietà (\textbf{reset property}):
 \begin{center}
     Da ogni stato raggiungibile in ogni cammino è sempre possibile raggiungere
-    uno stato nel quale vale $p$
+    uno stato nel quale vale $p$.
 \end{center}
 Esprimibile secondo la seguente formula $AG \ EF \ p$, per cui non esiste una formula
 LTL che possa esprimere la proprietà.
 
 Al contrario la logica LTL può esprimere la seguente proprietà
 \begin{center}
-    In ogni cammino, prima o poi si raggiungerò uno stato a partire dal quale $p$
+    In ogni cammino, prima o poi si raggiungerà uno stato a partire dal quale $p$
     rimane sempre vera.
 \end{center}
 Esprimibile secondo la seguente formula $F \ G \ p$, per cui non esiste una formula
@@ -599,17 +609,67 @@ voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva.
 \end{definizione}
 Per dimostrare che due modelli sono equivalenti devo:
 \begin{itemize}
-    \item Definire tutti i cammini massimali di $M_1$ e $M_2$ nella forma simil
-          regex e si rimuovono i duplicati.
+    \item Definire tutti i cammini massimali di $M_1$ e $M_2$ nella forma simile
+          alle regex e si rimuovono i duplicati.
     \item Trasformare le espressioni ottenute sostituendo i nomi degli stati con
           le preposizioni atomiche che sono vere in un determinato stato.
     \item Se le espressioni dei cammini massimali di un modello sono uguali
           all'altro allora i due modelli sono equivalenti.
 \end{itemize}
-\begin{esempio} %% TODO: Da mettere l'esempio
-    Controlla se i due sono equivalenti.
-
-    Immagine.
+\begin{esempio}
+    Vediamo ora un esempio per dimostrare che due modelli sono equivalenti.
+    Consideriamo i modelli $M_1$ e $M_2$ riportati in figura \ref{fig:esempioModelli}.
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/model/esempioEquivalenzaModelli.png}
+        \caption{Modelli da confrontare}
+        \label{fig:esempioModelli}
+    \end{figure}
+    Per verificare l'equivalenza dobbiamo:
+    \begin{itemize}
+        \item Costruire i cammini massimali dei due modelli.
+              \begin{itemize}
+                  \item Modello $M_1$:
+                        \begin{equation}
+                            \begin{array}{l}
+                                (1 \ 2)^\omega \\
+                                (1 \ 2)^\ast \ 3^\omega
+                            \end{array}
+                        \end{equation}
+                  \item Modello $M_2$:
+                        \begin{equation}
+                            \begin{array}{l}
+                                1 \ (4 \ 5)^\omega      \\
+                                (1 \ 2)^{\omega}        \\
+                                (1 \ 2)^\ast \ 3^\omega \\
+                                (1 \ 2)^\ast \ 1 \ (4 \ 5)^\omega
+                            \end{array}
+                        \end{equation}
+              \end{itemize}
+        \item Sostituire i nomi degli stati con le preposizioni atomiche che sono
+              vere in un determinato stato.
+              \begin{itemize}
+                  \item Modello $M_1$:
+                        \begin{equation}
+                            \begin{array}{l}
+                                (\{q\} \ \{r\})^\omega \\
+                                (\{q\} \ \{r\})^\ast \ \{p\}^\omega
+                            \end{array}
+                        \end{equation}
+                  \item Modello $M_2$:
+                        \begin{equation}
+                            \begin{array}{l}
+                                \{q\} \ (\{r\} \ \{q\})^\omega = (\{q\} \
+                                \{r\})^\omega                       \\
+                                (\{q\} \ \{r\})^{\omega}            \\
+                                (\{q\} \ \{r\})^\ast \ \{p\}^\omega \\
+                                (\{q\} \ \{r\})^\ast \ \{q\} \ (\{r\} \
+                                \{q\})^\omega = (\{q\} \ \{r\})^\omega
+                            \end{array}
+                        \end{equation}
+              \end{itemize}
+        \item Verificare che le espressioni dei cammini massimali dei due modelli.
+    \end{itemize}
 \end{esempio}
 \begin{nota}
     Il numero dei casi raggiungibili di una rete di petri è $\leq |P(c_{in})|$,
@@ -637,14 +697,16 @@ $x < y$ che vuol dire che $x \leq y \land x \neq y$.
     La più piccola relazione d'ordine parziale è la relazione identità.
 \end{osservazione}
 %% TODO: Altre osservazioni
-Raffiniamento di una relazione d'ordine parziale
+Raffinamento di una relazione d'ordine parziale:
 \begin{definizione}[\textbf{Maggiorante, Minorante}]
-    Sia $(A,\leq)$ un insieme parzialmente ordinato e $B\subseteq A$ allora:
+    Sia $(A,\leq)$ un insieme parzialmente ordinato e $B \subseteq A$ allora:
     \begin{itemize}
-        \item $x \in A$ è un \textbf{maggiorante} di $B$ se $\forall y \in B, y \leq x$
-        \item $x \in A$ è un \textbf{minorante} di $B$ se $\forall y \in B, x \leq y$
+        \item $x \in A$ è un \textbf{maggiorante} di $B$ se $\forall y \in B, y
+                  \leq x$
+        \item $x \in A$ è un \textbf{minorante} di $B$ se $\forall y \in B, x
+                  \leq y$
     \end{itemize}
-    Può essere che $x\in B$ perché $B\subseteq A\implies x\in B\implies x\in A$
+    Può essere che $x \in B$ perché $B \subseteq A \implies x \in B \implies x \in A$.
 \end{definizione}
 Utilizziamo la notazione $B^\ast$ per indicare l'insieme dei maggioranti di $B$,
 e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
@@ -685,11 +747,11 @@ e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
     \end{itemize}
 \end{esempio}
 Le relazioni di ordine parziale possiamo rappresentarle come diagrammi di Hasse,
-in cui si rappresentano le relazioni mostrando i collegamenti col successivo, senza
-rappresentare la riflessività e la transitività.
+in cui si rappresentano le relazioni mostrando i collegamenti col successivo, 
+senza rappresentare la riflessività e la transitività.
 \begin{definizione}[\textbf{Reticolo}]
     Definiremo un \textbf{reticolo} come un insieme parzialmente ordinato $(L,
-        \leq)$, tale che, per ongi $x,y\in L$ esistono il minimo ($x \lor y$) e
+        \leq)$, tale che, per ogni $x,y\in L$ esistono il minimo ($x \lor y$) e
     massimo ($x \land y$).
 \end{definizione}
 Per i reticoli si può dimostrare per induzione che per ogni coppia esiste il join
@@ -828,20 +890,19 @@ Sfruttando il teorema di Knaster-Tarski possiamo ottenere il seguente teorema:
         f(\bigcup_{i=1}^{\infty} X_i) = \bigcup_{i=1}^{\infty} f(X_i)
     \end{equation}
 \end{teorema}
-Ci interessa la continuità della funzione perchè, se $f$ è continua, allora:
+Ci interessa la continuità della funzione perché, se $f$ è continua, allora:
 \begin{itemize}
     \item Il minimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
           $f(\emptyset)$ fino a quando non troviamo il primo punto fisso.
           \begin{equation}
               f(\emptyset), f(f(\emptyset)), f(f(f(\emptyset))), \dots
           \end{equation}
-    \item il massimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
+    \item Il massimo punto fisso di $f$ si può ottenere calcolando ricorsivamente
           $f(A)$ fino a quando non troviamo il primo punto fisso.
           \begin{equation}
               f(A), f(f(A)), f(f(f(A))), \dots
           \end{equation}
 \end{itemize}
-
 Possiamo legare questi teoremi alle logiche temporali CTL per avere un algoritmo
 di dimostrazione della formula. Supponiamo $AFp$, partiamo dall'insieme in cui
 tutti gli stati è vera $p$, allarghiamo questo insieme agli elementi che portano in
