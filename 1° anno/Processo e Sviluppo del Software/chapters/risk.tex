@@ -131,10 +131,10 @@ modo da capire come si dovrebbe comportare.
     \end{figure}
 \end{esempio}
 \newpage
-Ragionando sulle cause dei rischi usiamo il cosiddetto risk tree. Questo albero
-ha come radice il rischio. Ogni nodo, detto failure node, è un evento che si può
-scomporre in altri eventi, fino alle foglie. La scomposizione è guidata da due
-tipi di nodi link:
+Ragionando sulle cause dei rischi usiamo il cosiddetto \textbf{risk tree}. Questo
+albero ha come radice il rischio. Ogni nodo, detto \textbf{failure node}, è un
+evento che si può scomporre in altri eventi, fino alle foglie. La scomposizione
+è guidata da due tipi di nodi link:
 \begin{enumerate}
     \item \textbf{and-node}: dove i figli di tali nodi sono eventi legati dal un
           and.
@@ -216,7 +216,7 @@ quantitativamente sulle contromisure:
           contromisura può ridurre un certo rischio, utilizzando la seguente
           formula:
           \begin{equation}
-              RRL(r, cm) = \frac{RE(r) - RE(\frac{r}{cm})}{const(cm)}
+              RRL(r, cm) = \frac{RE(r) - RE(\frac{r}{cm})}{cost(cm)}
           \end{equation}
           dove $r$ rappresenta il rischio, $cm$ la contromisura e $\frac{r}{cm}$
           la contromisura $cm$ applicata al rischio $r$.
@@ -251,13 +251,14 @@ quantitativamente sulle contromisure:
                     obiettivi indicati:
                     \begin{equation}
                         \text{criticality}(r) = P(r) \cdot \sum_{obj}
-                        (\text{impact}(r, obj) \cdot W(obj))
+                        (\text{impact\_matrix}[r, obj] \cdot W(obj))
                     \end{equation}
                     La criticità sale se sale l'impatto e se sale la probabilità
                     del rischio. Un altro dato è la \textbf{perdita} di raggiungimento
                     di un obiettivo qualora tutti i rischi si verificassero:
                     \begin{equation}
-                        loss(obj) = W(obj) \cdot \sum_{obj} (impact(r, obj) \cdot P(r))
+                        loss(obj) = W(obj) \cdot \sum_{obj}
+                        (\text{impact\_matrix}[r, obj] \cdot P(r))
                     \end{equation}
               \item \textbf{Elaborare contromisure efficaci per la matrice}:
                     \ref{fig:eff-matrix} si usa il fattore di criticità del
@@ -278,18 +279,18 @@ quantitativamente sulle contromisure:
                     attivate:
                     \begin{equation}
                         \text{combineReduction}(r) = 1 - \prod_{cm}(1 -
-                        \text{reduction}(cm, r))
+                        \text{reduction\_matrix}[cm, r])
                     \end{equation}
                     Un altro valore è l'\textbf{overallEffect}, ovvero l'effetto
                     di ogni contromisura sull'insieme dei rischi considerato:
                     \begin{equation}
-                        \text{overallEffect}(cm) = \sum_{r} (\text{reduction}(cm; r)
+                        \text{overallEffect}(cm) = \sum_{r} (\text{reduction\_matrix}[cm, r]
                         \cdot \text{criticality}(r))
                     \end{equation}
                     si avrà effetto maggior riducendo rischi molto critici.
               \item \textbf{Determinare il bilanciamento migliore tra riduzione
                         dei rischi e costo delle contromisure}.
-                    Bisogna considerare anche il costo di ogni contromisure e
+                    Bisogna considerare anche il costo di ogni contromisura e
                     quindi si fa il rapporto tra effetto di ciascuna contromisura
                     e il suo costo e scegliendo il migliore.
           \end{enumerate}
