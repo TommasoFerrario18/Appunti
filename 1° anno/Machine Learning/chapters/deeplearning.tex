@@ -7,9 +7,10 @@ Le principali tipologie di apprendimento sono:
             l'apprendimento non sono etichettati.
 \end{itemize}
 Inizialmente, le architetture di deep learning sono state composte da
-particolari strutture simili agli enconder-decoder chiamate \textbf{autoencoder}.
-Queste strutture sono reti neurali, costruite con una particolare struttura a
-clessidra, il cui compito è quello di imparare come ricostruire l'input.
+particolari strutture simili agli enconder-decoder chiamate \textbf{autoencoder}
+(figura \ref{fig:autoencoder}). Queste strutture sono reti neurali, costruite
+con una particolare struttura a clessidra, il cui compito è quello di imparare
+come ricostruire l'input.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/reti/autoencoder.png}
@@ -69,11 +70,12 @@ La loss dovrà essere l'unione delle loss del classificatore e dell'autoencoder.
 \end{equation}
 
 Le architetture odierne di deep learning si basano su strutture neurali e
-utilizzano i \textbf{transformer}, componenti neurali che prendono in input sia
-il nuovo input, sia un vecchio output del transformer. Sono componenti
-fondamentali per la generazione di informazioni. L'apprendimento di queste reti
-si basa su strutture \textbf{feed-forward} e su componenti \textbf{Attention},
-quest'ultimi fondamentali perché permettono l'effettivo cambiamento dei valori.
+utilizzano i \textbf{transformer} (figura \ref{fig:transformer}), componenti
+neurali che prendono in input sia il nuovo input, sia un vecchio output del
+transformer. Sono componenti fondamentali per la generazione di informazioni.
+L'apprendimento di queste reti si basa su strutture \textbf{feed-forward} e su
+componenti \textbf{Attention}, quest'ultimi fondamentali perché permettono
+l'effettivo cambiamento dei valori.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/deepl/transformer.png}
@@ -92,11 +94,11 @@ due parole vengono veste vicine in una frase. Quindi la rete riesce a codificare
 come vettori simili parole simili, infatti c'è una corrispondenza geometrica col
 significato.
 
-Successivamente si è passati ai \textbf{denoising autoencoder}, ovvero rimozione
-del rumore e ricostruzione dell'input originale. Queste reti vengono allenate
-dando in input il dato sporcato in precedenza, successivamente l'output viene
-confrontato con l'input originale.
-\begin{figure}
+Successivamente si è passati ai \textbf{denoising autoencoder} (figura
+\ref{fig:denoising}), ovvero rimozione del rumore e ricostruzione dell'input
+originale. Queste reti vengono allenate dando in input il dato sporcato in
+precedenza, successivamente l'output viene confrontato con l'input originale.
+\begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/deepl/DenoisingAutoencoder.png}
       \caption{Denoising autoencoder}
@@ -109,20 +111,20 @@ nessuna trasformazione. Per questo motivo si è deciso di aggiungere del rumore
 all'input, in modo da rendere più difficile la ricostruzione dell'input
 originale.
 
-In seguito, sono stati introdotti i componenti \textbf{Attention}, composti da 3
-elementi in input e il suo compito è di assegnare in automatico diversi pesi
-agli elementi in input. Queste reti permettono quindi di cambiare i pesi degli
-input portando a dei vantaggi notevoli, per esempio, si possono interpretare
-parole ambigue in base al contesto.
-\begin{figure}
+In seguito, sono stati introdotti i componenti \textbf{Attention} (figura
+\ref{fig:attention}), composti da 3 elementi in input e il suo compito è di
+assegnare in automatico diversi pesi agli elementi in input. Queste reti
+permettono quindi di cambiare i pesi degli input portando a dei vantaggi notevoli,
+per esempio, si possono interpretare parole ambigue in base al contesto.
+\begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/deepl/attention.png}
       \caption{Componente Attention}
       \label{fig:attention}
 \end{figure}
-Infine, si è passati ai transformer, un modello che evita la ricorrenza e si 
-basa invece interamente sui meccanismi di attention per valutare le dipendenze 
-dei dati tra input e output. Utilizzando strutture encoder-decoder, rimuovendo 
+Infine, si è passati ai transformer, un modello che evita la ricorrenza e si
+basa invece interamente sui meccanismi di attention per valutare le dipendenze
+dei dati tra input e output. Utilizzando strutture encoder-decoder, rimuovendo
 la ricorrenza in favore dei meccanismi di attention.
 %% FONTE: https://paperswithcode.com/method/transformer
 
