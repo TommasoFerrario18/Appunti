@@ -26,7 +26,7 @@ composizionalità dei processi.
         \{x = V\} \ p_1 | p_2 \ \{x = 2 \lor x = 3\}
     \end{equation}
     avendo quindi una situazione di non determinismo. Inoltre, definendo un nuovo
-    problema $p_1'$ possiamo osservare come la proprietà di composizionalità non
+    problema $p_1'$ possiamo osservare come la proprietà di compo<sizionalità non
     risulta più valida.
     \begin{equation}
         p_1' = \{x = V\} \ x = 1; x = x + 1 \ \{x = 2\}
@@ -137,10 +137,10 @@ La transizione $s \xrightarrow{a} s'$ può essere estesa a:
     \begin{itemize}
         \item \textbf{Base}: $w = \varepsilon$, ovvero $w$ è la stringa vuota,
               allora $s = s'$.
-        \item \textbf{Passo induttivo}: $w = a \cdot x$ con $a \in Act$ e
+        \item \textbf{Passo induttivo}: $w = a . x$ con $a \in Act$ e
               $x \in Act^*$, allora:
               \begin{equation}
-                  s \xrightarrow{a\cdot x} s' \iff s \xrightarrow{a} s'' \xrightarrow{x} s'
+                  s \xrightarrow{a. x} s' \iff s \xrightarrow{a} s'' \xrightarrow{x} s'
               \end{equation}
     \end{itemize}
 \end{dimostrazione}
@@ -185,7 +185,7 @@ Significa che $P$ esegue $a$ e si comporta come $P$ (ricorsione).
 \begin{equation}
     P_1 = a.P_2, P_1, P_2 \in K
 \end{equation}
-Ogni process CCS può essere descritto da un LTS associato e attraverso delle
+Ogni processo CCS può essere descritto da un LTS associato e attraverso delle
 regole di inferenza strutturate nel seguente modo:
 \begin{equation}
     \frac{Premesse}{Conseguenze}
@@ -200,15 +200,15 @@ semantica operazionale strutturale.
                 \node[state] (q_0) {$Nil$};
             \end{tikzpicture}
           \end{center}
-    \item \textbf{Prefisso}: in cui si ha $\alpha \cdot P$ dove $P \in Proc_{CCS}$
+    \item \textbf{Prefisso}: in cui si ha $\alpha . P$ dove $P \in Proc_{CCS}$
           e $\alpha \in Act$. Questo può essere rappresentato mediante inferenza nel
           seguente modo:
           \begin{equation}
-              \frac{}{\alpha \cdot P \xrightarrow{\alpha} P}
+              \frac{}{\alpha . P \xrightarrow{\alpha} P}
           \end{equation}
           \begin{center}
               \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
-                  \node[state] (q_0) {$\alpha\cdot p$};
+                  \node[state] (q_0) {$\alpha. p$};
                   \node[state] (q_1) [right=of q_0] {$p$};
                   \path[->]
                   (q_0) edge  node {$\alpha$} (q_1);
@@ -219,10 +219,10 @@ semantica operazionale strutturale.
           le regole di inferenza necessito $\alpha, \beta \in Act$ e
           $p_1', p_2' \in Proc_{CCS}$:
           \begin{equation}
-              \frac{p_1 + p_2 \xrightarrow{\alpha} p_1'}{p_1 + p_2
+              \frac{p_1 \xrightarrow{\alpha} p_1'}{p_1 + p_2
                   \xrightarrow{\alpha} p_1'}
               \ \ \lor \ \
-              \frac{p_1 + p2 \xrightarrow{\beta} p_2'}{p_1 + p_2
+              \frac{p_2 \xrightarrow{\beta} p_2'}{p_1 + p_2
                   \xrightarrow{\beta} p_2'}
           \end{equation}
           \begin{center}
@@ -273,9 +273,9 @@ semantica operazionale strutturale.
           in quest'ultimo caso, non potremo più avere altre sincronizzazioni.
           \begin{center}
               \begin{tikzpicture}[shorten >=1pt,node distance=3cm,on grid,auto]
-                  \node[state] (q_0) {\small{$a\cdot p_1'|\overline{a}\cdot p_2'$}};
-                  \node[state] (q_1) [below right=of q_0] {\small{$a\cdot p_1'|p_2'$}};
-                  \node[state] (q_3) [below left=of q_0] {\small{$p_1'|\overline{a}\cdot
+                  \node[state] (q_0) {\small{$a. p_1'|\overline{a}. p_2'$}};
+                  \node[state] (q_1) [below right=of q_0] {\small{$a. p_1'|p_2'$}};
+                  \node[state] (q_3) [below left=of q_0] {\small{$p_1'|\overline{a}.
                               p_2'$}};
 
                   \node[state] (q_2) [below right =of q_3] {\small{$p_1'|p_2'$}};
@@ -342,7 +342,7 @@ agli operatori del CCS.
 \begin{definizione}[\textbf{Congruenza}]
     Una relazione di equivalenza $R$ è una \textbf{congruenza} se e solo se:
     \begin{equation}
-        \forall p, q \in Proc_{CCS} \land \forall c[\cdot] \ \text{contesto} \ CCS
+        \forall p, q \in Proc_{CCS} \land \forall c[.] \ \text{contesto} \ CCS
     \end{equation}
     avendo quindi un \textbf{contesto}, un'espressione CCS con qualcosa di mancante,
     CCS sostituibile con qualcosa, allora:
@@ -383,8 +383,8 @@ si aspetta che:
         \item $\alpha: Q_1 \to Q_2$ è una funzione biunivoca.
         \item $\beta: Act_1 \to Act_2$ è una funzione biunivoca.
         \item $\alpha(q_{01}) = q_{02}$
-        \item $(q_1, a, q_2) \in Act_1 \iff (\alpha(q_1), \beta(a), \alpha(q_1'))
-                  \in Act_2$
+        \item $(q_1, a, q_2) \in T_1 \iff (\alpha(q_1), \beta(a), \alpha(q_1'))
+                  \in T_2$
     \end{itemize}
 \end{definizione}
 Questa definizione è troppo stretta perché è come sostituire cose uguali.
@@ -399,7 +399,7 @@ Introduciamo quindi una relazione di equivalenza come $p \sim q \iff Tracce(p) =
     dove:
     \begin{itemize}
         \item Se $w = \varepsilon$ allora $P =  P'$
-        \item Se $w = x_1 \cdot x_2 \cdot \dots \cdot x_n$ con $x_i \in Act$
+        \item Se $w = x_1 . x_2 . \dots . x_n$ con $x_i \in Act$
               $\exists P_1', P_2', \dots, P_n' \in Proc_{CCS}$ tale che:
               \begin{equation}
                   P \xrightarrow{x_1} P_1' \xrightarrow{x_2} \dots
@@ -489,8 +489,8 @@ simula $M_1$.
     corrispondenti da entrambe le parti).
 \end{osservazione}
 \begin{esempio}
-    Consideriamo i processi $p_1 = a \cdot b \cdot Nil + a \cdot c \cdot Nil$ e
-    $p_2 = a \cdot (b \cdot Nil + c \cdot Nil)$
+    Consideriamo i processi $p_1 = a . b . Nil + a . c . Nil$ e
+    $p_2 = a . (b . Nil + c . Nil)$
     \begin{figure}[!ht]
         \centering
         \includegraphics[scale=0.25]{img/ccs/Esempio1.png}
@@ -499,15 +499,15 @@ simula $M_1$.
     Osserviamo subito che i due processi sono equivalenti rispetto alle tracce,
     difatti:
     \begin{itemize}
-        \item $Tracce(p_1) = \{\varepsilon, a, a \cdot b, a \cdot c\}$
-        \item $Tracce(p_2) = \{\varepsilon, a, a \cdot b, a \cdot c\}$
+        \item $Tracce(p_1) = \{\varepsilon, a, a . b, a . c\}$
+        \item $Tracce(p_2) = \{\varepsilon, a, a . b, a . c\}$
     \end{itemize}
     Vediamo se i due processi sono anche bisimili.
     \begin{itemize}
         \item Da $p_1$ possiamo eseguire l'azione $a$ e possiamo fare lo stesso
               anche da $p_2$. Dobbiamo però chiederci se gli stati di arrivo sono anche
               essi in relazione di bisimulazione.
-        \item Gli stati interessati sono $b \cdot Nil$ e $b \cdot Nil + c \cdot Nil$:
+        \item Gli stati interessati sono $b . Nil$ e $b . Nil + c . Nil$:
               dal primo possiamo eseguire $b$, che è fattibile anche dal secondo, ma
               dal secondo possiamo eseguire $c$, che non è eseguibile dal primo (la
               bisimulazione richiede che entrambi gli stati siano simili tra loro),
@@ -515,20 +515,20 @@ simula $M_1$.
     \end{itemize}
     Formalmente:
     \begin{itemize}
-        \item $p_1 \xrightarrow{a} b \cdot Nil$
-        \item $p_2 \xrightarrow{a} b \cdot Nil + c \cdot Nil$
+        \item $p_1 \xrightarrow{a} b . Nil$
+        \item $p_2 \xrightarrow{a} b . Nil + c . Nil$
     \end{itemize}
-    $b \cdot Nil \stackrel{Bis}{\not\sim} b \cdot Nil + c \cdot Nil$ inoltre,
-    possiamo osservare che: $b \cdot Nil \stackrel{T}{\not\sim} b \cdot Nil + c \cdot Nil$
+    $b . Nil \stackrel{Bis}{\not\sim} b . Nil + c . Nil$ inoltre,
+    possiamo osservare che: $b . Nil \stackrel{T}{\not\sim} b . Nil + c . Nil$
 \end{esempio}
 \begin{esempio}
     Consideriamo due processi che simulano dei buffer che possono contenere due
     elementi:
     \begin{itemize}
-        \item $B_0^1 | B_0^1$ dove $B_0^1 = in \cdot B_1^1$ e $B_1^1 =
-                  \overline{out} \cdot B_0^1$
-        \item $B_0^2 = in \cdot B_1^2$, $B_1^2= \overline{out} \cdot B_0^2 + in
-                  \cdot B_2^2$ e $B_2^2 = \overline{out} \cdot B_1^2$
+        \item $B_0^1 | B_0^1$ dove $B_0^1 = in . B_1^1$ e $B_1^1 =
+                  \overline{out} . B_0^1$
+        \item $B_0^2 = in . B_1^2$, $B_1^2= \overline{out} . B_0^2 + in
+                  . B_2^2$ e $B_2^2 = \overline{out} . B_1^2$
     \end{itemize}
     \begin{figure}[!ht]
         \centering
@@ -553,7 +553,7 @@ allora sono bisimili.
         \item $\alpha.p \stackrel{Bis}{\sim} \alpha.q$
         \item $p + r \stackrel{Bis}{\sim}q + r$ e $r + p \stackrel{Bis}{\sim} r
                   + q, \forall r \in Proc_{CCS}$
-        \item $p | r \stackrel{Bis}{\sim} q | r$ e $r | p \stackrel{Bis}{\sim} r
+        \item $p | r \stackrel{Bis}{\sim} q | r$ e $r | p \stackrel{Bis}{\sim} r | q
                   \forall r \in Proc_{CCS}$
         \item $\forall f: Act \to Act$ funzione di rietichettatura, se $p[f]
                   \stackrel{Bis}{\sim} q[f]$ allora $p \stackrel{Bis}{\sim} q$
@@ -684,8 +684,8 @@ se e solo se esiste una relazione di bisimulazione $R$ tale che $p R q$ si ha ch
     \stackrel{Bis}{\approx} = \bigcup \{R | R \ \text{è di bisimulazione debole}\}
 \end{equation}
 \begin{esempio}
-    Consideriamo i processi $r = a \cdot (b \cdot Nil + \tau \cdot c \cdot Nil)$
-    e $k = a \cdot (b \cdot Nil + \tau \cdot c \cdot Nil) + a \cdot c \cdot Nil$.
+    Consideriamo i processi $r = a . (b . Nil + \tau . c . Nil)$
+    e $k = a . (b . Nil + \tau . c . Nil) + a . c . Nil$.
     \begin{figure}[!ht]
         \centering
         \includegraphics[scale=0.25]{img/ccs/Esempio3.png}
@@ -713,7 +713,7 @@ se e solo se esiste una relazione di bisimulazione $R$ tale che $p R q$ si ha ch
               nell'interazione con l'ambiente (non ci sono problemi con i deadlock).
         \item Astraiamo dagli stati, azioni inosservabili ($\tau$) e dai cicli.
               \begin{equation}
-                  Nil \stackrel{Bis}{\approx} \tau \cdot p
+                  Nil \stackrel{Bis}{\approx} \tau . p
               \end{equation}
     \end{itemize}
 \end{osservazione}
@@ -766,23 +766,23 @@ che permetta di dimostrare la congruenza, tale che:
               \stackrel{C}{\not\approx} p)
           \end{equation}
     \item $p + Nil \stackrel{C}{\approx} p$ e $p | Nil \stackrel{C}{\approx} p$
-    \item $p + \tau \cdot p \stackrel{C}{\approx} \tau \cdot p$
-    \item $\mu \cdot \tau p \stackrel{C}{\approx} \mu \cdot p$
-    \item $\mu \cdot (p + \tau \cdot q) \stackrel{C}{\approx} \mu \cdot (p +
-              \tau \cdot q) + \mu \cdot q$
-    \item Se $p$ e $q$ sono delle somme: $p = \sum_{i} \alpha_i \cdot p_i$ e
-          $q = \sum_{j} \beta_j \cdot q_j$,  $\alpha, \beta \in Act$:
+    \item $p + \tau . p \stackrel{C}{\approx} \tau . p$
+    \item $\mu . \tau . p \stackrel{C}{\approx} \mu . p$
+    \item $\mu . (p + \tau . q) \stackrel{C}{\approx} \mu . (p +
+              \tau . q) + \mu . q$
+    \item Se $p$ e $q$ sono delle somme: $p = \sum_{i} \alpha_i . p_i$ e
+          $q = \sum_{j} \beta_j . q_j$,  $\alpha, \beta \in Act$:
           $$p | q \stackrel{C}{\approx} \sum_{i} \alpha_i (p_{i} | q) + \sum_{j}
-              \beta_{j} \cdot (p|q_{j}) + \sum_{\alpha_i = \overline{\beta}_{j}}
-              \tau \cdot (p_{i} | q_{j})$$
+              \beta_{j} . (p|q_{j}) + \sum_{\alpha_i = \overline{\beta}_{j}}
+              \tau . (p_{i} | q_{j})$$
           (\textbf{Teorema di espansione di R. Milner}) Questo assioma mi permette
           di rappresentare la composizione parallela come la somma di tutte le
           possibili alternative che si hanno con l'operazione di composizione
           parallela.
-    \item $p[f] \stackrel{C}{\approx} \sum_{i} f(\alpha_i) \cdot (p_{i} [f])$ $\forall f$
+    \item $p[f] \stackrel{C}{\approx} \sum_{i} f(\alpha_i) . (p_{i} [f])$ $\forall f$
           funzione di etichettatura.
     \item $p_{\backslash L} \stackrel{C}{\approx} \sum_{\alpha_i,\overline{\alpha}_i
-                  \not\in L} \alpha_i \cdot (pi_{\backslash L})$ $\forall L \subseteq A$
+                  \not\in L} \alpha_i . (pi_{\backslash L})$ $\forall L \subseteq A$
 \end{enumerate}
 Il problema della bisimulazione è che confronta i processi in base alle azioni che
 devono essere atomiche, se dovessimo raffinare un'azione in 2 più piccole allora
