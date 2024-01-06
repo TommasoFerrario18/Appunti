@@ -207,7 +207,8 @@ Fissando una misura di distanza tra istanze $i, j$ ($d(i, j)$), definiremo:
             Si prende il minimo per confrontarlo con il cluster più vicino, anche
             detto \textbf{neighbor cluster}.
 \end{enumerate}
-ottenendo quindi la silhouette per il punto i come:
+Successivamente si utilizzano le distanze precedenti per calcolare la silhouette 
+per il punto $i$ nel seguente modo
 \begin{equation}
       s(i) = \frac{b(i) - a(i)}{\max\{a(i), b(i)\}}
 \end{equation}
@@ -254,6 +255,6 @@ Ad esempio:
       \item Un valore medio della silhouette inferiore a $0,2$ indica che i
             dati potrebbero essere stati raggruppati in cluster errati.
 \end{itemize}
-La silhouette è utile quando i cluster hanno forme arbitrarie, e potrebbe avere
-problemi se i cluster hanno forme irregolari. Posso usare qualunque misura di
-distanza.
+La silhouette è utile quando i cluster hanno forme arbitrarie e potrebbe avere
+problemi se i cluster hanno forme irregolari. Inoltre, posso usare una qualunque
+misura di distanza.
