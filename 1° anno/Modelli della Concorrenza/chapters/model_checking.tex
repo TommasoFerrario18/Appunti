@@ -120,7 +120,7 @@ Definiamo anche le formule ben formate $FBF_{LTL}$:
               \item $X\alpha$ "next $\alpha$" nel prossimo stato $\alpha$ è vera.
               \item $F\alpha$ "future $\alpha$" prima o poi $\alpha$ sarà vera.
               \item $G\alpha$ "globally $\alpha$" $\alpha$ è sempre vera.
-              \item $\alpha U \beta$ "until $\alpha$" $\alpha$ è vera fino
+              \item $\alpha U \beta$ "$\alpha$ until $\beta$" $\alpha$ è vera fino
                     a quando $\beta$ diventa vera.
           \end{itemize}
           sono formule ben formate.
@@ -205,7 +205,7 @@ Definiremo la relazione $\vDash$ per induzione.
     \end{itemize}
 \end{esempio}
 \begin{esempio}
-    Consideriamo la seguente rete di Petri ()\ref{fig:retePetriEsempio}), la
+    Consideriamo la seguente rete di Petri (\ref{fig:retePetriEsempio}), la
     quale rappresenta due processi che vogliono accedere ad una risorsa condivisa.
     \begin{figure}
         \centering
@@ -415,7 +415,7 @@ La logica temporale che abbiamo studiato fino a questo momento (LTL) permette di
 esprimere diverse proprietà dei sistemi reattivi, ma ha dei limiti, infatti non
 permette di esprimere proprietà del tipo:
 \begin{center}
-    \emph{``esiste un cammino in cui $\alpha$''}
+    \emph{``esiste un cammino in cui vale $\alpha$''}
 \end{center}
 Attraverso le formule della logica LTL possiamo esprimere solo proprietà in cui
 si richiede che una certa formula sia vera \textit{in tutti} i cammini massimali.
@@ -431,7 +431,7 @@ il concetto di \textbf{albero di computazione}.
     etichettato.
 
     I cammini che partono dalla radice di questo albero sono definiti come
-    \textbf{computazioni} del sistema.
+    \textbf{computazioni} del sistema. \ref{fig:computational-tree-logic}
 \end{definizione}
 \begin{nota}
     Spesso si vuole esprime le possibili computazioni di un sistema allora
@@ -449,6 +449,11 @@ il concetto di \textbf{albero di computazione}.
     Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock
     allora il nodo sarà pozzo.
 \end{nota}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/model/computational-tree-logic.png}
+    \label{fig:computational-tree-logic}
+\end{figure}
 \section{Computation Tree Logic - CTL}
 Possiamo definire ora la logica CTL (\textbf{Computation Tree Logic}), ovvero
 una logica temporale che si basa sugli alberi di computazione.
@@ -604,7 +609,7 @@ voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva.
     \textbf{equivalenti} rispetto a una logica $L$ se, $\forall \alpha \in FbF_L$
     vale che:
     \begin{equation}
-        M_1, q_0 \models \alpha \iff M_2, S_0 \models \alpha
+        M_1, q_0 \models \alpha \iff M_2, s_0 \models \alpha
     \end{equation}
 \end{definizione}
 Per dimostrare che due modelli sono equivalenti devo:
@@ -718,9 +723,9 @@ e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
     Sia $(A,\leq)$ un insieme parzialmente ordinato e $B \subseteq A$:
     \begin{itemize}
         \item Se $x \in B$ è il \textbf{minimo} di $B$ se $x \leq y, \forall y
-                  \in B$, quindi $x$ è anche un minorante per $B$. (max 1)
+                  \in B$, quindi $x$ è anche un \textbf{minorante} per $B$. (max 1)
         \item Se $x \in B$ è il \textbf{massimo} di $B$ se $x \geq y,\forall y
-                  \in B$, quindi $x$ è anche un maggiorante per $B$. (max 1)
+                  \in B$, quindi $x$ è anche un \textbf{maggiorante} per $B$. (max 1)
         \item Se $x \in B$ è il \textbf{minimale} in $B$ se $x \geq y \implies
                   x = y$.
         \item Se $x \in B$ è il \textbf{massimale} in $B$ se $x \leq y \implies
@@ -768,7 +773,7 @@ e il meet.
         x \leq y \implies f(x) \leq f(y)
     \end{equation}
     In altri termini, dati due insiemi parzialmente ordinati allora una funzione
-    è monotona se mantiene l'ordine nel dal dominio al codominio.
+    è monotona se mantiene l'ordine dal dominio al codominio.
 \end{definizione}
 \begin{definizione}[\textbf{Punto fisso}]
     Data una funzione $f: X \to X$, un elemento $x \in X$ si dice \textbf{punto
@@ -798,7 +803,9 @@ monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
     Allora $f$ ha un minimo e un massimo punto fisso.
     \begin{proof}
         Analizziamo la dimostrazione nel caso particolare in cui $L = \mathcal{P}(A)$
-        e $f: \mathcal{P}(A) \to \mathcal{P}(A)$ è monotona.
+        e $f: \mathcal{P}(A) \to \mathcal{P}(A)$ è monotona. 
+        
+        L'esistenza del minimo punto fisso viene dimostrata nei seguenti passaggi:
         \begin{enumerate}
             \item Costruiamo l'insieme $Z = \{T \subseteq A \mid f(T) \subseteq
                       T\}$. Gli elementi di questo insieme $Z$ saranno chiamati
@@ -836,6 +843,41 @@ monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
         Possiamo fare il ragionamento speculare per dimostrare il massimo punto
         fisso, in questo caso al posto che usare $\bigcap$ con $\bigcup$ e $\subseteq$
         e poi avremo \textbf{post-fissi}.
+
+        L'esistenza del massimo punto fisso viene dimostrata nei seguenti passaggi:
+        \begin{enumerate}
+            \item Costruiamo l'insieme $Z = \{T\in Z \mid  A \subseteq T \land T \subseteq
+                  f(T) \}$. Gli elementi di questo insieme $Z$ saranno chiamati
+                  \textbf{punti post-fissi}. È importante notare che l'insieme $Z$
+                  non può essere vuoto, in quanto $A \in Z$. Inoltre, se $f$ ha
+                  dei punti fissi $Z$ li contiene tutti.
+            \item A questo punto poniamo $M = \bigcup Z$ dal momento che $Z \neq
+                      \emptyset$
+            \item Per ogni $S \in Z$ allora $S\subseteq M$, per di più sapendo
+                  che $f$ è monotona possiamo dire che:
+                  \begin{equation}
+                      f(S) \subseteq f(M)
+                  \end{equation}
+            \item Inoltre, per definizione di $f$ abbiamo che $S \subseteq f(S)$
+                  allora per la transitività di $\subseteq$ abbiamo:
+                  \begin{equation}
+                     S \subseteq f(S) \subseteq M
+                  \end{equation}
+            \item Dal punto precedente possiamo arrivare a dire che $M = \bigcup Z \subseteq
+                  f(M)$, questo perché l'unione appartiene a $Z$ per definizione, 
+                  quindi $M \in Z$ ed è il massimo.
+            \item Vogliamo ora dimostrare che sia punto fisso. Sapendo che
+                  $M \subseteq f(M)$ possiamo dire che:
+                  \begin{equation}
+                      f(M) \subseteq f(f(M))
+                  \end{equation}
+                  quindi per definizione di $Z$ sappiamo che $f(M)\in Z$.
+            \item Dal momento che $M$ è il più grande elemento di $Z$ abbiamo:
+                  \begin{equation}
+                    f(M) \subseteq M \implies M = f(M)
+                  \end{equation}
+                  quindi è un punto fisso, inoltre, è il punto fisso massimo.
+        \end{enumerate}
     \end{proof}
 \end{teorema}
 Sfruttando il teorema di Knaster-Tarski possiamo ottenere il seguente teorema:
@@ -918,3 +960,7 @@ una per $U$ per la dimostrazione e poi trasformeremo le formule in quegli operat
 \begin{nota}
     Cerca la funzione che dimostra $\alpha U \beta$ portalo all'orale.
 \end{nota}
+Definiamo una funzione per $\gamma \equiv \alpha U \beta$, cioè $f_\gamma$:
+\begin{equation}
+    f_\gamma(H) = [[\beta]] \cap \{q\in [[\alpha]] \mid \exists (q, q')\in T, q'\in H\}
+\end{equation}
