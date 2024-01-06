@@ -5,12 +5,12 @@ Precedentemente abbiamo introdotto:
           solo per funzioni di separazione lineare.
     \item \textbf{Percettrone multistrato}: è un algoritmo difficile da addestrare
           perché deve aggiornare molti pesi e ci sono molti minimi locali, apprende
-          sia funzionil lineari che non lineari.
+          sia funzioni lineari che non lineari.
 \end{itemize}
 Le \textbf{Support Vector Machines} (SVM) sono un algoritmo efficiente per
 apprendere funzioni di separazione non lineari complesse.
 
-Anche nel caso delle SVM viene ripreso comunque il concetto di separazione lineare
+Anche nel caso delle SVM viene ripreso comunque il concetto di separazione lineare,
 ma con una scelta dell'iperpiano migliore. Si usa la \textit{teoria statistica
     dell'apprendimento}, utilizzando la \textbf{programmazione matematica}, la quale
 dice che tra tutti gli iperpiani che possiamo usare per separare due classi, si
@@ -23,7 +23,7 @@ ampiezza. Tale ampiezza è detta \textbf{margine}.
     Il margine è la distanza tra i vettori di supporto e l'iperpiano.
 \end{definizione}
 Se riuscissimo a separare i dati con un largo margine avremmo ragione di credere
-che il classificatore sia “più robusto” tanto da avere una migliore generalizzazione.
+che il classificatore sia “più robusta” tanto da avere una migliore generalizzazione.
 Quando arriva quindi un nuovo punto, generato con la stessa regola degli altri,
 sarà più probabilmente classificato in modo corretto, una volta scelto l'iperpiano.
 
@@ -143,12 +143,12 @@ sono distanti i punti dall'iperpiano.
     analogamente a quanto detto per il margine funzionale.
 \end{teorema}
 Dato un punto positivo/negativo il margine geometrico rappresenta la sua distanza
-geometrica dall'iperpiano, rende meglio l'idea della distanza di un punto da un 
+geometrica dall'iperpiano, rende meglio l'idea della distanza di un punto da un
 iperpiano in $\mathbb{R}^n$.
 
-Inoltre, si ha che è invariante rispetto alla scala di $w$ e quindi possiamo 
-scalare l'iperpiano senza cambiamenti della distanza dei punti rispetto 
-all'iperpiano, in questo modo il margine rimane invariato. Al contrario il 
+Inoltre, si ha che è invariante rispetto alla scala di $w$ e quindi possiamo
+scalare l'iperpiano senza cambiamenti della distanza dei punti rispetto
+all'iperpiano, in questo modo il margine rimane invariato. Al contrario il
 margine funzionale è variante perché cambiando la scala di $w$ allora cambiava
 anche il valore del margine, cambiando la semantica della classificazione, ciò
 comporta errori.
@@ -182,8 +182,9 @@ una certa funzione obiettivo:
         \max f(x) \\ \text{s.t.} \ g(x) \leq 0 \\ h(x) = 0
     \end{aligned}
 \end{equation*}
-Vorremmo assicurarci che tutti i punti cadano al di fuori del margine e quindi,
-dato un certo $\gamma$ vogliamo, $\forall i \in \{1, \dots, n\}$:
+Vorremmo assicurarci che tutti i punti cadano al di fuori del margine
+(\textbf{hard margin}) e quindi, dato un certo $\gamma$ vogliamo che $\forall i
+    \in \{1, \dots, n\}$:
 \begin{equation}
     \frac{y_i \cdot (\langle w, x_i \rangle + b)}{\| w \|} \geq \gamma
 \end{equation}
@@ -218,7 +219,7 @@ minimo $\frac{1}{2} \| w \|^2$. Quindi si ottiene che vogliamo minimizzare
 $\frac{1}{2} \| w \|^2$, che per comodità chiamiamo $\tau (w)$:
 \begin{equation*}
     \begin{aligned}
-        \max \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i (\langle w, x_i
+        \min \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i (\langle w, x_i
         \rangle + b) \leq \gamma
     \end{aligned}
 \end{equation*}
@@ -235,7 +236,7 @@ Ricapitolando si hanno due ragioni a supporto delle SVM:
 Si sta cercando:
 \begin{equation*}
     \begin{aligned}
-        \max \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i (\langle w, x_i
+        \min \tau(w) = \frac{1}{2}  \| w\|^2 \\ \text{s.t.} \ y_i (\langle w, x_i
         \rangle + b) \leq \gamma
     \end{aligned}
 \end{equation*}
@@ -257,12 +258,47 @@ appreso, se ricevo un vettore $x$ da classificare posso determinare l'etichetta:
 Quindi la funzione di decisione associata alla soluzione può essere scritta in
 termini del prodotto interno tra i vettori di supporto (support vector) $x_i$ e
 il vettore da classificare $x$.
+
+Quello presentato fino a questo momento è anche chiamato \textbf{hard margin}.
+Risulta però possibile definire il calcolo della SVM in modo da tollerare alcuni
+errori, ovvero si può permettere che alcuni punti cadano all'interno del margine.
+Questa tecnica è detta \textbf{soft margin}.
+
+L'implementazione del soft margin avviene tramite l'introduzione di una variabile
+di slack $\xi_i$ per ogni punto di training $x_i$. Questa variabile viene
+introdotta per permettere ad alcuni punti di cadere all'interno del margine o
+dall'altra parte dell'iperpiano.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width = 0.5\textwidth]{img/svm/margin.png}
+    \caption{Hard margin vs. Soft margin}
+    \label{fig:soft_margin}
+\end{figure}
+L'introduzione di questa variabile ci porta a modificare il problema di ottimizzazione
+in questo modo:
+\begin{equation}
+    \begin{aligned}
+        \min \left(\frac{1}{2} \| w \|^2 + C \cdot \sum_{i} \xi_i \right) \\
+        \text{s.t.} \ y_i (\langle w, x_i \rangle + b) \geq 1 - \xi_i     \\
+        \xi_i \geq 0
+    \end{aligned}
+\end{equation}
+dove $C$ rappresenta il \textbf{complexity hyperparameter} e permette di
+controllare la tolleranza  tra una classificazione errata e la larghezza del 
+margine:
+\begin{itemize}
+    \item Se $C$ tende a infinito, allora si ha un hard margin.
+    \item Se $C$ ha un valore grande si crea un hard margin che ammette pochi
+          errori.
+    \item Se $C$ ha un valore piccolo si crea un soft margin che ammette molti
+          errori.
+\end{itemize}
 \section{Punti non sono linearmente separabili}
 Quando si lavora con punti non linearmente separabili si usa lo stesso approccio,
 rivedendo la formulazione del problema tramite i \textbf{metodi kernel}.
-Si cerca di mappare lo spazio di input in un nuovo spazio che è a dimensione maggiore
-in cui i punti siano linearmente separabili, in questo modo è possibile classificare
-anche esempi non separabili linearmente.
+Si cerca di mappare lo spazio di input in un nuovo spazio, solitamente di
+dimensione maggiore, in cui i punti siano linearmente separabili, in questo modo
+è possibile classificare anche esempi non separabili linearmente.
 
 Per effettuare questa trasformazione, dobbiamo trovare una funzione che prende
 il nome di \textbf{funzione di trasformazione}:

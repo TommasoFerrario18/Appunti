@@ -138,7 +138,7 @@ il cambiamento di stato è locale:
                   c_1 [ U > \ \land \ c_2 = (c_1 - \ ^{\bullet} U) \cup U^{\bullet}
               \end{equation}
     \end{itemize}
-    Se due eventi sono indipendenti allora pososno eseguire concorrentemente.
+    Se due eventi sono indipendenti allora possono eseguire in modo concorrente.
 \end{definizione}
 Un \textbf{sistema elementare} $\Sigma = (B, E, F; c_{in})$ è definito da una rete
 $N = (B, E, F)$ e da $c_{in} \subseteq B$ un caso iniziale.
@@ -208,7 +208,6 @@ rappresentato dal suo grafo dei casi.
     \end{equation}
     I nodi sono i casi sequenziali mentre gli archi sono gli eventi
 \end{definizione}
-
 \subsection{Diamond property}
 \begin{definizione} [\textbf{Diamond property}]
     Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare,
@@ -292,7 +291,7 @@ se e solo se hanno grafi dei casi sequenziale isomorfi.
 \end{definizione}
 È possibile trasformare un sistema elementare $\Sigma$ con contatti in un
 sistema elementare $\Sigma_0$ che sia senza contatti aggiungendo a $\Sigma$ il
-complemento di ogni condizione si ottiene un sistema $\Sigma_0$ con grafo dei
+complemento di ogni condizione si ottiene, un sistema $\Sigma_0$ con grafo dei
 casi isomorfo a quello di $\Sigma$.
 \begin{figure}[!ht]
     \centering
@@ -417,7 +416,7 @@ interessati a tutta la storia dei movimenti dei secchi.
     Non si hanno nemmeno cicli perché ogni ripetizione dell'evento viene concatenata
     a quella prima.
 
-    La rete può essere quindi si infinita ma è composta da un insieme di elementi
+    La rete può quindi essere infinita, ma è composta da un insieme di elementi
     finito che si ripete. In ogni caso il passato di un evento è finito e registrato,
     anche se nel complesso il comportamento è infinito “in avanti”. Con una rete
     causale si possono non distinguere più condizioni ed eventi.
@@ -465,8 +464,6 @@ dall'uno all'altro.
     \begin{equation}
         \exists c \in C: y \textbf{li} \ c
     \end{equation}
-    Quindi in $C$ definito o come \textbf{co-set} o come \textbf{taglio} si ha
-    che \textbf{co} è transitività.
 
     Definiamo:
     \begin{equation}
@@ -592,10 +589,10 @@ struttura che mi raccolga tutti i possibili processi sequenziali.
 In queste reti è ancora possibile associare a $N$ un ordine parziale
 $(X, \leq) = (B \cup E, F^{\ast})$:
 \begin{itemize}
-    \item $x \textbf{li} y$ sse $x\le y$ o $y\le x$
-    \item $x\#y$ sse $\exists e_1,e_2\in E :^{\bullet}e_1 \cap ^{\bullet} e_2\ne \emptyset
+    \item $x \ \textbf{li} \ y$ sse $x\le y$ o $y\le x$
+    \item $x \ \# \ y$ sse $\exists e_1,e_2\in E :^{\bullet}e_1 \cap ^{\bullet} e_2\ne \emptyset
     \land e_1\le x \land e_2\le y$
-    \item $x\text{ co }y$ sse $\lnot (x<y)$ e $\lnot (y<x)$ e $\lnot x\#y$
+    \item $x \ \textbf{co} \ y$ sse $\lnot (x<y)$ e $\lnot (y<x)$ e $\lnot x\#y$
 \end{itemize}
 
 Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \textbf{conflitto}. 
@@ -641,6 +638,12 @@ Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \tex
     $\Pi_2 = \langle N_2; \phi_2 \rangle$ se e solo se $N_1$ è una sottorete di
     $N_2$ e $\phi_{2|N_1} = \phi_1$ ($\phi_2$ ”ristretto” a $N_1$ è uguale a $\phi_1$).
 \end{definizione}
+
+\begin{nota}
+    Il prefissi di un processo ramificato sono i processi sequenziali finiti del
+    del sistema elementare.
+\end{nota}
+
 \begin{definizione}[\textbf{Unfolding}]
     $\Sigma$, sistema elementare, ammette un unico processo ramificato che è massimale rispetto alla
     relazione di prefisso tra processi. Tale processo massimale è chiamato
@@ -655,6 +658,7 @@ Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \tex
     Inoltre, ogni processo non sequenziale di $\Sigma$ è un prefisso dell'unfolding
     $Unf (\Sigma)$.
 \end{osservazione}
+
 \section{Sistemi elementari - reti P/T- Reti ad alto livello}
 Se dovessimo usare le reti elementari per modellare sistemi veri, avremmo
 un'esplosione di condizioni ed eventi. Una rappresentazione più compatta è data
@@ -668,10 +672,10 @@ booleane dei sistemi elementari, dei contatori.
     dove:
     \begin{itemize}
         \item $(S, T, F)$ è una rete.
-        \item $K: S \to \mathbb{N}^+ \cup \{\infty\}$ è la funzione che assegna ai
+        \item \textbf{funzione capacità degli stati}: $K: S \to \mathbb{N}^+ \cup \{\infty\}$ è la funzione che assegna ai
               posti le capacità
-        \item $W: F \to \mathbb{N}$ è la funzione peso degli archi
-        \item $M_0: S \to \mathbb{N}: \forall s \in S$ $M_0(s) \leq K(s)$ è la
+        \item \textbf{funzione peso degli archi}: $W: F \to \mathbb{N}$ è la funzione peso degli archi
+        \item \textbf{funzione di marcatura iniziale}: $M_0: S \to \mathbb{N}: \forall s \in S$ $M_0(s) \leq K(s)$ è la
               marcatura iniziale. È importante osservare che il numero di marche è sempre
               minore o uguale alla capacità del posto
     \end{itemize}
@@ -690,8 +694,7 @@ ristabilire l'informazione persa con le reti Posti e transizioni assegnando una
 struttura dati alle marche. Addirittura, una marca potrebbe rappresentare un
 processo a sé stante.
 \begin{definizione}[\textbf{Regola di scatto}] 
-    Sapendo che $M:S\to \mathbb{N}$ è la funzione che restituisce la marcatura di
-    uno stato e $t\in T$ è un evento:
+    Data la \textbf{marcatura} $M:S\to \mathbb{N}$ e una transizione $t\in T$:
     \begin{equation}
         M[t > \ \text{se e solo se} \ \forall s \in S \ M(s) \geq W(s, t) \ \land
         \ M(s) \ + \ W(t, s) \leq K(s)
@@ -722,10 +725,17 @@ Anche qui, come nei sistemi elementari si può costruire l'insieme delle marcatu
 raggiungibili e il relativo grafo di raggiungibilità. Generalmente in queste reti
 la Diamond property non è più valida, questo causa self-loop.
 
-Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere posti
-per eliminare situazione di \textbf{contatto}, eliminando il vincolo sulla capacità,
-senza alterare il comportamento del sistema. Questo si può fare mediante la
-\textbf{complementazione} con stati.
+Anche per le reti P/T si possono avere dei contatti, ovvero, situazioni in cui 
+il peso dell'arco è $w$, la capacità del nodo di arrivo $k$ e la sua marcatura è
+$m_s\ne 0$ allora ho un \textbf{contatto} se $w+m_s >k$. Quindi non può scattare
+la regola visto che dovrebbero passare $w$ marche allo stato $s$ ma quest'ultimo
+ha già $m_s$ marche ed aggiungendone altre si supera il vincolo sulla capacità 
+del nodo.  
+
+Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere stati (quindi posti)
+per eliminare situazione di \textbf{contatto}. In sostanza si aggiungono per ogni 
+stato la versione \textbf{complementata} e questo permette di eliminare il vincolo sulla capacità,
+senza alterare il comportamento del sistema.
 \begin{definizione}
     Un sistema $P/T$ $\Sigma = (S,T,F,K,W;M_0)$ è \textbf{senza contatti} sse
     $\forall M\in [M_0>,\forall t\in T, \forall s\in S$:
@@ -736,13 +746,13 @@ senza alterare il comportamento del sistema. Questo si può fare mediante la
 Se $\Sigma = (S,T,F,K,W;M_0)$ è un \textbf{sistema} $P/T$ senza contatti allora
 $t$ è \textbf{abilitata} in $M\in [M_0>$ ($M[t>$) sse
 \begin{equation}
-    \forall s\in S M(s)\ge W(s,t)
+    \forall s\in S, M(s)\ge W(s,t)
 \end{equation}
 Nei sistemi senza contatti la \textbf{capacità} non ha alcun ruolo nella regola
 di scatto perché la transizione può scattare se nei suoi posti di input ci sono
 abbastanza marche.
 \begin{definizione}[\textbf{Reti marcate}]
-    Un sistema Posti e transizione è una rete marcata se non ha vincoli sulla
+    Un sistema Posti e transizione è una \textbf{rete marcata} se non ha vincoli sulla
     capacità dei posti e ha tutti gli archi di peso unitario.
     \begin{equation}
         \forall s\in S, M_0(s)\in \mathbb{N}\land K(s)=\infty \land \forall t\in
@@ -784,6 +794,47 @@ utilizzando l'\textbf{equazione di stato}:
     =\underline{M_1}
 \end{equation}
 
+\begin{esempio}
+    Supponiamo di avere la seguente rete P/T.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.2\textwidth]{img/reti/EsercizioP-T.png}
+    \end{figure}
+    Iniziamo a calcolare la matrice di incidenza calcolando ogni singola cella 
+    in questo modo:
+    $$N[s,t]= \begin{cases}
+        - W(s,t)& (s,t)\in F\\
+        W(s,t)& (t,s)\in F
+    \end{cases}$$
+    Quindi in questo caso la tabella sarà
+    \begin{equation}
+        \begin{array}{|c|c|c|}
+            \hline
+              &t_1&t_2\\
+            \hline
+            a & -2 & \\
+            b & 1 & -1\\
+            c &   & 2\\
+            \hline
+        \end{array}
+    \end{equation}
+    Successivamente calcolo le singole marcature in questo modo:
+    $$M_1 = M_0 + t_1 \ \ \ M_2 = M_1 + t_2 $$
+    \begin{equation}
+        \begin{array}{|c|c|c|c|}
+            \hline
+              &M_0&M_1&M_2\\
+            \hline
+            a & 2 &  &\\
+            b &  & 1 &\\
+            c &   &  & 2\\
+            \hline
+        \end{array}
+    \end{equation}
+    Si possono anche eseguire in sequenza utilizzando l'equazione di stato e quindi
+    calcolare in un solo passo la marcatura di una sequenza di transizioni (aspetta risposta)
+\end{esempio}
+
 \begin{osservazione}
     Sia $\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$ tale che $\forall s
         \in S, K(s)=\infty$:
@@ -791,8 +842,8 @@ utilizzando l'\textbf{equazione di stato}:
         \item $\Sigma$ è \textbf{limitato} sse $\exists n\in \mathbb{N}: \forall
                   s\in S, \forall M\in [M_0>$:
               $$M(s)\le n$$
-        \item $\Sigma$ è \textbf{safe} sse $$\forall s\in S \forall M\in
-                  [M_0>:M(s)\le 1$$
+        \item $\Sigma$ è \textbf{safe} sse $$\forall s\in S, \forall M\in
+                  [M_0> \ : \ M(s)\le 1$$
         \item
               $\Sigma$ è \textbf{limitato} $\iff [M_0>$ è un insieme \textbf{finito}
               ($RG(\Sigma)$ è \textbf{finito}).
