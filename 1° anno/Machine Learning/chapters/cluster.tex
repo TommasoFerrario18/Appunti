@@ -111,12 +111,12 @@ Esistono diversi tipi di clustering, possiamo principalmente individuare:
 Esistono algoritmi di clustering che funzionano su grafi, in questo caso la
 distanza è data dall'arco. Noi ci concentriamo su algoritmi che funzionano su
 vettori di numeri reali.
-\section{K-Means}
 \begin{definizione}[\textbf{Dendrogramma}]
       Un \textbf{dendrogramma} è un metodo per rappresentare le informazioni come
       un albero o un grafo utilizzato per visualizzare la somiglianza nel processo
       di raggruppamento.
 \end{definizione}
+\section{K-Means}
 L'algoritmo $k-$means ha come prerequisito quello di conoscere il numero di
 cluster che si vogliono andare ad individuare. L'obiettivo di questo algoritmo è
 quello di minimizzare le distanze tra gli elementi di un cluster e il centroide
@@ -139,6 +139,12 @@ L'algoritmo del $k-$means lavora con dati numerici nel seguente modo:
             raggiunge il numero massimo di iterazioni impostate o non si
             verificano altri spostamenti.
 \end{enumerate}
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width = 0.5\textwidth]{img/cluster/kmeans.png}
+      \caption{Esempio di funzionamento dell'algoritmo $k-$means.}
+      \label{img:k-means}
+\end{figure}
 Questo algoritmo è molto semplice da implementare e richiede un tempo di calcolo
 pari a: $\mathcal{O}(t \cdot k \cdot n)$ con:
 \begin{itemize}
@@ -182,25 +188,50 @@ migliore di un altro. Tale misura si basa sempre sul concetto di distanza.
 Fissando una misura di distanza tra istanze $i, j$ ($d(i, j)$), definiremo:
 \begin{enumerate}
       \item Distanza media \textbf{intra-cluster}, ovvero simiglianza tra
-            elementi dello stesso cluster:
+            elementi dello stesso cluster. Per ogni elemento $i$ di un cluster
+            $C_I$, si calcola:
             \begin{equation}
-                  a(i) = \frac{1}{|C_i| - 1} \sum_{j \in C_i, j \neq i} d(i, j)
+                  a(i) = \frac{1}{|C_I| - 1} \sum_{j \in C_I, j \neq i} d(i, j)
             \end{equation}
+            si divide per $|C_I| - 1 $ perché non si considera la distanza tra
+            un elemento e se stesso.
       \item Distanza media \textbf{inter-cluster}, ovvero simiglianza tra un
             elemento di un cluster rispetto a tutti gli elementi tra gli altri
-            cluster:
+            cluster.  Per ogni elemento $i$ di un cluster $C_I$, si calcola:
             \begin{equation}
-                  b(i) = \min_{k \neq i} \frac{1}{|C_k|} \sum_{j \in C_k} d(i, j)
+                  b(i) = \min_{K \neq I} \frac{1}{|C_K|} \sum_{j \in C_K} d(i, j)
             \end{equation}
+            si divide per $|C_K|$ perché si considera la distanza tra un elemento
+            e tutti gli elementi di un altro cluster.
+
+            Si prende il minimo per confrontarlo con il cluster più vicino, anche
+            detto \textbf{neighbor cluster}.
 \end{enumerate}
 ottenendo quindi la silhouette per il punto i come:
 \begin{equation}
       s(i) = \frac{b(i) - a(i)}{\max\{a(i), b(i)\}}
 \end{equation}
-La qualità viene quindi visualizzata da un diagramma che studia la silhouette al
-variare di $k$ per ogni valore di ogni attributo (mettendo per ogni attributo in
-alto i valori più studiabili).
-
+La qualità viene quindi visualizzata da un diagramma \ref{fig:silhouette} che
+studia la silhouette al variare di $k$ per ogni valore di ogni attributo
+(mettendo per ogni attributo in alto i valori più studiabili).
+\begin{figure}
+      \centering
+      \begin{subfigure}[b]{0.6\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img/cluster/silhouette1.png}
+            \caption{}
+            \label{fig:silhouette1}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.6\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{img/cluster/silhouette2.png}
+            \caption{}
+            \label{fig:silhouette2}
+      \end{subfigure}
+      \caption{Esempio di diagramma di silhouette.}
+      \label{fig:silhouette}
+\end{figure}
 La media $s(i)$ su tutti i punti di un cluster è una misura di quanto siano
 strettamente raggruppati tutti i punti del cluster. Pertanto, la media $s(i)$ su
 tutti i dati dell'intero set di dati è una misura di quanto adeguatamente i dati
@@ -210,3 +241,19 @@ clustering, alcuni dei cluster mostreranno tipicamente linee molto più strette
 rispetto al resto nel diagramma di silhouette. Quindi grafici e media di
 silhouette possono essere utilizzati per determinare il numero “naturale” di
 cluster all'interno di un set di dati.
+
+Il valore della silhouette può variare da $-1$ a $1$, dove un valore alto indica
+che gli oggetti sono ben raggruppati nel cluster e lontani dai cluster vicini.
+Se molti punti hanno un valore alto, allora la configurazione del cluster è
+appropriata. Se molti punti hanno un valore basso o negativo, allora la
+configurazione del cluster può avere troppi o troppo pochi cluster.
+Ad esempio:
+\begin{itemize}
+      \item Un valore medio della silhouette maggiore di $0,7$ è considerato un
+            raggruppamento solido.
+      \item Un valore medio della silhouette inferiore a $0,2$ indica che i
+            dati potrebbero essere stati raggruppati in cluster errati.
+\end{itemize}
+La silhouette è utile quando i cluster hanno forme arbitrarie, e potrebbe avere
+problemi se i cluster hanno forme irregolari. Posso usare qualunque misura di
+distanza.

@@ -176,7 +176,7 @@ tipologia (Incremental with reference to users) abbiamo:
             migrazione del backend.
 \end{itemize}
 Tali schemi spesso sono usati di pari passo per le varie sezioni del software,
-nonché possono essere usati in modo intercambiabile.
+nonché possono essere usati in modo incrementale.
 
 Collegato a questi schemi si ha l'approccio basato sull'\textbf{user experimentation},
 che non è un reale schema di gestione dell'evoluzione del software ma è comunque
@@ -197,7 +197,7 @@ Per la terza tipologia (Incremental with reference to components/replicas),
 si ha lo schema del \textbf{rolling upgrade}, dove l'upgrade non riguarda un
 singolo upgrade ma tanti componenti di un sistema distribuito, verificando efficacia
 di ogni singolo update tramite il continuous monitoring prima di effettuare l'upgrade
-di un'altra componente. La stessa idea su applica anche a diverse versioni dello
+di un'altra componente. La stessa idea si applica anche a diverse versioni dello
 stesso prodotto, aggiornandone una prima e poi le altre progressivamente. In
 sostanza si aggiorna un container/VM alla volta.
 
@@ -220,7 +220,7 @@ Il caso più tipico in merito alle unità dove fare deployment è il mondo del c
 con unità virtualizzate e virtual machine (VM), dove magari ogni servizio vive in
 una diversa VM. Si hanno diversi casi in merito a questo tipo di deployment:
 \begin{itemize}
-      \item \textbf{Cloud basato su VMs}, dove si ha un'infrastruttura gestita
+      \item \textbf{Cloud basato su VMs}: si ha un'infrastruttura gestita
             dal cloud provider che gestisce l'hardware e l'hypervisor. Ogni VM,
             che sono le nostre unità di deployment, ha un sistema operativo
             arbitrario che lavora con l'hardware mostrato dall'hypervisor. Ogni
