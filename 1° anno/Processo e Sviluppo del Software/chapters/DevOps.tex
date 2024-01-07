@@ -7,7 +7,7 @@ Nello sviluppo del software sia ha una collaborazione tra 2 team:
             rilasciarla.
 \end{itemize}
 Il problema di questa organizzazione è che spesso i due team non comunicano, di
-conseguenza si rende più costoso e lento lento il processo di rilascio.
+conseguenza si rende più costoso e lento il processo di rilascio.
 
 Negli ultimi tempi si è sviluppato un altro metodo, chiamato \textbf{DevOps},
 dove anche la parte di \textbf{operation} deve essere agile: il rilascio in
@@ -99,7 +99,7 @@ verifica, corrispondenti a pipelines precise, solitamente innescate da un push d
 codice su un certo branch, in modo sia automatico che manuale.
 Le pipeline vengono attivate in fase di test di un componente, in fase di creazione
 di un sottosistema, di assembramento di un sistema intero o di deployment in
-produzione. Si hanno quindi quattro fasi:
+produzione. In queste fase di DevoOps si possono riconoscere le seguenti sottofasi:
 \begin{enumerate}
       \item \textbf{Component phase}
       \item \textbf{Subsystem phase}
@@ -126,9 +126,9 @@ in modo che il servizio da testare possa funzionare.
 In questo caso si testa l'intero sistema che viene rilasciato in ambiente di test.
 Si hanno:
 \begin{itemize}
-      \item Test funzionali: test su ogni singola funzione (unit e integration).
-      \item Test di performance: controlla le performance della release.
-      \item Security checks: controllo automatico delle falle su metodi conosciuti
+      \item \textbf{Test funzionali}: test su ogni singola funzione (unit e integration).
+      \item \textbf{Test di performance}: controlla le performance della release.
+      \item \textbf{Security checks}: controllo automatico delle falle su metodi conosciuti
             (penetration test).
 \end{itemize}
 Tutti test che richiedono l'interezza del sistema sono spesso molto dispendiosi

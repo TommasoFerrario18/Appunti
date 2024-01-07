@@ -447,7 +447,7 @@ complesso il dialogo:
 \end{itemize}
 Servono quindi buone capacità comunicative, sapendo usare la giusta terminologia
 di dominio, arrivando dritti al punto e creando un rapporto di fiducia con gli
-stakeholders. Si ha inoltre un piccola pratica, detta knowledge reformulation,
+stakeholders. Si ha inoltre un piccola pratica, detta \textbf{knowledge reformulation},
 ovvero quando si acquisiscono informazioni anche da fonti multiple è bene
 riformulare tale informazione allo stakeholder, per verificare una corretta
 comprensione.
@@ -517,11 +517,11 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
 
                         L'attività di background study ha ovviamente dei limiti
                         di scalabilità, non potendo leggere troppe cose, sia per
-                        tempo che per costo. Si ha quindi la meta-knowledge per
+                        tempo, sia per costo. Si ha quindi la meta-knowledge per
                         selezionare le parti dei documenti più rilevanti.
                         Queste attività sono essenziali all'avvio di un progetto.
 
-                        Quindi i \textbf{pro} principale è che si ottengono
+                        Quindi il \textbf{pro} principale è che si ottengono
                         informazioni di base per interagire con gli stakeholder,
                         perché permette di chiedere direttamente informazioni non
                         banali. Il \textbf{contro} principale è che bisogna
@@ -565,7 +565,7 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                               \item \textbf{Passivo}, dove si narra la storia
                                     costruita allo stakeholder.
                         \end{itemize}
-                        Ovviamente vengono fatte solo per i workflow chiare.
+                        Ovviamente vengono fatte solo per i workflow chiari.
                   \item \textbf{Scenari}: descrivono, attraverso una sequenza di
                         interazioni rappresentate con testi o diagrammi, l'utilizzo
                         del sistema, sia as-is, sia to-be. L'uso di esempi rende
@@ -599,7 +599,7 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                         sua ipotetica formula finale. Si hanno quindi piccoli
                         esempi del software in azione, chiarendo e verificando
                         che sia quello di cui l'utente ha bisogno. Ovviamente un
-                        mock-up non ha la logica applicative ma risposte costruite
+                        mock-up non ha la logica applicativa, ma ha risposte costruite
                         a priori. A seconda del tipo di mock-up il focus è su:
                         \begin{itemize}
                               \item \textbf{Funzionale}: funzionalità, se sono
@@ -635,7 +635,7 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                                     sistema già acquisita.
                         \end{enumerate}
                         Tali conoscenze possono essere dipendenti o indipendenti
-                        dal dominio. Si hanno i seguenti pro:
+                        dal dominio. Si hanno i seguenti \textbf{pro}:
                         \begin{itemize}
                               \item Analisti esperti riutilizzano naturalmente
                                     dall'esperienza passata.
@@ -645,7 +645,7 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                               \item Efficace per completare i requisiti con aspetti
                                     trascurati.
                         \end{itemize}
-                        e i seguenti contro:
+                        e i seguenti \textbf{contro}:
                         \begin{itemize}
                               \item Efficace solo se il dominio astratto è
                                     sufficientemente simile e accurato.
@@ -705,10 +705,10 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                               \item Per costruire un rapporto con lo stakeholder
                                     le domande devono essere su misura dello stesso,
                                     in base al suo lavoro e ruolo.
-                              \item Mettere in centro all'intervista necessità
+                              \item Mettere in centro dell'intervista le necessità
                                     e problematiche dell'intervistato, chiarendo
                                     di essere interessati al suo punto di vista.
-                              \item Evitare che la discussioni dilaghi su argomenti
+                              \item Evitare che la discussioni dilagazioni su argomenti
                                     inutili.
                               \item Fare in modo che l'intervistato si senta a
                                     suo agio, magari iniziando con qualche
@@ -874,9 +874,11 @@ schema riportato in figura \ref{fig:conflicts}.
 \end{figure}
 Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
 \begin{enumerate}
-      \item Nella fase di sovrapposizione/overlap indichiamo il riferimento a
+      \item \textbf{identificare gli statement sovrapposti}: 
+            Nella fase di sovrapposizione/overlap indichiamo il riferimento a
             termini o fenomeni comuni e sono le precondizioni del conflitto.
-      \item La fase di riconoscimento può essere fatta informalmente, tramite
+      \item \textbf{identificazione e documentazione dei conflitti tra gli statement}: 
+            La fase di riconoscimento può essere fatta informalmente, tramite
             euristiche sulle categorie dei requisiti in conflitto, o formalmente.
             Il riconoscimento deve essere documentato per una successiva risoluzione
             e analisi dell'impatto. Si usano strumenti come l'\textbf{interaction
@@ -898,7 +900,9 @@ Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
                   nonConflictingOverlaps(S_i) = \left\lfloor \sum_{s \ \in \
                         S_i} s / 1000 \right\rfloor
             \end{equation}
-      \item La terza fase è strutturata nel seguente modo:
+      \item \textbf{genera diverse risoluzioni ai conflitti}: 
+            La terza fase consiste nell'esplorare tutte le soluzioni per la risoluzione
+            dei conflitti, questa si effettua nel seguente modo:
             \begin{itemize}
                   \item Esplorare prima più risoluzioni, generate tramite tecniche
                         di elicitation e usando tattiche di risoluzione dei conflitti:
@@ -909,10 +913,11 @@ Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
                               \item Non considerare statement a bassa priorità.
                               \item Approfondire source e target del conflitto.
                         \end{itemize}
-                  \item Confrontare, selezionare e concordare il preferito poi.
+                  \item Confrontare, selezionare e concordare soluzioni possibili.
             \end{itemize}
             Si trasformano quindi statement in conflitto in nuovi requisiti.
-      \item Nella quarta fase si usano vari criteri per la scelta:
+      \item \textbf{valuta le risoluzioni ai conflitti e scegli la migliore}: 
+            Nella quarta fase si usano vari criteri per la scelta:
             \begin{itemize}
                   \item Contributo a requisiti non funzionali critici.
                   \item Contributo alla risoluzione di altri conflitti e rischi.
@@ -927,8 +932,7 @@ requisti una prioritization, per vari scopi:
       \item Sviluppo incrementale.
       \item Ri-pianificazione a causa di problemi imprevisti.
 \end{itemize}
-e si hanno vari principi per una buona riuscita della stessa, che può essere
-svolta tramite:
+La priorità sui requisiti si può esprimere tramite:
 \begin{enumerate}
       \item \textbf{Livelli ordinati} di uguale priorità, in un piccolo numero.
       \item \textbf{Livelli relativi} come ad esempio \textit{maggiore di}.
@@ -1130,12 +1134,14 @@ dell'ambiente, indicati da rettangoli.
 Con questo tipo di diagramma si cattura il contesto del requisito, legando
 componenti dell'ambiente e componenti del sistema, tramite specifici eventi.
 Si identificano a colpo d'occhio gli elementi rilevanti per un certo requisito.
+
 \begin{figure}[!ht]
       \centering
       \includegraphics[width = 0.5\textwidth]{img/requirements/PD.png}
       \caption{Esempio di Problem Diagram}
       \label{fig:problemDiagram}
 \end{figure}
+
 Questa rappresentazione può prendere la forma di veri e propri pattern detti
 \textbf{problem pattern} per semplificare la rappresentazione. Si ottengono i
 \textbf{frame diagrams} (fig \ref{fig:frame-diagram}), che hanno la stessa
@@ -1277,7 +1283,7 @@ del sistema.
 Come altro diagramma abbiamo il \textbf{R-net diagram} \ref{fig:r-net-diagram}
 che permette di mostrare come reagisce un sistema in base ad un certo stimolo.
 È quindi un albero che parte con uno stimolo, dopo il begin, posto in un esagono
-e si sviluppo in base alle varie alternative in corrispondenza di punti di
+e si sviluppa in base alle varie alternative in corrispondenza di punti di
 decisione (indicati come pallini). Nei rettangoli si hanno le azioni che sono
 svolte in conseguenza allo stimolo.
 \begin{figure}[!ht]
@@ -1524,7 +1530,7 @@ formale, costosa, ed esperti. Si possono avere check sintattici per il linguaggi
 (di specifica come $Z$) usato. Si può avere anche un check di completezza e
 consistenza grazie al linguaggio e la verifica di proprietà:
 \begin{itemize}
-      \item Algoritmiche tramite model checking, per controllare se un modello di
+      \item \textbf{Algoritmiche}: tramite model checking, per controllare se un modello di
             comportamento soddisfa un requisito, una proprietà di dominio o un
             presupposto, cercando violazione delle varie proprietà e generando
             eventuali controesempi o comunque specifiche della violazione
@@ -1536,7 +1542,7 @@ consistenza grazie al linguaggio e la verifica di proprietà:
                         potrebbe non essere mai raggiunta in caso di risposta
                         negativa del check.
             \end{itemize}
-            I vantaggi del model checking sono:
+            I \textbf{vantaggi} del model checking sono:
             \begin{itemize}
                   \item Check completamente automatici.
                   \item Ricerca esaustiva che porta a non tralasciare alcun
@@ -1547,7 +1553,7 @@ consistenza grazie al linguaggio e la verifica di proprietà:
                         tracce.
                   \item È sempre più usato per progetti mission critical.
             \end{itemize}
-            Ma si hanno anche dei contro:
+            Ma si hanno anche dei \textbf{contro}:
             \begin{itemize}
                   \item Si rischia di avere un'esplosione combinatoria degli
                         stati da analizzare comportando l'impossibilità di essere
@@ -1564,7 +1570,7 @@ consistenza grazie al linguaggio e la verifica di proprietà:
                   \item Fornire, accettare o rifiutare i lemmi.
                   \item Suggerire strategie di prova.
             \end{itemize}
-            Si hanno diversi pro:
+            Si hanno diversi \textbf{pro}:
             \begin{itemize}
                   \item Solidità e completezza del sistema formale utilizzato
                         avendo che ogni conclusione è corretta e che ogni
@@ -1573,7 +1579,7 @@ consistenza grazie al linguaggio e la verifica di proprietà:
                   \item Può essere usato per sistemi molto grandi, gestendo una
                         gran mole di dati tramite l'induzione.
             \end{itemize}
-            ma si hanno ovviamente dei contro:
+            ma si hanno ovviamente dei \textbf{contro}:
             \begin{itemize}
                   \item È di uso difficile e richiede personale esperto.
                   \item Non produce controesempi.
@@ -1686,7 +1692,7 @@ collegamenti, si hanno:
 \end{itemize}
 È comunque un discorso molto complesso, costoso e studiato.
 
-Con la tecnica di cross referencing si seleziona ogni elemento da tracciare e
+Con la \textbf{tecnica di cross referencing} si seleziona ogni elemento da tracciare e
 gli si assegna un nome unico. Si definisce poi lo schema di indice/tag per
 collegarli lessicalmente e si configura un motore di ricerca su tale schema.
 Si recuperano quindi gli elementi seguendo le catene di riferimenti incrociati,
@@ -1694,13 +1700,13 @@ le cross-reference chains. Un esempio banale in un documento potrebbe essere
 specificare che sezione dello stesso documento andare a guardare per chiarire un
 certo concetto.
 
-Come pro si hanno:
+Come \textbf{pro} si hanno:
 \begin{itemize}
       \item La leggerezza e la disponibilità.
       \item Il supporto di ogni livello di granularità (assegnando identificatori
             a ciò che vogliamo)
 \end{itemize}
-Come contro:
+Come \textbf{contro}:
 \begin{itemize}
       \item Un solo tipo di collegamento, quello lessicale, privo di semantica
       \item Informazioni di tracciabilità nascoste
@@ -1715,13 +1721,14 @@ se si ha un arco orientato tra l'item $T_i$ e l'item $T_j$ , 0 altrimenti.
 Possiamo quindi dire che sulla riga i-sima troviamo gli elementi che dipendono
 da $T_i$ e sulla colonna i-sima gli elementi che sono dipendenza di $T_i$.
 
-Come pro si hanno:
+Come \textbf{pro} si hanno:
 \begin{itemize}
       \item Navigazione backward e forward.
       \item Semplice analisi dello schema (ad esempio è semplice identificare un
             ciclo di dipendenza, avendo un ciclo nel grafo).
 \end{itemize}
-Come contro:
+
+Come \textbf{contro}:
 \begin{itemize}
       \item Grafi di grandi dimensioni sono soggetti ad errori oltre ad essere
             difficilmente gestibili.

@@ -80,7 +80,7 @@ Per la costruzione del controller si hanno vari design pattern tra cui:
                   \item Dà il controllo al View.
             \end{itemize}
             Il front controller è più complesso del page controller. Inoltre
-            vita la duplicazione del codice tra i vari controller, permette una
+            evita la duplicazione del codice tra i vari controller, permette una
             semplice configurazione del server avendo una sola servlet, permette
             di gestire dinamicamente nuovi comandi, facilita l'estensione del
             controller e i comandi possono essere implementati sia come metodi,
@@ -419,7 +419,7 @@ linguaggio Java. Questa implementazione consiste in un grande set di pattern/
 meccanismi già implementati mediante:
 \begin{itemize}
       \item Sistema di annotazioni.
-      \item Servizio.
+      \item Servizi
 \end{itemize}
 Si hanno 4 macro-elementi:
 \begin{itemize}
@@ -429,7 +429,7 @@ Si hanno 4 macro-elementi:
       \item Classi della logica di dominio.
       \item \textbf{Entity manager}: servizio che permette di lavorare sulle entità
             persistenti
-      \item %% TODO: manca il 4 punto non lo trovo sulle slide
+      \item gestione delle transazioni
 \end{itemize}
 \subsubsection{Entity manager}
 Gli oggetti persistenti sono anche chiamati come \textbf{Pojo} (\textit{Plain Old
