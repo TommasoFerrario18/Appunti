@@ -337,7 +337,7 @@ sono:
 \end{itemize}
 \begin{definizione}[\textbf{Insieme di operatori minimale}]
     L'insieme degli operatori è detto \textbf{minimale} se ogni altro
-    operatore può essere definito a partire da questi. Un esempio di inisieme di
+    operatore può essere definito a partire da questi. Un esempio di insieme di
     operatori minimale per le logiche temporali è $\{X,U\}$.
 \end{definizione}
 Attenzione all'uso della negazione nelle formule LTL, cosa significa "non è vero
@@ -533,7 +533,7 @@ quantificatore $A = \forall$ e $E = \exists$ che si applica ai cammini.
               anche che per tutti gli stati successivi $p$ o $q$ siano vere.
               Partendo dallo stato $s_0$ la formula è falsa in quanto si arriva
               in $s_2$ dove nessuno delle due sono vere. $s_2,s_3$ vero ma anche
-              $s_1$ è falsa. %% TODO: controllare. Non è sempre falsa perché posso arrivare sempre in $s_2$ e restarci per il cappio?
+              $s_1$ è falsa.
         \item $AG (EF (p \lor q))$: è vera per tutti gli stati perché esiste
               sempre un cammino con una deviazione in cui vale $p \lor q$.
         \item $XX \ r$: non è vera in $s_0$ perché abbiamo trovato un cammino
@@ -846,7 +846,7 @@ monotona, possiamo chiederci se esistano un minimo e un massimo punto fisso.
 
         L'esistenza del massimo punto fisso viene dimostrata nei seguenti passaggi:
         \begin{enumerate}
-            \item Costruiamo l'insieme $Z = \{T\in Z \mid  A \subseteq T \land T \subseteq
+            \item Costruiamo l'insieme $Z = \{T\in Z \mid  T \subseteq A \land T \subseteq
                   f(T) \}$. Gli elementi di questo insieme $Z$ saranno chiamati
                   \textbf{punti post-fissi}. È importante notare che l'insieme $Z$
                   non può essere vuoto, in quanto $A \in Z$. Inoltre, se $f$ ha
