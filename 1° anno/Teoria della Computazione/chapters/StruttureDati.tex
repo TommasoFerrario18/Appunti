@@ -65,14 +65,15 @@ che permetta di effettuare le operazioni di \textit{rank} e \textit{select} in
 tempo costante $\mathcal{O}(1)$.
 \subsection{Funzione rank}
 Vediamo ora come è possibile rendere il tempo di esecuzione dell'operazione di
-rank costante.
+rank costante ($\mathcal{O}(1)$).
 
-Memorizzare tutti i valori di $rank(i)$ necessiterebbe di $O(n \log n)$ bit il
-che non lo rende un o-piccolo di $n$. Memorizzo quindi ogni $l-$esimo valore
-$rank(i)$, a questo punto, a query time scorriamo i restanti $l-1$ bit.
+La soluzione più semplice, ovvero memorizzare tutti i valori di $rank(i)$
+necessiterebbe di $O(n \log n)$ bit il che non lo rende un o-piccolo di $n$. Una
+soluzione alternativa consiste nel memorizzare ogni $l-$esimo valore $rank(i)$,
+e a questo punto, quando si esegue una query scorriamo i restanti $l - 1$ bit.
 
 Questi valori vengono salvati in un vettore \textit{first} $F[0 \dots n / l]$,
-dove $/$ indica la divisione intera, tale che:
+dove l'operatore $/$ indica la divisione intera, tale che:
 \begin{itemize}
     \item $F[0] = 0$
     \item $F[i / l] = rank(i)$ se $i \mod l = 0$
@@ -86,12 +87,13 @@ eseguire una rank come:
 con $C(B')$ che rappresenta una funzione che conta i simboli $\sigma = 1$ in $B'$.
 Questa soluzione mi porta a una rank eseguita in tempo $\mathcal{O}(\log^2 n)$.
 
-Possiamo ridurre ulteriormente questo tempo tenendo in memoria più informazioni.
+Aumentando la quantità di informazioni salvate in memoria, possiamo ridurre
+ulteriormente il tempo di esecuzione della funzione di rank.
 
-In ogni blocco di lunghezza $l$ indotto da $F$ memorizziamo ogni $k$ posizioni il
-numero di simboli $\sigma = 1$ a partire dall'inizio del blocco, escludendo la
-posizione iniziale in cui il valore di rank è già in $F$. Otteniamo un vettore
-\textit{second} $S[0 \dots l /k]$ con:
+Nello specifico, in ogni blocco di lunghezza $l$, indotto da $F$, memorizziamo
+ogni $k$ posizioni il numero di simboli $\sigma = 1$ a partire dall'inizio del
+blocco, escludendo la posizione iniziale in cui il valore di rank è già in $F$.
+Otteniamo un vettore \textit{second} $S[0 \dots l /k]$ dove:
 \begin{itemize}
     \item $S[i / k] = 0$ se $k \mod l = 0$
     \item $S[i / k] = rank_{B[l \cdot (i / l) + 1 \dots i]} (i - l \cdot (i / l)
@@ -108,16 +110,19 @@ Questa soluzione mi porta a una rank eseguita in tempo $\mathcal{O}(\log n)$.
 
 Per ottenere una rank in tempo costante si utilizza la tecnica \textbf{Four
     Russians technique}. Questa tecnica consiste nel salvare una look-up table
-third $T$, di dimensioni $2^{k - 1} \times k - 1$. $T$ salva i valori di $rank(i')$
-per tutte le posizioni $k - 1$ in tutte le possibili configurazioni indotte dai
-blocchi definiti per $S$. $T$ richiede uno spazio pari a $\mathcal{O}(\sqrt{n}
-    \log n \log \log n)$ bit.
+third $T$, di dimensioni $2^{k - 1} \times k - 1$, i valori di $rank(i')$
+per tutte le posizioni $k - 1$, in tutte le possibili configurazioni indotte dai
+blocchi definiti per $S$. Così facendo la lookup-table $T$ richiede uno spazio
+per essere memorizzata pari a $\mathcal{O}(\sqrt{n} \log n \log \log n)$ bit.
 
-Si definisce $c_i = B[k \cdot (i / k) + 1 \dots k \cdot (i / k + 1) - 1]$ come
-il bitvector di lunghezza $k - 1$ che copre il $(k + 1)-$esimo blocco. Usando
-l'operatore modulo posso sapere la posizione relativa di $i$ in questo bitvector
-e accedere alla lookup table dove la riga è indicizzata da $c_i$ e la colonna
-dalla posizione relativa in tempo $\mathcal{O}(1)$.
+Si definisce:
+\begin{equation}
+    c_i = B[k \cdot (\frac{i}{k}) + 1 \dots k \cdot (\frac{i}{k} + 1) - 1]
+\end{equation}
+come il bitvector di lunghezza $k - 1$ che copre il $(k + 1)-$esimo blocco. Questo
+valore ci permette di identificare la riga della lookup table $T$ da cui prendere
+il valore di $rank(i)$. Mentre la colonna si ottiene da $i \mod k$. In questo
+modo è possibile eseguire una rank in tempo costante $\mathcal{O}(1)$.
 \begin{equation}
     rank(B) = \begin{cases}
         F[i/l]                                   & \text{se} \ i \mod l = 0    \\
@@ -127,16 +132,24 @@ dalla posizione relativa in tempo $\mathcal{O}(1)$.
         \land i \mod k \neq 0                                                  \\
     \end{cases}
 \end{equation}
-In questo modo, memorizzando un $o(n)$ bit in più posso eseguire l'operazione di
-rank in tempo costante. La costruzione della struttura avviene però in tempo lineare.
+Così facendo, memorizzando un $o(n)$ bit in aggiunta alla struttura, posso
+eseguire l'operazione di rank in tempo costante.
+\begin{nota}
+    Le operazioni per arrivare alla costruzione delle struttura dati che mi
+    permette di eseguire la rank in tempo costante sono eseguite in tempo lineare
+    ($\mathcal{O}(n)$).
+\end{nota}
 \begin{esempio}
     Vediamo un esempio di come può essere implementata la funzione rank in modo
-    da effettuare accesso in tempo costante. Scegliamo i valori di $l = 9$ e
-    $k = 3$ e otteniamo:
+    da effettuare accesso in tempo costante. Consideriamo il bitvector
+    $B = 100101010010$ e scegliamo i valori di $l = 9$ e $k = 3$. Per eseguire
+    la funzione rank in tempo costante si ottiene la struttura riportata in
+    figura \ref{fig:rank}.
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.5\textwidth]{img/Strutture Dati/rank.png}
-        \caption{Esempio di implementazione della funzine rank}
+        \caption{Esempio di implementazione della funzione rank}
+        \label{fig:rank}
     \end{figure}
 \end{esempio}
 \begin{osservazione}
@@ -147,16 +160,18 @@ rank in tempo costante. La costruzione della struttura avviene però in tempo li
 \end{osservazione}
 \section{Level Order Unary Degree Sequence}
 Consideriamo in memoria la rappresentazione di un albero etichettato con $n$ nodi.
-Una rappresentazione a pointer richiede $\mathcal{O}(n \log n)$ spazio.
+La classica rappresentazione attraverso puntatori richiede uno spazio pari a
+$\mathcal{O}(n \log n)$.
 
-Analizziamo ora una rappresentazione basata sulla visita in left-to-rigth
-level-order di un albero, ovvero una visita in ampiezza. In questa rappresentazione
-si considera un nodo detto \textbf{super-root}. A questo punto si memorizza la
-sequenza $D$ dei gradi dei nodi. Questa sequenza viene memorizzata utilizzando un
-prefix code binario, dove per ogni nodo visitato si aggiunge a un bitvector $B$
-i simboli della sequenza $1^d0$, con $d$ che rappresenta il grado del nodo. La
-super-root viene aggiunta in modo che il numero di 1 presenti nella sequenza sia
-uguale al numero di nodi dell'albero.
+Analizziamo ora una rappresentazione basata sulla visita in left-to-right
+level-order di un albero, ovvero una visita in ampiezza. Utilizzando questa
+visita, si salva per ogni nodo il suo grado e si memorizza la sequenza dei gradi
+$D$ attraverso un prefix code binario. Quindi, per ogni nodo si aggiunge a un
+bitvector $B$ i simboli della sequenza $1^d0$, con $d$ che rappresenta il grado.
+
+In questa rappresentazione si considera un nodo detto \textbf{super-root}, il
+quale viene aggiunto in modo che il numero di valori uguali a 1 presenti nel
+bitvector sia uguale al numero di nodi dell'albero.
 
 In questo modo si arriva a ottenere un bitvector di lunghezza $2n + 1$ dove si
 ha un simbolo 1 associato a ogni nodo dell'albero. Con questa rappresentazione
@@ -222,20 +237,25 @@ dell'albero.
           imponiamo $nth\_child(v, nth) = -1$ se $degree(v) < nth$
 \end{itemize}
 \begin{esempio}
-    Costruzione di un e Level Order Unary Degree Sequence:
+    In figura \ref{fig:louds}, è riportata la costruzione di un e Level Order
+    Unary Degree Sequence.
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=0.6\textwidth]{img/Strutture Dati/LOUDS.png}
+        \includegraphics[width=0.5\textwidth]{img/Strutture Dati/LOUDS.png}
         \caption{Esempio di costruzione di un e Level Order Unary Degree Sequence}
+        \label{fig:louds}
     \end{figure}
 \end{esempio}
 \section{Wavelet Tree}
 Abbiamo visto come rank e select possono essere usati per interrogare un bitvector,
 che ha un alfabeto fisso di grandezza 2. Siamo ora interessati a generalizzare
-tali query ad un alfabeto di grandezza arbitraria. Per praticità assumiamo
-$\Sigma = [1 \dots s]$ ordinato: $\Sigma[i] \prec \Sigma[j] \iff i < j \dots$.
-
-Dato un generico alfabeto $\Sigma$ e una sequenza $T[1\dots n] \in \Sigma$:
+tali query ad un alfabeto di grandezza arbitraria. Per praticità assumiamo di
+avere un alfabeto $\Sigma = [1 \dots s]$ il quale è ordinato nel seguente modo:
+\begin{equation}
+    \Sigma[i] \prec \Sigma[j] \iff i < j \dots
+\end{equation}
+Dato un generico alfabeto $\Sigma$ e una sequenza $T[1\dots n] \in \Sigma$ possiamo
+ri-definire le funzioni di rank e select come:
 \begin{itemize}
     \item $rank_{\sigma,T} (i)$ conta tutte le occorrenze del simbolo $\sigma
               \in \Sigma$ fino all'indice $i$ in $T$, $i \leq | T |$.
@@ -247,11 +267,14 @@ Dato un generico alfabeto $\Sigma$ e una sequenza $T[1\dots n] \in \Sigma$:
     \land \forall i = 1 \dots n
 \end{equation}
 Una rappresentazione "naïve" consiste nel considerare come rappresentazione di
-$T$ un insieme di $| \Sigma | = s$ stringhe binarie $B_\sigma[1\dots n], \
-    \forall \sigma \in \Sigma$ si ha che:
+$T$ attraverso un insieme di $s$ ($| \Sigma | = s$) stringhe binarie $B_\sigma[1
+        \dots n]$, $\forall \sigma \in \Sigma$, ovvero una per ogni simbolo dell'alfabeto,
+si ha che:
 \begin{equation}
-    B_\sigma[i] = 1 \iff T[i] = \sigma \ \text{e} \ B_\sigma[i] = 0  \iff T[i]
-    \neq \sigma
+    B_\sigma[i] = \begin{cases}
+        1 \iff T[i] = \sigma \\
+        0 \iff T[i] \neq \sigma
+    \end{cases}
 \end{equation}
 Se per ogni bitvector $B_\sigma$ abbiamo calcolato la struttura a supporto vista
 precedentemente si ha $rank_{\sigma,T} (i)$ in tempo costante $\mathcal{O}(1)$ e
@@ -263,45 +286,53 @@ troppo i tempi di query. Per realizzare questa rappresentazione consideriamo un
 sottoinsieme di $\Sigma$.
 
 I due figli di ogni nodo partizionano il corrispondente sottoinsieme di $\Sigma$
-in due. A ogni nodo $v$ corrisponde una sequenza chiamata $R_v$ (sotto-sequenza
-dell'input $T$), la quale è sotto-sequenza di quella con cui è etichettato il
-nodo genitore di $v$. Alla root corrisponde la sequenza $R_v = T$.
+in due. A ogni nodo $v$ corrisponde una sequenza chiamata $R_v$, la quale è una
+sotto-sequenza dell'input $T$ ed è anche una sotto-sequenza della sequenza con
+cui è etichettato il nodo genitore di $v$. La root corrisponde la sequenza $R_v = T$.
 
 A ogni nodo $v$ si associa un bitvector, denotato con $B_v$, che indica a quale
 dei due figli del nodo $v$ ogni simbolo della sotto-sequenza $R_v$ appartiene.
-Ad esempio con $1 \leq j \leq |R_v|$ se $B_v [j] = 0$ allora il carattere associato
-$R_v [j]$ appartiene alla sotto-sequenza rappresentata dal figlio di sinistra,
-mentre se $B_v [j] = 1$ allora il carattere associato a $R_v [j]$ appartiene alla
-sotto-sequenza rappresentata dal figlio di destra.
 
+Se consideriamo l'indice $j$, con $1 \leq j \leq |R_v|$, abbiamo che:
+\begin{itemize}
+    \item Se $B_v [j] = 0$, allora il carattere associato $R_v [j]$ appartiene
+          alla sotto-sequenza rappresentata dal figlio di sinistra.
+    \item Se $B_v [j] = 1$, allora il carattere associato a $R_v [j]$ appartiene
+          alla sotto-sequenza rappresentata dal figlio di destra.
+\end{itemize}
 Le foglie dell'albero sono \textit{virtualmente} etichettate con i singoli
 caratteri dell'alfabeto. In realtà ci basta la funzione $rank_1$ eseguita sui
 bitvector che etichettano i genitori delle foglie per recuperare l'informazione.
-
+\subsection{Operazioni}
 Vediamo ora come realizzare le operazioni su questa struttura dati:
 \begin{itemize}
-    \item \textbf{rank}: si inizia il calcolo nel nodo root e si determina a
-          quale dei due figli appartiene $\sigma$, tramite l'ordinamento dell'alfabeto.
-          Nella radice se $B_v [j] = 0$ allora $R_v [j] = \sum \left[\left\lceil
-                  \frac{s}{2} \right\rceil\right] \lor R_v [j] \prec \Sigma
-              \left[\left\lceil \frac{s}{2} \right\rceil\right]$, altrimenti se
-          $B_v[j] = 1$ allora il carattere che si cerca è nella seconda metà
+    \item \textbf{rank}: il calcolo dell'operazione rank inizia nel nodo root,
+          nel quale si determina a quale dei due figli appartiene $\sigma$.
+          Questa operazione avviene utilizzando l'ordinamento dell'alfabeto. In
+          particolare, nella radice se $B_v [j] = 0$ allora $R_v [j] = \Sigma
+              \left[\left\lceil \frac{s}{2} \right\rceil\right] \lor R_v [j]
+              \prec \Sigma \left[\left\lceil \frac{s}{2} \right\rceil\right]$,
+          ovvero il carattere si trova nella prima metà dell'alfabeto. Altrimenti
+          se $B_v[j] = 1$ allora il carattere che si cerca è nella seconda metà
           dell'alfabeto.
 
-          A questo punto si prosegue nel seguente modo:
+          A questo punto si prosegue nel seguente modo fino a raggiungere le foglie:
           \begin{itemize}
-              \item se $\sigma = \Sigma\left[\left\lceil \frac{s}{2} \right\rceil
+              \item Se $\sigma = \Sigma\left[\left\lceil \frac{s}{2} \right\rceil
                             \right] \lor \sigma \prec \Sigma\left[\left\lceil
-                            \frac{s}{2} \right\rceil\right]$
-                    allora si prosegue verso il "figlio" di sinistra, aggiornando
-                    $i$ con $i = rank_{0,B_v}(i)$.
-              \item Altrimenti usiamo il "figlio" di destra, aggiornando $i$
-                    con $i = rank_{1,B_v}(i)$.
+                            \frac{s}{2} \right\rceil\right]$ (siamo nella prima
+                    metà, dell'alfabeto indotto dal nodo), allora si prosegue
+                    verso il figlio di sinistra, aggiornando il valore di $i$ con
+                    $i = rank_{0,B_v}(i)$.
+              \item Altrimenti, ovvero se siamo nella seconda metà, usiamo il
+                    figlio di destra, e aggiorniamo il valore di $i$ con $i =
+                        rank_{1,B_v}(i)$.
           \end{itemize}
-          Nel nuovo $v$ si procede nello stesso modo, considerando che ora
+          Nel nuovo nodo $v$ si procede nello stesso modo, considerando che ora
           $\Sigma = \Sigma \left[1 \dots \left\lceil \frac{s}{2} \right\rceil\right]$
           se si è andati a sinistra e $\Sigma = \Sigma\left[\left\lceil
-                  \frac{s}{2} \right\rceil + 1 \dots s\right]$ se a destra.
+                  \frac{s}{2} \right\rceil + 1 \dots s\right]$ se si è andati a
+          destra.
 
           Si prosegue fino ad una foglia e $rank_{\sigma,T} (i) = i'$, dove $i'$
           è l'ultimo valore di i che si ottiene nei vari step.
@@ -317,6 +348,9 @@ Vediamo ora come realizzare le operazioni su questa struttura dati:
               \item Se $B_v [i] = 1$ proseguo verso il "figlio" di destra,
                     con $i = rank_{1,B_v}(i)$
           \end{itemize}
+          Si prosegue fino ad una foglia scegliendo il percorso da seguire in
+          base al valore di $B_v [i]$.
+
           $T[i]$ è il simbolo che etichetta la foglia raggiunta alla fine della
           visita dato che il wavelet tree di una sequenza $T$ garantisce random
           access alla sequenza stessa possiamo sostituirla col suo wavelet tree.
@@ -326,17 +360,20 @@ Vediamo ora come realizzare le operazioni su questa struttura dati:
     \item \textbf{select}: analogamente ai bitvector si può dimostrare che anche
           $select_{\sigma,T}(i)$ può essere calcolato in $\mathcal{O}(\log s)$
 \end{itemize}
+\subsection{Costruzione}
 Vediamo ora come costruire un wavelet tree livello per livello a partire dalla
 root:
 \begin{enumerate}
     \item Si etichetta la root con $R_v = T$ e un bitvector $B_v$ tale che
-          $\forall 1 \leq i \leq |T|$:
-          \begin{itemize}
-              \item $B_v[i] = 0 \iff T[i] = \Sigma\left[\left\lceil \frac{s}{2}
-                            \right\rceil\right] \lor T[i] \prec \Sigma\left[
-                            \left\lceil \frac{s}{2} \right\rceil\right]$
-              \item $B_v[i] = 1$ altrimenti.
-          \end{itemize}
+          $\forall i$, con $1 \leq i \leq |T|$:
+          \begin{equation}
+              B_v[i] = \begin{cases}
+                  0 \iff T[i] = \Sigma\left[\left\lceil \frac{s}{2}
+                      \right\rceil\right] \lor T[i] \prec \Sigma\left[
+                  \left\lceil \frac{s}{2} \right\rceil\right] \\
+                  1 \text{ altrimenti}
+              \end{cases}
+          \end{equation}
     \item Si estrae la sotto-sequenza $T'$ corrispondente ai valori 0 di $B_v$ e
           la si usa per etichettare il "figlio" di sinistra $v_1$ (che è relativo
           all'alfabeto $\Sigma = \Sigma\left[1 \dots \left\lceil \frac{s}{2}
@@ -345,9 +382,9 @@ root:
           all'alfabeto $\Sigma = \Sigma\left[\left\lceil \frac{s}{2} \right\rceil
                   + 1 \dots s \right]$) per entrambe.
     \item Posso quindi cancellare $T$ e costruire i bitvector $B_{v1}$ e $B_{v2}$,
-          con le rispettive strutture per la funzione rank e continuare ricorsivamente
-          fino al raggiungimento delle foglie (quando si raggiungono alfabeti di
-          cardinalità 1).
+          con le rispettive strutture per la funzione rank e continuare
+          ricorsivamente fino al raggiungimento delle foglie (quando si
+          raggiungono alfabeti di cardinalità 1).
 \end{enumerate}
 Il processo di costruzione di un wavelet tree richiede un tempo pari a
 $\mathcal{O}(n \log s)$.
@@ -355,7 +392,7 @@ $\mathcal{O}(n \log s)$.
 In ogni momento della costruzione del wavelet tree abbiamo un bound in spazio
 pari a $3n \log s + \mathcal{O}(s \log n)$, dato da:
 \begin{itemize}
-    \item 3 sottosequenze di $T$, quella del "genitore" e quelle dei due "figli".
+    \item 3 sotto-sequenze di $T$, quella del "genitore" e quelle dei due "figli".
     \item Tutti i bitvector finora computati che formano il wavelet tree.
     \item I puntatori che memorizzano la struttura ad albero.
 \end{itemize}
@@ -387,7 +424,7 @@ Mentre, un levelwise wavelet tree richiede:
           dell'albero (preorder):
           \begin{itemize}
               \item "(" quando si raggiunge un nodo per la prima volta.
-              \item ")" quando si è terminata la visita del sottoalbero.
+              \item ")" quando si è terminata la visita del sotto-albero.
           \end{itemize}
     \item Strutture dati succinte che supportano le \textbf{range minimum queries}.
     \item \textbf{Wavelet matrix}: nascono con l'idea di migliorare i levelwise
@@ -419,7 +456,7 @@ Mentre, un levelwise wavelet tree richiede:
     richiede $2n + o(n)$ bit in memoria e che risponde in $\mathcal{O}(1)$.
 \end{definizione}
 \chapter{Strutture Dati Probabilistiche Hashing-Based}
-Su strutture dati semplici come array matrici$\dots$ posso eseguire operazioni
+Su strutture dati semplici come array, matrici, etc$\dots$ posso eseguire operazioni
 di accesso, cancellazione di un elemento e inserimento di un elemento in tempo
 $\mathcal{O}(1)$ data la chiave $k$, l'input $x$ e la posizione $k[x]$.
 
@@ -464,10 +501,10 @@ stessa posizione dell'hash table in una lista concatenata. Chiamiamo $\alpha$ il
 concatenate.
 
 Il caso peggiore si ha quando tutte le $n$ chiavi "mappano" in una sola lista,
-quindi i tempi di accesso richiedonoun tempo paria a $\theta(n)$ ma nella realtà
-è difficile che accada quindi accesso in $\theta(1 + \alpha)$ nel caso migliore,
+quindi i tempi di accesso richiedono un tempo paria a $\Theta(n)$ ma nella realtà
+è difficile che accada quindi accesso in $\Theta(1 + \alpha)$ nel caso migliore,
 con il numero di posizioni nella hash table proporzionale al numero di elementi
-della tabella (quindi $\alpha \to 1$), ho accesso in tempo $\theta(1)$.
+della tabella (quindi $\alpha \to 1$), ho accesso in tempo $\Theta(1)$.
 \section{Membership problem}
 \begin{definizione}[\textbf{Membership problem}]
     Il problema \textbf{membership problem} è definito come:
@@ -485,26 +522,31 @@ della tabella (quindi $\alpha \to 1$), ho accesso in tempo $\theta(1)$.
 \end{definizione}
 Una prima soluzione per questo problema consiste nel creare una hash table per $S$
 con le collisioni risolte tramite liste concatenate. Questa struttura ci permette
-di ottenere una risposta in tempo pari a $\theta(1)$ occupando uno spazio pari a
+di ottenere una risposta in tempo pari a $\Theta(1)$ occupando uno spazio pari a
 $\mathcal{O}(n \log u)$ bit.
 
 È possibile ottenere una soluzione migliore se assumiamo di poter ammettere falsi
 positivi ma comunque non falsi negativi. Nel caso in cui ammettiamo falsi positivi
 ma non falsi negativi parliamo del problema di \textbf{approximate membership}.
+In questo caso:
+\begin{itemize}
+    \item Se $y \in S$ voglio sempre ottenere $T$, quindi ho sempre l'informazione
+          corretta in merito al fatto che un elemento $y$ sia in $S$.
+    \item Se $y \notin S$ voglio ottenere $F$ con probabilità $\mathcal{P} \geq
+              1 - \delta$, con $\delta \in \mathbb{R}^{+} \land \delta \to 0$.
+\end{itemize}
+Si assume quindi di avere errori sui falsi positivi, ovvero ottengo $T$ e non $F$
+con probabilità $\mathcal{P} \leq \delta$
 
-Se $y \in S$ voglio sempre ottenere $T$, quindi ho sempre l'informazione corretta
-in merito al fatto che un elemento $y$ sia in $S$. Se $y \notin S$ voglio
-ottenere $F$ con probabilità $\mathcal{P} \geq 1 - \delta$, con
-$\delta \in \mathbb{R}^{+} \land \delta \to 0$. Si assume quindi di avere errori
-sui falsi positivi, ovvero ottengo $T$ e non $F$ con probabilità $\mathcal{P}
-    \leq \delta$
-
-Creiamo una struttura con $\frac{n}{\delta}$ bit, per $S$, $|S| = n$ insieme
-universo $\mathcal{U}$. Sia $\mathcal{H}$ una famiglia universale di funzioni hash
-per $\mathcal{U}$ con $h_j : \mathcal{U} \to \{0, \dots, m - 1\}$, con $m =
-    \frac{n}{\delta}$. Prendendo casualmente una funzione di hash $h \in
+Per risolvere questo problema, creiamo una struttura con $\frac{n}{\delta}$ bit,
+per $S$, dove $n = |S|$ insieme universo $\mathcal{U}$. Inoltre, sia $\mathcal{H}$
+una famiglia universale di funzioni hash per $\mathcal{U}$ con:
+\begin{equation}
+    h_j : \mathcal{U} \to \{0, \dots, m - 1\}
+\end{equation}
+con $m = \frac{n}{\delta}$. Prendendo casualmente una funzione di hash $h \in
     \mathcal{H}$, popoliamo un bitvector $A$, $|A| = m = \frac{n}{\delta}$,
-tale che:
+nel seguente modo:
 \begin{equation}
     A[i] = \begin{cases}
         1 & \text{se} \ \exists k \in S \ \text{tale che} \ h(k) = i \\
@@ -512,7 +554,7 @@ tale che:
     \end{cases}
 \end{equation}
 Sulla struttura dati appena creata è possibile eseguire le query per sapere se
-$x \in S$ in tempo $\mathcal{O}(1)$ ($A[h(x)] = 1$).
+$x \in S$ in tempo $\mathcal{O}(1)$ ($A[h(x)] = 1$). Inoltre:
 \begin{itemize}
     \item Se $x \in S$ si ottiene sempre $T$.
     \item Se $x \notin S$ si ottiene lo stesso $T$ se e solo se $\exists k \in S$
@@ -536,9 +578,9 @@ $x \in S$ in tempo $\mathcal{O}(1)$ ($A[h(x)] = 1$).
     stessa probabilità e tale valore non dipende dal valore di hash delle altre
     chiavi.
 \end{definizione}
-Struttura dati per $S$, $|S| = n$. Si considera un bitvector $A$, $|A| = m$,
-inoltre, si considera una famiglia di $l$ funzioni hash ideali $\mathcal{H} =
-    \{h_0, \dots, h_{l - 1}\}$ dove:
+Costruiamo ora una struttura dati per $S$, $|S| = n$. Si considera un bitvector 
+$A$, dove$|A| = m$, inoltre, si considera una famiglia di $l$ funzioni hash 
+ideali $\mathcal{H} = \{h_0, \dots, h_{l - 1}\}$ dove:
 \begin{equation}
     h: \mathcal{U} \to \{0, \dots, m - 1\}, \ \forall h \in \mathcal{H}
 \end{equation}
@@ -554,7 +596,7 @@ posizione $h_i(k) = h_j(k)$.
 Il bitvector $A$ è denominato \textbf{Bloom filter} di $S$.
 
 Su questa struttura appena creata è possibile eseguire le query per l'approximate
-membership problem come dato $x \in \mathcal{U}$ si ha che $x \in S$ se e solo se:
+membership problem. Dato $x \in \mathcal{U}$ si ha che $x \in S$ se e solo se:
 \begin{equation}
     A[h_i(x)] = 1, \ \forall h_i \in \mathcal{H}
 \end{equation}
@@ -569,9 +611,10 @@ queste strutture dati si tiene conto anche di quante funzioni di hash mappano in
 una certa posizione dato un elemento qualsiasi si verifica la presenza tramite
 il counting Bloom filter tramite una threshold $\theta$.
 
-Possiamo costruire queste strutture dati andando in fase di preprocessing
-$\forall k \in S$ e $\forall h_i \in \mathcal{H}: A[h_i(k)] += 1$.
-
+Possiamo costruire questa struttura dati nel seguente modo:
+\begin{equation}
+    \forall k \in S \ text{e} \ \forall h_i \in \mathcal{H}: A[h_i(k)] += 1
+\end{equation}
 In fase di query, dato $x \in \mathcal{U}$ abbiamo:
 \begin{itemize}
     \item Se $\exists h_i \in \mathcal{H}$ tale che $A[h_i(x)] = 0$ o
@@ -611,7 +654,7 @@ concettualmente simile a un Bloom filter.
 Questa struttura dati è definita a partire da:
 \begin{itemize}
     \item Insieme universo $\mathcal{U}$.
-    \item Uno stream $S$ lungo $n$ costruito da $\mathcal{U}$.
+    \item Uno stream $S$ lungo $n$ costruito da elementi di $\mathcal{U}$.
     \item Due parametri d'errore $\delta$ e $\varepsilon$. Otterremo risposte
           alle query "sbagliate" entro un fattore aggiuntivo $\varepsilon$ con
           probabilità almeno $1 - \delta$
@@ -655,7 +698,7 @@ Una query si effettua in tempo $\mathcal{O}(l)$.
 si ha che:
 \begin{equation}
     a_q \leq \hat{a}_q
-\end{equation} ù
+\end{equation}
 Si dimostra che $a_q \leq \hat{a}_q$ a causa delle collisioni si ottengono
 sovrastime ma mai sottostime della frequenza.
 
