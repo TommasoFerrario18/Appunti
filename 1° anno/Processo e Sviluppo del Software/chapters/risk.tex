@@ -8,7 +8,7 @@
 \begin{definizione}[\textbf{Rischio}]
     Definiamo \textbf{rischio} come la possibilità che ci sia un danno.
 \end{definizione}
-\begin{definizione}[\textbf{Risck exposure}]
+\begin{definizione}[\textbf{Risk exposure}]
     Definiamo \textbf{risk exposure} come una grandezza, per calcolare quanto
     un progetto sia esposto ad un rischio. Viene calcolato come:
     \begin{equation}
@@ -25,7 +25,7 @@
     conseguenza cresce il risk exposure.
 \end{definizione}
 \begin{definizione}[\textbf{Outcome unsatisfactory}]
-    Definiamo \textbf{outcome unsatisfactory} come un risultato non positivo che
+    Definiamo \textbf{outcome unsatisfactory} come un risultato negativamente che
     riguarda diverse aree:
     \begin{itemize}
         \item L'area relativa all'esperienza degli utenti, con un progetto che
@@ -89,7 +89,7 @@ sviluppo di un software.
 \subsection{Risk identification}
 In questa fase, si studia come identificare i rischi. Tale operazione è legata
 alle competenze degli analisti. Un modo comune di realizzare questa operazione è
-mediante l'uso delle check-list, liste che includono un insieme di rischi
+mediante l'uso delle \textbf{check-list}, liste che includono un insieme di rischi
 plausibili comuni a molti progetti. L'analista scorre tale lista cercando rischi
 che possono essere applicati al progetto in analisi.
 
@@ -97,29 +97,35 @@ Alcuni rischi possono verificarsi sempre ma va preso in considerazione solo per
 motivi specifici identificabili nel mio progetto. Si hanno altri metodi per
 identificare i rischi:
 \begin{itemize}
-    \item Riunioni di confronto, brainstorming e workshop.
-    \item Confronto con altre organizzazioni e con altri prodotti.
+    \item \textbf{Riunioni di confronto}, \textbf{brainstorming} e \textbf{workshop}.
+    \item Confronto con altre \textbf{organizzazioni} e con altri \textbf{prodotti}.
 \end{itemize}
 \subsection{Risk analysis}
 L'analisi dei rischi viene realizzata sfruttando l'esperienza e valutando le
 reali probabilità che un rischio diventi reale. Come per la fase precedente, si
-hanno degli schemi su cui basarsi, come modelli di stima dei costi, modelli delle
-prestazioni, basati su simulazioni, prototipi, analogie con altri progetti e
-check-list. Le stime sono molto specifiche sul singolo progetto.
+hanno degli schemi su cui basarsi:
+\begin{itemize}
+    \item \textbf{modelli di stima dei costi}
+    \item \textbf{modelli delle prestazioni} basati su simulazioni, prototipi e analogie con altri progetti
+    \item \textbf{check-list}
+\end{itemize}
 
 L'analisi dei rischi può anche comportare lo studio delle decisioni da prendere
 al fine di minimizzare il risk exposure, scegliendo o meno tra varie opzioni,
-scegliendo in modo guidato dai rischi. A tal fine si usano i \textbf{decision
-    tree} nei quali la radice rappresenta il problema.
+scegliendo in modo guidato dai rischi. 
 
+A tal fine si usano i \textbf{decision tree} nei quali la radice rappresenta il problema.
 Si hanno di volta in volta i vari scenari, con le stime di probabilità di trovare
-un errore critico, di fallimento, di non trovare errori critici e così via. Tali
+un errore critico, di fallimento, di non avere errori. Tali
 probabilità verranno usate per il calcolo del risk exposure insieme ad un
-quantificatore di $L(UO)$ spesso pari all'effettivo costo che conseguirebbe al
-risultato ottenuto. Infine i vari risk exposure di ogni caso vengono sommati per
-ottenere il risk exposure finale. Si può fare un'\textbf{analisi di sensitività}
-cambiando le percentuali o i costi al fine di ottenere un certo risultato, in
-modo da capire come si dovrebbe comportare.
+quantificatore di $L(UO)$, spesso pari all'effettivo costo che conseguirebbe al
+risultato ottenuto. Infine, i vari risk exposure di ogni caso vengono sommati per
+ottenere il risk exposure finale. 
+
+Si può fare un'\textbf{analisi di sensitività}
+cambiando le percentuali o i costi al fine di capire come comportarsi, riducendo
+al minimo il danno e il rischio.
+
 \begin{esempio}[Decision tree]
     Vediamo ora un esempio di come utilizzare un albero di decisione per effettuare
     l'analisi di un rischio figura \ref{fig:tree}.
@@ -130,8 +136,8 @@ modo da capire come si dovrebbe comportare.
         \label{fig:tree}
     \end{figure}
 \end{esempio}
-\newpage
-Ragionando sulle cause dei rischi usiamo il cosiddetto \textbf{risk tree}. Questo
+
+Per ragionare sulle cause dei rischi usiamo il cosiddetto \textbf{risk tree}. Questo
 albero ha come radice il rischio. Ogni nodo, detto \textbf{failure node}, è un
 evento che si può scomporre in altri eventi, fino alle foglie. La scomposizione
 è guidata da due tipi di nodi link:
@@ -152,10 +158,11 @@ evento che si può scomporre in altri eventi, fino alle foglie. La scomposizione
 \end{esempio}
 Nodi $and/or$ vengono rappresentati tramite i simboli delle porte logiche. Dato un
 risk tree cerco le combinazioni di eventi atomici che possono portare al rischio.
-Per farlo si esegue la cut-set tree derivation, ovvero, partendo dalla radice, si
+Per farlo si esegue la \textbf{cut-set tree derivation}, ovvero, partendo dalla radice, si
 riporta in ogni nodo la combinazione di eventi che possono produrre il fallimento
 e si vanno a calcolare le varie combinazioni degli eventi foglia. Praticamente si
 deriva un insieme di eventi non scomponibili sulle combinazioni dell'and.
+
 \begin{esempio}[Cut-set tree]
     Vediamo ora un esempio di cut-set tree figura \ref{fig:cut-set-tree}.
     \begin{figure}[!ht]
@@ -165,10 +172,12 @@ deriva un insieme di eventi non scomponibili sulle combinazioni dell'and.
         \label{fig:cut-set-tree}
     \end{figure}
 \end{esempio}
+
 \subsection{Risk prioritization}
 Bisogna capire quali rischi sono più importanti di altri. Per farlo si pongono i
 valori di $P(UO)$ e $L(UO)$ in un range, per esempio, da 1 a 10, ricalcolando il
 risk exposure. Una volta fatto si lavora in base al risk-exposure.
+
 \begin{esempio}[Risk-exposure analysis]
     Vediamo ora un esempio del piano cartesiano di analisi della risk-exposure in
     figura \ref{fig:risk-exposure-analysis}. In questo modo è possibile identificare
@@ -180,12 +189,14 @@ risk exposure. Una volta fatto si lavora in base al risk-exposure.
         \label{fig:risk-exposure-analysis}
     \end{figure}
 \end{esempio}
+
 Si procede disegnando i dati su un piano con $P(UO)$ sull'asse delle y e $L(UO)$
-su quello delle x e posizionando gli eventi su tale piano. Qualora i valori siano
-in un range si rappresentano con un segmento tra i due valori limite di risk
-exposure. Una volta rappresentati gli eventi, posso utilizzare delle curve per
+su quello  delle x e posizionandogli eventi su tale piano. Qualora i valori di RE siano
+in un range, allora si rappresentano le RE minima e massima. 
+Una volta rappresentati gli eventi, posso utilizzare delle curve per
 identificare zone di rischio diverse in base al risk exposure in modo da
 classificare i vari eventi.
+
 \subsection{Risk control}
 Bisogna quindi capire come gestire i rischi. Per ogni rischio bisogna definire e
 documentare un piano specifico indicante:
@@ -196,15 +207,15 @@ documentare un piano specifico indicante:
     \item Come approcciarsi al rischio.
     \item Il costo dell'approccio al rischio.
 \end{itemize}
-Anche in questo caso ci vengono incontro liste e check-list con le tecniche di risk
+Anche in questo caso ci vengono incontro \textbf{liste} e \textbf{check-list} con le tecniche di risk
 management più comuni in base al rischio specifico. Ci sono comunque strategie generali:
 \begin{itemize}
-    \item Lavorare sulla probabilità che il rischio avvenga, sulla probabilità dei
-          triggers. Bisogna capire come diminuire la probabilità. ($P(UO) \to 0$)
-    \item Lavorare sull'eliminazione stessa del rischio. ($P(UO) = 0$)
-    \item Lavorare sulla riduzione della probabilità di avere conseguenze al danno,
+    \item Abbassare la probabilità di realizzazione del rischio, lavorando sulla probabilità 
+          dei triggers. ($P(UO) \to 0$)
+    \item Lavorare sull'eliminazione del rischio. ($P(UO) = 0$)
+    \item Lavorare sulla riduzione delle conseguenze del danno,
           non viene quindi ridotto il rischio. ($L(UO) \to 0$)
-    \item Lavorare sull'eliminazione stessa del danno conseguente al rischio. ($L(UO) = 0$)
+    \item Lavorare sull'eliminazione del danno conseguente al rischio. ($L(UO) = 0$)
     \item Lavorare sul mitigare le conseguenze di un rischio, diminuendo l'entità
           del danno. ($L(UO) \to 0$)
 \end{itemize}
@@ -257,7 +268,7 @@ quantitativamente sulle contromisure:
                     del rischio. Un altro dato è la \textbf{perdita} di raggiungimento
                     di un obiettivo qualora tutti i rischi si verificassero:
                     \begin{equation}
-                        loss(obj) = W(obj) \cdot \sum_{obj}
+                        loss(obj) = W(obj) \cdot \sum_{r}
                         (\text{impact\_matrix}[r, obj] \cdot P(r))
                     \end{equation}
               \item \textbf{Elaborare contromisure efficaci per la matrice}:

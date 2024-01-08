@@ -147,7 +147,7 @@ Modificando la soglia del modello si possono avere diversi comportamenti:
     \item $\theta \to 1$: il modello è più conservativo quindi si migliorerà la
           precision, peggiorando la recall.
     \item $\theta \to 0$: il modello è meno conservativo, tendendo a classificare
-          quindi si migliorerà la più facilmente come $T$, quindi migliorerà la
+          quindi più facilmente come $T$, quindi migliorerà la
           recall, ma si peggiorerà la precision.
 \end{itemize}
 La \textbf{curva ROC} si costruisce eseguendo i modelli con treshold diverse
@@ -205,23 +205,28 @@ bisogna identificare quando un dataset è di grandi dimensioni:
 \begin{itemize}
     \item \textbf{dataset di grandi dimensioni}: quando il dataset contiene almeno
           $10000$ istanze
+    \item \textbf{dataset di medie dimensioni}: quando il dataset contiene tra
+          $100$ e $10000$ istanze
     \item \textbf{dataset di piccole dimensioni}: quando il dataset è di dimensione
           molto piccola, $<100$ istanze
 \end{itemize}
 La valutazione del modello su un dataset di grandi dimensioni può essere fatta
-effettuando la suddivisione tra  $80\%$ train set e $20\%$ test test randomicamente.
+effettuando la suddivisione tra  $80\%$ train set e $20\%$ test randomicamente.
 Si allenerà il classificatore sul train set e si valuta sul test set.
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{img/performance evaluation/eval-big-dataset.png}
     \caption{Schema di valutazione di un modello su un dataset di grosse dimensioni}
     \label{fig:eval-big-dataset}
 \end{figure}
+
 Ricorda sempre che i dati di test non devono mai essere usati per il train e nemmeno
 per il tuning degli iperparametri. Per effettuare il tuning degli iperparametri allora
 si partizionerà il train set in training e validation, in modo da calcolare le
 metriche sul validation per tunnare gli iperparametri. Per la valutazione del modello
 finale si userà sempre il test set.
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{img/performance evaluation/eval-big-dataset-train-validation-test.png}
@@ -229,10 +234,11 @@ finale si userà sempre il test set.
         con suddivisione train-validation-test}
     \label{fig:eval-big-dataset-train-validation-test}
 \end{figure}
+
 Per valutare il modello su un dataset di piccole dimensioni non si effettua più
 la suddivisione training, validation e test set, perché i dati sono pochissimi non
 avremo una rappresentazione coerente della distribuzione dei dati. La soluzione è
-quella di utilizzare \textbf{repeted holdout}, ovvero effettuare la valutazione
+quella di utilizzare \textbf{repeated holdout}, ovvero effettuare la valutazione
 del modello allenandolo in più interazioni su una suddivisione dei dati che cambia
 ogni volta, stando attenti che in una iterazioni i sottoinsiemi di train e test siano
 disgiunti. Ad ogni iterazione si valuta il modello e alla fine si ha la valutazione

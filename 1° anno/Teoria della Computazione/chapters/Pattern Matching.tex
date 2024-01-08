@@ -1426,6 +1426,7 @@ Definiremo anche una regola di ordinamento:
 \end{definizione}
 Possiamo introdurre questi teoremi:
 \begin{teorema}
+    \label{th:ord-rot-1}
     Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che:
     \begin{itemize}
         \item $r_1 \prec r_2$
@@ -1434,6 +1435,7 @@ Possiamo introdurre questi teoremi:
     Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
 \end{teorema}
 \begin{teorema}
+    \label{th:ord-rot-2}
     Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che $r_1[n] \prec r_2[n]$,
     Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
 \end{teorema}
@@ -1541,7 +1543,7 @@ Della BWT possiamo introdurre le seguenti proprietà:
 \begin{nota}
     Il primo simbolo della $BWT$ è l'ultimo del testo prima di $\$$.
 
-    Forlmalmente, se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
+    Formalmente, se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
     $B[1] \neq \$$ perché sarà $B[1] = T[n - 1] $ quindi $F[1] = \$$
 \end{nota}
 \begin{esempio} %% Non so se è l'esempio giusto
@@ -1603,9 +1605,9 @@ Riassumendo:
     \item Quindi $B[i]$, che è l'ultimo simbolo di $r_i$, sarà il simbolo $T[q - 1]$.
     \item La rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo
           che precede $q$-suffiso.
-    \item Sicuramente, il $q$-suffisso e l'$i$-esimo nell'ordinamento lessicografico
-          dei suffissi di $T$ (per il teorema introdotto), si ha questa
-          sincronizzazione per il $\$$. %% Mettere riferimento al teorema
+    \item Sicuramente, il $q$-suffisso è l'$i$-esimo nell'ordinamento lessicografico
+          dei suffissi di $T$ (per i teoremi \ref{th:ord-rot-1} e \ref{th:ord-rot-2}), si ha questa
+          sincronizzazione per il $\$$.
     \item In conclusione, $B[i]$ è il simbolo che precede l'$i$-esimo suffisso
           nell'ordinamento lessicografico dei simboli di $T$.
 \end{itemize}
@@ -1747,11 +1749,11 @@ Possiamo effettuare le seguenti osservazioni:
           per cui il $P[p, m]$-intervallo è vuoto, allora l'ultimo suffisso che
           occorre in $T$ è $P[p + 1, m]$ in un numero di iterazioni $|P[p + 1,
               m]| + 1$
-    \item La complessità quindi sarà $O(m \lg n)$.
+    \item La complessità quindi sarà $O(m \log n)$.
 \end{itemize}
 Possiamo rimuovere il $\log n$ nell'equazione del tempo rendendo costante
 il calcolo della backward extension. Possiamo osservare che per un $Q$-intervallo
-($[b, e)$), e dato un simbolo $\sigma$:
+($[b, e)$) e un simbolo $\sigma$:
 \begin{itemize}
     \item Siano $i_1 < i_2 < \dots < i_k$ le $k$ posizioni di $[b,e)$ tali che:
           \begin{equation}
@@ -1770,6 +1772,7 @@ il calcolo della backward extension. Possiamo osservare che per un $Q$-intervall
     posizione BWT coincidente al carattere da cercare.
 \end{nota}
 Quindi la procedura sarà definita come:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
@@ -1780,7 +1783,9 @@ Quindi la procedura sarà definita come:
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
+
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
@@ -1799,6 +1804,7 @@ Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
+
 La complessità di questo algoritmo risulta lineare ($O(m)$) solo se definiamo il
 calcolo della $LF$-function in tempo costante, e di cnseguenza anche quello della
 Backward Extension. Questo è possibile utilizzando l'FM-Index.
@@ -1905,13 +1911,14 @@ incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è uguale a
 $\sigma$. In caso contrario si copia il valore di $Occ(i - 1, \sigma)$.
 
 Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
         \State $n \gets |B|$
         \State $C \gets \text{array di dimensione } |\Sigma|$
         \State $Occ \gets \text{matrice di dimensione } n + 1 \times |\Sigma|$
-        \For{$\sigma$}
+        \For{$\sigma \in \Sigma$}
         \State $Occ[1, \sigma] \gets 0$
         \EndFor
         \For{$i \gets 1$ \textbf{to} $n$}
@@ -1929,6 +1936,7 @@ Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
+
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
 in tempo costante, questo è possibile scomponendo l'indice $j$ da calcolare come:
 \begin{itemize}
