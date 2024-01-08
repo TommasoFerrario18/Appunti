@@ -965,15 +965,25 @@ Definiamo una funzione per $\gamma \equiv \alpha U \beta$, cioè $f_\gamma$:
     f_\gamma(H) = [[\beta]] \cap \{q\in [[\alpha]] \mid \exists (q, q')\in T, q'\in H\}
 \end{equation}
 \section{Algoritmi per il model checking}
-Vogliamo ora trovare un algoritmo che dato un modello di Kripke, definito sulle
-proposizioni atomiche $AP$, e una formula della logica $LTL$ ci dice se tale
-formula è verificata nello stato iniziale.
+Precedentemente è stato introdotto un algoirtmo per verificare se una formula della
+logica $CTL$ è valida, ciò è possibile mediante un modello di Kripke e una funzione
+monotona, utilizzando i punti fissi.
+
+Questo ragionamento non si può riutilizzare per la dimostrazione di formule della
+logica $LTL$, dal momento che non vale più il ragionamento dei punti fissi.
+
 \begin{nota}
     Non possiamo applicare l'algoritmo per le formule della logica $CTL$.
 \end{nota}
+
+Vogliamo quindi trovare un algoritmo che dato un modello di Kripke, definito sulle
+proposizioni atomiche $AP$, e una formula della logica $LTL$ ci dice se tale
+formula è verificata nello stato iniziale.
+
 Tale algoritmo si basa su un automa a stati finiti che riconosce parole infinite
 su un alfabeto finito $\Sigma$, tale automa è anche noto come \textbf{automa di
-    Büchi}.
+Büchi}.
+
 \begin{definizione}[\textbf{Automa di Büchi}]
     Definiamo l'\textbf{automa di Büchi} come una quadrupla:
     \begin{equation}
@@ -988,25 +998,43 @@ su un alfabeto finito $\Sigma$, tale automa è anche noto come \textbf{automa di
         \item $F \subseteq Q$ è l'insieme degli stati accettanti.
     \end{itemize}
 \end{definizione}
+
+Si trasforma il problema in un'accettazione di linguaggi di parole infinite, 
+riconoscibili mediante gli automi sopracitati. Però in questi linguaggi cambia il
+metodo di accettazione delle parole, dal momento che l'esecuzione dell'automa non 
+può finire in uno stato accettante.
+
 \begin{definizione}[\textbf{Accettazione di una parola infinita}]
     Una parola infinita $w = a_0a_1\dots$ è accettata da $\mathcal{B}$ se la
     sequenza corrispondente di stati $q_0q_1\dots$ passa infinite volte per
     almeno uno stato in $F$.
 \end{definizione}
-Una proprietà importante degli automi di Büchi è data dal fatto che il problema
-di riconoscere un linguaggio vuoto ($L(\mathcal{B}) = \emptyset$) è decidibile.
+
+Questi automi condividono molte delle proprietà fondamentali dei linguaggi formali, 
+ma non tutte, infatti si hanno anche le seguenti proprietà:
+\begin{itemize}
+    \item le versioni \textbf{deterministiche} e \textbf{non deterministiche} 
+    non sono equivalenti
+    \item il problema di riconoscere il linguaggio vuoto è un problema \textbf{decidibile} ($L(\mathcal{B}) = \emptyset$).
+\end{itemize}
+
 \begin{nota}
     Il linguaggio composto da parole infinite viene anche chiamato $\Omega$-
     regolare.
 \end{nota}
-Partendo da un modello di Kripke posso ottenere un automa di Büchi corrispondente
-nel seguente modo:
+
+Sono stati introdotti questi automi perché quando si effettua la dimostrazione di 
+una formula $LTL$, quello che si fa è analizzare stringhe infinite di preposizioni
+atomiche della logica dei cammini massimali. Questo implica una correlazione tra
+i \textbf{modelli di Kripke} e gli \textbf{automi di Büchi}. Partendo da un modello 
+di Kripke posso ottenere un automa di Büchi corrispondente nel seguente modo:
 \begin{itemize}
     \item Copio la struttura del modello di Kripke.
     \item Aggiungo uno stato iniziale.
     \item Etichetto gli archi con l'insieme di condizioni vere nello stato di
           arrivo.
 \end{itemize}
+
 \begin{esempio}
     Nella figura \ref{fig:kripke-automa} è riportato un esempio di come è
     possibile passare da un modello di Kripke ad un automa di Büchi.
@@ -1017,6 +1045,7 @@ nel seguente modo:
         \label{fig:kripke-automa}
     \end{figure}
 \end{esempio}
+
 Inoltre, per ogni formula è LTL è possibile definire un automa di Büchi.
 
 Vogliamo ora verificare se una formula $\alpha \in LTL$ è vera nel modello $M$
@@ -1025,20 +1054,30 @@ utilizzare il seguente algoritmo:
 \begin{enumerate}
     \item Costruiamo l'automa $\mathcal{B}_{\lnot \alpha}$, ovvero l'automa per
           la negazione della formula.
-    \item Trasformiamo $M$ in un automa etichettato da insiemi di proposizioni
-          atomiche.
-    \item Calcoliamo il prodotto sincrono dei due automi ($\mathcal{PS}$).
+    \item Trasformiamo il modello di Kripke $M$ nell'automa di Büchi equivalente.
+    \item Calcoliamo il prodotto sincrono dei due automi ($\mathcal{PS}$,prodotto tra automi).
     \item A questo punto se $L(\mathcal{PS}) = \emptyset$, allora $M, q_0 \models
               \alpha$. Se invece tale linguaggio non è vuoto, vuol dire che
           abbiamo trovato un cammino per cui è vera la negazione della formula
           $\alpha$ e quindi $\alpha$ non è vera per quel modello.
 \end{enumerate}
+\begin{nota}
+    Ricorda che Il prodotto sincrono tra automi corrisponde ad un automa che riconosce
+    il linguaggio intersezione dei linguaggi accettati dagli automi  
+\end{nota}
 \section{$\mu$ calcolo}
 Il $\mu$ calcolo è un linguaggio logico che permette di definire delle formule
 ricorsive.
 \begin{esempio}
     Supponiamo di avere un solo operatore temporale $X$. Come possiamo esprimere
     le proprietà $EF \alpha$?
+    \begin{equation}
+        \begin{array}{ll}            
+            EF\alpha &\equiv \alpha\lor EX\alpha\lor EXEX\alpha\lor \dots \equiv\\
+            &\equiv \alpha\lor EX(\alpha\lor EX\alpha\lor EXEX\alpha\lor \dots)\equiv\\
+            &\equiv \alpha \lor EX(EF\alpha)
+        \end{array}
+    \end{equation}
 \end{esempio}
 La semantica di questo linguaggio è definita su modelli di Kripke attraverso
 gli operatori di punto fisso.
@@ -1048,6 +1087,9 @@ un elevata complessità. Questo ci permette di affermare che:
 \begin{equation}
     CTL^{\ast} \subset \mu-\text{calcolo}
 \end{equation}
+In generale questo linguaggio ha un'applicabilità minore vista la sua esprissività
+e complessità.
+
 \section{Complessità}
 Sia $M$ un modello di Kripke e $f$ una formula, e siano $|M|$ il numero di stati
 del modello e $|f|$ il numero di simboli nella formula. Allora possiamo definire
@@ -1060,9 +1102,26 @@ Anche se dalle formule sembrano complessità completamente diverse, il valore di
 maggiore peso è composto dalla dimensione del modello, la quale risulta
 esponenziale rispetto al numero di stati. Inoltre, le formule LTL sono solitamente
 composte da meno simboli rispetto alle formule CTL.
+\begin{nota}
+    Ricorda che nei sistemi concorrenti gli stati esplodono sempre in un esponenziale
+\end{nota}
+
+Esistono anche altri algoirtmi per la dimostrazione di formule:
+\begin{itemize}
+    \item OBDD: sfruttano i diagrammi di decisione binari ordinati che rappresentano
+    le formule in modo simbolico e risparmiano l'esplosione esponenziale degli stati
+    \item ordine parziale: si rappresentano i sistemi concorrenti secondo un ordine
+    parziale 
+    \item SAT: si riduce il problema di dimostrazione a SAT e quindi sisfruttano
+    gli algoritmi esistemi per la dimostrazione.
+\end{itemize}
+
 \section{Fairness}
+Un altro problema dei sistmei concorrenti è che la rappresentazione utilizzata sfrutta
+la \textbf{semantica interleaving} che trasforma le relazioni di dipendenza in scelte.
+
 \begin{definizione}[\textbf{Esecuzione unfair}]
-    Un'esecuzione è \textbf{unfair} (ingiusta) se un evento rimane abilitato sa
+    Un'esecuzione è \textbf{unfair} (ingiusta) se un evento rimane abilitato da
     un istante in poi, ma non scatta mai.
 \end{definizione}
 La possibilità di avere esecuzioni unfair porta a un nuovo problema, ovvero si
