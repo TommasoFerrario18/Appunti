@@ -268,8 +268,8 @@ semantica operazionale strutturale.
               \frac{p_1 \xrightarrow{\alpha} p_1'}{p_1 | p_2
                   \xrightarrow{\alpha} p_1' | p_2}
               \ \ \lor \ \
-              \frac{p_2 \xrightarrow{\alpha} p_2'}{p_1 | p_2
-                  \xrightarrow{\alpha} p_1 | p_2'}
+              \frac{p_2 \xrightarrow{\overline{\alpha}} p_2'}{p_1 | p_2
+                  \xrightarrow{\overline{\alpha}} p_1 | p_2'}
               \ \ \lor \ \
               \frac{p_1 \xrightarrow{\alpha} p_1' \land p_2
                   \xrightarrow{\overline{\alpha}} p_2'}{p_1 | p_2
@@ -318,7 +318,8 @@ semantica operazionale strutturale.
           \begin{equation}
               \frac{p \xrightarrow{\alpha} p'}{p_{[f]} \xrightarrow{f(a)} p_{[f]}'}
           \end{equation}
-    \item $K = P$ con $K$ uguale al nome di processo e $P \in Proc_{CCS}$:
+    \item \textbf{Ridenominazione dei processi}: $K = P$ con $K$ uguale al nome 
+          di processo e $P \in Proc_{CCS}$:
           \begin{equation}
               \frac{P \xrightarrow{\alpha} P' \land K = P}{K \xrightarrow{\alpha} P'}
           \end{equation}
@@ -336,11 +337,11 @@ tipo:
 \end{equation}
 tale che sia \textit{riflessiva}, \textit{simmetrica} e \textit{transitiva}.
 
-Bisognerà inoltre astrarre:
+Inoltre si richiede:
 \begin{itemize}
-    \item Gli stati e considerare le azioni $Act$.
-    \item Dalle sincronizzazioni interne, ovvero dalle $\tau$.
-    \item Rispetto al non determinismo.
+    \item astrazione delgi stati in modo tale da considerare solo le azioni $Act$.
+    \item astrazione delle sincronazzazioni interne, ovvero dalle $\tau$.
+    \item rispetto del non determinismo.
 \end{itemize}
 Milner poi asserisce che $R$ deve essere inoltre una \textbf{congruenza} rispetto
 agli operatori del CCS.
