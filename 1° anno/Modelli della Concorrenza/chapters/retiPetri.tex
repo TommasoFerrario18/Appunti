@@ -614,7 +614,7 @@ Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \tex
     $\langle N = (B, E, F); \phi \rangle$ è un \textbf{processo ramificato} di $\Sigma$
     se e solo se:
     \begin{itemize}
-        \item $(B, E, F)$ è una rete di occorrenze (si ammettono condizioni isolate)
+        \item $(B, E, F)$ è una rete di occorrenze con conflitti(si ammettono condizioni isolate)
         \item $\phi: B \cup E \to S \cup T$ è una mappa:
               \begin{enumerate}
                   \item $\phi(B) \subseteq S, \ \phi(E) \subseteq T$
@@ -629,6 +629,10 @@ Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \tex
               \end{enumerate}
     \end{itemize}
 \end{definizione}
+
+Quello che cambia è che quando scatta un evento allora si attivano tutte le postcondizioni
+anche quelle in conflitto.
+
 \begin{definizione}[\textbf{Prefisso}]
     Sia $\Sigma = (S,T, F, c_{in})$ un sistema elementare finito e senza contatti
     e siano $\Pi_1 = \langle N_1; \phi_1 \rangle$, $\Pi_2 = \langle N_2; \phi_2 \rangle$
