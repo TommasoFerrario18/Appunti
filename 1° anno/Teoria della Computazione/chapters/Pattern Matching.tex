@@ -1031,11 +1031,11 @@ strutturato in due fasi:
 \begin{enumerate}
     \item \textbf{Preprocessing} del pattern $P$ nel quale vengono calcolate
           $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
-          eseguita in tempo $\theta(|\Sigma| + m)$. (\textit{uguale a quello
+          eseguita in tempo $\Theta(|\Sigma| + m)$. (\textit{Uguale a quello
               dell'algoritmo BYG})
     \item \textbf{Scansione del testo} $T$ per cercare le occorrenze approssimate
           del pattern $P$. Questa operazione viene eseguita in tempo
-          $\theta(k \cdot n)$.
+          $\Theta(k \cdot n)$.
 \end{enumerate}
 \subsection{Scansione del testo}
 Dato che la fase di preprocessing è equivalente a quella per l'algoritmo BYG,
@@ -1685,7 +1685,7 @@ il quale coicide con l'intervallo $[1,n+1)$.
 \end{esempio}
 Dato un $Q$-intervallo $[b, e)$ si possono effettuare le seguenti osservazioni:
 \begin{itemize}
-    \item Dato un suffix array $S$,possiamo trovare gli indici dei suffissi
+    \item Dato un suffix array $S$, possiamo trovare gli indici dei suffissi
           che condividono $Q$ come prefisso come:
           \begin{equation}
               SA[b], SA[b + 1], \dots, SA[e - 1]
@@ -1749,7 +1749,7 @@ Possiamo effettuare le seguenti osservazioni:
           per cui il $P[p, m]$-intervallo è vuoto, allora l'ultimo suffisso che
           occorre in $T$ è $P[p + 1, m]$ in un numero di iterazioni $|P[p + 1,
               m]| + 1$
-    \item La complessità quindi sarà $O(m \log n)$.
+    \item La complessità quindi sarà $\mathcal{O}(m \log n)$.
 \end{itemize}
 Possiamo rimuovere il $\log n$ nell'equazione del tempo rendendo costante
 il calcolo della backward extension. Possiamo osservare che per un $Q$-intervallo
@@ -1772,7 +1772,6 @@ il calcolo della backward extension. Possiamo osservare che per un $Q$-intervall
     posizione BWT coincidente al carattere da cercare.
 \end{nota}
 Quindi la procedura sarà definita come:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
@@ -1783,9 +1782,7 @@ Quindi la procedura sarà definita come:
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
-
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
@@ -1804,13 +1801,12 @@ Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
-
 La complessità di questo algoritmo risulta lineare ($O(m)$) solo se definiamo il
-calcolo della $LF$-function in tempo costante, e di cnseguenza anche quello della
+calcolo della $LF$-function in tempo costante, e di conseguenza anche quello della
 Backward Extension. Questo è possibile utilizzando l'FM-Index.
 \subsection{FM-Index}
 Proposto da Ferragina e Manzini nel 2000, consiste in una rappresentazione della
-BWT del testo traite 2 funzioni numeriche. La ricerca esatta di un pattern $P$
+BWT del testo tramite 2 funzioni numeriche. La ricerca esatta di un pattern $P$
 di lunghezza $m$ in un testo $T$ di lunghezza $n$ richiede un tempo pari a
 $\Theta(|P|) = \Theta(m)$.
 
