@@ -68,9 +68,10 @@ Vediamo ora come è possibile rendere il tempo di esecuzione dell'operazione di
 rank costante ($\mathcal{O}(1)$).
 
 La soluzione più semplice, ovvero memorizzare tutti i valori di $rank(i)$
-necessiterebbe di $O(n \log n)$ bit il che non lo rende un o-piccolo di $n$. Una
-soluzione alternativa consiste nel memorizzare ogni $l-$esimo valore $rank(i)$,
-e a questo punto, quando si esegue una query scorriamo i restanti $l - 1$ bit.
+necessiterebbe di $\mathcal{O}(n \log n)$ bit il che non lo rende un o-piccolo
+di $n$. Una soluzione alternativa consiste nel memorizzare ogni $l-$esimo valore
+$rank(i)$, e a questo punto, quando si esegue una query scorriamo i restanti $l
+    - 1$ bit.
 
 Questi valori vengono salvati in un vettore \textit{first} $F[0 \dots n / l]$,
 dove l'operatore $/$ indica la divisione intera, tale che:
@@ -117,7 +118,8 @@ per essere memorizzata pari a $\mathcal{O}(\sqrt{n} \log n \log \log n)$ bit.
 
 Si definisce:
 \begin{equation}
-    c_i = B[k \cdot (\frac{i}{k}) + 1 \dots k \cdot (\frac{i}{k} + 1) - 1]
+    c_i = B \left[k \cdot \left(\frac{i}{k}\right) + 1 \dots k \cdot \left(\frac{i}{k} 
+    + 1\right) - 1\right]
 \end{equation}
 come il bitvector di lunghezza $k - 1$ che copre il $(k + 1)-$esimo blocco. Questo
 valore ci permette di identificare la riga della lookup table $T$ da cui prendere
@@ -268,8 +270,8 @@ ri-definire le funzioni di rank e select come:
 \end{equation}
 Una rappresentazione "naïve" consiste nel considerare come rappresentazione di
 $T$ attraverso un insieme di $s$ ($| \Sigma | = s$) stringhe binarie $B_\sigma[1
-        \dots n]$, $\forall \sigma \in \Sigma$, ovvero una per ogni simbolo dell'alfabeto,
-si ha che:
+        \dots n]$, $\forall \sigma \in \Sigma$, ovvero una per ogni simbolo
+dell'alfabeto, si ha che:
 \begin{equation}
     B_\sigma[i] = \begin{cases}
         1 \iff T[i] = \sigma \\
@@ -360,6 +362,11 @@ Vediamo ora come realizzare le operazioni su questa struttura dati:
     \item \textbf{select}: analogamente ai bitvector si può dimostrare che anche
           $select_{\sigma,T}(i)$ può essere calcolato in $\mathcal{O}(\log s)$
 \end{itemize}
+\begin{nota}
+    Nell'operazione di access ad ogni passo si effettua l'operazione di rank
+    in base al valore del bit $B_v [i]$. Quindi per ogni nodo si effettua una
+    scelta se effettuare una rank sul valore $0$ o sul valore $1$.
+\end{nota}
 \subsection{Costruzione}
 Vediamo ora come costruire un wavelet tree livello per livello a partire dalla
 root:
@@ -501,7 +508,7 @@ stessa posizione dell'hash table in una lista concatenata. Chiamiamo $\alpha$ il
 concatenate.
 
 Il caso peggiore si ha quando tutte le $n$ chiavi "mappano" in una sola lista,
-quindi i tempi di accesso richiedono un tempo paria a $\Theta(n)$ ma nella realtà
+quindi i tempi di accesso richiedono un tempo pari a $\Theta(n)$ ma nella realtà
 è difficile che accada quindi accesso in $\Theta(1 + \alpha)$ nel caso migliore,
 con il numero di posizioni nella hash table proporzionale al numero di elementi
 della tabella (quindi $\alpha \to 1$), ho accesso in tempo $\Theta(1)$.
@@ -578,8 +585,8 @@ $x \in S$ in tempo $\mathcal{O}(1)$ ($A[h(x)] = 1$). Inoltre:
     stessa probabilità e tale valore non dipende dal valore di hash delle altre
     chiavi.
 \end{definizione}
-Costruiamo ora una struttura dati per $S$, $|S| = n$. Si considera un bitvector 
-$A$, dove$|A| = m$, inoltre, si considera una famiglia di $l$ funzioni hash 
+Costruiamo ora una struttura dati per $S$, $|S| = n$. Si considera un bitvector
+$A$, dove$|A| = m$, inoltre, si considera una famiglia di $l$ funzioni hash
 ideali $\mathcal{H} = \{h_0, \dots, h_{l - 1}\}$ dove:
 \begin{equation}
     h: \mathcal{U} \to \{0, \dots, m - 1\}, \ \forall h \in \mathcal{H}
