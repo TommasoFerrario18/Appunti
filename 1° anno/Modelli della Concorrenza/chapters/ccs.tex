@@ -339,7 +339,7 @@ tale che sia \textit{riflessiva}, \textit{simmetrica} e \textit{transitiva}.
 
 Inoltre si richiede:
 \begin{itemize}
-    \item astrazione delgi stati in modo tale da considerare solo le azioni $Act$.
+    \item astrazione degli stati in modo tale da considerare solo le azioni $Act$.
     \item astrazione delle sincronazzazioni interne, ovvero dalle $\tau$.
     \item rispetto del non determinismo.
 \end{itemize}
@@ -556,14 +556,14 @@ allora sono bisimili.
     La Bisimulazione forte è una congruenza anche rispetto agli operatori CCS,
     ovvero se $p, q \in Proc_{CCS} \land p \stackrel{Bis}{\sim} q$ allora:
     \begin{itemize}
-        \item $\alpha.p \stackrel{Bis}{\sim} \alpha.q$
-        \item $p + r \stackrel{Bis}{\sim}q + r$ e $r + p \stackrel{Bis}{\sim} r
+        \item \textbf{prefisso}: $\alpha.p \stackrel{Bis}{\sim} \alpha.q$
+        \item \textbf{somma}: $p + r \stackrel{Bis}{\sim}q + r$ e $r + p \stackrel{Bis}{\sim} r
                   + q, \forall r \in Proc_{CCS}$
-        \item $p | r \stackrel{Bis}{\sim} q | r$ e $r | p \stackrel{Bis}{\sim} r | q
+        \item \textbf{parallelismo}: $p | r \stackrel{Bis}{\sim} q | r$ e $r | p \stackrel{Bis}{\sim} r | q
                   \forall r \in Proc_{CCS}$
-        \item $\forall f: Act \to Act$ funzione di rietichettatura, se $p[f]
+        \item \textbf{rietichettatura}: $\forall f: Act \to Act$ funzione di rietichettatura, se $p[f]
                   \stackrel{Bis}{\sim} q[f]$ allora $p \stackrel{Bis}{\sim} q$
-        \item $p_{\setminus L} \stackrel{Bis}{\sim} q_{\setminus L}$ e $L \subseteq
+        \item \textbf{restrizione}: $p_{\setminus L} \stackrel{Bis}{\sim} q_{\setminus L}$ e $L \subseteq
                   Act$
     \end{itemize}
 \end{osservazione}

@@ -398,17 +398,17 @@ interessati a tutta la storia dei movimenti dei secchi.
     Definiamo $N = (B,E, F)$ come una \textbf{rete causale}, detta anche rete di
     occorrenze senza conflitti, se e solo se:
     \begin{itemize}
-        \item $\forall b \in B: |^{\bullet}b| \leq 1 \land |b^{\bullet}| \leq 1$
+        \item \textbf{senza conflitti}: $\forall b \in B: |^{\bullet}b| \leq 1 \land |b^{\bullet}| \leq 1$
               ovvero non si hanno conflitti; quindi, per ogni condizione si ha al più
               un pre-evento e un post evento. (Avendo quindi al più un arco entrante
               e al più uno uscente).
-        \item $\forall x, y \in B \cup E: (x, y) \in F^{+} \Rightarrow (y, x) \notin F^{+}$
+        \item \textbf{aciclica}: $\forall x, y \in B \cup E: (x, y) \in F^{+} \Rightarrow (y, x) \notin F^{+}$
               ovvero non si hanno cicli; quindi, presi due elementi collegati da una
               sequenza di archi orientati, avendo un cammino tra i due elementi ($F^{+}$
               è la chiusura transitiva della relazione $F$) non ho anche un cammino
               opposto tra i due.
-        \item $\forall e \in E: \{x \in B \cup E | xF^{\ast}e\}$ è finito, ovvero
-              si ha un numero finito di pre-elementi di un certo elemento.
+        \item \textbf{passato finito}: $\forall e \in E: \{x \in B \cup E | xF^{\ast}e\}$ è finito, ovvero
+              si ha un numero finito di pre-elementi di un certo evento.
     \end{itemize}
     Sono quindi reti che registrano un comportamento e quindi non si hanno
     conflitti (che in caso sono sciolti registrando solo quello che è effettivamente
