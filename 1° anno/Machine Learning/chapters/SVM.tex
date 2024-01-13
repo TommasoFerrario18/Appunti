@@ -94,7 +94,7 @@ Si hanno quindi due casistiche:
           sia grande è necessario che la quantità $\langle w, x_i \rangle + b$
           abbia un grande valore negativo.
 \end{enumerate}
-Il margine funzionale specifica quanta è buona la classificazione, ma non misura
+Il margine funzionale specifica quanto è buona la classificazione, ma non misura
 la distanza degli esempi dall'iperpiano.
 \begin{teorema}
     Se $\hat{\gamma}_i > 0$, per ogni $classificazione_i$ la classificazione è
@@ -191,11 +191,11 @@ Vorremmo assicurarci che tutti i punti cadano al di fuori del margine
 e quindi vogliamo:
 \begin{equation*}
     \begin{aligned}
-        \max \gamma \\ \text{s.t.} \ y_i (\langle w, x_i \rangle + b) \leq
+        \max \gamma \\ \text{s.t.} \ y_i (\langle w, x_i \rangle + b) \geq
         \gamma      \\ \| w \| = 1
     \end{aligned}
 \end{equation*}
-avendo, con il secondo vincolo, margine geometrico uguale a quello funzionale.
+vincolando il margine geometrico ad essere uguale a quello funzionale.
 Riscriviamo quindi:
 \begin{equation*}
     \begin{aligned}
@@ -458,15 +458,19 @@ Abbiamo quindi:
           \end{itemize}
     \item Come output una lista di classificatori $f_k$ con $k = 1,\dots, K$
 \end{itemize}
-La procedura è quindi, $\forall k \in \{1 \dots K\}$ costruisco un nuovo vettore
-di label $z$ tale che:
+La procedura di training consiste nel generare per ogni istanza $x_i$ un vettore 
+di label $z_i$ di $k$ componenti, una per ogni classe, definito in questo modo:
 \begin{equation}
-    \begin{cases}
-        z_i = y_i & \text{se} \ y_i = k \\
-        z_i = 0   & \text{altrimenti}
+    z_{ik} = \begin{cases}
+        y_i & \text{se} \ x_i \in \text{classe}(k) \\
+        0   & \text{altrimenti}
     \end{cases}
 \end{equation}
-applicando poi $L$ a $(x, z)$ per ottenere $f_k$.
+Quindi l'input per la fase di training del learner $L$ diventa $(x_i,z_i)$ e l'algoritmo
+consiste nell'eseguire i singoli $k$ learner su $x_i$, i quali calcoleranno
+$p_{ik}$ che sarà la componente del vettore di predizione delle label $p_i$ associata
+alla classificazione della classe $k$. Successivamente si confronterà $z_i$ e $p_i$
+per vedere se sono stati classificati correttamente gli esempi.
 
 Quindi prendere decisioni significa applicare tutti i classificatori ad un nuovo
 esempio e prevedere l'etichetta $k$ per la quale il classificatore corrispondente
