@@ -313,7 +313,7 @@ Vediamo ora come definire le regole di derivazione per i comandi introdotti:
     \item \textbf{Sequenza}:
           \begin{equation}
               \frac{\{p\} \text{ C } \{p'\} \ \ \{p'\} \text{ D } \{q\}}{\{p\}
-                  \text{ C; D } \{p\}}
+                  \text{ C; D } \{q\}}
           \end{equation}
           se le post-condizioni di C e le pre-condizioni di D sono le stesse
           posso mettere in sequenza i comandi ottenendo lo stesso risultato.
@@ -346,7 +346,7 @@ Vediamo ora come definire le regole di derivazione per i comandi introdotti:
           precondizione. Discorso analogo è valido anche per la post-condizione.
     \item \textbf{Assegnamento}:
           \begin{equation}
-              \frac{}{\{q[E/q]\} \text{ x } := \text{ E }\{q\}}
+              \frac{}{\{q[E/x]\} \text{ x } := \text{ E }\{q\}}
           \end{equation}
           dove con $q[E / x]$ indico il fatto che sostituisco ogni occorrenza di
           $x$ in $q$ con $E$.
