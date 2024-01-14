@@ -1,4 +1,5 @@
 \chapter{Model-View-Controller}
+\section{Model View Controller}
 Il \textbf{Model-View-controller} (\textbf{MVC}) è un pattern architetturale
 molto diffuso nello sviluppo di sistemi software, in particolare nell'ambito
 della programmazione orientata agli oggetti e in applicazioni web, in grado di
@@ -10,7 +11,8 @@ analizzando il pattern architetturale:
       \caption{Model View Controller}
       \label{fig:enter-label}
 \end{figure}
-Dove con le frecce piene si hanno le invocazioni di metodi e con quelle
+
+dove con le frecce piene si hanno le invocazioni di metodi e con quelle
 tratteggiate gli eventi. Analizzando meglio le tre componenti si ha che:
 \begin{itemize}
       \item \textbf{Model}: incapsula lo stato dell'applicazione, fornisce i
@@ -187,9 +189,9 @@ Si hanno tipicamente 4 pattern per il database gateway:
             all'ORM.
 \end{itemize}
 \subsection{Active record}
-Considerate le classi che implementano i dati che devono essere persistenti si
-arricchiscono le classi con metodi per permettere l'interazione col database. Un
-\textbf{active record} include quindi:
+Le classi che modellano i dati che devono essere persistenti, vengono arricchite
+con metodi per permettere l'interazione col database. Un \textbf{active record}
+include quindi:
 \begin{itemize}
       \item La business logic.
       \item Il mapping logico al database, avendo  metodi statici come
@@ -306,7 +308,7 @@ In questo caso si hanno due strategie:
             la versione di aggiornamento dell'oggetto.
             Due business transaction possono quindi
             interferire accedendo e modificando i record, si sfrutta il numero
-            di versione per tenere traccia delle modifiche applicate sull'oggetto. 
+            di versione per tenere traccia delle modifiche applicate sull'oggetto.
             Nel momento in cui in una business transaction stiamo per effettuare
             un'operazione di modifica, per prima cosa leggiamo il numero di versione
             dell'oggetto, se questo è uguale all'ultimo numero di versione allora
@@ -389,8 +391,8 @@ modificare nel tempo di sviluppo del programma.
 Si hanno infatti due tipi di chiave:
 \begin{itemize}
       \item Una chiave derivata da attributi dell'oggetto, questo comporta
-            che in caso di future modifiche, queste potrebbero impattare anche 
-            sulla chiave dell'oggetto, portando a inconsistenze tra oggetti e 
+            che in caso di future modifiche, queste potrebbero impattare anche
+            sulla chiave dell'oggetto, portando a inconsistenze tra oggetti e
             persistenza.
       \item Chiavi dedicate, si utilizzano chiavi dedicate, autogenerate, sepesso
             di tipo long che ben supporta il check di uguaglianza (==).
