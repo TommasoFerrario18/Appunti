@@ -81,9 +81,9 @@ sistema, un insieme di stati locali che collettivamente individuano lo
     \item Condizione falsa: $$\bigcirc$$
 \end{itemize}
 \begin{definizione} [\textbf{Regola dello scatto}]
-    Sia $N = (B, E, F)$ una rete elementare e $c \subseteq B$. L'evento $e \in E$
-    è \textbf{abilitato}, ovvero può occorrere, in $c$, denotato $c[e >$, se e
-    solo se:
+    Sia $N = (B, E, F)$ una rete elementare e sia $c \subseteq B$ un caso. L'evento
+    $e \in E$ è \textbf{abilitato}, ovvero può occorrere, in $c$, denotato
+    $c[e >$, se e solo se:
     \begin{equation}
         ^{\bullet} e \subseteq c \ \land \ e^{\bullet} \cap c = \emptyset
     \end{equation}
@@ -189,14 +189,15 @@ rappresentato dal suo grafo dei casi.
     Il \textbf{grafo dei casi} di $\Sigma$ è il sistema di transizioni etichettato
     $CG_{\Sigma} = (C_{\Sigma},U_{\Sigma}, A, c_{in})$ dove:
     \begin{itemize}
-        \item $C_{\Sigma}$ è l'insieme dei nodi del grafo (gli stati globali).
+        \item $C_{\Sigma}$ è l'insieme dei nodi del grafo (gli stati globali,
+              ovvero i casi raggiungibili).
         \item $U_{\Sigma}$ è l'alfabeto.
         \item $A$ è l'insieme di archi etichettati:
               \begin{equation}
                   A = \{(c, U, c') | c, c' \in C_{\Sigma}, U \in U_{\Sigma}, c[U > c'\}
               \end{equation}
-              I nodi sono i casi sequenziali mentre gli archi sono gli insiemi
-              di eventi indipendenti
+              I nodi sono i casi sequenziali mentre gli archi sono gli
+              \textbf{insiemi di eventi indipendenti}.
     \end{itemize}
 \end{definizione}
 \begin{definizione}[\textbf{Grafo dei casi sequenziale}]
@@ -206,14 +207,21 @@ rappresentato dal suo grafo dei casi.
     \begin{equation}
         A=\left\{(c,e,c')|c,c'\in C_\Sigma, e\in E: c[e>c' \right\}
     \end{equation}
-    I nodi sono i casi sequenziali mentre gli archi sono gli eventi
+    I nodi sono i casi sequenziali mentre gli archi sono gli \textbf{eventi}.
 \end{definizione}
 \subsection{Diamond property}
 \begin{definizione} [\textbf{Diamond property}]
     Sia $\Sigma = (B, E, F; c_{in})$ un sistema elementare,
-    $CG_{\Sigma} = (C_{\Sigma},U_{\Sigma}, A, c_{in})$ il suo grafi dei casi,
-    $U_1,U_2 \in U_{\Sigma}: U_1 \cap U_2 = \emptyset, U_1 \neq \emptyset, U_2
-        \neq \emptyset$, e $c_1, c_2, c_3, c_4 \in C_{\Sigma}$, allora valgono:
+    $CG_{\Sigma} = (C_{\Sigma},U_{\Sigma}, A, c_{in})$ il suo grafi dei casi.
+    Consideriamo ora:
+    \begin{itemize}
+        \item  $U_1,U_2 \in U_{\Sigma}$, ovvero due insiemi di eventi indipendenti
+              che devono essere disgiunti $U_1 \cap U_2 = \emptyset, U_1 \neq
+                  \emptyset, U_2 \neq \emptyset$
+        \item $c_1, c_2, c_3, c_4 \in C_{\Sigma}$, ovvero quattro casi
+              raggiungibili del sistema $\Sigma$.
+    \end{itemize}
+    allora valgono le seguenti affermazioni:
     \begin{enumerate}
         \item Dato $c_1[e_1 >$ e $c_1[e_2 >$ segue che:
               \begin{equation}
@@ -331,7 +339,7 @@ verificare che le precondizioni di $e$ siano vere:
         \includegraphics[width=0.5\textwidth]{img/reti/conc.png}
         \caption{Rappresentazione della concorrenza}
     \end{figure}
-    In altre parole, se e sol se $e_1$ ed $e_2$ sono indipendenti ed entrambi
+    In altre parole, se e solo se $e_1$ ed $e_2$ sono indipendenti ed entrambi
     abilitati in $c$.
 \end{definizione}
 \begin{definizione}[\textbf{Conflitto}]
@@ -528,7 +536,7 @@ nella storia del sistema.
     su $\Sigma$ se e solo se:
     \begin{itemize}
         \item $(B, E, F)$ è una \textbf{rete causale} nella quale si ammettono \textbf{condizioni
-              isolate}.
+                  isolate}.
         \item $\phi: B \cup E \to S \cup T$ è una mappa tale che:
               \begin{enumerate}
                   \item $\phi(B) \subseteq S, \ \phi(E) \subseteq T$
@@ -546,7 +554,7 @@ nella storia del sistema.
 Se $\langle N = (B, E, F); \phi \rangle$ è un \textbf{processo non sequenziale} di
 $\Sigma = (S, T, F, c_{in})$ \textbf{sistema elementare finito e senza contatti} allora:
 \begin{itemize}
-    \item $N = (B, E, F)$ è $K$-densa
+    \item $N = (B, E, F)$ è $k$-densa
     \item $\forall K \subseteq B$, $K\ B$-taglio di $N$ è tale che: $K$ è finito e
           $\exists c \in C_{\Sigma}: \ \phi(K) = c$
 \end{itemize}
@@ -554,25 +562,31 @@ I B-tagli corrispondono ai casi raggiungibili perché sono contemporaneamente ve
 \begin{nota}
     In sostanza per accorgersi subito se è un processo sequenziale allora:
     \begin{itemize}
-        \item devono comparire tutti gli stati del caso iniziale
-        \item se c'è un evento allora devono essere rappresentate tutte le sue 
-        precondizioni e postcondizioni
-        \item non ci devono essere conflitti nel processo non sequenziale
-    \end{itemize} 
+        \item Devono comparire tutti gli stati del caso iniziale.
+        \item Se c'è un evento allora devono essere rappresentate tutte le sue
+              precondizioni e post-condizioni.
+        \item Non ci devono essere conflitti nel processo non sequenziale.
+    \end{itemize}
 \end{nota}
 \subsection{Reti di Occorrenze}
 Vogliamo avere una struttura che registri tutti i comportamenti possibili
 registrando le dipendenze e le indipendenze tra i processi. Posso avere una
 struttura che mi raccolga tutti i possibili processi sequenziali.
 \begin{definizione}[\textbf{Relazione di conflitto}]
-    Una \textbf{relazione di conflitto}  $\#\subseteq (B\cup E)\times (B\cup E)$
-    è definita come
+    Una \textbf{relazione di conflitto} $\#\subseteq (B\cup E)\times (B\cup E)$
+    è definita come:
     \begin{equation}
         x\#y\iff \exists e_1,e_2\in E :^{\bullet}e_1 \cap ^{\bullet} e_2\ne \emptyset
         \land e_1\le x \land e_2\le y
     \end{equation}
     due elementi sono in relazione se nel loro passato hanno 2 eventi in conflitto.
 \end{definizione}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/reti/relazioneConflitto.png}
+    \caption{Esempio di relazione di conflitto}
+    \label{fig:relazioneConflitto}
+\end{figure}
 \begin{definizione}[\textbf{Rete di occorrenze, si ammettono conflitti}]
     $N = (B, E, F)$ è una \textbf{rete di occorrenze} se e solo se:
     \begin{itemize}
@@ -591,11 +605,11 @@ $(X, \leq) = (B \cup E, F^{\ast})$:
 \begin{itemize}
     \item $x \ \textbf{li} \ y$ sse $x\le y$ o $y\le x$
     \item $x \ \# \ y$ sse $\exists e_1,e_2\in E :^{\bullet}e_1 \cap ^{\bullet} e_2\ne \emptyset
-    \land e_1\le x \land e_2\le y$
+              \land e_1\le x \land e_2\le y$
     \item $x \ \textbf{co} \ y$ sse $\lnot (x<y)$ e $\lnot (y<x)$ e $\lnot x\#y$
 \end{itemize}
 
-Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \textbf{conflitto}. 
+Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \textbf{conflitto}.
 
 \begin{nota}
     La proprietà 2 e 3 delle reti causali in and tra loro implicano la proprietà 3
@@ -630,7 +644,7 @@ Se i due elementi non sono ordinati allora saranno o in relazione $co$ o in \tex
     \end{itemize}
 \end{definizione}
 
-Quello che cambia è che quando scatta un evento allora si attivano tutte le postcondizioni
+Quello che cambia è che quando scatta un evento allora si attivano tutte le post-condizioni
 anche quelle in conflitto.
 
 \begin{definizione}[\textbf{Prefisso}]
@@ -642,16 +656,14 @@ anche quelle in conflitto.
     $\Pi_2 = \langle N_2; \phi_2 \rangle$ se e solo se $N_1$ è una sottorete di
     $N_2$ e $\phi_{2|N_1} = \phi_1$ ($\phi_2$ ”ristretto” a $N_1$ è uguale a $\phi_1$).
 \end{definizione}
-
 \begin{nota}
     Il prefissi di un processo ramificato sono i processi sequenziali finiti del
     del sistema elementare.
 \end{nota}
-
 \begin{definizione}[\textbf{Unfolding}]
-    $\Sigma$, sistema elementare, ammette un unico processo ramificato che è massimale rispetto alla
-    relazione di prefisso tra processi. Tale processo massimale è chiamato
-    \textbf{unfolding} di $\Sigma$, denotato $Unf (\Sigma)$.
+    $\Sigma$, sistema elementare, ammette un unico processo ramificato che è
+    massimale rispetto alla relazione di prefisso tra processi. Tale processo
+    massimale è chiamato \textbf{unfolding} di $\Sigma$, denotato $Unf (\Sigma)$.
 \end{definizione}
 \begin{definizione}[\textbf{Corsa}]
     Un processo non sequenziale è un processo ramificato $\Pi = \langle N; \phi \rangle$
@@ -662,7 +674,6 @@ anche quelle in conflitto.
     Inoltre, ogni processo non sequenziale di $\Sigma$ è un prefisso dell'unfolding
     $Unf (\Sigma)$.
 \end{osservazione}
-
 \section{Sistemi elementari - reti P/T- Reti ad alto livello}
 Se dovessimo usare le reti elementari per modellare sistemi veri, avremmo
 un'esplosione di condizioni ed eventi. Una rappresentazione più compatta è data
@@ -676,12 +687,14 @@ booleane dei sistemi elementari, dei contatori.
     dove:
     \begin{itemize}
         \item $(S, T, F)$ è una rete.
-        \item \textbf{funzione capacità degli stati}: $K: S \to \mathbb{N}^+ \cup \{\infty\}$ è la funzione che assegna ai
-              posti le capacità
-        \item \textbf{funzione peso degli archi}: $W: F \to \mathbb{N}$ è la funzione peso degli archi
-        \item \textbf{funzione di marcatura iniziale}: $M_0: S \to \mathbb{N}: \forall s \in S$ $M_0(s) \leq K(s)$ è la
-              marcatura iniziale. È importante osservare che il numero di marche è sempre
-              minore o uguale alla capacità del posto
+        \item \textbf{funzione capacità degli stati}: $K: S \to \mathbb{N}^+
+                  \cup \{\infty\}$ è la funzione che assegna ai posti le capacità
+        \item \textbf{funzione peso degli archi}: $W: F \to \mathbb{N}$ è la
+              funzione peso degli archi
+        \item \textbf{funzione di marcatura iniziale}: $M_0: S \to \mathbb{N}:
+                  \forall s \in S$ $M_0(s) \leq K(s)$ è la marcatura iniziale.
+              È importante osservare che il numero di marche è sempre minore o
+              uguale alla capacità del posto
     \end{itemize}
 \end{definizione}
 Ad esempio, pensiamo ad un buffer a due posizioni, nei sistemi elementari avremmo
@@ -697,7 +710,7 @@ Le reti ad alto livello, anche dette \textbf{reti colorate}, permettono di
 ristabilire l'informazione persa con le reti Posti e transizioni assegnando una
 struttura dati alle marche. Addirittura, una marca potrebbe rappresentare un
 processo a sé stante.
-\begin{definizione}[\textbf{Regola di scatto}] 
+\begin{definizione}[\textbf{Regola di scatto}]
     Data la \textbf{marcatura} $M:S\to \mathbb{N}$ e una transizione $t\in T$:
     \begin{equation}
         M[t > \ \text{se e solo se} \ \forall s \in S \ M(s) \geq W(s, t) \ \land
@@ -735,15 +748,15 @@ Anche qui, come nei sistemi elementari si può costruire l'insieme delle marcatu
 raggiungibili e il relativo grafo di raggiungibilità. Generalmente in queste reti
 la Diamond property non è più valida, questo causa self-loop.
 
-Anche per le reti P/T si possono avere dei contatti, ovvero, situazioni in cui 
+Anche per le reti P/T si possono avere dei contatti, ovvero, situazioni in cui
 il peso dell'arco è $w$, la capacità del nodo di arrivo $k$ e la sua marcatura è
 $m_s\ne 0$ allora ho un \textbf{contatto} se $w+m_s >k$. Quindi non può scattare
 la regola visto che dovrebbero passare $w$ marche allo stato $s$ ma quest'ultimo
-ha già $m_s$ marche ed aggiungendone altre si supera il vincolo sulla capacità 
-del nodo.  
+ha già $m_s$ marche ed aggiungendone altre si supera il vincolo sulla capacità
+del nodo.
 
 Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere stati (quindi posti)
-per eliminare situazione di \textbf{contatto}. In sostanza si aggiungono per ogni 
+per eliminare situazione di \textbf{contatto}. In sostanza si aggiungono per ogni
 stato la versione \textbf{complementata} e questo permette di eliminare il vincolo sulla capacità,
 senza alterare il comportamento del sistema.
 \begin{definizione}
@@ -803,7 +816,7 @@ utilizzando l'\textbf{equazione di stato}:
     M_0[\sigma>M_1\implies \underline{M_0}+\underline{N}\cdot \underline{c_\sigma}
     =\underline{M_1}
 \end{equation}
-Dove $c_\sigma$ coincide con un vettore di $|T|$ elementi che specifica per ogni 
+Dove $c_\sigma$ coincide con un vettore di $|T|$ elementi che specifica per ogni
 componente $i$-esima, quante volte compare la transizione $t_i$ nella parola $\sigma$.
 Ad esempio:
 $$\sigma = t_1t_2t_3t_1t_3 \implies c_\sigma = \left[2, 1, 2\right]$$
@@ -820,21 +833,21 @@ con:
         \centering
         \includegraphics[width=0.2\textwidth]{img/reti/EsercizioP-T.png}
     \end{figure}
-    Iniziamo a calcolare la matrice di incidenza calcolando ogni singola cella 
+    Iniziamo a calcolare la matrice di incidenza calcolando ogni singola cella
     in questo modo:
     $$N[s,t]= \begin{cases}
-        - W(s,t)& (s,t)\in F\\
-        W(s,t)& (t,s)\in F
-    \end{cases}$$
+            - W(s,t) & (s,t)\in F \\
+            W(s,t)   & (t,s)\in F
+        \end{cases}$$
     Quindi in questo caso la tabella sarà
     \begin{equation}
         \begin{array}{|c|c|c|}
             \hline
-              &t_1&t_2\\
+              & t_1 & t_2 \\
             \hline
-            a & -2 & \\
-            b & 1 & -1\\
-            c &   & 2\\
+            a & -2  &     \\
+            b & 1   & -1  \\
+            c &     & 2   \\
             \hline
         \end{array}
     \end{equation}
@@ -843,32 +856,32 @@ con:
     \begin{equation}
         \begin{array}{|c|c|c|c|}
             \hline
-              &M_0&M_1&M_2\\
+              & M_0 & M_1 & M_2 \\
             \hline
-            a & 2 &  &\\
-            b &  & 1 &\\
-            c &   &  & 2\\
+            a & 2   &     &     \\
+            b &     & 1   &     \\
+            c &     &     & 2   \\
             \hline
         \end{array}
     \end{equation}
     Si possono anche eseguire in sequenza utilizzando l'equazione di stato e quindi
-    calcolare in un solo passo la marcatura di una sequenza di transizioni. La 
+    calcolare in un solo passo la marcatura di una sequenza di transizioni. La
     sequenza di transizioni è $\sigma = t_1t_2$, quindi $c_\sigma = \left[1,1\right]$
     allora:
     \begin{equation}
         M_0[\sigma>M_2 \implies \underline{M_0}+\underline{N}\cdot \underline{c_\sigma}
         = \left[\begin{array} {c}
-            2\\ 0 \\ 0
-        \end{array}\right] + \left[\begin{array} {cc}
-            -2 & 0\\
-            1 & -1\\
-            0 & 2\\
-        \end{array}\right] \cdot  \left[\begin{array} {c}
-            1\\
-            1\\
-        \end{array}\right] = \left[\begin{array} {c}
-            0\\0\\2
-        \end{array}\right] = \underline{M_2}
+                2 \\ 0 \\ 0
+            \end{array}\right] + \left[\begin{array} {cc}
+                -2 & 0  \\
+                1  & -1 \\
+                0  & 2  \\
+            \end{array}\right] \cdot  \left[\begin{array} {c}
+                1 \\
+                1 \\
+            \end{array}\right] = \left[\begin{array} {c}
+                0 \\0\\2
+            \end{array}\right] = \underline{M_2}
     \end{equation}
 \end{esempio}
 
