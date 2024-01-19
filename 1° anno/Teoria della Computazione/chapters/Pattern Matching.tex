@@ -1303,7 +1303,9 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
 Possiamo interpretare il suffix array come un array di indici, dove ogni elemento
 $S[i]$ rappresenta la posizione del suffisso $i$-esimo nell'ordinamento.
 
-Lo spazio richiesto per la memorizzazione del suffix array è $\Theta(n \log n)$.
+Lo spazio richiesto per la memorizzazione del suffix array è $\Theta(n \log n)$
+in quanto devono essere memorizzati $n$ interi da $1$ a $n$ e ognuno di essi
+richiede uno spazio di $log n$.
 \subsubsection{Ricerca esatta}
 Vediamo ora il funzionamento della ricerca esatta di un pattern $P$ di lunghezza
 $m$ in testo $T$ di lunghezza $n$.
@@ -1335,8 +1337,8 @@ Quindi l'algortmo di ricerca sarà:
 \begin{enumerate}
     \item Si inizializza un intervallo di posizioni $[L,R] = [1, |T|]$.
     \item \label{passo-2-sa} Si considera il suffisso di indice $S[p]$ con
-          $p = \left\lfloor \frac{R - L}{2} \right\rfloor$, e in tempo $O(m)$ si
-          controlla:
+          $p = \left\lfloor \frac{R - L}{2} \right\rfloor$, e in tempo
+          $\mathcal{O}(m)$ si controlla:
           \begin{itemize}
               \item $P \prec S[p]$-suffisso: si ripete il punto \ref{passo-2-sa}
                     ponendo $[L, R] = [L, p]$.
@@ -1346,7 +1348,7 @@ Quindi l'algortmo di ricerca sarà:
                     si restituisce la posizione $S[p]$.
           \end{itemize}
 \end{enumerate}
-Questo algoritmo trova un'occorrenza del pattern $P$ in tempo $O(|P| \log |T|)$.
+Questo algoritmo trova un'occorrenza del pattern $P$ in tempo $\mathcal{O}(|P| \log |T|)$.
 Nel caso in cui si desidera ottenere tutte le occorrenze di $P$ in $T$ è
 necessario modificarlo.
 \begin{algorithm}[!ht]
@@ -1433,6 +1435,8 @@ Possiamo introdurre questi teoremi:
         \item $r_1[n] = r_2[n]$
     \end{itemize}
     Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
+    In altre parole, se aggiungo un simbolo iniziale uguale ad entrambe le
+    rotazioni, allora l'ordinamento rimane invariato.
 \end{teorema}
 \begin{teorema}
     \label{th:ord-rot-2}
@@ -1513,7 +1517,7 @@ Ecco un esempio di costruzione:
                       \textbf{7}                         & t  & c  & \$ & g  & g  & t  & c  & a  & g  \\ \hline
                       \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ & g  & g  \\ \hline
                   \end{tabular}
-                  \caption{Rotazioni ordinate lessicograficamente}
+                  \caption{Rotazioni ordinate secondo l'ordine lessicografico}
                   \label{tab:rotazioni-ord}
               \end{table}
         \item La $BWT$ è data dall'ultima colonna della tabella:
@@ -1524,7 +1528,7 @@ Ecco un esempio di costruzione:
 \end{esempio}
 Lo spazio richiesto per la memorizzazione della trasformata di Burrows-Wheeler è
 $\Theta(n \log |\Sigma|)$.
-\begin{definizione}
+\begin{definizione}[\textbf{First column}]
     Definiamo $F$ come l'array di lunghezza $n$ dei simboli iniziali delle
     rotazioni ordinate. Tale array fornisce sempre l'ordinamento lessicografico
     dei simboli del testo.
@@ -1782,6 +1786,7 @@ Quindi la procedura sarà definita come:
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
+
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
 \begin{algorithm}
     \begin{algorithmic}
@@ -1801,6 +1806,7 @@ Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
+
 La complessità di questo algoritmo risulta lineare ($O(m)$) solo se definiamo il
 calcolo della $LF$-function in tempo costante, e di conseguenza anche quello della
 Backward Extension. Questo è possibile utilizzando l'FM-Index.
