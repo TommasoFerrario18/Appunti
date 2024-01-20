@@ -666,6 +666,7 @@ Essa è definita come segue:
         \end{tabular}
     \end{table}
 \end{esempio}
+\newpage
 Questo algoritmo è un'evoluzione dell'algoritmo banale per la ricerca delle
 occorrenze di un pattern in un testo. In particolare, l'algoritmo KMP consiste in:
 \begin{enumerate}
@@ -751,9 +752,9 @@ funzionamento attraverso due fasi:
 \begin{itemize}
     \item \textbf{Preprocessing del pattern} $P$ nel quale vengono calcolate
           $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
-          eseguita in tempo $\theta(m + |\Sigma|)$.
+          eseguita in tempo $\Theta(m + |\Sigma|)$.
     \item \textbf{Scansione del testo} $T$ per cercare le occorrenze esatte del
-          pattern $P$. Questa operazione viene eseguita in tempo $\theta(n)$.
+          pattern $P$. Questa operazione viene eseguita in tempo $\Theta(n)$.
 \end{itemize}
 \subsection{Word e Operatori}
 \begin{definizione}[\textbf{Word di bit}]
@@ -807,9 +808,9 @@ in input. Tra queste operazioni abbiamo:
           seguito da un OR con una maschera in cui nella prima posizione è presente
           1 e nelle altre 0.
 \end{itemize}
-\subsection{Preprocessing del pattern}
-Dato un pattern $P$ di lunghezza $m$ e $\sigma$ in $\Sigma$, $B_{\sigma}$ è una
-word di $m$ bit tale che:
+\subsection{Preprocessing del pattern} \label{subsec:preprocessing}
+Dato un pattern $P$ di lunghezza $m$ e un carattere $\sigma$ appartenete
+all'alfabeto $\Sigma$, $B_{\sigma}$ è una word di $m$ bit definita come:
 \begin{equation}
     B_{\sigma}[j] = 1 \iff P[j] = \sigma
 \end{equation}
@@ -825,11 +826,11 @@ in una tabella $B$. Con questa rappresentazione posso effettuare le query del ti
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|}
             \hline
-            P     & $a$ & $b$ & $c$ & $a$ & $b$ & $a$ \\ \hline
-            $B_a$ & $1$ & $0$ & $0$ & $1$ & $0$ & $1$ \\ \hline
-            $B_b$ & $0$ & $1$ & $0$ & $0$ & $1$ & $0$ \\ \hline
-            $B_c$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\ \hline
-            $B_d$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\ \hline
+            P     & a & b & c & a & b & a \\ \hline
+            $B_a$ & 1 & 0 & 0 & 1 & 0 & 1 \\ \hline
+            $B_b$ & 0 & 1 & 0 & 0 & 1 & 0 \\ \hline
+            $B_c$ & 0 & 0 & 1 & 0 & 0 & 0 \\ \hline
+            $B_d$ & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
         \end{tabular}
     \end{table}
 \end{esempio}
@@ -845,7 +846,7 @@ Vediamo ora come calcolare la tabella $B$:
               \item $M = \textbf{RSHIFT} (M)$
           \end{itemize}
 \end{enumerate}
-L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| +
+L'algoritmo per calcolare la tabella richiede un tempo pari a $\Theta(|\Sigma| +
     m)$ ed è il seguente:
 \begin{algorithm}
     \begin{algorithmic}
@@ -877,7 +878,7 @@ La procedura per la scansione del testo è rappresentata come:
 \end{enumerate}
 Dobbiamo ora definire cosa si intende con la word $D_i$. Prima di fare ciò dobbiamo
 definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1,i]$.
-\begin{definizione}[\textbf{Word $D_i$}]
+\begin{definizione}[\textbf{Word $D_i$}] \label{def:word}
     Dati un pattern $P$ lungo $m$ e un testo $T$ lungo $n$, $D_i$ ($0 \leq i \leq
         n$) è una word di $m$ bit tale che:
     \begin{equation}
@@ -900,15 +901,19 @@ definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1
     Con posizione più grande si intende quella più a destra diversa da $m$.
 \end{nota}
 \begin{esempio}
-    Data la word:
+    Data la word riportata nella tabella \ref{tab:word}, possiamo calcolare il
+    bordo del pattern in quanto l'ultimo bit è uguale a $1$.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-            D\_i & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0  & 1  & 0  & 0  & 0  & 0  & 1  \\ \hline
-            ~    & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+            \hline
+            $D_i$ & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0  & 1  & 0  & 0  & 0  & 0  & 1  \\ \hline
+                  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\ \hline
         \end{tabular}
+        \caption{Word $D_i$}
+        \label{tab:word}
     \end{table}
-    possiamo calcolare il bordo del pattern in quanto l'ultimo bit è uguale a $1$.
+
     Dato che il bit con valore uguale a $1$ più a destra, diverso da $m$, è in
     posizione $11$, allora la lunghezza del bordo è:
     \begin{equation}
@@ -929,18 +934,18 @@ Vediamo ora come si calcola il valore di $D_i$ a partire da $D_{i - 1}$:
 \begin{itemize}
     \item Se $j =  1$ allora posso calcolarla come:
           \begin{equation}
-              D_i[1] = 1 \textbf{AND} B_{T[i]}[1]
+              D_i[1] = 1 \ \textbf{AND} \ B_{T[i]}[1]
           \end{equation}
           Perché $D_i[1] = 1 \iff P[1,1] = suff(T[1,i]) \iff P[1] = T[i] \iff
               B_{T[i]}[1]$. Si aggiunge $1$ per semplificare le operazioni bit
           a bit.
     \item Se $j > 1$ allora posso calcolarla come:
           \begin{equation}
-              D_i[j] = D_{i - 1}[j - 1] \textbf{AND} B_{T[i]}[j]
+              D_i[j] = D_{i - 1}[j - 1] \ \textbf{AND} \ B_{T[i]}[j]
           \end{equation}
           Perché $D_i[j] = 1 \iff P[1,j] = suff(T[1,i]) \iff P[1,j - 1] =
-              suff(T[1,i - 1]) \textbf{AND} P[j] = T[i] \iff D_{i - 1}[j - 1]
-              \textbf{AND} B_{T[i]}[j]$.
+              suff(T[1,i - 1]) \ \textbf{AND} \ P[j] = T[i] \iff D_{i - 1}[j - 1]
+              \ \textbf{AND} \ B_{T[i]}[j]$.
 \end{itemize}
 In questo modo stiamo ancora aggiornando un bit alla volta, ma sfruttando le
 operazioni bit a bit si possono aggiornare tutti in tempo \textbf{costante} nel
@@ -949,7 +954,7 @@ seguente modo:
     D_i = \textbf{RSHIFT1}(D_{i - 1}) \ \textbf{AND} \ B_{T[i]}
 \end{equation}
 Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
-tempo $\theta(n)$
+tempo $\Theta(n)$.
 \begin{algorithm}
     \begin{algorithmic}
         \Function{BYG}{$B, T$}
@@ -967,6 +972,7 @@ tempo $\theta(n)$
     \end{algorithmic}
     \caption{Algoritmo per la scansione del testo}
 \end{algorithm}
+\newpage
 \begin{esempio}
     Siano un testo $T = babcabaadc$ e un pattern $P = abcaba$ tale che $|T| = 10$
     e $|P|=6$. Entrambe le stringhe costruite su un alfabeto $\Sigma = \{a, b, c,
@@ -1026,18 +1032,18 @@ $T$:
                 L + 1]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
         approssimata} di $P$ in $T$.
 \end{definizione}
-Come gli algoritmi visti fino a questo momento, quello di Wu e Manber è
+Come gli algoritmi visti fino a questo momento, anche quello di Wu e Manber è
 strutturato in due fasi:
 \begin{enumerate}
-    \item \textbf{Preprocessing} del pattern $P$ nel quale vengono calcolate
+    \item \textbf{Preprocessing del pattern} $P$: in questa fase vengono calcolate
           $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
           eseguita in tempo $\Theta(|\Sigma| + m)$. (\textit{Uguale a quello
-              dell'algoritmo BYG})
-    \item \textbf{Scansione del testo} $T$ per cercare le occorrenze approssimate
-          del pattern $P$. Questa operazione viene eseguita in tempo
-          $\Theta(k \cdot n)$.
+              dell'algoritmo BYG} \ref{subsec:preprocessing})
+    \item \textbf{Scansione del testo} $T$: in questa fase si cercano le occorrenze
+          approssimate del pattern $P$. Questa operazione viene eseguita in
+          tempo $\Theta(k \cdot n)$.
 \end{enumerate}
-\subsection{Scansione del testo}
+\subsection{Definizione della word $D_i^h$}
 Dato che la fase di preprocessing è equivalente a quella per l'algoritmo BYG,
 passiamo subito alla scansione del testo.
 \begin{definizione}
@@ -1045,8 +1051,8 @@ passiamo subito alla scansione del testo.
     suffisso di $T[1, i]$ a meno di $h$ errori. In altre parole, riesco a
     trovare un suffisso $S$ di $T[1, i]$ tale che $ED(P[1, j], S) \leq h$.
 \end{definizione}
-Estenderemo la definizione di $D_i$ di Shift-AND al caso in cui si ammettono al
-più $h$ errori.
+Estenderemo la definizione di $D_i$ (\ref{def:word}) di Shift-AND al caso in cui
+si ammettono al più $h$ errori.
 \begin{definizione}[\textbf{Word $D_i^h$}]
     Dati un pattern $P$ lungo $m$, un testo $T$ lungo $n$ e una soglia di errore
     $k$, possiamo definire la \textbf{word $D_i^h$} come una word di $m$ bit
@@ -1070,6 +1076,15 @@ Vediamo ora alcuni casi particolare:
           \end{itemize}
           Si ottiene quindi una word dove i primi $h$ bit sono uguali a $1$ e i
           restanti $m - h$ bit sono posti a $0$.
+          \begin{table}[!ht]
+              \centering
+              \begin{tabular}{lcc}
+                  $D_0^h =$ & $1 \dots 1$                                            &
+                  $0 \dots 0$                                                          \\ \cline{2-3}
+                            & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}h bit a 1} &
+                  \cellcolor[HTML]{EFEFEF}(m - h) bit a 0
+              \end{tabular}
+          \end{table}
     \item $D_i^h [m] = 1 \iff P[1, m] = suff_h(T[1, i])$, ovvero se $P[1, m]$ è
           un suffisso di $T[1, i]$ a meno di $h$ errori, allora $D_i^h[m] = 1$.
           Nel caso particolare in cui $h = 0$ si ha un occorrenza esatta in $i -
@@ -1081,6 +1096,7 @@ Vediamo ora alcuni casi particolare:
     Inoltre, $D_{i}^{h} [j] = 1$ implica $D_{i}^{h + 1}[j + 1] = 1$ e
     $D_{i}^{h + 1}[j - 1] = 1$.
 \end{nota}
+\subsection{Scansione del testo}
 Definita la word $D_i^h$, possiamo definire la scansione del testo $T$ come una
 successione di $k + 1$ scansioni, dove solamente all'iterazione $k$ si vanno a
 verificare i bit finali delle word per cercare l'occorrenza approssimata.
@@ -1150,10 +1166,10 @@ caso in cui $i = 0$. Vediamo ora come calcolare il caso in cui $i > 0, h > 0$:
               \ D_{i}^{h - 1} [j - 1]
           \end{equation}
     \item  $j = 1$, abbiamo le stesse casistiche di prima, quindi possiamo
-          sostituire alla formula precedente il valore di $j$, comportando che
-          ci richiedono dei valori che non possiamo conoscere come
-          $D_{i - 1}^h[0]$. Quindi, per risolvere questo problema, sostituiamo
-          questi valori con $1$, ottenendo:
+          sostituire alla formula precedente il valore di $j$. Effettuando questa
+          sostituzione, ci accorgiamo che sono richiesti dei valori che non
+          possiamo conoscere, come ad esempio $D_{i - 1}^h[0]$. Quindi, per
+          risolvere questo problema, sostituiamo questi valori con $1$, ottenendo:
           \begin{equation}
               D_{i}^{h} [j] =
               (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR}
@@ -1171,7 +1187,8 @@ che controllano il bit in posizione $j - 1$ con l'operazione RSHIFT1, ottenendo:
     D_{i - 1}^{h - 1} [j] \ \textbf{OR} \
     RSHIFT1(D_{i}^{h - 1} [j])
 \end{equation}
-Si potrà poi generalizzare calcolando $D_i^h$ in una sola volta.
+Si potrà poi generalizzare calcolando $D_i^h$ in una sola volta utilizzando gli
+operatori bit a bit, ottenendo:
 \begin{equation}
     D_{i}^{h}= (RSHIFT1(D_{i - 1}^{h}) \ \textbf{AND} \ B_{T[i]}) \
     \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1})  \ \textbf{OR} \ D_{i - 1}^{h - 1} \
@@ -1906,13 +1923,11 @@ In generale, $C(\sigma)$ fornisce:
         \caption{Calcolo della funzione $C$ da $Occ$}
     \end{table}
 \end{esempio}
-\newpage
 La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
 incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è uguale a
 $\sigma$. In caso contrario si copia il valore di $Occ(i - 1, \sigma)$.
 
 Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
