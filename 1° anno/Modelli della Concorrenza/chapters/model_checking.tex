@@ -339,7 +339,7 @@ sono:
           in cui $\alpha$ è sempre vera oppure $\alpha$ è vera fino a quando
           $\beta$ diventa vera. $W$ differisce da $U$ perché non si richiede che
           la seconda formula diventi vera per rendere vera $W$.
-    \item \textbf{Release}: $\alpha R \beta$ per cui
+    \item \textbf{Release}: $\alpha R \beta$ per cui:
           \begin{equation}
               \pi \vDash \alpha R \beta \iff \forall k \geq 0: (\pi^{(k)} \vDash
               \beta \lor \exists h < k: \pi^{(h)} \vDash \alpha)
@@ -467,7 +467,7 @@ il concetto di \textbf{albero di computazione}.
     Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock
     allora il nodo sarà pozzo.
 \end{nota}
-\begin{figure}
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{img/model/computational-tree-logic.png}
     \caption{Esempio di computational tree}
@@ -509,6 +509,10 @@ sui cammini. Essi sono definiti come segue:
     \item $E\equiv \exists$ è il quantificatore esistenziale e si interpreta come
           \textbf{esiste un cammino tale che}.
 \end{itemize}
+\begin{osservazione}
+    Nelle formule della logica CTL, i quantificatori $A$ ed $E$ devono essere
+    sempre presenti quando si ha un operatore temporale.
+\end{osservazione}
 \begin{esempio}
     Traduciamo
     \begin{center}
@@ -625,9 +629,10 @@ Lo svantaggio di questa logica è che richiede un maggiore sforzo computazionale
 per dimostrare le proprietà, sarà quindi importante decidere quale logica usare.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/model/logicheTemprali.png}
+    \includegraphics[width=0.3\textwidth]{img/model/logicheTemprali.png}
     \caption{Relazione tra le logiche temporali}
 \end{figure}
+
 Come abbiamo dimostrato quando sono equivalenti le FbF, potremmo anche voler
 controllare se due modelli di Kripke sono equivalenti. Ragionevolmente si potrebbe
 pensare all'equivalenza dei modelli di Kripke solo quando sono isomorfi, ciò
@@ -954,6 +959,7 @@ Sia $M=(Q,T,I)$ un modello di Kripke, allora posso definire:
     \begin{equation}
         [[\alpha]] = \{q \in Q \mid M, q \models \alpha\}
     \end{equation}
+    ovvero l'insieme degli stati in cui vale la formula $\alpha$.
 \end{definizione}
 A questo punto consideriamo la formula $\alpha \equiv A F \beta$, a cui è associata
 la funzione $f_\alpha: \mathcal{P}(Q) \to \mathcal{P}(Q)$. Per ogni $H \subseteq Q$
@@ -1000,7 +1006,7 @@ Definiamo una funzione per $\gamma \equiv A(\alpha U \beta)$, cioè $f_\gamma$:
     di dimostrare.
 \end{nota}
 \section{Algoritmi per il model checking}
-Precedentemente è stato introdotto un algoirtmo per verificare se una formula della
+Precedentemente è stato introdotto un algoritmo per verificare se una formula della
 logica $CTL$ è valida, ciò è possibile mediante un modello di Kripke e una funzione
 monotona, utilizzando i punti fissi.
 
@@ -1036,8 +1042,8 @@ riconoscibili mediante gli automi sopracitati. Però in questi linguaggi cambia 
 metodo di accettazione delle parole, dal momento che l'esecuzione dell'automa non
 può finire in uno stato accettante.
 \begin{definizione}[\textbf{Accettazione di una parola infinita}]
-    Una parola infinita $w = a_0a_1\dots$ è accettata da $\mathcal{B}$ se la
-    sequenza corrispondente di stati $q_0q_1\dots$ passa infinite volte per
+    Una parola infinita $w = a_0a_1\dots$ è \textbf{accettata} da $\mathcal{B}$
+    se la sequenza corrispondente di stati $q_0q_1\dots$ passa infinite volte per
     almeno uno stato in $F$.
 \end{definizione}
 Questi automi condividono molte delle proprietà fondamentali dei linguaggi formali,
@@ -1048,12 +1054,9 @@ ma non tutte, infatti si hanno anche le seguenti proprietà:
     \item Il problema di riconoscere il linguaggio vuoto è un problema
           \textbf{decidibile} ($L(\mathcal{B}) = \emptyset$).
 \end{itemize}
-
 \begin{nota}
-    Il linguaggio composto da parole infinite viene anche chiamato $\Omega$-
-    regolare.
+    Il linguaggio composto da parole infinite viene anche chiamato $\Omega$-regolare.
 \end{nota}
-
 Sono stati introdotti questi automi perché quando si effettua la dimostrazione di
 una formula $LTL$, quello che si fa è analizzare stringhe infinite di preposizioni
 atomiche della logica dei cammini massimali. Questo implica una correlazione tra
@@ -1065,11 +1068,10 @@ di Kripke posso ottenere un automa di Büchi corrispondente nel seguente modo:
     \item Etichetto gli archi dell'automa di Büchi con l'insieme delle preposizioni
           atomiche vere nello stato di arrivo corrispondente nel modello di Kripke.
 \end{itemize}
-
 \begin{esempio}
     Nella figura \ref{fig:kripke-automa} è riportato un esempio di come è
     possibile passare da un modello di Kripke ad un automa di Büchi.
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.5\textwidth]{img/model/kripke-Automa.png}
         \caption{Passaggio da modello di Kripke ad automa}
@@ -1087,7 +1089,8 @@ utilizzare il seguente algoritmo:
     \item Costruiamo l'automa $\mathcal{B}_{\lnot \alpha}$, ovvero l'automa per
           la negazione della formula.
     \item Trasformiamo il modello di Kripke $M$ nell'automa di Büchi equivalente.
-    \item Calcoliamo il prodotto sincrono dei due automi ($\mathcal{PS}$,prodotto tra automi).
+    \item Calcoliamo il prodotto sincrono dei due automi ($\mathcal{PS}$, prodotto
+          tra automi).
     \item A questo punto se $L(\mathcal{PS}) = \emptyset$, allora $M, q_0 \models
               \alpha$. Se invece tale linguaggio non è vuoto, vuol dire che
           abbiamo trovato un cammino per cui è vera la negazione della formula
@@ -1095,7 +1098,7 @@ utilizzare il seguente algoritmo:
 \end{enumerate}
 \begin{nota}
     Ricorda che Il prodotto sincrono tra automi corrisponde ad un automa che riconosce
-    il linguaggio intersezione dei linguaggi accettati dagli automi
+    il linguaggio intersezione dei linguaggi accettati dagli automi.
 \end{nota}
 \section{$\mu$ calcolo}
 Il $\mu$ calcolo è un linguaggio logico che permette di definire delle formule
@@ -1119,9 +1122,8 @@ un elevata complessità. Questo ci permette di affermare che:
 \begin{equation}
     CTL^{\ast} \subset \mu-\text{calcolo}
 \end{equation}
-In generale questo linguaggio ha un'applicabilità minore vista la sua esprissività
+In generale questo linguaggio ha un'applicabilità minore vista la sua espressività
 e complessità.
-
 \section{Complessità}
 Sia $M$ un modello di Kripke e $f$ una formula, e siano $|M|$ il numero di stati
 del modello e $|f|$ il numero di simboli nella formula. Allora possiamo definire
@@ -1135,23 +1137,21 @@ maggiore peso è composto dalla dimensione del modello, la quale risulta
 esponenziale rispetto al numero di stati. Inoltre, le formule LTL sono solitamente
 composte da meno simboli rispetto alle formule CTL.
 \begin{nota}
-    Ricorda che nei sistemi concorrenti gli stati esplodono sempre in un esponenziale
+    Ricorda che nei sistemi concorrenti gli stati esplodono sempre in un esponenziale.
 \end{nota}
-
 Esistono anche altri algoritmi per la dimostrazione di formule:
 \begin{itemize}
     \item OBDD: sfruttano i diagrammi di decisione binari ordinati che rappresentano
-          le formule in modo simbolico e risparmiano l'esplosione esponenziale degli stati
-    \item ordine parziale: si rappresentano i sistemi concorrenti secondo un ordine
-          parziale
+          le formule in modo simbolico e risparmiano l'esplosione esponenziale
+          degli stati.
+    \item ordine parziale: si rappresentano i sistemi concorrenti secondo un
+          ordine parziale.
     \item SAT: si riduce il problema di dimostrazione a SAT e quindi si sfruttano
           gli algoritmi esistenti per la dimostrazione.
 \end{itemize}
-
 \section{Fairness}
 Un altro problema dei sistemi concorrenti è che la rappresentazione utilizzata sfrutta
 la \textbf{semantica interleaving} che trasforma le relazioni di dipendenza in scelte.
-
 \begin{definizione}[\textbf{Esecuzione unfair}]
     Un'esecuzione è \textbf{unfair} (ingiusta) se un evento rimane abilitato da
     un istante in poi, ma non scatta mai.

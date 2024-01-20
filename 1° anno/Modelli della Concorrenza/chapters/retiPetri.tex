@@ -362,19 +362,19 @@ risolto un conflitto.
 \begin{definizione}[\textbf{Sottorete}]
     Siano $N = (B, E, F)$ e $N_1 = (B_1, E_1, F_1)$ due reti elementari. Diciamo che:
     \begin{itemize}
-        \item $N_1 = (B_1, E_1, F_1)$ è \textbf{sottorete} di $N$ se e solo se:
+        \item $N_1 = (B_1, E_1, F_1)$ è \textbf{sotto-rete} di $N$ se e solo se:
               \begin{itemize}
                   \item $B_1 \subseteq B$
                   \item $E_1 \subseteq E$
                   \item $F_1 = F \cap [(B_1 \times E_1) \cup (E_1 \times B_1)]$
               \end{itemize}
-        \item $N_1 = (B_1, E_1, F_1)$ è \textbf{sottorete generata da} $B_1$ se e solo se:
+        \item $N_1 = (B_1, E_1, F_1)$ è \textbf{sotto-rete generata da} $B_1$ se e solo se:
               \begin{itemize}
                   \item $B_1 \subseteq B$
                   \item $E_1 \subseteq ^{\bullet} B_1 \cup B_1^{\bullet}$
                   \item $F_1 = F \cap [(B_1 \times E_1) \cup (E_1 \times B_1)]$
               \end{itemize}
-        \item $N_1 = (B_1, E_1, F_1)$ è \textbf{sottorete generata da} $E_1$ se e solo se:
+        \item $N_1 = (B_1, E_1, F_1)$ è \textbf{sotto-rete generata da} $E_1$ se e solo se:
               \begin{itemize}
                   \item $B_1 \subseteq ^{\bullet} E_1 \cup E_1^{\bullet}$
                   \item $E_1 \subseteq E$
@@ -653,7 +653,7 @@ anche quelle in conflitto.
     processi ramificati di $\Sigma$.
 
     Allora $\Pi_1 = \langle N_1; \phi_1 \rangle$ è un \textbf{prefisso} di
-    $\Pi_2 = \langle N_2; \phi_2 \rangle$ se e solo se $N_1$ è una sottorete di
+    $\Pi_2 = \langle N_2; \phi_2 \rangle$ se e solo se $N_1$ è una sotto-rete di
     $N_2$ e $\phi_{2|N_1} = \phi_1$ ($\phi_2$ ”ristretto” a $N_1$ è uguale a $\phi_1$).
 \end{definizione}
 \begin{nota}
@@ -908,7 +908,7 @@ con:
         \item  $\Sigma$ è \textbf{vivo} sse
               $$\forall t\in T,\forall M\in [M_0>,\exists M'\in [M>:M'[t>$$
               \textbf{vivezza} $\implies$ assenza di \textbf{deadlock}.
-        \item $\Sigma$ è \textbf{reversiblile} (ciclico) sse
+        \item $\Sigma$ è \textbf{reversibile} (ciclico) sse
               $$\forall M\in [M_0>:M_0\in [M>$$
         \item $\Sigma$ è \textbf{reversibile} $\iff$ il suo grafo delle marcature
               raggiungibili è \textbf{strettamente connesso}
