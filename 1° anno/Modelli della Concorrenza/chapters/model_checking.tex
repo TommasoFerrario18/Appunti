@@ -35,7 +35,7 @@ semplificazione.
 I sistemi reattivi non obbediscono più al paradigma input-computazione-output,
 rendendo quindi impossibile utilizzare le triple di Hoare per dimostrare la
 correttezza di un programma. Possiamo sempre riutilizzare la logica di hoare per
-dimostrare alcuni pezzi, ma dovremmo usare un modo per unire i risultati.
+dimostrare alcuni pezzi, ma dovremmo trovare un modo per unire i risultati.
 
 Al posto delle triple di Hoare, utilizzeremo delle \textbf{asserzioni}, ovvero
 delle frasi al cui interno sono presenti elementi temporali che descrivono il
@@ -46,7 +46,7 @@ comportamento del sistema.
 \end{esempio}
 \begin{esempio}
     Se si accende una spia di allarme allora questa sarà accesa \textit{fino a
-        quando} non si spegne il dispositivo
+        quando} non si spegne il dispositivo.
 \end{esempio}
 Vediamo ora come possiamo procedere nell'analisi dei sistemi concorrenti. Il
 problema che vogliamo risolvere è quello di stabilire se un sistema reattivo è
@@ -55,7 +55,8 @@ corretto. Per fare ciò, seguiremo il seguente schema:
     \item Si esprime il criterio di correttezza come una formula di un opportuno
           linguaggio logico.
     \item Si modella il sistema nella forma di un sistema di transizioni.
-    \item Si valuta se la formula è vera nel sistema di transizioni. (algoritmi)
+    \item Si valuta se la formula è vera nel sistema di transizioni. Per
+          effettuare questa operazione esistono degli algoritmi.
 \end{enumerate}
 \begin{definizione}[\textbf{Sistema di transizioni}]
     Un \textbf{sistema di transizioni} è definito da:
@@ -71,7 +72,7 @@ corretto. Per fare ciò, seguiremo il seguente schema:
 \begin{definizione}[\textbf{Cammino}]
     Definiremo un \textbf{cammino} come una sequenza di stati $\pi$ dove:
     \begin{equation}
-        \pi = q_0q_1\dots q_n \ \text{dove} \ (q_i,q_{i+1})\in T \ \forall i
+        \pi = q_0q_1\dots q_n \ \text{dove} \ (q_i, q_{i+1})\in T \ \forall i
     \end{equation}
     (combacia con la definizione di cammino su grafi).
 \end{definizione}
@@ -110,7 +111,8 @@ composte dalle asserzioni considerate vere a prescindere.
 \begin{definizione}[\textbf{Formule ben Formate per la logica LTL}]
     Definiamo anche le formule ben formate $FBF_{LTL}$:
     \begin{itemize}
-        \item Ogni proposizione atomica è una formula ben formata.
+        \item $\forall p \in AP$ si ha che $p \in FbF_{LTL}$, ovvero ogni
+              proposizione atomica è una formula ben formata.
         \item $\top$ e $\bot$ sono formule ben formate.
         \item Se $\alpha, \beta \in FBF_{LTL}$ allora $\alpha \lor \beta, \lnot
                   \alpha \in FBF_{LTL}$ (da queste si derivano tutti i connettivi
@@ -143,19 +145,20 @@ Con un modello di Kripke possiamo identificare per uno stato quali sono le
 proposizioni atomiche vere e per capire se le $FBF_{LTL}$ sono vere allora dovrò
 analizzare i cammini che partono dallo stato in esame.
 
-Vediamo ora come associare una \textbf{semantica} alle formule ben formate. Per fare ciò
-procediamo in due fasi:
+Vediamo ora come associare una \textbf{semantica} alle formule ben formate. Per
+fare ciò procediamo in due fasi:
 \begin{enumerate}
-    \item Definiamo un \textbf{criterio} per stabilire se una formula $\alpha$ è vera in
-          un cammino massimale $\pi$.
-    \item Diciamo che la formula è \textbf{vera} rispetto a uno stato $q$ se è vera in
-          tutti i \textbf{cammini massimali} che partono da $q$.
+    \item Definiamo un \textbf{criterio} per stabilire se una formula $\alpha$ è
+          vera in un cammino massimale $\pi$.
+    \item Diciamo che la formula è \textbf{vera} rispetto a uno stato $q$ se è
+          vera in tutti i \textbf{cammini massimali} che partono da $q$.
 \end{enumerate}
 \begin{nota}
     Per dimostrare che una formula è vera in un determinato stato, bisogna quindi
     dimostrare che \textbf{è vera in tutti i cammini massimali} che partono da esso.
 \end{nota}
-Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata allora:
+Fissiamo quindi un cammino generico $\pi$ e consideriamo una formula ben formata
+$\alpha$ allora:
 \begin{equation}
     \pi \vDash \alpha \iff \ \text{significa che} \ \alpha \ \text{è vera nel cammino}
     \ \pi
@@ -174,11 +177,11 @@ Definiremo la relazione $\vDash$ per induzione.
               \end{itemize}
         \item \textbf{passo induttivo}:
               \begin{itemize}
-                  \item  \textbf{Operatori logici}: supponiamo $\alpha, \beta \in FBF_{LTL}$
+                  \item \textbf{Operatori logici}: supponiamo $\alpha, \beta \in FBF_{LTL}$
                         \begin{itemize}
                             \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
-                            \item $\pi \vDash \alpha \lor \beta \iff (\pi \vDash \alpha) \lor (\pi
-                                      \vDash \beta) $
+                            \item $\pi \vDash \alpha \lor \beta \iff (\pi \vDash
+                                      \alpha) \lor (\pi \vDash \beta) $
                         \end{itemize}
                   \item \textbf{Operatori temporali}: supponiamo $\beta, \gamma \in FBF_{LTL}$
                         \begin{itemize}
@@ -451,6 +454,12 @@ il concetto di \textbf{albero di computazione}.
     \textbf{computazioni} del sistema. Un esempio di albero di computazione è
     riportato in figura \ref{fig:computational-tree-logic}
 \end{definizione}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/model/computational-tree-logic.png}
+    \caption{Esempio di computational tree}
+    \label{fig:computational-tree-logic}
+\end{figure}
 \begin{nota}
     Spesso si vuole esprime le possibili computazioni di un sistema allora
     possiamo costruire un albero (simile all'\textbf{unfolding} per le reti di
@@ -467,12 +476,6 @@ il concetto di \textbf{albero di computazione}.
     Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock
     allora il nodo sarà pozzo.
 \end{nota}
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/model/computational-tree-logic.png}
-    \caption{Esempio di computational tree}
-    \label{fig:computational-tree-logic}
-\end{figure}
 \section{Computation Tree Logic - CTL}
 Possiamo definire ora la logica CTL (\textbf{Computation Tree Logic}), ovvero
 una logica temporale che si basa sugli alberi di computazione.
@@ -482,7 +485,7 @@ Definiremo la \textbf{sintassi} attraverso le $FbF_{CTL}$.
     Le formule ben formate sono:
     \begin{itemize}
         \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP = \{p_1,p_2,\dots\}$
-              insieme delle preposizioni atomiche.
+              insieme delle proposizioni atomiche.
         \item $\forall \alpha, \beta \in FbF_{CTL}$
               \begin{itemize}
                   \item $\lnot\alpha, \alpha \lor \beta \in FbF_{CTL}$
@@ -600,7 +603,7 @@ In entrambe le logiche, LTL e CTL, possiamo esprimere le seguenti proprietà:
               AG (p\implies AF \ q) \equiv G(p\implies F \ q)
           \end{equation}
 \end{itemize}
-Le due logiche non hanno la stessa potenza espressiva ma nessuna delle due è più
+Le due logiche non hanno la stessa potenza espressiva, ma nessuna delle due è più
 espressiva rispetto all'altra. Infatti per esempio la logica CTL può esprimere
 la seguente proprietà (\textbf{reset property}):
 \begin{center}
@@ -650,7 +653,7 @@ Per dimostrare che due modelli sono equivalenti devo:
     \item Definire tutti i cammini massimali di $M_1$ e $M_2$ nella forma simile
           alle regex e si rimuovono i duplicati.
     \item Trasformare le espressioni ottenute sostituendo i nomi degli stati con
-          le preposizioni atomiche che sono vere in un determinato stato.
+          le proposizioni atomiche che sono vere in un determinato stato.
     \item Se le espressioni dei cammini massimali di un modello sono uguali
           all'altro allora i due modelli sono equivalenti.
 \end{itemize}
@@ -684,7 +687,7 @@ Per dimostrare che due modelli sono equivalenti devo:
                             \end{array}
                         \end{equation}
               \end{itemize}
-        \item Sostituire i nomi degli stati con le preposizioni atomiche che sono
+        \item Sostituire i nomi degli stati con le proposizioni atomiche che sono
               vere in un determinato stato.
               \begin{itemize}
                   \item Modello $M_1$:
@@ -715,12 +718,8 @@ Per dimostrare che due modelli sono equivalenti devo:
 \end{nota}
 \section{Insiemi parzialmente ordinati}
 \begin{definizione}[\textbf{Relazione d'ordine parziale}]
-    Definiremo una \textbf{relazione d'ordine parziale} su un insieme $A$ una
-    relazione binaria definita come:
-    \begin{equation}
-        \leq \subseteq A \times A
-    \end{equation}
-    Allora $\leq$ deve soddisfare le seguenti proprietà:
+    Data una relazione binaria su un'insieme $A$, ovvero $\leq \subseteq A \times
+        A$, allora $\leq$ è una \textbf{relazione d'ordine parziale} se è:
     \begin{itemize}
         \item \textbf{Riflessiva}: $\forall x \in A, x \leq x$
         \item \textbf{Antisimmetrica}: $\forall x, y \in A, x \leq y \land y
@@ -768,11 +767,11 @@ e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
 \begin{definizione}[\textbf{Estremo superiore, Estremo inferiore}]
     Se $x$ è il minimo di $B^\ast$ (quindi il più piccolo maggiorante), diciamo
     che $x$ è l'\textbf{estremo superiore} (\textit{join}) di $B$, e scriviamo
-    $x = \sup B$ , o anche $x = \bigvee B$.
+    $x = \sup B$, o anche $x = \bigvee B$.
 
     Se $x$ è il massimo di $B_\ast$ (quindi il più grande minorante), diciamo che
     $x$ è l'\textbf{estremo inferiore} (\textit{meet}) di $B$, e scriviamo $x =
-        \inf B$ , o anche $x = \bigwedge B$.
+        \inf B$, o anche $x = \bigwedge B$.
 
     In particolare, se $B = \{x, y\}$, scriveremo $x \lor y$ per indicare $\bigvee
         B$, se esiste, e $x \land y$ per $\bigwedge B$.
@@ -801,8 +800,8 @@ e il meet.
     il meet e join.
 \end{definizione}
 \begin{definizione}[\textbf{Funzione monotona}]
-    Siano due insiemi parzialmente ordinati $(A,\leq)$ e $(B,\leq)$. Definiremo
-    una funzione di $f: A \to B$ si dice \textbf{monotona} se, per ogni $x, y
+    Siano due insiemi parzialmente ordinati $(A,\leq)$ e $(B,\leq)$. Diremo che
+    una funzione $f: A \to B$ si dice \textbf{monotona} se, per ogni $x, y
         \in A$, allora:
     \begin{equation}
         x \leq y \implies f(x) \leq f(y)
@@ -1000,7 +999,6 @@ Definiamo una funzione per $\gamma \equiv A(\alpha U \beta)$, cioè $f_\gamma$:
 \begin{equation}
     f_\gamma(H) = [[\beta]] \cup \{q\in [[\alpha]] \mid \forall (q, q')\in T, q'\in H\}
 \end{equation}
-
 \begin{nota}
     Ricorda che $H$ contiene tutti gli stati dove è vera la formula che si sta cercando
     di dimostrare.
@@ -1058,14 +1056,14 @@ ma non tutte, infatti si hanno anche le seguenti proprietà:
     Il linguaggio composto da parole infinite viene anche chiamato $\Omega$-regolare.
 \end{nota}
 Sono stati introdotti questi automi perché quando si effettua la dimostrazione di
-una formula $LTL$, quello che si fa è analizzare stringhe infinite di preposizioni
+una formula $LTL$, quello che si fa è analizzare stringhe infinite di proposizioni
 atomiche della logica dei cammini massimali. Questo implica una correlazione tra
 i \textbf{modelli di Kripke} e gli \textbf{automi di Büchi}. Partendo da un modello
 di Kripke posso ottenere un automa di Büchi corrispondente nel seguente modo:
 \begin{itemize}
     \item Copio la struttura del modello di Kripke.
     \item Aggiungo uno stato iniziale.
-    \item Etichetto gli archi dell'automa di Büchi con l'insieme delle preposizioni
+    \item Etichetto gli archi dell'automa di Büchi con l'insieme delle proposizioni
           atomiche vere nello stato di arrivo corrispondente nel modello di Kripke.
 \end{itemize}
 \begin{esempio}
@@ -1097,11 +1095,11 @@ utilizzare il seguente algoritmo:
           $\alpha$ e quindi $\alpha$ non è vera per quel modello.
 \end{enumerate}
 \begin{nota}
-    Ricorda che Il prodotto sincrono tra automi corrisponde ad un automa che riconosce
+    Ricorda che il prodotto sincrono tra automi corrisponde ad un automa che riconosce
     il linguaggio intersezione dei linguaggi accettati dagli automi.
 \end{nota}
 \section{$\mu$ calcolo}
-Il $\mu$ calcolo è un linguaggio logico che permette di definire delle formule
+Il \textbf{$\mu$ calcolo} è un linguaggio logico che permette di definire delle formule
 ricorsive.
 \begin{esempio}
     Supponiamo di avere un solo operatore temporale $X$. Come possiamo esprimere

@@ -210,7 +210,7 @@ utilizza una finestra $W$, di dimensione variabile, che scorre sul testo.
 \end{algorithm}
 Questo algoritmo mi permette di calcolare il matching approssimato in tempo
 $\mathcal{O}(n \cdot k \cdot m^2)$, dove $m^2$ è dovuto al calcolo della distanza
-di edit tra le due sottostringhe.
+di edit tra le due sotto-stringhe.
 \section{Ricerca esatta con Automa a Stati Finiti}
 Un automa è un modello di calcolo che riconosce un linguaggio, ovvero un insieme
 di stringhe che godono di una proprietà. Gli automi a stati finiti riconoscono
@@ -246,7 +246,7 @@ stato che raggiungo partendo dallo stato $q$ leggendo il simbolo $\sigma$.
 \begin{equation}
     T[q,\sigma] = q' \iff \delta(q,\sigma) = q'
 \end{equation}
-\begin{definizione}[\textbf{Bordo}]
+\begin{definizione}[\textbf{Bordo}] \label{def:bordo}
     Il \textbf{bordo} di una stringa $X$ è il più lungo prefisso \textbf{proprio}
     di $X$ che occorre come suffisso di $X$.
 \end{definizione}
@@ -282,10 +282,10 @@ A questo punto, il processo di ricerca esatta attraverso un automa a stati finit
 \begin{enumerate}
     \item \textbf{Preprocessing del pattern}: costruisco l'automa per il pattern
           $P$. Questo punto consiste nel calcolo della funzione di transizione
-          $\delta$ in tempo $\theta(m \cdot |\Sigma|)$.
+          $\delta$ in tempo $\Theta(m \cdot |\Sigma|)$.
     \item \textbf{Ricerca nel testo}: uso dell'automa per riconoscere, in un testo
           $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$.
-          La scansione del testo $T$ avviene in tempo $\theta(n)$
+          La scansione del testo $T$ avviene in tempo $\Theta(n)$
 \end{enumerate}
 \subsection{Funzione di transizione}
 La funzione di transizione $\delta$ per un pattern $P$ di lunghezza $m$ definito
@@ -331,6 +331,7 @@ per come è definita senza sfruttare i valori che sono già stati computati.
     \end{algorithmic}
     \caption{Algoritmo banale per il calcolo della funzione di transizione $\delta$}
 \end{algorithm}
+
 Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3
     |\Sigma|)$, questo è dovuto al fatto che per calcolare il bordo è necessario
 un tempo, nel caso peggiore pari a $\mathcal{O}(m^2)$.
@@ -390,7 +391,7 @@ $P$ di lunghezza $m$ utilizzando l'induzione nel seguente modo:
     Dimostrazione tramite esempi su slide.
 \end{nota}
 Con queste informazioni possiamo definire un algoritmo che mi permette di calcolare
-la funzione di transizione $\delta$ in tempo $\theta(m \cdot |\Sigma|)$. Tale
+la funzione di transizione $\delta$ in tempo $\Theta(m \cdot |\Sigma|)$. Tale
 algoritmo sfrutta le informazioni precedentemente calcolate.
 \begin{algorithm}[!ht]
     \begin{algorithmic}
@@ -551,7 +552,7 @@ Possiamo riassumere la scansione del testo come:
     \end{algorithmic}
     \caption{Algoritmo per la ricerca esatta con Automa a Stati Finiti}
 \end{algorithm}
-Questo algoritmo viene eseguito in tempo $\theta(n)$.
+Questo algoritmo viene eseguito in tempo $\Theta(n)$.
 \begin{esempio}
     Consideriamo il testo $T$:
     \begin{table}[!ht]
@@ -634,6 +635,12 @@ La \textbf{prefix function} o funzione di fallimento $\phi$ è definita come seg
 \begin{equation}
     \phi: \{0, 1, \dots m\} \to \{-1, 0, \dots m\}
 \end{equation}
+\begin{nota}
+    La funzione di fallimento $\phi$ è definita su un insieme di indici che va
+    da $0$ a $m - 1$ in quanto è definita come il bordo del pattern. Per definizione
+    di bordo (\ref{def:bordo}) è un prefisso proprio, quindi non può assumere il
+    valore $m$.
+\end{nota}
 Essa è definita come segue:
 \begin{equation}
     \phi(j) = \begin{cases}
