@@ -112,10 +112,14 @@ il cambiamento di stato è locale:
                   \forall x, y \in B \cup E, \ ^{\bullet} x = \ ^{\bullet} y \
                   \land \ x^{\bullet} = y^{\bullet} \Rightarrow x = y
               \end{equation}
+              ovvero, se due elementi di $B \cup E$ hanno le stesse precondizioni
+              e le stesse post-condizioni allora sono lo stesso elemento.
         \item $N$ è \textbf{pura} se e solo se:
               \begin{equation}
                   \forall e \in E: \ ^{\bullet}e \cap e^{\bullet} = \emptyset
               \end{equation}
+              ovvero, se per ogni evento $e$ si ha che le sue precondizioni e le
+              sue post-condizioni sono disgiunte.
     \end{itemize}
 \end{definizione}
 \begin{definizione}
@@ -127,13 +131,13 @@ il cambiamento di stato è locale:
                   \cup e_1^{\bullet}) \cap (^{\bullet}e_2 \cup e_2^{\bullet}) = \emptyset
               \end{equation}
         \item $U$ è un \textbf{passo abilitato} (insieme di eventi concorrenti)
-              in $c$ anche scritto come $c[U >$ se e solo se:
+              in $c$, anche scritto come $c[U >$, se e solo se:
               \begin{equation}
                   U \ \text{insieme di eventi indipendenti} \ \land \ \forall e
                   \in U: \ c[e >
               \end{equation}
         \item $U$ è un \textbf{passo} da $c_1$ a $c_2$, anche scritto come
-              $c_1[U > c_2$ se e solo se:
+              $c_1[U > c_2$, se e solo se:
               \begin{equation}
                   c_1 [ U > \ \land \ c_2 = (c_1 - \ ^{\bullet} U) \cup U^{\bullet}
               \end{equation}
@@ -178,7 +182,7 @@ $c_i \in C_{\Sigma}, e_i \in E, U_i \subseteq E$ possiamo distinguere:
               c_{in}[U_1U_2 \dots U_n > c_n
           \end{equation}
     \item \textbf{Comportamento non sequenziale}  (semantica di ordine parziale):
-          processi non sequenziali (”partial order semantics” - ”true concurrency”).
+          processi non sequenziali (``partial order semantics" - ``true concurrency").
           Il comportamento di tale sistema viene registrato in una rete di Petri.
 \end{itemize}
 Si considerano sia sequenze finite che sequenze infinite (di eventi o di passi).
@@ -217,7 +221,7 @@ rappresentato dal suo grafo dei casi.
     \begin{itemize}
         \item  $U_1,U_2 \in U_{\Sigma}$, ovvero due insiemi di eventi indipendenti
               che devono essere disgiunti $U_1 \cap U_2 = \emptyset, U_1 \neq
-                  \emptyset, U_2 \neq \emptyset$
+                  \emptyset, U_2 \neq \emptyset$.
         \item $c_1, c_2, c_3, c_4 \in C_{\Sigma}$, ovvero quattro casi
               raggiungibili del sistema $\Sigma$.
     \end{itemize}
@@ -359,6 +363,7 @@ verificare che le precondizioni di $e$ siano vere:
 \end{definizione}
 Si definisce \textbf{confusione} quando non è possibile stabilire se è stato
 risolto un conflitto.
+\newpage
 \begin{definizione}[\textbf{Sottorete}]
     Siano $N = (B, E, F)$ e $N_1 = (B_1, E_1, F_1)$ due reti elementari. Diciamo che:
     \begin{itemize}
@@ -385,17 +390,19 @@ risolto un conflitto.
 Data una rete $N = (B,E, F, c_0)$ questa può essere ottenuta componendo altre
 reti di Petri. Si hanno in letteratura 3 modi principali:
 \begin{enumerate}
-    \item La composizione \textbf{asincrona}: si sincronizzano le reti con uno stato
-    \item La composizione \textbf{sincrona}: si sincronizzano le reti con un'azione
+    \item La composizione \textbf{asincrona}: si sincronizzano le reti con uno
+          stato.
+    \item La composizione \textbf{sincrona}: si sincronizzano le reti con
+          un'azione.
     \item La composizione \textbf{mista} tra sincrona e asincrona.
 \end{enumerate}
 \section{Processi non sequenziali}
 Prendiamo l'esempio di una rete ciclica per spegnere il fuoco (fig \ref{fig:spegnimento-fuoco}).
 In questo sistema si hanno $4$ persone che spostano $4$ secchi, le persone non possono
 oltrepassare le altre persone, questo significa che quando si incontrano dovranno
-scambiarsi il secchio vuoto con quello pieno. A sinistra della rete c'è il lago dal quale
-si riempie il secchio vuoto, a destra c'è il fuoco da spegnere. Possiamo essere
-interessati a tutta la storia dei movimenti dei secchi.
+scambiarsi il secchio vuoto con quello pieno. A sinistra della rete c'è il lago
+dal quale si riempie il secchio vuoto, a destra c'è il fuoco da spegnere.
+Possiamo essere interessati a tutta la storia dei movimenti dei secchi.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.7\textwidth]{img/reti/rete_spegnimento_fuoco.png}
@@ -406,17 +413,19 @@ interessati a tutta la storia dei movimenti dei secchi.
     Definiamo $N = (B,E, F)$ come una \textbf{rete causale}, detta anche rete di
     occorrenze senza conflitti, se e solo se:
     \begin{itemize}
-        \item \textbf{senza conflitti}: $\forall b \in B: |^{\bullet}b| \leq 1 \land |b^{\bullet}| \leq 1$
-              ovvero non si hanno conflitti; quindi, per ogni condizione si ha al più
-              un pre-evento e un post evento. (Avendo quindi al più un arco entrante
-              e al più uno uscente).
-        \item \textbf{aciclica}: $\forall x, y \in B \cup E: (x, y) \in F^{+} \Rightarrow (y, x) \notin F^{+}$
-              ovvero non si hanno cicli; quindi, presi due elementi collegati da una
-              sequenza di archi orientati, avendo un cammino tra i due elementi ($F^{+}$
-              è la chiusura transitiva della relazione $F$) non ho anche un cammino
-              opposto tra i due.
-        \item \textbf{passato finito}: $\forall e \in E: \{x \in B \cup E | xF^{\ast}e\}$ è finito, ovvero
-              si ha un numero finito di pre-elementi di un certo evento.
+        \item \textbf{senza conflitti}: $\forall b \in B: |^{\bullet}b| \leq 1
+                  \land |b^{\bullet}| \leq 1$ ovvero non si hanno conflitti;
+              quindi, per ogni condizione si ha al più un pre-evento e un post
+              evento. (Avendo quindi al più un arco entrante e al più uno uscente).
+        \item \textbf{aciclica}: $\forall x, y \in B \cup E: (x, y) \in F^{+}
+                  \Rightarrow (y, x) \notin F^{+}$ ovvero non si hanno cicli;
+              quindi, presi due elementi collegati da una sequenza di archi
+              orientati, avendo un cammino tra i due elementi ($F^{+}$ è la chiusura
+              transitiva della relazione $F$) non ho anche un cammino opposto
+              tra i due.
+        \item \textbf{passato finito}: $\forall e \in E: \{x \in B \cup E |
+                  xF^{\ast}e\}$ è finito, ovvero si ha un numero finito di
+              pre-elementi di un certo evento.
     \end{itemize}
     Sono quindi reti che registrano un comportamento e quindi non si hanno
     conflitti (che in caso sono sciolti registrando solo quello che è effettivamente
@@ -521,11 +530,11 @@ nella storia del sistema.
     dove $Linee(N)$ e $Tagli(N)$ sono gli insiemi delle linee e dei tagli di $N$.
 \end{definizione}
 \begin{nota}
-    Se la rete causale $N$ è finita allora $N$ è anche $K-$densa.
+    Se la rete causale $N$ è finita allora $N$ è anche $k-$densa.
 \end{nota}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/reti/kdensa.png}
+    \includegraphics[width=0.5\textwidth]{img/reti/kdensa.png}
     \caption{Esempio di rete $K$-densa}
 \end{figure}
 \begin{definizione}[\textbf{Processi non sequenziali}]
@@ -535,8 +544,8 @@ nella storia del sistema.
     $\langle N = (B, E, F); \phi \rangle$ è un \textbf{processo non sequenziale}
     su $\Sigma$ se e solo se:
     \begin{itemize}
-        \item $(B, E, F)$ è una \textbf{rete causale} nella quale si ammettono \textbf{condizioni
-                  isolate}.
+        \item $(B, E, F)$ è una \textbf{rete causale} nella quale si ammettono
+              \textbf{condizioni isolate}.
         \item $\phi: B \cup E \to S \cup T$ è una mappa tale che:
               \begin{enumerate}
                   \item $\phi(B) \subseteq S, \ \phi(E) \subseteq T$
@@ -687,11 +696,11 @@ booleane dei sistemi elementari, dei contatori.
     dove:
     \begin{itemize}
         \item $(S, T, F)$ è una rete.
-        \item \textbf{funzione capacità degli stati}: $K: S \to \mathbb{N}^+
+        \item \textbf{Funzione capacità degli stati}: $K: S \to \mathbb{N}^+
                   \cup \{\infty\}$ è la funzione che assegna ai posti le capacità
-        \item \textbf{funzione peso degli archi}: $W: F \to \mathbb{N}$ è la
+        \item \textbf{Funzione peso degli archi}: $W: F \to \mathbb{N}$ è la
               funzione peso degli archi
-        \item \textbf{funzione di marcatura iniziale}: $M_0: S \to \mathbb{N}:
+        \item \textbf{Funzione di marcatura iniziale}: $M_0: S \to \mathbb{N}:
                   \forall s \in S$ $M_0(s) \leq K(s)$ è la marcatura iniziale.
               È importante osservare che il numero di marche è sempre minore o
               uguale alla capacità del posto
@@ -711,29 +720,32 @@ ristabilire l'informazione persa con le reti Posti e transizioni assegnando una
 struttura dati alle marche. Addirittura, una marca potrebbe rappresentare un
 processo a sé stante.
 \begin{definizione}[\textbf{Regola di scatto}]
-    Data la \textbf{marcatura} $M:S\to \mathbb{N}$ e una transizione $t\in T$:
+    Data la \textbf{marcatura} $M: S \to \mathbb{N}$ e una transizione $t \in T$:
     \begin{equation}
         M[t > \ \text{se e solo se} \ \forall s \in S \ M(s) \geq W(s, t) \ \land
         \ M(s) \ + \ W(t, s) \leq K(s)
     \end{equation}
+    ovvero, se per ogni stato la marcatura è maggiore o uguale al peso dell'arco
+    e la somma tra la marcatura e il peso dell'arco è minore o uguale alla capacità
+    del posto.
     \begin{equation}
         M[t > M' \ \text{se e solo se} \ M[t > \ \land \ \forall s \in S \ M'(s)
         = M(s) - W(s, t) + W(t, s)
     \end{equation}
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Marcature raggiungibili}]
     $\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$, l'insieme delle
     \textbf{marcature raggiungibili} di $\Sigma$ è $[M_0>$, il più piccolo
     insieme tale che:
     \begin{itemize}
         \item $M_0\in [M_0>$
-        \item $M\in [M_0>\land \exists t\in T: M[t>M'\implies M' \in [M_0>$
+        \item se $M\in [M_0>\land \exists t\in T: M[t>M'$ allora $M' \in [M_0>$
     \end{itemize}
 \end{definizione}
-\begin{definizione}
+\begin{definizione}[\textbf{Grafo di raggiungibilità}]
     $\Sigma = (S,T,F,K,W;M_0)$ un \textbf{sistema} $P/T$ allora
     $RG(\Sigma)=([M_0>,U_\Sigma,A,M_0)$ è il \textbf{grafo di raggiungibilità}
-    di $\Sigma$, dove
+    di $\Sigma$, dove:
     \begin{equation}
         A=\left\{(M,U,M'):M,M'\in [M_0>\land U\in U_\Sigma\land M[U>M' \right\}
     \end{equation}
@@ -741,12 +753,12 @@ processo a sé stante.
 \end{definizione}
 \begin{nota}
     Se $U$ è un \textbf{singoletto}, quindi composto da una sola transizione, allora
-    il \textbf{grafo di raggiungibilità} diventa \textbf{grafo di raggiungibilità sequenziale}
-    $SRG(\Sigma)$.
+    il \textbf{grafo di raggiungibilità} diventa \textbf{grafo di raggiungibilità
+        sequenziale} $SRG(\Sigma)$.
 \end{nota}
 Anche qui, come nei sistemi elementari si può costruire l'insieme delle marcature
 raggiungibili e il relativo grafo di raggiungibilità. Generalmente in queste reti
-la Diamond property non è più valida, questo causa self-loop.
+la Diamond property \textbf{non} è più valida, questo causa self-loop.
 
 Anche per le reti P/T si possono avere dei contatti, ovvero, situazioni in cui
 il peso dell'arco è $w$, la capacità del nodo di arrivo $k$ e la sua marcatura è
@@ -755,13 +767,13 @@ la regola visto che dovrebbero passare $w$ marche allo stato $s$ ma quest'ultimo
 ha già $m_s$ marche ed aggiungendone altre si supera il vincolo sulla capacità
 del nodo.
 
-Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere stati (quindi posti)
-per eliminare situazione di \textbf{contatto}. In sostanza si aggiungono per ogni
-stato la versione \textbf{complementata} e questo permette di eliminare il vincolo sulla capacità,
-senza alterare il comportamento del sistema.
-\begin{definizione}
-    Un sistema $P/T$ $\Sigma = (S,T,F,K,W;M_0)$ è \textbf{senza contatti} sse
-    $\forall M\in [M_0>,\forall t\in T, \forall s\in S$:
+Come per i sistemi elementari, anche nelle reti a P/T è possibile aggiungere stati
+(quindi posti) per eliminare situazione di \textbf{contatto}. In sostanza si
+aggiungono per ogni stato la versione \textbf{complementata} e questo permette
+di eliminare il vincolo sulla capacità, senza alterare il comportamento del sistema.
+\begin{definizione}[\textbf{Sistema senza contatti}]
+    Un sistema $P/T$ $\Sigma = (S,T,F,K,W;M_0)$ è \textbf{senza contatti} se e
+    solo se $\forall M\in [M_0>,\forall t\in T, \forall s\in S$:
     \begin{equation}
         M(s)\ge W(s,t)\implies M(s)+W(t,s)\le K(s)
     \end{equation}
@@ -775,18 +787,17 @@ Nei sistemi senza contatti la \textbf{capacità} non ha alcun ruolo nella regola
 di scatto perché la transizione può scattare se nei suoi posti di input ci sono
 abbastanza marche.
 \begin{definizione}[\textbf{Reti marcate}]
-    Un sistema Posti e transizione è una \textbf{rete marcata} se non ha vincoli sulla
-    capacità dei posti e ha tutti gli archi di peso unitario.
+    Un sistema Posti e transizione è una \textbf{rete marcata} se non ha vincoli
+    sulla capacità dei posti e ha tutti gli archi di peso unitario.
     \begin{equation}
         \forall s\in S, M_0(s)\in \mathbb{N}\land K(s)=\infty \land \forall t\in
         T, W(s,t)\le 1\land W(t,s)\le 1
     \end{equation}
-    Le reti marcate sono denotate da $(S,T,F;M_0)$ in quanto $K,W$ sono ridondanti
+    Le reti marcate sono denotate da $(S,T,F;M_0)$ in quanto $K,W$ sono ridondanti.
 \end{definizione}
-
 \begin{definizione} [\textbf{Reti marcate sicure}]
     $\Sigma = (S,T,F;M_0)$ una \textbf{rete marcata} allora è \textbf{sicura}
-    (\textbf{safe}) sse:
+    (\textbf{safe}) se e solo se:
     \begin{equation}
         \forall M\in [M_0>,\forall s\in S:M(s)\le1
     \end{equation}
@@ -797,15 +808,14 @@ interpretarli di nuovo come condizioni booleane. L'unica differenza con le reti
 elementari è che nelle reti safe i cappi sono abilitati, mentre nelle reti
 elementari questo non succede. Se eliminiamo i cappi dalle reti marcate safe,
 otteniamo il corrispettivo di un sistema elementare puro.
-
-\begin{definizione}
+\begin{definizione}[\textbf{Matrice di incidenza}]
     Sia $\Sigma = (S,T,F,K,W;M_0)$ è un \textbf{sistema} $P/T$ tale che
     $\forall s\in S,K(s)=\infty$ e $N=(S,T,F)$ è \textbf{senza cappi}. Allora il
     sistema può essere rappresentato da un'unica matrice $\underline{N}:S\times
         T\rightarrow\mathbb{N}$
     chiamata \textbf{matrice di incidenza}.
 \end{definizione}
-Quindi avremo che
+Quindi avremo che:
 \begin{equation}
     M_0[t_1>\iff \underline{M_0}+\underline{t_1}\ge \underline{0} (\iff
     \underline{M_0}+\underline{N_{t_1}}\ge \underline{0})
@@ -819,14 +829,15 @@ utilizzando l'\textbf{equazione di stato}:
 Dove $c_\sigma$ coincide con un vettore di $|T|$ elementi che specifica per ogni
 componente $i$-esima, quante volte compare la transizione $t_i$ nella parola $\sigma$.
 Ad esempio:
-$$\sigma = t_1t_2t_3t_1t_3 \implies c_\sigma = \left[2, 1, 2\right]$$
+\begin{equation*}
+    \sigma = t_1t_2t_3t_1t_3 \implies c_\sigma = \left[2, 1, 2\right]
+\end{equation*}
 con:
 \begin{itemize}
     \item $c_\sigma [1]= 2$ perché ci sono $2$ transizioni $t_1$
     \item $c_\sigma [2]= 1$ perché c'è $1$ transizione $t_2$
     \item $c_\sigma [3]= 2$ perché ci sono $2$ transizioni $t_3$
 \end{itemize}
-
 \begin{esempio}
     Supponiamo di avere la seguente rete P/T.
     \begin{figure}
@@ -884,53 +895,61 @@ con:
             \end{array}\right] = \underline{M_2}
     \end{equation}
 \end{esempio}
-
 \begin{osservazione}
     Sia $\Sigma = (S,T,F,K,W,M_0)$ un \textbf{sistema} $P/T$ tale che $\forall s
         \in S, K(s)=\infty$:
     \begin{itemize}
-        \item $\Sigma$ è \textbf{limitato} sse $\exists n\in \mathbb{N}: \forall
-                  s\in S, \forall M\in [M_0>$:
-              $$M(s)\le n$$
-        \item $\Sigma$ è \textbf{safe} sse $$\forall s\in S, \forall M\in
-                  [M_0> \ : \ M(s)\le 1$$
-        \item
-              $\Sigma$ è \textbf{limitato} $\iff [M_0>$ è un insieme \textbf{finito}
+        \item $\Sigma$ è \textbf{limitato} se e solo se $\exists n\in \mathbb{N}:
+                  \forall s\in S, \forall M\in [M_0>$:
+              \begin{equation*}
+                  M(s) \leq n
+              \end{equation*}
+        \item $\Sigma$ è \textbf{safe} se e solo se:
+              \begin{equation*}
+                  \forall s \in S, \forall M \in [M_0> \ : \ M(s) \leq 1
+              \end{equation*}
+        \item $\Sigma$ è \textbf{limitato} $\iff [M_0>$ è un insieme \textbf{finito}
               ($RG(\Sigma)$ è \textbf{finito}).
-        \item $\Sigma$ è \textbf{terminante} sse non ammette sequenze infinite
+        \item $\Sigma$ è \textbf{terminante} se e solo se non ammette sequenze infinite.
         \item $M\in [M_0>$ è una marcatura di \textbf{deadlock} sse $\forall t\in
                   T,\lnot(M[t>)$
-        \item $\Sigma$ è \textbf{deadlock-free} sse $\forall M\in[M_0>\exists t\in
-                  T:M[t>$
-              $$(\iff \not\exists M\in [M_0>:M\text{ è una marcatura di deadlock})$$
-        \item $\Sigma$ è $1$\textbf{-vivo} sse
-              $$\forall t\in T,\exists M\in [M_0>:M[t>$$
-        \item  $\Sigma$ è \textbf{vivo} sse
-              $$\forall t\in T,\forall M\in [M_0>,\exists M'\in [M>:M'[t>$$
+        \item $\Sigma$ è \textbf{deadlock-free} se e solo se $\forall M \in [M_0>
+                  \exists t \in T : \ M[t>$:
+              \begin{equation*}
+                  (\iff \not\exists M\in [M_0>:M\text{ è una marcatura di deadlock})
+              \end{equation*}
+        \item $\Sigma$ è $1$\textbf{-vivo} se e solo se:
+              \begin{equation*}
+                  \forall t\in T,\exists M\in [M_0>:M[t>
+              \end{equation*}
+        \item $\Sigma$ è \textbf{vivo} se e solo se:
+              \begin{equation*}
+                  \forall t\in T,\forall M\in [M_0>,\exists M'\in [M>:M'[t>
+              \end{equation*}
               \textbf{vivezza} $\implies$ assenza di \textbf{deadlock}.
-        \item $\Sigma$ è \textbf{reversibile} (ciclico) sse
-              $$\forall M\in [M_0>:M_0\in [M>$$
+        \item $\Sigma$ è \textbf{reversibile} (ciclico) se e solo se:
+              \begin{equation}
+                  \forall M\in [M_0>:M_0\in [M>
+              \end{equation}
         \item $\Sigma$ è \textbf{reversibile} $\iff$ il suo grafo delle marcature
-              raggiungibili è \textbf{strettamente connesso}
-        \item reversibilità $+ 1$-vivezza$\implies$ vivezza
+              raggiungibili è \textbf{strettamente connesso}.
+        \item reversibilità $+ 1$-vivezza$\implies$ vivezza.
     \end{itemize}
 \end{osservazione}
 
 Per verificare le proprietà allora si può fare:
 \begin{itemize}
-    \item analisi del grafo di raggiungibilità o di un prefisso dell'unfolding
-    \item analisi strutturale del grafo della rete:
+    \item Analisi del grafo di raggiungibilità o di un prefisso dell'unfolding.
+    \item Analisi strutturale del grafo della rete:
           \begin{itemize}
-              \item tecniche che sfruttano l'algebra lineare come le \textbf{equazioni
+              \item Tecniche che sfruttano l'algebra lineare come le \textbf{equazioni
                         di stato} che descrivono la dinamica e le $S$-invarianti
-                    e le $T$-invarianti
-              \item studio del grafo della rete come sottoinsiemi di nodi...
-              \item controllo delle condizioni necessarie e sufficienti per alcune
+                    e le $T$-invarianti.
+              \item Studio del grafo della rete come sottoinsiemi di nodi...
+              \item Controllo delle condizioni necessarie e sufficienti per alcune
                     sottoclassi di reti.
           \end{itemize}
 \end{itemize}
-
-
 \subsection{Reti ad alto livello}
 Dal momento che le reti P/T hanno un problema di perdita di informazioni, allora
 si può risolvere modellando le marche (contatori) con una struttura dati.
