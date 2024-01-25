@@ -33,10 +33,12 @@ pattern $P$.
                   \item \textbf{Proprio} se $j \neq |X|$
                   \item \textbf{Improprio} altrimenti.
               \end{itemize}
-              Per il prefisso è possibile definire anche il prefisso nullo, ovvero il
-              prefisso composto da zero caratteri ($X[1, j]=\varepsilon \ \to \ j = 0$).
+              Per il prefisso è possibile definire anche il prefisso nullo, ovvero
+              il prefisso composto da zero caratteri ($X[1, j]=\varepsilon \ \to
+                  \ j = 0$).
         \item \textbf{Suffisso} che inizia in $i$ è la sottostringa $X[i,|X|]$.
-              Di questa sottostringa posso calcolare la lunghezza del prefisso come:
+              Di questa sottostringa posso calcolare la lunghezza del prefisso
+              come:
               \begin{equation}
                   |X[i,|X|]| = |X| - i + 1
               \end{equation}
@@ -45,8 +47,8 @@ pattern $P$.
                   \item \textbf{Proprio} se $i \neq 1$
                   \item \textbf{Improprio} altrimenti.
               \end{itemize}
-              È possibile definire il suffisso nullo ovvero quello composto da zero
-              caratteri ($X[i,|X|]=\varepsilon \ \to \ i = |X| + 1$).
+              È possibile definire il suffisso nullo ovvero quello composto da
+              zero caratteri ($X[i,|X|]=\varepsilon \ \to \ i = |X| + 1$).
     \end{itemize}
 \end{definizione}
 \begin{nota}
@@ -75,13 +77,15 @@ $P$ e un testo $T$ possiamo definire lo string matching:
 Possiamo definire il problema di \textbf{string matching esatto} formalmente nel
 seguente modo:
 \begin{itemize}
-    \item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente
+    \item \textbf{Input}: un testo $T$ e un pattern $P$, rispettivamente
           $|T|=n$ e $|P|=m$, definiti su un alfabeto $\Sigma$.
-    \item \textbf{output}: tutte le occorrenze esatte $i$ di $T$ ($T[i,i+m-1]=P$).
+    \item \textbf{Output}: tutte le occorrenze esatte $i$ di $T$ ($T[i,i+m-1]=P$).
 \end{itemize}
 \begin{definizione}[\textbf{Occorrenza esatta}]
     Una posizione $i$ del testo $T$ tale che $T[i, i + m - 1] = P$ è
-    un'\textbf{occorrenza esatta} di $P$ in $T$.
+    un'\textbf{occorrenza esatta} di $P$ in $T$. In altri termini, la posizione
+    $i$ rappresenta l'inizio di una sotto-stringa, lunga $m$, di $T$ che è uguale
+    al pattern $P$.
 \end{definizione}
 \begin{definizione}[\textbf{Match}]
     Dati due simboli $s_1, s_2 \in \Sigma$ si ha un \textbf{match} se $s_1 = s_2$.
@@ -156,8 +160,8 @@ stringa nell'altra.
 \end{nota}
 \begin{definizione}[\textbf{Occorrenza approssimata}]
     Una posizione $i$ del testo $T$, tale che esista almeno una sottostringa
-    $S = T[i - L + 1,i]$, con $ED(P, S) \leq k$, che è un'occorrenza approssimata
-    di $P$ in $T$.
+    $S = T[i - L + 1,i]$, con $ED(P, S) \leq k$, che è un'\textbf{occorrenza
+        approssimata} di $P$ in $T$.
 \end{definizione}
 \begin{nota}
     Si può aggiungere:
@@ -552,6 +556,7 @@ Possiamo riassumere la scansione del testo come:
     \end{algorithmic}
     \caption{Algoritmo per la ricerca esatta con Automa a Stati Finiti}
 \end{algorithm}
+\newpage
 Questo algoritmo viene eseguito in tempo $\Theta(n)$.
 \begin{esempio}
     Consideriamo il testo $T$:
@@ -616,7 +621,6 @@ Questo algoritmo viene eseguito in tempo $\Theta(n)$.
         \label{fig:enter-label}
     \end{figure}
 \end{esempio}
-\newpage
 \section{Algoritmo di Knuth-Morris-Pratt}
 Questo algoritmo per la ricerca esatta è basato su un'analisi del pattern. Si
 hanno due fasi:
@@ -673,7 +677,6 @@ Essa è definita come segue:
         \end{tabular}
     \end{table}
 \end{esempio}
-\newpage
 Questo algoritmo è un'evoluzione dell'algoritmo banale per la ricerca delle
 occorrenze di un pattern in un testo. In particolare, l'algoritmo KMP consiste in:
 \begin{enumerate}
@@ -874,6 +877,7 @@ L'algoritmo per calcolare la tabella richiede un tempo pari a $\Theta(|\Sigma| +
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della tabella $B$}
 \end{algorithm}
+\newpage
 \subsection{Scansione del testo}
 La procedura per la scansione del testo è rappresentata come:
 \begin{enumerate}
@@ -979,7 +983,6 @@ tempo $\Theta(n)$.
     \end{algorithmic}
     \caption{Algoritmo per la scansione del testo}
 \end{algorithm}
-\newpage
 \begin{esempio}
     Siano un testo $T = babcabaadc$ e un pattern $P = abcaba$ tale che $|T| = 10$
     e $|P|=6$. Entrambe le stringhe costruite su un alfabeto $\Sigma = \{a, b, c,
@@ -1329,7 +1332,7 @@ $S[i]$ rappresenta la posizione del suffisso $i$-esimo nell'ordinamento.
 
 Lo spazio richiesto per la memorizzazione del suffix array è $\Theta(n \log n)$
 in quanto devono essere memorizzati $n$ interi da $1$ a $n$ e ognuno di essi
-richiede uno spazio di $log n$.
+richiede uno spazio di $\log n$.
 \subsubsection{Ricerca esatta}
 Vediamo ora il funzionamento della ricerca esatta di un pattern $P$ di lunghezza
 $m$ in testo $T$ di lunghezza $n$.
@@ -1574,7 +1577,7 @@ Della BWT possiamo introdurre le seguenti proprietà:
     Formalmente, se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
     $B[1] \neq \$$ perché sarà $B[1] = T[n - 1] $ quindi $F[1] = \$$
 \end{nota}
-\begin{esempio} %% Non so se è l'esempio giusto
+\begin{esempio}
     \begin{equation}
         \begin{array}{l|l c l}
               & F  & \dots & B  \\
