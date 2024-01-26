@@ -1773,6 +1773,7 @@ il calcolo della backward extension. Possiamo osservare che per un $Q$-intervall
     posizione BWT coincidente al carattere da cercare.
 \end{nota}
 Quindi la procedura sarà definita come:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
@@ -1783,7 +1784,9 @@ Quindi la procedura sarà definita come:
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della backward extension}
 \end{algorithm}
+
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
@@ -1802,6 +1805,7 @@ Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta del pattern nel testo}
 \end{algorithm}
+
 La complessità di questo algoritmo risulta lineare ($O(m)$) solo se definiamo il
 calcolo della $LF$-function in tempo costante, e di conseguenza anche quello della
 Backward Extension. Questo è possibile utilizzando l'FM-Index.
@@ -1823,7 +1827,7 @@ numerico.
               dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta
               la BWT che sono minori di $\sigma$.
         \item \begin{equation}
-                  Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
+                  Occ: \{1, 1, \dots, n+1\} \times \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del
               simbolo $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
@@ -1867,16 +1871,16 @@ In generale, $C(\sigma)$ fornisce:
             \cellcolor[HTML]{EFEFEF}c  &
             \cellcolor[HTML]{EFEFEF}g  &
             \cellcolor[HTML]{EFEFEF}t                      \\ \hline
-            \textbf{$Occ(0,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
-            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
-            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
-            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
-            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(5,\sigma)$}   & 1 & 0 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(6,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
-            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
-            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 3 & 2 \\ \hline
+            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
+            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
+            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
+            \textbf{$Occ(5,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(6,\sigma)$}   & 1 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
+            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
+            \textbf{$Occ(10,\sigma)$}   & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
     \end{table}
 
