@@ -1269,7 +1269,7 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
     \end{equation}
     Possiamo costruire il suffix array $S$ nel seguente modo:
     \begin{itemize}
-        \item Generiamo tutti i suffissi di $T$:
+        \item Generiamo tutti i suffissi di $T$ come riportato nella tabella \ref{tab:suffissi}:
               \begin{table}[!ht]
                   \centering
                   \begin{tabular}{|
@@ -1295,8 +1295,11 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
                       \textbf{8}                         & c  & \$ &    &    &    &    &    &    &    \\ \hline
                       \textbf{9}                         & \$ &    &    &    &    &    &    &    &    \\ \hline
                   \end{tabular}
+                  \caption{Suffissi di $T$}
+                  \label{tab:suffissi}
               \end{table}
-        \item Ordiniamo i suffissi in ordine lessicografico:
+        \item Ordiniamo i suffissi precedentemente generati in ordine lessicografico,
+              ottenendo la tabella \ref{tab:suffissi-ordinati}:
               \begin{table}[!ht]
                   \centering
                   \begin{tabular}{|
@@ -1322,6 +1325,8 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
                       \textbf{7}                         & t  & c  & \$ &    &    &    &    &    &    \\ \hline
                       \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ &    &    \\ \hline
                   \end{tabular}
+                  \caption{Suffissi di $T$ ordinati lessicograficamente}
+                  \label{tab:suffissi-ordinati}
               \end{table}
         \item Otteniamo il suffix array $S$ prendendo la colonna contenete gli
               indici dei suffissi: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
@@ -1458,8 +1463,9 @@ Possiamo introdurre questi teoremi:
     \label{th:ord-rot-1}
     Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che:
     \begin{itemize}
-        \item $r_1 \prec r_2$
-        \item $r_1[n] = r_2[n]$
+        \item $r_1 \prec r_2$, ovvero che la rotazione $r_1$ è minore della
+              rotazione $r_2$.
+        \item $r_1[n] = r_2[n]$ (l'ultimo simbolo delle rotazioni è uguale).
     \end{itemize}
     Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
     In altre parole, se aggiungo un simbolo iniziale uguale ad entrambe le
@@ -1637,14 +1643,14 @@ Riassumendo:
     \item La rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo
           che precede $q$-suffiso.
     \item Sicuramente, il $q$-suffisso è l'$i$-esimo nell'ordinamento lessicografico
-          dei suffissi di $T$ (per i teoremi \ref{th:ord-rot-1} e \ref{th:ord-rot-2}), si ha questa
-          sincronizzazione per il $\$$.
+          dei suffissi di $T$ (per i teoremi \ref{th:ord-rot-1} e \ref{th:ord-rot-2}),
+          si ha questa sincronizzazione per il $\$$.
     \item In conclusione, $B[i]$ è il simbolo che precede l'$i$-esimo suffisso
           nell'ordinamento lessicografico dei simboli di $T$.
 \end{itemize}
 Attraverso queste osservazioni, possiamo affermare che BWT e SA sono in relazione,
 più precisamente si ha una corrispondenza degli indici delle $r_i$, vero per il
-simbolo $\$$. Quindi
+simbolo $\$$. Quindi:
 \begin{equation}
     B[i] = T[S[i]-1] \ \ \ T[S[i]] = F[i]
 \end{equation}
@@ -1685,7 +1691,8 @@ Si può osservare che per $Q = \varepsilon$ si ha il $\varepsilon$-intervallo,
 il quale coicide con l'intervallo $[1,n+1)$.
 \begin{esempio} \label{esempio-bwt}
     Dato l'alfabeto ordinato $\Sigma=\{\$, a, c, g, t\}$ e il testo
-    $T=acaaacatat\$$ allora possiamo costruire il SA e BWT.
+    $T=acaaacatat\$$ allora possiamo costruire il SA e BWT come riportato nella
+    tabella \ref{tab:esempio-BWT-SA}.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|l|c|}
@@ -1705,8 +1712,10 @@ il quale coicide con l'intervallo $[1,n+1)$.
             11              & 8           & tat\$                      & a            \\ \hline
         \end{tabular}
         \caption{Suffix array e BWT del testo $T=acaaacatat\$$}
+        \label{tab:esempio-BWT-SA}
     \end{table}
-    possiamo effettuare le seguenti query:
+
+    Possiamo effettuare le seguenti query:
     \begin{itemize}
         \item $aca$-intervallo equivale a $[4,6)$
         \item $a$-intervallo equivale a $[2,8)$
@@ -1738,7 +1747,7 @@ $[b,e) \equiv Q$-intervallo.
     iniziano alle posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$.
 \end{esempio}
 Successivamente definiamo
-\begin{definizione}[\textbf{backward extension}]
+\begin{definizione}[\textbf{Backward extension}]
     La \textbf{backward extension} di un $Q$-intervalo $[b,e)$ con il carattere
     $\sigma$ è il $\sigma Q$-intervalo, cioè l'intervallo relativo alla stringa
     ottenuta concatenando il simbolo $\sigma$ con $Q$.
@@ -1899,16 +1908,16 @@ In generale, $C(\sigma)$ fornisce:
             \cellcolor[HTML]{EFEFEF}c  &
             \cellcolor[HTML]{EFEFEF}g  &
             \cellcolor[HTML]{EFEFEF}t                      \\ \hline
-            \textbf{$Occ(0,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
-            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
-            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
-            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
-            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(5,\sigma)$}   & 1 & 0 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(6,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
-            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
-            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 3 & 2 \\ \hline
+            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
+            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
+            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
+            \textbf{$Occ(5,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(6,\sigma)$}   & 1 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
+            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
+            \textbf{$Occ(10,\sigma)$}  & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
     \end{table}
 
@@ -1962,7 +1971,7 @@ Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
-
+\newpage
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
 in tempo costante, questo è possibile scomponendo l'indice $j$ da calcolare come:
 \begin{itemize}
