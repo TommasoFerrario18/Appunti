@@ -33,10 +33,12 @@ pattern $P$.
                   \item \textbf{Proprio} se $j \neq |X|$
                   \item \textbf{Improprio} altrimenti.
               \end{itemize}
-              Per il prefisso è possibile definire anche il prefisso nullo, ovvero il
-              prefisso composto da zero caratteri ($X[1, j]=\varepsilon \ \to \ j = 0$).
+              Per il prefisso è possibile definire anche il prefisso nullo, ovvero
+              il prefisso composto da zero caratteri ($X[1, j]=\varepsilon \ \to
+                  \ j = 0$).
         \item \textbf{Suffisso} che inizia in $i$ è la sottostringa $X[i,|X|]$.
-              Di questa sottostringa posso calcolare la lunghezza del prefisso come:
+              Di questa sottostringa posso calcolare la lunghezza del prefisso
+              come:
               \begin{equation}
                   |X[i,|X|]| = |X| - i + 1
               \end{equation}
@@ -45,8 +47,8 @@ pattern $P$.
                   \item \textbf{Proprio} se $i \neq 1$
                   \item \textbf{Improprio} altrimenti.
               \end{itemize}
-              È possibile definire il suffisso nullo ovvero quello composto da zero
-              caratteri ($X[i,|X|]=\varepsilon \ \to \ i = |X| + 1$).
+              È possibile definire il suffisso nullo ovvero quello composto da
+              zero caratteri ($X[i,|X|]=\varepsilon \ \to \ i = |X| + 1$).
     \end{itemize}
 \end{definizione}
 \begin{nota}
@@ -75,13 +77,15 @@ $P$ e un testo $T$ possiamo definire lo string matching:
 Possiamo definire il problema di \textbf{string matching esatto} formalmente nel
 seguente modo:
 \begin{itemize}
-    \item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente
+    \item \textbf{Input}: un testo $T$ e un pattern $P$, rispettivamente
           $|T|=n$ e $|P|=m$, definiti su un alfabeto $\Sigma$.
-    \item \textbf{output}: tutte le occorrenze esatte $i$ di $T$ ($T[i,i+m-1]=P$).
+    \item \textbf{Output}: tutte le occorrenze esatte $i$ di $T$ ($T[i,i+m-1]=P$).
 \end{itemize}
 \begin{definizione}[\textbf{Occorrenza esatta}]
     Una posizione $i$ del testo $T$ tale che $T[i, i + m - 1] = P$ è
-    un'\textbf{occorrenza esatta} di $P$ in $T$.
+    un'\textbf{occorrenza esatta} di $P$ in $T$. In altri termini, la posizione
+    $i$ rappresenta l'inizio di una sotto-stringa, lunga $m$, di $T$ che è uguale
+    al pattern $P$.
 \end{definizione}
 \begin{definizione}[\textbf{Match}]
     Dati due simboli $s_1, s_2 \in \Sigma$ si ha un \textbf{match} se $s_1 = s_2$.
@@ -156,8 +160,8 @@ stringa nell'altra.
 \end{nota}
 \begin{definizione}[\textbf{Occorrenza approssimata}]
     Una posizione $i$ del testo $T$, tale che esista almeno una sottostringa
-    $S = T[i - L + 1,i]$, con $ED(P, S) \leq k$, che è un'occorrenza approssimata
-    di $P$ in $T$.
+    $S = T[i - L + 1,i]$, con $ED(P, S) \leq k$, che è un'\textbf{occorrenza
+        approssimata} di $P$ in $T$.
 \end{definizione}
 \begin{nota}
     Si può aggiungere:
@@ -210,7 +214,7 @@ utilizza una finestra $W$, di dimensione variabile, che scorre sul testo.
 \end{algorithm}
 Questo algoritmo mi permette di calcolare il matching approssimato in tempo
 $\mathcal{O}(n \cdot k \cdot m^2)$, dove $m^2$ è dovuto al calcolo della distanza
-di edit tra le due sottostringhe.
+di edit tra le due sotto-stringhe.
 \section{Ricerca esatta con Automa a Stati Finiti}
 Un automa è un modello di calcolo che riconosce un linguaggio, ovvero un insieme
 di stringhe che godono di una proprietà. Gli automi a stati finiti riconoscono
@@ -246,7 +250,7 @@ stato che raggiungo partendo dallo stato $q$ leggendo il simbolo $\sigma$.
 \begin{equation}
     T[q,\sigma] = q' \iff \delta(q,\sigma) = q'
 \end{equation}
-\begin{definizione}[\textbf{Bordo}]
+\begin{definizione}[\textbf{Bordo}] \label{def:bordo}
     Il \textbf{bordo} di una stringa $X$ è il più lungo prefisso \textbf{proprio}
     di $X$ che occorre come suffisso di $X$.
 \end{definizione}
@@ -282,10 +286,10 @@ A questo punto, il processo di ricerca esatta attraverso un automa a stati finit
 \begin{enumerate}
     \item \textbf{Preprocessing del pattern}: costruisco l'automa per il pattern
           $P$. Questo punto consiste nel calcolo della funzione di transizione
-          $\delta$ in tempo $\theta(m \cdot |\Sigma|)$.
+          $\delta$ in tempo $\Theta(m \cdot |\Sigma|)$.
     \item \textbf{Ricerca nel testo}: uso dell'automa per riconoscere, in un testo
           $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$.
-          La scansione del testo $T$ avviene in tempo $\theta(n)$
+          La scansione del testo $T$ avviene in tempo $\Theta(n)$
 \end{enumerate}
 \subsection{Funzione di transizione}
 La funzione di transizione $\delta$ per un pattern $P$ di lunghezza $m$ definito
@@ -331,6 +335,7 @@ per come è definita senza sfruttare i valori che sono già stati computati.
     \end{algorithmic}
     \caption{Algoritmo banale per il calcolo della funzione di transizione $\delta$}
 \end{algorithm}
+
 Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3
     |\Sigma|)$, questo è dovuto al fatto che per calcolare il bordo è necessario
 un tempo, nel caso peggiore pari a $\mathcal{O}(m^2)$.
@@ -390,7 +395,7 @@ $P$ di lunghezza $m$ utilizzando l'induzione nel seguente modo:
     Dimostrazione tramite esempi su slide.
 \end{nota}
 Con queste informazioni possiamo definire un algoritmo che mi permette di calcolare
-la funzione di transizione $\delta$ in tempo $\theta(m \cdot |\Sigma|)$. Tale
+la funzione di transizione $\delta$ in tempo $\Theta(m \cdot |\Sigma|)$. Tale
 algoritmo sfrutta le informazioni precedentemente calcolate.
 \begin{algorithm}[!ht]
     \begin{algorithmic}
@@ -551,7 +556,8 @@ Possiamo riassumere la scansione del testo come:
     \end{algorithmic}
     \caption{Algoritmo per la ricerca esatta con Automa a Stati Finiti}
 \end{algorithm}
-Questo algoritmo viene eseguito in tempo $\theta(n)$.
+\newpage
+Questo algoritmo viene eseguito in tempo $\Theta(n)$.
 \begin{esempio}
     Consideriamo il testo $T$:
     \begin{table}[!ht]
@@ -615,7 +621,6 @@ Questo algoritmo viene eseguito in tempo $\theta(n)$.
         \label{fig:enter-label}
     \end{figure}
 \end{esempio}
-\newpage
 \section{Algoritmo di Knuth-Morris-Pratt}
 Questo algoritmo per la ricerca esatta è basato su un'analisi del pattern. Si
 hanno due fasi:
@@ -634,6 +639,12 @@ La \textbf{prefix function} o funzione di fallimento $\phi$ è definita come seg
 \begin{equation}
     \phi: \{0, 1, \dots m\} \to \{-1, 0, \dots m\}
 \end{equation}
+\begin{nota}
+    La funzione di fallimento $\phi$ è definita su un insieme di indici che va
+    da $0$ a $m - 1$ in quanto è definita come il bordo del pattern. Per definizione
+    di bordo (\ref{def:bordo}) è un prefisso proprio, quindi non può assumere il
+    valore $m$.
+\end{nota}
 Essa è definita come segue:
 \begin{equation}
     \phi(j) = \begin{cases}
@@ -751,9 +762,9 @@ funzionamento attraverso due fasi:
 \begin{itemize}
     \item \textbf{Preprocessing del pattern} $P$ nel quale vengono calcolate
           $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
-          eseguita in tempo $\theta(m + |\Sigma|)$.
+          eseguita in tempo $\Theta(m + |\Sigma|)$.
     \item \textbf{Scansione del testo} $T$ per cercare le occorrenze esatte del
-          pattern $P$. Questa operazione viene eseguita in tempo $\theta(n)$.
+          pattern $P$. Questa operazione viene eseguita in tempo $\Theta(n)$.
 \end{itemize}
 \subsection{Word e Operatori}
 \begin{definizione}[\textbf{Word di bit}]
@@ -807,9 +818,9 @@ in input. Tra queste operazioni abbiamo:
           seguito da un OR con una maschera in cui nella prima posizione è presente
           1 e nelle altre 0.
 \end{itemize}
-\subsection{Preprocessing del pattern}
-Dato un pattern $P$ di lunghezza $m$ e $\sigma$ in $\Sigma$, $B_{\sigma}$ è una
-word di $m$ bit tale che:
+\subsection{Preprocessing del pattern} \label{subsec:preprocessing}
+Dato un pattern $P$ di lunghezza $m$ e un carattere $\sigma$ appartenete
+all'alfabeto $\Sigma$, $B_{\sigma}$ è una word di $m$ bit definita come:
 \begin{equation}
     B_{\sigma}[j] = 1 \iff P[j] = \sigma
 \end{equation}
@@ -825,11 +836,11 @@ in una tabella $B$. Con questa rappresentazione posso effettuare le query del ti
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|}
             \hline
-            P     & $a$ & $b$ & $c$ & $a$ & $b$ & $a$ \\ \hline
-            $B_a$ & $1$ & $0$ & $0$ & $1$ & $0$ & $1$ \\ \hline
-            $B_b$ & $0$ & $1$ & $0$ & $0$ & $1$ & $0$ \\ \hline
-            $B_c$ & $0$ & $0$ & $1$ & $0$ & $0$ & $0$ \\ \hline
-            $B_d$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\ \hline
+            P     & a & b & c & a & b & a \\ \hline
+            $B_a$ & 1 & 0 & 0 & 1 & 0 & 1 \\ \hline
+            $B_b$ & 0 & 1 & 0 & 0 & 1 & 0 \\ \hline
+            $B_c$ & 0 & 0 & 1 & 0 & 0 & 0 \\ \hline
+            $B_d$ & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
         \end{tabular}
     \end{table}
 \end{esempio}
@@ -845,7 +856,7 @@ Vediamo ora come calcolare la tabella $B$:
               \item $M = \textbf{RSHIFT} (M)$
           \end{itemize}
 \end{enumerate}
-L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| +
+L'algoritmo per calcolare la tabella richiede un tempo pari a $\Theta(|\Sigma| +
     m)$ ed è il seguente:
 \begin{algorithm}
     \begin{algorithmic}
@@ -866,6 +877,7 @@ L'algoritmo per calcolare la tabella richiede un tempo pari a $\theta(|\Sigma| +
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della tabella $B$}
 \end{algorithm}
+\newpage
 \subsection{Scansione del testo}
 La procedura per la scansione del testo è rappresentata come:
 \begin{enumerate}
@@ -877,7 +889,7 @@ La procedura per la scansione del testo è rappresentata come:
 \end{enumerate}
 Dobbiamo ora definire cosa si intende con la word $D_i$. Prima di fare ciò dobbiamo
 definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1,i]$.
-\begin{definizione}[\textbf{Word $D_i$}]
+\begin{definizione}[\textbf{Word $D_i$}] \label{def:word}
     Dati un pattern $P$ lungo $m$ e un testo $T$ lungo $n$, $D_i$ ($0 \leq i \leq
         n$) è una word di $m$ bit tale che:
     \begin{equation}
@@ -900,15 +912,19 @@ definire $P[1,j] = suff(T[1,i])$ ovvero $P[1,j]$ è uguale a un suffisso di $T[1
     Con posizione più grande si intende quella più a destra diversa da $m$.
 \end{nota}
 \begin{esempio}
-    Data la word:
+    Data la word riportata nella tabella \ref{tab:word}, possiamo calcolare il
+    bordo del pattern in quanto l'ultimo bit è uguale a $1$.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-            D\_i & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0  & 1  & 0  & 0  & 0  & 0  & 1  \\ \hline
-            ~    & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
+            \hline
+            $D_i$ & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0  & 1  & 0  & 0  & 0  & 0  & 1  \\ \hline
+                  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\ \hline
         \end{tabular}
+        \caption{Word $D_i$}
+        \label{tab:word}
     \end{table}
-    possiamo calcolare il bordo del pattern in quanto l'ultimo bit è uguale a $1$.
+
     Dato che il bit con valore uguale a $1$ più a destra, diverso da $m$, è in
     posizione $11$, allora la lunghezza del bordo è:
     \begin{equation}
@@ -929,18 +945,18 @@ Vediamo ora come si calcola il valore di $D_i$ a partire da $D_{i - 1}$:
 \begin{itemize}
     \item Se $j =  1$ allora posso calcolarla come:
           \begin{equation}
-              D_i[1] = 1 \textbf{AND} B_{T[i]}[1]
+              D_i[1] = 1 \ \textbf{AND} \ B_{T[i]}[1]
           \end{equation}
           Perché $D_i[1] = 1 \iff P[1,1] = suff(T[1,i]) \iff P[1] = T[i] \iff
               B_{T[i]}[1]$. Si aggiunge $1$ per semplificare le operazioni bit
           a bit.
     \item Se $j > 1$ allora posso calcolarla come:
           \begin{equation}
-              D_i[j] = D_{i - 1}[j - 1] \textbf{AND} B_{T[i]}[j]
+              D_i[j] = D_{i - 1}[j - 1] \ \textbf{AND} \ B_{T[i]}[j]
           \end{equation}
           Perché $D_i[j] = 1 \iff P[1,j] = suff(T[1,i]) \iff P[1,j - 1] =
-              suff(T[1,i - 1]) \textbf{AND} P[j] = T[i] \iff D_{i - 1}[j - 1]
-              \textbf{AND} B_{T[i]}[j]$.
+              suff(T[1,i - 1]) \ \textbf{AND} \ P[j] = T[i] \iff D_{i - 1}[j - 1]
+              \ \textbf{AND} \ B_{T[i]}[j]$.
 \end{itemize}
 In questo modo stiamo ancora aggiornando un bit alla volta, ma sfruttando le
 operazioni bit a bit si possono aggiornare tutti in tempo \textbf{costante} nel
@@ -949,7 +965,7 @@ seguente modo:
     D_i = \textbf{RSHIFT1}(D_{i - 1}) \ \textbf{AND} \ B_{T[i]}
 \end{equation}
 Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
-tempo $\theta(n)$
+tempo $\Theta(n)$.
 \begin{algorithm}
     \begin{algorithmic}
         \Function{BYG}{$B, T$}
@@ -1026,18 +1042,18 @@ $T$:
                 L + 1]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
         approssimata} di $P$ in $T$.
 \end{definizione}
-Come gli algoritmi visti fino a questo momento, quello di Wu e Manber è
+Come gli algoritmi visti fino a questo momento, anche quello di Wu e Manber è
 strutturato in due fasi:
 \begin{enumerate}
-    \item \textbf{Preprocessing} del pattern $P$ nel quale vengono calcolate
+    \item \textbf{Preprocessing del pattern} $P$: in questa fase vengono calcolate
           $|\Sigma|$ \textbf{words} ognuna di $m$ bit. Questa operazione viene
           eseguita in tempo $\Theta(|\Sigma| + m)$. (\textit{Uguale a quello
-              dell'algoritmo BYG})
-    \item \textbf{Scansione del testo} $T$ per cercare le occorrenze approssimate
-          del pattern $P$. Questa operazione viene eseguita in tempo
-          $\Theta(k \cdot n)$.
+              dell'algoritmo BYG} \ref{subsec:preprocessing})
+    \item \textbf{Scansione del testo} $T$: in questa fase si cercano le occorrenze
+          approssimate del pattern $P$. Questa operazione viene eseguita in
+          tempo $\Theta(k \cdot n)$.
 \end{enumerate}
-\subsection{Scansione del testo}
+\subsection{Definizione della word $D_i^h$}
 Dato che la fase di preprocessing è equivalente a quella per l'algoritmo BYG,
 passiamo subito alla scansione del testo.
 \begin{definizione}
@@ -1045,8 +1061,8 @@ passiamo subito alla scansione del testo.
     suffisso di $T[1, i]$ a meno di $h$ errori. In altre parole, riesco a
     trovare un suffisso $S$ di $T[1, i]$ tale che $ED(P[1, j], S) \leq h$.
 \end{definizione}
-Estenderemo la definizione di $D_i$ di Shift-AND al caso in cui si ammettono al
-più $h$ errori.
+Estenderemo la definizione di $D_i$ (\ref{def:word}) di Shift-AND al caso in cui
+si ammettono al più $h$ errori.
 \begin{definizione}[\textbf{Word $D_i^h$}]
     Dati un pattern $P$ lungo $m$, un testo $T$ lungo $n$ e una soglia di errore
     $k$, possiamo definire la \textbf{word $D_i^h$} come una word di $m$ bit
@@ -1070,6 +1086,15 @@ Vediamo ora alcuni casi particolare:
           \end{itemize}
           Si ottiene quindi una word dove i primi $h$ bit sono uguali a $1$ e i
           restanti $m - h$ bit sono posti a $0$.
+          \begin{table}[!ht]
+              \centering
+              \begin{tabular}{lcc}
+                  $D_0^h =$ & $1 \dots 1$                                            &
+                  $0 \dots 0$                                                          \\ \cline{2-3}
+                            & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}h bit a 1} &
+                  \cellcolor[HTML]{EFEFEF}(m - h) bit a 0
+              \end{tabular}
+          \end{table}
     \item $D_i^h [m] = 1 \iff P[1, m] = suff_h(T[1, i])$, ovvero se $P[1, m]$ è
           un suffisso di $T[1, i]$ a meno di $h$ errori, allora $D_i^h[m] = 1$.
           Nel caso particolare in cui $h = 0$ si ha un occorrenza esatta in $i -
@@ -1081,6 +1106,7 @@ Vediamo ora alcuni casi particolare:
     Inoltre, $D_{i}^{h} [j] = 1$ implica $D_{i}^{h + 1}[j + 1] = 1$ e
     $D_{i}^{h + 1}[j - 1] = 1$.
 \end{nota}
+\subsection{Scansione del testo}
 Definita la word $D_i^h$, possiamo definire la scansione del testo $T$ come una
 successione di $k + 1$ scansioni, dove solamente all'iterazione $k$ si vanno a
 verificare i bit finali delle word per cercare l'occorrenza approssimata.
@@ -1150,10 +1176,10 @@ caso in cui $i = 0$. Vediamo ora come calcolare il caso in cui $i > 0, h > 0$:
               \ D_{i}^{h - 1} [j - 1]
           \end{equation}
     \item  $j = 1$, abbiamo le stesse casistiche di prima, quindi possiamo
-          sostituire alla formula precedente il valore di $j$, comportando che
-          ci richiedono dei valori che non possiamo conoscere come
-          $D_{i - 1}^h[0]$. Quindi, per risolvere questo problema, sostituiamo
-          questi valori con $1$, ottenendo:
+          sostituire alla formula precedente il valore di $j$. Effettuando questa
+          sostituzione, ci accorgiamo che sono richiesti dei valori che non
+          possiamo conoscere, come ad esempio $D_{i - 1}^h[0]$. Quindi, per
+          risolvere questo problema, sostituiamo questi valori con $1$, ottenendo:
           \begin{equation}
               D_{i}^{h} [j] =
               (1 \ \textbf{AND} \ B_{T[i]} [j]) \ \textbf{OR}
@@ -1171,7 +1197,8 @@ che controllano il bit in posizione $j - 1$ con l'operazione RSHIFT1, ottenendo:
     D_{i - 1}^{h - 1} [j] \ \textbf{OR} \
     RSHIFT1(D_{i}^{h - 1} [j])
 \end{equation}
-Si potrà poi generalizzare calcolando $D_i^h$ in una sola volta.
+Si potrà poi generalizzare calcolando $D_i^h$ in una sola volta utilizzando gli
+operatori bit a bit, ottenendo:
 \begin{equation}
     D_{i}^{h}= (RSHIFT1(D_{i - 1}^{h}) \ \textbf{AND} \ B_{T[i]}) \
     \textbf{OR} \ RSHIFT1(D_{i - 1}^{h - 1})  \ \textbf{OR} \ D_{i - 1}^{h - 1} \
@@ -1242,7 +1269,7 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
     \end{equation}
     Possiamo costruire il suffix array $S$ nel seguente modo:
     \begin{itemize}
-        \item Generiamo tutti i suffissi di $T$:
+        \item Generiamo tutti i suffissi di $T$ come riportato nella tabella \ref{tab:suffissi}:
               \begin{table}[!ht]
                   \centering
                   \begin{tabular}{|
@@ -1268,8 +1295,11 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
                       \textbf{8}                         & c  & \$ &    &    &    &    &    &    &    \\ \hline
                       \textbf{9}                         & \$ &    &    &    &    &    &    &    &    \\ \hline
                   \end{tabular}
+                  \caption{Suffissi di $T$}
+                  \label{tab:suffissi}
               \end{table}
-        \item Ordiniamo i suffissi in ordine lessicografico:
+        \item Ordiniamo i suffissi precedentemente generati in ordine lessicografico,
+              ottenendo la tabella \ref{tab:suffissi-ordinati}:
               \begin{table}[!ht]
                   \centering
                   \begin{tabular}{|
@@ -1295,6 +1325,8 @@ $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
                       \textbf{7}                         & t  & c  & \$ &    &    &    &    &    &    \\ \hline
                       \textbf{3}                         & t  & c  & a  & g  & t  & c  & \$ &    &    \\ \hline
                   \end{tabular}
+                  \caption{Suffissi di $T$ ordinati lessicograficamente}
+                  \label{tab:suffissi-ordinati}
               \end{table}
         \item Otteniamo il suffix array $S$ prendendo la colonna contenete gli
               indici dei suffissi: $S = [9, 5, 8, 4, 1, 6, 2, 7, 3]$
@@ -1305,7 +1337,7 @@ $S[i]$ rappresenta la posizione del suffisso $i$-esimo nell'ordinamento.
 
 Lo spazio richiesto per la memorizzazione del suffix array è $\Theta(n \log n)$
 in quanto devono essere memorizzati $n$ interi da $1$ a $n$ e ognuno di essi
-richiede uno spazio di $log n$.
+richiede uno spazio di $\log n$.
 \subsubsection{Ricerca esatta}
 Vediamo ora il funzionamento della ricerca esatta di un pattern $P$ di lunghezza
 $m$ in testo $T$ di lunghezza $n$.
@@ -1431,8 +1463,9 @@ Possiamo introdurre questi teoremi:
     \label{th:ord-rot-1}
     Sia $q$-rotazione $r_1$ una $p$-rotazione $r_2$ tale che:
     \begin{itemize}
-        \item $r_1 \prec r_2$
-        \item $r_1[n] = r_2[n]$
+        \item $r_1 \prec r_2$, ovvero che la rotazione $r_1$ è minore della
+              rotazione $r_2$.
+        \item $r_1[n] = r_2[n]$ (l'ultimo simbolo delle rotazioni è uguale).
     \end{itemize}
     Allora $(q - 1)$-rotazione $r'_1$ è minore della $(p - 1)$-rotazione $r'_2$.
     In altre parole, se aggiungo un simbolo iniziale uguale ad entrambe le
@@ -1550,7 +1583,7 @@ Della BWT possiamo introdurre le seguenti proprietà:
     Formalmente, se $B[i] = \$$, allora $F[i] = T[1]$, inoltre,
     $B[1] \neq \$$ perché sarà $B[1] = T[n - 1] $ quindi $F[1] = \$$
 \end{nota}
-\begin{esempio} %% Non so se è l'esempio giusto
+\begin{esempio}
     \begin{equation}
         \begin{array}{l|l c l}
               & F  & \dots & B  \\
@@ -1610,14 +1643,14 @@ Riassumendo:
     \item La rotazione $r_i$ inizia con il $q$-suffiso e quindi $B[i]$ è il simbolo
           che precede $q$-suffiso.
     \item Sicuramente, il $q$-suffisso è l'$i$-esimo nell'ordinamento lessicografico
-          dei suffissi di $T$ (per i teoremi \ref{th:ord-rot-1} e \ref{th:ord-rot-2}), si ha questa
-          sincronizzazione per il $\$$.
+          dei suffissi di $T$ (per i teoremi \ref{th:ord-rot-1} e \ref{th:ord-rot-2}),
+          si ha questa sincronizzazione per il $\$$.
     \item In conclusione, $B[i]$ è il simbolo che precede l'$i$-esimo suffisso
           nell'ordinamento lessicografico dei simboli di $T$.
 \end{itemize}
 Attraverso queste osservazioni, possiamo affermare che BWT e SA sono in relazione,
 più precisamente si ha una corrispondenza degli indici delle $r_i$, vero per il
-simbolo $\$$. Quindi
+simbolo $\$$. Quindi:
 \begin{equation}
     B[i] = T[S[i]-1] \ \ \ T[S[i]] = F[i]
 \end{equation}
@@ -1658,7 +1691,8 @@ Si può osservare che per $Q = \varepsilon$ si ha il $\varepsilon$-intervallo,
 il quale coicide con l'intervallo $[1,n+1)$.
 \begin{esempio} \label{esempio-bwt}
     Dato l'alfabeto ordinato $\Sigma=\{\$, a, c, g, t\}$ e il testo
-    $T=acaaacatat\$$ allora possiamo costruire il SA e BWT.
+    $T=acaaacatat\$$ allora possiamo costruire il SA e BWT come riportato nella
+    tabella \ref{tab:esempio-BWT-SA}.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|c|c|l|c|}
@@ -1678,8 +1712,10 @@ il quale coicide con l'intervallo $[1,n+1)$.
             11              & 8           & tat\$                      & a            \\ \hline
         \end{tabular}
         \caption{Suffix array e BWT del testo $T=acaaacatat\$$}
+        \label{tab:esempio-BWT-SA}
     \end{table}
-    possiamo effettuare le seguenti query:
+
+    Possiamo effettuare le seguenti query:
     \begin{itemize}
         \item $aca$-intervallo equivale a $[4,6)$
         \item $a$-intervallo equivale a $[2,8)$
@@ -1711,7 +1747,7 @@ $[b,e) \equiv Q$-intervallo.
     iniziano alle posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$.
 \end{esempio}
 Successivamente definiamo
-\begin{definizione}[\textbf{backward extension}]
+\begin{definizione}[\textbf{Backward extension}]
     La \textbf{backward extension} di un $Q$-intervalo $[b,e)$ con il carattere
     $\sigma$ è il $\sigma Q$-intervalo, cioè l'intervallo relativo alla stringa
     ottenuta concatenando il simbolo $\sigma$ con $Q$.
@@ -1872,16 +1908,16 @@ In generale, $C(\sigma)$ fornisce:
             \cellcolor[HTML]{EFEFEF}c  &
             \cellcolor[HTML]{EFEFEF}g  &
             \cellcolor[HTML]{EFEFEF}t                      \\ \hline
-            \textbf{$Occ(0,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
-            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
-            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
-            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
-            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(5,\sigma)$}   & 1 & 0 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(6,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
-            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
-            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
-            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 3 & 2 \\ \hline
+            \textbf{$Occ(1,\sigma)$}   & 0 & 0 & 0 & 0 & 0 \\ \hline
+            \textbf{$Occ(2,\sigma)$}   & 0 & 0 & 1 & 0 & 0 \\ \hline
+            \textbf{$Occ(3,\sigma)$}   & 0 & 0 & 2 & 0 & 0 \\ \hline
+            \textbf{$Occ(4,\sigma)$}   & 0 & 0 & 2 & 0 & 1 \\ \hline
+            \textbf{$Occ(5,\sigma)$}   & 0 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(6,\sigma)$}   & 1 & 0 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(7,\sigma)$}   & 1 & 1 & 2 & 0 & 2 \\ \hline
+            \textbf{$Occ(8,\sigma)$}   & 1 & 1 & 2 & 1 & 2 \\ \hline
+            \textbf{$Occ(9,\sigma)$}   & 1 & 1 & 2 & 2 & 2 \\ \hline
+            \textbf{$Occ(10,\sigma)$}  & 1 & 1 & 2 & 3 & 2 \\ \hline
         \end{tabular}
     \end{table}
 
@@ -1906,13 +1942,11 @@ In generale, $C(\sigma)$ fornisce:
         \caption{Calcolo della funzione $C$ da $Occ$}
     \end{table}
 \end{esempio}
-\newpage
 La funzione $Occ(i, \sigma)$ si può costruire considerando la riga precedente e
 incrementando il valore di $Occ(i - 1, \sigma)$ se il simbolo $B[i]$ è uguale a
 $\sigma$. In caso contrario si copia il valore di $Occ(i - 1, \sigma)$.
 
 Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
-
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Build-FMindex}{$B$}
@@ -1937,7 +1971,7 @@ Vediamo quindi l'algoritmo per costruire l'FM-index, partendo dalla BWT $B$:
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
-
+\newpage
 Avendo definito queste due funzioni possiamo definire il calcolo della LF-function
 in tempo costante, questo è possibile scomponendo l'indice $j$ da calcolare come:
 \begin{itemize}

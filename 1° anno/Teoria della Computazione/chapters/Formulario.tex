@@ -114,14 +114,14 @@ Formule utili:
     \item Per ogni posizione $i$, il simbolo $B[i]$ precede nel testo il simbolo $F[i]$.
     \item Posizione $j$ nel suffix array del suffisso che inizia con $B[i]$ si ottiene come:
           \begin{equation}
-              j = LF(i) = C(B[i]) + Occ(i, B[i])
+              j = LF(i) = C(B[i]) + Occ(i, B[i]) + 1
           \end{equation}
     \item Calcolo del $Q$-intervallo ($[b, e)$) dopo la backward extension con
           $\sigma$:
           \begin{equation}
               \begin{array}{l}
                   b' = C(\sigma) + Occ(b, \sigma) + 1 \\
-                  e' = C(\sigma) + Occ(e, \sigma)
+                  e' = C(\sigma) + Occ(e, \sigma) + 1
               \end{array}
           \end{equation}
 \end{itemize}

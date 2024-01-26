@@ -233,7 +233,7 @@ dell'albero.
               \item Imponiamo che $parent(v) = -1$ se $v = 1$ (non considero la
                     super-root)
           \end{itemize}
-    \item $degree(v)=last\_child(v)-first\_child(v)+1$, imponiamo
+    \item $degree(v) \ = \ last\_child(v) - first\_child(v) + 1$, imponiamo 
           $degree(v) = 0$ se $last\_child(v) = first\_child(v) = -1$
     \item $nth\_child(v, nth) = rank_1(select_1(first\_child(v)) + nth - 1)$,
           imponiamo $nth\_child(v, nth) = -1$ se $degree(v) < nth$
