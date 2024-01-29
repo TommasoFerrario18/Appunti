@@ -1044,7 +1044,7 @@ Riprendiamo la definizione di ricerca approssimata di un pattern $P$ in un testo
 $T$:
 \begin{definizione}[\textbf{Occorrenza approssimata}]
     Una posizione $i$ del testo $T$ tale che esista una sottostringa $S = T[i -
-                L + 1]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
+                L + 1, i]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
         approssimata} di $P$ in $T$.
 \end{definizione}
 Come gli algoritmi visti fino a questo momento, anche quello di Wu e Manber è
@@ -1686,11 +1686,11 @@ Sia $Q$ una stringa definita su un alfabeto $\Sigma$ ($Q \in \Sigma^\ast$)
 possiamo definire il \textbf{$Q$-intervallo}.
 \begin{definizione} [\textbf{$Q$-intervallo rispetto alla BWT}]
     Il $Q$-intervallo è l'intervallo $[b,e)$ di posizioni della BWT che contengono
-    i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso.
+    i simboli che precedono i suffissi che condividono la stringa $Q$ come prefisso.
 \end{definizione}
 \begin{definizione} [\textbf{$Q$-intervallo rispetto al SA}]
     Il $Q$-intervallo è l'intervallo $[b,e)$ di posizioni del SA che contengono
-    gli indici dei suffissi che condividono la striga $Q$ come prefisso
+    gli indici dei suffissi che condividono la stringa $Q$ come prefisso
 \end{definizione}
 Si può osservare che per $Q = \varepsilon$ si ha il $\varepsilon$-intervallo,
 il quale coicide con l'intervallo $[1,n+1)$.
