@@ -47,11 +47,11 @@ jobs:
             mkdir -p ./static/Modelli\ della\ Concorrenza
             mkdir -p ./static/Processo\ e\ Sviluppo\ del\ Software
             mkdir -p ./static/Teoria\ della\ Computazione
-            cp ./Machine\ Learning/main.pdf ./static/Machine\ Learning/main.pdf
-            cp ./Modelli\ della\ Concorrenza/main.pdf ./static/Modelli\ della\ Concorrenza/main.pdf
-            cp ./Processo\ e\ Sviluppo\ del\ Software/main.pdf ./static/Processo\ e\ Sviluppo\ del\ Software/main.pdf
-            cp ./Teoria\ della\ Computazione/main.pdf ./static/Teoria\ della\ Computazione/main.pdf
-            cp ./public/index.html ./static/index.html
+            cp ./1°\ anno/Machine\ Learning/main.pdf ./static/Machine\ Learning/main.pdf
+            cp ./1°\ anno/Modelli\ della\ Concorrenza/main.pdf ./static/Modelli\ della\ Concorrenza/main.pdf
+            cp ./1°\ anno/Processo\ e\ Sviluppo\ del\ Software/main.pdf ./static/Processo\ e\ Sviluppo\ del\ Software/main.pdf
+            cp ./1°\ anno/Teoria\ della\ Computazione/main.pdf ./static/Teoria\ della\ Computazione/main.pdf
+            cp ./1°\ anno/public/index.html ./static/index.html
       - name: Configure Pages
         uses: actions/configure-pages@v2
       - name: Zip and Upload Artifact
