@@ -55,12 +55,12 @@ pattern $P$.
     Una \textbf{stringa} di caratteri si differenzia da un \textbf{sequenza}
     degli stessi caratteri dal momento che:
     \begin{itemize}
-        \item \textbf{stringa}: è una giustapposizione di caratteri, quindi sono
-              tutti concatenati
+        \item \textbf{Stringa}: è una giustapposizione di caratteri, quindi sono
+              tutti concatenati:
               \begin{equation}
                   X = \sigma_1\sigma_2\dots\sigma_n
               \end{equation}
-        \item \textbf{sequenza}: è un elenco di caratteri separati da un separatore
+        \item \textbf{Sequenza}: è un elenco di caratteri separati da un separatore:
               \begin{equation}
                   X= \langle\sigma_1,\sigma_2,\dots,\sigma_n\rangle
               \end{equation}
@@ -142,10 +142,10 @@ Questo algoritmo richiede un tempo pari a $\mathcal{O}(m \cdot n)$.
 Definiremo il problema di \textbf{string matching approssimato} formalmente nel
 seguente modo:
 \begin{itemize}
-    \item \textbf{input}: testo $T$ e un pattern $P$, rispettivamente $|T| = n$ e
+    \item \textbf{Input}: testo $T$ e un pattern $P$, rispettivamente $|T| = n$ e
           $|P| = m$, definiti entrambi su un alfabeto $\Sigma$, infine, una
           soglia $k$ di errore.
-    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ che
+    \item \textbf{Output}: tutte le occorrenze approssimate di $P$ in $T$ che
           rispettano la soglia di errore $k$.
 \end{itemize}
 Introducendo una soglia di errore abbiamo bisogno di definire una metrica per
@@ -157,6 +157,10 @@ stringa nell'altra.
     \begin{equation}
         ED(X_1, X_2) \geq abs(|X_1| - |X_2|)
     \end{equation}
+    ovvero, la distanza di edit tra due stringhe è sempre maggiore o uguale alla
+    differenza tra le lunghezze delle due stringhe. Questo perché, per trasformare
+    una stringa nell'altra, è necessario almeno cancellare o inserire dei simboli
+    in modo da rendere le due stringhe della stessa lunghezza.
 \end{nota}
 \begin{definizione}[\textbf{Occorrenza approssimata}]
     Una posizione $i$ del testo $T$, tale che esista almeno una sottostringa
@@ -174,10 +178,10 @@ stringa nell'altra.
 Quindi il problema formale dello \textbf{string matching approssimato} verrà
 definito come:
 \begin{itemize}
-    \item \textbf{input}: un testo $T$ e un pattern $P$, rispettivamente $|T| = n$
+    \item \textbf{Input}: un testo $T$ e un pattern $P$, rispettivamente $|T| = n$
           e $|P| = m$, definiti entrambi su un alfabeto $\Sigma$, infine, una
           soglia $k$ di errore.
-    \item \textbf{output}: tutte le occorrenze approssimate di $P$ in $T$ tale
+    \item \textbf{Output}: tutte le occorrenze approssimate di $P$ in $T$ tale
           che  $ED(P,S)\le k$.
 \end{itemize}
 Avendo definito il problema in questo modo è possibile definire un semplice
@@ -272,7 +276,7 @@ stato che raggiungo partendo dallo stato $q$ leggendo il simbolo $\sigma$.
     stringa $X\sigma$.
 \end{definizione}
 Possiamo definire ora l'automa a stati finiti per la ricerca esatta di un pattern
-$P$ di lunghezza $m$ definito su alfabeto $\Sigma$ come la quintupla $(Q, \Sigma,
+$P$ di lunghezza $m$, definito su alfabeto $\Sigma$, come la quintupla $(Q, \Sigma,
     \delta, q_0, F)$ con:
 \begin{itemize}
     \item $Q = \{0, 1, \dots, m\}$
@@ -293,8 +297,9 @@ A questo punto, il processo di ricerca esatta attraverso un automa a stati finit
 \end{enumerate}
 \subsection{Funzione di transizione}
 La funzione di transizione $\delta$ per un pattern $P$ di lunghezza $m$ definito
-su un alfabeto $\Sigma$ è definita per ogni $(j, \sigma) \in Q \times \Sigma$ tale
-che $\delta(j, \sigma)$ è lo stato in cui si arriva da $j$ attraverso $\sigma$:
+su un alfabeto $\Sigma$ è definita per ogni $(j, \sigma) \in Q \times \Sigma$ ($Q
+    =\{0, 1, 2, \dots, m\}$) tale che $\delta(j, \sigma)$ è lo stato in cui
+si arriva da $j$ attraverso $\sigma$:
 \begin{equation}
     \delta(j, \sigma) = \begin{cases}
         j + 1 & \text{se} \ j < m \ \land \ P[j + 1] = \sigma   \\
@@ -1039,7 +1044,7 @@ Riprendiamo la definizione di ricerca approssimata di un pattern $P$ in un testo
 $T$:
 \begin{definizione}[\textbf{Occorrenza approssimata}]
     Una posizione $i$ del testo $T$ tale che esista una sottostringa $S = T[i -
-                L + 1]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
+                L + 1, i]$ tale che $ED(P, S) \leq k$ è detta \textbf{occorrenza
         approssimata} di $P$ in $T$.
 \end{definizione}
 Come gli algoritmi visti fino a questo momento, anche quello di Wu e Manber è
@@ -1344,9 +1349,9 @@ $m$ in testo $T$ di lunghezza $n$.
 
 La ricerca esatta di un pattern $P$ in un testo $T$ avviene in due fasi:
 \begin{enumerate}
-    \item Preprocessing del testo $T$ per costruire il suffix array $S$.
-    \item Ricerca del pattern $P$ nel testo $T$ utilizzando il suffix array $S$.
-          L'operazione di ricerca avviene in tempo $\Theta(m \log n)$.
+    \item \textbf{Preprocessing del testo} $T$ per costruire il suffix array $S$.
+    \item \textbf{Ricerca del pattern $P$ nel testo $T$} utilizzando il suffix
+          array $S$. L'operazione di ricerca avviene in tempo $\Theta(m \log n)$.
 \end{enumerate}
 Per prima cosa si può osservare che:
 \begin{itemize}
@@ -1612,8 +1617,8 @@ La \textbf{proprietà} $2$ viene implementata con la \textbf{Last-First function
 \end{definizione}
 Questa funzione può essere calcolata in tempo costante.
 
-Utilizzando le due proprietà possiamo ricostruire il testo $T$ partendo dalla
-BWT e dal vettore $F$.
+Utilizzando le due proprietà precedentemente presentate, possiamo ricostruire il
+testo $T$ partendo dalla BWT e dal vettore $F$.
 \begin{esempio} [Ricostruzione del testo $T$ usando BWT e le proprietà.
         (Esercizio di esame)]
     Per la ricostruzione del testo $T$ procede costruendolo dal fondo. Si inizia
@@ -1624,9 +1629,9 @@ BWT e dal vettore $F$.
     fondo nel seguente modo:
     \begin{itemize}
         \item Si parte dal simbolo $\$$, che è il primo elemento nell'array $F$.
-        \item Da questo utilizzando la \textit{proprietà 1} \ref{proprietà-1} si
+        \item Da questo utilizzando la \textit{proprietà 1} (\ref{proprietà-1}) si
               trova il simbolo $B[1]$ che precede $\$$.
-        \item A questo punto, utilizzando la \textit{proprietà 2} \ref{lfmapping}
+        \item A questo punto, utilizzando la \textit{proprietà 2} (\ref{lfmapping})
               si trova la posizione del carattere $B[1]$ in $F$, ovvero $LF(1)$.
         \item Si ripete il procedimento fino a quando non si arriva al simbolo
               $\$$ in BWT.
@@ -1678,14 +1683,14 @@ array come:
 \end{algorithm}
 \subsubsection{Ricerca esatta con BWT}
 Sia $Q$ una stringa definita su un alfabeto $\Sigma$ ($Q \in \Sigma^\ast$)
-possiamo definire il $Q$-intervallo.
+possiamo definire il \textbf{$Q$-intervallo}.
 \begin{definizione} [\textbf{$Q$-intervallo rispetto alla BWT}]
-    $Q$-intervallo è l'intervallo $[b,e)$ di posizioni della BWT che contengono
-    i simboli che precedono i suffissi che condividono la striga $Q$ come prefisso.
+    Il $Q$-intervallo è l'intervallo $[b,e)$ di posizioni della BWT che contengono
+    i simboli che precedono i suffissi che condividono la stringa $Q$ come prefisso.
 \end{definizione}
 \begin{definizione} [\textbf{$Q$-intervallo rispetto al SA}]
-    $Q$-intervallo è l'intervallo $[b,e)$ di posizioni del SA che contengono
-    gli indici dei suffissi che condividono la striga $Q$ come prefisso
+    Il $Q$-intervallo è l'intervallo $[b,e)$ di posizioni del SA che contengono
+    gli indici dei suffissi che condividono la stringa $Q$ come prefisso
 \end{definizione}
 Si può osservare che per $Q = \varepsilon$ si ha il $\varepsilon$-intervallo,
 il quale coicide con l'intervallo $[1,n+1)$.
@@ -1746,7 +1751,7 @@ $[b,e) \equiv Q$-intervallo.
     quindi saranno un totale di $6 - 4= 2$ occorrenze di $aca$ nel testo,
     iniziano alle posizioni $1,5$ del testo e sono precedute dai simbli $\$,a$.
 \end{esempio}
-Successivamente definiamo
+Successivamente definiamo la \textbf{backward extension}.
 \begin{definizione}[\textbf{Backward extension}]
     La \textbf{backward extension} di un $Q$-intervalo $[b,e)$ con il carattere
     $\sigma$ è il $\sigma Q$-intervalo, cioè l'intervallo relativo alla stringa
@@ -1864,7 +1869,7 @@ numerico.
               dove $C(\sigma)$ rappresenta il numero di simboli presenti in tutta
               la BWT che sono minori di $\sigma$.
         \item \begin{equation}
-                  Occ: \{0, 1, \dots, n\} \times \Sigma \to \{0, 1, \dots, n\}
+                  Occ: \{0, 1, \dots, n + 1\} \times \Sigma \to \{0, 1, \dots, n\}
               \end{equation}
               dove $Occ(i, \sigma)$ rappresenta il numero di occorrenze del
               simbolo $\sigma$ nella BWT fino alla posizione $i$ $B[1, i - 1]$.
@@ -2000,12 +2005,11 @@ Quindi possiamo dire che il nuovo intervallo $[b',e')$ si ottiene come:
     \item $e' = LF(i_k) + 1 = C(B[i_k]) + Occ(i_k, B[i_k]) + 1 + 1 = C(\sigma) +
               Occ(i_k, \sigma) + 1 + 1$
 \end{itemize}
-Però non è ancora costante perché dobbiamo trovare $i_1, \ i_k$.
-
-Possiamo però osservare che:
+Però non è ancora costante perché dobbiamo trovare $i_1, \ i_k$. Possiamo però
+osservare che:
 \begin{itemize}
-    \item Nel sottoarray della BWT $B[b, i_1 - 1]$ non esistono simboli uguali a
-          $\sigma$, quindi il numero di simboli $\sigma$ in $B[1, i_1 - 1]$
+    \item Nel sottoarray della BWT $B[b, i_1 - 1]$ \textbf{non} esistono simboli
+          uguali a $\sigma$. Quindi il numero di simboli $\sigma$ in $B[1, i_1 - 1]$
           ($Occ(i_1, \sigma)$) è uguale al numero di simboli di $\sigma$ in
           $B[1, b - 1]$ ($Occ(b,\sigma)$) allora:
           \begin{equation}
@@ -2019,10 +2023,10 @@ Possiamo però osservare che:
           \begin{equation}
               Occ(i_k, \sigma) + 1 = Occ(i_k + 1, \sigma)
           \end{equation}
-          Quindi possiamo dire che in $B[i_k + 1, e - 1]$ non esistono simboli
-          uguali a $\sigma$, allora il numero di simboli $\sigma$ in $B[1, i_k]$
-          ($Occ(i_k + 1, \sigma)$) uguale al numero di simboli $\sigma$ in
-          $B[1, e - 1]$ ($Occ(e, \sigma)$), possiamo quindi dire:
+          Quindi possiamo dire che in $B[i_k + 1, e - 1]$ \textbf{non} esistono 
+          simboli uguali a $\sigma$, allora il numero di simboli $\sigma$ in 
+          $B[1, i_k]$ ($Occ(i_k + 1, \sigma)$) uguale al numero di simboli 
+          $\sigma$ in $B[1, e - 1]$ ($Occ(e, \sigma)$), possiamo quindi dire:
           \begin{equation}
               Occ(i_k + 1, \sigma) = Occ(e, \sigma)
           \end{equation}
