@@ -36,22 +36,22 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: |
-              1\°\ anno/Machine\ Learning/main.tex
-              1\°\ anno/Modelli\ della\ Concorrenza/main.tex
-              1\°\ anno/Processo\ e\ Sviluppo\ del\ Software/main.tex
-              1\°\ anno/Teoria\ della\ Computazione/main.tex
+              1_anno/ML/main.tex
+              1_anno/MC/main.tex
+              1_anno/PSS/main.tex
+              1_anno/TC/main.tex
           work_in_root_file_dir: true
       - name: Create Static Dist Directory
         run: | 
-            mkdir -p ./static/Machine\ Learning
-            mkdir -p ./static/Modelli\ della\ Concorrenza
-            mkdir -p ./static/Processo\ e\ Sviluppo\ del\ Software
-            mkdir -p ./static/Teoria\ della\ Computazione
-            cp ./1\°\ anno/Machine\ Learning/main.pdf ./static/Machine\ Learning/main.pdf
-            cp ./1\°\ anno/Modelli\ della\ Concorrenza/main.pdf ./static/Modelli\ della\ Concorrenza/main.pdf
-            cp ./1\°\ anno/Processo\ e\ Sviluppo\ del\ Software/main.pdf ./static/Processo\ e\ Sviluppo\ del\ Software/main.pdf
-            cp ./1\°\ anno/Teoria\ della\ Computazione/main.pdf ./static/Teoria\ della\ Computazione/main.pdf
-            cp ./1\°\ anno/public/index.html ./static/index.html
+            mkdir -p ./static/ML
+            mkdir -p ./static/MC
+            mkdir -p ./static/PSS
+            mkdir -p ./static/TC
+            cp ./1_anno/ML/main.pdf ./static/ML/main.pdf
+            cp ./1_anno/MC/main.pdf ./static/MC/main.pdf
+            cp ./1_anno/PSS/main.pdf ./static/PSS/main.pdf
+            cp ./1_anno/TC/main.pdf ./static/TC/main.pdf
+            cp ./1_anno/public/index.html ./static/index.html
       - name: Configure Pages
         uses: actions/configure-pages@v2
       - name: Zip and Upload Artifact
