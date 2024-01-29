@@ -1258,8 +1258,9 @@ Il suffisso del carattere terminatore è il carattere terminatore stesso.
 \end{definizione}
 \subsection{Suffix Array}
 Questa struttura di indicizzazione è stata inventata da Myers e Manber nel 1990,
-non contiene l'informazione sui simboli del testo e occupa $\Theta(n \log n)$
-spazio. Questa struttura permette di effettuare la ricerca esatta di un pattern
+non contiene l'informazione sui simboli del testo e occupa $\Theta(n \log n)$ 
+spazio (contando i bit per rappresentare le posizioni intere). 
+Questa struttura permette di effettuare la ricerca esatta di un pattern
 $P$ su  un testo $T$ in tempo $\mathcal{O}(|P| \log |T|)$.
 \begin{definizione}[\textbf{Suffix Array}]
     Il \textbf{suffix array} di un testo $T$ lungo $n$ è un array $S$ lungo $n$,
@@ -1817,6 +1818,7 @@ il calcolo della backward extension. Possiamo osservare che per un $Q$-intervall
     posizione BWT coincidente al carattere da cercare.
 \end{nota}
 Quindi la procedura sarà definita come:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{backward$\_$extend}{b,e,$\sigma$}
@@ -1829,6 +1831,7 @@ Quindi la procedura sarà definita come:
 \end{algorithm}
 
 Questo non ha una complessità costante. L'algoritmo di ricerca esatta è:
+
 \begin{algorithm}
     \begin{algorithmic}
         \Function{search$\_$pattern}{P, T}
