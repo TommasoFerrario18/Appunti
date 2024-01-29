@@ -2,62 +2,62 @@
 name: Deploy static content to Pages
 
 on:
-    # Runs on pushes targeting the default branch
-    push:
-        branches: ["correzioni-tezze"]
-        tags:
-            - 'v[0-9]+.[0-9]+.[0-9]+'
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["correzioni-tezze"]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 # Allow one concurrent deployment
 concurrency:
-    group: "pages"
-    cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-    # Single deploy job since we're just deploying
-    deploy:
-        environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Branch
-                uses: actions/checkout@v3
-            - name: Compile Latex
-                uses: xu-cheng/latex-action@v2
-                with:
-                root_file: |
-                    1° anno/Machine Learning/main.tex
-                    1° anno/Modelli della Concorrenza/main.tex
-                    1° anno/Processo e Sviluppo del Software/main.tex
-                    1° anno/Teoria della Computazione/main.tex
-                work_in_root_file_dir: true
-            - name: Create Static Dist Directory
-                run: | 
-                    mkdir -p ./static/Machine Learning
-                    mkdir -p ./static/Modelli della Concorrenza
-                    mkdir -p ./static/Processo e Sviluppo del Software
-                    mkdir -p ./static/Teoria della Computazione
-                    cp ./Machine Learning/main.pdf ./static/Machine Learning/main.pdf
-                    cp ./Modelli della Concorrenza/main.pdf ./static/Modelli della Concorrenza/main.pdf
-                    cp ./Processo e Sviluppo del Software/main.pdf ./static/Processo e Sviluppo del Software/main.pdf
-                    cp ./Teoria della Computazione/main.pdf ./static/Teoria della Computazione/main.pdf
-                    cp ./public/index.html ./static/index.html
-            - name: Configure Pages
-                uses: actions/configure-pages@v2
-            - name: Zip and Upload Artifact
-                uses: actions/upload-pages-artifact@v1
-                with:
-                    path: './static/'
-            - name: Deploy to GitHub Pages
-                id: deployment
-                uses: actions/deploy-pages@v1
+# Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+      - name: Compile Latex
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: |
+              1° anno/Machine Learning/main.tex
+              1° anno/Modelli della Concorrenza/main.tex
+              1° anno/Processo e Sviluppo del Software/main.tex
+              1° anno/Teoria della Computazione/main.tex
+          work_in_root_file_dir: true
+      - name: Create Static Dist Directory
+        run: | 
+            mkdir -p ./static/Machine Learning
+            mkdir -p ./static/Modelli della Concorrenza
+            mkdir -p ./static/Processo e Sviluppo del Software
+            mkdir -p ./static/Teoria della Computazione
+            cp ./Machine Learning/main.pdf ./static/Machine Learning/main.pdf
+            cp ./Modelli della Concorrenza/main.pdf ./static/Modelli della Concorrenza/main.pdf
+            cp ./Processo e Sviluppo del Software/main.pdf ./static/Processo e Sviluppo del Software/main.pdf
+            cp ./Teoria della Computazione/main.pdf ./static/Teoria della Computazione/main.pdf
+            cp ./public/index.html ./static/index.html
+      - name: Configure Pages
+        uses: actions/configure-pages@v2
+      - name: Zip and Upload Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+            path: './static/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
