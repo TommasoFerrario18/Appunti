@@ -36,21 +36,21 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: |
-              1° anno/Machine Learning/main.tex
-              1° anno/Modelli della Concorrenza/main.tex
-              1° anno/Processo e Sviluppo del Software/main.tex
-              1° anno/Teoria della Computazione/main.tex
+              1° anno/Machine\ Learning/main.tex
+              1° anno/Modelli\ della\ Concorrenza/main.tex
+              1° anno/Processo\ e\ Sviluppo\ del\ Software/main.tex
+              1° anno/Teoria\ della\ Computazione/main.tex
           work_in_root_file_dir: true
       - name: Create Static Dist Directory
         run: | 
-            mkdir -p ./static/Machine Learning
-            mkdir -p ./static/Modelli della Concorrenza
-            mkdir -p ./static/Processo e Sviluppo del Software
-            mkdir -p ./static/Teoria della Computazione
-            cp ./Machine Learning/main.pdf ./static/Machine Learning/main.pdf
-            cp ./Modelli della Concorrenza/main.pdf ./static/Modelli della Concorrenza/main.pdf
-            cp ./Processo e Sviluppo del Software/main.pdf ./static/Processo e Sviluppo del Software/main.pdf
-            cp ./Teoria della Computazione/main.pdf ./static/Teoria della Computazione/main.pdf
+            mkdir -p ./static/Machine\ Learning
+            mkdir -p ./static/Modelli\ della\ Concorrenza
+            mkdir -p ./static/Processo\ e\ Sviluppo\ del\ Software
+            mkdir -p ./static/Teoria\ della\ Computazione
+            cp ./Machine\ Learning/main.pdf ./static/Machine\ Learning/main.pdf
+            cp ./Modelli\ della\ Concorrenza/main.pdf ./static/Modelli\ della\ Concorrenza/main.pdf
+            cp ./Processo\ e\ Sviluppo\ del\ Software/main.pdf ./static/Processo\ e\ Sviluppo\ del\ Software/main.pdf
+            cp ./Teoria\ della\ Computazione/main.pdf ./static/Teoria\ della\ Computazione/main.pdf
             cp ./public/index.html ./static/index.html
       - name: Configure Pages
         uses: actions/configure-pages@v2
