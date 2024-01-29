@@ -28,7 +28,7 @@ codifica ottenuta nel collo di bottiglia che separa la rete in due:
 \begin{itemize}
       \item \textbf{Enconder}: impara a codificare l'input utilizzando poche
             informazioni (funzione di codifica, spesso segnata come $Enc(X) = Z$).
-      \item \textbf{Denconder}: impara a decodificare l'input partendo da poche
+      \item \textbf{Deconder}: impara a decodificare l'input partendo da poche
             informazioni (funzione di decodifica, spesso segnata come $Dec(Z) = Y$).
 \end{itemize}
 L'algoritmo di apprendimento di queste reti spesso è una delle tante
@@ -72,10 +72,10 @@ La loss dovrà essere l'unione delle loss del classificatore e dell'autoencoder.
 Le architetture odierne di deep learning si basano su strutture neurali e
 utilizzano i \textbf{transformer} (figura \ref{fig:transformer}), componenti
 neurali che prendono in input sia il nuovo input, sia un vecchio output del
-transformer. Sono componenti fondamentali per la generazione di informazioni.
-L'apprendimento di queste reti si basa su strutture \textbf{feed-forward} e su
-componenti \textbf{Attention}, quest'ultimi fondamentali perché permettono
-l'effettivo cambiamento dei valori.
+transformer shiftato a destra. Sono componenti fondamentali per la generazione
+di informazioni. L'apprendimento di queste reti si basa su strutture \textbf{feed
+      -forward} e su componenti \textbf{Attention}, quest'ultimi fondamentali
+perché permettono l'effettivo cambiamento dei valori.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/deepl/transformer.png}
