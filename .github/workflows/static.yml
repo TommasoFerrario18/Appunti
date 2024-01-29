@@ -1,0 +1,63 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+# Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+      - name: Compile Latex
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: |
+              1_anno/ML/main.tex
+              1_anno/MC/main.tex
+              1_anno/PSS/main.tex
+              1_anno/TC/main.tex
+          work_in_root_file_dir: true
+      - name: Create Static Dist Directory
+        run: | 
+            mkdir -p ./static/ML
+            mkdir -p ./static/MC
+            mkdir -p ./static/PSS
+            mkdir -p ./static/TC
+            cp ./1_anno/ML/main.pdf ./static/ML/main.pdf
+            cp ./1_anno/MC/main.pdf ./static/MC/main.pdf
+            cp ./1_anno/PSS/main.pdf ./static/PSS/main.pdf
+            cp ./1_anno/TC/main.pdf ./static/TC/main.pdf
+            cp ./public/index.html ./static/index.html
+      - name: Configure Pages
+        uses: actions/configure-pages@v2
+      - name: Zip and Upload Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+            path: './static/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
