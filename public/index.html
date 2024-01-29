@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bicocca Appunti Index</title>
+    </head>
+    <script>
+        // var corsi = ["APAL", "APS", "BIOINF", "MCOR", "TCOM", "ROPR", "ROPR/assignments/1", "ROPR/assignments/2", "ROPR/assignments/3", "SAF" ];
+        let corsi = ["ML", "MC", "PSS", "TC"];
+
+        let loadLinks = () => {
+            return new Promise((acc, rej) => {
+                let body = document.body;
+                ol = document.createElement("ol");
+                corsi.forEach((el) => {
+                    let li = document.createElement("li");
+                    let a = document.createElement("a");
+                    a.setAttribute("href", `${el}/main.pdf`);
+                    a.innerText = `/${el}/main.pdf`;
+                    li.appendChild(a);
+                    ol.appendChild(li);
+                })
+                body.appendChild(ol);
+                acc();
+            });
+        };
+
+        let loadTitle = () => {
+            return new Promise((acc, rej) => {
+                let body = document.body;
+                let h1 = document.createElement("h1");
+                h1.innerText = "Bicocca Appunti Index";
+                let h2 = document.createElement("h2");
+                h2.innerText = "seleziona il documento che ti interessa";
+                body.appendChild(h1);
+                body.appendChild(h2);
+                acc();
+            });
+        };
+
+        let loadPage = () => {
+            loadTitle().then(loadLinks);
+        };
+    </script>
+    <body onload="loadPage()">
+    </body>
+</html>
