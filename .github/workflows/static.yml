@@ -51,7 +51,7 @@ jobs:
             cp ./1_anno/MC/main.pdf ./static/MC/main.pdf
             cp ./1_anno/PSS/main.pdf ./static/PSS/main.pdf
             cp ./1_anno/TC/main.pdf ./static/TC/main.pdf
-            cp ./1_anno/public/index.html ./static/index.html
+            cp ./public/index.html ./static/index.html
       - name: Configure Pages
         uses: actions/configure-pages@v2
       - name: Zip and Upload Artifact
