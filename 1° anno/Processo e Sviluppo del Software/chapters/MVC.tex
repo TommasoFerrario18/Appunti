@@ -1,4 +1,5 @@
 \chapter{Model-View-Controller}
+\section{Model View Controller}
 Il \textbf{Model-View-controller} (\textbf{MVC}) è un pattern architetturale
 molto diffuso nello sviluppo di sistemi software, in particolare nell'ambito
 della programmazione orientata agli oggetti e in applicazioni web, in grado di
@@ -10,7 +11,8 @@ analizzando il pattern architetturale:
       \caption{Model View Controller}
       \label{fig:enter-label}
 \end{figure}
-Dove con le frecce piene si hanno le invocazioni di metodi e con quelle
+
+dove con le frecce piene si hanno le invocazioni di metodi e con quelle
 tratteggiate gli eventi. Analizzando meglio le tre componenti si ha che:
 \begin{itemize}
       \item \textbf{Model}: incapsula lo stato dell'applicazione, fornisce i
@@ -118,10 +120,10 @@ Possiamo definire anche i design pattern per l'implementazione della \textit{vie
             marker e l'\textbf{helper} genera i dati del dominio e separa la vista
             dalla logica di implementazione.
 
-            L'helper è creato dal controller ed è accessibile da una vista. Si
-            usano anche i metodi helper del controller per recuperare i dati dal
-            Model, permettendo di preparare dei dati ad hoc per la parte di
-            presentazione, tramite getter specifici.
+            L'helper è creato dal controller ed è accessibile da una vista. L'helper
+            fornisce l'accesso ai dati del Model nella vista, quest'ultimo passato
+            dal controller. In questo modo si possono accedere ai dati utilizzando
+            getter specifici.
       \item \textbf{Transformation View}: che trasforma le entità di dominio in
             HTML. Dove per il model tipicamente ogni classe implementa un metodo
             \textit{.toXML()} mentre per il transformer si ha tipicamente
@@ -187,9 +189,9 @@ Si hanno tipicamente 4 pattern per il database gateway:
             all'ORM.
 \end{itemize}
 \subsection{Active record}
-Considerate le classi che implementano i dati che devono essere persistenti si
-arricchiscono le classi con metodi per permettere l'interazione col database. Un
-\textbf{active record} include quindi:
+Le classi che modellano i dati che devono essere persistenti, vengono arricchite
+con metodi per permettere l'interazione col database. Un \textbf{active record}
+include quindi:
 \begin{itemize}
       \item La business logic.
       \item Il mapping logico al database, avendo  metodi statici come
@@ -201,7 +203,7 @@ Tra i metodi abbiamo quindi:
 \begin{itemize}
       \item \textbf{Load}: che crea un'istanza a partire dai risultati di una
             query SQL. Potrebbe essere necessario creare altri oggetti con
-            accesso a più tabelle nel casi di reference.
+            accesso a più tabelle nei casi di reference.
       \item \textbf{Costruttore}: per creare nuove istanze che saranno poi rese
             persistenti invocando metodi appositi.
       \item \textbf{Finder} (statici): che incapsulano la query SQL e ritornano
@@ -302,12 +304,16 @@ In questo caso si hanno due strategie:
 \begin{itemize}
       \item \textbf{Optimistic locking}: usato quando si hanno poche probabilità
             di generare conflitti, avendo diversi utenti che lavorano spesso su
-            dati differenti, e si bassa su un numero che identifica la versione
-            degli oggetti registrati. Due business transaction possono quindi
-            interferire accedendo e modificando i record ma si sfrutta il numero
-            di versione per tenere traccia delle modifiche e se una transazione
-            vede che il numero di versione di un record è incrementato e in tal
-            caso si ricarica il record tramite un rollback.
+            dati differenti, quindi ci si basa su un numero di versione che specifica
+            la versione di aggiornamento dell'oggetto.
+            Due business transaction possono quindi
+            interferire accedendo e modificando i record, si sfrutta il numero
+            di versione per tenere traccia delle modifiche applicate sull'oggetto.
+            Nel momento in cui in una business transaction stiamo per effettuare
+            un'operazione di modifica, per prima cosa leggiamo il numero di versione
+            dell'oggetto, se questo è uguale all'ultimo numero di versione allora
+            si effettua la modifica aggiornando anche il numero di versione,
+            altrimenti si cancella la business transaction e si ricarica il record.
       \item \textbf{Pessimistic locking}: usato quando hanno alte probabilità di
             generare conflitti. Gli oggetti sono bloccati non appena vengono
             usati riducendo la concorrenza. Non si permette quindi alle
@@ -359,7 +365,7 @@ operazione anche perché alcuni attributi possono essere particolarmente pesanti
 Si parla quindi di efficienza.
 
 Si procede quindi con il pattern lazy load che crea oggetti inizializzando solo
-alcuni attributi lasciando comunque possibilità si caricare in seguito ulteriori
+alcuni attributi lasciando comunque possibilità di caricare in seguito ulteriori
 attributi non ancora inizializzati se ce ne fosse necessità, in modo on-demand,
 tramite i finder.
 \subsubsection{Value holder}
@@ -384,20 +390,18 @@ modificare nel tempo di sviluppo del programma.
 
 Si hanno infatti due tipi di chiave:
 \begin{itemize}
-      \item Una chiave derivata da attributi dell'oggetto (che sono usati anche
-            dall'applicazione). Si ha comunque rischio di duplicazione, avere
-            assenza di valore e avere cambiamenti sulla logica di dominio che
-            impattano su quella di persistenza.
-      \item Chiavi dedicate, sia semplici (un solo attributi) che composte (di
-            più attributi), avendo una chiave per tabella e una per database.
-            Nella pratica spesso hanno tipo long che ben supporta il check di
-            uguaglianza (==) e la generazione di nuove chiavi.
+      \item Una chiave derivata da attributi dell'oggetto, questo comporta
+            che in caso di future modifiche, queste potrebbero impattare anche
+            sulla chiave dell'oggetto, portando a inconsistenze tra oggetti e
+            persistenza.
+      \item Chiavi dedicate, si utilizzano chiavi dedicate, autogenerate, sepesso
+            di tipo long che ben supporta il check di uguaglianza (==).
 \end{itemize}
 Si hanno varie strategie per la generazione delle chiavi:
 \begin{itemize}
       \item Direttamente dal database (con sequenze o id delle colonne).
       \item Tramite GUID, ovvero Globally Unique IDentifier, tramite opportuni
-            software e libreria.
+            software e librerie.
       \item Dall'applicazione, principalmente in due modi:
             \begin{itemize}
                   \item \textbf{Table scan}: usando una query SQL per determinare
@@ -446,7 +450,7 @@ Ogni Pojo in memoria può trovarsi in 2 stati:
 Essenziale lo stato per implementare il pattern Unit of Work e Identity map.
 In caso di creazione o cancellazione di entità dobbiamo notificarlo alla Unit of
 Work mentre nel caso di modifica queste vengono applicate automaticamente.
-Entity Manager cattura le notifiche e c'è una trasparenza nella notifica.
+Entity Manager cattura le notifiche in modo trasparente.
 
 Un'entità diventa managed quando si crea da una classe con annotazione
 \textit{entity}, mentre è considerata unmanaged quando viene scambiata tra diverse
@@ -470,7 +474,7 @@ Dall'Entity Manager posso recuperare l'entità con i metodi finder che chiedono 
 classe dell'oggetto richiesto e id. Il risultato dei metodi sono sempre oggetti.
 getReference è caricamento Lazy.
 Un altro modo di estrazione degli oggetti è attraverso una query simile a SQL,
-non si usano i nomi delle tabelle o field delle tabelle ma bensì ai nomi delle
+non si usano i nomi delle tabelle o field delle tabelle ma bensì si usano nomi delle
 classi e attributi (sempre secondo object oriented).
 Per modificare le entità si modificano gli attributi e alla prossima transazione
 verrà salvata in automatico. La modifica non viene riportata al database se
@@ -510,7 +514,7 @@ Vediamo ora come implementare le associazioni:
       \item \textbf{Many-to-One} mono-direzionale: si applica lo stesso ragionamento
             della one-to-many invertendo i ruoli.
       \item \textbf{Relazioni bidirezionali}: sono raramente utilizzate. Si possono
-            creare aggiungo un campo in entrambe le classi e specificando in una
+            creare aggiungendo un campo in entrambe le classi e specificando in una
             delle due entità il mapping al campo della classe a cui fare riferimento.
       \item \textbf{Many-to-Many}: si crea una tabella di join utilizzando le
             chiavi primarie delle due entità. Nelle classi è possibile esprimere

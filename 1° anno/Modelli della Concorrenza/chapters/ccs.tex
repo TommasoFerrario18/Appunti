@@ -156,6 +156,9 @@ e definire la chiusura transitiva e riflessiva:
 \begin{equation}
     \xrightarrow{\ast}  = \bigcup_{w \in Act^{\ast}} \xrightarrow{w}
 \end{equation}
+\begin{nota}
+    La relazione $\xrightarrow{\ast}$ non è simmetrica.
+\end{nota}
 \section{CCS - Calculus of Communicating Systems}
 Il CCS è un linguaggio di specifica per sistemi concorrenti. È un linguaggio che
 astrae tutte le questioni legate ai dati.
@@ -268,8 +271,8 @@ semantica operazionale strutturale.
               \frac{p_1 \xrightarrow{\alpha} p_1'}{p_1 | p_2
                   \xrightarrow{\alpha} p_1' | p_2}
               \ \ \lor \ \
-              \frac{p_2 \xrightarrow{\alpha} p_2'}{p_1 | p_2
-                  \xrightarrow{\alpha} p_1 | p_2'}
+              \frac{p_2 \xrightarrow{\overline{\alpha}} p_2'}{p_1 | p_2
+                  \xrightarrow{\overline{\alpha}} p_1 | p_2'}
               \ \ \lor \ \
               \frac{p_1 \xrightarrow{\alpha} p_1' \land p_2
                   \xrightarrow{\overline{\alpha}} p_2'}{p_1 | p_2
@@ -318,7 +321,8 @@ semantica operazionale strutturale.
           \begin{equation}
               \frac{p \xrightarrow{\alpha} p'}{p_{[f]} \xrightarrow{f(a)} p_{[f]}'}
           \end{equation}
-    \item $K = P$ con $K$ uguale al nome di processo e $P \in Proc_{CCS}$:
+    \item \textbf{Ridenominazione dei processi}: $K = P$ con $K$ uguale al nome
+          di processo e $P \in Proc_{CCS}$:
           \begin{equation}
               \frac{P \xrightarrow{\alpha} P' \land K = P}{K \xrightarrow{\alpha} P'}
           \end{equation}
@@ -336,11 +340,11 @@ tipo:
 \end{equation}
 tale che sia \textit{riflessiva}, \textit{simmetrica} e \textit{transitiva}.
 
-Bisognerà inoltre astrarre:
+Inoltre si richiede:
 \begin{itemize}
-    \item Gli stati e considerare le azioni $Act$.
-    \item Dalle sincronizzazioni interne, ovvero dalle $\tau$.
-    \item Rispetto al non determinismo.
+    \item Astrazione degli stati in modo tale da considerare solo le azioni $Act$.
+    \item Astrazione delle sincronizzazioni interne, ovvero dalle $\tau$.
+    \item Rispetto del non determinismo.
 \end{itemize}
 Milner poi asserisce che $R$ deve essere inoltre una \textbf{congruenza} rispetto
 agli operatori del CCS.
@@ -356,8 +360,8 @@ agli operatori del CCS.
     \end{equation}
 \end{definizione}
 Con LTS perdo la concorrenza perché tutto viene eseguito come esecuzione
-sequenziale non deterministica (semantica interleaving). Con le reti di Petri
-si potrà simulare il fatto che sia parallelo.
+sequenziale non deterministica (\textbf{semantica interleaving}). Con le reti di
+Petri si potrà simulare il fatto che sia parallelo.
 
 Abbiamo visto come associare CCS a LTS passando per le regole di inferenza.
 Ora consideriamo un sistema di processi che interagisce con l'ambiente allora
@@ -367,7 +371,7 @@ processo con un altro.
 Nel caso di un processo sequenziale basta sostituire il modulo con altro
 rispettando i domini di I e O. Nel parallelo dobbiamo mantenere rispettate
 le interazioni con l'ambiente. Quindi una relazione di equivalenza con una
-congruenza rispetto agli operatori ccs.
+congruenza rispetto agli operatori CCS.
 
 Da una relazione di equivalenza $\simeq$ tra i processi $p, q \in Proc_{CCS}$ ci
 si aspetta che:
@@ -420,7 +424,7 @@ Introduciamo quindi una relazione di equivalenza come $p \sim q \iff Tracce(p) =
     Con l'equivalenza rispetto alle tracce si introducono le seguenti osservazioni:
     \begin{itemize}
         \item $LTS(p)$ isomorfo $LTS(q)$ implica $p \stackrel{T}{\sim} q$
-        \item Si ha un'astrazione di stati.
+        \item Si ha un'astrazione di stati, in quanto si considerano solo le azioni.
         \item $p \stackrel{T}{\sim} q \iff Tracce(p) = Tracce(q)$
         \item È una \textbf{congruenza} tra gli operatori CCS.
         \item Non garantisce di preservare la stessa probabilità di deadlock (o
@@ -430,15 +434,15 @@ Introduciamo quindi una relazione di equivalenza come $p \sim q \iff Tracce(p) =
 Lo studio delle tracce non è più sufficiente nel caso di sistemi concorrenti.
 Si necessità quindi di una nozione più restrittiva.
 \subsection{Bisimulazione forte}
-Dal momento che l'equivalenza secondo la Traccia può portare a Deadlock
+Dal momento che l'equivalenza secondo le tracce può portare a deadlock
 allora si utilizzerà l'uguaglianza secondo l'osservatore, ovvero se l'osservatore,
-interagendo, non nota differenze. In una variante si chiama Bisimulazione,
+interagendo, non nota differenze. In una variante si chiama \textbf{bisimulazione},
 perché devo poter distinguere tra le 2. In sostanza $M_1$ simula $M_2$ e $M_2$
 simula $M_1$.
 \begin{definizione}[\textbf{Relazione di Bisimulazione Forte}]
     Data una relazione binaria $R \subseteq Proc_{CCS} \times Proc_{CCS}$ è una
     relazione di \textbf{bisimulazione} (\textbf{forte}) ($\stackrel{Bis}{\sim}$)
-    se e solo se $\forall p, q \in Proc_{CCS}: \ p R q$ vale che:
+    se e solo se $\forall p, q \in Proc_{CCS}$ possiamo dire che $p R q$ se vale:
     \begin{itemize}
         \item $\forall \alpha \in Act = A \cup \overline{A} \cup \{\tau\}$ se ho
               $p \xrightarrow{\alpha} p'$ allora deve esistere un processo
@@ -555,14 +559,14 @@ allora sono bisimili.
     La Bisimulazione forte è una congruenza anche rispetto agli operatori CCS,
     ovvero se $p, q \in Proc_{CCS} \land p \stackrel{Bis}{\sim} q$ allora:
     \begin{itemize}
-        \item $\alpha.p \stackrel{Bis}{\sim} \alpha.q$
-        \item $p + r \stackrel{Bis}{\sim}q + r$ e $r + p \stackrel{Bis}{\sim} r
+        \item \textbf{prefisso}: $\alpha.p \stackrel{Bis}{\sim} \alpha.q$
+        \item \textbf{somma}: $p + r \stackrel{Bis}{\sim}q + r$ e $r + p \stackrel{Bis}{\sim} r
                   + q, \forall r \in Proc_{CCS}$
-        \item $p | r \stackrel{Bis}{\sim} q | r$ e $r | p \stackrel{Bis}{\sim} r | q
+        \item \textbf{parallelismo}: $p | r \stackrel{Bis}{\sim} q | r$ e $r | p \stackrel{Bis}{\sim} r | q
                   \forall r \in Proc_{CCS}$
-        \item $\forall f: Act \to Act$ funzione di rietichettatura, se $p[f]
+        \item \textbf{rietichettatura}: $\forall f: Act \to Act$ funzione di rietichettatura, se $p[f]
                   \stackrel{Bis}{\sim} q[f]$ allora $p \stackrel{Bis}{\sim} q$
-        \item $p_{\setminus L} \stackrel{Bis}{\sim} q_{\setminus L}$ e $L \subseteq
+        \item \textbf{restrizione}: $p_{\setminus L} \stackrel{Bis}{\sim} q_{\setminus L}$ e $L \subseteq
                   Act$
     \end{itemize}
 \end{osservazione}
@@ -621,7 +625,7 @@ $\alpha \in Act$ se e solo se:
               \end{cases}
           \end{equation}
     \item Se $\alpha \in A \cup \overline{A}$ allora vale:
-          $p \xrightarrow{\tau}^{\ast} \xrightarrow{\alpha} \xrightarrow{\tau}^{\ast}$
+          $p \xrightarrow{\tau}^{\ast} \xrightarrow{\alpha} \xrightarrow{\tau}^{\ast} p'$
 \end{itemize}
 Come fatto per la relazione forte, definiamo la relazione di transizione per
 sequenze di azioni $w \in Act^{\ast}$ come $p \stackrel{w}{\Rightarrow} p'$ se e solo se:
@@ -642,7 +646,7 @@ sequenze di azioni $w \in Act^{\ast}$ come $p \stackrel{w}{\Rightarrow} p'$ se e
     Definiamo l'\textbf{equivalenza debole rispetto alle tracce}, la quale è
     rappresentata come $p \stackrel{T}{\approx} q$ se e solo se:
     \begin{equation}
-        tracce_{\Rightarrow} (p) = tracce_{\Rightarrow}(q) \ \text{ovvero} \
+        Tracce_{\Rightarrow} (p) = Tracce_{\Rightarrow}(q) \ \text{ovvero} \
         \forall w \in (A \cup \overline{A}) \ \text{ho che} \ p
         \stackrel{w}{\Rightarrow} \iff q \stackrel{w}{\Rightarrow}
     \end{equation}
@@ -650,11 +654,11 @@ sequenze di azioni $w \in Act^{\ast}$ come $p \stackrel{w}{\Rightarrow} p'$ se e
 \end{definizione}
 Posso definire le tracce come:
 \begin{equation}
-    tracce_{\Rightarrow}(p) = \{w \in (A \cup \overline{A})^{\ast} | p
+    Tracce_{\Rightarrow}(p) = \{w \in (A \cup \overline{A})^{\ast} | p
     \stackrel{w}{\Rightarrow}\}
 \end{equation}
 \begin{osservazione}
-    In primis si ha che:
+    In primo luogo si ha che:
     \begin{equation}
         p \stackrel{T}{\sim} q \Rightarrow p \stackrel{T}{\approx} q \Rightarrow
         \stackrel{T}{\sim} \subseteq \stackrel{T}{\approx}
@@ -795,7 +799,7 @@ le equivalenze di bisimulazione perdono effetto.
 
 Dal momento che gli LTS hanno un esecuzione non deterministica e questo
 non permette di evidenziare le dipendenze o le indipendenze, per questo sono
-state create le reti di petri.
+state create le reti di Petri.
 \subsubsection{Gioco verifica bisimulazione debole}
 Per confrontare due processi $p$ e $q$ si può utilizzare un gioco $G(p, q)$ con
 2 giocatori:

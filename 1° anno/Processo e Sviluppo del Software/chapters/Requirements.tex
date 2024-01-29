@@ -3,7 +3,7 @@ Quando si parla di \textbf{requirements engineering} (RE) di fatto ci si concent
 sulla comprensione di come una soluzione software si deve comportare per risolvere
 un certo problema. In questo senso bisogna prima comprendere quale sia il problema
 da risolvere e in quale contesto tale problema si verifica, per poter arrivare
-ad una soluzione corretta ed efficacie a problemi reali. Non si parla quindi
+ad una soluzione corretta ed efficacie per problemi reali. Non si parla quindi
 della progettazione in se, ma del “cosa” deve fare il software.
 
 Vediamo ora l'analogia classica per spiegare il requirements engineering,
@@ -11,7 +11,7 @@ rappresentata dal problema mondo e la soluzione macchina. Si hanno:
 \begin{itemize}
       \item Il \textbf{mondo}, con un problema derivante dal mondo reale, esso
             stesso produce il problema che bisognerà risolvere con un calcolatore.
-      \item La \textbf{macchina}: bisogna svilupparla per risolvere il problema.
+      \item La \textbf{macchina}: la parte da realizzare per risolvere il problema.
       \item \textbf{Requirements engineering} che si occupa di definire gli effetti
             della macchina sul problema del mondo e definire assunzioni e proprietà
             principali del mondo stesso.
@@ -38,11 +38,11 @@ Studiare il system-as-is è essenziale per poter lavorare al system-to-be.
             \item Basate sul problema sorto dal system-as-is e sulle nuove
                   opportunità tecnologiche.
       \end{itemize}
-      L'output di queste attività è un documento di specifica dei requisiti con
-      tutto ciò che soddisfa il sistema. Se l'output non è un singolo documento
-      si ha una collezione di singoli requisiti, che nel metodo agile sono
-      storie/cards e in altri metodi un repository centrale con un database
-      condiviso contenete i vari requisiti.
+      L'output di queste attività è un \textbf{documento di specifica dei requisiti}
+      con tutto ciò che soddisfa il sistema. Se l'output non è un \textbf{singolo
+            documento} si ha una collezione di singoli requisiti, che nel metodo
+      agile sono \textbf{storie/cards} e in altri metodi un \textbf{repository
+            centrale} con un database condiviso contenete i vari requisiti.
 
       In ogni caso si ha un insieme di requisiti su come si deve comportare il
       sistema che si andrà a realizzare.
@@ -157,7 +157,7 @@ I requisti che riguardano l'ambiente possono essere di due forme:
       \begin{equation}
             \text{Domain property} \ \subseteq M \times C
       \end{equation}
-      se leggi che non possono essere infrante.
+      per esempio le leggi che non possono essere infrante.
 \end{definizione}
 Si ha che:
 \begin{center}
@@ -220,9 +220,9 @@ Si hanno diversi aspetti di cui preoccuparsi nell'analisi dei requisiti. Tra i
 principali abbiamo:
 \begin{itemize}
       \item \textbf{Completezza}: è necessario descrivere tutti i requisiti
-            rilevanti del progetto, identificando tutti i comportamenti del sistema
-            e documentarli in modo adeguato. È una qualità virtualmente
-            irraggiungibile in modo assoluto, non è infatti verificabile. Inoltre
+            rilevanti del progetto, identificando tutti i comportamenti del
+            sistema e documentarli in modo adeguato. È una qualità virtualmente
+            irraggiungibile in modo assoluto, non è infatti verificabile. Inoltre,
             i requisiti variano al proseguire del progetto, interagendo anche
             con gli stakeholders, rendendo questo uno degli aspetti più difficili
             da studiare.
@@ -378,7 +378,7 @@ struttura a spirale, come riportato in figura \ref{fig:spirale}:
             \end{itemize}
             In output a questa fase si ha un requirements document consolidato.
 \end{enumerate}
-Come è stato detto queste quattro fasi si ripetono in modo iterativo. Questo
+Come è stato detto, queste quattro fasi si ripetono in modo iterativo. Questo
 viene fatto in quanto si possono avere evoluzioni nel processo nonché correzioni
 di quanto già fatto che si propagano su tutto il documento. Le evoluzioni e le
 correzioni possono sopraggiungere durante:
@@ -560,9 +560,9 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                         Sono quindi storie fatte tramite sequenze di snapshots.
                         Tali storie si creano in due modi:
                         \begin{itemize}
-                              \item \textbf{Attivo}, dove lo stakeholder contribuisce
+                              \item \textbf{Attivo}: lo stakeholder contribuisce
                                     alla costruzione della narrazione.
-                              \item \textbf{Passivo}, dove si narra la storia
+                              \item \textbf{Passivo}: si narra la storia
                                     costruita allo stakeholder.
                         \end{itemize}
                         Ovviamente vengono fatte solo per i workflow chiari.
@@ -570,7 +570,7 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                         interazioni rappresentate con testi o diagrammi, l'utilizzo
                         del sistema, sia as-is, sia to-be. L'uso di esempi rende
                         semplice la comunicazione e l'interazione con gli altri.
-                        Si hanno 4 tipi di scenario:
+                        Si hanno i seguenti tipi di scenari:
                         \begin{itemize}
                               \item \textbf{Positivo}, ovvero come il sistema si
                                     dovrebbe comportare, si dividono in:
@@ -667,7 +667,7 @@ Passiamo quindi alle tecniche di elicitation. Si hanno due famiglie principali:
                         concetti già evocati. Per ogni sottoinsieme, chiedere la
                         proprietà condivisa implicita utilizzata per il
                         raggruppamento per poi ripetere con le stesse carte per
-                        nuovi raggruppamenti / proprietà.
+                        nuovi raggruppamenti / proprietà. (clustering dei requisiti)
             \end{enumerate}
       \item \textbf{Stakeholders-driven}: fanno invece uso degli stakeholders.
             \begin{enumerate}
@@ -874,10 +874,10 @@ schema riportato in figura \ref{fig:conflicts}.
 \end{figure}
 Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
 \begin{enumerate}
-      \item \textbf{identificare gli statement sovrapposti}: 
+      \item \textbf{identificare gli statement sovrapposti}:
             Nella fase di sovrapposizione/overlap indichiamo il riferimento a
             termini o fenomeni comuni e sono le precondizioni del conflitto.
-      \item \textbf{identificazione e documentazione dei conflitti tra gli statement}: 
+      \item \textbf{identificazione e documentazione dei conflitti tra gli statement}:
             La fase di riconoscimento può essere fatta informalmente, tramite
             euristiche sulle categorie dei requisiti in conflitto, o formalmente.
             Il riconoscimento deve essere documentato per una successiva risoluzione
@@ -900,7 +900,7 @@ Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
                   nonConflictingOverlaps(S_i) = \left\lfloor \sum_{s \ \in \
                         S_i} s / 1000 \right\rfloor
             \end{equation}
-      \item \textbf{genera diverse risoluzioni ai conflitti}: 
+      \item \textbf{genera diverse risoluzioni ai conflitti}:
             La terza fase consiste nell'esplorare tutte le soluzioni per la risoluzione
             dei conflitti, questa si effettua nel seguente modo:
             \begin{itemize}
@@ -916,7 +916,7 @@ Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
                   \item Confrontare, selezionare e concordare soluzioni possibili.
             \end{itemize}
             Si trasformano quindi statement in conflitto in nuovi requisiti.
-      \item \textbf{valuta le risoluzioni ai conflitti e scegli la migliore}: 
+      \item \textbf{valuta le risoluzioni ai conflitti e scegli la migliore}:
             Nella quarta fase si usano vari criteri per la scelta:
             \begin{itemize}
                   \item Contributo a requisiti non funzionali critici.
@@ -924,6 +924,8 @@ Analizzando nel dettaglio la figura \ref{fig:conflicts} abbiamo:
                   \item Applicazione dei principi di risk analysis.
             \end{itemize}
 \end{enumerate}
+
+Una volta risolte tutte le inconsistenze si definiscono le priorità per i requisiti.
 La parte di \textbf{Requirements prioritization} consiste nel fornire ai vari
 requisti una prioritization, per vari scopi:
 \begin{itemize}
@@ -957,24 +959,30 @@ Per i primi 3 principi si può utilizzare il metodo \textbf{Value-cost prioritiz
 \end{figure}
 Si usa quindi la tecnica AHP dalla Decision Theory dove si cerca di capire in che
 proporzione ogni requisito $R_i$ contribuisce al criterio $crit$, che sarà prima
-il valore, $crit = value$, e poi il costo, $crit = cost$. Si hanno quindi due step:
+il valore, $crit = value$, e poi il costo, $crit = cost$. Si creano quindi un numero
+di \textbf{comparison matrix} pari al numero di criteri utilizzati ($crits = \{value, cost\} \implies 2$).
+Per costruire ogni matrice, si vincola il criterio al quale si fa riferimento ($crit$):
 \begin{enumerate}
-      \item Si usa la comparison matrix stimando i contributi di ogni requisito sul
-            criterio da studiare. Avendo $N$ requisiti:
-            \begin{equation}
-                  R_{i, j} = \frac{1}{R_{i, j}}, \ \text{ se} \ 1 \leq i, j \leq N
-            \end{equation}
-            Dalla comparison matrix si hanno dei valori, più basso è il valore
-            di $R_{ij}$ allora $R_i$ contribuisce equamente insieme a $R_j$, più
+      \item Si definisce una scala di valori di comparazione alla contribuzione dei requisiti al
+            criterio $crit$ del progetto (ex: $1-6$, comparazione uguale, poco maggiore o molto maggiore).
+            Si crea quindi una \textbf{comparison matrix}, in cui $CM[R_i,R_j]$
+            specifica un valore della scala definita precedentemente che specifica
+            quanto contribuisce $R_i$ sul criterio $crit$ rispetto a $R_j$.
+            Nota che $CM[R_i, R_j] = \frac{1}{CM[R_j, R_i]}$. Inoltre, ricorda che
+            nella comparison matrix si hanno dei valori, più basso è il valore
+            di $CM[R_i, R_j] $ allora $R_i$ contribuisce equamente insieme a $R_j$, più
             è alto il valore allora $R_i$ contribuisce molto di più rispetto a $R_j$.
-      \item Si determina quanto questo si distribuisce tra tutti i requisti, tramite
-            gli autovalori della matrice. Inoltre le colonne vengono normalizzate
-            tramite:
+      \item Si determina quanto il criterio si distribuisce tra tutti i requisiti.
+            Per farlo o si calcolano gli autovalori della matrice, oppure, si
+            normalizzano le colonne:
             \begin{equation}
-                  R_{i, j} = \frac{R_{i, j}}{\sum_i R_{i, j}}
+                  CM[R_i, R_j]' = \frac{CM[R_i, R_j]}{\sum_{R_i} CM[R_i, R_j]}
             \end{equation}
-            e aggiungendo la media sulle righe per valutare il contributo del
-            requisito sul criterio.
+            Successivamente si calcola il contributo medio del requisto $R_i$
+            rispetto agli altri requisiti $R_j$:
+            \begin{equation}
+                  E[R_i, crit] = \frac{\sum_{R_j} CM[R_i, R_j]'}{N}
+            \end{equation}
 \end{enumerate}
 AHP permette di assicurare stime e rapporti consistenti.
 \subsection{Specification \& documentation}
@@ -998,8 +1006,9 @@ La prima opzione è l'utilizzo del linguaggio naturale in modo svincolato. Si ha
 una forte espressività ma, in assenza di regole sulla scrittura si rischia di
 produrre una sorta di romanzo, producendo qualcosa di poco gestibile. Il linguaggio
 naturale inoltre può nascondere ambiguità. Usando il linguaggio naturale privo
-di vincoli si hanno quindi rischi ma si può usare un linguaggio naturale strutturato,
-per ottenere tale linguaggio si introducono quindi due tipi di regole:
+di vincoli si hanno quindi rischi ma si può usare un \textit{linguaggio naturale
+      strutturato}, per ottenere tale linguaggio si introducono quindi due tipi
+di regole:
 \begin{enumerate}
       \item \textbf{Local rules}: che riguardano la scrittura del singolo requisito.
       \item \textbf{Global rules}: che riguardano le regole sulla scrittura
@@ -1044,7 +1053,7 @@ più diffuso. Si hanno varie macro-categorie a loro volta suddivise in:
             \begin{enumerate}
                   \item Motivazioni del documento.
                   \item Scopo del prodotto.
-                  \item Definizioni, acronimi, sigle e abbreviazioni.
+                  \item Definizioni, acronimi, sigle e abbreviazioni. (glossario dei termini)
                   \item Reference, fonti di elicitation.
                   \item Overview dell'organizzazione del documento.
             \end{enumerate}
@@ -1053,9 +1062,9 @@ più diffuso. Si hanno varie macro-categorie a loro volta suddivise in:
                   \item Prospettive del prodotto.
                   \item Funzionalità principali.
                   \item Caratterizzazione degli utenti.
-                  \item Vincoli generali sull'ambiente (che non possono esse
-                        modificati ma con i quali si deve integrare il prodotto).
-                  \item Assunzioni sul prodotto e dipendenze del prodotto.
+                  \item Vincoli generali sull'ambiente (domain properties).
+                  \item Assunzioni sul prodotto e dipendenze del prodotto
+                        (assuzioni sul dominio).
                   \item Ripartizione dei requisti.
             \end{enumerate}
       \item \textit{Requisiti specifici} usando magari il template visto prima.
@@ -1081,13 +1090,13 @@ la sezione della descrizione generale può essere messa sul repository, mentre
 la sezione dei requisiti specifici potrebbe essere su Trello.
 \subsubsection{Semi-formal notation}
 Si hanno anche opzioni aggiuntive oltre al linguaggio naturale. Una prima
-alternativa sono i diagrammi, dove si ha una notazione semi-formale, in quanto
-si ha una sintassi formale essendo i vari diagrammi formalmente definiti ma
-l'interpretazione degli stessi può comunque essere ambigua.
+alternativa sono i \textbf{diagrammi}, dove si ha una notazione semi-formale, in
+quanto si ha una sintassi formale essendo i vari diagrammi formalmente definiti
+ma l'interpretazione degli stessi può comunque essere ambigua.
 
 Un diagramma può semplificare  quanto scritto e rappresentare il tutto in modo
 compatto. L'uso di diagrammi permette di ottenere un metodo di comunicazione più
-semplicemente e viene usato per aspetti specifici del sistema.
+semplice e viene usato per aspetti specifici del sistema.
 
 I diagrammi sono tra loro complementari ma hanno anche delle intersezioni tra di
 loro e anche con il testo e tutto deve comunque restare coerente. Si rischia di
@@ -1134,7 +1143,6 @@ dell'ambiente, indicati da rettangoli.
 Con questo tipo di diagramma si cattura il contesto del requisito, legando
 componenti dell'ambiente e componenti del sistema, tramite specifici eventi.
 Si identificano a colpo d'occhio gli elementi rilevanti per un certo requisito.
-
 \begin{figure}[!ht]
       \centering
       \includegraphics[width = 0.5\textwidth]{img/requirements/PD.png}
@@ -1205,7 +1213,7 @@ di diagrammi:
             \end{figure}
       \item \textbf{Datagram} \ref{fig:datagram}: sono di tipo \textit{data-driven},
             si concentrano sui dati e mostrano le dipendenze tra i dati in termini
-            di attività. I dati sono indicate dentro rettangoli e si hanno una
+            di attività. I dati sono indicati dentro rettangoli e si hanno una
             serie di frecce che a seconda della direzione variano il significato:
             \begin{itemize}
                   \item $\to$ (in entrata al dato) per l'input di attività che
@@ -1251,7 +1259,7 @@ semplice ma meno espressivo. Si definiscono:
 \end{figure}
 \paragraph{Use case Diagram}
 Un altro diagramma classico è lo \textbf{use case diagram} per visualizzare i
-requisiti identificati, che prendono forma di casi d'uso con gli attori che
+requisiti identificati che prendono forma di casi d'uso con gli attori che
 partecipano allo svolgimento dei requisiti.
 \paragraph{Event trace diagrams}
 Un altro strumento utile nella definizione di workflow è l'\textbf{event trace
@@ -1294,7 +1302,7 @@ svolte in conseguenza allo stimolo.
 \end{figure}
 \subsubsection{Formal notation}
 Si ha quindi la necessità di una semantica formale per rappresentare aspetti
-mission - critical. Questo non viene garantito dai diagrammi, ma si hanno
+mission-critical. Questo non viene garantito dai diagrammi, ma si hanno
 linguaggi appositi la cui creazione/gestione/documentazione è assai costosa per
 cui vengono usati solo in casi estremamente specifici.
 
@@ -1344,8 +1352,8 @@ con la notazione insiemistica. Gli elementi sono inoltre così decorati:
 Il cambiamento di stati ben definito diventa studiabile e simulabile, studiando
 lo spazio di comportamenti del sistema a questo livello di astrazione,
 individuando problemi che porterebbero alla correzione di requisiti. Si può avere
-anche l'inclusione di più schemi. Con questa specifica state-based si hanno vari
-vantaggi:
+anche l'inclusione di più schemi.
+Con questa specifica state-based si hanno vari \textbf{vantaggi}:
 \begin{itemize}
       \item Automazione semplice grazie a logica, matematica discreta, studio
             degli invarianti etc$\dots$
@@ -1354,7 +1362,7 @@ vantaggi:
       \item Permette l'analisi automatica: type checking, consistency checking,
             etc$\dots$
 \end{itemize}
-Di contro non permette di studiare altro se non aspetti funzionali e non ha
+Di \textbf{contro} non permette di studiare altro se non aspetti funzionali e non ha
 un'historical referencing.
 
 Si ha anche una specifica algebrica per formalizzare le leggi che compongono le
@@ -1439,6 +1447,18 @@ La revisione può essere effettuata in vari modi:
 \begin{itemize}
       \item \textbf{Free mode}: senza direttiva su cosa cercare e dove.
       \item \textbf{Checklist-based}: indicando una lista di cose da controllare.
+            Si hanno diverse tipologie di checklist:
+            \begin{itemize}
+                  \item \textbf{Defect-driven}: lista dei difetti tipici,
+                        strutturate tramite un elenco di domande generiche.
+                  \item \textbf{Quality-specific}: lista più specializzata di
+                        quella defect-driven, specializzandosi su requisiti non funzionali.
+                  \item \textbf{Domain-specific}: lista specializzata nei concetti e nelle
+                        operazioni di dominio per aiutare nella ricerca dei difetti.
+                  \item \textbf{language-based}: lista specializzata nei costrutti legati ai
+                        linguaggi. In questa parte si analizzano anche i diagrammi, si
+                        analizzano anche linguaggi di specifica come $Z$.
+            \end{itemize}
       \item \textbf{Process-based}: dove si hanno ruoli specifici, procedure
             dettagliate, tecniche di analisi etc$\dots$, rendendo questa la
             modalità più efficace.
@@ -1452,18 +1472,8 @@ A livelli di tempo il controllo deve essere effettuato ne troppo presto ne tropp
 tardi ma con incontri ripetuti per ottenere la massima efficacia.
 
 Ci si deve inoltre concentrare sulle parti più critiche, che devono essere meglio
-analizzate. Dal punto di vista delle checklist se ne hanno diverse:
-\begin{itemize}
-      \item \textbf{Defect-driven}: lista dei difetti tipici, strutturate tramite
-            un elenco di domande generiche.
-      \item \textbf{Quality-specific}: lista più specializzata di quella
-            defect-driven, specializzandosi su requisiti non funzionali.
-      \item \textbf{Domain-specific}: lista specializzata nei concetti e nelle
-            operazioni di dominio per aiutare nella ricerca dei difetti.
-      \item \textbf{language-based}: lista specializzata nei costrutti legati ai
-            linguaggi. In questa parte si analizzano anche i diagrammi, si
-            analizzano anche linguaggi di specifica come $Z$.
-\end{itemize}
+analizzate.
+
 Si usano anche delle \textbf{checking decision tables} che hanno in input $N$
 condizioni booleane ($\{T, F\}$) e una serie di eventi che si hanno in conseguenza
 allo stato delle condizioni, specificando se accadono o meno. Si ha che se il
@@ -1509,7 +1519,7 @@ In ogni caso si ha un approccio model-based, si parla infatti di model-driven
 development (sviluppando fin dall'inizio modellando il comportamento del software),
 e si hanno vari tool per i vari linguaggi di specifica (SCR, LTSA etc$\dots$).
 
-Tra i vantaggi si hanno:
+Tra i \textbf{vantaggi} si hanno:
 \begin{itemize}
       \item È modo migliore per verificare l'adeguatezza rispetto ai bisogni reali,
             all'ambiente reale.
@@ -1518,7 +1528,7 @@ Tra i vantaggi si hanno:
       \item Estendibile per animare controesempi generati da altri strumenti.
       \item Le animazioni possono essere riusate per altri scenari.
 \end{itemize}
-Si hanno anche contro:
+Si hanno anche \textbf{contro}:
 \begin{itemize}
       \item Si richiede un'attenta progettazione degli scenari che possono presentare
             problemi e non si ha garanzia di non trascurare problemi critici.
@@ -1528,9 +1538,9 @@ Si hanno anche contro:
 Questo permette di individuare un ottimo range di problemi ma richiede la notazione
 formale, costosa, ed esperti. Si possono avere check sintattici per il linguaggio
 (di specifica come $Z$) usato. Si può avere anche un check di completezza e
-consistenza grazie al linguaggio e la verifica di proprietà:
+consistenza grazie al linguaggio e la verifica di varie proprietà:
 \begin{itemize}
-      \item \textbf{Algoritmiche}: tramite model checking, per controllare se un modello di
+      \item \textbf{proprietà algoritmiche}: tramite model checking, per controllare se un modello di
             comportamento soddisfa un requisito, una proprietà di dominio o un
             presupposto, cercando violazione delle varie proprietà e generando
             eventuali controesempi o comunque specifiche della violazione
@@ -1561,7 +1571,7 @@ consistenza grazie al linguaggio e la verifica di proprietà:
                   \item I controesempi possono essere complessi da capire e
                         mostrano solo i sintomi dei problemi, non le cause.
             \end{itemize}
-      \item \textbf{Deduttive tramite theorem proving}. Il theorem proving viene
+      \item \textbf{proprietà deduttive tramite theorem proving}. Il theorem proving viene
             usato per generare nuove specifiche tramite le regole di inferenza
             della logica. Si studiano le conseguenze logiche delle specifiche
             evidenziando eventuali inconsistenze in un processo generalmente
@@ -1572,9 +1582,9 @@ consistenza grazie al linguaggio e la verifica di proprietà:
             \end{itemize}
             Si hanno diversi \textbf{pro}:
             \begin{itemize}
-                  \item Solidità e completezza del sistema formale utilizzato
-                        avendo che ogni conclusione è corretta e che ogni
-                        conclusione corretta è derivabile.
+                  \item Solidità e completezza del sistema formale, proprietà di
+                        completezza e correttezza della logica utilizzata per
+                        checking
                   \item Mostra specifiche incoerenti, conseguenze inadeguate.
                   \item Può essere usato per sistemi molto grandi, gestendo una
                         gran mole di dati tramite l'induzione.
@@ -1591,7 +1601,7 @@ specificati come relazioni I/O capendo:
       \item Se la relazione è una funzione (per isolare eventuali non determinismi)
       \item Se la funzione è totale e quindi in grado di specificare ogni input
 \end{itemize}
-\subsection{Requirements changes}
+\section{Requirements changes}
 I cambiamenti dei requisiti sono assai frequenti e quindi vanno gestiti. Si hanno
 infatti varie iterazioni delle 4 fasi sopra descritte, formando la spirale.
 
@@ -1613,12 +1623,12 @@ e documentarli al fine di:
             studiando eventuali dipendenze tra i requisiti.
       \item Progettare l'architettura che rimanga stabile nonostante i cambiamenti.
 \end{itemize}
-Inoltre, associando livelli di stabilità a gruppi di statement che definiscono le
+Si associano  livelli di stabilità a gruppi di statement che definiscono le
 varie feature. Si punta ad avere un numero di livelli comunque ridotto e di
-cercare di permettere la comparabilità, che sia qualitativa e relativa.
+cercare di permettere la comparabilità qualitativa e relativa.
 
 Si usano regole euristiche per studiare i probabili cambiamenti, concentrandosi
-sui requisiti che è più facile cambino, limitando così i costi. Il livello più
+sui requisiti meno stabili, limitando così i costi. Il livello più
 alto di stabilità viene definito per quelle feature presenti in ogni estensione/
 variante del sistema. Si ha che aspetti intenzionali e concettuali, così come
 aspetti funzionali e obiettivi chiave, sono più stabili di aspetti operazionali
@@ -1641,9 +1651,9 @@ ha che un certo aspetto è tracciabile se e solo se si sa perfettamente:
       \item Per cosa sarà usato
       \item Come sarà usato
 \end{itemize}
-Possiamo quindi dire che il Traceability Management si occupa di identificare,
-documentare, recuperare la logica e l'impatto degli elementi contenuti nel
-Requirements Document.
+Possiamo quindi dire che il \textbf{Traceability Management} si occupa di
+\textbf{identificare, documentare, recuperare la logica} e l'\textbf{impatto
+      degli elementi} contenuti nel Requirements Document.
 
 Si possono avere anche tracciamenti in merito o obiettivi specifici per determinati
 requisiti, valutando l'impatto di eventuali modifiche e studiando come propagare
@@ -1718,8 +1728,8 @@ In merito alla \textbf{matrice di tracciabilità} \ref{fig:dependency-matrix}
 abbiamo che essa è la matrice di adiacenza di un grafo a singola relazione di
 tracciabilità, detto \textbf{dependency graph}. In posizione ($i,j$) troviamo 1
 se si ha un arco orientato tra l'item $T_i$ e l'item $T_j$ , 0 altrimenti.
-Possiamo quindi dire che sulla riga i-sima troviamo gli elementi che dipendono
-da $T_i$ e sulla colonna i-sima gli elementi che sono dipendenza di $T_i$.
+Possiamo quindi dire che sulla riga $i$-sima troviamo gli elementi che dipendono
+da $T_i$ e sulla colonna $j$-sima gli elementi che sono dipendenza di $T_j$.
 
 Come \textbf{pro} si hanno:
 \begin{itemize}
@@ -1748,12 +1758,12 @@ e delle varianti del sistema, permettendo la rappresentazione compatta di un
 gran numero di varianti. Avere più varianti permette di distribuire il sistema
 con un ampio numero di feature.
 
-Nel diagramma le feature sono rettangoli e possono essere obbligatorie (con un
-pallino nero) o opzionali (con un pallino bianco). Si hanno anche potenziali or
-esclusivi, or non-esclusivi e and per separare in diversi modi feature in
-sotto-feature. Le varie combinazioni espresse dalle feature del digramma, seguendo
-la logica di opzionali o meno e delle varie suddivisioni esprimono le varianti
-del progetto.
+Nel diagramma le feature sono rettangoli, ciascuna feature può essere obbligatoria
+(riconosciuta da pallino nero) o opzionale (riconosciuta da un pallino bianco).
+Una versione sistema sarà un insieme di feature, quindi si possono specificare
+delle operazioni booleane tra feature: or esclusivi, or non-esclusivi e and.
+In aggiunta ciascuna feature può essere decomposta in sotto-feature, quindi
+cambiando le sotto-feature si hanno diverse varianti del progetto.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{img/requirements/feature-diagrams.png}

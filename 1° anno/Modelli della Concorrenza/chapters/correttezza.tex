@@ -15,7 +15,7 @@ non è verificabile sperimentalmente essendo in numeri infiniti e va quindi
 dimostrata in altri modi.
 
 Per ogni logica bisogna quindi definire un apparato deduttivo, cioè un insieme di
-\textbf{regole di inferenza}. Una regola di inferenza è una regola che dice "se
+\textbf{regole di inferenza}. Una regola di inferenza è una regola che dice ``se
 hai già dimostrato queste premesse, allora puoi dedurre questa formula".
 \subsection{Sintassi}
 Passiamo ora al caso specifico della logica proposizionale che ci servirà per le
@@ -182,10 +182,10 @@ Le regole di inferenza sono la base da cui è possibile costruire le dimostrazio
 \end{definizione}
 Abbiamo ora due nozioni distinte:
 \begin{itemize}
-    \item La validità in un modello $\models$.
-    \item La derivabilità $\vdash$ introdotta perché in generale non siamo in
-          grado di decidere direttamente la nozione semantica di validità e
-          quindi cerchiamo di dimostrare una cosa.
+    \item La \textbf{validità} in un modello $\models$.
+    \item La \textbf{derivabilità} $\vdash$ introdotta perché in generale non
+          siamo in grado di decidere direttamente la nozione semantica di validità
+          e quindi cerchiamo di dimostrare una cosa.
 \end{itemize}
 \begin{teorema}[\textbf{Validità, Correttezza}]
     Se $A_1, \dots, A_n \vdash B$ allora $A_1, \dots, A_n \models B$. Ovvero, se
@@ -213,7 +213,7 @@ Al primo livello avremmo le proposizioni atomiche definite come relazioni fra le
 variabili del programma, tra queste relazioni possiamo trovare anche relazioni
 tra le variabili e le costanti.
 
-Per dare una semantica, alle varie proposizioni atomiche definiamo la nozione di
+Per dare una semantica alle varie proposizioni atomiche, definiamo la nozione di
 \textbf{stato della memoria}.
 \begin{definizione}[\textbf{Stato di memoria}]
     Sia $V$ l'insieme delle variabili del programma, definiamo uno \textbf{stato
@@ -313,7 +313,7 @@ Vediamo ora come definire le regole di derivazione per i comandi introdotti:
     \item \textbf{Sequenza}:
           \begin{equation}
               \frac{\{p\} \text{ C } \{p'\} \ \ \{p'\} \text{ D } \{q\}}{\{p\}
-                  \text{ C; D } \{p\}}
+                  \text{ C; D } \{q\}}
           \end{equation}
           se le post-condizioni di C e le pre-condizioni di D sono le stesse
           posso mettere in sequenza i comandi ottenendo lo stesso risultato.
@@ -346,7 +346,7 @@ Vediamo ora come definire le regole di derivazione per i comandi introdotti:
           precondizione. Discorso analogo è valido anche per la post-condizione.
     \item \textbf{Assegnamento}:
           \begin{equation}
-              \frac{}{\{q[E/q]\} \text{ x } := \text{ E }\{q\}}
+              \frac{}{\{q[E/x]\} \text{ x } := \text{ E }\{q\}}
           \end{equation}
           dove con $q[E / x]$ indico il fatto che sostituisco ogni occorrenza di
           $x$ in $q$ con $E$.
@@ -498,28 +498,34 @@ Per fare ciò definiamo:
           partendo da questa possiamo definire due funzioni:
           \begin{itemize}
               \item $t(\sigma) = \{p \in \Pi | \sigma \models p \}$ ovvero
-                    l'insieme delle formule vere in $\sigma$.
+                    l'insieme delle formule vere in $\sigma$. In altre parole,
+                    rappresenta tutte le formule vere in un determinato stato di
+                    memoria.
               \item $m(p) = \{\sigma \in \Sigma | \sigma \models p \}$ ovvero
-                    l'insieme degli stati che soddisfano $p$.
+                    l'insieme degli stati che soddisfano $p$. In altre parole,
+                    data una formula, si ottengono tutti gli stati di memoria in
+                    cui la formula è vera.
           \end{itemize}
           Possiamo generalizzare queste formule per insiemi, siano $S \subseteq
               \Sigma$ sottoinsieme di stati e $F \subseteq \Pi$ sotto-insieme di
           formule:
           \begin{itemize}
               \item $t(S) = \{p \in \Pi | \forall s \in S: s \models p \} =
-                        \bigcap_{s \in S} t(s)$.
+                        \bigcap_{s \in S} t(s)$, è definito come l'intersezione
+                    di tutte le formule che sono vere in tutti gli stati di $S$.
               \item $m(F) = \{s \in \Sigma | \forall p \in F: s \models p\} =
-                        \bigcap_{p \in F} m(p)$.
+                        \bigcap_{p \in F} m(p)$, è definito come l'intersezione
+                    di tutti gli stati che soddisfano tutte le formule di $F$.
           \end{itemize}
 \end{itemize}
-A questo punto possiamo esprimere le formule della logica proposizionale
-attraverso operazioni tra insiemi:
+Avendo definito l'estensione delle due funzioni per insiemi, possiamo esprimere
+le formule della logica proposizionale attraverso le operazioni tra insiemi:
 \begin{itemize}
     \item $m(\lnot q) = \Sigma \backslash m(q)$
     \item $m(p \lor q) = m(p) \cup m(q)$
     \item $m(p \land q) = m(p) \cap m(q)$
     \item $m(p \implies q) = m(\lnot p) \cup m(q)$, oltre a questo l'implicazione
-          ha anche una relazione tra formule: "se $p$ implica $q$, allora
+          ha anche una relazione tra formule: ``se $p$ implica $q$, allora
           $m(p) \subseteq m(q)$ ovvero $q$ è più debole di $p$.
 \end{itemize}
 \begin{nota}

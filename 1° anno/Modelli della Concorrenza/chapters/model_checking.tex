@@ -35,7 +35,7 @@ semplificazione.
 I sistemi reattivi non obbediscono più al paradigma input-computazione-output,
 rendendo quindi impossibile utilizzare le triple di Hoare per dimostrare la
 correttezza di un programma. Possiamo sempre riutilizzare la logica di hoare per
-dimostrare alcuni pezzi, ma dovremmo usare un modo per unire i risultati.
+dimostrare alcuni pezzi, ma dovremmo trovare un modo per unire i risultati.
 
 Al posto delle triple di Hoare, utilizzeremo delle \textbf{asserzioni}, ovvero
 delle frasi al cui interno sono presenti elementi temporali che descrivono il
@@ -46,7 +46,7 @@ comportamento del sistema.
 \end{esempio}
 \begin{esempio}
     Se si accende una spia di allarme allora questa sarà accesa \textit{fino a
-        quando} non si spegne il dispositivo
+        quando} non si spegne il dispositivo.
 \end{esempio}
 Vediamo ora come possiamo procedere nell'analisi dei sistemi concorrenti. Il
 problema che vogliamo risolvere è quello di stabilire se un sistema reattivo è
@@ -55,7 +55,8 @@ corretto. Per fare ciò, seguiremo il seguente schema:
     \item Si esprime il criterio di correttezza come una formula di un opportuno
           linguaggio logico.
     \item Si modella il sistema nella forma di un sistema di transizioni.
-    \item Si valuta se la formula è vera nel sistema di transizioni. (algoritmi)
+    \item Si valuta se la formula è vera nel sistema di transizioni. Per
+          effettuare questa operazione esistono degli algoritmi.
 \end{enumerate}
 \begin{definizione}[\textbf{Sistema di transizioni}]
     Un \textbf{sistema di transizioni} è definito da:
@@ -71,7 +72,7 @@ corretto. Per fare ciò, seguiremo il seguente schema:
 \begin{definizione}[\textbf{Cammino}]
     Definiremo un \textbf{cammino} come una sequenza di stati $\pi$ dove:
     \begin{equation}
-        \pi = q_0q_1\dots q_n \ (q_i,q_{i+1})\in T \ \forall i
+        \pi = q_0q_1\dots q_n \ \text{dove} \ (q_i, q_{i+1})\in T \ \forall i
     \end{equation}
     (combacia con la definizione di cammino su grafi).
 \end{definizione}
@@ -82,6 +83,9 @@ corretto. Per fare ciò, seguiremo il seguente schema:
         \pi^{(i)} = q_iq_{i+1}\dots q_n
     \end{equation}
 \end{definizione}
+\begin{nota}
+    Posso esprimere un cammino come un suffisso di ordine 0.
+\end{nota}
 \begin{definizione}[\textbf{Cammino massimale}]
     Definiremo un \textbf{cammino massimale} se il cammino è finito e non può
     essere esteso, cioè solo quando il cammino raggiunge uno stato che non ha
@@ -95,9 +99,6 @@ Posso rappresentare un cammino espandendo la definizione delle espressioni
 regolari, aggiungendo $^\omega$ per rappresentare una sequenza infinita. Bisogna
 prestare particolare attenzione al fatto che $\omega \neq \ast$, infatti $\ast$
 rappresenta una sequenza arbitraria di valori.
-\begin{nota}
-    Posso esprimere un cammino come un suffisso di ordine 0.
-\end{nota}
 \section{Logica Temporale Lineare}
 Definiamo la \textbf{sintassi} partendo dalle proposizioni atomiche:
 \begin{equation}
@@ -107,25 +108,28 @@ composte dalle asserzioni considerate vere a prescindere.
 \begin{esempio}
     Il messaggio è stato spedito, la spia di allarme è accesa
 \end{esempio}
-Definiamo anche le formule ben formate $FBF_{LTL}$:
-\begin{itemize}
-    \item Ogni proposizione atomica è una formula ben formata.
-    \item $\top$ e $\bot$ sono formule ben formate.
-    \item Se $\alpha, \beta \in FBF_{LTL}$ allora $\alpha \lor \beta, \lnot
-              \alpha \in FBF_{LTL}$ (da queste si derivano tutti i connettivi
-          logici).
-    \item \textbf{Operatori temporali}: siano $\alpha$ e $\beta$ formule ben
-          formate, allora anche:
-          \begin{itemize}
-              \item $X\alpha$ "next $\alpha$" nel prossimo stato $\alpha$ è vera.
-              \item $F\alpha$ "future $\alpha$" prima o poi $\alpha$ sarà vera.
-              \item $G\alpha$ "globally $\alpha$" $\alpha$ è sempre vera.
-              \item $\alpha U \beta$ "$\alpha$ until $\beta$" $\alpha$ è vera fino
-                    a quando $\beta$ diventa vera.
-          \end{itemize}
-          sono formule ben formate.
-\end{itemize}
-Per definire la sintassi utilizzeremo i \textbf{Modelli di Kripke} che prendono
+\begin{definizione}[\textbf{Formule ben Formate per la logica LTL}]
+    Definiamo anche le formule ben formate $FBF_{LTL}$:
+    \begin{itemize}
+        \item $\forall p \in AP$ si ha che $p \in FbF_{LTL}$, ovvero ogni
+              proposizione atomica è una formula ben formata.
+        \item $\top$ e $\bot$ sono formule ben formate.
+        \item Se $\alpha, \beta \in FBF_{LTL}$ allora $\alpha \lor \beta, \lnot
+                  \alpha \in FBF_{LTL}$ (da queste si derivano tutti i connettivi
+              logici).
+        \item \textbf{Operatori temporali}: siano $\alpha$ e $\beta$ formule ben
+              formate, allora anche:
+              \begin{itemize}
+                  \item $X\alpha$ "next $\alpha$" nel prossimo stato $\alpha$ è vera.
+                  \item $F\alpha$ "future $\alpha$" prima o poi $\alpha$ sarà vera.
+                  \item $G\alpha$ "globally $\alpha$" $\alpha$ è sempre vera.
+                  \item $\alpha U \beta$ "$\alpha$ until $\beta$" $\alpha$ è vera
+                        fino a quando $\beta$ diventa vera.
+              \end{itemize}
+              sono formule ben formate.
+    \end{itemize}
+\end{definizione}
+Per definire la \textbf{semantica} utilizzeremo i \textbf{Modelli di Kripke} che prendono
 i sistemi di transizione e li arricchiscono associando a ogni stato $q \in Q$
 l'insieme delle proposizioni atomiche che sono vere in $q$. Quindi possiamo
 definire:
@@ -141,45 +145,60 @@ Con un modello di Kripke possiamo identificare per uno stato quali sono le
 proposizioni atomiche vere e per capire se le $FBF_{LTL}$ sono vere allora dovrò
 analizzare i cammini che partono dallo stato in esame.
 
-Vediamo ora come associare una semantica alle formule ben formate. Per fare ciò
-procediamo in due fasi:
+Vediamo ora come associare una \textbf{semantica} alle formule ben formate. Per
+fare ciò procediamo in due fasi:
 \begin{enumerate}
-    \item Definiamo un criterio per stabilire se una formula $\alpha$ è vera in
-          un cammino massimale $\pi$.
-    \item Diciamo che la formula è vera rispetto a uno stato $q$ se è vera in
-          tutti i cammini massimali che partono da $q$.
+    \item Definiamo un \textbf{criterio} per stabilire se una formula $\alpha$ è
+          vera in un cammino massimale $\pi$.
+    \item Diciamo che la formula è \textbf{vera} rispetto a uno stato $q$ se è
+          vera in tutti i \textbf{cammini massimali} che partono da $q$.
 \end{enumerate}
-Fissiamo quindi un cammino generico $\pi$ e $\alpha$ una formula ben formata allora:
+\begin{nota}
+    Per dimostrare che una formula è vera in un determinato stato, bisogna quindi
+    dimostrare che \textbf{è vera in tutti i cammini massimali} che partono da esso.
+\end{nota}
+Fissiamo quindi un cammino generico $\pi$ e consideriamo una formula ben formata
+$\alpha$ allora:
 \begin{equation}
     \pi \vDash \alpha \iff \ \text{significa che} \ \alpha \ \text{è vera nel cammino}
     \ \pi
 \end{equation}
 Definiremo la relazione $\vDash$ per induzione.
-\begin{definizione}
-    Supponiamo che $\alpha$ e $\beta$ siano due formule ben formate e $p$ una
-    preposizione atomica:
+\begin{definizione} [$\vDash$]
+    Supponiamo che $\alpha$ e $\beta$ siano due formule ben formate ($\alpha,
+        \beta \in FbF_{LTL}$) e che  $p$ sia una preposizione atomica ($p \in AP$).
+    Allora la relazione $\vDash$ è definita come:
     \begin{itemize}
-        \item $\pi \vDash \top$
-        \item $\pi \not\vDash \bot$
-        \item $\pi \vDash p \iff p\in I(q_0)$
-        \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
-        \item $\pi \vDash \alpha \lor \beta \iff (\pi \vDash \alpha) \lor (\pi
-                  \vDash \beta) $
-        \item Operatori temporali: supponiamo $\beta, \gamma \in FBF_{LTL}$
+        \item \textbf{caso base}:
               \begin{itemize}
-                  \item $\pi \vDash X\beta \iff \pi^{(1)}\vDash \beta$
-                  \item $\pi \vDash F \beta \iff \exists i \in \mathbb{N}:
-                            \pi^{(i)} \vDash \beta$
-                  \item $\pi \vDash G \beta \iff \forall i \in \mathbb{N}:
-                            \pi^{(i)} \vDash \beta$
-                  \item $\pi \vDash \beta U \gamma \iff$:
+                  \item $\pi \vDash \top$
+                  \item $\pi \not\vDash \bot$
+                  \item $\pi \vDash p \iff p\in I(q_0)$
+              \end{itemize}
+        \item \textbf{passo induttivo}:
+              \begin{itemize}
+                  \item \textbf{Operatori logici}: supponiamo $\alpha, \beta \in FBF_{LTL}$
                         \begin{itemize}
-                            \item $\exists i \in \mathbb{N}$ tale che: $\pi^{(i)}
-                                      \vDash \gamma$ cioè $\pi \vDash F \gamma$.
-                            \item $\forall h, 0 \leq h < i, \pi^{(h)} \vDash \beta$
+                            \item $\pi \vDash \lnot \alpha \iff \pi \not\vDash \alpha$
+                            \item $\pi \vDash \alpha \lor \beta \iff (\pi \vDash
+                                      \alpha) \lor (\pi \vDash \beta) $
                         \end{itemize}
-                        Se $\gamma$ è vera fin da subito, quindi $i = 0$ allora
-                        $\beta$ è superfluo.
+                  \item \textbf{Operatori temporali}: supponiamo $\beta, \gamma \in FBF_{LTL}$
+                        \begin{itemize}
+                            \item $\pi \vDash X\beta \iff \pi^{(1)}\vDash \beta$
+                            \item $\pi \vDash F \beta \iff \exists i \in \mathbb{N}:
+                                      \pi^{(i)} \vDash \beta$
+                            \item $\pi \vDash G \beta \iff \forall i \in \mathbb{N}:
+                                      \pi^{(i)} \vDash \beta$
+                            \item $\pi \vDash \beta U \gamma \iff$:
+                                  \begin{itemize}
+                                      \item $\exists i \in \mathbb{N}$ tale che: $\pi^{(i)}
+                                                \vDash \gamma$ cioè $\pi \vDash F \gamma$.
+                                      \item $\forall h, 0 \leq h < i, \pi^{(h)} \vDash \beta$
+                                  \end{itemize}
+                                  Se $\gamma$ è vera fin da subito, quindi $i = 0$ allora
+                                  $\beta$ è superfluo.
+                        \end{itemize}
               \end{itemize}
     \end{itemize}
 \end{definizione}
@@ -323,7 +342,7 @@ sono:
           in cui $\alpha$ è sempre vera oppure $\alpha$ è vera fino a quando
           $\beta$ diventa vera. $W$ differisce da $U$ perché non si richiede che
           la seconda formula diventi vera per rendere vera $W$.
-    \item \textbf{Release}: $\alpha R \beta$ per cui
+    \item \textbf{Release}: $\alpha R \beta$ per cui:
           \begin{equation}
               \pi \vDash \alpha R \beta \iff \forall k \geq 0: (\pi^{(k)} \vDash
               \beta \lor \exists h < k: \pi^{(h)} \vDash \alpha)
@@ -341,9 +360,10 @@ sono:
     operatori minimale per le logiche temporali è $\{X,U\}$.
 \end{definizione}
 Attenzione all'uso della negazione nelle formule LTL, cosa significa "non è vero
-$F\alpha$"? Significa che $\exists$ un cammino per cui non vale $F\alpha$. Mentre
-$\lnot F\alpha \equiv G\lnot \alpha$ quindi $\lnot F\alpha$ non è la negazione di
-$F\alpha$. Quindi dobbiamo stare attenti ai quantificatori universali nascosti.
+$F\alpha$" (\textit{non è vero che prima o poi $\alpha$ diventi vera})? Significa
+che $\exists$ un cammino per cui non vale $F\alpha$. Mentre $\lnot F\alpha \equiv
+    G\lnot \alpha$ quindi $\lnot F\alpha$ non è la negazione di $F\alpha$. Quindi
+dobbiamo stare attenti ai quantificatori universali nascosti.
 
 Negli esercizi sulla logica temporale ci possono essere diverse risposte giuste.
 Ecco degli esercizi sulla logica temporale lineare.
@@ -425,14 +445,21 @@ una certa formula è vera.
 Il problema è che queste proprietà sono utili, per risolvere questa mancanza
 introduciamo una nuova logica. Questa logica può essere interpretata attraverso
 il concetto di \textbf{albero di computazione}.
-\begin{definizione}
+\begin{definizione}[\textbf{Albero di computazione}]
     Un \textbf{albero di computazione} è una struttura che mi permette di
     rappresentare le possibili computazioni di un sistema di transizioni
     etichettato.
 
     I cammini che partono dalla radice di questo albero sono definiti come
-    \textbf{computazioni} del sistema. \ref{fig:computational-tree-logic}
+    \textbf{computazioni} del sistema. Un esempio di albero di computazione è
+    riportato in figura \ref{fig:computational-tree-logic}
 \end{definizione}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/model/computational-tree-logic.png}
+    \caption{Esempio di computational tree}
+    \label{fig:computational-tree-logic}
+\end{figure}
 \begin{nota}
     Spesso si vuole esprime le possibili computazioni di un sistema allora
     possiamo costruire un albero (simile all'\textbf{unfolding} per le reti di
@@ -449,44 +476,46 @@ il concetto di \textbf{albero di computazione}.
     Nel caso fosse ciclico allora sarà infinito, se abbiamo stati in deadlock
     allora il nodo sarà pozzo.
 \end{nota}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/model/computational-tree-logic.png}
-    \label{fig:computational-tree-logic}
-\end{figure}
 \section{Computation Tree Logic - CTL}
 Possiamo definire ora la logica CTL (\textbf{Computation Tree Logic}), ovvero
 una logica temporale che si basa sugli alberi di computazione.
 
 Definiremo la \textbf{sintassi} attraverso le $FbF_{CTL}$.
-\begin{itemize}
-    \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP = \{p1,p2,\dots\}$
-          insieme delle preposizioni atomiche.
-    \item $\forall \alpha, \beta \in FbF_{CTL}$
-          \begin{itemize}
-              \item $\lnot\alpha, \alpha \lor \beta \in FbF_{CTL}$
-              \item $AX \ \alpha, EX \ \alpha \in FbF_{CTL}$ per ogni / esiste
-                    un cammino dallo stato corrente tale che nello stato prossimo
-                    vale $\alpha$
-              \item $AF \ \alpha, EF \ \alpha \in FbF_{CTL}$ per ogni / esiste
-                    un cammino dallo stato corrente tale che prima o poi vale $\alpha$
-              \item $AG \ \alpha, EG \ \alpha \in FbF_{CTL}$ per ogni / esiste
-                    un cammino dallo stato corrente tale che vale sempre $\alpha$
-              \item $A(\alpha \ U \ \beta), E(\alpha \ U \ \beta)\in FbF_{CTL}$
-                    per ogni / esiste un cammino dallo stato corrente tale che
-                    $\alpha$ è vera fino a quando $\beta$ non diventa vera.
-                    ($\beta$ deve per forza diventare vera)
-          \end{itemize}
-\end{itemize}
-In particolare abbiamo aggiunto $A$ e $E$ i quali rappresentano due quantificatori
+\begin{definizione}[\textbf{Formule ben Formate per la logica CTL}]
+    Le formule ben formate sono:
+    \begin{itemize}
+        \item $\forall p \in AP, p\in FbF_{CTL}$ con $AP = \{p_1,p_2,\dots\}$
+              insieme delle proposizioni atomiche.
+        \item $\forall \alpha, \beta \in FbF_{CTL}$
+              \begin{itemize}
+                  \item $\lnot\alpha, \alpha \lor \beta \in FbF_{CTL}$
+                  \item $AX \ \alpha, EX \ \alpha \in FbF_{CTL}$ per ogni / esiste
+                        un cammino dallo stato corrente tale che nello stato prossimo
+                        vale $\alpha$
+                  \item $AF \ \alpha, EF \ \alpha \in FbF_{CTL}$ per ogni / esiste
+                        un cammino dallo stato corrente tale che prima o poi vale $\alpha$
+                  \item $AG \ \alpha, EG \ \alpha \in FbF_{CTL}$ per ogni / esiste
+                        un cammino dallo stato corrente tale che vale sempre $\alpha$
+                  \item $A(\alpha \ U \ \beta), E(\alpha \ U \ \beta)\in FbF_{CTL}$
+                        per ogni / esiste un cammino dallo stato corrente tale che
+                        $\alpha$ è vera fino a quando $\beta$ non diventa vera.
+                        ($\beta$ deve per forza diventare vera)
+              \end{itemize}
+    \end{itemize}
+
+\end{definizione}
+In particolare, abbiamo aggiunto $A$ e $E$ i quali rappresentano due quantificatori
 sui cammini. Essi sono definiti come segue:
 \begin{itemize}
-    \item $A$ è il quantificatore universale e si interpreta come per ogni cammino.
-    \item $E$ è il quantificatore esistenziale e si interpreta come esiste un
-          cammino tale che.
+    \item $A\equiv \forall$ è il quantificatore universale e si interpreta come
+          \textbf{per ogni cammino}.
+    \item $E\equiv \exists$ è il quantificatore esistenziale e si interpreta come
+          \textbf{esiste un cammino tale che}.
 \end{itemize}
-Quindi ogni occorrenza di un operatore temporale sarà associata ad un
-quantificatore $A = \forall$ e $E = \exists$ che si applica ai cammini.
+\begin{osservazione}
+    Nelle formule della logica CTL, i quantificatori $A$ ed $E$ devono essere
+    sempre presenti quando si ha un operatore temporale.
+\end{osservazione}
 \begin{esempio}
     Traduciamo
     \begin{center}
@@ -531,9 +560,9 @@ quantificatore $A = \forall$ e $E = \exists$ che si applica ai cammini.
         \item $GF(p \lor q)$: avendo questa formula non basta analizzare dove
               valgono $p$ o $q$ perché abbiamo $G$ quindi dobbiamo controllare
               anche che per tutti gli stati successivi $p$ o $q$ siano vere.
-              Partendo dallo stato $s_0$ la formula è falsa in quanto si arriva
-              in $s_2$ dove nessuno delle due sono vere. $s_2,s_3$ vero ma anche
-              $s_1$ è falsa.
+              Detto ciò, possiamo osservare che la formula è falsa in tutti gli
+              stati in quanto per ognuno è possibile definire un cammino che
+              arriva nello stato $s_2$ dove la formula $p \lor q$ è falsa.
         \item $AG (EF (p \lor q))$: è vera per tutti gli stati perché esiste
               sempre un cammino con una deviazione in cui vale $p \lor q$.
         \item $XX \ r$: non è vera in $s_0$ perché abbiamo trovato un cammino
@@ -544,9 +573,14 @@ quantificatore $A = \forall$ e $E = \exists$ che si applica ai cammini.
               all'infinito, Mentre negli altri è sempre vera.
     \end{itemize}
 \end{esempio}
-\begin{nota}[\textbf{Non siamo sicuri sia vera}]
-    Ricorda che per la semantica della logica $LTL$ allora tutte le $FbF_{LTL}$
+\begin{nota}
+    Ricorda che per la semantica della logica $LTL$ allora alcune delle $FbF_{LTL}$
     sono equivalenti alle $FbF_{CTL}$ che hanno l'operatore $A$ e viceversa.
+
+    Per esempio
+    \begin{equation}
+        AF\alpha \equiv F\alpha
+    \end{equation}
 \end{nota}
 Anche per questa logica definiremo l'equivalenza logica.
 \begin{definizione}[\textbf{Formule equivalenti}]
@@ -569,7 +603,7 @@ In entrambe le logiche, LTL e CTL, possiamo esprimere le seguenti proprietà:
               AG (p\implies AF \ q) \equiv G(p\implies F \ q)
           \end{equation}
 \end{itemize}
-Le due logiche non hanno la stessa potenza espressiva ma nessuna delle due è più
+Le due logiche non hanno la stessa potenza espressiva, ma nessuna delle due è più
 espressiva rispetto all'altra. Infatti per esempio la logica CTL può esprimere
 la seguente proprietà (\textbf{reset property}):
 \begin{center}
@@ -579,7 +613,7 @@ la seguente proprietà (\textbf{reset property}):
 Esprimibile secondo la seguente formula $AG \ EF \ p$, per cui non esiste una formula
 LTL che possa esprimere la proprietà.
 
-Al contrario la logica LTL può esprimere la seguente proprietà
+Al contrario la logica LTL può esprimere la seguente proprietà:
 \begin{center}
     In ogni cammino, prima o poi si raggiungerà uno stato a partire dal quale $p$
     rimane sempre vera.
@@ -598,12 +632,14 @@ Lo svantaggio di questa logica è che richiede un maggiore sforzo computazionale
 per dimostrare le proprietà, sarà quindi importante decidere quale logica usare.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/model/logicheTemprali.png}
+    \includegraphics[width=0.3\textwidth]{img/model/logicheTemprali.png}
     \caption{Relazione tra le logiche temporali}
 \end{figure}
+
 Come abbiamo dimostrato quando sono equivalenti le FbF, potremmo anche voler
-controllare se due modelli di Kripke sono equivalenti. Ragionevolmente potremmo
-voler controllare solo se sono isomorfi ma in realtà è troppo restrittiva.
+controllare se due modelli di Kripke sono equivalenti. Ragionevolmente si potrebbe
+pensare all'equivalenza dei modelli di Kripke solo quando sono isomorfi, ciò
+è troppo restrittivo.
 \begin{definizione}[\textbf{Equivalenza tra modelli}]
     Diremo due modelli $M_1$ e $M_2$, con stati iniziali $q_0$ e $s_0$, si dicono
     \textbf{equivalenti} rispetto a una logica $L$ se, $\forall \alpha \in FbF_L$
@@ -617,7 +653,7 @@ Per dimostrare che due modelli sono equivalenti devo:
     \item Definire tutti i cammini massimali di $M_1$ e $M_2$ nella forma simile
           alle regex e si rimuovono i duplicati.
     \item Trasformare le espressioni ottenute sostituendo i nomi degli stati con
-          le preposizioni atomiche che sono vere in un determinato stato.
+          le proposizioni atomiche che sono vere in un determinato stato.
     \item Se le espressioni dei cammini massimali di un modello sono uguali
           all'altro allora i due modelli sono equivalenti.
 \end{itemize}
@@ -651,7 +687,7 @@ Per dimostrare che due modelli sono equivalenti devo:
                             \end{array}
                         \end{equation}
               \end{itemize}
-        \item Sostituire i nomi degli stati con le preposizioni atomiche che sono
+        \item Sostituire i nomi degli stati con le proposizioni atomiche che sono
               vere in un determinato stato.
               \begin{itemize}
                   \item Modello $M_1$:
@@ -682,12 +718,8 @@ Per dimostrare che due modelli sono equivalenti devo:
 \end{nota}
 \section{Insiemi parzialmente ordinati}
 \begin{definizione}[\textbf{Relazione d'ordine parziale}]
-    Definiremo una \textbf{relazione d'ordine parziale} su un insieme $A$ una
-    relazione binaria definita come:
-    \begin{equation}
-        \leq \subseteq A \times A
-    \end{equation}
-    Allora $\leq$ deve soddisfare le seguenti proprietà:
+    Data una relazione binaria su un'insieme $A$, ovvero $\leq \subseteq A \times
+        A$, allora $\leq$ è una \textbf{relazione d'ordine parziale} se è:
     \begin{itemize}
         \item \textbf{Riflessiva}: $\forall x \in A, x \leq x$
         \item \textbf{Antisimmetrica}: $\forall x, y \in A, x \leq y \land y
@@ -711,7 +743,7 @@ Raffinamento di una relazione d'ordine parziale:
         \item $x \in A$ è un \textbf{minorante} di $B$ se $\forall y \in B, x
                   \leq y$
     \end{itemize}
-    Può essere che $x \in B$ perché $B \subseteq A \implies x \in B \implies x \in A$.
+    Può essere che $x \in B$ perché $B \subseteq A, x \in B \implies x \in A$.
 \end{definizione}
 Utilizziamo la notazione $B^\ast$ per indicare l'insieme dei maggioranti di $B$,
 e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
@@ -733,11 +765,13 @@ e $B_\ast$ per indicare l'insieme dei minoranti di $B$. Inoltre, diremo che:
     \end{itemize}
 \end{definizione}
 \begin{definizione}[\textbf{Estremo superiore, Estremo inferiore}]
-    Se $x$ è il minimo di $B^\ast$, diciamo che $x$ è l'\textbf{estremo superiore}
-    (\textit{join}) di $B$, e scriviamo $x = \sup B$ , o anche $x = \bigvee B$.
+    Se $x$ è il minimo di $B^\ast$ (quindi il più piccolo maggiorante), diciamo
+    che $x$ è l'\textbf{estremo superiore} (\textit{join}) di $B$, e scriviamo
+    $x = \sup B$, o anche $x = \bigvee B$.
 
-    Se $x$ è il massimo di $B_\ast$, diciamo che $x$ è l'\textbf{estremo inferiore}
-    (\textit{meet}) di $B$, e scriviamo $x = \inf B$ , o anche $x = \bigwedge B$.
+    Se $x$ è il massimo di $B_\ast$ (quindi il più grande minorante), diciamo che
+    $x$ è l'\textbf{estremo inferiore} (\textit{meet}) di $B$, e scriviamo $x =
+        \inf B$, o anche $x = \bigwedge B$.
 
     In particolare, se $B = \{x, y\}$, scriveremo $x \lor y$ per indicare $\bigvee
         B$, se esiste, e $x \land y$ per $\bigwedge B$.
@@ -756,8 +790,8 @@ in cui si rappresentano le relazioni mostrando i collegamenti col successivo,
 senza rappresentare la riflessività e la transitività.
 \begin{definizione}[\textbf{Reticolo}]
     Definiremo un \textbf{reticolo} come un insieme parzialmente ordinato $(L,
-        \leq)$, tale che, per ogni $x,y\in L$ esistono il minimo ($x \lor y$) e
-    massimo ($x \land y$).
+        \leq)$, tale che, per ogni $x,y\in L$ esistono l'estremo superiore ($x
+        \lor y$) e l'estremo inferiore ($x \land y$).
 \end{definizione}
 Per i reticoli si può dimostrare per induzione che per ogni coppia esiste il join
 e il meet.
@@ -766,8 +800,8 @@ e il meet.
     il meet e join.
 \end{definizione}
 \begin{definizione}[\textbf{Funzione monotona}]
-    Siano due insiemi parzialmente ordinati $(A,\leq)$ e $(B,\leq)$. Definiremo
-    una funzione di $f: A \to B$ si dice \textbf{monotona} se, per ogni $x, y
+    Siano due insiemi parzialmente ordinati $(A,\leq)$ e $(B,\leq)$. Diremo che
+    una funzione $f: A \to B$ si dice \textbf{monotona} se, per ogni $x, y
         \in A$, allora:
     \begin{equation}
         x \leq y \implies f(x) \leq f(y)
@@ -918,12 +952,13 @@ funzione $f$ che mi permetta di applicare questo algoritmo. Per una formula $Gp$
 quali stati ricado in questa regione fino a quando non cambia nulla, il risultato
 è l'insieme complemento.
 \subsection{Algoritmo per CTL}
-Sia $M=(Q,T,I)$, allora posso definire:
+Sia $M=(Q,T,I)$ un modello di Kripke, allora posso definire:
 \begin{definizione}[\textbf{Estensione}]
     Sia $\alpha$ una formula CTL, definiamo l'\textbf{estensione} di $\alpha$ come:
     \begin{equation}
         [[\alpha]] = \{q \in Q \mid M, q \models \alpha\}
     \end{equation}
+    ovvero l'insieme degli stati in cui vale la formula $\alpha$.
 \end{definizione}
 A questo punto consideriamo la formula $\alpha \equiv A F \beta$, a cui è associata
 la funzione $f_\alpha: \mathcal{P}(Q) \to \mathcal{P}(Q)$. Per ogni $H \subseteq Q$
@@ -947,7 +982,7 @@ Per ogni $H \subseteq Q$ si ha:
     g_\alpha(H) = [[\beta]] \cap \{q \in Q \mid \exists(q, q') \in T: q ' \in H\}
 \end{equation}
 \begin{osservazione}
-    $g_\alpha (Q) = [[\beta]]$.
+    $g_\beta (Q) = [[\beta]]$.
 \end{osservazione}
 In questo caso cercheremo il massimo punto fisso di stati per cui non vale la
 formula.
@@ -958,32 +993,34 @@ Dal momento che abbiamo visto l'insieme degli operatori minimali allora,
 ragionando secondo un algoritmo, allora definiremo solo una funzione per $X$ e
 una per $U$ per la dimostrazione e poi trasformeremo le formule in quegli operatori.
 \begin{nota}
-    Cerca la funzione che dimostra $\alpha U \beta$ portalo all'orale.
+    Cerca la funzione che dimostra $A(\alpha U \beta)$ portalo all'orale.
 \end{nota}
-Definiamo una funzione per $\gamma \equiv \alpha U \beta$, cioè $f_\gamma$:
+Definiamo una funzione per $\gamma \equiv A(\alpha U \beta)$, cioè $f_\gamma$:
 \begin{equation}
-    f_\gamma(H) = [[\beta]] \cap \{q\in [[\alpha]] \mid \exists (q, q')\in T, q'\in H\}
+    f_\gamma(H) = [[\beta]] \cup \{q\in [[\alpha]] \mid \forall (q, q')\in T, q'\in H\}
 \end{equation}
+\begin{nota}
+    Ricorda che $H$ contiene tutti gli stati dove è vera la formula che si sta cercando
+    di dimostrare.
+\end{nota}
 \section{Algoritmi per il model checking}
-Precedentemente è stato introdotto un algoirtmo per verificare se una formula della
+Precedentemente è stato introdotto un algoritmo per verificare se una formula della
 logica $CTL$ è valida, ciò è possibile mediante un modello di Kripke e una funzione
 monotona, utilizzando i punti fissi.
 
 Questo ragionamento non si può riutilizzare per la dimostrazione di formule della
 logica $LTL$, dal momento che non vale più il ragionamento dei punti fissi.
-
 \begin{nota}
-    Non possiamo applicare l'algoritmo per le formule della logica $CTL$.
+    Non possiamo applicare l'algoritmo per le formule della logica $CTL$ per la
+    dimostrazione delle formule della logica $LTL$.
 \end{nota}
-
 Vogliamo quindi trovare un algoritmo che dato un modello di Kripke, definito sulle
 proposizioni atomiche $AP$, e una formula della logica $LTL$ ci dice se tale
 formula è verificata nello stato iniziale.
 
 Tale algoritmo si basa su un automa a stati finiti che riconosce parole infinite
 su un alfabeto finito $\Sigma$, tale automa è anche noto come \textbf{automa di
-Büchi}.
-
+    Büchi}.
 \begin{definizione}[\textbf{Automa di Büchi}]
     Definiamo l'\textbf{automa di Büchi} come una quadrupla:
     \begin{equation}
@@ -998,47 +1035,41 @@ Büchi}.
         \item $F \subseteq Q$ è l'insieme degli stati accettanti.
     \end{itemize}
 \end{definizione}
-
-Si trasforma il problema in un'accettazione di linguaggi di parole infinite, 
+Si trasforma il problema in un'accettazione di linguaggi di parole infinite,
 riconoscibili mediante gli automi sopracitati. Però in questi linguaggi cambia il
-metodo di accettazione delle parole, dal momento che l'esecuzione dell'automa non 
+metodo di accettazione delle parole, dal momento che l'esecuzione dell'automa non
 può finire in uno stato accettante.
-
 \begin{definizione}[\textbf{Accettazione di una parola infinita}]
-    Una parola infinita $w = a_0a_1\dots$ è accettata da $\mathcal{B}$ se la
-    sequenza corrispondente di stati $q_0q_1\dots$ passa infinite volte per
+    Una parola infinita $w = a_0a_1\dots$ è \textbf{accettata} da $\mathcal{B}$
+    se la sequenza corrispondente di stati $q_0q_1\dots$ passa infinite volte per
     almeno uno stato in $F$.
 \end{definizione}
-
-Questi automi condividono molte delle proprietà fondamentali dei linguaggi formali, 
+Questi automi condividono molte delle proprietà fondamentali dei linguaggi formali,
 ma non tutte, infatti si hanno anche le seguenti proprietà:
 \begin{itemize}
-    \item le versioni \textbf{deterministiche} e \textbf{non deterministiche} 
-    non sono equivalenti
-    \item il problema di riconoscere il linguaggio vuoto è un problema \textbf{decidibile} ($L(\mathcal{B}) = \emptyset$).
+    \item Le versioni \textbf{deterministiche} e \textbf{non deterministiche}
+          non sono equivalenti
+    \item Il problema di riconoscere il linguaggio vuoto è un problema
+          \textbf{decidibile} ($L(\mathcal{B}) = \emptyset$).
 \end{itemize}
-
 \begin{nota}
-    Il linguaggio composto da parole infinite viene anche chiamato $\Omega$-
-    regolare.
+    Il linguaggio composto da parole infinite viene anche chiamato $\Omega$-regolare.
 \end{nota}
-
-Sono stati introdotti questi automi perché quando si effettua la dimostrazione di 
-una formula $LTL$, quello che si fa è analizzare stringhe infinite di preposizioni
+Sono stati introdotti questi automi perché quando si effettua la dimostrazione di
+una formula $LTL$, quello che si fa è analizzare stringhe infinite di proposizioni
 atomiche della logica dei cammini massimali. Questo implica una correlazione tra
-i \textbf{modelli di Kripke} e gli \textbf{automi di Büchi}. Partendo da un modello 
+i \textbf{modelli di Kripke} e gli \textbf{automi di Büchi}. Partendo da un modello
 di Kripke posso ottenere un automa di Büchi corrispondente nel seguente modo:
 \begin{itemize}
     \item Copio la struttura del modello di Kripke.
     \item Aggiungo uno stato iniziale.
-    \item Etichetto gli archi con l'insieme di condizioni vere nello stato di
-          arrivo.
+    \item Etichetto gli archi dell'automa di Büchi con l'insieme delle proposizioni
+          atomiche vere nello stato di arrivo corrispondente nel modello di Kripke.
 \end{itemize}
-
 \begin{esempio}
     Nella figura \ref{fig:kripke-automa} è riportato un esempio di come è
     possibile passare da un modello di Kripke ad un automa di Büchi.
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.5\textwidth]{img/model/kripke-Automa.png}
         \caption{Passaggio da modello di Kripke ad automa}
@@ -1046,7 +1077,8 @@ di Kripke posso ottenere un automa di Büchi corrispondente nel seguente modo:
     \end{figure}
 \end{esempio}
 
-Inoltre, per ogni formula è LTL è possibile definire un automa di Büchi.
+Inoltre, per ogni formula LTL è possibile definire un automa di Büchi corrispondente
+al modello di Kripke associato alla formula.
 
 Vogliamo ora verificare se una formula $\alpha \in LTL$ è vera nel modello $M$
 considerando lo stato $q_0$ ($M, q_0$). Per ottenere questo risultato possiamo
@@ -1055,27 +1087,28 @@ utilizzare il seguente algoritmo:
     \item Costruiamo l'automa $\mathcal{B}_{\lnot \alpha}$, ovvero l'automa per
           la negazione della formula.
     \item Trasformiamo il modello di Kripke $M$ nell'automa di Büchi equivalente.
-    \item Calcoliamo il prodotto sincrono dei due automi ($\mathcal{PS}$,prodotto tra automi).
+    \item Calcoliamo il prodotto sincrono dei due automi ($\mathcal{PS}$, prodotto
+          tra automi).
     \item A questo punto se $L(\mathcal{PS}) = \emptyset$, allora $M, q_0 \models
               \alpha$. Se invece tale linguaggio non è vuoto, vuol dire che
           abbiamo trovato un cammino per cui è vera la negazione della formula
           $\alpha$ e quindi $\alpha$ non è vera per quel modello.
 \end{enumerate}
 \begin{nota}
-    Ricorda che Il prodotto sincrono tra automi corrisponde ad un automa che riconosce
-    il linguaggio intersezione dei linguaggi accettati dagli automi  
+    Ricorda che il prodotto sincrono tra automi corrisponde ad un automa che riconosce
+    il linguaggio intersezione dei linguaggi accettati dagli automi.
 \end{nota}
 \section{$\mu$ calcolo}
-Il $\mu$ calcolo è un linguaggio logico che permette di definire delle formule
+Il \textbf{$\mu$ calcolo} è un linguaggio logico che permette di definire delle formule
 ricorsive.
 \begin{esempio}
     Supponiamo di avere un solo operatore temporale $X$. Come possiamo esprimere
     le proprietà $EF \alpha$?
     \begin{equation}
-        \begin{array}{ll}            
-            EF\alpha &\equiv \alpha\lor EX\alpha\lor EXEX\alpha\lor \dots \equiv\\
-            &\equiv \alpha\lor EX(\alpha\lor EX\alpha\lor EXEX\alpha\lor \dots)\equiv\\
-            &\equiv \alpha \lor EX(EF\alpha)
+        \begin{array}{ll}
+            EF\alpha & \equiv \alpha\lor EX\alpha\lor EXEX\alpha\lor \dots \equiv               \\
+                     & \equiv \alpha\lor EX(\alpha\lor EX\alpha\lor EXEX\alpha\lor \dots)\equiv \\
+                     & \equiv \alpha \lor EX(EF\alpha)
         \end{array}
     \end{equation}
 \end{esempio}
@@ -1087,9 +1120,8 @@ un elevata complessità. Questo ci permette di affermare che:
 \begin{equation}
     CTL^{\ast} \subset \mu-\text{calcolo}
 \end{equation}
-In generale questo linguaggio ha un'applicabilità minore vista la sua esprissività
+In generale questo linguaggio ha un'applicabilità minore vista la sua espressività
 e complessità.
-
 \section{Complessità}
 Sia $M$ un modello di Kripke e $f$ una formula, e siano $|M|$ il numero di stati
 del modello e $|f|$ il numero di simboli nella formula. Allora possiamo definire
@@ -1103,23 +1135,21 @@ maggiore peso è composto dalla dimensione del modello, la quale risulta
 esponenziale rispetto al numero di stati. Inoltre, le formule LTL sono solitamente
 composte da meno simboli rispetto alle formule CTL.
 \begin{nota}
-    Ricorda che nei sistemi concorrenti gli stati esplodono sempre in un esponenziale
+    Ricorda che nei sistemi concorrenti gli stati esplodono sempre in un esponenziale.
 \end{nota}
-
-Esistono anche altri algoirtmi per la dimostrazione di formule:
+Esistono anche altri algoritmi per la dimostrazione di formule:
 \begin{itemize}
     \item OBDD: sfruttano i diagrammi di decisione binari ordinati che rappresentano
-    le formule in modo simbolico e risparmiano l'esplosione esponenziale degli stati
-    \item ordine parziale: si rappresentano i sistemi concorrenti secondo un ordine
-    parziale 
-    \item SAT: si riduce il problema di dimostrazione a SAT e quindi sisfruttano
-    gli algoritmi esistemi per la dimostrazione.
+          le formule in modo simbolico e risparmiano l'esplosione esponenziale
+          degli stati.
+    \item ordine parziale: si rappresentano i sistemi concorrenti secondo un
+          ordine parziale.
+    \item SAT: si riduce il problema di dimostrazione a SAT e quindi si sfruttano
+          gli algoritmi esistenti per la dimostrazione.
 \end{itemize}
-
 \section{Fairness}
-Un altro problema dei sistmei concorrenti è che la rappresentazione utilizzata sfrutta
+Un altro problema dei sistemi concorrenti è che la rappresentazione utilizzata sfrutta
 la \textbf{semantica interleaving} che trasforma le relazioni di dipendenza in scelte.
-
 \begin{definizione}[\textbf{Esecuzione unfair}]
     Un'esecuzione è \textbf{unfair} (ingiusta) se un evento rimane abilitato da
     un istante in poi, ma non scatta mai.
@@ -1131,7 +1161,8 @@ Possiamo distinguere un esecuzione fair in:
 \begin{itemize}
     \item \textbf{Strong fair}: un'esecuzione si dice fortemente fair se:
           \begin{equation}
-              GF(t \ \text{abilitata}) \to GF(t \ \text{scatta})
+              GF(t \ \text{abilitata}) \to GF(t \ \text{scatta}) \equiv
+              GF(c[t>) \to GF(c[t>c')
           \end{equation}
           ovvero, se un evento $t$ è abilitato infinite volte, allora $t$ scatta
           infinite volte.
