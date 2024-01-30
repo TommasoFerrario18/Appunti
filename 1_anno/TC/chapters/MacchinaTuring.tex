@@ -266,11 +266,12 @@ sempre in grado di dire se appartiene o meno al linguaggio.
     stringa $x$, tale che $x \in L$, rispondendo $1$ e risponde $0$ se $x \not\in
         L$.
 
-    Costruisco ora una macchina di Turing $M'$ che se il linguaggio non è
-    ricorsivo allora vado in loop ($\perp$). Quindi, quando la macchina sta per
-    andare in $0$ modifico $\delta$ per ottenere il loop, ottenendo una macchina
-    che va in loop se $x \not\in L$, mentre restituisce $1$ se $x \in L$ e
-    quindi $L$ è ricorsivamente enumerabile.
+    Costruisco ora una macchina di Turing $M'$ che se l'input $x$ non appartiene
+    al linguaggio $L$, allora la macchina va in loop ($\perp$). Quindi, quando
+    la macchina sta per rispondere con $0$, modifico la funzione di transizione
+    $\delta$ per ottenere il loop, ottenendo una macchina che va in loop se
+    $x \not\in L$, mentre restituisce $1$ se $x \in L$ e quindi $L$ è ricorsivamente
+    enumerabile.
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.5\textwidth]{img/MacchineTuring/dimostrazione2.png}
@@ -296,11 +297,11 @@ sempre in grado di dire se appartiene o meno al linguaggio.
 \end{dimostrazione}
 Vogliamo ora dimostrare che esistono dei problemi di decisione che non possono
 essere risolti da una macchina di Turing. Per realizzare questa dimostrazione
-partiamo dal fatto che $|A| < |\mathcal{P}(A)|$, ovvero che la cardinalità
-dell'insieme $A$ è sempre minore della cardinalità dell'insieme delle parti di
-$A$ ($\mathcal{P}(A)$).
+partiamo da una nozione insiemistica: $|A| < |\mathcal{P}(A)|$, ovvero che la
+cardinalità dell'insieme $A$ è sempre minore della cardinalità dell'insieme delle
+parti di $A$ ($\mathcal{P}(A)$).
 
-Con le informazioni ottenute in precedenza abbiamo visto che possiamo
+Con le informazioni ottenute in precedenza, abbiamo visto che possiamo
 rappresentare una macchina di Turing partendo dall'alfabeto binario definito
 come $B = \{0, 1\}$. Da questo, possiamo affermare che il numero di macchine di
 Turing che possiamo realizzare sarà al più il numero di stringhe realizzabili
@@ -314,19 +315,19 @@ decisione come:
     L_D = \{x \in B^{\ast} \ | \ f_D(x) = 1\} \subseteq B^{\ast}
 \end{equation}
 quindi, possiamo affermare che il numero di problemi di decisione che si possono
-avere è uguale a $|P(B^{\ast})|$. Partendo dal concetto matematico prima
-presentato, possiamo affermare che:
+avere è uguale a $|P(B^{\ast})|$. Partendo dal concetto insiemistico che è stato
+definito in precedenza, possiamo affermare che:
 \begin{equation}
     |M| = |B^{\ast}| < |P(B^{\ast})|
 \end{equation}
-ovvero che esistono problemi di decisione che \textit{non posso} risolvere con
+ovvero che esistono problemi di decisione che \textbf{non posso} risolvere con
 una macchina di Turing.
 \subsection{Halting Problem}
 Un esempio di problema di decisione che non può essere risolto da una macchina
 di Turing è l'\textbf{halting problem}. Questo problema consiste nel determinare
 se esiste un algoritmo che dati in input una macchina di Turing $M$ e una stringa
 $x$, mi dica se la macchina $M$ eseguita sull'input $x$ termina.
-\begin{definizione}
+\begin{definizione}[\textbf{Linguaggio associato all'Halting problem}]
     Posso definire formalmente l'\textbf{halting problem} con l'utilizzo del
     linguaggio $L_H$, definito come:
     \begin{equation}
@@ -341,7 +342,7 @@ $x$, mi dica se la macchina $M$ eseguita sull'input $x$ termina.
     Il linguaggio $L_H$ non è ricorsivo e quindi l'halting problem non è
     decidibile.
 \end{teorema}
-\begin{dimostrazione} [\textit{Per assurdo}]
+\begin{dimostrazione}[\textit{Per assurdo}]
     Assumiamo, per assurdo, che $L_H$ sia ricorsivo. Quindi esiste una macchina
     di Turing $M_H$ che prende in input $(M \cdot \# \cdot x)$ e mi fornisce in
     output:
@@ -359,13 +360,22 @@ $x$, mi dica se la macchina $M$ eseguita sull'input $x$ termina.
             N & \text{se} \ M_H(M, M) = Y
         \end{cases}
     \end{equation}
+    ovvero, se $M_H$ mi dice che $M$ su input $M$ non termina, allora $C$ termina
+    in uno stato di accettazione, altrimenti, se $M_H$ mi dice che $M$ su input
+    $M$ termina, allora $C$ restituisce $N$ e quindi non termina.
+
     A questo punto se fornisco alla macchina $C$ se stessa come input ottenendo
     due possibili situazioni:
     \begin{itemize}
-        \item $C(C) = Y$ allora $M_H(C, C) = N$ ma quindi mi aspetto che
-              $C(C) = \perp$ il che mi porta ad un assurdo.
-        \item $C(C) = \perp$ allora $M_H(C, C) =  Y$ ma quindi mi aspetto che
-              $C(C) \neq \perp$ il che mi porta ad un assurdo.
+        \item Se fornisco alla macchina $C$ se stesso come input, ovvero $C(C)$,
+              e tale computazione termina in uno stato di accettazione ($C(C) = Y$),
+              questo implica che la macchina $M_H$ eseguita su ($C, C$) entra in
+              loop ($M_H(C, C) = N$). Quindi mi aspetto che la macchina $C$ non
+              termini, ovvero $C(C) = \perp$ il che mi porta ad un assurdo.
+        \item Al contrario, se $C(C) = \perp$, ovvero se la macchina $C$ eseguita su
+              se stessa non termina, allora la macchina $M_H$ eseguita su ($C, C$)
+              termina ($M_H(C, C) = Y$). Quindi mi aspetto che la macchina $C$
+              termini, ovvero $C(C) \neq \perp$ il che mi porta ad un assurdo.
     \end{itemize}
     Posso quindi affermare che non esiste una macchina $M_H$ che decide $L_H$.
     \begin{figure}[!ht]
@@ -408,10 +418,10 @@ di esecuzione, considerando la dimensione dell'input e il caso peggiore. Per far
 questo utilizzeremo il tempo di esecuzione di una macchina di Turing. Questo
 valore viene calcolato tramite il numero di passi che la macchina compie.
 \begin{definizione}[\textbf{Tempo di calcolo}]
-    Definiamo $t_M(x)$ come il tempo di calcolo di una macchina di Turing $M$ su
-    input $x$. Non è il caso peggiore, ma dipendente dal singolo input specifico.
-    Il tempo di calcolo è il numero di passi che esegue $M$ su input $x$ per
-    dare una risposta.
+    Definiamo $t_M(x)$ come il \textbf{tempo di calcolo} di una macchina di
+    Turing $M$ su input $x$. Non è il caso peggiore, ma dipendente dal singolo
+    input specifico. Il tempo di calcolo è il numero di passi che esegue $M$ su
+    input $x$ per dare una risposta.
 \end{definizione}
 Non si usa comunque il numero di passi nella realtà ma si usa la notazione
 $\mathcal{O}$-grande, studiando il caso peggiore, ovvero il numero massimo di
@@ -423,7 +433,7 @@ passi.
     \end{equation}
 \end{definizione}
 \begin{definizione}[\textbf{Classe P}]
-    Definisco la classe $P$ in base alle macchine di Turing. La classe $P$ è
+    Definisco la \textbf{classe $P$}in base alle macchine di Turing. La classe $P$ è
     definita come:
     \begin{equation}
         P = \{L \ | \ L \ \text{ è deciso da una macchina di Turing in tempo }
@@ -440,7 +450,7 @@ passi.
     Quindi $DTIME(n)$ rappresenta l'insieme dei problemi di decisione che possono
     essere risolti con un algoritmo che lavora in tempo $\mathcal{O}(n)$. Quindi:
     \begin{equation}
-        P = \bigcup_{c \ \in \ \mathbb{N}} DTIME(n^c)
+        P = \bigcup_{c \in \mathbb{N}} DTIME(n^c)
     \end{equation}
     Infatti $P$ è l'unione di tutte le classi DTIME con funzioni polinomiali.
 \end{definizione}
@@ -451,7 +461,7 @@ Possiamo dire che vale la seguente relazione tra le classi $DTIME$:
 Possiamo anche definire la classe \textbf{EXPTIME} come la classe di linguaggi
 decidibili da una macchina di Turing in tempo esponenziale:
 \begin{equation}
-    EXPTIME =  \bigcup_{c \ \in \ \mathbb{N}} DTIME(2^{n^c})
+    EXPTIME =  \bigcup_{c \in \mathbb{N}} DTIME(2^{n^c})
 \end{equation}
 Inoltre, si ha che vale la seguente relazione tra le classi $P$ e $EXPTIME$:
 \begin{equation}
@@ -493,7 +503,7 @@ con $+ \ n$ perché sul nastro abbiamo comunque l'input di lunghezza $n$.
     limitato. Quindi se lo spazio è limitato allora il tempo è limitato.
 \end{teorema}
 \begin{dimostrazione}
-    Infatti la macchina $M'$ può trovarsi in un numero finito di stati $K$ e
+    Infatti la macchina $M'$ può trovarsi in un numero finito di stati $k$ e
     avendo spazio limitato ho un numero limitato $S_M(n)$ di celle in cui si trova
     la testina. Ho anche un numero finito di simboli in alfabeto $\Sigma$ e quindi:
     \begin{equation}
@@ -664,7 +674,7 @@ Abbiamo mostrato che per ogni linguaggio per il quale esiste un verificatore
 polinomiale possiamo costruire una macchina di Turing non deterministica che
 decide lo stesso linguaggio in tempo polinomiale. Quindi le due definizioni di
 $NP$ sono equivalenti.
-\begin{esempio}
+\begin{esempio}[\textbf{Cammino Hamiltonian}]
     Consideriamo il problema del cammino Hamiltonian. Tale problema consiste nel
     dato un grafo orientato $G = (V, E)$ trovare trovare un cammino che visita
     tutti i nodi una sola volta. Consideriamo una variante in cui conosciamo il
@@ -753,7 +763,7 @@ Invertendo l'output di questa macchina si ottiene una macchina che non decide
 $\bar{L}$ dato che sarebbero necessaire tutte computazioni che terminano in uno
 stato accettante.
 \section{Riduzioni polinomiali}
-Le \textbf{riduzioni polinomiali} tra problemi sono delle procedure che per ogni
+Le \textbf{riduzioni polinomiali} tra problemi, sono delle procedure che per ogni
 istanza del problema $A$ la trasformano in un'istanza per un problema diverso $B$.
 Quindi un'istanza di $A$, $I_A$, ha due risposte, $Y$ o $N$, ma posso passare
 tramite una determinata funzione $f$, definita come:
@@ -827,6 +837,11 @@ istanze del mio problema di partenza in istanze di un problema che so risolvere.
     linguaggi che sono riducibili polinomialmente a $L_A$. Utilizzando la
     proprietà transitiva posso affermare che $L_B$ è $NP\_hard$.
 \end{dimostrazione}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/MacchineTuring/classificazioneProblemi.png}
+    \caption{Classificazione dei problemi.}
+\end{figure}
 \begin{teorema}[\textbf{Teorema Cook-Levin}]
     Il problema di soddisfacibilità SAT è \textbf{NP}$\_$\textbf{completo}.
     Questo problema prende in input una formula booleana $\phi$ in forma normale
@@ -834,8 +849,32 @@ istanze del mio problema di partenza in istanze di un problema che so risolvere.
     clausole. Una clausola è un $\lor$ di letterali, ovvero di variabili booleane
     $x_i$ o $\overline{x_i}$. In output ho se la forma sia soddisfacibile o meno.
 \end{teorema}
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/MacchineTuring/classificazioneProblemi.png}
-    \caption{Classificazione dei problemi.}
-\end{figure}
+\begin{dimostrazione}[\textit{Idea della dimostrazione}]
+    Si ha che SAT può essere risolto in tempo esponenziale, $\mathcal{O}(2^n)$, 
+    provando tutti i possibili assegnamenti di verità possibili.
+    
+    Posso usare inoltre una macchina di Turing non deterministica che esegue 
+    tutti i rami in parallelo, con ogni possibilità di assegnamento fatta in un 
+    ramo oppure posso dire che “spara” un assegnamento a caso, che si suppone 
+    giusto, su un ramo e verifica che è giusto. In ogni caso con una macchina di 
+    Turing non deterministica avrei tempo polinomiale, $\mathcal{O}(n \cdot m)$ 
+    per $n$ variabili e $m$ clausole.
+
+    Per vedere che ogni problema $NP$, per semplicità decisionali, si riduce a SAT 
+    vedo che tutti i problemi in $NP$ hanno in comune di avere un macchina di 
+    Turing non deterministica che li risolve in tempo polinomiale, che decide il 
+    linguaggio associato. Basta quindi dire che $\forall \Pi ' \in  NP$ ha 
+    associato una macchina di Turing non deterministica $N'_{\Pi}$ che lavora in 
+    tempo polinomiale e mi basta vedere che ogni macchina di Turing non 
+    deterministica che lavora in tempo polinomiale si può trasformare in una 
+    formula CNF, presa in ingresso da SAT, sfruttando poi gli stati finali della 
+    computazione di SAT. Se SAT dice che è soddisfacibile allora lo è il problema 
+    iniziale e quindi il problema è riducibile a SAT.
+\end{dimostrazione}
+
+\begin{dimostrazione}
+    Per dimostrare che SAT è $NP\_hard$ devo dimostrare che ogni problema in $NP$
+    è riducibile polinomialmente a SAT. Per fare questo, dobbiamo costruire una 
+    riduzione polinomiale per ogni generico problema $\Pi \in NP$ a SAT.
+    %% TODO: da finire, pagina 304 del libro
+\end{dimostrazione}
