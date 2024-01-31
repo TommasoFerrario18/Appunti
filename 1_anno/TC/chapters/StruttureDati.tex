@@ -290,7 +290,7 @@ sottoinsieme di $\Sigma$.
 I due figli di ogni nodo partizionano il corrispondente sottoinsieme di $\Sigma$
 in due. A ogni nodo $v$ corrisponde una sequenza chiamata $R_v$, la quale è una
 sotto-sequenza dell'input $T$ ed è anche una sotto-sequenza della sequenza con
-cui è etichettato il nodo genitore di $v$. La root corrisponde la sequenza $R_v = T$.
+cui è etichettato il nodo genitore di $v$. La root corrisponde alla sequenza $R_v = T$.
 
 A ogni nodo $v$ si associa un bitvector, denotato con $B_v$, che indica a quale
 dei due figli del nodo $v$ ogni simbolo della sotto-sequenza $R_v$ appartiene.
@@ -620,7 +620,7 @@ il counting Bloom filter tramite una threshold $\theta$.
 
 Possiamo costruire questa struttura dati nel seguente modo:
 \begin{equation}
-    \forall k \in S \ text{e} \ \forall h_i \in \mathcal{H}: A[h_i(k)] += 1
+    \forall k \in S \text{e} \ \forall h_i \in \mathcal{H}: A[h_i(k)] += 1
 \end{equation}
 In fase di query, dato $x \in \mathcal{U}$ abbiamo:
 \begin{itemize}

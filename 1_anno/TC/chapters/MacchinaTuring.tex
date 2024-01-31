@@ -850,31 +850,61 @@ istanze del mio problema di partenza in istanze di un problema che so risolvere.
     $x_i$ o $\overline{x_i}$. In output ho se la forma sia soddisfacibile o meno.
 \end{teorema}
 \begin{dimostrazione}[\textit{Idea della dimostrazione}]
-    Si ha che SAT può essere risolto in tempo esponenziale, $\mathcal{O}(2^n)$, 
+    Si ha che SAT può essere risolto in tempo esponenziale, $\mathcal{O}(2^n)$,
     provando tutti i possibili assegnamenti di verità possibili.
-    
-    Posso usare inoltre una macchina di Turing non deterministica che esegue 
-    tutti i rami in parallelo, con ogni possibilità di assegnamento fatta in un 
-    ramo oppure posso dire che “spara” un assegnamento a caso, che si suppone 
-    giusto, su un ramo e verifica che è giusto. In ogni caso con una macchina di 
-    Turing non deterministica avrei tempo polinomiale, $\mathcal{O}(n \cdot m)$ 
+
+    Posso usare inoltre una macchina di Turing non deterministica che esegue
+    tutti i rami in parallelo, con ogni possibilità di assegnamento fatta in un
+    ramo oppure posso dire che “spara” un assegnamento a caso, che si suppone
+    giusto, su un ramo e verifica che è giusto. In ogni caso con una macchina di
+    Turing non deterministica avrei tempo polinomiale, $\mathcal{O}(n \cdot m)$
     per $n$ variabili e $m$ clausole.
 
-    Per vedere che ogni problema $NP$, per semplicità decisionali, si riduce a SAT 
-    vedo che tutti i problemi in $NP$ hanno in comune di avere un macchina di 
-    Turing non deterministica che li risolve in tempo polinomiale, che decide il 
-    linguaggio associato. Basta quindi dire che $\forall \Pi ' \in  NP$ ha 
-    associato una macchina di Turing non deterministica $N'_{\Pi}$ che lavora in 
-    tempo polinomiale e mi basta vedere che ogni macchina di Turing non 
-    deterministica che lavora in tempo polinomiale si può trasformare in una 
-    formula CNF, presa in ingresso da SAT, sfruttando poi gli stati finali della 
-    computazione di SAT. Se SAT dice che è soddisfacibile allora lo è il problema 
+    Per vedere che ogni problema $NP$, per semplicità decisionali, si riduce a SAT
+    vedo che tutti i problemi in $NP$ hanno in comune di avere un macchina di
+    Turing non deterministica che li risolve in tempo polinomiale, che decide il
+    linguaggio associato. Basta quindi dire che $\forall \Pi ' \in  NP$ ha
+    associato una macchina di Turing non deterministica $N'_{\Pi}$ che lavora in
+    tempo polinomiale e mi basta vedere che ogni macchina di Turing non
+    deterministica che lavora in tempo polinomiale si può trasformare in una
+    formula CNF, presa in ingresso da SAT, sfruttando poi gli stati finali della
+    computazione di SAT. Se SAT dice che è soddisfacibile allora lo è il problema
     iniziale e quindi il problema è riducibile a SAT.
 \end{dimostrazione}
-
-\begin{dimostrazione}
+\begin{dimostrazione}[\textbf{Idea della dimostrazione}]
     Per dimostrare che SAT è $NP\_hard$ devo dimostrare che ogni problema in $NP$
-    è riducibile polinomialmente a SAT. Per fare questo, dobbiamo costruire una 
-    riduzione polinomiale per ogni generico problema $\Pi \in NP$ a SAT.
-    %% TODO: da finire, pagina 304 del libro
+    è riducibile polinomialmente a SAT. Per fare questo, dobbiamo costruire una
+    riduzione polinomiale per ogni generico problema $\Pi \in NP$ a SAT. Tale
+    riduzione prende in input una stringa $w$ e restituisce una formula booleana
+    $\phi$ tale che:
+    \begin{equation}
+        w \in L_{\Pi} \iff \phi \in SAT
+    \end{equation}
+\end{dimostrazione}
+\begin{dimostrazione}
+    Per prima cosa dobbiamo verificare che $SAT$ sia in $NP$. Per fare questo
+    dobbiamo costruire una macchina di Turing non deterministica che prova degli
+    assegnamenti di verità e verifica che la formula sia soddisfacibile.
+
+    A questo punto dobbiamo mostrare che ogni linguaggio $A$ in $NP$ è riducibile
+    polinomialmente a $SAT$. Per fare ciò assumiamo di avere una macchina di
+    Turing non deterministica $N$ che decide $A$ in tempo polinomiale ($n^k$).
+
+    Definiamo ora una tabella, come quella riportata in figura \ref{fig:tab_levin_cook}, 
+    per la macchina $N$ su input $w$ di dimensioni $n^k \times n^k$, dove le 
+    righe sono le configurazioni di ogni ramo di computazione della macchina $N$ 
+    su input $w$.
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/MacchineTuring/tab_levin_cook.png}
+        \caption{Tabella per la macchina $N$ su input $w$.}
+        \label{fig:tab_levin_cook}
+    \end{figure}
+
+    Assumiamo per semplicità che ogni configurazione inizia e finisce con il simbolo $\#$.
+
+    La prima riga della tabella è la configurazione iniziale di $N$ su input $w$, 
+    mentre le successive sono calcolate dalla precedente in base alla funzione di
+    transizione di $N$. Una tabella accetta se almeno una delle righe rappresenta 
+    una computazione accettante di $N$ su input $w$.
 \end{dimostrazione}
