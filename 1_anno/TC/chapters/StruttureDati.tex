@@ -46,8 +46,8 @@ Su questa struttura è possibile effettuare due operazioni:
     \item \textbf{rank}: restituisce il numero di elementi uguali a $q$ che sono
           presenti nella struttura dati fino a $x$.
           \begin{equation}
-              rank_q(x) = \sum_{k = 1}^{k \leq i} B[k], \ \forall i \
-              \text{tale che} \ 1 \leq i \leq n \ \land \ B[k] = q
+              rank_q(x) = \sum_{k = 1}^{k \leq x} B[k], \ \forall x \
+              \text{tale che} \ 1 \leq x \leq n \ \land \ B[k] = q
           \end{equation}
     \item \textbf{select}: restituisce la posizione della $x$-esima occorrenza
           di $q$.
@@ -126,7 +126,7 @@ valore ci permette di identificare la riga della lookup table $T$ da cui prender
 il valore di $rank(i)$. Mentre la colonna si ottiene da $i \mod k$. In questo
 modo è possibile eseguire una rank in tempo costante $\mathcal{O}(1)$.
 \begin{equation}
-    rank(B) = \begin{cases}
+    rank_B(i) = \begin{cases}
         F[i/l]                                   & \text{se} \ i \mod l = 0    \\
         F[i/l] + S[i/k]                          & \text{se} \ i \mod l \neq 0
         \land i \mod k = 0                                                     \\
