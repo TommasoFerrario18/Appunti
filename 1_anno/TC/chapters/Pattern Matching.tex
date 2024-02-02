@@ -133,10 +133,10 @@ testo. L'algoritmo semplice che permette di calcolare le occorrenze esatte è:
 \end{algorithm}
 Questo algoritmo richiede un tempo pari a $\mathcal{O}(m \cdot n)$.
 \begin{nota}
-    Questo algoritmo può essere migliorato spostando la finestra alla posizione
-    successiva al primo mismatch oppure si può effettuare un preprocessing del
-    pattern e del testo, permettendo di passare da una complessità quadratica ad
-    una logaritmica o lineare.
+    Questo algoritmo può essere migliorato spostando la finestra in modo da 
+    evitare di ripetere confronti che sono già stati effettuati oppure si può 
+    effettuare un preprocessing del pattern e del testo, permettendo di passare 
+    da una complessità quadratica ad una logaritmica o lineare.
 \end{nota}
 \subsection{String Matching Approssimato}
 Definiremo il problema di \textbf{string matching approssimato} formalmente nel
@@ -199,12 +199,10 @@ utilizza una finestra $W$, di dimensione variabile, che scorre sul testo.
 \begin{algorithm}
     \begin{algorithmic}
         \Function{trivial\_approx\_occurrences}{$T, P, k$}
-        \State $n\gets |T|$
-        \State $m \gets |P|$
-        \State $i\gets m - k$
-        \While {$i \leq n$}
-        \State $L \gets  m - k$
-        \While {$L \leq m + k \ \land \ i - L + 1 \geq 1$}
+        \State $i \gets |P| - k$
+        \While {$i \leq |T|$}
+        \State $L \gets  |P| - k$
+        \While {$L \leq |P| + k \ \land \ i - L + 1 \geq 1$}
         \If {$ED(P, T[i - L + 1, i]) \leq k$}
         \State $\text{output } i$
         \EndIf
@@ -293,7 +291,7 @@ A questo punto, il processo di ricerca esatta attraverso un automa a stati finit
           $\delta$ in tempo $\Theta(m \cdot |\Sigma|)$.
     \item \textbf{Ricerca nel testo}: uso dell'automa per riconoscere, in un testo
           $T$ definito su alfabeto $\Sigma$, tutte le occorrenze esatte di $P$.
-          La scansione del testo $T$ avviene in tempo $\Theta(n)$
+          La scansione del testo $T$ avviene in tempo $\Theta(n)$.
 \end{enumerate}
 \subsection{Funzione di transizione}
 La funzione di transizione $\delta$ per un pattern $P$ di lunghezza $m$ definito
@@ -341,7 +339,7 @@ per come è definita senza sfruttare i valori che sono già stati computati.
     \caption{Algoritmo banale per il calcolo della funzione di transizione $\delta$}
 \end{algorithm}
 
-Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3
+Questo algoritmo richiede un tempo nel caso peggiore pari a $\mathcal{O}(m^3 \cdot
     |\Sigma|)$, questo è dovuto al fatto che per calcolare il bordo è necessario
 un tempo, nel caso peggiore pari a $\mathcal{O}(m^2)$.
 
@@ -452,7 +450,8 @@ $j_i$ attraverso la funzione di transizione $\delta(j_{i - 1}, T[i])$.
         \end{tabular}
     \end{table}
 
-    Su cui è stata definita la seguente funzione di transizione $\delta$:
+    Su cui è stata definita la seguente funzione di transizione $\delta$ riportata
+    in tabella \ref{tab:funzioneTransizione}.
     \begin{table}[!ht]
         \centering
         \begin{tabular}{|>{\columncolor[HTML]{EFEFEF}}c |c|c|c|} \hline
@@ -466,8 +465,9 @@ $j_i$ attraverso la funzione di transizione $\delta(j_{i - 1}, T[i])$.
             \textbf{3}                         & 1 & 0 & 4 \\ \hline
             \textbf{4}                         & 3 & 0 & 0 \\ \hline
         \end{tabular}
+        \caption{Funzione di transizione $\delta$}
+        \label{tab:funzioneTransizione}
     \end{table}
-
     La scansione del testo $T$ cercando le occorrenze esatte del pattern $P$ mi
     permette di ottenere il risultato riportato in figura \ref{fig:scansione}
     \begin{figure}[!ht]
@@ -549,20 +549,20 @@ Possiamo riassumere la scansione del testo come:
 \begin{algorithm}
     \begin{algorithmic}
         \Function{ASF\_exact\_occurrences}{$\delta, T, m$}
-        \State $n \gets |T|$
         \State $j \gets 0$
-        \For{$i \gets 1 \ \text{to} \ n$}
+        \For{$i \gets 1 \ \text{to} \ |T|$}
         \State $j \gets \delta(j, T[i])$
         \If{$j = m$}
-        \State $\text{\textbf{Output}} \ i - m + 1$
+        \State $\text{\textbf{output}} \ i - m + 1$
         \EndIf
         \EndFor
         \EndFunction
     \end{algorithmic}
     \caption{Algoritmo per la ricerca esatta con Automa a Stati Finiti}
 \end{algorithm}
-\newpage
+
 Questo algoritmo viene eseguito in tempo $\Theta(n)$.
+\newpage
 \begin{esempio}
     Consideriamo il testo $T$:
     \begin{table}[!ht]
@@ -642,13 +642,13 @@ hanno due fasi:
 \end{enumerate}
 La \textbf{prefix function} o funzione di fallimento $\phi$ è definita come segue:
 \begin{equation}
-    \phi: \{0, 1, \dots m\} \to \{-1, 0, \dots m\}
+    \phi: \{0, 1, \dots m\} \to \{-1, 0, \dots m - 1\}
 \end{equation}
 \begin{nota}
-    La funzione di fallimento $\phi$ è definita su un insieme di indici che va
-    da $0$ a $m - 1$ in quanto è definita come il bordo del pattern. Per definizione
-    di bordo (\ref{def:bordo}) è un prefisso proprio, quindi non può assumere il
-    valore $m$.
+    Il codominio della funzione di fallimento $\phi$ è definito su un insieme di 
+    indici che va da $0$ a $m - 1$, questo perché tale funzione è definita come 
+    il bordo del pattern. Per definizione di bordo (\ref{def:bordo}) è un prefisso 
+    proprio, quindi non può assumere il valore $m$.
 \end{nota}
 Essa è definita come segue:
 \begin{equation}
@@ -722,6 +722,7 @@ simbolo di $P$ e dal simbolo di $T$ in posizione $i + 1$.
 Nel caso in cui $j = m + 1$, allora $p = i + m - \phi(m)$ e il confronto
 riparte dalla posizione $\phi(m) + 1$ di $P$ e dal simbolo di $T$ in posizione
 $i + m$.
+\subsection{Confronto tra KMP e Automa a Stati Finiti}
 \begin{table}[!ht]
     \centering
     \begin{tabular}{|l|l|l|}
@@ -732,6 +733,7 @@ $i + m$.
         Spazio             & $\mathcal{O}(m |\Sigma|)$ & $\mathcal{O}(m)$ \\ \hline
     \end{tabular}
 \end{table}
+
 Le differenze tra l'algoritmo basato sull'automa a stati finiti e KMP sono:
 \begin{itemize}
     \item Automa:
@@ -866,13 +868,12 @@ L'algoritmo per calcolare la tabella richiede un tempo pari a $\Theta(|\Sigma| +
 \begin{algorithm}
     \begin{algorithmic}
         \Function{Compute-table-B}{$P$}
-        \State $m \gets |P|$
         \State $B \gets \text{empty table of} \ |\Sigma| \ \text{words} \ B_{\sigma}$
         \For{$\sigma \in \Sigma$}
         \State $B_{\sigma} \gets 00\dots0$
         \EndFor
         \State $M \gets 10\dots0$
-        \For{$\sigma \in \Sigma$}
+        \For{$j = 0 \ \text{\textbf{to}} \ |P|$}
         \State $\sigma \gets P[j]$
         \State $B_{\sigma} \gets M \ \text{OR} \ B_{\sigma}$
         \State $M = \textbf{RSHIFT} (M)$
@@ -882,7 +883,6 @@ L'algoritmo per calcolare la tabella richiede un tempo pari a $\Theta(|\Sigma| +
     \end{algorithmic}
     \caption{Algoritmo per il calcolo della tabella $B$}
 \end{algorithm}
-\newpage
 \subsection{Scansione del testo}
 La procedura per la scansione del testo è rappresentata come:
 \begin{enumerate}
@@ -971,16 +971,15 @@ seguente modo:
 \end{equation}
 Vediamo ora come implementare l'algoritmo che effettua la scansione del testo in
 tempo $\Theta(n)$.
-\begin{algorithm}
+\begin{algorithm}[!ht]
     \begin{algorithmic}
         \Function{BYG}{$B, T$}
-        \State $n \gets |T|$
         \State $D \gets 00\dots0$
         \State $M \gets 00\dots01$
-        \For{$i \gets 1 \ \text{to} \ n$}
+        \For{$i \gets 1 \ \text{to} \ |T|$}
         \State $\sigma \gets T[i]$
         \State $D \gets \textbf{RSHIFT1}(D_{i - 1}) \ \textbf{AND} \ B_{T[i]}$
-        \If{$(D \ \textbf{AND} M) = M$}
+        \If{$(D \ \textbf{AND} \ M) = M$}
         \State \text{output} $i - m + 1$
         \EndIf
         \EndFor
@@ -988,6 +987,7 @@ tempo $\Theta(n)$.
     \end{algorithmic}
     \caption{Algoritmo per la scansione del testo}
 \end{algorithm}
+
 \begin{esempio}
     Siano un testo $T = babcabaadc$ e un pattern $P = abcaba$ tale che $|T| = 10$
     e $|P|=6$. Entrambe le stringhe costruite su un alfabeto $\Sigma = \{a, b, c,
@@ -1392,11 +1392,9 @@ necessario modificarlo.
 \begin{algorithm}[!ht]
     \begin{algorithmic}
         \Function{SuffixArraySearch}{$T, P$}
-        \State $n \gets |T|$
-        \State $m \gets |P|$
         \State $S \gets$ \Call{SuffixArray}{$T$}
         \State $l \gets 1$
-        \State $r \gets n$
+        \State $r \gets |T|$
         \While{$l \leq r$}
         \State $p \gets \lfloor (l + r) / 2 \rfloor$
         \If{$P < S[p]-$suffisso}
@@ -1412,6 +1410,7 @@ necessario modificarlo.
     \end{algorithmic}
     \caption{Algoritmo di ricerca esatta di un pattern}
 \end{algorithm}
+\newpage
 \subsection{Burrows Wheeler Transform}
 Proposta da Burrows e Wheeler nel '94, costruisce una permutazione reversibile
 dei simboli del testo, occupa uno spazio di $\Theta(|T| \log |\Sigma|)$ ed è

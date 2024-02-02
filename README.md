@@ -5,6 +5,9 @@ informatica dell'Università degli Studi di Milano-Bicocca. Negli appunti sono
 sicuramente presenti errori, per cui se ne trovate qualcuno, o volete aggiungere
 qualcosa, sentitevi liberi di aprire una pull request.
 
+Tutti i file in formato .pdf sono generati automaticamente e resi disponibili
+al seguente [link](https://tommasoferrario18.github.io/Appunti/).
+
 ## Indice
 
 - Modelli e Concorrenza (12 CFU)
@@ -12,6 +15,12 @@ qualcosa, sentitevi liberi di aprire una pull request.
   - Modelli della concorrenza (6 CFU)
 - Machine Learning (6 CFU)
 - Processo e Sviluppo del Software (6 CFU)
+
+<!-- - Architetture dati (6 CFU)
+- Metodi per il calcolo scientifico (6 CFU)
+- Modelli probabilistici per le decisioni (6 CFU)
+- Sistemi complessi: modelli e simulazione (6 CFU)
+- Data Analytics (6 CFU) -->
 
 ## Collaboratori
 
