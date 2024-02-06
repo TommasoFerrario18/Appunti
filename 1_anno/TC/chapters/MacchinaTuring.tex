@@ -265,13 +265,14 @@ sempre in grado di dire se appartiene o meno al linguaggio.
     Se $L$ è ricorsivo esiste una macchina di Turing che riconosce se, data una
     stringa $x$, tale che $x \in L$, rispondendo $1$ e risponde $0$ se $x \not\in
         L$.
-
+        
     Costruisco ora una macchina di Turing $M'$ che se l'input $x$ non appartiene
     al linguaggio $L$, allora la macchina va in loop ($\perp$). Quindi, quando
     la macchina sta per rispondere con $0$, modifico la funzione di transizione
     $\delta$ per ottenere il loop, ottenendo una macchina che va in loop se
     $x \not\in L$, mentre restituisce $1$ se $x \in L$ e quindi $L$ è ricorsivamente
     enumerabile.
+
     \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.5\textwidth]{img/MacchineTuring/dimostrazione2.png}
@@ -297,11 +298,13 @@ sempre in grado di dire se appartiene o meno al linguaggio.
 \end{dimostrazione}
 Vogliamo ora dimostrare che esistono dei problemi di decisione che non possono
 essere risolti da una macchina di Turing. Per realizzare questa dimostrazione
+
 partiamo da una nozione insiemistica: $|A| < |\mathcal{P}(A)|$, ovvero che la
 cardinalità dell'insieme $A$ è sempre minore della cardinalità dell'insieme delle
 parti di $A$ ($\mathcal{P}(A)$).
 
 Con le informazioni ottenute in precedenza, abbiamo visto che possiamo
+
 rappresentare una macchina di Turing partendo dall'alfabeto binario definito
 come $B = \{0, 1\}$. Da questo, possiamo affermare che il numero di macchine di
 Turing che possiamo realizzare sarà al più il numero di stringhe realizzabili
@@ -321,12 +324,14 @@ definito in precedenza, possiamo affermare che:
     |M| = |B^{\ast}| < |P(B^{\ast})|
 \end{equation}
 ovvero che esistono problemi di decisione che \textbf{non posso} risolvere con
+
 una macchina di Turing.
 \subsection{Halting Problem}
 Un esempio di problema di decisione che non può essere risolto da una macchina
 di Turing è l'\textbf{halting problem}. Questo problema consiste nel determinare
 se esiste un algoritmo che dati in input una macchina di Turing $M$ e una stringa
 $x$, mi dica se la macchina $M$ eseguita sull'input $x$ termina.
+
 \begin{definizione}[\textbf{Linguaggio associato all'Halting problem}]
     Posso definire formalmente l'\textbf{halting problem} con l'utilizzo del
     linguaggio $L_H$, definito come:
@@ -763,7 +768,7 @@ Invertendo l'output di questa macchina si ottiene una macchina che non decide
 $\bar{L}$ dato che sarebbero necessaire tutte computazioni che terminano in uno
 stato accettante.
 \section{Riduzioni polinomiali}
-Le \textbf{riduzioni polinomiali} tra problemi, sono delle procedure che per ogni
+Le \textbf{riduzioni polinomiali} tra problemi sono delle procedure che per ogni
 istanza del problema $A$ la trasformano in un'istanza per un problema diverso $B$.
 Quindi un'istanza di $A$, $I_A$, ha due risposte, $Y$ o $N$, ma posso passare
 tramite una determinata funzione $f$, definita come:
@@ -842,6 +847,7 @@ istanze del mio problema di partenza in istanze di un problema che so risolvere.
     \includegraphics[width=0.5\textwidth]{img/MacchineTuring/classificazioneProblemi.png}
     \caption{Classificazione dei problemi.}
 \end{figure}
+
 \begin{teorema}[\textbf{Teorema Cook-Levin}]
     Il problema di soddisfacibilità SAT è \textbf{NP}$\_$\textbf{completo}.
     Questo problema prende in input una formula booleana $\phi$ in forma normale

@@ -465,9 +465,11 @@ $j_i$ attraverso la funzione di transizione $\delta(j_{i - 1}, T[i])$.
             \textbf{3}                         & 1 & 0 & 4 \\ \hline
             \textbf{4}                         & 3 & 0 & 0 \\ \hline
         \end{tabular}
+
         \caption{Funzione di transizione $\delta$}
         \label{tab:funzioneTransizione}
     \end{table}
+    
     La scansione del testo $T$ cercando le occorrenze esatte del pattern $P$ mi
     permette di ottenere il risultato riportato in figura \ref{fig:scansione}
     \begin{figure}[!ht]
@@ -980,6 +982,7 @@ tempo $\Theta(n)$.
         \State $\sigma \gets T[i]$
         \State $D \gets \textbf{RSHIFT1}(D_{i - 1}) \ \textbf{AND} \ B_{T[i]}$
         \If{$(D \ \textbf{AND} \ M) = M$}
+
         \State \text{output} $i - m + 1$
         \EndIf
         \EndFor
@@ -1033,6 +1036,7 @@ tempo $\Theta(n)$.
                   D_7 = 101001 \text{ AND } 100101 = 100001
               \end{equation}
         \item Ho il bit LSB di $D_7$ uguale a $1$, quindi ho trovato un match che
+
               corrisponde a $i - m + 1 = 7 - 6 + 1 = 2$. Poi continuo fino a
               quando non termino $T$.
     \end{itemize}
