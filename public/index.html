@@ -1,46 +1,79 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Bicocca Appunti Index</title>
-    </head>
-    <script>
-        // var corsi = ["APAL", "APS", "BIOINF", "MCOR", "TCOM", "ROPR", "ROPR/assignments/1", "ROPR/assignments/2", "ROPR/assignments/3", "SAF" ];
-        let corsi = ["ML", "MC", "PSS", "TC"];
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bicocca Appunti Index</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <script>
+    let corsi = ["ML", "MC", "PSS", "TC"];
 
-        let loadLinks = () => {
-            return new Promise((acc, rej) => {
-                let body = document.body;
-                ol = document.createElement("ol");
-                corsi.forEach((el) => {
-                    let li = document.createElement("li");
-                    let a = document.createElement("a");
-                    a.setAttribute("href", `${el}/main.pdf`);
-                    a.innerText = `/${el}/main.pdf`;
-                    li.appendChild(a);
-                    ol.appendChild(li);
-                })
-                body.appendChild(ol);
-                acc();
-            });
-        };
+    let loadLinks = () => {
+      return new Promise((acc, rej) => {
+        let table = document.getElementById("table-body");
+        corsi.forEach((el) => {
+          let tr = document.createElement("tr");
+          let th = document.createElement("th");
+          th.setAttribute("scope", "row");
+          th.innerText = el;
+          tr.appendChild(th);
+          let td = document.createElement("td");
+          let a = document.createElement("a");
+          a.setAttribute("href", `${el}/main.pdf`);
+          a.innerText = `${el}`;
+          a.className = "badge text-bg-danger";
+          td.appendChild(a);
+          tr.appendChild(td);
+          table.appendChild(tr);
+        });
 
-        let loadTitle = () => {
-            return new Promise((acc, rej) => {
-                let body = document.body;
-                let h1 = document.createElement("h1");
-                h1.innerText = "Bicocca Appunti Index";
-                let h2 = document.createElement("h2");
-                h2.innerText = "seleziona il documento che ti interessa";
-                body.appendChild(h1);
-                body.appendChild(h2);
-                acc();
-            });
-        };
+        acc();
+      });
+    };
 
-        let loadPage = () => {
-            loadTitle().then(loadLinks);
-        };
-    </script>
-    <body onload="loadPage()">
-    </body>
+    let loadPage = () => {
+      loadLinks();
+    };
+  </script>
+  <body onload="loadPage()">
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1>Appunti del corso di laurea magistrale in informatica dell'Università degli Studi di Milano-Bicocca</h1>
+          <br>
+          <p>
+            Questo repository contiene gli appunti del corso di laurea
+            magistrale in informatica dell'Università degli Studi di
+            Milano-Bicocca. Negli appunti sono sicuramente presenti errori, per
+            cui se ne trovate qualcuno, o volete aggiungere qualcosa, sentitevi
+            liberi di aprire una pull request.
+          </p>
+        </div>
+      </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Materia</th>
+            <th scope="col">PDF</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
