@@ -268,7 +268,7 @@ ri-definire le funzioni di rank e select come:
     rank_{\sigma,T} (select_{\sigma,T} (i)) = i, \ \forall \sigma \in \Sigma
     \land \forall i = 1 \dots n
 \end{equation}
-Una rappresentazione "naïve" consiste nel considerare come rappresentazione di
+Una rappresentazione ``naïve'' consiste nel considerare come rappresentazione di
 $T$ attraverso un insieme di $s$ ($| \Sigma | = s$) stringhe binarie $B_\sigma[1
         \dots n]$, $\forall \sigma \in \Sigma$, ovvero una per ogni simbolo
 dell'alfabeto, si ha che:
@@ -290,7 +290,7 @@ sottoinsieme di $\Sigma$.
 I due figli di ogni nodo partizionano il corrispondente sottoinsieme di $\Sigma$
 in due. A ogni nodo $v$ corrisponde una sequenza chiamata $R_v$, la quale è una
 sotto-sequenza dell'input $T$ ed è anche una sotto-sequenza della sequenza con
-cui è etichettato il nodo genitore di $v$. La root corrisponde la sequenza $R_v = T$.
+cui è etichettato il nodo genitore di $v$. La root corrisponde alla sequenza $R_v = T$.
 
 A ogni nodo $v$ si associa un bitvector, denotato con $B_v$, che indica a quale
 dei due figli del nodo $v$ ogni simbolo della sotto-sequenza $R_v$ appartiene.
@@ -323,7 +323,7 @@ Vediamo ora come realizzare le operazioni su questa struttura dati:
               \item Se $\sigma = \Sigma\left[\left\lceil \frac{s}{2} \right\rceil
                             \right] \lor \sigma \prec \Sigma\left[\left\lceil
                             \frac{s}{2} \right\rceil\right]$ (siamo nella prima
-                    metà, dell'alfabeto indotto dal nodo), allora si prosegue
+                    metà dell'alfabeto indotto dal nodo), allora si prosegue
                     verso il figlio di sinistra, aggiornando il valore di $i$ con
                     $i = rank_{0,B_v}(i)$.
               \item Altrimenti, ovvero se siamo nella seconda metà, usiamo il
@@ -382,10 +382,10 @@ root:
               \end{cases}
           \end{equation}
     \item Si estrae la sotto-sequenza $T'$ corrispondente ai valori 0 di $B_v$ e
-          la si usa per etichettare il "figlio" di sinistra $v_1$ (che è relativo
+          la si usa per etichettare il ``figlio'' di sinistra $v_1$ (che è relativo
           all'alfabeto $\Sigma = \Sigma\left[1 \dots \left\lceil \frac{s}{2}
                   \right\rceil\right]$) mentre quella corrispondente ai valori 1
-          la si usa per etichettare il "figlio" di destra $v_2$ (che è relativo
+          la si usa per etichettare il ``figlio'' di destra $v_2$ (che è relativo
           all'alfabeto $\Sigma = \Sigma\left[\left\lceil \frac{s}{2} \right\rceil
                   + 1 \dots s \right]$) per entrambe.
     \item Posso quindi cancellare $T$ e costruire i bitvector $B_{v1}$ e $B_{v2}$,
@@ -421,7 +421,7 @@ Mentre, un levelwise wavelet tree richiede:
     Costruzione di un wavelet tree:
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=0.7\textwidth]{img/Strutture Dati/wavelet tree.png}
+        \includegraphics[width=0.5\textwidth]{img/Strutture Dati/wavelet tree.png}
         \caption{Esempio di costruzione di un wavelet tree su una sequenza semplice}
     \end{figure}
 \end{esempio}
@@ -430,8 +430,8 @@ Mentre, un levelwise wavelet tree richiede:
     \item \textbf{Parentesi bilanciate}: si costruisce a partire dalla DFS
           dell'albero (preorder):
           \begin{itemize}
-              \item "(" quando si raggiunge un nodo per la prima volta.
-              \item ")" quando si è terminata la visita del sotto-albero.
+              \item ``('' quando si raggiunge un nodo per la prima volta.
+              \item ``)'' quando si è terminata la visita del sotto-albero.
           \end{itemize}
     \item Strutture dati succinte che supportano le \textbf{range minimum queries}.
     \item \textbf{Wavelet matrix}: nascono con l'idea di migliorare i levelwise
@@ -481,7 +481,7 @@ $k$, con l'hash è memorizzato in $h(k)$, dove $h$ è una funzione di hash.
     ovvero come una funzione definita dall'insieme universo $\mathcal{U}$
     all'insieme delle posizioni $\{0, \dots, m - 1\}$ di una tabella di hash $T$.
 \end{definizione}
-Le funzioni di hash possono avere input "\textit{scomodi}", ovvero input che
+Le funzioni di hash possono avere input ``\textit{scomodi}'', ovvero input che
 possono generare \textbf{collisioni}:
 \begin{equation}
     h(k') = h(k'') \ \ \text{con} \ \ k' \neq k''
@@ -507,7 +507,7 @@ stessa posizione dell'hash table in una lista concatenata. Chiamiamo $\alpha$ il
 \textbf{fattore di carico}, ovvero il numero medio di elementi in queste liste
 concatenate.
 
-Il caso peggiore si ha quando tutte le $n$ chiavi "mappano" in una sola lista,
+Il caso peggiore si ha quando tutte le $n$ chiavi ``mappano'' in una sola lista,
 quindi i tempi di accesso richiedono un tempo pari a $\Theta(n)$ ma nella realtà
 è difficile che accada quindi accesso in $\Theta(1 + \alpha)$ nel caso migliore,
 con il numero di posizioni nella hash table proporzionale al numero di elementi
@@ -596,7 +596,7 @@ Il bitvector $A$ viene riempito nel seguente modo:
     \forall k \in S \ \text{e} \ \forall h_i \in \mathcal{H}: A[h_i(k)] = 1
 \end{equation}
 quindi per ogni $k \in S$ abbiamo fino a $l$ bit pari a $1$ in $A$. Si utilizza
-il termine "fino a" perché alcune $h_i, h_j \in \mathcal{H}$ potrei avere
+il termine ``fino a'' perché alcune $h_i, h_j \in \mathcal{H}$ potrei avere
 $h_i(k) = h_j(k)$ e se già $A[h_i(k)] = 1$ non avrò ulteriori modifiche in
 posizione $h_i(k) = h_j(k)$.
 
@@ -620,7 +620,7 @@ il counting Bloom filter tramite una threshold $\theta$.
 
 Possiamo costruire questa struttura dati nel seguente modo:
 \begin{equation}
-    \forall k \in S \ text{e} \ \forall h_i \in \mathcal{H}: A[h_i(k)] += 1
+    \forall k \in S \text{e} \ \forall h_i \in \mathcal{H}: A[h_i(k)] += 1
 \end{equation}
 In fase di query, dato $x \in \mathcal{U}$ abbiamo:
 \begin{itemize}
@@ -663,7 +663,7 @@ Questa struttura dati è definita a partire da:
     \item Insieme universo $\mathcal{U}$.
     \item Uno stream $S$ lungo $n$ costruito da elementi di $\mathcal{U}$.
     \item Due parametri d'errore $\delta$ e $\varepsilon$. Otterremo risposte
-          alle query "sbagliate" entro un fattore aggiuntivo $\varepsilon$ con
+          alle query ``sbagliate'' entro un fattore aggiuntivo $\varepsilon$ con
           probabilità almeno $1 - \delta$
     \item $\mathcal{H}, \ |\mathcal{H}| = l = \lceil \ln \frac{1}{\delta} \rceil$,
           famiglia di funzioni hash universale per $\mathcal{U}$ si impone che:
