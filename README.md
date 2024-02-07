@@ -13,7 +13,7 @@ al seguente [link](https://tommasoferrario18.github.io/Appunti/).
 - Modelli e Concorrenza (12 CFU)
   - Teoria della computazione (6 CFU)
   - Modelli della concorrenza (6 CFU)
-- Machine Learning (6 CFU)
+- Machine Learning (6 CFU) [Progetto](https://github.com/Tezze2001/brain-tumor-analysis)
 - Processo e Sviluppo del Software (6 CFU)
 
 <!-- - Architetture dati (6 CFU)
