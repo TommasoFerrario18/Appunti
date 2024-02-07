@@ -1,0 +1,62 @@
+\documentclass[a4paper,15pt, oneside]{book}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2cm,right=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphics}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amstext}
+\usepackage{engrec}
+\usepackage{rotating}
+\usepackage[safe,extra]{tipa}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{braket}
+\usepackage{marginnote}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{polynom}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{framed}
+\usepackage{pdfpages}
+\usepackage{pgfplots}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{hyperref}
+\pagestyle{fancy}
+\fancyhead[L,RO]{\slshape \rightmark}
+\fancyfoot[C]{\thepage}
+
+\title{Sistemi complessi: modelli e simulazione}
+\author{Tommaso Ferrario (\href{https://github.com/TommasoFerrario18}{@TommasoFerrario18}) \\\\
+Telemaco Terzi (\href{https://github.com/Tezze2001}{@Tezze2001})}
+\date{Marzo 2024}
+
+\pgfplotsset{compat=1.13}
+
+\begin{document}
+
+\maketitle
+\newtheorem{teorema}{Teorema}
+\newtheorem{dimostrazione}{Dimostrazione}
+\newtheorem{definizione}{Definizione}
+\newtheorem{esempio}{Esempio}
+\newtheorem{osservazione}{Osservazione}
+\newtheorem{nota}{Nota}
+\newtheorem{corollario}{Corollario}
+\tableofcontents
+\renewcommand{\chaptermark}[1]{
+    \markboth{\chaptername
+        \ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+
+
+\end{document}
