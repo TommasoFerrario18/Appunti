@@ -12,27 +12,27 @@
     />
   </head>
   <script>
+    let corsiExtended = ["Machine Learning", "Modelli della Concorrenza", "Processo e Sviluppo Software", "Teoria della Computazione"];
     let corsi = ["ML", "MC", "PSS", "TC"];
 
     let loadLinks = () => {
       return new Promise((acc, rej) => {
         let table = document.getElementById("table-body");
-        corsi.forEach((el) => {
+        for (let i=0;i<corsi.length;i++){
           let tr = document.createElement("tr");
           let th = document.createElement("th");
           th.setAttribute("scope", "row");
-          th.innerText = el;
+          th.innerText = corsiExtended[i];
           tr.appendChild(th);
           let td = document.createElement("td");
           let a = document.createElement("a");
-          a.setAttribute("href", `${el}/main.pdf`);
-          a.innerText = `${el}`;
+          a.setAttribute("href", `${corsi[i]}/main.pdf`);
+          a.innerText = `${corsi[i]}`;
           a.className = "badge text-bg-danger";
           td.appendChild(a);
           tr.appendChild(td);
           table.appendChild(tr);
-        });
-
+        }
         acc();
       });
     };
@@ -43,7 +43,7 @@
   </script>
   <body onload="loadPage()">
 
-    <div class="container">
+    <div class="container mt-2">
       <div class="row">
         <div class="col">
           <h1>Appunti del corso di laurea magistrale in informatica dell'Università degli Studi di Milano-Bicocca</h1>
