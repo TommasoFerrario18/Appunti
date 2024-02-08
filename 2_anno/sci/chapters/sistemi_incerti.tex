@@ -1,0 +1,98 @@
+\chapter{Sistemi incerti}
+Si studieranno sistemi incerti che possono essere:
+\begin{itemize}
+    \item interpretazione dei testi
+    \item incertezza dei mercati
+    \item valutare il valore degli oggetti
+    \item valutare un rischio
+    \item prendere decisioni
+    \item etc$\dots$
+\end{itemize}
+
+Lo studio dell'incertezza è fondamentale in machine learning, dal momento che 
+gli algoritmi hanno bisogno di dati e questi possono avere un certo livello di 
+incertezza. Fondamentale sarà capire:
+\begin{itemize}
+    \item l'\textbf{oggetto} dell'incertezza e la sua fonte
+    \item il \textbf{livello} e la \textbf{magnitudine} dell'incertezza
+    \item \textbf{come} comunicare l'incertezza, ovvero in che forma ed espressione
+    \item \textbf{preché} comunicare l'incertezza, ovvero lo scopo di questa comunicazione
+\end{itemize}
+
+\begin{definizione}
+    L'\textbf{incertezza}  è l'imperfezione dell'informazione dovuta a diverse cause
+\end{definizione}
+\begin{definizione}
+    \textbf{Agenti} sono i soggetti che esprimono l'incertezza
+\end{definizione}
+\begin{definizione}
+    \textbf{Oggetti} sono gli oggetti su cui un agente esprime incertezza
+\end{definizione}
+\begin{definizione}
+    \textbf{Proprietà} sono le proprietà dell'oggetto su cui un agente ha incertezza
+\end{definizione}
+Ogni agente ha un'opinione su una proprietà degli oggetti.
+
+L'incertezza può essere dovuta principalemnte da:
+\begin{itemize}
+    \item \textbf{informazioni incomplete}:
+    \begin{itemize}
+        \item \textbf{valori mancanti}: ex: voglio stabilire se l'auto è gialla ma
+        non conosco il colore dell'auto
+        \item \textbf{valori imprecisi}: ex: l'auto ha tra i 10 e 15 anni
+        \item \textbf{proprietà mancanti}: ex: nel caso prendessimo come oggetti i
+        pazienti e come proprietà i sintomi, non possiamo sapere se un paziente 
+        ha una particolare malattia se ha dei particolari sintomi.
+    \end{itemize}
+    \item \textbf{randomicità}: non possiamo stabilire la 
+    veridicità di un'informazione, ex: domani piove (non è detto)
+    \item \textbf{gradualità}: ex: l'auto è veloce, cosa significa veloce?
+    \item \textbf{informazione inaffidabile}: si possono avere informazioni
+    contrastanti dovuti da agenti che hanno opinioni diverse, elementi a favore
+    o contro ed esempi e controesempi. In aggiunta, si possono avere informazioni
+    inaffidabili perché possiamo non avere la conpleta fiducia nei dati a disposizione.
+\end{itemize}
+
+Esistono diverse forme di incertezza e generalmente si classificano all'interno
+di una tassonomia. Le classificaizoni si dividino in:
+\begin{itemize}
+    \item \textbf{scope}: il campo che copre quella classificazione
+    \item \textbf{criteria}: sorgente dell'incertezza
+\end{itemize}
+
+Una tassonomia ha lo scopo di essere universale per raccogliere tutti i tipi di
+incertezze indipendentemente dal particolare campo. Le tassonomie sono composte
+da alberi i quali hanno sempre come radice \textbf{ignorance}, nessuna classificazione
+appare in tutte le tipologie di tassonomie, ma al massimo in alcune, le tassonomie
+possono essere più specifiche e possono avere delle intersezioni.
+
+Esistono anche tassonomie che sono legate ad un campo, ex: ecologia o ML. Per
+queste tassonomie più piccolo è il dominio e più specifica è la terminologia della
+classificazione. L'ontologia del dominio (semantica) può essere utile per capire dove l'incertezza
+è e come azionarsi per gestirla. Quando costruiamo una classificazione di dominio
+deve essere chiara tutte le parti di incertezza.
+
+I criteri per la classificazione si basano su:
+\begin{itemize}
+    \item \textbf{source}: il criterio principale che dipende dal dominio (incertezza 
+    sui dati e sugli utenti, temporale, spaziale e linguistica$\dots$)
+    \item \textbf{mmanifestazione concrete}: dove puoi vewdere l'effetto dell'incertezza
+    \item \textbf{personalità in cui risiede l'incertezza}: l'agente
+\end{itemize}
+
+Per esprimere l'incertezza, oltre alla probabilità abbiamo:
+\begin{itemize}
+    \item estensione della probabilità:
+     \begin{itemize}
+        \item Belief functions
+        \item Imprecise probabilities
+    \end{itemize}
+    \item alternative alla probabilità:
+    \begin{itemize}
+        \item Possibility Theory/Logic
+        \item Fuzzy Sets/Logic
+        \item Modal Logic
+        \item Interval Sets
+        \item Rough Sets
+    \end{itemize}
+\end{itemize}

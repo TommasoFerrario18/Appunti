@@ -1,0 +1,99 @@
+\documentclass[a4paper, oneside]{book}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2cm,right=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphics}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amstext}
+\usepackage{engrec}
+\usepackage{rotating}
+\usepackage[safe,extra]{tipa}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{braket}
+\usepackage{marginnote}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\usepackage{polynom}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{framed}
+\usepackage{pdfpages}
+\usepackage{pgfplots}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{hyperref}
+
+\usepackage{tikz}\usetikzlibrary{er}\tikzset{multi  attribute /.style={attribute
+    ,double  distance =1.5pt}}\tikzset{derived  attribute /.style={attribute
+    ,dashed}}\tikzset{total /.style={double  distance =1.5pt}}\tikzset{every
+  entity /.style={draw=orange , fill=orange!20}}\tikzset{every  attribute
+  /.style={draw=MediumPurple1, fill=MediumPurple1!20}}\tikzset{every
+  relationship /.style={draw=Chartreuse2,
+    fill=Chartreuse2!20}}\newcommand{\key}[1]{\underline{#1}}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows,shapes, shapes.geometric,backgrounds,petri}
+\tikzset{
+  place/.style={
+    circle,
+    thick,
+    draw=black,
+    minimum size=6mm,
+  },
+  transition/.style={
+    rectangle,
+    thick,
+    fill=black,
+    minimum width=8mm,
+    inner ysep=2pt
+  },
+  transitionv/.style={
+    rectangle,
+    thick,
+    fill=black,
+    minimum height=8mm,
+    inner xsep=2pt
+  }
+}
+\tikzset{elliptic state/.style={draw,ellipse}}
+
+\usetikzlibrary{automata,positioning, calc}
+
+\pagestyle{fancy}
+\fancyhead[L,RO]{\slshape \rightmark}
+\fancyfoot[C]{\thepage}
+
+\title{Sistemi complessi e incerti}
+\author{Tommaso Ferrario (\href{https://github.com/TommasoFerrario18}{@TommasoFerrario18}) \\\\
+Telemaco Terzi (\href{https://github.com/Tezze2001}{@Tezze2001})}
+\date{October 2023}
+
+\pgfplotsset{compat=1.13}
+
+\begin{document}
+
+\maketitle
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{dimostrazione}{Dimostrazione}
+\newtheorem{definizione}{Definizione}
+\newtheorem{esempio}{Esempio}
+\newtheorem{osservazione}{Osservazione}
+\newtheorem{nota}{Nota}
+\newtheorem{corollario}{Corollario}
+\tableofcontents
+\renewcommand{\chaptermark}[1]{
+  \markboth{\chaptername
+    \ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\include{chapters/sistemi_incerti}
+\end{document}
