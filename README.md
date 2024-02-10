@@ -15,6 +15,11 @@ al seguente [link](https://tommasoferrario18.github.io/Appunti/).
   - Modelli della concorrenza (6 CFU)
 - Machine Learning (6 CFU)
 - Processo e Sviluppo del Software (6 CFU)
+- Architetture dati (6 CFU)
+- Metodi per il calcolo scientifico (6 CFU)
+- Modelli probabilistici per le decisioni (6 CFU)
+- Sistemi complessi: modelli e simulazione (6 CFU)
+- Data Analytics (6 CFU)
 
 <!-- - Architetture dati (6 CFU)
 - Metodi per il calcolo scientifico (6 CFU)
