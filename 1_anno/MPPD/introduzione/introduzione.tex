@@ -1,32 +1,36 @@
 \chapter{Introduzione}
-Reti bayesiane sono strutture più complesse rispetto a Naive Bayes.
+In questo corso si analizzeranno modelli probabilistici di machine learning. 
+I modelli probabilistici permettono di quantificare l'incertezza delle informazioni 
+e successivamente prendere delle decisioni. Questi passi sono fondamentali perché
+siamo costantemente circondati da tantissimi dati che per loro natura sono incerti, 
+quindi dobbiamo avere un modo per gestire l'incertezza per permetterci di decidere.
 
-Affrontiamo la parte di incertezza perché siamo circondati da tantissimi dati 
-che per loro natura sono incerti, quindi dobbiamo saperla gestire e decidere su 
-questi dati, in questo modo peso capire cosa mi permette di decidere. (incertezza e decisioni)
-
-Quando devo prendere delle decisoni posso avere:
+Quando devo prendere delle decisoni sui dati che analizzo, posso avere diversi problemi:
 \begin{itemize}
     \item dati mancanti
     \item evidenze inconsistenti
-    \item errori
+    \item \textbf{mancante}
 \end{itemize}
 
-I modelli probabilistici modellano l'incertezza e la decisione, rappresentandola 
-come dipendenze tra variabili (struttura) e le probabilità (parametri). Questo 
-mi permette di automatizzare la parte di previsione, questi modelli sono scalabili
-e si evolvono.
+I modelli probabilistici rappresentano l'incertezza tramite le dipendenze tra le 
+variabili (struttura del modello) e le probabilità (parametri del modello). Rappresentando 
+l'incertezza, si riesce ad automatizzare la parte di previsione di conseguenza
+risultano più scalabili e si evolvono col tempos.
 
-I modelli che descrivono i dati che possono essere generati da un sistema. SVM 
-è un modello discriminativo, mentre NB è un modello generativo perché è caratterizzato
-da variabili aleatorie, le quali possono essere campionate e si usano per fare delle
-simulazioni. I modelli si basano sulla teoria della probabilità e quindi ci permetterò
+Per ora sono stati visti solo modelli discriminativi, al contrario i modelli probabilistici
+sono generativi perché sono caratterizzati da variabili aleatorie, le quali possono 
+essere campionate e permettono di effettuare delle simulazioni. 
+I modelli probabilistici si basano sulla teoria della probabilità e quindi ci permetteranno
 di inferire quantità sconosciute e allo stesso tempo apprendere.
 
 A livello di matematica si partirà da Teorema di Bayes per adattare i modelli 
 nel tempo.
 
-I modelli sono fondamentali perché permette di fare diagnostica e prognostica.
+La fase di inferenza si classifica in due tipi:
+\begin{itemize}
+    \item \textbf{diagnostica}: dalla classe si ricava l'evidenza
+    \item \textbf{prognostica}: dall'evidenza si ricava la classe
+\end{itemize}
 
 \begin{esempio}
     Definizione di un sistema di Ranking per gli scacchi basato sulla statistica.
