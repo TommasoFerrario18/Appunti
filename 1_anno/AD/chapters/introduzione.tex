@@ -69,7 +69,7 @@ necessità di garantire che i dati siano accessibili solo a chi ha i permessi
 per farlo. Risulta quindi necessario introdurre un sistema di autenticazione
 e autorizzazione.
 
-\section{Gestione dei dati}
+\section{Gestione dei dati tramite Use Case}
 Nella gestione dei dati non sempre è sufficiente un DB relazionale soprattutto
 quando si hanno tanti dati e tanti utenti in accesso.
 
@@ -91,23 +91,26 @@ tre fasi:
     \item \textbf{data exploitation}: analisi dei dati, visualizzazione e presa
           di decisione (studio esplorativo).
 \end{itemize}
-Per queste operazioni esistono
-differenti prodotti.
+Per queste operazioni esistono differenti prodotti.
 % ! Immagine catena
 L'obiettivo del corso è quello di progettare un'architettura dati in base al contesto.
 Conoscere le tipologie di prodotti, nuovi modelli DBMS e gestione dei dati.
 
-Tutto si basa sugli Use Case:
+Tutto si basa sugli Use Case
 \begin{itemize}
-    \item Si vuole un'architettura dati che permetta di effettuare le normali operazioni
-          bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi database distribuiti),
-          interrogazioni distribuite e transazioni distribuite.
-    \item Realizzazione di una pipeline per la costruzione dei dataset di training
-          per addestrare modelli di ML. DAta centric AI MLops.
-    \item Modelli e architetture non relazionali.  Molti contesti il relazionale
-          non ha senso il relazionale perché non è più efficiente.
-    \item Cloud. Utilizzo di sistemi di gestione dei dati in cloud, firebase e elastic search.
-    \item AI generativa per la gestione dei dati nei sistemi di gestione dei dati.
+    \item \textbf{Caso Bancario}: un'architettura dati che permetta di effettuare 
+          le normali operazioni bancarie. Questo consiste nella progettazione di 
+          un sistema distribuito relazionale (diversi database distribuiti), che
+          gestisce interrogazioni e transazioni distribuite.
+    \item \textbf{Machine Learning}: realizzazione di una pipeline per la 
+          costruzione dei dataset di training per addestrare modelli di ML. 
+          DAta centric AI, MLops.
+    \item \textbf{Modelli e architetture non relazionali}: ne sono un esempio le API
+          che restituiscono dati in formato JSON. Comprendono quindi modelli key-value,
+          grafi, sistemi distribuiti relazionali ecc...
+    \item \textbf{Cloud}: Utilizzo di sistemi di gestione dei dati in cloud, firebase e elastic search.
+    \item \textbf{AI generativa per la gestione dei dati}: come usare AI generativa nei 
+          sistemi di gestione dei dati.
 \end{itemize}
 
 % Sistemo appena carica le slide
@@ -135,6 +138,12 @@ Si ha eterogeneità dei sistemi.
 
 Bisogna stare attenti agli update che devono essere veloci e consistenti. L'architettura
 di base non è più sufficiente.
+
+\begin{figure}[ht]
+      \centering
+      \includegraphics[width=0.8\textwidth]{./img/modellazione_banca.jpg}
+      \caption{Architettura dati per update veloci e consistenti}
+\end{figure}
 
 Bisogni:
 \begin{itemize}
