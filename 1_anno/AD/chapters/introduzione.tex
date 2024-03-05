@@ -1,7 +1,76 @@
 \chapter{Introduzione}
-Fino ad ora sono stati trattati i dati defininendo lo schema esterno, fisico e logico.
+\section{Ripasso}
+Nel percorso universitario affrontato fino a questo momento, sono state studiate
+le basi di dati centralizzate, ovvero basi di dati in cui i dati sono memorizzati
+in un unico luogo. L'architettura di tali strumenti è definita attraverso:
+\begin{itemize}
+      \item Uno o più spazi per la memorizzazione dei dati, tutti localizzati nello
+            stesso luogo.
+      \item Il DBMS, che è un software che consente di gestire i dati.
+      \item Un'interfaccia che consente agli utenti di leggere e scrivere i dati.
+\end{itemize}
+\begin{definizione}[\textbf{DBMS}]
+    Un \textbf{DBMS} (Database Management System) è un sistema software che
+    consente di gestire in modo efficiente e sicuro grandi quantità di dati,
+    garantendo la loro integrità e la loro disponibilità.
 
-Nella gestione dei dati non sempre è sufficiente un DB relazionale sopprattutto 
+    Le collezioni di dati che vengono gestite da un DBMS sono:
+    \begin{itemize}
+          \item \textbf{Grandi}: ovvero di dimensioni maggiori rispetto a quelle
+                che possono essere gestite da un singolo file.
+          \item \textbf{Persistenti}: ovvero che hanno un periodo di vita
+                indipendente da quello del programma che li utilizza.
+          \item \textbf{Condivise}: ovvero che possono essere utilizzate da
+                più utenti contemporaneamente, i quali possono accedere ai dati
+                sia in lettura che in scrittura. Questo comporta la necessità di
+                garantire la coerenza dei dati e di definire il workflow di accesso.
+          \item \textbf{Affidabilità}: ovvero che devono essere garantite
+                l'integrità e la disponibilità dei dati. Le transazioni devono
+                essere atomiche, cioè o vengono eseguite completamente o non
+                vengono eseguite affatto.
+    \end{itemize}
+\end{definizione}
+Per quanto riguarda i DBMS, la loro architettura dati è definita su tre livelli:
+\begin{enumerate}
+      \item \textbf{Schema esterno}: rappresenta ciò che vede l'utente finale,
+            permette all'utente di avere viste personalizzate dei dati.
+      \item \textbf{Schema concettuale}: è la rappresentazione dei dati in modo
+            indipendente dal DBMS. Questo schema è definito attraverso un modello
+            di dati, che può essere relazionale, gerarchico, a oggetti, ecc.
+      \item \textbf{Schema fisico}: questo schema rappresenta l'approccio fisico
+            del sistema e quindi le modalità utilizzate da un DBMS per implementare
+            le sue tabelle, le sue configurazioni, tutti i dati di cui ha bisogno
+            sulla memoria fisica stessa.
+\end{enumerate}
+\begin{nota}
+      Uno schema fisico è associato ad un solo schema concettuale.
+\end{nota}
+Inoltre, i DBMS centralizzati sono caratterizzati da:
+\begin{itemize}
+      \item Nessuna distribuzione dei dati e nessuna eterogeneità fisica.
+      \item Un unico linguaggio di interrogazione.
+      \item Un unico sistema di gestione di accesso ai dati.
+      \item Un unica modalità di ripristino a fronte dei guasti.
+      \item Un unico amministratore dei dati e quindi nessuna autonomia gestionale.
+\end{itemize}
+A causa degli accessi condivisi ai database si hanno problemi di \textbf{concorrenza},
+avendo accesso multi-utente alla stessa dei dati condivisa. In merito alla
+concorrenza si ha che le transazioni sono corrette se sono \textbf{seriali}
+(ordinate temporalmente) ma questo non è sempre applicabile in quanto si vanno
+ad aumentare i tempi per eseguire le operazioni, e quindi si deve stabilire un
+controllo della concorrenza.
+
+Inoltre, il controllo della concorrenza permette anche di garantire la
+\textbf{consistenza} del sistema, ma a volte potrebbe essere più conveniente
+prediligere la concorrenza piuttosto che la consistenza.
+
+Un ulteriore problema di sicurezza è dato dalla \textbf{privacy}, ovvero la
+necessità di garantire che i dati siano accessibili solo a chi ha i permessi
+per farlo. Risulta quindi necessario introdurre un sistema di autenticazione
+e autorizzazione.
+
+\section{Gestione dei dati}
+Nella gestione dei dati non sempre è sufficiente un DB relazionale soprattutto
 quando si hanno tanti dati e tanti utenti in accesso.
 
 Nella gestione dobbiamo tenere traccia dei workload, carichi di lavoro che dipendono da:
@@ -12,41 +81,44 @@ Nella gestione dobbiamo tenere traccia dei workload, carichi di lavoro che dipen
 \end{itemize}
 Un altro aspetto importante sono i volumi dei dati e l'eterogeneità.
 
-Quando si trattano i dati si ha una pipeline di lavoro (value chain) composta da tre fasi:
+Quando si trattano i dati si ha una pipeline di lavoro (value chain) composta da
+tre fasi:
 \begin{itemize}
-    \item \textbf{data discovery}: ottenimento, preparazione e organizzazione dei dati da 
-    diverse fonti
-    \item \textbf{data integration}: integrazione di tutti i dati provenienti da
-    diverse fonti
-    \item \textbf{data exploitation}: analisi dei dati, visualizzazione e presa di decisione (studio esplorativo).
+    \item \textbf{Data discovery}: ottenimento, preparazione e organizzazione
+          dei dati da diverse fonti
+    \item \textbf{Data integration}: integrazione di tutti i dati provenienti da
+          diverse fonti
+    \item \textbf{data exploitation}: analisi dei dati, visualizzazione e presa
+          di decisione (studio esplorativo).
 \end{itemize}
 Per queste operazioni esistono
 differenti prodotti.
-
-L'obiettivo del corso è quello di progettare un'architettura dati in base al constesto.
+% ! Immagine catena
+L'obiettivo del corso è quello di progettare un'architettura dati in base al contesto.
 Conoscere le tipologie di prodotti, nuovi modelli DBMS e gestione dei dati.
 
 Tutto si basa sugli Use Case:
 \begin{itemize}
-    \item Si vuole un'architettura dati che permetta di effettuare le normali operazioni 
-    bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi database distribuiti), 
-    interrogazioni distribuite e transazioni distribuite.
+    \item Si vuole un'architettura dati che permetta di effettuare le normali operazioni
+          bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi database distribuiti),
+          interrogazioni distribuite e transazioni distribuite.
     \item Realizzazione di una pipeline per la costruzione dei dataset di training
-    per addestrare modelli di ML. DAta centric AI MLops.
-    \item Modelli e architetture non relazionali.  Molti contesti il relazionale 
-    non ha senso il relazionale perché non è più efficiente.
+          per addestrare modelli di ML. DAta centric AI MLops.
+    \item Modelli e architetture non relazionali.  Molti contesti il relazionale
+          non ha senso il relazionale perché non è più efficiente.
     \item Cloud. Utilizzo di sistemi di gestione dei dati in cloud, firebase e elastic search.
     \item AI generativa per la gestione dei dati nei sistemi di gestione dei dati.
 \end{itemize}
 
+% Sistemo appena carica le slide
 \section{Gestione operazioni bancarie}
-Si vuole un'architettura dati che permetta di effettuare le normali operazioni 
-bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi database distribuiti), 
+Si vuole un'architettura dati che permetta di effettuare le normali operazioni
+bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi database distribuiti),
 interrogazioni distribuite e transazioni distribuite.
 
-Abbiamo le segenti operazioni:
+Abbiamo le seguenti operazioni:
 \begin{itemize}
-    \item tensazioni bancarie
+    \item transizioni bancarie
     \item bonifici multibanca
 \end{itemize}
 
@@ -66,70 +138,20 @@ di base non è più sufficiente.
 
 Bisogni:
 \begin{itemize}
-    \item Persistenza dei dati: replica dei dati attraverso un Master Slave. Per 
-    gestire la replica e il continuo dei servizi ho bisogno di un middleware che 
-    permette di mantenere la consistenza tra le due istanze. Nota: distribuire 
-    i dati è molto complesso e rischioso, conviene farlo solo quando è davvero 
-    necessario prima di aggiungere complessità inutilmente. Motori di database 
-    distribuiti, frammentare i dati tra nodi diversi, oppure edge computing i device
-    salvano localmente i dati. Il problema è che quando si distribuiscono i dati 
-    bisogna capire cosa distribuire, ovvero capire come distribuire tra client e 
-    server le parti di gestione.
+    \item Persistenza dei dati: replica dei dati attraverso un Master Slave. Per
+          gestire la replica e il continuo dei servizi ho bisogno di un middleware che
+          permette di mantenere la consistenza tra le due istanze. Nota: distribuire
+          i dati è molto complesso e rischioso, conviene farlo solo quando è davvero
+          necessario prima di aggiungere complessità inutilmente. Motori di database
+          distribuiti, frammentare i dati tra nodi diversi, oppure edge computing i device
+          salvano localmente i dati. Il problema è che quando si distribuiscono i dati
+          bisogna capire cosa distribuire, ovvero capire come distribuire tra client e
+          server le parti di gestione.
 \end{itemize}
 
-Possiamo avere 3 sedi dislogate geograficamente, il nodo di Milano ha la logica applicativa
-e i dati mentre a Roma e Padova ho solo l'applicazione. Si possono frammentare i 
-dati in modo da portarli vicino a dove servono, ex: Roma c'è il reparto risorse 
+Possiamo avere 3 sedi dislocate geograficamente, il nodo di Milano ha la logica applicativa
+e i dati mentre a Roma e Padova ho solo l'applicazione. Si possono frammentare i
+dati in modo da portarli vicino a dove servono, ex: Roma c'è il reparto risorse
 umane allora i dati sulle risorse umane verranno spostati lì. Spesso nella frammentazione
-si hanno dati in comune tra due sedi, quindi si effettuerà anche una duplicazione 
+si hanno dati in comune tra due sedi, quindi si effettuerà anche una duplicazione
 dei dati (replica).
-\begin{definizione}
-    Un DBMS distribuito eterogeneo autonomo è in generale una federazone di DBMS 
-    che collaborano per fornire accesso ai dati con livelli di trasparenza.
-\end{definizione} 
-Per trasparenza specifica la proprietà di nascondere diversità tra basi di dati nei nodi
-del sistema negli aspetti:
-\begin{itemize}
-    \item autonomia: grado di indipendenza tra i nodi. L'autonomia può essere:
-    \begin{itemize}
-        \item progetto: nodo adotta un proprio modello dei dati e sistema di gestione delle transazioni
-        \item condivisione: goni  nodo sceglie la porzione di dati che intende condividere con i nodi (meno possibile)
-        \item esecuzione: ogni nodo decide in che modo eseguire le transazioni che gli vengono sottoposte  
-    \end{itemize}
-    I tipi di autonomia dei DBMS possono essere differenti 
-    \item distribuzione: specifica la distribuzione dei dati come spostare i Dati
-    client serve(master slave, muore master allora muore il resto). peer-to-peer: bello ma costoso
-    \item eterogeneità: cambia il tipo di dati ecc...
-\end{itemize}
-Per progettare un DDBMS possiamo avere uno schema logico globale e diversi schemi 
-logici locali per ogni nodo dove locale è sottoinsieme del globale. PEr ciascun
-nodo definiamo uno schema fisico locale. 
-
-Per lo schema logico abbiamo diversi metodi:
-\begin{itemize}
-    \item shared-everything
-    \item shared-disk: tante istanze sullo stesso disco
-    \item shared-nothing: tante istanze diverse che si mettono d'accordo
-\end{itemize}
-
-definiremo una gerarchia tra dbms ecc..
-si aggiungerà la progettazione distribuita la stessa query deve essere eseguita 
-sui dbms diversi (dialetti SQL). Quindi spesso si usano dei 
-
-DDBMS sono flessibili, resistente ai guasti
-
-
-Non sempre aumentando i nodi si abbassa il tempo perché la coordinazione costa.
-
-Con i sistemi distribuiti bisogna ridurre al minimo gli accessi nella rete.
-
-come si distribuiscono i dati.
-Posso fare una sjuddivisione in orizzontale attraverso il valore di un attributo.
-o frammentare in verticale separando gli attributi in questo caso si necessita di
-una chiame esterna.
-
-Massima trasparenza => più costo del DBMS (Stessa query che si una per un semplice DBMS)
-trasparenza di allocazione => si lanciano le query sy ciascun frammento 
-trasparenza di linguaggio => si lanciano le query su ciascun frammento e replica
-
-Bisogna cercare di eseguire le query 
