@@ -143,20 +143,26 @@ di base non è più sufficiente.
       \centering
       \includegraphics[width=0.8\textwidth]{./img/modellazione_banca.jpg}
       \caption{Architettura dati per update veloci e consistenti}
+      \label{fig:esBanca}
 \end{figure}
 
-Bisogni:
+Dalla figura \ref{fig:esBanca} si possono notare due esempi di soluzioni identificate dai colori
+delle frecce blu e arancioni.
 \begin{itemize}
-    \item Persistenza dei dati: replica dei dati attraverso un Master Slave. Per
-          gestire la replica e il continuo dei servizi ho bisogno di un middleware che
-          permette di mantenere la consistenza tra le due istanze. Nota: distribuire
-          i dati è molto complesso e rischioso, conviene farlo solo quando è davvero
-          necessario prima di aggiungere complessità inutilmente. Motori di database
-          distribuiti, frammentare i dati tra nodi diversi, oppure edge computing i device
-          salvano localmente i dati. Il problema è che quando si distribuiscono i dati
-          bisogna capire cosa distribuire, ovvero capire come distribuire tra client e
-          server le parti di gestione.
+    \item \textbf{Blu}: la prima soluzione proposta comprende il salvataggio dei dati su
+            due memorie localizzate in luoghi. Questo approccio è più semplice a discalpito
+            della velocità.
+    \item \textbf{Arancione}: nella seconda proposta si utilizza un approccio 
+            master-slave, dove inizialmente si effettua un salvataggio solo su una 
+            prima memoria. Lo step successivo è sfruttare i log per replicare i dati
+            sulla seconda. Dal momento che la quantità dei dati è elevata, si può
+            aggiungere un middleware (coda) che permette di mantenere la consistenza
+            tra le due parti. In questo approccio più complesso si dovrà anche gestire
+            la frequenza di aggiornamento dei dati della memoria secondaria. 
 \end{itemize}
+
+%la parte qui sotto non andrebe messa con la spiegazione che ci aveva fatto a 
+% fine lezione? È più un esempio del DDBMS
 
 Possiamo avere 3 sedi dislocate geograficamente, il nodo di Milano ha la logica applicativa
 e i dati mentre a Roma e Padova ho solo l'applicazione. Si possono frammentare i
@@ -164,3 +170,11 @@ dati in modo da portarli vicino a dove servono, ex: Roma c'è il reparto risorse
 umane allora i dati sulle risorse umane verranno spostati lì. Spesso nella frammentazione
 si hanno dati in comune tra due sedi, quindi si effettuerà anche una duplicazione
 dei dati (replica).
+
+Nota: distribuire
+i dati è molto complesso e rischioso, conviene farlo solo quando è davvero
+necessario prima di aggiungere complessità inutilmente. Motori di database
+distribuiti, frammentare i dati tra nodi diversi, oppure edge computing i device
+salvano localmente i dati. Il problema è che quando si distribuiscono i dati
+bisogna capire cosa distribuire, ovvero capire come distribuire tra client e
+server le parti di gestione.

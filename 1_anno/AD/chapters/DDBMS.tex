@@ -134,7 +134,7 @@ Si hanno altri approcci:
 Si hanno vari tipi di architetture DDBMS:
 \begin{itemize}
     \item \textbf{Shared-everything}: dove il database management system e il
-          disco sono in un unico nodo.
+          disco sono in un unico nodo \ref{fig:sharedEverything}.
     \item \textbf{Shared-disk}: dove diversi DBMS agiscono sugli stessi dati. I
           vari DBMS accedono ai dati secondo una certa regolazione.
           Viene distribuito il carico ma si hanno problemi di concorrenza e
@@ -143,7 +143,12 @@ Si hanno vari tipi di architetture DDBMS:
           scalabile e, a patto di gestire la complessità, posso aggiungere nodi
           in modo illimitato.
 \end{itemize}
-% ! Immagine dei vari tipi di architetture
+\begin{figure}[ht]
+      \centering
+      \includegraphics[width=0.60\textwidth]{img/SharedEverything.jpg}
+      \caption{Architettura shared-everything}
+      \label{fig:sharedEverything}
+\end{figure}
 Vediamo quindi le proprietà generali di un DDBMS:
 \begin{itemize}
     \item \textbf{Località}: i dati sono vicino alle applicazioni che li
