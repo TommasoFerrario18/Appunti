@@ -1,32 +1,172 @@
 \chapter{Ripasso probabilità}
-\begin{definition}
-    Una \textbf{variabile casuale} può essere un'osservazione, un esito o un evento
-    il cui valore incerto.
-\end{definition}
-
+\begin{definizione}[\textbf{Variabile casuale}]
+    Una \textbf{variabile casuale} può essere un'osservazione, un esito o un
+    evento il cui valore incerto.
+\end{definizione}
 L'insieme dei possibili valori che può assumere una variabile casuale è chiamato
-\textbf{dominio}. 
-
-\begin{definition}
-    Uno \textbf{spazio di probabilità} o \textbf{modello di probabilità} è uno spazio
-    degli eventi corredato da un assegnamento $P(\omega)$ tale che:
-    $$0 \le P(\omega)\le 1, \sum_{\omega\in \Omega} P(\omega) = 1$$
-\end{definition}
-Si possono creare eventi più complessi combinando gli esiti di diverse variabili 
+\textbf{dominio} o \textbf{spazio degli eventi}.
+\begin{definizione}[\textbf{Spazio di probabilità}]
+    Uno \textbf{spazio di probabilità} o \textbf{modello di probabilità} è uno
+    spazio degli eventi corredato da un assegnamento $P(\omega)$ tale che:
+    \begin{equation*}
+        0 \leq P(\omega) \leq 1, \quad \sum_{\omega \in \Omega} P(\omega) = 1
+    \end{equation*}
+\end{definizione}
+Si possono creare eventi più complessi combinando gli esiti di diverse variabili
 casuali.
-\begin{definition}
-    Un \textbf{evento atomico} è una specificazione completa dei valori delle variabili
-    di interesse
-\end{definition}
-Se nel constesto ci sono diverse variabili casuali, il numero di eventi atomici 
+\begin{definizione}[\textbf{Evento atomico}]
+    Un \textbf{evento atomico} o \textbf{campione} è una specificazione completa
+    del valore delle variabili casuali di interesse.
+\end{definizione}
+Se nel contesto ci sono diverse variabili casuali, il numero di eventi atomici
 è la combinazione dei valori tra le singole variabili.
 
 L'insieme di tutti i possibili eventi atomici ha le seguenti proprietà:
 \begin{itemize}
-    \item \textbf{completo}: non ci sono altri eventi atomici
-    \item \textbf{mutualmente esclusivo}: può verificarsi solo un evento atomico alla volta
+    \item \textbf{Mutualmente esaustivo}: non ci sono altri eventi atomici.
+    \item \textbf{Mutualmente esclusivo}: può verificarsi solo un evento atomico
+          alla volta.
+\end{itemize}
+\begin{definizione}[\textbf{Spazio degli eventi}]
+    Lo \textbf{spazio degli eventi} $\Omega$ è l'insieme di tutti gli esisti.
+\end{definizione}
+\begin{definizione}[\textbf{Evento}]
+    Un \textbf{evento} $A$ è un qualunque sottoinsieme di $\Omega$ tale che:
+    \begin{equation*}
+        A \subseteq \Omega \quad \text{e} \quad P(A) = \sum_{\omega \in A} P(\omega)
+    \end{equation*}
+\end{definizione}
+\begin{definizione}[Variabile aleatoria]
+    Una \textbf{variabile aleatoria} è una variabile che può assumere valori
+    diversi in corrispondenza di eventi che costituiscono una partizione dello
+    spazio delle probabilità.
+\end{definizione}
+La teoria della probabilità può essere derivata dalle seguenti assunzioni:
+\begin{itemize}
+    \item Tutte le probabilità sono comprese tra 0 e 1.
+          \begin{equation*}
+              0 \leq P(A) \leq 1
+          \end{equation*}
+    \item Se qualcosa è necessariamente vero allora la probabilità è 1. Un
+          ragionamento simile vale per la probabilità nulla.
+          \begin{equation*}
+              P(\top) = 1, \quad P(\bot) = 0
+          \end{equation*}
+    \item La probabilità disgiunta che due variabili siano vere si ottiene come:
+          \begin{equation}
+              P(A \cup B) = P(A) + P(B) - P(A \cap B)
+          \end{equation}
+\end{itemize}
+\begin{definizione}[\textbf{Probabilità condizionata}]
+    La \textbf{probabilità condizionata} rappresenta la verosimiglianza che un
+    evento $A$ si verifichi dato che un altro evento $B$ si è verificato.
+    La probabilità di $A$ dato $B$ è definita come:
+    \begin{equation}
+        P(A|B) = \frac{P(A \cap B)}{P(B)}
+    \end{equation}
+\end{definizione}
+Da questa definizione possiamo dire che le probabilità condizionate riflettono
+il fatto che alcuni eventi rendono altri eventi più o meno verosimili. Sempre
+in quest ottica, se un evento non influisce sulla realizzazione di un altro
+evento, allora i due sono detti \textbf{indipendenti}. Se due eventi sono
+indipendenti allora:
+\begin{equation*}
+    P(A | B) = P(A)
+\end{equation*}
+\begin{definizione}[\textbf{Probabilità congiunta}]
+    La \textbf{probabilità congiunta}, ovvero il fatto che due eventi si
+    verifichino contemporaneamente, si ottiene partendo dalla probabilità
+    condizionata e dalle probabilità dei singoli eventi.
+    \begin{equation}
+        P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)
+    \end{equation}
+\end{definizione}
+\begin{definizione}[\textbf{Teorema di Bayes}]
+    Il \textbf{teorema di Bayes} è un'importante relazione tra probabilità
+    condizionata e probabilità congiunta. Esso afferma che la probabilità di
+    un evento condizionato ad un altro evento può essere calcolata in termini
+    della probabilità dell'evento condizionante e della probabilità
+    condizionata dell'evento di interesse.
+    \begin{equation}
+        P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
+    \end{equation}
+    \begin{proof}
+        La dimostrazione del teorema di Bayes si ottiene partendo dalla
+        definizione di probabilità condizionata e dalla probabilità congiunta.
+        \begin{equation*}
+            P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)
+        \end{equation*}
+        Da cui si ottiene:
+        \begin{equation*}
+            P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
+        \end{equation*}
+    \end{proof}
+\end{definizione}
+Un altro modo di interpretare la regola di Bayes è quello di considerare
+gli eventi come cause non necessariamente osservabili. In questo caso, la
+verosimiglianza degli effetti osservabili date le cause non osservabili, in
+formule:
+\begin{equation*}
+    P(\text{causa}|\text{effetto}) = \frac{P(\text{effetto}|\text{causa}) \cdot
+        P(\text{causa})}{P(\text{effetto})}
+\end{equation*}
+La regola di Bayes ci permette di usare questo modello per inferire la
+verosimiglianza della causa nascosta data l'osservazione dell'effetto.
+
+Una semplificazione, che può tornare utile in determinate condizioni, della
+regola di Bayes si può fare se si conosce la $P(E|C)$ per ogni causa $C$. In
+queste condizioni possiamo evitare di conoscere $P(E)$.
+\begin{equation}
+    P(C|E) = \frac{P(E|C) \cdot P(C)}{\sum_{i} P(E|C_i) \cdot P(C_i)}
+\end{equation}
+Questa procedura consiste nel normalizzare le probabilità condizionate.
+\begin{nota}
+    È importante osservare che la regola di Bayes confida nel fatto che l'effetto
+    deve essere scaturito a causa di una delle cause ipotizzate. Se ci sono altre
+    cause non considerate, la regola di Bayes non è applicabile.
+\end{nota}
+Il significato del teorema di Bayes può essere espresso come: apprendere
+attraverso l'esperienza.
+
+Posso riassumere nella seguente formula:
+\begin{equation}
+    P(A|B) = \alpha \cdot P(B | A) \cdot P(A)
+\end{equation}
+dove:
+\begin{itemize}
+    \item $P(A)$ è la probabilità a priori di $A$.
+    \item $P(B|A)$ è la verosimiglianza di $B$ dato $A$.
+    \item $P(A|B)$ è la probabilità a posteriori di $A$.
+    \item $\alpha$ è un fattore di normalizzazione.
 \end{itemize}
 
-\begin{definition}
-    Lo \textbf{spazio degli eventi} è l'insieme di tutti gli esisti
-\end{definition}
+Supponiamo ora di voler combinare diverse variabili casuali. Siccome abbiamo
+più effetti il nostro modello causale diventa complicato. Ad esempio se abbiamo
+$N$ effetti booleani ci saranno, data una causa, $2^N$ diverse combinazioni
+di evidenze che dobbiamo modellare.
+
+Questo porta a un notevole aumento della complessità del modello. Per ridurre
+questa complessità, la probabilità congiunta di un insieme di eventi può essere
+espressa come una \textbf{catena di probabilità condizionate}.
+\begin{definizione}[\textbf{Catena di probabilità condizionate}]
+    Una \textbf{catena di probabilità condizionate} è una sequenza di probabilità
+    condizionate che rappresenta la probabilità congiunta di un insieme di eventi.
+    \begin{equation}
+        P(A_1 \cap A_2 \cap \ldots \cap A_n) = P(A_1) \cdot P(A_2|A_1) \cdot
+        P(A_3|A_1 \cap A_2) \cdot \ldots \cdot P(A_n|A_1 \cap \ldots \cap A_{n-1})
+    \end{equation}
+\end{definizione}
+Questo approccio risulta utile per fare \textbf{inferenza}. Consideriamo un
+insieme di eventi $E_1, E_2, \dots, E_n$ e tutte le possibili combinazioni dei
+loro valori, per semplicità usiamo $\top, \bot$. Inoltre, conosciamo tutti i
+valori $P(E_1, E_2, \dots, E_n)$ e supponiamo che un sottoinsieme di questi
+presenti un valore definito, come ad esempio $E_j = Vero = e$.
+Chiamiamo \textbf{inferenza probabilistica} il processo di calcolo del valore:
+\begin{equation}
+    P(E_i = Vero|E_j=e)
+\end{equation}
+In generale l'inferenza probabilistica non è trattabile usando questo metodo 
+perché avendo $N$ eventi, dovremmo avere una lista di $2^N$ probabilità congiunte.
+
+Per tale ragione molti ragionano in condizioni di incertezza affidandosi a metodi 
+approssimati o qualitativi.
