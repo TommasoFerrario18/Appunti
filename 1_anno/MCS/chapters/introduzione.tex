@@ -1,110 +1,145 @@
 \chapter{Introduzione}
 \section{Rappresentazione di numeri reali rispetto ad una base}
-Cosa vuol dire scrivere $12.211$ rispetto ad una certa base?
+\begin{esempio}
+    Cosa vuol dire scrivere $12.211$ rispetto ad una certa base?
 
-$$12.211_{10}\equiv 1\cdot 10^1+2\cdot 10^0 +2 \cdot 10^{-1} + 1 \cdot 10^{-2}+ 1 \cdot 10^{-3}$$
-$$12.211_{3}\equiv 1\cdot 3^1+2\cdot 3^0 +2 \cdot 3^{-1} + 1 \cdot 3^{-2}+ 1 \cdot 3^{-3}$$
-
-Più in generare, data una base $\beta$ possiamo rappresentare un qualsiasi
-numero nel seguente modo:
-$$\pm a_n a_{n-1}\dots a_{-n} = \pm \sum_{j = -n}^{n} a_j\cdot \beta^j $$
+    Sia dato il numero $12.211$ in base $10$. Questo numero può essere scritto
+    come:
+    \begin{equation*}
+        12.211_{10} = 1\cdot 10^1+2\cdot 10^0 +2 \cdot 10^{-1} + 1 \cdot 10^{-2}
+        + 1 \cdot 10^{-3}
+    \end{equation*}
+    Oppure, utilizzando una base diversa possiamo scrivere:
+    \begin{equation*}
+        12.211_{3} = 1\cdot 3^1+2\cdot 3^0 +2 \cdot 3^{-1} + 1 \cdot 3^{-2}
+        + 1 \cdot 3^{-3}
+    \end{equation*}
+\end{esempio}
+\begin{definizione}
+    Sia $\beta$ una base. Un numero $x$ è rappresentato in base $\beta$ come:
+    \begin{equation}
+        \pm a_n a_{n-1} \dots a_{-m} = \pm \sum_{j = -m}^{n} a_j \cdot \beta^j
+    \end{equation}
+    con $a_j \in \{0, 1, \dots, \beta-1\}$ e $a_n \neq 0$.
+\end{definizione}
 \begin{teorema}
     $1=0.\overline{9}$
     \begin{proof}
-        possiamo dire che $$0.\overline{9} = \sum _{j=1}^{+\infty} 9\cdot 10^{-j}=9 \sum _{j=0}^{+\infty} \cdot 10^{-j-1}= $$
-        $$=9 \sum _{j=0}^{+\infty} \cdot \frac{1}{10}^{j+1}=\frac{9}{10} \sum _{j=0}^{+\infty} \cdot \frac{1}{10}^{j}= $$
-        $$=\frac{9}{10} \cdot \frac{1}{1-\frac{1}{10}} = 1$$
+        Possiamo dire che:
+        \begin{equation*}
+            0.\overline{9} = \sum_{j = 1}^{+ \infty} 9 \cdot 10^{-j} = 9
+            \sum_{j=0}^{+\infty} \cdot 10^{-j-1} = 9 \sum_{j = 0}^{+\infty} \cdot
+            \frac{1}{10}^{j+1} = \frac{9}{10} \sum _{j=0}^{+\infty} \cdot \frac{1}{10}^{j} =
+            = \frac{9}{10} \cdot \frac{1}{1-\frac{1}{10}} = 1
+        \end{equation*}
     \end{proof}
 \end{teorema}
 \begin{teorema}
     Sia dato $\frac{1}{q}$ un numero razionale ai minimi termini. Tale numero ha
-    una rappresentazione finita se e solo se i divisori primi di $q$ dividono anche 
-    la base $\beta$.
+    una rappresentazione \textbf{finita} se e solo se tutti divisori primi di $q$
+    dividono anche la base $\beta$.
 \end{teorema}
-Con questo teorema abbiamo che sul pc non possiamo rappresentare i numeri reali 
-e razionali perfettamente, dal momento che se non si ha il denominatore che non divide la base $2$
-allora questo non ha una rappresentazione finita.
-
+Questo teorema ci permette di affermare che sui computer non possiamo
+rappresentare i numeri reali e razionali perfettamente. Questo è dovuto al fatto
+che la base utilizzata dai computer è la base $2$ e quindi il denominatore deve
+essere divisibile per $2$ per avere una rappresentazione finita.
 \section{Aritmetica floating point}
-Sia $F$ un insieme di numeri rappresentabile su un computer. Un'aritmetica di macchina
-per $F$ è una quadrupla:
-\begin{equation}
-    \left(\beta, t, L, U\right)
-\end{equation}
-dove:
-\begin{itemize}
-    \item $beta$: è la base
-    \item $t$: è la \textbf{mantissa}, quanti numeri posso metere prima e dopo la virgola
-    \item $L$: lower bound ($<0$)
-    \item $U$: upper bound ($>0$)
-\end{itemize}
-$F$ consiste dei numeri rappresentabili come
+\begin{definizione}[\textbf{Aritemtica}]
+    Sia $F$ un insieme di numeri rappresentabile su un computer. Un'aritmetica
+    di macchina per $F$ è una quadrupla:
+    \begin{equation}
+        (\beta, t, L, U)
+    \end{equation}
+    dove:
+    \begin{itemize}
+        \item $beta$: è la base
+        \item $t$: è la \textbf{mantissa}, quanti numeri posso mettere prima e
+              dopo la virgola
+        \item $L$: lower bound ($< 0$)
+        \item $U$: upper bound ($> 0$)
+    \end{itemize}
+\end{definizione}
+$F$ consiste dei numeri rappresentabili attraverso la seguente formula:
 \begin{equation}
     \pm 0.a_1a_2\dots a_t\cdot \beta ^e
 \end{equation}
-con $a_1\ne 0$, $0\le a_j\le \beta-1$, $L\le e\le U$.
+con $a_1 \neq 0$, $0 \leq a_j \leq \beta-1$, $L\leq e \leq U$.
 \subsection{Standard Double Precision}
-Avremo 
+Analizziamo ora lo \textbf{Standard Double Precision} nel quale la quadrupla è
+definita come:
 \begin{equation}
-    \left(\beta = 2, t= 52, -1022, 1023\right)
+    (\beta = 2, t = 52 + 1, L = -1022, U = 1023)
 \end{equation}
-Si usano $52$ cifre per la mantissa ma si tiene sempre $1$ come cifra costante quindi
-il numero finale avrà realmente $53$ cifre per la mantissa. In aggiunta per l'esponente si hanno 
-$2^{11}-2$ valori.
+La mantissa è composta da $53$ bit, ma il primo bit è sempre $1$ quindi non lo
+si considera, il che ci lascia con una mantissa composta da $52$ bit. In aggiunta
+per l'esponente può assumere $2^{11} - 2 = 2046$ valori, ovvero possiamo rappresentare
+l'esponente utilizzando $11$ bit.
 
-Sul pc si usano $64$ bit di cui:
+Solitamente sui computer viene utilizzato un sistema a $64$ bit di cui:
 \begin{itemize}
-    \item $1$ bit: per il segno
-    \item $11$ bit: per l'esponente, le due configurazioni aggiuntive servono per 
-    rappresentare le configurazioni \texttt{Inf} e \texttt{NaN}
-    \item $52$ bit: per la mantissa
+    \item $1$ bit: per rappresentare il segno.
+    \item $11$ bit: per l'esponente. Nella realtà si utilizzano 2046 valori per
+          rappresentare l'esponente, il che corrisponde a $2^{11} - 2$. Le due
+          configurazioni aggiuntive servono per rappresentare \texttt{Inf} e
+          \texttt{NaN}.
+    \item $52$ bit: per rappresentare la mantissa.
 \end{itemize}
-
+% ! Immagine
 \subsection{Operazioni in Aritmetica floating point}
-Se volessimo fare la somma floating point tra due numeri $x,y$ coincide a fare
+Vediamo ora come vengono effettuate le operazioni in aritmetica floating point.
+Calcolare la somma tra due numeri floating point $x,y$ coincide a col calcolare:
 \begin{equation}
     x \oplus y = fl(fl(x) + fl(y))
 \end{equation}
-Dove $fl(z)$ con $z\in \mathbb{R}$ è la rappresentazione approssimata in floating point di $z$.
+Dove $fl(z)$ con $z\in \mathbb{R}$ è la rappresentazione l'approssimazione del
+numero $z$ nell'aritmetica floating point.
 \begin{nota}
-    $sin(z)$ è sempre approssimato utilizzando le serie.
+    Alcune funzioni, come ad esempio $\sin(z)$, sono rappresentate utilizzando
+    la serie di Taylor.
 \end{nota}
-
 \begin{definizione} [\textbf{Errore assoluto}]
-    Se $x$ è una quantità \textbf{esatta}, sia $\stackrel{\sim}{x}$ la quantità approssimata
-    relativa, sia $\|\cdot\|$ una misura di errore, allora l'\textbf{errore assoluto} è
+    Se $x$ è una quantità \textbf{esatta}, sia $\stackrel{\sim}{x}$ la quantità
+    approssimata relativa, sia $\|\cdot\|$ una misura di errore, allora
+    l'\textbf{errore assoluto} si ottiene come:
     \begin{equation}
         \|x-\stackrel{\sim}{x}\|
-    \end{equation} 
+    \end{equation}
 \end{definizione}
-
 \begin{definizione} [\textbf{Errore relativo}]
-    Se $x$ è una quantità \textbf{esatta}, sia $\stackrel{\sim}{x}$ la quantità approssimata
-    relativa, sia $\|\cdot\|$ una misura di errore, allora l'\textbf{errore relativo} è
+    Se $x$ è una quantità \textbf{esatta}, sia $\stackrel{\sim}{x}$ la quantità
+    approssimata relativa, sia $\|\cdot\|$ una misura di errore, allora
+    l'\textbf{errore relativo} si ottiene come:
     \begin{equation}
         \frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}
-    \end{equation} 
+    \end{equation}
 \end{definizione}
-Quindi possiamo calcolare 
+Avendo definito la misura di errore, possiamo calcolare:
 \begin{equation}
     \frac{\|(x+y)-(x\oplus y)\|}{\|x+y\|}
 \end{equation}
-che corrisponde a 
+Questa misura di errore può essere semplifica ottenendo il seguente risultato:
 %TODO: sistemare la semplificazione
 \begin{equation}
-    \frac{\|(x+y)-(x(1+\epsilon_x)+ y(1+\epsilon_y))\cdot (1+\epsilon_+)\|}{\|x+y\|}=
-    =\frac{\|(x+y)-(x(1+\epsilon_x)+ y(1+\epsilon_y))\cdot (1+\epsilon_+)\|}{\|x+y\|}=
-    \|\frac{x}{x+y}\cdot \epsilon_x + \frac{y}{x+y}\cdot \epsilon_y+\epsilon\|\le \|\frac{x}{x
-    +y}\|\epsilon + \|\frac{y}{x+y}\|\epsilon + \epsilon
+    \begin{aligned}
+        \frac{\|(x + y) - (x (1 + \varepsilon_x) + y(1 + \varepsilon_y)) \cdot
+            (1 + \varepsilon_+)\|}{\|x + y\|} = \frac{\|(x + y) - (x(1 + \varepsilon_x)
+        + y(1+\varepsilon_y))\cdot (1 + \varepsilon_+)\|}{\|x + y\|} =    \\
+        = \frac{\|(x + y) - (x(1 + \varepsilon_x) + y(1 + \varepsilon_y)) \cdot
+            (1 + \varepsilon_+)\|}{\|x + y\|} = \frac{\|(x + y)-(x(1 + \varepsilon_x)
+        + y(1 + \varepsilon_y)) \cdot (1 + \varepsilon_+)\|}{\|x + y\|} = \\
+        \|\frac{x}{x + y} \cdot \varepsilon_x + \frac{y}{x + y} \cdot
+        \varepsilon_y + \varepsilon\| \leq \|\frac{x}{x + y}\| \varepsilon +
+        \|\frac{y}{x + y}\|\varepsilon + \varepsilon
+    \end{aligned}
 \end{equation}
-Per $\epsilon$ piccolo l'errore cresce quando $y\sim -x$.
+Per $\varepsilon$ piccolo l'errore cresce quando $y \sim -x$. Quindi la somma
+\textbf{non è stabile} e l'errore aumenta quando $x + y \sim 0$.
 
-Quindi la somma non è \textbf{stabile} e l'errore aumenta quando $x+y\sim 0$.
-
-Per quanto riguarda il prodotto effettuiamo lo stesso ragionamento.
-calcoliamo
+Per quanto riguarda il \textbf{prodotto} è possibile effettuare lo stesso
+ragionamento. In questo caso calcoliamo:
 \begin{equation}
-    \frac{\|(x\cdot y)-(x\odot y)\|}{\|x\cdot y\|} 
+    \frac{\|(x\cdot y)-(x\odot y)\|}{\|x\cdot y\|}
 \end{equation}
+% TODO: sistemare la semplificazione
 stesse semplificazioni si ottiene che il prodotto è \textbf{stabile} quindi perché
-rimangono solo gli $\epsilon$ che sono tendenti a $0$.
+rimangono solo gli $\varepsilon$ che sono tendenti a $0$.
