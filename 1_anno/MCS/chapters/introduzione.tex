@@ -35,7 +35,7 @@
     \end{proof}
 \end{teorema}
 \begin{teorema}
-    Sia dato $\frac{1}{q}$ un numero razionale ai minimi termini. Tale numero ha
+    Sia dato $\frac{p}{q}$ un numero razionale ai minimi termini. Tale numero ha
     una rappresentazione \textbf{finita} se e solo se tutti divisori primi di $q$
     dividono anche la base $\beta$.
 \end{teorema}
@@ -121,25 +121,43 @@ Questa misura di errore può essere semplifica ottenendo il seguente risultato:
 %TODO: sistemare la semplificazione
 \begin{equation}
     \begin{aligned}
-        \frac{\|(x + y) - (x (1 + \varepsilon_x) + y(1 + \varepsilon_y)) \cdot
-            (1 + \varepsilon_+)\|}{\|x + y\|} = \frac{\|(x + y) - (x(1 + \varepsilon_x)
-        + y(1+\varepsilon_y))\cdot (1 + \varepsilon_+)\|}{\|x + y\|} =    \\
-        = \frac{\|(x + y) - (x(1 + \varepsilon_x) + y(1 + \varepsilon_y)) \cdot
-            (1 + \varepsilon_+)\|}{\|x + y\|} = \frac{\|(x + y)-(x(1 + \varepsilon_x)
-        + y(1 + \varepsilon_y)) \cdot (1 + \varepsilon_+)\|}{\|x + y\|} = \\
-        \|\frac{x}{x + y} \cdot \varepsilon_x + \frac{y}{x + y} \cdot
-        \varepsilon_y + \varepsilon\| \leq \|\frac{x}{x + y}\| \varepsilon +
-        \|\frac{y}{x + y}\|\varepsilon + \varepsilon
+        \frac{|x + y - fl(x) + fl(y)|}{|x + y|} = \frac{\|(x + y) - (x (1 + 
+        \varepsilon_x) + y(1 + \varepsilon_y)) \cdot (1 + \varepsilon_+)\|}{\|x + y\|} =
+        \frac{|x \varepsilon_x + y \varepsilon_y + (x + y) \varepsilon_S + x 
+        \varepsilon_x \varepsilon_S + Y \varepsilon_y \varepsilon_S|}{|x + y|} = \\
+        \approx \frac{\left|\frac{x}{x + y} \varepsilon_x + \frac{y}{x + y} 
+        \varepsilon_y \varepsilon_S \right|}{|x + y|} \leq \left|\frac{x}{x + y}
+        \right| \varepsilon_x + \left|\frac{y}{x + y}\right| \varepsilon_y + \varepsilon_S
     \end{aligned}
 \end{equation}
 Per $\varepsilon$ piccolo l'errore cresce quando $y \sim -x$. Quindi la somma
 \textbf{non è stabile} e l'errore aumenta quando $x + y \sim 0$.
-
+\begin{esempio}
+    Ad esempio analizzando le seguenti funzioni, le quali sono identiche dal 
+    punto di vista matematico, si ottengono risultati diversi:
+    \begin{equation*}
+        f(x) = \sqrt{x + 1} - \sqrt{x}
+    \end{equation*}
+    \begin{equation*}
+        g(x) = \frac{1}{\sqrt{x + 1} + \sqrt{x}}
+    \end{equation*}
+    Il risultato di $f(x)$ è instabile per grandi valori di $x$, mentre il 
+    risultato di $g(x)$ è stabile.
+\end{esempio}
 Per quanto riguarda il \textbf{prodotto} è possibile effettuare lo stesso
 ragionamento. In questo caso calcoliamo:
 \begin{equation}
     \frac{\|(x\cdot y)-(x\odot y)\|}{\|x\cdot y\|}
 \end{equation}
-% TODO: sistemare la semplificazione
+Questa misura di errore può essere semplifica ottenendo il seguente risultato:
+\begin{equation}
+    \begin{aligned}
+        \frac{|x \cdot y - fl(x) \cdot fl(y)|}{|x \cdot y|} = \frac{|xy - xy(1 + 
+        \varepsilon_x)(1 + \varepsilon_y)(1 + \varepsilon_P)|}{|xy|} = \\
+        = |1 - (1 + \varepsilon_x)(1 + \varepsilon_y)(1 + \varepsilon_P)| = 
+        |\varepsilon_x + \varepsilon_y + \varepsilon_P + \varepsilon_x \varepsilon_y + \varepsilon_x \varepsilon_P + \varepsilon_y \varepsilon_P + \varepsilon_x \varepsilon_y \varepsilon_P| \approx \\
+        \approx |\varepsilon_x + \varepsilon_y + \varepsilon_P| \leq 3\varepsilon
+    \end{aligned}
+\end{equation}
 stesse semplificazioni si ottiene che il prodotto è \textbf{stabile} quindi perché
 rimangono solo gli $\varepsilon$ che sono tendenti a $0$.
