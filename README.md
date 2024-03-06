@@ -25,3 +25,4 @@ al seguente [link](https://tommasoferrario18.github.io/Appunti/).
 
 - [Telemaco Terzi](https://github.com/Tezze2001)
 - [Tommaso Ferrario](https://github.com/TommasoFerrario18)
+- [Simone Vendramini](https://github.com/simone-vendramini)
