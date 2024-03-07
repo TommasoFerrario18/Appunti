@@ -1,0 +1,108 @@
+\chapter{Data Pre-processing}
+I dati nella realtà sono spesso sporchi infatti possono essere:
+\begin{itemize}
+    \item \textbf{incompleti}: mancanza di dati
+    \item \textbf{rumorosi}: contenti errori e outlier
+    \item \textbf{inconsistenti}: contenenti discrepanze 
+\end{itemize}
+
+Quando abbiamo dei dati che devono essere utilizzati per un modello allora si 
+devono compiere i seguenti passi:
+\begin{enumerate}
+    \item \textbf{data cleaning}: riempire i dati mancanti, rendere più omogenei
+    i dati rumorosi, identificare e rimuovere gli outlier e risolvere le inconsistenze
+    \item \textbf{data integration}: integrare diversi dataset insieme
+    \item \textbf{data transformation}: applicare operazioni di normalizzazione e aggregazione
+    \item \textbf{data reduction}: selezione delle feature ed estrazione.
+\end{enumerate}
+
+
+\section{Data cleaning}
+\subsection{Valori mancanti}
+\begin{definizione} [\textbf{Valori mancanti}]
+    I \textbf{valori mancanti} sono i valori sconosciunti di una feature per una
+    particolare istanza.
+\end{definizione}
+La presenza dei \textbf{valori mancanti} può essere dovuta da:
+\begin{itemize}
+    \item dati non disponibili
+    \item dati non registrati
+    \item risultati di malfunzionamenti dei sensori
+    \item dati cancellati
+    \item dati sconosciuti
+\end{itemize}
+Importante gestirli perché tre ragioni:
+\begin{itemize}
+    \item \textbf{perdita di efficienza}: rendono meno efficienti tutti i processi successivi
+    risultati perché introduciamo delle distorsioni nel dataset, compromettendo
+    i risultati.
+    \item \textbf{complicazioni}: si complicano i modelli perché non prevedono
+    valori mancanti nelle istanze
+    \item \textbf{bias nei risultati}: si introducono delle differenze tra dati 
+    completi e dati incompleti.  
+\end{itemize}
+
+Esistono 3 tipologie di dati mancanti:
+\begin{itemize}
+    \item Missing Completely At Random (\textbf{MCAR}): quando la mancanza del
+    valore di un attributo non è dipendente dai valori osservati o dai valori mancanti
+    \item Missing At Random (\textbf{MAR}): quando la mancanza del
+    valore di un attributo è dipendente dai valori osservati, ma non dai valori mancanti
+    \item Not Missing At Random (\textbf{NMAR}): quando la mancanza del
+    valore di un attributo è dipendente dai valori mancanti
+\end{itemize}
+In base alla tipologia del dato mancante si hanno diversi metodi per la loro gestione.
+In generale si hanno tre metodi:
+\begin{itemize}
+    \item \textbf{ignorare} l'istanza avente il valore dell'attributo mancante o 
+    ignorare l'attributo se molte istanze hanno valori mancanti per quella feature.
+    Approccio più semplice ma applicabile solo quando abbiamo pochi dati mancati 
+    e tanti dati osservati.
+    \item \textbf{conversione} dei valori mancanti. Si assegna un significato al
+    valore mancante, quindi, intermini di modelli probabilistici, si aggiunge 
+    un ulteriore possibile valore alla variabile aleatoria e si considera come 
+    un'informazione il fatto che manchi il valore.
+    \item \textbf{metodi di imputazione}, assegno un valore basato sul resto delle 
+    osservazioni del dataset, ma non è importate sapere che manchi e quindi meglio 
+    un valore che lo sostituisca. Utili per MCAR e MAR, ma inutili per NMAR. 
+\end{itemize}
+Esistono diversi metodi di imputazione dei valori mancanti in base alla tipologia
+dell'attributo:
+\begin{itemize}
+    \item \textbf{continuo}: calcolo la media tra tutti gli altri (si assume che i dato sia distribuito normalmente)
+    \item \textbf{discreto} o \textbf{categorico}: sostituiamo il valore mancante con
+    quello più frequente
+\end{itemize}
+Possiamo utilizzare questi metodi seguento un ragionamento differente, ovvero
+ragionando per classe, quindi calcolare la media e il valore frequente rispetto
+le istanze etichettate con la stessa classe dell'istanza col valore mancante.
+Questo secondo metodo si usa principalmente in un contesto supervisionato.
+Gli approcci appena descritti sono molto semplici e veloci, ne esistono altri più
+complessi che scomodano algoritmi di ML. Per esempio si può usare KNN per predire
+il valore mancante in base al valore medio o più frequente tra i $k$ valori degli 
+esempi più vicini. Un estensione di questo metodo è l'utilizzo di algoritmi di ML
+per la predizione dei valori mancanti, ma significa definire un modello per la 
+previsione dei valori mancanti per ciascuna feature.
+
+
+\subsection{Rumorosità dei dati}
+\begin{definizione} [\textbf{Rumorosità dei dati}]
+    La \textbf{Rumorosità dei dati} è l'insieme di dati che presentanto dei 
+    valori che non hanno una relazione con gli altri valori, spesso dovuti ad errori di misurazione,
+    o errori nella scelta del campione. 
+\end{definizione}
+Spesso si discretizzano i dati continui attraverso i seguenti metodi:
+\begin{itemize}
+    \item \textbf{equal-width}: partiziona dell'intervallo dell'attributo in $N$ intervalli della stessa
+    distanza. Mantiene sempre gli outliers.
+    \item \textbf{equal-depth}: partiziona dell'intervallo dell'attributo in $N$ intervalli della stessa
+    frequenza di dati. Genera una distribuzione uniforme ma non mantiene 
+    gli outliers.
+\end{itemize}
+
+I due metodi si usano in base all'impatto che hanno sui modelli. Il secondo 
+metodo abbassa la varianza della feature nascondendo gli outlier, mentre il primo aumenta la varianza 
+e quindi evidenza gli outlier.
+%TODO: aggiungere il grafico delle distribuzioni dei due metodi
+
+\subsection{dataset sblilanciati}

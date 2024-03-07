@@ -11,75 +11,14 @@ L'obiettivo è di far capire ad una persona non del settore il risultato per pre
 delle decisioni correttamente.
 
 Le attività di analytics vengono classificate rispetto: il valore del task e la 
-sua difficoltà.
-Categorizzeremo i task in:
+sua difficoltà. Ciascun task si categorizza in:
 \begin{itemize}
-    \item \textbf{Descriptive Analytics}: clustering ex: segmentazione della clientela, generalmente 
+    \item \textbf{Descriptive Analytics}: descrive qualcosa ex: segmentazione della clientela, clustering, generalmente 
     non supervisionati. 
     \item \textbf{Diagnostic Analytics}: perché succede qualcosa
-    \item \textbf{Predicitve Analytics}: predizione e classificazione
+    \item \textbf{Predicitve Analytics}: cosa succede, ex: predizione e classificazione
     \item \textbf{Prescriptive Analytics}: il mondo evolve nel tempo e le decisioni nel 
     passato evolvono anche nel futuro.
 \end{itemize} 
 
 % TODO: aggiungere il grafico
-
-\section*{Data pre-processing}
-Quando dobbiamo modellare un dataset possiamo avere diversi problemi:
-\begin{itemize}
-    \item \textbf{valori mancanti}: dati non disponibili, non sono stati registrati,
-    risultati di malfunzionamenti dei sensori, può essere stato cancellato. Importante
-    gestirli perché rendono meno efficienti tutti i processi successivi, bias sui
-    risultati perché introduciamo delle distorsioni nel dataset, complicazioni nel modello
-    perché spesso non prevedono valori mancanti. Esistono 3 diverse categorie di valori
-    mancanti:
-    \begin{itemize}
-        \item \textbf{MCAR}: il valore mancante non dipende dal dato osservato o
-        da altri valori mancanti
-        \item \textbf{MAR}: il dato può essere inferito dai dati osservati ma non dipende
-        da quelli mancantil
-        \item $\dots$
-    \end{itemize}
-    Per gestirli abbiamo tre metodi:
-    \begin{itemize}
-        \item ignorare gli esempi, approccio semplice ma applicabile solo quando 
-        abbiamo pochi dati mancati e tanti dati osservati
-        \item conversione dei valori mancanti in uno nuovo. Si assegna un significato
-        al valore mancante e quindi un possibile valore di una variabile aleatoria
-        allora si considera come un'informazione il fatto che manchi il valore.
-        \item metodi di imputazione: assegno un valore basato sul resto delle osservazioni del dataset
-        ma non è importate sapere che manchi e quindi meglio un valore che lo sostituisca. Utili per MCAR e MAR
-        ma non utili per NMAR. Esistono diverse strategie di imputazione in base 
-        alla tipologia del valore mancante:
-        \begin{itemize}
-            \item continuo: calcolo la media tra tutti gli altri (si assume che i dato sia distribuito normalmente)
-            \item discreta o categorica: sostituiamo con un valore frequente
-        \end{itemize}
-        Possiamo pensare di sostituire con la media o il valore frequente ragionando
-        per classe, ovvero media dei valori o il valore più frequente degli esempi 
-        della stessa classe. Questo secondo metodo si usa in un contesto supervisionato.
-        Altri metodi si basano su KNN (uguale all'algoritmo ML), predizione del 
-        valore in base al valore medio o frequente dei k valori degli esempi vicini.
-        Un altro metodo è utilizzare altri algoritmi di ML, ma significa 
-        definire un modello per la previsione dei valori mancanti di ciascuna feature.
-    \end{itemize}
-
-    \item \textbf{rumorosità dei dati}: valori che possono essere outliers ma 
-    in realtà spesso sono dovuti dalla mancanza di dati. Si utilizzano tecniche di
-    discretizzazione dei valori continui (pu):
-    \begin{itemize}
-        \item \textbf{equal-width}: partiziona dell'intervallo dell'attributo in $N$ intervalli della stessa
-        distanza. Mantiene sempre gli outliers.
-        \item \textbf{equal-depth}: partiziona dell'intervallo dell'attributo in $N$ intervalli della stessa
-        frequenza di dati. Genera una distribuzione uniforme ma non mantiene 
-        gli outliers.
-    \end{itemize}
-    I due metodi si usano in base all'impatto che hanno sui modelli. Il secondo 
-    metodo abbassa la varianza della feature nascondendo gli outlier, mentre il primo aumenta la varianza 
-    e quindi evidenza gli outlier.
-    %TODO: aggiungere il grafico delle distribuzioni dei due metodi
-    \item  \textbf{dataset sblilanciati}
-\end{itemize}
-
-In quasi tutti i modelli non si possono gestire i valori mancanti, eccetto alcuni
-casi particolari.
