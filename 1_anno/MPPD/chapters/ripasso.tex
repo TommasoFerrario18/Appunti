@@ -1,4 +1,15 @@
 \chapter{Ripasso probabilità}
+
+\begin{definizione}[\textbf{Spazio degli eventi}]
+    Lo \textbf{spazio degli eventi} $\Omega$ è l'insieme di tutti gli esisti.
+\end{definizione}
+\begin{definizione}[\textbf{Evento}]
+    Un \textbf{evento} $A$ è un qualunque sottoinsieme di $\Omega$ tale che:
+    \begin{equation*}
+        A \subseteq \Omega \quad \text{e} \quad P(A) = \sum_{\omega \in A} P(\omega)
+    \end{equation*}
+\end{definizione}
+
 \begin{definizione}[\textbf{Variabile casuale}]
     Una \textbf{variabile casuale} può essere un'osservazione, un esito o un
     evento il cui valore incerto.
@@ -27,15 +38,7 @@ L'insieme di tutti i possibili eventi atomici ha le seguenti proprietà:
     \item \textbf{Mutualmente esclusivo}: può verificarsi solo un evento atomico
           alla volta.
 \end{itemize}
-\begin{definizione}[\textbf{Spazio degli eventi}]
-    Lo \textbf{spazio degli eventi} $\Omega$ è l'insieme di tutti gli esisti.
-\end{definizione}
-\begin{definizione}[\textbf{Evento}]
-    Un \textbf{evento} $A$ è un qualunque sottoinsieme di $\Omega$ tale che:
-    \begin{equation*}
-        A \subseteq \Omega \quad \text{e} \quad P(A) = \sum_{\omega \in A} P(\omega)
-    \end{equation*}
-\end{definizione}
+
 \begin{definizione}[Variabile aleatoria]
     Una \textbf{variabile aleatoria} è una variabile che può assumere valori
     diversi in corrispondenza di eventi che costituiscono una partizione dello
@@ -54,7 +57,7 @@ La teoria della probabilità può essere derivata dalle seguenti assunzioni:
           \end{equation*}
     \item La probabilità disgiunta che due variabili siano vere si ottiene come:
           \begin{equation}
-              P(A \cup B) = P(A) + P(B) - P(A \cap B)
+              P(A \cup B) = P(A) + P(B) - P(A \cap B) \ \equiv \ P(A \lor B) = P(A) + P(B) - P(A \land B)
           \end{equation}
 \end{itemize}
 \begin{definizione}[\textbf{Probabilità condizionata}]
@@ -62,12 +65,12 @@ La teoria della probabilità può essere derivata dalle seguenti assunzioni:
     evento $A$ si verifichi dato che un altro evento $B$ si è verificato.
     La probabilità di $A$ dato $B$ è definita come:
     \begin{equation}
-        P(A|B) = \frac{P(A \cap B)}{P(B)}
+        P(A|B) = \frac{P(A \cap B)}{P(B)}  
     \end{equation}
 \end{definizione}
 Da questa definizione possiamo dire che le probabilità condizionate riflettono
 il fatto che alcuni eventi rendono altri eventi più o meno verosimili. Sempre
-in quest ottica, se un evento non influisce sulla realizzazione di un altro
+in quest'ottica, se un evento non influisce sulla realizzazione di un altro
 evento, allora i due sono detti \textbf{indipendenti}. Se due eventi sono
 indipendenti allora:
 \begin{equation*}
@@ -78,7 +81,7 @@ indipendenti allora:
     verifichino contemporaneamente, si ottiene partendo dalla probabilità
     condizionata e dalle probabilità dei singoli eventi.
     \begin{equation}
-        P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)
+        P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A) \equiv P(A, B) \equiv P(A \land B)
     \end{equation}
 \end{definizione}
 \begin{definizione}[\textbf{Teorema di Bayes}]
@@ -166,7 +169,6 @@ Chiamiamo \textbf{inferenza probabilistica} il processo di calcolo del valore:
     P(E_i = Vero|E_j=e)
 \end{equation}
 In generale l'inferenza probabilistica non è trattabile usando questo metodo 
-perché avendo $N$ eventi, dovremmo avere una lista di $2^N$ probabilità congiunte.
-
-Per tale ragione molti ragionano in condizioni di incertezza affidandosi a metodi 
-approssimati o qualitativi.
+perché avendo $N$ eventi binari, dovremmo avere una lista di $2^N$ probabilità congiunte.
+Si riduce il numero utilizzando metodi approssimativi, qualitativi o sfruttando 
+l'indipendenza condizionata.
