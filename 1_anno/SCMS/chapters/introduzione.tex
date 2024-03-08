@@ -1,0 +1,83 @@
+\chapter{Introduzione}
+Studieremo i sistemi complessi attraverso la loro rappresentazione sottoforma di
+modelli, in questo modo si possono studiare i fenomeni mappandoli come proprietà
+sui modelli.
+
+\begin{definizione} [\textbf{Sistema Semplice}]
+    Un \textbf{Sistema Semplice} è un sistema avente relazioni di causa-effetto
+    note, stabili, ripetibili e predicibili.
+\end{definizione}
+
+\begin{esempio}
+    Ex: per una bicicletta è banale sapere che se si pedala si avanza.
+\end{esempio}
+
+\begin{definizione} [\textbf{Sistema Complicato}]
+    Un \textbf{Sistema Complesso} è un sistema semplice ma su scala molto più ampia
+    e conoscienze specialistiche diverse.
+\end{definizione}
+
+\begin{esempio}
+    Ex: una macchina, un autobus e un razzo.
+\end{esempio}
+
+\begin{definizione} [\textbf{Sistema Complesso}]
+    Un \textbf{Sistema Complesso} è un sistema avente relazioni di causa-effetto
+    spesso comprensibili in retrospettiva, non necessariamente facilmente 
+    riproducibili e predicibili. I sistemi complessi possono, fino ad un certo punto,
+    essere analizzati tramite simulazione. 
+\end{definizione}
+
+\begin{esempio}
+    Ex: organismi viventi, organizzazioni umane.    
+\end{esempio}
+
+I sistemi complessi hanno diverse proprietà:
+\begin{itemize}
+    \item \textbf{non linearità}: date due variabili osservabili nel sistema 
+    si hanno relazioni di non linearità. (ex: traffico)
+\end{itemize}
+
+Problema N-Regine, 2 soluzioni:
+\begin{itemize}
+    \item centralizzato: genero da 0 una soluzione oppure possono generare una 
+    configurazione randomica e correggerla. Uso un array al posto di una matrice 
+    perché le regine non possono stare sulla stessa colonna quindi ogni cella 
+    rappresenta la riga di una regina.
+    \item distribuito: ogni regina è un agente indipendente e la soluzione è l'interno
+    sistema.
+\end{itemize}
+
+Per valutare l'approccio distribuito non è semplice perché non si ha più un 
+algoritmo effettivo.
+
+\section{Agent}
+\begin{definizione}
+    Un agente è un qualsiasi cosa che può essere visto come una percezione nel 
+    suo ambiente attraverso sensori e azioni sull'ambiente attraverso attuatori.
+\end{definizione}
+
+\begin{esempio}
+    Un esempio sono gli agenti umani composti da sensori come occhi, orecchie e altri
+    organi, mentre mani, gambe, bocca e parti del corpo per attuatori.
+\end{esempio}
+
+Gli agenti vedono l'ambiente come una raffigurazione dell'ambiente, ha dei sensori,
+percezioni e attuatori. Le azioni non sono interne all'agente, ma le azioni cambiano
+lo stato dell'agente. Abbiamo \textbf{funzioni agente} che mappano le percezioni
+in azioni.
+$$f:P(P)\rightarrow A$$
+Il \textbf{programma di un agente} è la specifica configurazione di un'architettura che 
+produce $f$.
+L'agente è composto dall'architettura (ex: Prolog) più il programma (ex: programma in Prolog).
+Definiremo un sistema (definizione)
+Definiremo un sistema di entità che risolve un problema che interagiscono tra di loro.
+
+Soluzione distribuita di un problema, ex: approccio riconoscimento distribuito 
+del parlato che sfrutta diverse tecnologie. Un altro esempio è il sistema di diagnosi
+medica, il dottore ti manda dagli specialisti. Il problema non è distribuito,
+ma bensì è il metodo di risoluzione distribuito.
+
+soluzione per un problema distribuito, ex: problema della logistica, posso quindi
+trattarlo in modo centralizzato se faccio centralizzare tutte le informazioni in
+un server.
