@@ -10,25 +10,25 @@ in un unico luogo. L'architettura di tali strumenti è definita attraverso:
       \item Un'interfaccia che consente agli utenti di leggere e scrivere i dati.
 \end{itemize}
 \begin{definizione}[\textbf{DBMS}]
-    Un \textbf{DBMS} (Database Management System) è un sistema software che
-    consente di gestire in modo efficiente e sicuro grandi quantità di dati,
-    garantendo la loro integrità e la loro disponibilità.
+      Un \textbf{DBMS} (Database Management System) è un sistema software che
+      consente di gestire in modo efficiente e sicuro grandi quantità di dati,
+      garantendo la loro integrità e la loro disponibilità.
 
-    Le collezioni di dati che vengono gestite da un DBMS sono:
-    \begin{itemize}
-          \item \textbf{Grandi}: ovvero di dimensioni maggiori rispetto a quelle
-                che possono essere gestite da un singolo file.
-          \item \textbf{Persistenti}: ovvero che hanno un periodo di vita
-                indipendente da quello del programma che li utilizza.
-          \item \textbf{Condivise}: ovvero che possono essere utilizzate da
-                più utenti contemporaneamente, i quali possono accedere ai dati
-                sia in lettura che in scrittura. Questo comporta la necessità di
-                garantire la coerenza dei dati e di definire il workflow di accesso.
-          \item \textbf{Affidabilità}: ovvero che devono essere garantite
-                l'integrità e la disponibilità dei dati. Le transazioni devono
-                essere atomiche, cioè o vengono eseguite completamente o non
-                vengono eseguite affatto.
-    \end{itemize}
+      Le collezioni di dati che vengono gestite da un DBMS sono:
+      \begin{itemize}
+            \item \textbf{Grandi}: ovvero di dimensioni maggiori rispetto a quelle
+                  che possono essere gestite da un singolo file.
+            \item \textbf{Persistenti}: ovvero che hanno un periodo di vita
+                  indipendente da quello del programma che li utilizza.
+            \item \textbf{Condivise}: ovvero che possono essere utilizzate da
+                  più utenti contemporaneamente, i quali possono accedere ai dati
+                  sia in lettura che in scrittura. Questo comporta la necessità di
+                  garantire la coerenza dei dati e di definire il workflow di accesso.
+            \item \textbf{Affidabilità}: ovvero che devono essere garantite
+                  l'integrità e la disponibilità dei dati. Le transazioni devono
+                  essere atomiche, cioè o vengono eseguite completamente o non
+                  vengono eseguite affatto.
+      \end{itemize}
 \end{definizione}
 Per quanto riguarda i DBMS, la loro architettura dati è definita su tre livelli:
 \begin{enumerate}
@@ -75,101 +75,109 @@ quando si hanno tanti dati e tanti utenti in accesso.
 
 Nella gestione dobbiamo tenere traccia dei workload, carichi di lavoro che dipendono da:
 \begin{itemize}
-    \item letture/scritture
-    \item numero di operazioni
-    \item complessità delle operazioni
+      \item letture/scritture
+      \item numero di operazioni
+      \item complessità delle operazioni
 \end{itemize}
 Un altro aspetto importante sono i volumi dei dati e l'eterogeneità.
 
 Quando si trattano i dati si ha una pipeline di lavoro (value chain) composta da
 tre fasi:
 \begin{itemize}
-    \item \textbf{Data discovery}: ottenimento, preparazione e organizzazione
-          dei dati da diverse fonti
-    \item \textbf{Data integration}: integrazione di tutti i dati provenienti da
-          diverse fonti
-    \item \textbf{data exploitation}: analisi dei dati, visualizzazione e presa
-          di decisione (studio esplorativo).
+      \item \textbf{Data discovery}: ottenimento, preparazione e organizzazione
+            dei dati da diverse fonti
+      \item \textbf{Data integration}: integrazione di tutti i dati provenienti da
+            diverse fonti
+      \item \textbf{data exploitation}: analisi dei dati, visualizzazione e presa
+            di decisione (studio esplorativo).
 \end{itemize}
 Per queste operazioni esistono differenti prodotti.
-% ! Immagine catena
-L'obiettivo del corso è quello di progettare un'architettura dati in base al contesto.
-Conoscere le tipologie di prodotti, nuovi modelli DBMS e gestione dei dati.
+\begin{figure}[ht]
+      \centering
+      \includegraphics[width=0.8\textwidth]{./img/data_chain.png}
+      \caption{Data value chain}
+      \label{fig:valChain}
+\end{figure}
+
+L'obiettivo del corso è quello di progettare un'architettura dati in base al 
+contesto. Conoscere le tipologie di prodotti, nuovi modelli DBMS e gestione dei 
+dati.
 
 Tutto si basa sugli Use Case
 \begin{itemize}
-    \item \textbf{Caso Bancario}: un'architettura dati che permetta di effettuare 
-          le normali operazioni bancarie. Questo consiste nella progettazione di 
-          un sistema distribuito relazionale (diversi database distribuiti), che
-          gestisce interrogazioni e transazioni distribuite.
-    \item \textbf{Machine Learning}: realizzazione di una pipeline per la 
-          costruzione dei dataset di training per addestrare modelli di ML. 
-          DAta centric AI, MLops.
-    \item \textbf{Modelli e architetture non relazionali}: ne sono un esempio le API
-          che restituiscono dati in formato JSON. Comprendono quindi modelli key-value,
-          grafi, sistemi distribuiti relazionali ecc...
-    \item \textbf{Cloud}: Utilizzo di sistemi di gestione dei dati in cloud, firebase e elastic search.
-    \item \textbf{AI generativa per la gestione dei dati}: come usare AI generativa nei 
-          sistemi di gestione dei dati.
+      \item \textbf{Caso Bancario}: un'architettura dati che permetta di effettuare
+            le normali operazioni bancarie. Questo consiste nella progettazione di
+            un sistema distribuito relazionale (diversi database distribuiti), che
+            gestisce interrogazioni e transazioni distribuite.
+      \item \textbf{Machine Learning}: realizzazione di una pipeline per la
+            costruzione dei dataset di training per addestrare modelli di ML.
+            DAta centric AI, MLops.
+      \item \textbf{Modelli e architetture non relazionali}: ne sono un esempio
+            le API che restituiscono dati in formato JSON. Comprendono quindi
+            modelli key-value, grafi, sistemi distribuiti relazionali ecc...
+      \item \textbf{Cloud}: Utilizzo di sistemi di gestione dei dati in cloud,
+            firebase e elastic search.
+      \item \textbf{AI generativa per la gestione dei dati}: come usare AI
+            generativa nei sistemi di gestione dei dati.
 \end{itemize}
 
 % Sistemo appena carica le slide
 \section{Gestione operazioni bancarie}
 Si vuole un'architettura dati che permetta di effettuare le normali operazioni
-bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi database distribuiti),
-interrogazioni distribuite e transazioni distribuite.
+bancarie. Servirà la progettazione di sistemi distribuiti relazionali (diversi
+database distribuiti), interrogazioni distribuite e transazioni distribuite.
 
 Abbiamo le seguenti operazioni:
 \begin{itemize}
-    \item transizioni bancarie
-    \item bonifici multibanca
+      \item transizioni bancarie
+      \item bonifici multibanca
 \end{itemize}
 
 Per prima cosa bisogna studiare il workload:
 \begin{itemize}
-    \item letture e scritture: bilanciate
-    \item quante sono: sono tante
-    \item complessità: semplici
+      \item letture e scritture: bilanciate
+      \item quante sono: sono tante
+      \item complessità: semplici
 \end{itemize}
 
 I volume dei dati è elevato
 
 Si ha eterogeneità dei sistemi.
 
-Bisogna stare attenti agli update che devono essere veloci e consistenti. L'architettura
-di base non è più sufficiente.
-
-\begin{figure}[ht]
+Bisogna stare attenti agli update che devono essere veloci e consistenti.
+L'architettura di base non è più sufficiente.
+\begin{figure}[!ht]
       \centering
       \includegraphics[width=0.8\textwidth]{./img/modellazione_banca.jpg}
       \caption{Architettura dati per update veloci e consistenti}
       \label{fig:esBanca}
 \end{figure}
 
-Dalla figura \ref{fig:esBanca} si possono notare due esempi di soluzioni identificate dai colori
-delle frecce blu e arancioni.
+Dalla figura \ref{fig:esBanca} si possono notare due esempi di soluzioni
+identificate dai colori delle frecce blu e arancioni.
 \begin{itemize}
-    \item \textbf{Blu}: la prima soluzione proposta comprende il salvataggio dei dati su
-            due memorie localizzate in luoghi. Questo approccio è più semplice a discalpito
-            della velocità.
-    \item \textbf{Arancione}: nella seconda proposta si utilizza un approccio 
-            master-slave, dove inizialmente si effettua un salvataggio solo su una 
-            prima memoria. Lo step successivo è sfruttare i log per replicare i dati
-            sulla seconda. Dal momento che la quantità dei dati è elevata, si può
-            aggiungere un middleware (coda) che permette di mantenere la consistenza
-            tra le due parti. In questo approccio più complesso si dovrà anche gestire
-            la frequenza di aggiornamento dei dati della memoria secondaria. 
+      \item \textbf{Blu}: la prima soluzione proposta comprende il salvataggio
+            dei dati su due memorie localizzate in luoghi. Questo approccio è più
+            semplice a discapito della velocità.
+      \item \textbf{Arancione}: nella seconda proposta si utilizza un approccio
+            master-slave, dove inizialmente si effettua un salvataggio solo su una
+            prima memoria. Lo step successivo è sfruttare i log per replicare i
+            dati sulla seconda. Dal momento che la quantità dei dati è elevata,
+            si può aggiungere un middleware (coda) che permette di mantenere la
+            consistenza tra le due parti. In questo approccio più complesso si
+            dovrà anche gestire la frequenza di aggiornamento dei dati della
+            memoria secondaria.
 \end{itemize}
 
-%la parte qui sotto non andrebe messa con la spiegazione che ci aveva fatto a 
+%la parte qui sotto non andrebbe messa con la spiegazione che ci aveva fatto a 
 % fine lezione? È più un esempio del DDBMS
 
-Possiamo avere 3 sedi dislocate geograficamente, il nodo di Milano ha la logica applicativa
-e i dati mentre a Roma e Padova ho solo l'applicazione. Si possono frammentare i
-dati in modo da portarli vicino a dove servono, ex: Roma c'è il reparto risorse
-umane allora i dati sulle risorse umane verranno spostati lì. Spesso nella frammentazione
-si hanno dati in comune tra due sedi, quindi si effettuerà anche una duplicazione
-dei dati (replica).
+Possiamo avere 3 sedi dislocate geograficamente, il nodo di Milano ha la logica
+applicativa e i dati mentre a Roma e Padova ho solo l'applicazione. Si possono
+frammentare i dati in modo da portarli vicino a dove servono, ex: Roma c'è il
+reparto risorse umane allora i dati sulle risorse umane verranno spostati lì.
+Spesso nella frammentazione si hanno dati in comune tra due sedi, quindi si
+effettuerà anche una duplicazione dei dati (replica).
 
 Nota: distribuire
 i dati è molto complesso e rischioso, conviene farlo solo quando è davvero
