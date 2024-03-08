@@ -1,0 +1,88 @@
+\chapter{Agent}
+Nell'Intelligenza artificiale si è passati da Classical AI verso la Distribuited
+AI.
+
+\begin{definizione}[\textbf{AI}]
+    Si definisce \textbf{AI} come lo studio degli agenti che ricevono delle 
+    percezioni dall'ambiente ed effettuano delle azioni.
+\end{definizione}
+Ciascun agente implementa una funzione che mappa la sequenza di percezioni in azioni,
+queste funzioni possono essere rappresentate in diversi modi:
+\begin{itemize}
+    \item \textbf{production system}
+    \item \textbf{reactive agents}
+    \item \textbf{real-time conditional planners}
+    \item \textbf{neural network}
+    \item \textbf{decision-theorem system}
+\end{itemize}
+
+\begin{definizione}[\textbf{Agentification AI}, \textbf{Classical AI}]
+    L'\textbf{Agentification AI} significa avere un singolo agente che risolve
+    problemi adottando diverse tecniche e approcci.
+\end{definizione}
+
+\begin{definizione}[\textbf{Agent}]
+    L'\textbf{Agent} è qualsiasi cosa che può essere visto come una percettore del 
+    suo ambiente attraverso sensori e effettua azioni sull'ambiente attraverso attuatori.
+\end{definizione}
+
+\begin{esempio}
+    Un esempio sono gli agenti umani composti da sensori come occhi, orecchie e altri
+    organi, mentre è composto da attuatori che sono mani, gambe, bocca e parti del corpo.
+
+    Oltre agli esseri umani si possono avere agenti robotici composti dai rispettivi
+    sensori e attuatori.
+\end{esempio}
+
+% TODO: schema ambiente e agente
+
+Le azioni dell'agente non sono interne all'agente, ma bensì cambiano
+il suo stato iterno. Per ciascun agente abbiamo \textbf{funzioni agente} che mappano 
+le percezioni in azioni.
+$$f:\mathcal{P}(P)\rightarrow \mathcal{A}$$
+Dove:
+\begin{itemize}
+    \item $P$: è l'insieme delle percezioni
+    \item $\mathcal{A}$: è l'insieme delle azioni
+\end{itemize}
+Si considera l'insieme potenza delle percezioni perché ci si aspetta una sequenza.
+
+L'agente sarà ache formato dal \textbf{programma di un agente} che è la specifica 
+configurazione di un'architettura che produce $f$.
+
+L'agente sarà composto dall'architettura (ex: Prolog) più il programma (ex: programma in Prolog).
+
+\begin{definizione} [\textbf{Distribuited AI}]
+    La \textbf{Distribuited AI} consiste in un sistema di entità le quali possono
+    risolvere un problema effettuando delle azioni e interagendo con l'ambiente,
+    sia in collaborazione, sia in competizione.
+\end{definizione}
+
+A differenza della Classical AI in cui si ha un solo agente, nella Distribuited AI
+si ha un sistema di agenti. 
+
+\begin{definizione} [\textbf{Sistema}]
+    ?
+\end{definizione}
+
+La parte distribuita può essere a più livelli:
+\begin{itemize}
+    \item \textbf{Distribuited solving of problem}: distribuzione della risoluzione
+    del problema tra diversi specialisti
+    \item \textbf{Solving of distribuited problem}: distribuzione a livello di dominio
+    del problema
+    \item \textbf{Distribuited techniques for problem solving}: distribuzione a livello
+    di tecniche da utilizzare per la risoluzione del problema.
+\end{itemize}
+
+
+% Definiremo un sistema di entità che risolve un problema che interagiscono tra di loro.
+
+% Soluzione distribuita di un problema, ex: approccio riconoscimento distribuito 
+% del parlato che sfrutta diverse tecnologie. Un altro esempio è il sistema di diagnosi
+% medica, il dottore ti manda dagli specialisti. Il problema non è distribuito,
+% ma bensì è il metodo di risoluzione distribuito.
+
+% soluzione per un problema distribuito, ex: problema della logistica, posso quindi
+% trattarlo in modo centralizzato se faccio centralizzare tutte le informazioni in
+% un server.
