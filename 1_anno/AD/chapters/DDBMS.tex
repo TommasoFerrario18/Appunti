@@ -134,20 +134,20 @@ Si hanno altri approcci:
 Si hanno vari tipi di architetture DDBMS:
 \begin{itemize}
     \item \textbf{Shared-everything}: dove il database management system e il
-          disco sono in un unico nodo \ref{fig:sharedEverything}.
+          disco sono in un unico nodo.
     \item \textbf{Shared-disk}: dove diversi DBMS agiscono sugli stessi dati. I
           vari DBMS accedono ai dati secondo una certa regolazione.
           Viene distribuito il carico ma si hanno problemi di concorrenza e
           hanno grandi problemi di scalabilità e costo economico
     \item \textbf{Shared-nothing}: dove ogni DBMS ha il suo disco. È molto
           scalabile e, a patto di gestire la complessità, posso aggiungere nodi
-          in modo illimitato.
+          in modo illimitato \ref{fig:sharedNothing}.
 \end{itemize}
 \begin{figure}[ht]
       \centering
-      \includegraphics[width=0.60\textwidth]{img/SharedEverything.jpg}
-      \caption{Architettura shared-everything}
-      \label{fig:sharedEverything}
+      \includegraphics[width=0.60\textwidth]{img/SharedNothing.jpg}
+      \caption{Architettura shared-nothing}
+      \label{fig:sharedNothing}
 \end{figure}
 Vediamo quindi le proprietà generali di un DDBMS:
 \begin{itemize}
