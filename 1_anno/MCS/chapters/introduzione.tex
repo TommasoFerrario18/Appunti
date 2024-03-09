@@ -15,7 +15,7 @@
         + 1 \cdot 3^{-3}
     \end{equation*}
 \end{esempio}
-\begin{definizione}
+\begin{definizione}[\textbf{Rappresentazione rispetto ad una base}]
     Sia $\beta$ una base. Un numero $x$ è rappresentato in base $\beta$ come:
     \begin{equation}
         \pm a_n a_{n-1} \dots a_{-m} = \pm \sum_{j = -m}^{n} a_j \cdot \beta^j
@@ -52,7 +52,7 @@ essere divisibile per $2$ per avere una rappresentazione finita.
     \end{equation}
     dove:
     \begin{itemize}
-        \item $beta$: è la base
+        \item $\beta$: è la base
         \item $t$: è la \textbf{mantissa}, quanti numeri posso mettere prima e
               dopo la virgola
         \item $L$: lower bound ($< 0$)
@@ -84,7 +84,11 @@ Solitamente sui computer viene utilizzato un sistema a $64$ bit di cui:
           \texttt{NaN}.
     \item $52$ bit: per rappresentare la mantissa.
 \end{itemize}
-% ! Immagine
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/intro/floatnumber.png}
+    \caption{Rappresentazione di un numero in aritmetica floating point}
+\end{figure}
 \subsection{Operazioni in Aritmetica floating point}
 Vediamo ora come vengono effettuate le operazioni in aritmetica floating point.
 Calcolare la somma tra due numeri floating point $x,y$ coincide a col calcolare:
@@ -118,22 +122,21 @@ Avendo definito la misura di errore, possiamo calcolare:
     \frac{\|(x+y)-(x\oplus y)\|}{\|x+y\|}
 \end{equation}
 Questa misura di errore può essere semplifica ottenendo il seguente risultato:
-%TODO: sistemare la semplificazione
 \begin{equation}
     \begin{aligned}
-        \frac{|x + y - fl(x) + fl(y)|}{|x + y|} = \frac{\|(x + y) - (x (1 + 
-        \varepsilon_x) + y(1 + \varepsilon_y)) \cdot (1 + \varepsilon_+)\|}{\|x + y\|} =
-        \frac{|x \varepsilon_x + y \varepsilon_y + (x + y) \varepsilon_S + x 
-        \varepsilon_x \varepsilon_S + Y \varepsilon_y \varepsilon_S|}{|x + y|} = \\
-        \approx \frac{\left|\frac{x}{x + y} \varepsilon_x + \frac{y}{x + y} 
-        \varepsilon_y \varepsilon_S \right|}{|x + y|} \leq \left|\frac{x}{x + y}
+        \frac{|x + y - fl(x) + fl(y)|}{|x + y|} = \frac{\|(x + y) - (x (1 +
+        \varepsilon_x) + y(1 + \varepsilon_y)) \cdot (1 + \varepsilon_+)\|}{\|x + y\|} = \\
+        \frac{|x \varepsilon_x + y \varepsilon_y + (x + y) \varepsilon_S + x
+            \varepsilon_x \varepsilon_S + Y \varepsilon_y \varepsilon_S|}{|x + y|} =
+        \approx \frac{\left|\frac{x}{x + y} \varepsilon_x + \frac{y}{x + y}
+            \varepsilon_y \varepsilon_S \right|}{|x + y|} \leq \left|\frac{x}{x + y}
         \right| \varepsilon_x + \left|\frac{y}{x + y}\right| \varepsilon_y + \varepsilon_S
     \end{aligned}
 \end{equation}
 Per $\varepsilon$ piccolo l'errore cresce quando $y \sim -x$. Quindi la somma
 \textbf{non è stabile} e l'errore aumenta quando $x + y \sim 0$.
 \begin{esempio}
-    Ad esempio analizzando le seguenti funzioni, le quali sono identiche dal 
+    Ad esempio analizzando le seguenti funzioni, le quali sono identiche dal
     punto di vista matematico, si ottengono risultati diversi:
     \begin{equation*}
         f(x) = \sqrt{x + 1} - \sqrt{x}
@@ -141,7 +144,7 @@ Per $\varepsilon$ piccolo l'errore cresce quando $y \sim -x$. Quindi la somma
     \begin{equation*}
         g(x) = \frac{1}{\sqrt{x + 1} + \sqrt{x}}
     \end{equation*}
-    Il risultato di $f(x)$ è instabile per grandi valori di $x$, mentre il 
+    Il risultato di $f(x)$ è instabile per grandi valori di $x$, mentre il
     risultato di $g(x)$ è stabile.
 \end{esempio}
 Per quanto riguarda il \textbf{prodotto} è possibile effettuare lo stesso
@@ -152,10 +155,12 @@ ragionamento. In questo caso calcoliamo:
 Questa misura di errore può essere semplifica ottenendo il seguente risultato:
 \begin{equation}
     \begin{aligned}
-        \frac{|x \cdot y - fl(x) \cdot fl(y)|}{|x \cdot y|} = \frac{|xy - xy(1 + 
+        \frac{|x \cdot y - fl(x) \cdot fl(y)|}{|x \cdot y|} = \frac{|xy - xy(1 +
         \varepsilon_x)(1 + \varepsilon_y)(1 + \varepsilon_P)|}{|xy|} = \\
-        = |1 - (1 + \varepsilon_x)(1 + \varepsilon_y)(1 + \varepsilon_P)| = 
-        |\varepsilon_x + \varepsilon_y + \varepsilon_P + \varepsilon_x \varepsilon_y + \varepsilon_x \varepsilon_P + \varepsilon_y \varepsilon_P + \varepsilon_x \varepsilon_y \varepsilon_P| \approx \\
+        = |1 - (1 + \varepsilon_x)(1 + \varepsilon_y)(1 + \varepsilon_P)| =
+        |\varepsilon_x + \varepsilon_y + \varepsilon_P + \varepsilon_x \varepsilon_y
+        + \varepsilon_x \varepsilon_P + \varepsilon_y \varepsilon_P + \varepsilon_x
+        \varepsilon_y \varepsilon_P| \approx                           \\
         \approx |\varepsilon_x + \varepsilon_y + \varepsilon_P| \leq 3\varepsilon
     \end{aligned}
 \end{equation}
