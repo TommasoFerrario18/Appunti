@@ -1,98 +1,109 @@
-\chapter{Ripasso algebra lineare}
+\chapter{Ripasso Algebra Lineare}
 \begin{definizione} [\textbf{Spazio vettoriale}]
     Un insieme $V$ si dice \textbf{spazio vettoriale} se sono definite su $V$ due
     operazioni che godono di particolari proprietà:
     \begin{itemize}
-        \item \textbf{somma}: $+:V\times V\rightarrow V$
-        \item \textbf{prodotto per uno scalare}: $\cdot : V\times \mathbb{R}\rightarrow V$
+        \item \textbf{Somma}: $+: V \times V \rightarrow V$
+        \item \textbf{Prodotto per uno scalare}: $\cdot : V \times \mathbb{R} \rightarrow V$
     \end{itemize}
 \end{definizione}
 
 Le operazioni dello spazio vettoriale godono di alcune proprietà:
 \begin{itemize}
-    \item \textbf{somma}:
-    \begin{itemize}
-        \item \textbf{commutativa}: $\forall u,v \in V, u+v = v+u$
-        \begin{proof}
-            $\forall u,v \in V:$
-            $$ u+v = \left[\begin{array}{c}
-                u_1\\u_2\\ \vdots \\u_n
-            \end{array}\right] + \left[\begin{array}{c}
-                v_1\\v_2\\\vdots\\v_n
-            \end{array}\right] = \left[\begin{array}{c}
-                u_1 + v_1\\u_2 + v_2\\\vdots\\u_n+v_n
-            \end{array}\right] = \left[\begin{array}{c}
-                v_1 + u_1\\v_2 + u_2\\\vdots\\v_n+u_n
-            \end{array}\right] = \left[\begin{array}{c}
-                v_1\\v_2\\\vdots\\v_n
-            \end{array}\right] + \left[\begin{array}{c}
-                u_1\\u_2 \\\vdots\\u_n
-            \end{array}\right] = v+ u$$
-        \end{proof}
-        \item \textbf{associativa}: $\forall u,v,z \in V, (u+v)+z = v+(u+z)$
-        \item \textbf{esistenza dell'elemento neutro}: $\exists 0 \in V: 0+v = v, \forall v\in V$
-        \item $\forall u \in V, \exists w\in V \text{ unico}: u+w=0$
-    \end{itemize}
-    \item \textbf{prodotto per uno scalare}:
-    \begin{itemize}
-        \item \textbf{distributivo rispetto alla somma}: $\forall u,v \in V, \forall \lambda \in \mathbb{R}, \lambda(u+v) = \lambda u+\lambda v$
-        \item \textbf{distributivo rispetto alla somma e prodotto tra scalari}: $\forall u \in V, \forall \lambda,\mu\in \mathbb{R}: (\lambda + \mu)u = \lambda \cdot u + \mu \cdot u \ \ \ \ (\lambda \cdot \mu)u = \lambda \cdot u \cdot \mu \cdot u$
-        \item \textbf{esistenza dell'elemento neutro}: $\exists 1 \in \mathbb{R}:1\cdot v = v, \forall v\in V$
-    \end{itemize}
+    \item \textbf{Somma}:
+          \begin{itemize}
+              \item \textbf{Commutativa}: $\forall u,v \in V, u+v = v+u$
+                    \begin{proof}
+                        $\forall u,v \in V:$
+                        $$ u+v = \left[\begin{array}{c}
+                                    u_1 \\u_2\\ \vdots \\u_n
+                                \end{array}\right] + \left[\begin{array}{c}
+                                    v_1 \\v_2\\\vdots\\v_n
+                                \end{array}\right] = \left[\begin{array}{c}
+                                    u_1 + v_1 \\u_2 + v_2\\\vdots\\u_n+v_n
+                                \end{array}\right] = \left[\begin{array}{c}
+                                    v_1 + u_1 \\v_2 + u_2\\\vdots\\v_n+u_n
+                                \end{array}\right] = \left[\begin{array}{c}
+                                    v_1 \\v_2\\\vdots\\v_n
+                                \end{array}\right] + \left[\begin{array}{c}
+                                    u_1 \\u_2 \\\vdots\\u_n
+                                \end{array}\right] = v+ u$$
+                    \end{proof}
+              \item \textbf{Associativa}: $\forall u,v,z \in V, (u+v)+z = v+(u+z)$
+              \item \textbf{Esistenza dell'elemento neutro}: $\exists 0 \in V: 0+v = v,
+                        \forall v\in V$
+              \item $\forall u \in V, \exists w\in V \text{ unico}: u+w=0$
+          \end{itemize}
+    \item \textbf{Prodotto per uno scalare}:
+          \begin{itemize}
+              \item \textbf{Distributivo rispetto alla somma}: $\forall u,v \in
+                        V, \forall \lambda \in \mathbb{R}, \lambda(u+v) = \lambda
+                        u+\lambda v$
+              \item \textbf{Distributivo rispetto alla somma e prodotto tra scalari}:
+                    $\forall u \in V, \forall \lambda,\mu\in \mathbb{R}: (\lambda +
+                        \mu)u = \lambda \cdot u + \mu \cdot u \quad (\lambda \cdot
+                        \mu)u = \lambda \cdot u \cdot \mu \cdot u$
+              \item \textbf{Esistenza dell'elemento neutro}: $\exists 1 \in
+                        \mathbb{R}:1\cdot v = v, \forall v\in V$
+          \end{itemize}
 \end{itemize}
 \begin{esempio}
     Un esempio di spazio vettoriale è $V\in \mathbb{R}^n$
 \end{esempio}
-
 \begin{definizione} [\textbf{Prodotto scalare}]
     Sia $V$ uno spazio vettoriale, definiremo il \textbf{prodotto scalare} è un'operazione
-    che a due elementi di $V$ associa un valore reale, $(\cdot, \cdot):V\times V \rightarrow \mathbb{R}$.
-    Tale operazione soddisfa le seguenti proprietà:
+    che a due elementi di $V$ associa un valore reale, $(\cdot, \cdot):V\times V
+        \rightarrow \mathbb{R}$.Tale operazione soddisfa le seguenti proprietà:
     \begin{itemize}
-        \item \textbf{simmetrica}: $\forall u,v \in V, (u,v) = (v,u)$
-        \item \textbf{bi-lineare}: $\forall v_1,v_2,w \in V,\forall\alpha_1,\alpha_2 \in \mathbb{R}:(\alpha_1v_1+\alpha_2v_2, w) = \alpha_1(v_1, w) + \alpha_2(v_2, w)$
+        \item \textbf{Simmetrica}: $\forall u,v \in V, (u,v) = (v,u)$
+        \item \textbf{Bi-lineare}: $\forall v_1,v_2,w \in V,\forall\alpha_1,
+                  \alpha_2 \in \mathbb{R}:(\alpha_1v_1+\alpha_2v_2, w) =
+                  \alpha_1(v_1, w) + \alpha_2(v_2, w)$
         \item $\forall v \in V, v\ne 0: (v,v) \ge 0$
     \end{itemize}
 \end{definizione}
-
-\begin{definizione} [\textbf{Norma di un vettore }]
-    Sia $V$ uno spazio vettoriale, definiremo la \textbf{norma di un vettore} è un'operazione
-    che a un elemento di $V$ associa un valore reale, $\|\cdot\|: V \rightarrow \mathbb{R}$.
-    Tale operazione soddisfa le seguenti proprietà:
+\begin{definizione} [\textbf{Norma di un vettore}]
+    Sia $V$ uno spazio vettoriale, definiremo la \textbf{norma di un vettore} è
+    un'operazione che a un elemento di $V$ associa un valore reale, $\|\cdot\|:
+        V \rightarrow \mathbb{R}$. Tale operazione soddisfa le seguenti proprietà:
     \begin{itemize}
-        \item \textbf{scalabilità}: $\forall v \in V,\forall \alpha \in \mathbb{R}: \|\alpha v\| = |\alpha | \|v\|$
-        \item \textbf{disuguaglianza triangolare}: $\forall v,w \in V: \|v+w\| \le \|v\| + \|w\|$
+        \item \textbf{scalabilità}: $\forall v \in V,\forall \alpha \in \mathbb{R}:
+                  \|\alpha v\| = |\alpha | \|v\|$
+        \item \textbf{disuguaglianza triangolare}: $\forall v,w \in V: \|v+w\|
+                  \le \|v\| + \|w\|$
         \item $\forall v \in V, v\ne 0: \|v\| > 0\implies \|0\| = 0$
     \end{itemize}
 \end{definizione}
-La definizione e le proprietà derivano dalla nota succesiva
-\begin{nota} [\textbf{Norma indotta dal prodotto scalare }]
+La definizione e le proprietà derivano dalla nota successiva
+\begin{nota} [\textbf{Norma indotta dal prodotto scalare}]
     Sia $V$ uno spazio vettoriale in cui è definito un prodotto scalare allora è
-    è possibile calcolare la norma da $(\cdot, \cdot)$ 
-    $$\|v\| = \sqrt{(v,v)}  \equiv \|v\|_2$$
+    è possibile calcolare la norma da $(\cdot, \cdot)$
+    \begin{equation}
+        \|v\| = \sqrt{(v,v)}  \equiv \|v\|_2
+    \end{equation}
     Tale norma viene chiamata \textbf{norma indotta dal prodotto scalare }
 \end{nota}
-
 \begin{nota}
     Esistono diverse norme oltre alla $2$:
     \begin{itemize}
-        \item $\|v\|_2 = \sqrt{\sum_{i=1}^{N}v_i^2} = \|v-0\|$ 
-        \item $\|v\|_1 = \sum_{i=1}^{N}|v_i|$ 
-        \item $\|v\|_\infty = \max_{i= 1\dots n}|v_i|$ 
+        \item $\|v\|_2 = \sqrt{\sum_{i=1}^{N}v_i^2} = \|v-0\|$
+        \item $\|v\|_1 = \sum_{i=1}^{N}|v_i|$
+        \item $\|v\|_\infty = \max_{i= 1\dots n}|v_i|$
     \end{itemize}
 \end{nota}
-La norma euclidea ($\|\cdot\|_2$) è utile per calcolare la distanza di vettori perché
-$\|v\|_2$ calcola la distanza di $v$ da $0$, mentre $\|v-w\|_2$ calcola la distanza tra
-$v$ e $w$.
+La norma euclidea ($\|\cdot\|_2$) è utile per calcolare la distanza di vettori
+perché $\|v\|_2$ calcola la distanza di $v$ da $0$, mentre $\|v-w\|_2$ calcola
+la distanza tra $v$ e $w$.
 
-Quindi dato un prodotto scalare possiamo sempre definire la norma, ma non possiamo 
+Quindi dato un prodotto scalare possiamo sempre definire la norma, ma non possiamo
 dire il contrario.
 \begin{nota}
     La norma ha una proprietà indotta dalla sua definizione e dalle sue proprietà,
-    $\forall v,w \in V$ 
-    $$\|v-w\| = \|v\| -\|w\|$$
+    $\forall v,w \in V$
+    \begin{equation*}
+        \|\|v\| -\|w\|\| \le \|v-w\|
+    \end{equation*}
 \end{nota}
-
 Possiamo definire anche le norme per le matrici $V\in \mathbb{R}^{r\times c}$:
 \begin{itemize}
     \item $\|A\|_F = \sqrt{\sum_{i,j} |a_{i,j}|^2}$
@@ -100,51 +111,57 @@ Possiamo definire anche le norme per le matrici $V\in \mathbb{R}^{r\times c}$:
     \item $\|A\|_\infty = \max_{j=1\dots c}{\sum_{i=1}^{r} |a_{i,j}|}$
 \end{itemize}
 
-Altre operazioni utili per gli spazi vettoriali, generlamente vettori matrici, ad esempio
+Altre operazioni utili per gli spazi vettoriali, generalmente vettori matrici, ad esempio
 la \textbf{trasposizione}.
-
-$$A=\left[\begin{array}{ccc}
-    a&b&c\\
-    d&e&f
-\end{array}\right]\in \mathbb{R}^{2\times3},  A^t = \left[\begin{array}{cc}
-    a&d\\
-    b&e\\
-    c&f
-\end{array}\right]\in \mathbb{R}^{3\times2}$$
-Il problema di questa operazione è che non è \textbf{chiusa} ovvero non rimane nello
-stesso spazio.
+\begin{equation}
+    A=\left[\begin{array}{ccc}
+            a & b & c \\
+            d & e & f
+        \end{array}\right]\in \mathbb{R}^{2\times3},  A^t = \left[\begin{array}{cc}
+            a & d \\
+            b & e \\
+            c & f
+        \end{array}\right]\in \mathbb{R}^{3\times2}
+\end{equation}
+Il problema di questa operazione è che non è \textbf{chiusa} ovvero non rimane
+nello stesso spazio.
 
 In aggiunta si ha \textbf{prodotto tra matrici e vettori}. Dati $A\in \mathbb{R}^{r\times c}$
-e $v\in \mathbb{R}^{c}$ si ha
-$$Av = \left[\begin{array}{cccc}
-    a_{11}&a_{12}&\cdots&a_{1c}\\
-    a_{21}&a_{22}&\cdots&a_{2c}\\
-    \vdots&\vdots&\dots&\vdots\\
-    a_{r1}& a_{r2}&\cdots& a_{rc}
-\end{array}\right] \left[\begin{array}{c}
-    v_1\\v_2\\\vdots\\v_c
-\end{array}\right] = \left[\begin{array}{c}
-    a_{11}v_1+a_{12}v_2+\cdots a_{1c}v_c\\
-    a_{21}v_1+a_{22}v_2+\cdots a_{2c}v_c\\
-    \vdots\\
-    a_{r1}v_1+a_{r2}v_2+\cdots a_{rc}v_c\\
-\end{array}\right] $$
-Questa operazione è vincolata dal fatto che la matrice e il vettore devono 
-essere compatibili, le colonne della matrice devono essere uguali alle righe del vettore.
-Inoltre abbiamo anche l'operazione di \textbf{prodotto matrice-matrice}. Sia $A\in \mathbb{R}^{3\times 2}, B\in \mathbb{R}^{2\times 4}$
-$$AB = \left[\begin{array}{cc}
-    a&b\\
-    c&d\\
-    e&f
-\end{array}\right]\left[\begin{array}{cccc}
-    g&h&i&l\\
-    m&n&o&p\\
-\end{array}\right] = \left[\begin{array}{cccc}
-    ag+bm&ah+bn&ai+bo&al+bp\\
-    cg+dm&ch+dn&ci+do&cl+bp\\
-    eg+fm& eh+fn&ei+fo & el+fp\\
-\end{array}\right]$$
-Anche questa operazione è vincolante perché può essere effettuata solo quando la prima 
-matrice ha lo stesso numero di colonne uguale al numero di righe della seconda. Inoltre
-la commutazione non sempre è fattibile perché potrebbero non essere compatibili, 
-in aggiunta non è commutativa.
+e $v\in \mathbb{R}^{c}$ si ha:
+\begin{equation*}
+    Av = \left[\begin{array}{cccc}
+            a_{11} & a_{12} & \cdots & a_{1c} \\
+            a_{21} & a_{22} & \cdots & a_{2c} \\
+            \vdots & \vdots & \dots  & \vdots \\
+            a_{r1} & a_{r2} & \cdots & a_{rc}
+        \end{array}\right] \left[\begin{array}{c}
+            v_1 \\v_2\\\vdots\\v_c
+        \end{array}\right] = \left[\begin{array}{c}
+            a_{11}v_1+a_{12}v_2+\cdots a_{1c}v_c \\
+            a_{21}v_1+a_{22}v_2+\cdots a_{2c}v_c \\
+            \vdots                               \\
+            a_{r1}v_1+a_{r2}v_2+\cdots a_{rc}v_c \\
+        \end{array}\right]
+\end{equation*}
+Questa operazione è vincolata dal fatto che la matrice e il vettore devono
+essere compatibili, le colonne della matrice devono essere uguali alle righe del
+vettore. Inoltre abbiamo anche l'operazione di \textbf{prodotto matrice-matrice}.
+Sia $A\in \mathbb{R}^{3\times 2}, B\in \mathbb{R}^{2\times 4}$
+\begin{equation*}
+    AB = \left[\begin{array}{cc}
+            a & b \\
+            c & d \\
+            e & f
+        \end{array}\right]\left[\begin{array}{cccc}
+            g & h & i & l \\
+            m & n & o & p \\
+        \end{array}\right] = \left[\begin{array}{cccc}
+            ag+bm & ah+bn & ai+bo & al+bp \\
+            cg+dm & ch+dn & ci+do & cl+bp \\
+            eg+fm & eh+fn & ei+fo & el+fp \\
+        \end{array}\right]
+\end{equation*}
+Anche questa operazione è vincolante perché può essere effettuata solo quando la
+prima matrice ha lo stesso numero di colonne uguale al numero di righe della
+seconda. Inoltre la commutazione non sempre è fattibile perché potrebbero non
+essere compatibili, in aggiunta non è commutativa.
