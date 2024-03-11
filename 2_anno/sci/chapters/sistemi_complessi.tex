@@ -11,22 +11,325 @@ nelle simulazioni, un sesempio sono:
 \begin{itemize}
     \item \textbf{Automi cellulari}: paridigma di calcolo locale, parallelo e omogeneo
     \item \textbf{Subshift}: modelli per definire sistemi di condifica basata su
-    parole proibite
+          parole proibite
     \item \textbf{Tiling}: modelli basati sul problema del tiling, ovvero ricoprire
-    una superficie con delle piastrelle in modo tale che combaciano i colori sui
-    lati di due piastrelle omogenee (problema NP-Hard).
+          una superficie con delle piastrelle in modo tale che combaciano i colori sui
+          lati di due piastrelle omogenee (problema NP-Hard).
 \end{itemize}
 
 Si studieranno le prorpietà dei fenomeni reali utilizzando i modelli e si mapperanno
-le domande sulle proprietà dei modelli, in questo modo si potrà rispondere alle 
+le domande sulle proprietà dei modelli, in questo modo si potrà rispondere alle
 domande analizzando le proprietà dei modelli.
 
+
+
+\section{Automi cellulari (alfabeto finito)}
+Gli automi cellulari sono delle reti di automi, gli automi, non per forza a stati
+finiti, di cui sono composte possono essere uguali (automi cellulari uniformi) o differenti (automi cellulari non
+uniformi). Lo stato dell'automa cellurare in un particolare momento dell'esecuzione
+sarà l'insieme degli stati dei singoli automi nel particolare momento.
+
 \begin{nota}
-    Gli automi cellulari sono dei paradigmi di calcolo universale perché si 
+    Si parla di insieme degli stati del singolo automa perché può essere una
+    sequenza nel caso di CA 1D, una matrice nel caso CA 2D, ecc$\dots$
+\end{nota}
+
+La transizione dell'automa cellulare dipende direttamente dalle transizioni dei singoli automi,
+i quali, quando scattano, leggono il loro stato interno e gli stati degli automi
+vicini e cambiano stato di conseguenza. Il cambio della configurazione dell'automa
+cellulare coincide col cambiamento di stato di tutti gli automi della rete contemporaneamente.
+Per questo gli automi cellulari sono un paradigma di calcolo:
+\begin{itemize}
+    \item locale
+    \item parallelo
+    \item uniforme (non uniforme)
+\end{itemize}
+
+\begin{nota}
+    Gli automi cellulari sono dei paradigmi di calcolo universale perché si
     può convertire una qualsiasi Macchina di Turing in un automa cellulare
 \end{nota}
 
 \begin{nota}
     Gli automi cellulari sono delle reti di automi, un esempio di rete di automi
-    è la rete neurale
+    è la rete neurale, in questo caso:
+    \begin{itemize}
+        \item non è uniforme perché ogni neurone può avere una funzione differente
+        \item non è locale perché ogni neurone può non dipendere solo dai neuroni
+              vicini
+        \item è parallelo perché i neuroni scattano contemporaneamente
+    \end{itemize}
 \end{nota}
+
+\begin{definizione} [\textbf{sequenze bi-infinite}]
+    Dato un alfabeto $A$, chiameremo \textbf{sequenze bi-infinite} sull'alfabeto
+    $A$ tutte quelle sequenze che sono infinite a destra ed infinite a sinistra.
+\end{definizione}
+
+\begin{esempio}
+    Sia $A = \left\{0,1\right\}$ allora:
+    \begin{itemize}
+        \item $01101001110011$: è una sequenza finita
+        \item $01101001110011\dots$: è una sequenza infinita a destra
+        \item $\dots01101001110011$: è una sequenza infinita a sinistra
+        \item $\dots01101001110011\dots$: è una sequenza bi-infinita
+    \end{itemize}
+\end{esempio}
+
+\begin{definizione}[\textbf{spazio delle configurazioni}]
+    Lo \textbf{spazio delle configurazioni} è
+    $$A^\mathbb{Z}= \left\{x|x:\mathbb{Z}\rightarrow A\right\}$$
+    Coincide con l'insieme di ttte le sequenze \textbf{bi-infinite} sull'alfabeto
+    $A$
+\end{definizione}
+Lo spazio delle configurazioni è un insieme di funzioni, ciascuna funzione rappresenta
+una sequenza \textbf{bi-infinita} che associa ad ogni indice in $\mathbb{Z}$ della
+sequenza un carattere dell'alfabeto.
+\begin{esempio}
+    Sia $x\in A^\mathbb{Z}$, si può rappresentare nel sequente modo
+    $$x = \left(\dots, x_{-2}, x_{-1},x_{0},x_{1},x_{2},\dots\right), \ \forall x_i\in A$$
+    Con
+    $$x(i) = x_i$$
+\end{esempio}
+
+Si studiano automi cellulari infiniti perché possono catturare tutti i comportamenti
+del sistema, cosa che non posso fare con gli automi finiti. Essendo infiniti,
+le singole configurazioni dell'automa devono essere infite, ecco perché si utilizzano
+\textbf{sequenze bi-infinite}.
+
+\begin{definizione} [\textbf{sottosequenza}]
+    Possiamo definire le \textbf{sottosequenza} di una \textbf{sequenza bi-infinita}
+    nel seguente modo.
+
+    $\forall x \in A^{\mathbb{Z}}$ e $\forall h,k\in \mathbb{Z}$ con $h\le k$
+    abbiramo:
+    $$x_{[h,k]}= x_hx_{h+1}\dots x_k\in A^{k-h+1}$$
+    La sottosequenza sarà finita e di lunghezza $k-h+1$.
+\end{definizione}
+
+Per studiare alcune proprietà degli automi cellulari si utilizzano i concetti di
+distanza.
+\begin{definizione}[\textbf{distanza su un generico insieme}]
+    Dato un insieme $X$, una \textbf{funzione distanza} è una qualsiasi funzione
+    $d:X\times X \rightarrow \mathbb{R}_+$ che soddisfa le sequenti proprietà:
+    \begin{itemize}
+        \item \textbf{non degenerazione}: $\forall x,y\in X, d(x,y) = 0\iff x=y$
+        \item \textbf{simmetrica}: $\forall x,y\in X, d(x,y) = d(y,x)$
+        \item \textbf{disuguaglianza triangolare}: $\forall x,y,z\in X, d(x,y) \le d(x,z)+d(z,y)$
+    \end{itemize}
+\end{definizione}
+
+\begin{esempio}[distanza triviale]
+    Un esempio di distanza è la seguente
+    $$d(x,y) =\begin{cases}
+            0 & x=y    \\
+            1 & x\ne y \\
+        \end{cases}$$
+\end{esempio}
+
+\begin{esempio}[distanza euclidea]
+    Un esempio di distanza è la seguente
+    $$d(x,y) =|x-y|$$
+    Generalizzabile su $\mathbb{R}^n$ con la $|.|_2$$\dots$
+\end{esempio}
+
+A noi servirà una distanza tra le configurazioni di CA per poter confrontare
+la vicinanza tra di loro e studiare le varie proprietà, utilizzeremo la distanza di
+\textbf{Tychonoff}.
+\begin{definizione} [\textbf{distanza su $A^\mathbb{Z}$}]
+    $d:A^\mathbb{Z}\times A^\mathbb{Z} \rightarrow \mathbb{R}_+$ definita nel
+    seguente modo:
+    $$d(x,y) = \begin{cases}
+            0             & x=y        \\
+            \frac{1}{2^n} & altrimenti
+        \end{cases}$$
+    Dove $n= \min\left\{k\in \mathbb{N} | x_{[-k,k]} \ne y_{[-k,k]}\right\}$
+\end{definizione}
+
+La distanza si può anche non centrare nello $0$ ma in un altro indice differente,
+ovviamente il calcolo cambia. Sia $d_i$ la distanza con il calcolo di $n$ centrato
+in $i$ allora per ottenere $n$ si prende il valore $n'$ centrato in $i$ e si somma
+l'offset dall'indice $0$.
+
+\begin{nota}
+    $\forall x,y\in A^\mathbb{Z}$, $\forall n\in \mathbb{N}$ vale che
+    $$d(x,y)< \frac{1}{2^n}\iff x_{[-n, n]}=_{[-n, n]}$$
+\end{nota}
+
+\begin{nota} [Proprietà $1$ della distanza] \label{prop:dist}
+    $\forall x,y\in A^\mathbb{Z}$, $\forall n\in \mathbb{N}$ vale che
+    $$d(x,y)< \frac{1}{2^n}\iff x_{[-n, n]}=y_{[-n, n]}$$
+\end{nota}
+
+\begin{definizione}
+    $(A^\mathbb{Z}, d)$ è lo \textbf{spazio metrico} delle configurazioni dell'automa
+\end{definizione}
+
+\begin{nota} [Proprietà $2$ della distanza]
+    $(A^\mathbb{Z}, d)$ è un \textbf{spazio metrico compatto} cioè ogni successione
+    di eleemnti di $A^\mathbb{Z}$ ammette una sottosuccessione convergente in $A^\mathbb{Z}$.
+\end{nota}
+\begin{definizione} [ \textbf{Automa cellulare 1D} ]
+    Un \textbf{Automa cellulare 1D}  è una tripla $\langle A, r, f\rangle$
+    dove:
+    \begin{itemize}
+        \item $A$: insieme finito di caratteri, corrisponde all'alfabet dell'automa e
+              quindi agli stati degli automi interni.
+        \item $r\in \mathbb{N}$: raggio degli automi interni, specifica il raggio
+              di dipendenza degli automi interni da quelli vicini. La transizione degli
+              automi interni sarà dipendente dagli stati degli automi nel raggio
+              di vicinanza $r$.
+        \item $f: A^{2r+1}\rightarrow A$: regola locale di aggiornamento dello
+              stato degli automi interni.
+    \end{itemize}
+\end{definizione}
+Ad ogni $CA = \langle A, r, f\rangle$ viene associata una $F:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$
+chiamata \textbf{regola globale} che coincide con la specifica del cambiamento
+di configurazione del $CA$.
+\begin{definizione} [\textbf{Regola globale per CA}]
+    $F:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$, dati $\forall x \in A^\mathbb{Z}, i \in \mathbb{Z}$
+    si definisce
+    $$F(x)_i = f(x_{[i-r, i+r]})$$
+    quindi
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{ccccccccccc}
+            $x$    & $=$ & $($ & $\dots$                     & $x_{i-r}$ & $\dots$                     & $x_i$ & $\dots$ & $x_{i+r}$ & $\dots$ & $)$ \\
+            $F(x)$ & $=$ & $($ & \multicolumn{3}{c}{$\dots$} & $F(x)_i$  & \multicolumn{3}{c}{$\dots$} & $)$
+        \end{tabular}
+    \end{table}
+\end{definizione}
+\begin{definizione} [ \textbf{Automa cellulare 1D elementare} ]
+    Gli \textbf{Automi cellulari 1D elementari} sono \textbf{Automi cellulari 1D}
+    con $A=\{0,1\}$ e $r=1$
+\end{definizione}
+
+Più precisamente per rappresentare un CA  $\langle A, r, f\rangle$ ci sono 3 modi:
+\begin{itemize}
+    \item \textbf{tabella}: si scrive la tabella che definisce la regola locale
+    \item \textbf{numero decimale}: si utilizza un numero decimale che condifica
+          la regola locale, si può ricavare facilmente dalla tabella
+          $$n_f = \{0,\dots, |A|^{|A|^{2r+1}-1}\}$$
+    \item \textbf{grafo di De Bruijn}: si utilizza un grafo orientato
+\end{itemize}
+
+
+\begin{esempio} [Rappresentazione tabellare]
+    Per rappresentare la regola locale in tabella, basta creare una tabella di
+    $|A|^{2r+1}$ righe e $2$ colonne. Nella prima colonna si mettono per riga e in ordine
+    tutte le combinazioni di input, nella seconda colonna si mette il carattere
+    finale.
+\end{esempio}
+
+\begin{esempio} [Rappresentazione numero decimale]
+    Per rappresentare la regola locale in numero decimale, basta rappresentare
+    la regola locale in tabella e poi codificare in decimale il numero scritto in
+    verticale dal basso verso l'alto nella seconda colonna. Ricorda che questo numero
+    è in base $|A|$.
+\end{esempio}
+
+\begin{nota}
+    Per gli CA elementari si ha che la regola locale è defina nel seguente modo
+    $$f:\{0,1\}^3\rightarrow \{0,1\}$$
+    Quindi si possono avere un totale di $256 = |\{0,1\}^3|
+        = |C|^{|D|}$ regole locali che
+    corrispondono quindi a $256$ CA 1D elementari e ogni automa è rappresentato da un
+    numero $x\in [0, 255]$ che corrisponde alla conversione in decimale della regola
+    locale.
+\end{nota}
+
+\begin{definizione} [\textbf{Grafo di De Bruijn}]
+    Il \textbf{Grafo di De Bruijn} associato a CA $\langle A, r, f\rangle$ è $\langle V,E,l\rangle$
+    dove:
+    \begin{itemize}
+        \item $V=A^{2r}$
+        \item $E = \{(u,v)\in V\times V | u=u_1\dots u_{2r},  v=v_1\dots v_{2r} \text{ con } u_2\dots u_{2r} = v_1\dots v_{2r-1}\}$
+        \item $l:E\rightarrow \{0,1\}$ funzione che etichetta gli archi nel seguente
+              modo $$\forall (u,v)\in E, l(u,v) = f(u,v_{2r})=f(u_1,v)$$
+    \end{itemize}
+\end{definizione}
+
+La rappresentazione a grafo è quella più riusabile perché se dovessimo cambiare
+la regola locale allora basta solo aggiornare l'etichette degli archi. In aggiunta
+data una regola locale generica $f$, possiamo risriverla nel segunete modo.
+\begin{equation}
+    f: A\times A^{2r} \rightarrow A \equiv \delta: Q\times \sigma \rightarrow Q
+\end{equation}
+Con $Q= A$ e $\sigma = A^{2r} $, così è possibile sottolineare la funzione di transizione
+di ogni automa nel CA.
+\subsection{ Mappa di Shift e teorema di Hedlund}
+\begin{definizione} [\textbf{Mappa di shift}]
+    La \textbf{mappa di shift} è la funzione $\sigma:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$
+    definita nel seguente modo
+    $$\forall x\in A^\mathbb{Z}, \forall i \in Z, \sigma(x)_i=x_{i+1}$$
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{ccccccccc}
+            $x$    & $=$ & $($ & $\dots$ & $x_{i-1}$ & $x_i$     & $x_{i+1}$ & $\dots$ & $)$ \\
+            $\sigma(x)$ & $=$ & $($ & $\dots$ & $x_{i}$   & $x_{i+1}$ & $x_{i+2}$ & $\dots$ & $)$
+        \end{tabular}
+    \end{table}
+\end{definizione}
+
+\begin{nota}
+    La mappa di shift è la regola globale del CA $\langle A,r=1,f\rangle$ dove 
+    $f:A^3\rightarrow A$ è definita come $f(a,b,c) = c$. Con $|A|=2$ allora $f\equiv 170$
+
+\end{nota}
+
+\begin{teorema}
+    Sia $F:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$ una qualunque funzione.
+    $F$ è la regola globale di un CA \textbf{sse} entrambe le seguenti affermazioni
+    sono vere:
+    \begin{itemize}
+        \item $F$ continua
+        \item $F$ commuta con $\sigma$, ovvero $ F\circ\sigma =\sigma \circ F$
+    \end{itemize}
+    \begin{proof}
+        Dimostriamo entrambe le implicazioni:
+        \begin{itemize}
+            \item $\implies$: partiamo col dimostrare che $F$ sia continua
+            $$\forall x \in A^\mathbb{Z}, \forall \epsilon > 0 \exists \delta> 0 \text{ t.c } \forall y \in A^\mathbb{Z}: d(y, x) < \delta \implies d(F(y), F(x))< \epsilon$$
+            Bene, scegliamo arbitrariamente $x\in  A^\mathbb{Z}$ e $\epsilon >0$.
+            Sia $n\in \mathbb{N}$ tale che $\frac{1}{2^n} < \epsilon $, facciamo vedere
+            che $\exists \delta>0$ tale che 
+            $$\forall y\in A^\mathbb{Z}, d(y,x) < \delta \implies d(F(y), F(x))< \frac{1}{2^n}$$
+            con $\delta=\frac{1}{2^{n+r}}$ è vera. Perché per la prima proprietà 
+            della distanza e per la sua definizione (vedi nota \ref{prop:dist}) abbiamo che $d(F(y),F(x)) < \frac{1}{2^{n}}$ 
+            quindi significa che $F(x)_{[-n,n]} = F(y)_{[-n,n]}$ quindi per
+            $\delta=\frac{1}{2^{n+r}}$ è vero che $d(y,x) < \frac{1}{2^{n+r}}$
+            che significa sempre per la stessa proprietà che $x_{[-n-r,n+r]} = y_{[-n-r,n+r]}$.
+            Tutto viene spiegato dal fatto che se non fossero uguali le sottosequenze
+            di $x$ e $y$ allora non possono essere uguali le sottosequenze di $F(x), F(y)$.
+            Abbiamo dimostrato la continuità.
+
+            Successivamente dimostriamo $F\circ \sigma = \sigma \circ F\implies F(\sigma(x)) = \sigma(F(x)), \forall x \in A^\mathbb{Z}$. 
+            l'uguaglianza precedente può essere riscritta come $\forall x \in A^\mathbb{Z}, \forall i \in \mathbb{Z}, (F(\sigma(x)))_i =(\sigma(F(x)))_i$. 
+            Possiamo notare che 
+            $$(F(\sigma(x)))_i = f(\sigma(x)_{[i-r,i+r]})=f(x_{[i-r+1,i+r+1]})$$
+            Inoltre 
+            $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x)_{[i+1-r,i+1+r]}$$
+            Abbiamo dimostrato che commutano.
+            \item $\impliedby$: dobbiamo dimostrare che esiste la tripla che definisce il CA.
+            Per prima cosa conosciamo l'alfabeto che è $A$ ricavato da $F$. Successivamente
+            datto che $F$ è continua e $A^\mathbb{Z}$ è compatto allora $F$ è \textbf{uniformemente 
+            continua}, ossia $\forall\epsilon >0,\exists \delta > 0 \text{ t.c. } \forall x,y \in A^\mathbb{Z}$
+            abbiamo $d(y,x)<\delta \implies d(F(y), F(x)) < \epsilon$. Scegliamo $\epsilon = 1\implies \frac{1}{2^0}\implies n=0\implies F(y)_0= F(x)_0$
+            sicuramente sappiamo che $\exists \delta >0$ tale che $$\forall x,y \in A^\mathbb{Z} d(y,x)<\delta \implies d(F(y), F(x)) < 1$$
+            Ovvero $$\forall x,y \in A^\mathbb{Z} d(y,x)<\delta \implies F(y)_0= F(x)_0$$
+            Sia $n\in \mathbb{N}$ il più piccolo numero t.c. $\frac{1}{2^r}<\delta$.
+            Allora $\forall x,y \in A^\mathbb{Z}$
+            $$d(y,x)<\frac{1}{2^r} \implies F(y)_0= F(x)_0$$
+            Ovvero $\forall x,y \in A^\mathbb{Z}$
+            $$y_{[-r,r]} =x_{[-r,r]}\implies F(y)_0= F(x)_0$$
+            Facciamo vedere che $F$ sia la regola globale, ovvero determiniamo $f$, cioè
+            $\forall x\in A^\mathbb{Z},\forall i\in\mathbb{Z}$ 
+            $$F(x)_i = f(x_{[i-r,i+r]})$$
+            Sia $f: A^{2r+1}\rightarrow A$ definita come $\forall u \in A^{2r+1}$
+            $$f(u) = F(z)_0$$ dove $z$ è una qualunque configurazione di 
+            $A^\mathbb{Z}$ tale che $z_{[-r,r]} = u$.
+
+
+        \end{itemize}
+    \end{proof}
+\end{teorema}

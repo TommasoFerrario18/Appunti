@@ -3,7 +3,7 @@ Nell'Intelligenza artificiale si è passati da Classical AI verso la Distribuite
 AI.
 
 \begin{definizione}[\textbf{AI}]
-    Si definisce \textbf{AI} come lo studio degli agenti che ricevono delle 
+    Si definisce \textbf{AI} come lo studio degli agenti che ricevono delle
     percezioni dall'ambiente ed effettuano delle azioni.
 \end{definizione}
 Ciascun agente implementa una funzione che mappa la sequenza di percezioni in azioni,
@@ -22,7 +22,7 @@ queste funzioni possono essere rappresentate in diversi modi:
 \end{definizione}
 
 \begin{definizione}[\textbf{Agent}]
-    L'\textbf{Agent} è qualsiasi cosa che può essere visto come una percettore del 
+    L'\textbf{Agent} è qualsiasi cosa che può essere visto come una percettore del
     suo ambiente attraverso sensori e effettua azioni sull'ambiente attraverso attuatori.
 \end{definizione}
 
@@ -37,7 +37,7 @@ queste funzioni possono essere rappresentate in diversi modi:
 % TODO: schema ambiente e agente
 
 Le azioni dell'agente non sono interne all'agente, ma bensì cambiano
-il suo stato iterno. Per ciascun agente abbiamo \textbf{funzioni agente} che mappano 
+il suo stato iterno. Per ciascun agente abbiamo \textbf{funzioni agente} che mappano
 le percezioni in azioni.
 $$f:\mathcal{P}(P)\rightarrow \mathcal{A}$$
 Dove:
@@ -47,7 +47,7 @@ Dove:
 \end{itemize}
 Si considera l'insieme potenza delle percezioni perché ci si aspetta una sequenza.
 
-L'agente sarà ache formato dal \textbf{programma di un agente} che è la specifica 
+L'agente sarà ache formato dal \textbf{programma di un agente} che è la specifica
 configurazione di un'architettura che produce $f$.
 
 L'agente sarà composto dall'architettura (ex: Prolog) più il programma (ex: programma in Prolog).
@@ -59,7 +59,7 @@ L'agente sarà composto dall'architettura (ex: Prolog) più il programma (ex: pr
 \end{definizione}
 
 A differenza della Classical AI in cui si ha un solo agente, nella Distribuited AI
-si ha un sistema di agenti. 
+si ha un sistema di agenti.
 
 \begin{definizione} [\textbf{Sistema}]
     ?
@@ -68,21 +68,149 @@ si ha un sistema di agenti.
 La parte distribuita può essere a più livelli:
 \begin{itemize}
     \item \textbf{Distribuited solving of problem}: distribuzione della risoluzione
-    del problema tra diversi specialisti
+          del problema tra diversi specialisti
     \item \textbf{Solving of distribuited problem}: distribuzione a livello di dominio
-    del problema
+          del problema
     \item \textbf{Distribuited techniques for problem solving}: distribuzione a livello
-    di tecniche da utilizzare per la risoluzione del problema.
+          di tecniche da utilizzare per la risoluzione del problema.
 \end{itemize}
 
 
 % Definiremo un sistema di entità che risolve un problema che interagiscono tra di loro.
+Approccio ai sistemi orientato agli agenti.
 
-% Soluzione distribuita di un problema, ex: approccio riconoscimento distribuito 
-% del parlato che sfrutta diverse tecnologie. Un altro esempio è il sistema di diagnosi
-% medica, il dottore ti manda dagli specialisti. Il problema non è distribuito,
-% ma bensì è il metodo di risoluzione distribuito.
+Soluzione distribuita per un problema, ex: riconoscimento del parlato
+in modo distribuito a livelli gerarchici, ogni livello si occupa di un particolare
+task (ing. del SW si suddivide la responsabilità per risolvere un problema)
 
-% soluzione per un problema distribuito, ex: problema della logistica, posso quindi
-% trattarlo in modo centralizzato se faccio centralizzare tutte le informazioni in
-% un server.
+Soluzione per un problema distribuito, ex: problema della logistica, siamo in un
+dominio distribuito con repati che si occupano di effettuare dei particolari task.
+Si hanno agenti che mettono in comunicazione diversi reparti oppure collaborano
+nei reparti per contribuoire nel task. Il confine dell'ambiente è il magazzino.
+L'approccio generale può essere quello centralizzato con un server centrale che
+riceve le informazioni degli agenti e attiva gli attuatori presenti nel magazzino.
+I vantaggi dell'approccio centralizzato sono la configurabilità e la predicibilità,
+quindi posso dimostrare proprietà. Posso predire malfunzionamenti degli agenti,
+quindi posso sovradimensionare la struttura per gestire i probabili malfunzionamenti.
+Si ha quindi una scalabilità, flessibilità e adattabilità limitata.
+
+Quindi è stato pensato di evolvere il sistema trasfmormando i muletti da
+attuatori ad agenti che comunicano col sistema centrale per effettuare i task.
+Quindi da un paradigma: muletto x porta al posto y un prodotto z, ad chi si offre
+di portare al posto y il prodotto z? Il muletti risponderanno e il sistema selezionerà
+il migliore. Aumenta la complessità degli agenti perché devono gestire le richieste
+centrali e inoltre deve comunicare con gli altri agenti per non scontrarsi negli
+incroci. Quindi gli agenti devono avere una rappresentazione dell'ambiente, cosa
+che non avevano nella soluzione centralizzata, perché questo veniva cestito tutto
+dal server centrale.
+
+Distribuzione a livello di tecniche di risoluzione di un problema non perforza
+distribuite. Ex: nemici che cooperano che sconfiggere il giocatore. Rappresento 
+e gestisco i bot come agenti.
+
+Nel passato per implementare l'distribuited AI in diversi modi:
+\begin{itemize}
+    \item memoria distribuita: struttura dati condivisa con problemi sull'accesso
+    concorrente e con strategie di controllo degli agenti. Implementato con Linda 
+    che suggerisce un nuovo modo per gestire la concorrenza
+    \item processing autonomo concorrente e il coordinamento tra gli agenti 
+    con scambio di messaggi. Implementato con modello ad Attori.
+\end{itemize}
+Ora si usano dei middleware per sistemi distribuiti come code, publih and subscribe 
+ecc$\dots$ (ex: Redis, Kafka).
+
+Successivamente si è cercato di rinnovare la definizione di agente perché non 
+per forza ricevere stimoli ed eseguire azioni.
+\begin{definizione} [\textbf{Agente}, Means]
+    Agenti autonomi sono sistemi computazionali ...
+\end{definizione}
+
+\begin{definizione} [\textbf{Agente}, Wooldridge-Jennings]
+    Un agente è un sistema computerizzato che ha delle proprietà:
+    \begin{itemize}
+        \item autonomo: 
+        \item abilità sociali: comunica con altri agenti
+        \item reativo: percepisce dei cambiamenti e risponde di conseguenza
+        \item proattivo: effettua azioni che modificano l'ambiente
+    \end{itemize}
+\end{definizione}
+
+\begin{definizione} [\textbf{Agente}, Jacques]
+    SKIP
+\end{definizione}
+
+Per gli approcci basati su agenti si hanno diverse criticità:
+\begin{itemize}
+    \item si modella il sistema definendo l'ambiente, l'architettura e poi 
+    si ragiona sul singolo agente
+    \item non per tutti i sistemi si può ragionare sul singolo agente. Spesso
+    esistono azioni esterne.
+    \item la modifica sull'ambiente può limitare la scelta delle azioni degli agenti
+    quindi l'autonomia spesso non è buona e complica la gestione degli agenti.
+\end{itemize}
+
+\section{Architetture degli Agenti}
+Esistono 2 tassonomie per classificare gli agenti:
+\begin{itemize}
+    \item classificazione rispetto la conoscienza (Genesereth): si hanno $3$ categorie 
+    di agenti:
+    \begin{itemize}
+        \item \textbf{Topistic}: agenti definiti dalla $6$-tupla:
+        $$<E,P,A,see,do,action>$$
+        dove:
+        \begin{itemize}
+            \item $E$: l'ambiente indirettamente visto attraverso il sistema precettivo
+            \item $P$: partizione di $E$ che rappresenta gli insiemi di stati dell'ambiente
+            che l'agente può percepire dall'ambiente 
+            \item $A$: insieme di azioni disponibili che l'agente può usare in risposta 
+            agli stati dell'ambiente
+            \item $see$: funzione definita come $E\rightarrow P$. Mappa l'ambiente
+            negli stati dell'ambiente (discretizza l'ambiente)
+            \item $action$: funzione definita come $P\rightarrow A$. Funzione interna
+                nell'agente che seleziona l'azione da fare data una percezione 
+                (non l'insieme potenza che è specificata nella definizione di agente generico).
+            \item $do$: funzione definita come $A\times E\rightarrow E$. Funzione
+            eseguita dagli attuatori.
+        \end{itemize} 
+        Il ciclo è l'agente che osserva l'enviroment (see), trova la funzione appropriata
+        (action) e esegue l'azione (do). Ex: robottino che pulisce i pavimenti e si 
+        sposta in modo randomico. 
+        \item \textbf{Hysteretic}: agenti definiti dalla $9$-tupla:
+        $$<I,E,P,A,i_0,see,internal,do,action>$$
+        dove:
+        \begin{itemize}
+            \item $I$: insieme di stati interni dell'Agente
+            \item $i_0$: stato interno iniziale
+            \item $action$: funzione definita come $I\times P\rightarrow A$. 
+            Considera lo stato interno e le percezioni per scegliere l'azione.
+            \item $internal$: funzione definita come $I\times P\rightarrow I$.
+            Funzione del cambio di stato interno.
+            \item gli altri elementi sono uguali alla classificazione precedente.
+        \end{itemize}
+        Ex: robottino lavapavimenti che ha la possibilità di sapere la sua carica
+        che viene salvata nello stato interno, inoltre tiene traccia della sua 
+        posizione per poter poi ritornornare alla base di ricarica. La base di
+        ricarica sarà la posizione iniziale (Stato iniziale). Non può avere la 
+        mappa dell'ambiente.
+        \item \textbf{Knowledge-level}: agenti definiti dalla $9$-tupla:
+        $$<D,E,P,A,d_0,see,database,do,action>$$
+        Dove:
+        \begin{itemize}
+            \item $D$: insieme di predicati (base di conoscienza)
+            \item $d_0$: inizializzazione del database
+            \item $action$: funzione definita come $D\times P\rightarrow A$. 
+            Considera lo stato interno e le percezioni per scegliere l'azione.
+            \item $database$: funzione definita come $D\times P\rightarrow D$.
+            Funzione per aggiornare il database
+            \item gli altri elementi sono uguali alla classificazione iniziale.
+        \end{itemize}
+        Ex: robottini che riescono a mappare l'ambiente, aggiornano il proprio
+        database a partire dai fatti noti.
+    \end{itemize}
+    \item classificazione rispetto alla decisionalità (Norwig): classificazione 
+    rispetto a come scelgono l'azione rispetto alla base di conoscienza.
+    \begin{itemize}
+        \item basati su obiettivi
+    \end{itemize}
+\end{itemize}
+

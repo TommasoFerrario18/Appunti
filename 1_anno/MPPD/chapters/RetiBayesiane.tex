@@ -1,9 +1,71 @@
 \chapter{Reti Bayesiane} \label{cap:RetiBayesiane}
 \section{Introduzione}
-Le reti bayesiane sono un modello grafico probabilistico che rappresenta le relazioni
+Le reti bayesiane sono un \textbf{modello grafico probabilistico} che rappresenta le relazioni
 probabilistiche tra un insieme di variabili. Queste reti sono utili per rappresentare
 le relazioni di dipendenza tra le variabili e per effettuare inferenze su di esse.
 
-Usando l'indipendenza condizionata il modello causale è molto più compatto, il
+Usando l'indipendenza e l'indipendeza condizionata il modello causale è molto più compatto, il
 numero di parametri passa da $\mathcal{O}(2^n)$ a $\mathcal{O}(n)$, dove $n$ 
 è il numero degli effetti.
+
+\begin{definizione}
+    Una rete bayesiana è un grafo orientato aciclico in cui ogni nodo (variabili aleatorie)
+    ha associato una tabella di probabilità condizionata e gli archi definiscono 
+    la dipendenza e indipendenza condizionale tra le variabili.
+\end{definizione}
+
+se $(x,y)\in E$ dice che $x$ causa $y$ quindi $x$ è genitore di $y$.
+
+I nodi contengono le distribuzioni delle variabili e quindi la CPT (tabella delle probabilità condizionate).
+Le CPT dicono quant'è la probabilità di assumere un valore per una variabile di un nodo, condizionato al valore delle variabili
+dei genitori. L'assunzione delle reti è che ogni nodo è condizionalmente indipendente
+dai suoi non discendenti dati i suoi genitori.
+
+Non si vogliono cicli perché non si permette che un noti influenzi se stesso.
+Se specifico solo il vero nella CPT posso ricavare il falso faccio 1-vero e quindi
+il falso è un parametro dipendente. Parametri totali $8 = 2*2^2$: $2*$ per i valori che può
+assumere il figlio $2^2$ sono i valori che possono assumere i genitori.
+
+Per le reti bayesiane si può fare sia inferenza diagnostica (dai figli ai padri) o prognostica (dai genitori ai figli).
+Posso anche calcolare la probabilità di variabili che non sono in relazione padre figlio ma che sono
+connesse.
+
+La semantica delle reti è di due tipi:
+%tipi
+importanti per:
+\begin{itemize}
+    \item primo tipo: ricopre importanza centrale per comprendere come progettare ed implementare procedure di inferenza
+    \item secondo tipo: la importante per comprendere come sia possibile  contruire una rete
+\end{itemize}
+
+La costruzione delle reti si può effettuare o a mano se esperti del dominio oppure
+con algoritmi di apprendimento.
+
+Per fare inferenza utilizzando la probabilità congiunta dobbiamo 
+$$P(v_1,...,v_n) = \prod_{i=1}^{n} P(v_i|parents(v_i))$$
+Non si vedono più le dipendenze di una variabile da tutte le altre ma bensì probabilità della variabile 
+condizionata al suo genitore.
+
+La chain rule coincide con la formula di fattorizzazione se i parent sono 
+
+costruzione incrementale:
+\begin{itemize}
+    \item scelgo l'ordinamento topologico
+    \item prendo la prima variabile e la inserisco nella rete
+    \item prendo i parents tra i nodi rimanenti, trovo i genitori
+    \item calcolo la CPT, conteggio vero e proprio
+    \item 
+\end{itemize}
+
+osservazioni sulle reti:
+\begin{itemize}
+    \item aderenza sul dominio
+    \item definire le relazioni di dipendenza impatta notevolmente sulla quantità
+    di parametri
+\end{itemize}
+
+LA costruzione deve essere fatta in modo attento perché bisogna definire le variabili,
+l'ordinamento topologico (prima le cause e poi le conseguenze) e poi le dipendenze.
+
+Le CPT rappresentano le relazioni di dipendenza e indipendenza condizionale
+grazie alla formula dei parent.
