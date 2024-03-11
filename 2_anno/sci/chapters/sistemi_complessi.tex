@@ -277,7 +277,7 @@ di ogni automa nel CA.
 
 \end{nota}
 
-\begin{teorema}
+\begin{teorema} [\textbf{Hedlund}] \label{th:hedlund}
     Sia $F:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$ una qualunque funzione.
     $F$ è la regola globale di un CA \textbf{sse} entrambe le seguenti affermazioni
     sono vere:
@@ -317,19 +317,78 @@ di ogni automa nel CA.
             abbiamo $d(y,x)<\delta \implies d(F(y), F(x)) < \epsilon$. Scegliamo $\epsilon = 1\implies \frac{1}{2^0}\implies n=0\implies F(y)_0= F(x)_0$
             sicuramente sappiamo che $\exists \delta >0$ tale che $$\forall x,y \in A^\mathbb{Z} d(y,x)<\delta \implies d(F(y), F(x)) < 1$$
             Ovvero $$\forall x,y \in A^\mathbb{Z} d(y,x)<\delta \implies F(y)_0= F(x)_0$$
-            Sia $n\in \mathbb{N}$ il più piccolo numero t.c. $\frac{1}{2^r}<\delta$.
+            Sia $r\in \mathbb{N}$ il più piccolo numero t.c. $\frac{1}{2^r}<\delta$.
             Allora $\forall x,y \in A^\mathbb{Z}$
             $$d(y,x)<\frac{1}{2^r} \implies F(y)_0= F(x)_0$$
             Ovvero $\forall x,y \in A^\mathbb{Z}$
             $$y_{[-r,r]} =x_{[-r,r]}\implies F(y)_0= F(x)_0$$
+            Quindi abbiamo trovato $r$.
+
             Facciamo vedere che $F$ sia la regola globale, ovvero determiniamo $f$, cioè
             $\forall x\in A^\mathbb{Z},\forall i\in\mathbb{Z}$ 
             $$F(x)_i = f(x_{[i-r,i+r]})$$
             Sia $f: A^{2r+1}\rightarrow A$ definita come $\forall u \in A^{2r+1}$
             $$f(u) = F(z)_0$$ dove $z$ è una qualunque configurazione di 
-            $A^\mathbb{Z}$ tale che $z_{[-r,r]} = u$.
-
-
+            $A^\mathbb{Z}$ tale che $z_{[-r,r]} = u$. Bisogna però controllare che 
+            la definizione sia ben posta per ogni valore $z$. Lo è dal momento che 
+            $\forall z',z''\in A^\mathbb{Z}: z'_{[-r,r]} =  z''_{[-r,r]}\implies F(z')_0 = F(z'')_0$.
+            Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$ 
+            $$F(x)_i = f(x_{[i-r,i+r]}), i = 0$$
+            Questo è vero perché discende dalla definizione di $f$ con $z = x$.
+            Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$ 
+            $$F(x)_i = f(x_{[i-r,i+r]}), i \ne 0$$
+            $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]}), i \ne 0$$
         \end{itemize}
     \end{proof}
 \end{teorema}
+
+\begin{definizione}
+    Un elemento $x\in A^\mathbb{Z}$ è detto \textbf{configurazione spazialmente 
+    periodica} sse $\exists k>0 $ t.c. $\sigma^k(x) = x$, o equivalentemente, sse 
+    $\exists u\in A^k$ con $k>0, x = ^\infty u ^\infty$. Cioè $x$ è una ripetizione
+    bi-infinita di $u$.
+\end{definizione}
+
+Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
+\begin{itemize}
+    \item se $x\in A^\mathbb{Z}$ è \textbf{spazialmente periodica} allora $y=F(x)$
+    è  \textbf{spazialmente periodica}
+    \begin{proof}
+        Se $x\in A^\mathbb{Z}$  è spazialmente periodica $\implies\exists k>0$ t.c.
+        $\sigma^k(x)=x \implies F(\sigma^k(x)) = F(x)\implies \sigma^k(F(x))$.
+        Si noti che se $x$ è la ripetizione di una parola di lunghezza $k>0$ allora
+        anche $F(x)$ è la ripetizione di una parola di lunghezza $k$. Perciò dopo
+        un numero finito di applicazioni consecutive di $F$ (al più $k$), si riuscirà
+        a riottenere la stringa già ottenuta dalle applicazioni precedenti dal momento
+        che si effettua una permutazione di una stringa $k$. Infatti l'\textbf{evoluzione 
+        periodica} poiché $A^k$ è un insieme finito.
+    \end{proof}
+    \item Dato un $CA = <A,r,f>$ con regola globale $F$, è possibile definire un  $CA '= <A,2r,f'>$ 
+    con regola globale $F'$ tale che $F'=F^2$ con $f'$ definita in questo modo.
+    $$f':A^{4r+1}\rightarrow A$$
+    Dove $\forall u=u_1\cdots u_{4r+1}\in A^{4r+1}$
+    $$f'(u) = f'(f(u_1\cdots u_{2r+1})f(u_{2}\cdots u_{2r+2})\cdots f(u_{2r+1}\cdots u_{4r+1}))$$
+    Per dimostrare che $F^2$ sia una regola globale possiamo utilizzare il teorema di 
+    hedlund:
+    \begin{itemize}
+        \item \textbf{continuità}: si perché $F$ è continua
+        \item \textbf{commutatività}: $F^2\circ \sigma = F\circ (F\circ \sigma ) = F\circ (\sigma\circ F  ) = \sigma\circ (F\circ F  )  = \sigma \circ F^2$
+    \end{itemize}
+    Quindi è una regola globale.
+    \item Siano $F$ e $G$ due regole globali di due $CA$ differenti sullo stesso 
+    alfabeto $A$. $F\circ G$ è una regola globale di un CA? Possiamo dimostrarlo con
+    il teorema:
+    \begin{itemize}
+        \item \textbf{continuità}: si perché è una composizione di funzioni continue
+        \item \textbf{commutatività}: $F\circ (G\circ \sigma) = F\circ (\sigma\circ G) = (F\circ \sigma)\circ G =(\sigma\circ F)\circ G = \sigma\circ (F\circ G)$
+    \end{itemize}
+    \item Sia $F$ la regola globale per CA, supponiamo che $F$ sia invertibile, 
+    allora $F^{-1}$ è una regola globale per CA? Dimostriamolo:
+    \begin{itemize}
+        \item \textbf{continuità}: si perché $A^\mathbb{Z}$ è compatto
+        \item \textbf{commutatività}: $$F\circ \sigma = \sigma \circ F $$
+        $$ F^{-1} \circ F\circ \sigma \circ F^{-1}= F^{-1}\circ \sigma \circ F \circ F^{-1}$$ 
+        $$ (F^{-1} \circ F)\circ \sigma \circ F^{-1}= F^{-1}\circ \sigma \circ (F \circ F^{-1})$$
+        $$ \sigma \circ F^{-1}= F^{-1}\circ \sigma$$
+    \end{itemize}
+\end{itemize}
