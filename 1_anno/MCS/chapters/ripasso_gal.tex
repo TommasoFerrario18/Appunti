@@ -30,6 +30,8 @@ Le operazioni dello spazio vettoriale godono di alcune proprietà:
                                 \end{array}\right] = v+ u$$
                     \end{proof}
               \item \textbf{Associativa}: $\forall u,v,z \in V, (u+v)+z = v+(u+z)$
+                    La dimostrazione si può fare facilmente utilizzando sempre la proprietà
+                    associativa della somma tra scalari.
               \item \textbf{Esistenza dell'elemento neutro}: $\exists 0 \in V: 0+v = v,
                         \forall v\in V$
               \item $\forall u \in V, \exists w\in V \text{ unico}: u+w=0$
@@ -39,10 +41,12 @@ Le operazioni dello spazio vettoriale godono di alcune proprietà:
               \item \textbf{Distributivo rispetto alla somma}: $\forall u,v \in
                         V, \forall \lambda \in \mathbb{R}, \lambda(u+v) = \lambda
                         u+\lambda v$
-              \item \textbf{Distributivo rispetto alla somma e prodotto tra scalari}:
+              \item \textbf{Distributivo rispetto alla somma tra scalari}:
                     $\forall u \in V, \forall \lambda,\mu\in \mathbb{R}: (\lambda +
-                        \mu)u = \lambda \cdot u + \mu \cdot u \quad (\lambda \cdot
-                        \mu)u = \lambda \cdot u \cdot \mu \cdot u$
+                        \mu)u = \lambda \cdot u + \mu \cdot u$
+              \item \textbf{Associativo rispetto al prodotto tra scalari}:
+                    $\forall u \in V, \forall \lambda,\mu\in \mathbb{R}: (\lambda \cdot
+                        \mu)u = \lambda \cdot (\mu \cdot u)$
               \item \textbf{Esistenza dell'elemento neutro}: $\exists 1 \in
                         \mathbb{R}:1\cdot v = v, \forall v\in V$
           \end{itemize}
@@ -77,7 +81,7 @@ Le operazioni dello spazio vettoriale godono di alcune proprietà:
 La definizione e le proprietà derivano dalla nota successiva
 \begin{nota} [\textbf{Norma indotta dal prodotto scalare}]
     Sia $V$ uno spazio vettoriale in cui è definito un prodotto scalare allora è
-    è possibile calcolare la norma da $(\cdot, \cdot)$
+    possibile calcolare la norma da $(\cdot, \cdot)$
     \begin{equation}
         \|v\| = \sqrt{(v,v)}  \equiv \|v\|_2
     \end{equation}
@@ -101,7 +105,7 @@ dire il contrario.
     La norma ha una proprietà indotta dalla sua definizione e dalle sue proprietà,
     $\forall v,w \in V$
     \begin{equation*}
-        \|\|v\| -\|w\|\| \le \|v-w\|
+        \|v\| -\|w\| \le \|v-w\|
     \end{equation*}
 \end{nota}
 Possiamo definire anche le norme per le matrici $V\in \mathbb{R}^{r\times c}$:
@@ -111,7 +115,7 @@ Possiamo definire anche le norme per le matrici $V\in \mathbb{R}^{r\times c}$:
     \item $\|A\|_\infty = \max_{j=1\dots c}{\sum_{i=1}^{r} |a_{i,j}|}$
 \end{itemize}
 
-Altre operazioni utili per gli spazi vettoriali, generalmente vettori matrici, ad esempio
+Altre operazioni utili per gli spazi vettoriali, generalmente per vettori e matrici, è
 la \textbf{trasposizione}.
 \begin{equation}
     A=\left[\begin{array}{ccc}
@@ -164,4 +168,4 @@ Sia $A\in \mathbb{R}^{3\times 2}, B\in \mathbb{R}^{2\times 4}$
 Anche questa operazione è vincolante perché può essere effettuata solo quando la
 prima matrice ha lo stesso numero di colonne uguale al numero di righe della
 seconda. Inoltre la commutazione non sempre è fattibile perché potrebbero non
-essere compatibili, in aggiunta non è commutativa.
+essere compatibili e in generale non è commutativa.
