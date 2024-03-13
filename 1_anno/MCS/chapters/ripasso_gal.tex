@@ -168,4 +168,177 @@ Sia $A\in \mathbb{R}^{3\times 2}, B\in \mathbb{R}^{2\times 4}$
 Anche questa operazione è vincolante perché può essere effettuata solo quando la
 prima matrice ha lo stesso numero di colonne uguale al numero di righe della
 seconda. Inoltre la commutazione non sempre è fattibile perché potrebbero non
-essere compatibili e in generale non è commutativa.
+essere compatibili e in generale non è commutativa. La soluzione del prodotto 
+può essere anticipato quando tra i fattori si hanno matrici particolari.
+
+Supponiamo di avere $A\in \mathbb{R}^{3\times 3}$ sparsa e $B\in \mathbb{R}^{3\times3}$
+\begin{equation*}
+    \left[\begin{array}{ccc}
+        1 & 0 & 0 \\
+        0 & 0 & 1 \\
+        0 & 1 & 0
+    \end{array}\right]  \left[\begin{array}{ccc}
+        a & b & c \\
+        e & f & g \\
+        h & i & l
+    \end{array}\right] = \left[\begin{array}{ccc}
+        a & b & c \\
+        h & i & l \\
+        e & f & g \\
+    \end{array}\right] 
+\end{equation*}
+In questo caso si ha uno scambio della seconda riga con la terza.
+\begin{equation*}
+     \left[\begin{array}{ccc}
+        a & b & c \\
+        e & f & g \\
+        h & i & l
+    \end{array}\right] \left[\begin{array}{ccc}
+        1 & 0 & 0 \\
+        0 & 0 & 1 \\
+        0 & 1 & 0
+    \end{array}\right] = \left[\begin{array}{ccc}
+        a & c & b \\
+        e & g & f \\
+        h & l & i \\
+    \end{array}\right] 
+\end{equation*}
+In questo caso abbiamo fatto lo scambio della seconda colonna con la terza.
+
+Queste matrici sono particolari perché vengono chiamate \textbf{matrici di permutazioni}
+che permettono di scambiare delle righe o delle colonne. Queste sono utili per 
+risolvere i sistemi lineari e permettono di velocizzare le operazioni di calcolo. 
+
+Supponiamo di avere una nuova matrice
+\begin{equation*}
+    \left[\begin{array}{ccc}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 0 & 1
+    \end{array}\right]  \left[\begin{array}{ccc}
+        a & b & c \\
+        d & e & f \\
+        g & h & i
+    \end{array}\right] = \left[\begin{array}{ccc}
+        a & b & c \\
+        2a+d & 2f+e & 2c+f \\
+        g & h & i \\
+    \end{array}\right] 
+\end{equation*}
+
+In aggiunta possiamo trasformare un sistema di equazioni lineari in un prodotto 
+tra matrice e vettore ($Ax+b=0\equiv a_1x_1+a_2x_2+\dots a_n x_n = b$). Dove $a_i$
+è il vettore dei coefficienti della variabile $x_i$. Questa rappresentazione dei
+sistemi permette di risolverli facilmente utilizzando dei metodi specifici per le 
+tipologie di matrici marticolari, fondamentale sarà quindi riconoscere la tipologia
+di matrici.
+
+Altre matrici particolari sono quelle \textbf{triangolari inferiori/superiori} che sono
+utili per risolvere i sistemi lineari usando il metodo di sostituzioni.
+
+\begin{esempio}
+    Esempio di matrice triangolare inferiore
+    \begin{equation*}
+        \left[\begin{array}{ccc}
+            1 & 0 & 0 \\
+            2 & 1 & 0 \\
+            1 & 1 & 1
+        \end{array}\right] 
+    \end{equation*}
+\end{esempio}
+
+\begin{esempio}
+    Esempio di matrice triangolare superiore
+    \begin{equation*}
+        \left[\begin{array}{ccc}
+            1 & 1 & 1 \\
+            2 & 1 & 0 \\
+            1 & 0 & 0 \\
+        \end{array}\right] 
+    \end{equation*}
+\end{esempio}
+
+Un'altra matrice utile è quella \textbf{simmetrica}, ovvero una matrice quadrata
+tale che $a_{ij } = a_{ji}$.
+
+Un altro tipo di matrice particolare è quella dei sistemi con moltissime variabili,
+moltissime equazioni ciascuna con poche variabili, quindi si parlerà di \textbf{sistema 
+lineare sparsi} (minore del $10\%$ delle entrate sono diverse da $0$). Importante sarà 
+trovare un modo per salvare i valori delle matrici in modo efficiente. 
+
+Un operazione utile per la risoluzione dei sistemi lineari è il \textbf{determinante},
+ovvero $det(A): \mathbb{R}^{n\times n} \rightarrow \mathbb{R}$. Il determinante
+è utile per scoprire la presenza di soluzioni e se sono uniche.
+
+\section{Risoluzione di sistemi lineari al PC}
+Per sviluppare un algoritmo di risoluzione del sistema lineare deve considerare 
+tre fattori:
+\begin{itemize}
+    \item \textbf{memoria}: vogliamo un algoritmo che richieda un ridotto quantitativo 
+    di memoria
+    \item \textbf{velocità}: vogliamo un algoritmo molto veloce
+    \item \textbf{precisione}: vogliamo ottenere una soluzione più vicina possibile
+    a quella reale
+\end{itemize}
+
+Per salvare un array si può utilizzare i classici array della programmazione. Per 
+quanto riguarda la matrice, si possono salvare in array secondo la filoosofia 
+di \textbf{row major}. Alternativamente c'è la metodologia \textbf{column major}
+che srotola la matrice rispetto la colonna.
+
+Per salvare una matrice sparsa viene sempre salvata come collezione di tuple $\langle i,j,val\rangle$.
+Con questa rappresentazione ogni qualvolta si effettua un'operazione tra matrici
+sparse si trasformano in matrici normali e si applica l'operazione.
+
+Per calcolare la precisione dell'algorimo che restituisce una soluzione floating 
+point $\stackrel{\sim}{x}$ differente rispetto al valore corretto $x$, si usa 
+l'errore relativo e la norma
+\begin{equation*}
+    \epsilon = \frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}
+\end{equation*}
+
+\begin{teorema}
+    Le norme di vettori sono equivalenti ossia esistono $c_1,c_2\in \mathbb{R}$ 
+    tale che 
+    \begin{equation*}
+        c_1\|x\|_p < \|x\|_q < c_2\|x\|_p
+    \end{equation*}
+\end{teorema}
+Il teorema ci dice che le norme a meno di alcuni fattori moltiplicativi restituiscono
+gli stessi risultati.
+
+Per calcolare la velocità di un algoritmo dobbiamo contare quante operazioni effettuiamo
+e ragioniamo con la complessità asintotica.
+\begin{esempio}
+    Sia $(x,y) = \sum_{i=1}^n x_iy_i$ corrisponde ad effettuare $n$ prodotti e $n-1$ summe,
+    quindi si ha $n+n-1 = 2n-1 \in \mathcal{O}(n)$ 
+\end{esempio}
+
+Introduciamo la velocità delle diverse operazioni:
+\begin{itemize}
+    \item \textbf{prodotto scalare}: $\mathcal{O}(n)$
+    \item \textbf{prodotto matrice-vettore}: siano $A\in \mathbb{R}^{r\times c}$ e $v\in \mathbb{R}^c$
+    allora $Av\in \mathcal{O} (rc) = \mathcal{O}(n^2)$ 
+    \item \textbf{prodotto matrice-matrice}: siano $A,B\in \mathbb{R}^{n\times n}$
+    allora $AB\in \mathcal{O} (nnn) = \mathcal{O} (n^3)$ 
+    \item \textbf{determinate}: sia $A\in \mathbb{R}^{n\times n}$ allora $det(A) \in  \mathcal{O}(n!)$
+\end{itemize}
+
+Alla luce di questi ragionamenti si può osservare che se noi usassimo il calcolo
+del determinante per capire se esistono soluzioni, noi non possiamo fidarci del 
+risultato dal momento che ci sono errori e risulta complesso sapere se il risultato
+vicino a $0$ è effettivamente $0$.
+
+Per sapere se il sistema è complesso si userà il \textbf{numero di condizionamento}
+calcolato su una matrice, se è alto allora il sistema è complesso da risolvere.
+Il numero di condizionamento cresce al crescere della matrice, se si ha un'ordine di 
+grandezza differente fra le entrate della matrice. Più il valore di condizionamento
+è alto allora significa che saremo poco precisi.
+
+\begin{esempio}
+    Un esempio di matrice mal condizionata è quella di Hillbert.
+    \begin{equation*}
+        H_{ij}=\frac{1}{1+i+j}
+    \end{equation*}
+\end{esempio}
+

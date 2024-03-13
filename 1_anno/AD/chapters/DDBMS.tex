@@ -636,3 +636,147 @@ performance. Questa condizione può essere rilassata con dei protocolli asincron
 più efficienti.
 
 Nel distribuito il 2PL  non funziona pià
+
+
+
+
+
+\subsection{Controllo concorrenza Gestione bancario}
+
+Nella progettazione della base di dati bisongna considerare:
+\begin{itemize}
+      \item topologia della rappresenta
+      \item tipologie di query distr.
+      \item stime o stastiche su query distribuite
+\end{itemize}
+
+In aggiunta dobbiamo considerare i problemi di scrittura e quindi problemi di 
+concorrenza. Dobbiamo avere massima concorrenza e minimi errori, non possiamo avere
+transazioni seriali ma dobbiamo avere anche coerenza.
+\begin{itemize}
+      \item remote eq
+      \item remot \dots
+\end{itemize}
+
+Dobbiamo costruire una serie di protocolli per risolvere questi problemi, 
+nel centralizzato lo risolviamo con 2PL che sfrutta i lock (accesso esclusivo)
+sulle risorse (tabelle, blocchi di pagina o righe) per eseguire le transazioni.
+
+Quando si passa al distribuito c'è un problema nelle ACID:
+\begin{itemize}
+      \item consistenza e persistenza vengono mantenute perché se ne occupano i nodi
+      \item atomicità  non viene assicurata dal momento che le transazioni vengono
+      eseguite su nodi differenti quindi i singoli nodi non posso vedere lo stato
+      della transazione distribuita.
+      \item isolamento
+\end{itemize}
+Sul singolo nodo le transazioni verranno gestite come nel centralizzato. Questo 
+però non risolve i problemi perché si potrà avere deadlock distribuito tra diversi 
+nodi. Quindi bisogna avere una vista globale, in aggiunta tutto si complica con 
+le repliche.
+Con replica si ha il problema sull'atomicità perché bisogna assicurarsi che una 
+scrittuare venga replicata e che sia fatta efficientemente. Quindi si usa il protocollo
+ROWA. Consiste in tutte le repliche scrivono i dati e poi segnalano quando hanno finito,
+in questo modo posso leggere da qualsiasi nodo, questo comporta rallentamenti dal 
+momento che le repliche sono dislocate geograficamente, questo comporta rallentamenti.
+Quindi le scritture risultano lente.
+
+
+Si può estendere 2PL al caso distribuito introducento un coordinatore delle transaction, e
+un lock manager gentrale generalmente quello che succede il coordinatore è quelo che 
+lancia la transaction e utilizza un lock manager centrale che gestisce i lock tra 
+tutti i nodi. Simulo il centrale nel distribuito, ma il problema è un collo di bottiglia
+sul lock manager e si ha single point of failure, casca il LM allora si rompe tutto.
+Per mitigare il problema posso utilizzare un LM secondario che si attiva quando 
+il primo muore. Per mantere allineato tutto si può usare ROWA (ovviamente rallenta),
+per attivarlo ovviamente si usano load balancer ma serve tempo quindi si rischia
+sempre problemi. 
+
+Un'altra modalità per gestire i locking distribuiti. Primary copy 2PL, i nodi 
+hanno LM attivi ognuno gestisce una partizione dei lock complessivi relativi aller 
+risorse che gestiscono e si ha una directory globale, aggiornata dai LM locali,
+che tiene traccia di tutto. 
+
+Per accorgersi dei deadlock possiamo mettere in comunicazione i nodi, ciascun nodo
+chiede ai nodi dai quali stanno aspettando il rilascio del lock, la loro situazione
+e un nodo dovrà quale transazione eliminare se c'è deadlock. Uno solo deve fare 
+la decisione perché se sono più di uno allora si potrebbe entrare in starvation
+perché ripartono insieme e finire di nuovo in deadlock. Per capire quale deve
+fare la scelta si usa una lista di priorità dei nodi. L'ordine di communicazione va 
+dal nodo più piccolo a quello più grande. Le informazioni che si scambiano sono 
+i grafi di dipendenza locali delle transazioni e delle risorse, ci si accorge del 
+deadlock se il grafo contiene un ciclo. Quando si passano le informazioni, il nodo
+aggiunge le sue locali, in questo modo non si ha un single point of failure. 
+
+L'ordine dei nosi si decide a priori durante la progettazione del sistema distribuito.
+
+Per quanto riguarda atomicità:
+\begin{itemize}
+      \item ogni singolo nodo può avere problemi di rottura disco, bug nel SW 
+      \item nel distribuito si ha perdita di messaggi oppure si ha partizionamento
+      della rete quando si scollegano le regioni.
+\end{itemize}
+
+Per gestire i problemi di partizionamento si può fare con una soluzione centralizzata 
+da un nodo che decide se la transazione distribuita deve fare la commit oppure abort (orchestrato) (2PC).
+Il singolo gestore capisce se tutte le sottotransazioni hanno fatto commit o abort 
+e alla fine capisce se la transazione distribuita deve fare commit (quando tutte sottotransaz. sono commit ) o 
+abort (quando almento una sottotransaz. è abort). Il manager distribuito chiede 
+ai singoli resourse manager dei singoli nodi se commit o abort e poi etichetta la transaz. distr.
+con commit o abort e passa l'info ai singoli RM che si occuperanno al massimo di 
+fare il revert. Si usano i file di log, prima scrivo il log e poi faccio la decisione,
+in questo modo mi garantisce in fase di recovery del sistema cos'è sucesso e cosa 
+si stava per fare, semplificando le fasi di recovery (sono più importanti i log dei 
+dati, perché i dati posso ottenerli dai log).
+
+Il TM scrive nei suoi log:
+\begin{itemize}
+      \item i commenti 
+\end{itemize}
+Il RM scrive nei suoi log:
+\begin{itemize}
+      \item i commenti 
+\end{itemize}
+
+Nella prima fase TM usa un timeout per chiedere ai RM se sono disponibili. sE il
+timeout scatta considera la mancata risposta come non disponibile. Serve un timeout
+anche per la seconda decisione con lo scopo di ACK dei RM, se TM non riceve dai RM
+la risposta allora continua a mandare richieste di conferme fino a quando tutti 
+rispondono. 
+
+Si possono applicare ottimizzazioni sull'algoritmo è che la comunicazione può
+avvenire dal TM in broadcast oppure TM comunica col primo RM e il primo RM 
+scrive agli altri. In questo modo l'ultimo permette di non avere la seconda fase 
+nel TM.
+
+I guasti possono capitare quando:
+\begin{itemize}
+      \item write begin commit: se uno dei partecipanti non risponde allora faccio
+      abort
+      \item seconda fase: qualche RM non risponde allora TM invia più richieste
+      \item seconda fase: RM deve fare abort ma TM non conferma abort globale, RM
+      fa abort
+      \item seconda fase: RM deve fare commit ma TM non conferma commit globale, RM
+      deve aspettare la decisione del TM
+\end{itemize}
+Per guasti dei componenti si usano i file di log per riprendere il servizio e si 
+sceglie cosa fare:
+\begin{itemize}
+      \item TM muore e si ha è WAIT allora rimando le richieste
+      \item TM muore dopo decisione finale\dots
+\end{itemize}
+
+Se muore TM prima di iniziare i protocollo e tutti i RM si accorgono allora si 
+possono avere algoritmi di voting per decretare il nuovo TM tra i RM. In caso di 
+partizione si ha il rischio di avere 2 nuovi TM, uno per ogni partizione della 
+rete ma non avendo a disposizione tutti i RM si andrà in abort.
+
+Il difetto del protocollo è all'aumentare dei nodi si possono avere più probabilità
+di errori, si possono fare ottimizzazioni:
+\begin{itemize}
+      \item se un RM fa solo lettura allora non serve tutta la parte di abort e si riducono i messaggi
+      \item possiamo solo dimenticare le risposte sugli abort in questo modo riduco 
+      i log perché scrivo solo i commit e riduco i messaggi. 
+\end{itemize}
+
+Standard definito.
