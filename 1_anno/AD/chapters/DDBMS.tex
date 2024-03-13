@@ -616,167 +616,241 @@ In questo modo lo schedule globale andrà a dipendere dallo schedule locale di
 ciascun nodo. Inoltre in questo caso, seppur localmente le transazioni sembrino
 serializzabili, si crea la possibilità di avere conflitto a livello globale.
 \subsection{ROWA}
-Nel caso di database non è replicato e ogni schedule locale è serializzabile 
-allora lo schedule globale è serializzabile se gli ordini di serializzazione 
+Nel caso di database non è replicato e ogni schedule locale è serializzabile
+allora lo schedule globale è serializzabile se gli ordini di serializzazione
 sono gli stessi per tutti i nodi, ovvero se il flusso delle transazioni è lo
 stesso per tutti i nodi.
 
-Quando si aggiunge la replicazione dei dati le cose cambiano. Nello specifico 
-possiamo violare la mutua consistenza dei database locali per la quale tutte le 
-copie devono avere lo stesso valore al termine della transazione. Abbiamo quindi 
+Quando si aggiunge la replicazione dei dati le cose cambiano. Nello specifico
+possiamo violare la mutua consistenza dei database locali per la quale tutte le
+copie devono avere lo stesso valore al termine della transazione. Abbiamo quindi
 bisogno di un protocollo di controllo delle repliche.
 
-Un protocollo è il \textbf{ROWA} (\textbf{Read Once Write All}). Questo 
-protocollo mappa le operazioni di lettura su una qualunque delle copie, mentre 
-le operazioni di scrittura vengono mappate su tutte le copie. Di fatto, finché 
-non sono accertate tutte le write su tutte le copie, la transazione non continua. 
+Un protocollo è il \textbf{ROWA} (\textbf{Read Once Write All}). Questo
+protocollo mappa le operazioni di lettura su una qualunque delle copie, mentre
+le operazioni di scrittura vengono mappate su tutte le copie. Di fatto, finché
+non sono accertate tutte le write su tutte le copie, la transazione non continua.
 
 Questo protocollo garantisce la consistenza dei dati ma a scapito chiaramente delle
-performance. Questa condizione può essere rilassata con dei protocolli asincroni 
+performance. Questa condizione può essere rilassata con dei protocolli asincroni
 più efficienti.
 
-Nel distribuito il 2PL  non funziona pià
+Nel distribuito il 2PL  non funziona più.
 
-
-
-
-
-\subsection{Controllo concorrenza Gestione bancario}
-
-Nella progettazione della base di dati bisongna considerare:
+\subsection{Two Phase Locking}
+Nella progettazione della base di dati bisogna considerare diverse informazioni:
 \begin{itemize}
-      \item topologia della rappresenta
-      \item tipologie di query distr.
-      \item stime o stastiche su query distribuite
+      \item Topologia della rappresentazione.
+      \item Tipologie di query distribuite.
+      \item Stime o statistiche su query distribuite.
 \end{itemize}
 
-In aggiunta dobbiamo considerare i problemi di scrittura e quindi problemi di 
-concorrenza. Dobbiamo avere massima concorrenza e minimi errori, non possiamo avere
-transazioni seriali ma dobbiamo avere anche coerenza.
+In aggiunta dobbiamo considerare i problemi di scrittura e quindi problemi di
+concorrenza. Dobbiamo costruire una serie di protocolli che ci permettono di
+risolvere questi problemi, nel sistema centralizzato un metodo è quello di usare
+2PL, il quale sfrutta i lock (accesso esclusivo) sulle risorse (tabelle, blocchi
+di pagina o righe) per eseguire le transazioni.
+
+Vediamo ora come possiamo risolvere questo problema nel caso distribuito. Sul
+singolo nodo le transazioni verranno gestite come nel caso centralizzato. Questo
+però non risolve i problemi di deadlock distribuiti. Per risolvere questo problema
+bisogna avere una vista globale del sistema, in aggiunta tutto si complica
+aggiungendo le repliche.
+
+Con l'aggiunta di quest'ultime si introduce il problema sull'atomicità, perché
+bisogna assicurarsi che una scrittura venga replicata su tutti i nodi, e che sia
+fatta in modo efficiente. Una soluzione a questo problema è il protocollo ROWA,
+il quale consiste nello scrivere su tutte le repliche e poi segnalano quando
+hanno finito, in questo modo posso leggere da qualsiasi nodo. Questo approccio
+comporta rallentamenti dal momento che le repliche sono dislocate geograficamente.
+
+Si può estendere 2PL al caso distribuito introducendo un coordinatore delle
+transaction centrale e un lock manager per ogni nodo. Uno di questi lock manager
+viene eletto come coordinatore e si occupa di gestire i lock tra i vari nodi.
+
+La strategia in questo caso è quella che il Transaction Manager (TM) lancia la
+transazione e utilizza un lock manager centrale che gestisce i lock tra tutti i
+nodi. Il lock manager centrale la esegue utilizzando 2 phase locking. A questo
+punto il transaction manager comunica ai data processor di eseguire le operazioni.
+Una volta che il data processor ha finito, comunica al lock manager centrale che
+ha finito e il lock manager centrale comunica al transaction manager che può fare
+commit.
+
+Questo approccio vuole simulare il comportamento di un sistema centrale su un
+sistema distribuito. Questo introduce un problema a livello di comunicazione,
+infatti il lock manager centrale diventa un collo di bottiglia, inoltre, si ha
+single point of failure, casca il LM allora si rompe tutto.
+
+Per mitigare il problema posso utilizzare un LM secondario che si attiva quando
+il primo muore. Per mantenere allineato tutto si può usare ROWA il quale riduce
+le performance. Per attivarlo si usano load balancer ma serve tempo quindi si
+rischia sempre problemi.
+
+Un'altra modalità per gestire i locking distribuiti è \textbf{primary copy 2PL}.
+In questa strategia, per ogni risorsa viene individuata una \textit{copia primaria}
+che viene selezionata prima dei lock. Ogni nodo ha un suo lock manager attivo che
+gestisce una partizione dei lock complessivi, relativi alle risorse primarie
+contenute nel nodo. Per ogni transizione il TM chiede al lock manager del nodo
+dove si trova la risorsa primaria, il quale si occupa di gestire i lock.
+
+In questo modo si riduce il single point of failure e si riduce il traffico
+sulla rete. Inoltre, si riduce il tempo di risposta perché si riduce il numero
+di messaggi. Questo approccio però non è perfetto, infatti, è necessario avere
+una directory globale che mappa le risorse primarie con i nodi.
+\subsection{Deadlock distribuiti}
+I deadlock distribuiti sono più complessi da gestire rispetto a quelli centralizzati
+perché non si ha una visione globale del sistema.
+
+Per la gestione di questi è possibile utilizzare un algoritmo di rilevamento.
+Prima di analizzare tale algoritmo vediamo quali sono i tipi di attesa che
+si possono avere in un sistema distribuito:
 \begin{itemize}
-      \item remote eq
-      \item remot \dots
+      \item \textbf{Attesa da remote procedure call}
+      \item \textbf{Attesa da rilascio di risorsa}
+\end{itemize}
+La composizione dei due tipi di attesa può dare luogo a uno stato di deadlock
+globale.
+
+Possiamo caratterizzare le condizioni di attesa su ciascun nodo tramite delle
+condizioni di precedenza usando al seguente notazione:
+\begin{itemize}
+      \item \textbf{$EXT_i$}: external, ovvero la chiamata da un nodo remoto $i$.
+      \item $x < y$: ovvero $x$ attende il rilascio di una risorsa da $y$. Questo
+            può anche essere remoto.
+\end{itemize}
+La sequenza di attesa generale al nodo è della forma:
+\begin{equation*}
+      EXT_i < x < y < EXT_j
+\end{equation*}
+Da osservatore esterno, riusciamo a vedere quando c'è un ciclo di attese e
+quindi un deadlock globale, ma a livello di singolo nodo questo è più complicato.
+La soluzione a questo problema avviene attivando periodicamente sui diversi nodi
+delle procedure di rilevamento dei deadlock. Queste procedure si scambiano le
+informazioni sui grafi di attesa locali e se si rileva un ciclo si attiva una
+procedura di risoluzione del deadlock.
+
+L'algoritmo di rilevamento dei deadlock distribuiti è composto come segue:
+\begin{itemize}
+      \item In ogni nodo, si integra il grafo locale con quello degli altri nodi
+            che ho ricevuto.
+      \item Si analizza il grafo in cerca di condizioni di attesa sul nodo e
+            rileva i deadlock locali.
+      \item Comunica le sequenze di attesa agli altri nodi. L'ordine di
+            comunicazione va dal nodo più piccolo a quello più grande
 \end{itemize}
 
-Dobbiamo costruire una serie di protocolli per risolvere questi problemi, 
-nel centralizzato lo risolviamo con 2PL che sfrutta i lock (accesso esclusivo)
-sulle risorse (tabelle, blocchi di pagina o righe) per eseguire le transazioni.
-
-Quando si passa al distribuito c'è un problema nelle ACID:
+È possibile ovviamente che lo stesso deadlock venga riscoperto più volte. Per
+evitare ciò e rendere più efficiente l'algoritmo si inviano le sequenze di attesa:
 \begin{itemize}
-      \item consistenza e persistenza vengono mantenute perché se ne occupano i nodi
-      \item atomicità  non viene assicurata dal momento che le transazioni vengono
-      eseguite su nodi differenti quindi i singoli nodi non posso vedere lo stato
-      della transazione distribuita.
-      \item isolamento
+      \item In avanti verso il nodo dove è attiva la sotto-transazione $t_i$
+            attesa da $t_j$.
+      \item Solamente quando $i > j$ dove $i$ e $j$ identificano i nodi.
 \end{itemize}
-Sul singolo nodo le transazioni verranno gestite come nel centralizzato. Questo 
-però non risolve i problemi perché si potrà avere deadlock distribuito tra diversi 
-nodi. Quindi bisogna avere una vista globale, in aggiunta tutto si complica con 
-le repliche.
-Con replica si ha il problema sull'atomicità perché bisogna assicurarsi che una 
-scrittuare venga replicata e che sia fatta efficientemente. Quindi si usa il protocollo
-ROWA. Consiste in tutte le repliche scrivono i dati e poi segnalano quando hanno finito,
-in questo modo posso leggere da qualsiasi nodo, questo comporta rallentamenti dal 
-momento che le repliche sono dislocate geograficamente, questo comporta rallentamenti.
-Quindi le scritture risultano lente.
-
-
-Si può estendere 2PL al caso distribuito introducento un coordinatore delle transaction, e
-un lock manager gentrale generalmente quello che succede il coordinatore è quelo che 
-lancia la transaction e utilizza un lock manager centrale che gestisce i lock tra 
-tutti i nodi. Simulo il centrale nel distribuito, ma il problema è un collo di bottiglia
-sul lock manager e si ha single point of failure, casca il LM allora si rompe tutto.
-Per mitigare il problema posso utilizzare un LM secondario che si attiva quando 
-il primo muore. Per mantere allineato tutto si può usare ROWA (ovviamente rallenta),
-per attivarlo ovviamente si usano load balancer ma serve tempo quindi si rischia
-sempre problemi. 
-
-Un'altra modalità per gestire i locking distribuiti. Primary copy 2PL, i nodi 
-hanno LM attivi ognuno gestisce una partizione dei lock complessivi relativi aller 
-risorse che gestiscono e si ha una directory globale, aggiornata dai LM locali,
-che tiene traccia di tutto. 
-
-Per accorgersi dei deadlock possiamo mettere in comunicazione i nodi, ciascun nodo
-chiede ai nodi dai quali stanno aspettando il rilascio del lock, la loro situazione
-e un nodo dovrà quale transazione eliminare se c'è deadlock. Uno solo deve fare 
-la decisione perché se sono più di uno allora si potrebbe entrare in starvation
-perché ripartono insieme e finire di nuovo in deadlock. Per capire quale deve
-fare la scelta si usa una lista di priorità dei nodi. L'ordine di communicazione va 
-dal nodo più piccolo a quello più grande. Le informazioni che si scambiano sono 
-i grafi di dipendenza locali delle transazioni e delle risorse, ci si accorge del 
-deadlock se il grafo contiene un ciclo. Quando si passano le informazioni, il nodo
-aggiunge le sue locali, in questo modo non si ha un single point of failure. 
-
-L'ordine dei nosi si decide a priori durante la progettazione del sistema distribuito.
-
-Per quanto riguarda atomicità:
+L'ordine dei nodi si decide a priori durante la progettazione del sistema distribuito.
+\section{Recovery Management}
+In un sistema distribuito i problemi riguardanti l'atomicità possono essere
+suddivisi in:
 \begin{itemize}
-      \item ogni singolo nodo può avere problemi di rottura disco, bug nel SW 
-      \item nel distribuito si ha perdita di messaggi oppure si ha partizionamento
-      della rete quando si scollegano le regioni.
+      \item Problemi locali: ogni singolo nodo può avere problemi, come ad
+            esempio rottura disco, bug nel SW.
+      \item Problemi globali: come la perdita di messaggi oppure legati al
+            partizionamento della rete, ovvero quando due o più porzioni della
+            rete non riescono a vedersi per vari motivi e considerano l'altra
+            parte morta.
+\end{itemize}
+La gestione dei problemi di partizionamento può essere fatta con una soluzione
+centralizzata in cui un nodo decide se la transazione distribuita deve essere
+conclusa con un commit o con un abort (orchestrato) (2PC).
+
+I server sono chiamati \textbf{Resource Manager} (RM) ed il coordinatore è
+chiamato \textbf{Transaction Manager} (TM). Il protocollo di coordinamento
+distribuito è chiamato \textbf{Two Phase Commit} (2PC) e si basa sullo scambio
+di messaggi tra TM e RM.
+
+In assenza di guasti, il funzionamento del protocollo è il seguente:
+\begin{itemize}
+      \item \textbf{Fase 1}: il TM chiede ai RM come intendono terminare la
+            transazione. Ogni RM risponde autonomamente con un messaggio in cui
+            comunica le sue intenzioni in modo irrevocabile.
+      \item \textbf{Fase 2}: il TM prende una decisione comune, se un solo RM
+            risponde con un abort, allora la decisione è abort, altrimenti è
+            commit. A questo punto il TM comunica la decisione ai RM.
+\end{itemize}
+La gestione di tutte le operazioni avviene tramite i log, in particolare, il TM
+scrive nel suo file di log prima di prendere la decisione e dopo averla presa
+in modo da poter ripristinare lo stato del sistema in caso di guasto. Lo stesso
+viene fatto dai vari RM.
+
+Nei log compaiono due tipi di record:
+\begin{itemize}
+      \item \textbf{Record di transazione}: contiene informazioni sulle operazioni
+            effettuate.
+      \item \textbf{Record di sistema}: checkpoint e dump.
 \end{itemize}
 
-Per gestire i problemi di partizionamento si può fare con una soluzione centralizzata 
-da un nodo che decide se la transazione distribuita deve fare la commit oppure abort (orchestrato) (2PC).
-Il singolo gestore capisce se tutte le sottotransazioni hanno fatto commit o abort 
-e alla fine capisce se la transazione distribuita deve fare commit (quando tutte sottotransaz. sono commit ) o 
-abort (quando almento una sottotransaz. è abort). Il manager distribuito chiede 
-ai singoli resourse manager dei singoli nodi se commit o abort e poi etichetta la transaz. distr.
-con commit o abort e passa l'info ai singoli RM che si occuperanno al massimo di 
-fare il revert. Si usano i file di log, prima scrivo il log e poi faccio la decisione,
-in questo modo mi garantisce in fase di recovery del sistema cos'è sucesso e cosa 
-si stava per fare, semplificando le fasi di recovery (sono più importanti i log dei 
-dati, perché i dati posso ottenerli dai log).
-
-Il TM scrive nei suoi log:
+Per il transaction manager i record di sistema sono:
 \begin{itemize}
-      \item i commenti 
+      \item Record di Prepare contenente l'identità di tutti i RM (nodi + transazioni).
+      \item Global Commit o Abort che indica come è finita la transazione. La
+            decisione diventa esecutiva quando il TM scrive nel proprio log
+            questo record.
+      \item Complete per indicare che la transazione è completata.
 \end{itemize}
-Il RM scrive nei suoi log:
+Per i Resource Manager i record di sistema sono:
 \begin{itemize}
-      \item i commenti 
+      \item Ready Record indica la disponibilità irrevocabile del RM a partecipare
+            alla fase di commit.
+      \item Not Ready indica la indisponibilità del RM al commit.
 \end{itemize}
 
-Nella prima fase TM usa un timeout per chiedere ai RM se sono disponibili. sE il
-timeout scatta considera la mancata risposta come non disponibile. Serve un timeout
-anche per la seconda decisione con lo scopo di ACK dei RM, se TM non riceve dai RM
-la risposta allora continua a mandare richieste di conferme fino a quando tutti 
-rispondono. 
+Nella prima fase TM usa un timeout per chiedere ai RM se sono disponibili. Se il
+tempo del timeout termina, la mancata risposta si considera come non disponibile
+o abort. Inoltre, si utilizza un timeout anche per la seconda decisione con lo
+scopo di attendere gli ACK dei RM, se TM non riceve la conferma allora continua
+a mandare richieste di conferme fino a quando tutti rispondono.
 
-Si possono applicare ottimizzazioni sull'algoritmo è che la comunicazione può
-avvenire dal TM in broadcast oppure TM comunica col primo RM e il primo RM 
-scrive agli altri. In questo modo l'ultimo permette di non avere la seconda fase 
+Questo algoritmo può essere ottimizzato modificando la comunicazione, la quale
+può avvenire dal TM in broadcast oppure TM comunica col primo RM e il primo RM
+scrive agli altri. In questo modo l'ultimo permette di non avere la seconda fase
 nel TM.
 
-I guasti possono capitare quando:
+Fino a questo momento abbiamo studiato il caso ottimale, ovvero quello in assenza
+di guasti. Nella realtà i guasti possono capitare in vari momenti, come ad esempio:
 \begin{itemize}
-      \item write begin commit: se uno dei partecipanti non risponde allora faccio
-      abort
-      \item seconda fase: qualche RM non risponde allora TM invia più richieste
-      \item seconda fase: RM deve fare abort ma TM non conferma abort globale, RM
-      fa abort
-      \item seconda fase: RM deve fare commit ma TM non conferma commit globale, RM
-      deve aspettare la decisione del TM
+      \item Write begin commit: se uno degli RM non risponde entro il tempo
+            prestabilito viene fatto l'abort della transazione.
+      \item Se nella fase in cui il TM deve ricevere la conferma qualche RM non
+            risponde, allora il transaction manager invia nuovamente le richieste.
+      \item Se un RM deve terminare una transazione con abort, ma non riceve TM
+            la conferma di abort globale, allora il RM può decidere di eseguire
+            un abort. Questo in quanto ne basta una (la sua) per terminare la
+            transazione con abort.
+      \item Se un RM deve terminare la transizone con un commit, ma il TM non
+            conferma la commit globale, allora il RM deve aspettare la decisione
+            del TM.
 \end{itemize}
-Per guasti dei componenti si usano i file di log per riprendere il servizio e si 
-sceglie cosa fare:
+Per quanto riguarda i guasti relativi ai componenti la soluzione è quella di
+usare i file di log per riprendere il servizio e decidere che operazione eseguire.
+Si seguito sono riportati alcuni esempi:
 \begin{itemize}
-      \item TM muore e si ha è WAIT allora rimando le richieste
+      \item Se il TM muore mentre si trova nello stato di WAIT una soluzione
+            consiste nel rimandare le richieste.
       \item TM muore dopo decisione finale\dots
 \end{itemize}
 
-Se muore TM prima di iniziare i protocollo e tutti i RM si accorgono allora si 
-possono avere algoritmi di voting per decretare il nuovo TM tra i RM. In caso di 
-partizione si ha il rischio di avere 2 nuovi TM, uno per ogni partizione della 
-rete ma non avendo a disposizione tutti i RM si andrà in abort.
+Un altra possibile casistica è quella in cui il TM prima di iniziare le operazioni
+e tutti i RM si accorgono di questa situazione. In questo caso, si possono avere
+algoritmi di voting per decretare il nuovo TM tra i RM. In caso di partizione si
+ha il rischio di avere 2 nuovi TM, uno per ogni partizione della rete ma non
+avendo a disposizione tutti i RM la transizione terminerà di sicuro con un abort.
 
 Il difetto del protocollo è all'aumentare dei nodi si possono avere più probabilità
 di errori, si possono fare ottimizzazioni:
 \begin{itemize}
-      \item se un RM fa solo lettura allora non serve tutta la parte di abort e si riducono i messaggi
-      \item possiamo solo dimenticare le risposte sugli abort in questo modo riduco 
-      i log perché scrivo solo i commit e riduco i messaggi. 
+      \item Se un RM fa solo operazioni di lettura allora non è richiesta la
+            gestione delle transizioni e quindi si riducono i messaggi.
+      \item Possiamo dimenticare le risposte sugli abort in questo modo riduco
+            i log perché scrivo solo i commit e riduco i messaggi.
 \end{itemize}
 
 Standard definito.
