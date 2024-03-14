@@ -1,78 +1,110 @@
 \chapter{Basi di dati relazionali distribuite}
 \begin{definizione}[\textbf{DDBMS}]
-      Un \textbf{DBMS distribuito eterogeneo autonomo} è in generale una
-      federazione di DBMS che collaborano per fornire accesso ai dati con livelli
-      di trasparenza.
+    Un \textbf{DBMS distribuito eterogeneo autonomo} è in generale una
+    federazione di DBMS che collaborano per fornire accesso ai dati con livelli
+    di trasparenza.
 \end{definizione}
 Con il termine trasparenza si intende la capacità di un sistema di
 nascondere i dettagli di implementazione e di gestione dei dati, fornendo
-all'utente una visione unificata e coerente del sistema.
-\paragraph{Autonomia} L'autonomia fa riferimento al grado di indipendenza tra i
-nodi. Possiamo distinguere diversi livelli di autonomia:
+all'utente una visione unificata e coerente del sistema, spesso nascondendo i gli
+aspetti di \textbf{distribuito}, \textbf{eterogeneo} e \textbf{autonomo}.
+
+In base a questi aspetti si definisce una classificazione dei DDBMS per ogni aspetto
+e una classificazione per la combinazione dei tre aspetti.
+
+La più importante classificazione che riguarda i $3$ aspetti è:
 \begin{itemize}
-      \item \textbf{Autonomia di progetto}: ogni nodo ha un proprio modello dei
-            dati e di gestione delle transizioni.
-      \item \textbf{Autonomia di condivisione}: ogni nodo sceglie la porzione di
-            dati da condividere con gli altri nodi.
-      \item \textbf{Autonomia di esecuzione}: ogni nodo sceglie in che modo eseguire
-            le transazioni.
+    \item \textbf{DBMS Distribuiti Omogenei} (DDBMS): C'è distribuzione ma
+          nessuna eterogeneità e nessuna autonomia.
+    \item \textbf{DBMS Distribuito Eterogeneo}: In questa fase vederemo il
+          problema dell'integrazione dei dati.
+    \item \textbf{Multi Database MS}: Sistemi totalmente autonomi.
+\end{itemize}
+
+\paragraph{Autonomia} L'\textbf{autonomia} di un'architettura dati distribuita fa riferimento
+al grado di \textbf{indipendenza} tra i nodi. Possiamo distinguere diversi livelli di autonomia:
+\begin{itemize}
+    \item \textbf{Autonomia di progetto}: ogni nodo ha un proprio modello dei
+          dati e di gestione delle transizioni.
+    \item \textbf{Autonomia di condivisione}: ogni nodo sceglie la porzione di
+          dati da condividere con gli altri nodi.
+    \item \textbf{Autonomia di esecuzione}: ogni nodo sceglie in che modo eseguire
+          le transazioni che gli vengono inviate.
 \end{itemize}
 Partendo da questa classificazione possiamo definire diversi tipi di DBMS autonomi:
 \begin{itemize}
-      \item \textbf{DBMS Strettamente integrati}: in questo caso non c'è nessuna
-            autonomia, i dati sono logicamente centralizzati ed esiste un unico
-            data manager responsabile delle transazioni applicative. I data
-            manager locali non operano in maniera autonoma.
-      \item \textbf{Semi - autonomi}: ogni data manager è autonomo ma partecipa
-            alle transazioni globali. Una parte dei dati è condivisa e richiedono
-            modifiche architetturali per poter far parte della federazione.
-      \item \textbf{Totalmente autonomi} (peer - to - peer): ogni DBMS lavora in
-            completa autonomia ed è inconsapevole dell'esistenza degli altri.
+    \item \textbf{DBMS Strettamente integrati}: in questo caso non c'è nessuna
+          autonomia, si ha un unico \textbf{data manager} (DM) centralizzato
+          responsabile delle transazioni applicative. I data
+          manager locali non operano in maniera autonoma.
+    \item \textbf{DBMS Semi - autonomi}: ogni DM è autonomo ma partecipa
+          alle transazioni globali. Una parte dei dati è condivisa e richiedono
+          modifiche architetturali per poter far parte della federazione.
+    \item \textbf{DBMS Totalmente autonomi} (peer - to - peer): ogni DBMS lavora in
+          completa autonomia ed è inconsapevole dell'esistenza degli altri.
 \end{itemize}
-\paragraph{Distribuzione} La distribuzione dei dati può avvenire in diversi
+
+\paragraph{Distribuzione} La \textbf{distribuzione} dei dati può avvenire in diversi
 modi:
 \begin{itemize}
-      \item Distribuzione client - server: i dati sono distribuiti su più server
-            e i client accedono ai dati attraverso le richieste fatte ai server.
-            I server forniscono la gestione dei dati, mentre i client forniscono
-            l'applicativo e la presentazione.
-      \item Distribuzione peer - to - peer: i dati sono distribuiti su più nodi
-            e ogni nodo può essere sia client che server. Ogni nodo è autonomo
-            e può eseguire transazioni locali.
-      \item Nessuna distribuzione: i dati sono centralizzati
+    \item \textbf{Distribuzione client - server}: i dati sono distribuiti su più server
+          e i client accedono ai dati attraverso le richieste fatte ai server.
+          I server forniscono la gestione dei dati, mentre i client forniscono
+          l'applicativo e la presentazione.
+    \item \textbf{Distribuzione peer - to - peer}: i dati sono distribuiti su più nodi
+          e ogni nodo può essere sia client che server. Ogni nodo è autonomo
+          e può eseguire transazioni locali.
+    \item \textbf{Nessuna distribuzione}: i dati sono centralizzati
 \end{itemize}
-\paragraph{Eterogeneità} L'eterogeneità si riferisce alla diversità dei DBMS
+
+\paragraph{Eterogeneità} L'\textbf{eterogeneità} si riferisce alla diversità dei DBMS
 che compongono la federazione. Questa diversità può essere di diversi tipi:
 \begin{itemize}
-      \item \textbf{Linguaggio di interrogazione}: i DBMS possono utilizzare
-            linguaggi di interrogazione diversi.
-      \item \textbf{Modello dei dati}: i DBMS possono utilizzare modelli di dati
-            diversi.
-      \item \textbf{Sistema di gestione delle transazioni}: i DBMS possono utilizzare
-            sistemi di gestione delle transazioni diversi.
-      \item \textbf{Schema concettuale}: i DBMS possono avere schemi concettuali
-            diversi.
+    \item \textbf{Linguaggio di interrogazione}: i DBMS possono utilizzare
+          linguaggi di interrogazione diversi.
+    \item \textbf{Modello dei dati}: i DBMS possono utilizzare modelli di dati
+          diversi.
+    \item \textbf{Sistema di gestione delle transazioni}: i DBMS possono utilizzare
+          sistemi di gestione delle transazioni diversi.
+    \item \textbf{Schema concettuale e logico}: i DBMS possono avere schemi concettuali
+          diversi.
 \end{itemize}
-Sviluppando una o più di queste caratteristiche possiamo quindi avere varie
-tipologie di DBMS, le più importanti sono:
-\begin{itemize}
-      \item \textbf{DBMS Distribuiti Omogenei} (DDBMS): C'è distribuzione ma
-            nessuna eterogeneità e nessuna autonomia.
-      \item \textbf{DBMS Distribuito Eterogeneo}: In questa fase vederemo il
-            problema dell'integrazione dei dati.
-      \item \textbf{Multi Database MS}: Sistemi totalmente autonomi.
-\end{itemize}
+
+Per le architetture eterogenee dobbiamo occuparci di aggiungere un gestore delle
+transazioni (TM) che si occupi di mappare una query distribuita sui singoli DBMS
+e che si occupi della parte di \textbf{concurrency control} e \textbf{recovery}.
+
+
 \section{DDBMS}
+% TODO: borderline la definizione vincolata solo all'omogeneo
 Vogliamo ora approfondire il concetto di \textbf{DDBMS}. Un DDBMS è un DBMS
 distribuito omogeneo, ovvero un sistema in cui i dati sono distribuiti su più
 nodi ma tutti i nodi utilizzano lo stesso DBMS.
 
-Si hanno due architetture di riferimento:
+Per ogni DBMS distribuito si hanno due tipologie architetture:
 \begin{itemize}
-      \item Architettura dati
-      \item Architettura funzionale, ovvero l'insieme di tecnologie a supporto
-            dell'architettura dati
+    \item Architettura dati: come gestire i dati
+    \item Architettura funzionale, ovvero l'insieme di tecnologie per l'implementazione
+          dell'architettura dati (vedi figura \ref{fig:sharedNothing}):
+          \begin{itemize}
+              \item \textbf{Shared-everything}: dove il database management system e il
+                    disco sono in un unico nodo.
+              \item \textbf{Shared-disk}: dove diversi DBMS agiscono sugli stessi dati. I
+                    vari DBMS accedono ai dati secondo una certa regolazione.
+                    Viene distribuito il carico ma si hanno problemi di concorrenza e
+                    hanno grandi problemi di scalabilità e costo economico
+              \item \textbf{Shared-nothing}: dove ogni DBMS ha il suo disco. È molto
+                    scalabile e, a patto di gestire la complessità, posso aggiungere nodi
+                    in modo illimitato.
+          \end{itemize}
 \end{itemize}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.60\textwidth]{img/SharedNothing.jpg}
+    \caption{Architettura shared-nothing}
+    \label{fig:sharedNothing}
+\end{figure}
 
 Non avendo il concetto di eterogeneità si mantiene lo stesso schema di un DBMS
 centralizzato, distribuendo i dati. Questo comporta la necessità di aggiungere
@@ -83,145 +115,150 @@ fisici locali (ad ogni logico corrisponde un fisico).
 I vari schemi logici locali si interfacciano con uno schema logico globale,
 tali schemi non sono altro che delle viste dello schema logico globale. Questa
 organizzazione tra schemi logici locali e schema logico globale è la cosiddetta
-organizzazione \textbf{LAV} (Local As View). In ogni caso il progettista interroga
-lo schema logico globale e saranno varie tecnologie ad interrogare gli schemi
+organizzazione \textbf{LAV} (Local As View). L'applicazione interroga
+lo schema logico globale e saranno varie a mappare le query distribuite suglis gli schemi
 logici locali.
 
-Per ciascuna funzione si possono avere vari tipi di gestione:
-\begin{itemize}
-      \item Centralizzata/gerarchica o distribuita.
-      \item Con assegnazione statica o dinamica dei ruoli.
-\end{itemize}
-Nella fase di progettazione di un DDBMS si hanno delle differenze rispetto alla
+% TODO: inserisci immagine dello schema logico
+
+Per la gestione delle query distribuite serve una cooperazione o un'orchestrazione
+dei singoli DBMS che fanno parte della federazione, sopprattutto per quanto riguarda
+il query processing e la gestione delle transazioni. Più precisamente si può avere
+una gestione centralizzata (che può essere gerarchica) oppure distribuita con
+un'assegnazione statica o dinamica dei ruoli. La determinizzazione delle modalità
+si effettuerà attraverso dei protocolli.
+
+Nella fase di \textbf{progettazione} di un \textbf{DDBMS} si hanno delle differenze rispetto alla
 progettazione di un DBMS centralizzato. Si hanno cinque fasi:
 \begin{enumerate}
-      \item Analisi dei requisiti
-      \item Progettazione concettuale
-      \item Progettazione della distribuzione, per capire dove mettere i dati
-      \item Progettazione logica locale, che traduce dallo schema concettuale
-            globale allo schema logico locale solo alcuni concetti
-      \item Progettazione fisica locale
+    \item Analisi dei requisiti
+    \item Progettazione concettuale
+    \item Progettazione della distribuzione, per capire dove mettere i dati
+    \item Progettazione logica locale per ciascun nodo, che traduce dallo schema concettuale
+          globale allo schema logico locale solo alcuni concetti
+    \item Progettazione fisica locale per ciascun nodo
 \end{enumerate}
-Si introduce il concetto di \textbf{portabilità}, ovvero la capacità di eseguire
-le stesse applicazioni DB su ambienti runtime diversi. Si ha anche il concetto
-di \textbf{interoperabilità}, ovvero la capacità di eseguire applicazioni che
-coinvolgono contemporaneamente sistemi diversi ed eterogenei. A tal fine sono
-stati introdotti dei middleware, tra cui ODBC che si occupa dell'accesso a dati
-di diversi vendor. ODBC, a livello architetturale, si pone sopra il DBMS e da
+
+Per quanto riguarda DBMS DEA (distribuiti eterogenei e autonomi) dal momento che
+sono composti da DBMS eterogenei allora si introduce il concetto di \textbf{portabilità},
+ovvero la capacità di eseguire le stesse applicazioni DB (SW per ottenere i dati dal DB)
+in ambienti runtime diversi. Questo viene facilitato dagli standard dei linguaggi
+di query del DB.
+Inoltre, viene aggiunto anche il concetto di \textbf{interoperabilità}, ovvero
+la capacità di eseguire applicazioni che coinvolgono contemporaneamente sistemi
+diversi ed eterogenei. A tal fine sono si introducono dei \textbf{middleware}, tra cui \textbf{ODBC} che si occupa dell'accesso a dati
+di diversi vendor. \textbf{ODBC}, a livello architetturale, si pone sopra il DBMS e da
 un'immagine indipendente da ciò che c'è sotto, trasformando tutto in una sorta
-di SQL standard. Si hanno anche dei protocolli, come X-Open Distributed
-Transaction Processing (DTP) che consentono di eseguire delle transazioni secondo
+di SQL standard. Si hanno anche dei protocolli, come \textbf{X-Open Distributed
+    Transaction Processing} (DTP) che consentono di eseguire delle transazioni secondo
 una logica diversa. Questo protocollo stabilisce una serie di API che vengono
 implementate da ogni singolo DBMS per offrire una connettività standard.
-Il protocollo funziona sia se si ha che fare con omogeneità che con eterogeneità.
+
+Il protocollo funziona sia se si ha che fare con omogeneità che con eterogeneità dei DDBMS.
+
+
+% ! da spostare
 Si hanno altri approcci:
 \begin{itemize}
-      \item \textbf{Basi dati parallele}, con incremento delle prestazione
-            mediante parallelismo sia di storage devices che di processore
-            (scalabilità orizzontale).
-      \item \textbf{Basi dati replicate} dove si ha la replicazione della stessa
-            informazione su diversi server per motivi di performance. Importanti
-            per i temi della consistenza e della sicurezza
-      \item \textbf{Data warehouses}, ovvero DBMS centralizzati, risultato
-            dell'integrazione di fonti eterogenee, dedicati nel dettaglio alla
-            gestione di dati per il supporto alle decisioni. Prevede la
-            cristallizzazione dei dati, acquisiti da varie sorgenti, creando un
-            nuovo schema con la memorizzazione dei dati in formato nuovo
-            (solitamente relazionale). Non usa un approccio LAV.
+    \item \textbf{Basi dati parallele}, con incremento delle prestazione
+          mediante parallelismo sia di storage devices che di processore
+          (scalabilità orizzontale).
+    \item \textbf{Basi dati replicate} dove si ha la replicazione della stessa
+          informazione su diversi server per motivi di performance. Importanti
+          per i temi della consistenza e della sicurezza
+    \item \textbf{Data warehouses}, ovvero DBMS centralizzati, risultato
+          dell'integrazione di fonti eterogenee, dedicati nel dettaglio alla
+          gestione di dati per il supporto alle decisioni. Prevede la
+          cristallizzazione dei dati, acquisiti da varie sorgenti, creando un
+          nuovo schema con la memorizzazione dei dati in formato nuovo
+          (solitamente relazionale). Non usa un approccio LAV.
 \end{itemize}
-\subsection{Architetture dei DDBMS}
-Si hanno vari tipi di architetture DDBMS:
+
+\subsection{Vantaggi dei DDBMS}
+I \textbf{DDBMS} hanno notevoli \textbf{vantaggi}:
 \begin{itemize}
-      \item \textbf{Shared-everything}: dove il database management system e il
-            disco sono in un unico nodo.
-      \item \textbf{Shared-disk}: dove diversi DBMS agiscono sugli stessi dati. I
-            vari DBMS accedono ai dati secondo una certa regolazione.
-            Viene distribuito il carico ma si hanno problemi di concorrenza e
-            hanno grandi problemi di scalabilità e costo economico
-      \item \textbf{Shared-nothing}: dove ogni DBMS ha il suo disco. È molto
-            scalabile e, a patto di gestire la complessità, posso aggiungere nodi
-            in modo illimitato \ref{fig:sharedNothing}.
+    \item \textbf{Località}: i dati sono vicino alle applicazioni che li
+          utilizzano più frequentemente. Questo riduce i tempi per l'esecuzione
+          delle operazioni. Il paradigma è spostare i dati verso le
+          applicazioni, le partizioni dei dati corrispondono spesso a delle
+          partizioni naturali delle applicazioni e degli utenti. Le
+          distribuzioni dei dati spesso sono flessibili: è possibile spostare un
+          intera tabella così come è possibile spostarne solo un sottoinsieme
+          o replicarla.
+    \item \textbf{Modularità} le modifiche alle applicazioni e ai dati possono
+          essere effettuate a basso costo. Si ha una distribuzione dei dati incrementale e
+          progressiva, infatti la configurazione si adatta alle esigenze delle applicazioni.
+    \item \textbf{Resistenza ai guasti}: grazie alla replicazione dei dati si ha 
+        ridondanza (fail soft). Ovviamente la ridondanza funziona in rete quindi 
+        si introduce fragilità per la comunicazione in rete.
+    \item \textbf{Prestazioni ed Efficienza}: distribuendo un database su più
+          nodi, ogni nodo gestisce un DB di dimensioni ridotte. Questo
+          significa che i singoli DB sono più facili da gestire e ottimizzare
+          localmente e, in particolare, ogni nodo può adottare delle
+          ottimizzazioni personalizzate. Il carico inoltre viene distribuito
+          sui nodi che permette di avere parallelismi tra le transazioni che fanno 
+          parte della stessa transazione distribuita. 
+          Tutto ciò però richiede chiaramente un coordinamento tra i
+          nodi e aumenta il traffico di rete che può rivelarsi un collo di
+          bottiglia per le prestazioni.
 \end{itemize}
-\begin{figure}[ht]
-      \centering
-      \includegraphics[width=0.60\textwidth]{img/SharedNothing.jpg}
-      \caption{Architettura shared-nothing}
-      \label{fig:sharedNothing}
-\end{figure}
-Vediamo quindi le proprietà generali di un DDBMS:
-\begin{itemize}
-      \item \textbf{Località}: i dati sono vicino alle applicazioni che li
-            utilizzano più frequentemente. Questo riduce i tempi per l'esecuzione
-            delle operazioni. Il paradigma è spostare i dati verso le
-            applicazioni, le partizioni dei dati corrispondono spesso a delle
-            partizioni naturali delle applicazioni e degli utenti. Le
-            distribuzioni dei dati spesso è flessibile: è possibile spostare un
-            intera tabella così come è possibile spostarne solo un sottoinsieme
-            o replicarla.
-      \item \textbf{Modularità} le modifiche alle applicazioni e ai dati possono
-            essere effettuate a basso costo.
-      \item \textbf{Resistenza ai guasti}: grazie alla replicazione dei dati
-      \item \textbf{Prestazioni ed Efficienza}: distribuendo un database su più
-            nodi, ogni nodo gestisce un DB di dimensioni ridotte. Questo
-            significa che i singoli DB sono più facili da gestire e ottimizzare
-            localmente e, in particolare, ogni nodo può adottare delle
-            ottimizzazioni personalizzate. Il carico inoltre viene distribuito
-            sui nodi. Tutto ciò però richiede chiaramente un coordinamento tra i
-            nodi e aumenta il traffico di rete che può rivelarsi un collo di
-            bottiglia per le prestazioni.
-\end{itemize}
+
+\subsection{Differenze rispetto ai DBMS}
 Si hanno le seguenti funzionalità specifiche:
 \begin{itemize}
-      \item \textbf{Trasmissione} di query, transizioni, frammenti di db e dati
-            di controllo tra i nodi.
-      \item \textbf{Frammentazione, replicazione e trasparenza} fattori legati
-            alla natura distribuita dei dati.
-      \item un query processor e un query plan per la previsione di una
-            strategia globale accanto a strategie per le query locali. Si gestisce
-            il passaggio tra schema logico globale e quelli locali. Chi esegue
-            la query lo fa senza pensare alla frammentazione dei dati
-      \item \textbf{Controllo di concorrenza} tramite algoritmi distribuiti, fondamentale
-            per gli accessi in scrittura.
-      \item \textbf{Strategie di recovery} e \textbf{gestione dei guasti}, sia
-            in merito alla rete che all'hardware stesso.
+    \item \textbf{Indipendenza locale e cooperazione tra server}: ogni server 
+    mantiene 
+    \item \textbf{Trasmissione} di query, transizioni, frammenti di db e dati
+          di controllo tra i nodi.
+    \item \textbf{Frammentazione, replicazione e trasparenza} fattori legati
+          alla natura distribuita dei dati.
+    \item un query processor e un query plan per la previsione di una
+          strategia globale accanto a strategie per le query locali. Si gestisce
+          il passaggio tra schema logico globale e quelli locali. Chi esegue
+          la query lo fa senza pensare alla frammentazione dei dati
+    \item \textbf{Controllo di concorrenza} tramite algoritmi distribuiti, fondamentale
+          per gli accessi in scrittura.
+    \item \textbf{Strategie di recovery} e \textbf{gestione dei guasti}, sia
+          in merito alla rete che all'hardware stesso.
 \end{itemize}
+
 \subsection{Frammentazione e replicazione}
 \begin{definizione}[\textbf{Frammentazione}]
-      Si definisce \textbf{frammentazione} come la possibilità di allocare porzioni
-      diverse del database su nodi diversi.
+    Si definisce \textbf{frammentazione} come la possibilità di allocare porzioni
+    diverse del database su nodi diversi.
 \end{definizione}
 \begin{definizione}[\textbf{Replicazione}]
-      Si definisce \textbf{replicazione} come la possibilità di allocare stesse
-      porzioni del database su nodi diversi.
+    Si definisce \textbf{replicazione} come la possibilità di allocare stesse
+    porzioni del database su nodi diversi.
 \end{definizione}
 \begin{definizione}[\textbf{Trasparenza}]
-      Si definisce \textbf{trasparenza} come la possibilità per l'applicazione di
-      accedere ai dati senza sapere dove sono allocati.
+    Si definisce \textbf{trasparenza} come la possibilità per l'applicazione di
+    accedere ai dati senza sapere dove sono allocati.
 \end{definizione}
 \subsubsection{Frammentazione}
 Esistono due tipi di frammentazione:
 \begin{itemize}
-      \item \textbf{Frammentazione orizzontale}: si prende una tabella e la si
-            frammenta in base alle righe. Si mantiene inalterato lo schema in
-            quanto si ottengono solo delle tabelle più piccole. Per spezzare si
-            usa una select che selezioni ogni volta un certo blocco di tabella.
-      \item \textbf{Frammentazione verticale}: si prende una tabella e la si frammenta
-            in base alle colonne. In ogni nuova tabella però la prima colonna
-            deve essere uguale alla prima della tabella originale (ovvero dove si
-            ha la chiave primaria), questo per garantire che si possa ricomporre
-            la tabella originale con operazioni di join e garantire la
-            trasparenza. Anche in questo caso uso una select che selezioni ogni
-            volta un certo numero di colonne da mettere nella nuova tabella.
+    \item \textbf{Frammentazione orizzontale}: si prende una tabella e la si
+          frammenta in base alle righe. Si mantiene inalterato lo schema in
+          quanto si ottengono solo delle tabelle più piccole. Per spezzare si
+          usa una select che selezioni ogni volta un certo blocco di tabella.
+    \item \textbf{Frammentazione verticale}: si prende una tabella e la si frammenta
+          in base alle colonne. In ogni nuova tabella però la prima colonna
+          deve essere uguale alla prima della tabella originale (ovvero dove si
+          ha la chiave primaria), questo per garantire che si possa ricomporre
+          la tabella originale con operazioni di join e garantire la
+          trasparenza. Anche in questo caso uso una select che selezioni ogni
+          volta un certo numero di colonne da mettere nella nuova tabella.
 \end{itemize}
 Bisogna garantire:
 \begin{itemize}
-      \item \textbf{Completezza}: ogni record della relazione R di partenza
-            deve poter essere ritrovato in almeno uno dei frammenti
-      \item \textbf{Ricostruibilità}: la relazione R di partenza deve poter essere
-            ricostruita senza perdita di informazione a partire dai frammenti
-      \item \textbf{Disgiunzione}: ogni record della relazione R deve essere
-            rappresentato in uno solo dei frammenti
-      \item \textbf{Replicazione}: l'opposto della disgiunzione
+    \item \textbf{Completezza}: ogni record della relazione R di partenza
+          deve poter essere ritrovato in almeno uno dei frammenti
+    \item \textbf{Ricostruibilità}: la relazione R di partenza deve poter essere
+          ricostruita senza perdita di informazione a partire dai frammenti
+    \item \textbf{Disgiunzione}: ogni record della relazione R deve essere
+          rappresentato in uno solo dei frammenti
+    \item \textbf{Replicazione}: l'opposto della disgiunzione
 \end{itemize}
 \subsubsection{Replicazione}
 Si hanno diversi aspetti positivi per l'accesso in lettura, come il miglioramento
@@ -249,48 +286,48 @@ seguito di cambiamenti nella definizione e organizzazione dei dati e si hanno
 due tipi di trasparenza, che si applicano agli schemi ANSI-SPARC nel
 modello distribuito:
 \begin{enumerate}
-      \item \textbf{Trasparenza logica} (o indipendenza logica), ovvero
-            indipendenza dell'applicazione da modifiche dello schema logico.
-            Un'applicazione che usa un frammento non viene modificata se vengono
-            modificati altri frammenti.
-      \item \textbf{Trasparenza fisica} (o indipendenza fisica), ovvero
-            indipendenza dell'applicazione da modifiche dello schema fisico
+    \item \textbf{Trasparenza logica} (o indipendenza logica), ovvero
+          indipendenza dell'applicazione da modifiche dello schema logico.
+          Un'applicazione che usa un frammento non viene modificata se vengono
+          modificati altri frammenti.
+    \item \textbf{Trasparenza fisica} (o indipendenza fisica), ovvero
+          indipendenza dell'applicazione da modifiche dello schema fisico
 \end{enumerate}
 
 Frammentazione e allocazione sono tra lo schema logico globale e ogni schema
 logico locale. Si hanno quindi tre livelli di trasparenza:
 \begin{itemize}
-      \item \textbf{Trasparenza di frammentazione}, che permette di ignorare
-            l'esistenza dei frammenti ed è lo scenario migliore per la
-            programmazione applicativa. Il sistema si occupa di convertire query
-            globali in locali e relazioni in sotto-relazioni. La scomposizione
-            delle query per ogni sotto-relazione è detta query rewriting.
-      \item \textbf{Trasparenza di replicazione/allocazione}, dove l'applicazione
-            è consapevole dei frammenti ma non dei nodi in cui si trovano. In questo
-            caso la query è già spezzata in quanto si sa di avere a che fare con un
-            sistema frammentato.
-      \item \textbf{Trasparenza di linguaggio}, dove l'applicazione specifica
-            sia i frammenti che i nodi, nodi che possono offrire interfacce che
-            non sono SQL standard. Tuttavia l'applicazione sarà scritta in SQL
-            standard a prescindere dai linguaggi locali dei nodi. Le query
-            vengono quindi tradotte ottimizzatone di query. Questo è il livello
-            di trasparenza più basso.
+    \item \textbf{Trasparenza di frammentazione}, che permette di ignorare
+          l'esistenza dei frammenti ed è lo scenario migliore per la
+          programmazione applicativa. Il sistema si occupa di convertire query
+          globali in locali e relazioni in sotto-relazioni. La scomposizione
+          delle query per ogni sotto-relazione è detta query rewriting.
+    \item \textbf{Trasparenza di replicazione/allocazione}, dove l'applicazione
+          è consapevole dei frammenti ma non dei nodi in cui si trovano. In questo
+          caso la query è già spezzata in quanto si sa di avere a che fare con un
+          sistema frammentato.
+    \item \textbf{Trasparenza di linguaggio}, dove l'applicazione specifica
+          sia i frammenti che i nodi, nodi che possono offrire interfacce che
+          non sono SQL standard. Tuttavia l'applicazione sarà scritta in SQL
+          standard a prescindere dai linguaggi locali dei nodi. Le query
+          vengono quindi tradotte ottimizzatone di query. Questo è il livello
+          di trasparenza più basso.
 \end{itemize}
 \section{DBMS centralizzato}
 \begin{definizione}[\textbf{DBMS}]
-      Un \textbf{DBMS} (DataBase Management System) è un sistema software in grado
-      di gestire collezioni di dati che siano:
-      \begin{itemize}
-            \item \textbf{Grandi}: di dimensioni molto maggiori rispetto alla memoria
-                  centrale dei sistemi di calcolo utilizzati.
-            \item \textbf{Persistenti}: i dati devono essere memorizzati su un
-                  supporto di memorizzazione non volatile. Il periodo di vita dei
-                  dati è indipendente dalle singole esecuzioni dei programmi che li
-                  utilizzano.
-            \item \textbf{Condivisi}: i dati devono essere accessibili da più utenti
-                  contemporaneamente e anche da applicazioni diverse.
-            \item \textbf{Affidabili}: devono essere resistenti a guasti.
-      \end{itemize}
+    Un \textbf{DBMS} (DataBase Management System) è un sistema software in grado
+    di gestire collezioni di dati che siano:
+    \begin{itemize}
+        \item \textbf{Grandi}: di dimensioni molto maggiori rispetto alla memoria
+              centrale dei sistemi di calcolo utilizzati.
+        \item \textbf{Persistenti}: i dati devono essere memorizzati su un
+              supporto di memorizzazione non volatile. Il periodo di vita dei
+              dati è indipendente dalle singole esecuzioni dei programmi che li
+              utilizzano.
+        \item \textbf{Condivisi}: i dati devono essere accessibili da più utenti
+              contemporaneamente e anche da applicazioni diverse.
+        \item \textbf{Affidabili}: devono essere resistenti a guasti.
+    \end{itemize}
 \end{definizione}
 I DBMS sono solitamente posizionati tra la base di dati fisica e le applicazioni
 che la utilizzano. Questo permette di separare la gestione dei dati dalla
@@ -299,19 +336,19 @@ modificare i dati e viceversa.
 
 Le principali caratteristiche di un DBMS Centralizzato sono:
 \begin{itemize}
-      \item Un unico schema logico, ovvero un'unica semantica.
-      \item Un'unica base di dati, ovvero un unico insieme di record interrogati
-            ed aggiornati da tutti gli utenti.
-      \item Nessuna forma di eterogeneità concettuale.
-      \item Un unico schema fisico, ovvero un'unica rappresentazione fisica dei
-            dati.
-      \item Nessuna distribuzione e nessuna eterogeneità fisica.
-      \item Un unico linguaggio di interrogazione, quindi un'unica modalità di
-            accesso e selezione dei dati di interesse.
-      \item Un unico sistema di gestione, quindi un'unica modalità di accesso,
-            aggiornamento e gestione delle transazioni.
-      \item Un'unica modalità di ripristino a fronte di guasti.
-      \item Un unico amministratore dei dati e quindi nessuna autonomia gestionale.
+    \item Un unico schema logico, ovvero un'unica semantica.
+    \item Un'unica base di dati, ovvero un unico insieme di record interrogati
+          ed aggiornati da tutti gli utenti.
+    \item Nessuna forma di eterogeneità concettuale.
+    \item Un unico schema fisico, ovvero un'unica rappresentazione fisica dei
+          dati.
+    \item Nessuna distribuzione e nessuna eterogeneità fisica.
+    \item Un unico linguaggio di interrogazione, quindi un'unica modalità di
+          accesso e selezione dei dati di interesse.
+    \item Un unico sistema di gestione, quindi un'unica modalità di accesso,
+          aggiornamento e gestione delle transazioni.
+    \item Un'unica modalità di ripristino a fronte di guasti.
+    \item Un unico amministratore dei dati e quindi nessuna autonomia gestionale.
 \end{itemize}
 Dato che le dimensioni dei dati che i DBMS devono gestire superano la capacità
 della memoria centrale, le principali azioni che essi devono riguardano quindi la
@@ -337,16 +374,16 @@ non vengono eseguite affatto. Questo permette di mantenere la consistenza dei
 dati anche in caso di guasti.
 \section{Architettura di un DBMS}
 \begin{figure}
-      \centering
-      \includegraphics[width=0.7\textwidth]{./img/DBMS/Architettura.png}
-      \caption{Architettura di un DBMS}
-      \label{fig:DBMS_architecture}
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/DBMS/Architettura.png}
+    \caption{Architettura di un DBMS}
+    \label{fig:DBMS_architecture}
 \end{figure}
 \subsection{Gestione degli accessi e delle interrogazioni}
 Il Database administrator emette al DDL compiler i comandi del Data Description
 Language riguardanti la struttura dello schema. A questo punto, il \textbf{Query
-      compiler} si occupa di compilare le queries e le passa al \textbf{gestore
-      delle interrogazioni} che le ottimizza e le frammenta in comandi elementari
+    compiler} si occupa di compilare le queries e le passa al \textbf{gestore
+    delle interrogazioni} che le ottimizza e le frammenta in comandi elementari
 di accesso, che invia al \textbf{gestore dei metodi di accesso}, che li trasforma
 in comandi di accesso a pagine, che invia al \textbf{gestore del buffer}, il
 quale è responsabile della ottimizzazione. In seguito, invia i comandi al
@@ -360,34 +397,34 @@ proprietà di atomicità, consistenza, isolamento e durabilità (ACID).
 \section{Ottimizzazione delle interrogazioni}
 La fase di ottimizzazione delle interrogazioni è suddivisa in diversi passaggi:
 \begin{enumerate}
-      \item Verificare che la query sia sintatticamente corretta. Per fare ciò,
-            si utilizza il \textbf{Data Catalog}, che contiene le informazioni
-            riguardanti la struttura dello schema.
-            Questa operazione traduce la query in algebra relazionale e costruisce
-            successivamente un query tree.
-      \item Si trasforma un query tree in un query plan logico che viene ottimizzato
-            per ridurre il suo costo. Per l'ottimizzazione si utilizza un altro
-            database particolare è Statistics contenente statistiche sulla storia
-            di esecuzioni precedenti delle interrogazioni.
-      \item Si trasformano le espressioni scritte in algebra relazionale in
-            espressioni che possono essere eseguite in modo efficiente.
-      \item Si trasforma il query plan logico in un query plan fisico, ovvero
-            si scelgono le operazioni di accesso ai dati e le strategie di
-            esecuzione.
+    \item Verificare che la query sia sintatticamente corretta. Per fare ciò,
+          si utilizza il \textbf{Data Catalog}, che contiene le informazioni
+          riguardanti la struttura dello schema.
+          Questa operazione traduce la query in algebra relazionale e costruisce
+          successivamente un query tree.
+    \item Si trasforma un query tree in un query plan logico che viene ottimizzato
+          per ridurre il suo costo. Per l'ottimizzazione si utilizza un altro
+          database particolare è Statistics contenente statistiche sulla storia
+          di esecuzioni precedenti delle interrogazioni.
+    \item Si trasformano le espressioni scritte in algebra relazionale in
+          espressioni che possono essere eseguite in modo efficiente.
+    \item Si trasforma il query plan logico in un query plan fisico, ovvero
+          si scelgono le operazioni di accesso ai dati e le strategie di
+          esecuzione.
 \end{enumerate}
 \begin{definizione}[\textbf{Query Tree}]
-      La query viene rappresentata come un albero nel quale:
-      \begin{itemize}
-            \item Le foglie corrispondono alle strutture dati logiche (tabelle).
-            \item I nodi intermedi rappresentano operazioni algebriche:
-                  \begin{itemize}
-                        \item Selezione
-                        \item Proiezione
-                        \item Join
-                        \item Prodotto cartesiano
-                        \item Operazioni insiemistiche
-                  \end{itemize}
-      \end{itemize}
+    La query viene rappresentata come un albero nel quale:
+    \begin{itemize}
+        \item Le foglie corrispondono alle strutture dati logiche (tabelle).
+        \item I nodi intermedi rappresentano operazioni algebriche:
+              \begin{itemize}
+                  \item Selezione
+                  \item Proiezione
+                  \item Join
+                  \item Prodotto cartesiano
+                  \item Operazioni insiemistiche
+              \end{itemize}
+    \end{itemize}
 \end{definizione}
 Chiaramente queste trasformazioni vengono eseguire mediante una strategia che
 usa proprietà algebriche e una stima dei costi delle operazioni fondamentali per
@@ -395,10 +432,10 @@ i diversi metodi di accesso. In generale il problema di ottimizzazione delle
 query è esponenziale, ma si utilizzano delle approssimazioni ragionevoli basate
 su euristiche.
 \begin{figure}
-      \centering
-      \includegraphics[width=0.7\textwidth]{./img/DBMS/Ottimizzazione_query.png}
-      \caption{Ottimizzazione delle interrogazioni}
-      \label{fig:Query_Optimization}
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/DBMS/Ottimizzazione_query.png}
+    \caption{Ottimizzazione delle interrogazioni}
+    \label{fig:Query_Optimization}
 \end{figure}
 \section{Gestione delle transazioni}
 Le transazioni sono degli insiemi di istruzioni di lettura e scrittura sulla base
@@ -409,8 +446,8 @@ Generalmente vengono identificate da un inizio begin - transaction e una fine
 end - transaction e al cui interno deve essere eseguito una e una sola
 volta uno dei seguenti comandi:
 \begin{itemize}
-      \item \textbf{commit work} per terminare correttamente
-      \item \textbf{rollback work} per abortire la transazione
+    \item \textbf{commit work} per terminare correttamente
+    \item \textbf{rollback work} per abortire la transazione
 \end{itemize}
 
 Un \textbf{sistema transazionale} (OLTP) è in grado di definire ed eseguire
@@ -418,28 +455,28 @@ transazioni per un certo numero di applicazioni concorrenti.
 
 Le transazioni godono delle proprietà ACID:
 \begin{itemize}
-      \item \textbf{Atomicità}: una transazione è un'unità indivisibile di
-            esecuzione che deve essere eseguita completamente o non deve essere
-            eseguita affatto.
-      \item \textbf{Consistenza}: una transazione deve portare il database da uno
-            stato consistente ad un altro stato consistente.
-      \item \textbf{Isolamento}: le transazioni devono essere eseguite in modo
-            indipendente l'una dall'altra.
-      \item \textbf{Durabilità}: una transazione che ha terminato con successo
-            deve essere persistente anche in caso di guasti.
+    \item \textbf{Atomicità}: una transazione è un'unità indivisibile di
+          esecuzione che deve essere eseguita completamente o non deve essere
+          eseguita affatto.
+    \item \textbf{Consistenza}: una transazione deve portare il database da uno
+          stato consistente ad un altro stato consistente.
+    \item \textbf{Isolamento}: le transazioni devono essere eseguite in modo
+          indipendente l'una dall'altra.
+    \item \textbf{Durabilità}: una transazione che ha terminato con successo
+          deve essere persistente anche in caso di guasti.
 \end{itemize}
 Se queste proprietà non sono rispettate si possono verificare delle anomalie,
 come:
 \begin{itemize}
-      \item \textbf{Perdita di aggiornamenti}: due transazioni leggono lo stesso
-            dato, lo modificano e lo scrivono, ma solo una delle due modifiche
-            viene mantenuta.
-      \item \textbf{Lettura sporca}: una transazione legge un dato che è stato
-            modificato da un'altra transazione e non ancora committato.
-      \item \textbf{Non ripetibilità della lettura}: una transazione legge due
-            volte lo stesso dato e ottiene due valori diversi.
-      \item \textbf{Fantom reads}: una transazione legge due volte lo stesso
-            insieme di dati e ottiene due insiemi diversi.
+    \item \textbf{Perdita di aggiornamenti}: due transazioni leggono lo stesso
+          dato, lo modificano e lo scrivono, ma solo una delle due modifiche
+          viene mantenuta.
+    \item \textbf{Lettura sporca}: una transazione legge un dato che è stato
+          modificato da un'altra transazione e non ancora committato.
+    \item \textbf{Non ripetibilità della lettura}: una transazione legge due
+          volte lo stesso dato e ottiene due valori diversi.
+    \item \textbf{Fantom reads}: una transazione legge due volte lo stesso
+          insieme di dati e ottiene due insiemi diversi.
 \end{itemize}
 \subsection{Gestione della concorrenza}
 La gestione della concorrenza è necessaria per garantire l'isolamento delle
@@ -447,9 +484,9 @@ transazioni. Questo è necessario perché le transazioni possono essere eseguite
 in modo concorrente e quindi possono accedere contemporaneamente agli stessi
 dati.
 \begin{definizione}[\textbf{Schedule}]
-      Una sequenza di esecuzione di un insieme di transizioni è detta \textbf{schedule}.
-      Esso si dice \textbf{seriale} se una transazione è eseguita per intero prima
-      che un'altra inizi.
+    Una sequenza di esecuzione di un insieme di transizioni è detta \textbf{schedule}.
+    Esso si dice \textbf{seriale} se una transazione è eseguita per intero prima
+    che un'altra inizi.
 \end{definizione}
 Si sfrutta quindi la proprietà di isolamento facendo in modo che ogni
 transazione esegua come se non ci fosse concorrenza.
@@ -461,53 +498,53 @@ contenute.
 Si hanno quindi diversi algoritmi per il controllo della concorrenza secondo
 varie tipologie:
 \begin{itemize}
-      \item \textbf{Controllo basato su conflict equivalence}
-      \item \textbf{Controllo di concorrenza basato su locks} (protocollo 2PL o two
-            phase locking, shared locks e gestione dei deadlock). Il protocollo
-            2PL è usato nei DBMS dove per costruzione si hanno schedule
-            serializzabili usando i lock per bloccare l'accesso alla risorse da
-            parte di una transazione fino a che una risorsa non sia rilasciata.
-            Si hanno quindi i concetti di lock e unlock che garantiscono l'uso
-            esclusivo di una risorsa e l'autorizzazione esclusiva dell'uso di una
-            risorsa viene dato dal gestore delle transazioni. Si hanno delle
-            tabelle di lock. Si ha che, in ogni transazione, tutte le richieste
-            di lock precedono tutti gli unlock.
-      \item controllo di concorrenza basato su timestamps
+    \item \textbf{Controllo basato su conflict equivalence}
+    \item \textbf{Controllo di concorrenza basato su locks} (protocollo 2PL o two
+          phase locking, shared locks e gestione dei deadlock). Il protocollo
+          2PL è usato nei DBMS dove per costruzione si hanno schedule
+          serializzabili usando i lock per bloccare l'accesso alla risorse da
+          parte di una transazione fino a che una risorsa non sia rilasciata.
+          Si hanno quindi i concetti di lock e unlock che garantiscono l'uso
+          esclusivo di una risorsa e l'autorizzazione esclusiva dell'uso di una
+          risorsa viene dato dal gestore delle transazioni. Si hanno delle
+          tabelle di lock. Si ha che, in ogni transazione, tutte le richieste
+          di lock precedono tutti gli unlock.
+    \item controllo di concorrenza basato su timestamps
 \end{itemize}
 
 \section{DBMS distribuito}
 Esistono diverse architetture di DBMS distribuiti alcune delle quali sono
 riportate in figura \ref{fig:DBMS_distributed_architecture}.
 \begin{figure}
-      \centering
-      \includegraphics[width=0.7\textwidth]{./img/DBMS/DBMS_distributed_architecture.png}
-      \caption{Architetture di DBMS distribuiti}
-      \label{fig:DBMS_distributed_architecture}
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/DBMS/DBMS_distributed_architecture.png}
+    \caption{Architetture di DBMS distribuiti}
+    \label{fig:DBMS_distributed_architecture}
 \end{figure}
 \section{Query nei DBMS distribuiti}
 Nel capitolo precedente abbiamo visto come le query vengono ottimizzate in un
 DBMS centralizzato. In un DBMS distribuito, invece, le query vengono ottimizzate
 in modo diverso. In particolare, si hanno le seguenti fasi:
 \begin{itemize}
-      \item \textbf{Query decomposition}: la query viene decomposta in
-            sottoquery che possono essere eseguite in modo indipendente. Questa
-            fase tiene conto dello schema logico globale e non considera la
-            distribuzione dei dati. Usa delle tecniche di ottimizzazione algebrica
-            come quelle usate nei DBMS centralizzati.
-            In output a questa fase si ha un query tree globale, che non tiene
-            conto dei costi di comunicazione.
-      \item \textbf{Data Location}: in questa fase si considera la distribuzione
-            dei frammenti. Si ottimizzano le operazioni rispetto alla
-            frammentazione utilizzando tecniche di riduzione. In output si ha una
-            query efficiente sui frammenti ma non ottimizzata.
-      \item \textbf{Global optimization}: in questa fase si ottimizza la query
-            rispetto ai costi di comunicazione, aggiungendo agli operatori
-            algebrici quelli per la comunicazione. L'obiettivo è quello di
-            trovare il piano di esecuzione che minimizza il costo totale. Le
-            decisioni più importanti riguardano le operazioni di join perché
-            non si possono trasferire gli indici e quindi è l'operazione più lenta.
-      \item \textbf{Local optimization}: in questa fase si ottimizza il piano di
-            esecuzione per ogni singolo nodo.
+    \item \textbf{Query decomposition}: la query viene decomposta in
+          sottoquery che possono essere eseguite in modo indipendente. Questa
+          fase tiene conto dello schema logico globale e non considera la
+          distribuzione dei dati. Usa delle tecniche di ottimizzazione algebrica
+          come quelle usate nei DBMS centralizzati.
+          In output a questa fase si ha un query tree globale, che non tiene
+          conto dei costi di comunicazione.
+    \item \textbf{Data Location}: in questa fase si considera la distribuzione
+          dei frammenti. Si ottimizzano le operazioni rispetto alla
+          frammentazione utilizzando tecniche di riduzione. In output si ha una
+          query efficiente sui frammenti ma non ottimizzata.
+    \item \textbf{Global optimization}: in questa fase si ottimizza la query
+          rispetto ai costi di comunicazione, aggiungendo agli operatori
+          algebrici quelli per la comunicazione. L'obiettivo è quello di
+          trovare il piano di esecuzione che minimizza il costo totale. Le
+          decisioni più importanti riguardano le operazioni di join perché
+          non si possono trasferire gli indici e quindi è l'operazione più lenta.
+    \item \textbf{Local optimization}: in questa fase si ottimizza il piano di
+          esecuzione per ogni singolo nodo.
 \end{itemize}
 Gli obiettivi dell'ottimizzazione sono ridurre il costo totale, ovvero la somma
 dei costi di operazioni locali come input e output, e il costo di comunicazione.
@@ -516,19 +553,19 @@ conto del parallelismo.
 
 Nei database distribuiti il costo è dato dalla seguente formula:
 \begin{equation*}
-      \text{Costo comunicazione} = \text{C\_{MSG}} \cdot \#\ msgs  + \text{C\_{TR}} \cdot \#bytes
+    \text{Costo comunicazione} = \text{C\_{MSG}} \cdot \#\ msgs  + \text{C\_{TR}} \cdot \#bytes
 \end{equation*}
 dove:
 \begin{itemize}
-      \item \textbf{$C\_{MSG}$} è il costo di trasmissione di un messaggio
-      \item \textbf{$C_{TR}$} è il costo di trasmissione di un byte
-      \item \textbf{$\#\ msgs$} è il numero di messaggi
-      \item \textbf{$\#bytes$} è il numero di byte
+    \item \textbf{$C\_{MSG}$} è il costo di trasmissione di un messaggio
+    \item \textbf{$C_{TR}$} è il costo di trasmissione di un byte
+    \item \textbf{$\#\ msgs$} è il numero di messaggi
+    \item \textbf{$\#bytes$} è il numero di byte
 \end{itemize}
 Nel tempo di risposta, a differenza del costo di trasmissione, i costi delle
 operazioni in parallelo non si sommano, ottenendo la seguente formula:
 \begin{equation*}
-      \text{Tempo di risposta} = C\_{MSG} \cdot seq\_\#msgs + C_{TR} \cdot seq\_\#bytes
+    \text{Tempo di risposta} = C\_{MSG} \cdot seq\_\#msgs + C_{TR} \cdot seq\_\#bytes
 \end{equation*}
 dove $seq\_\#msgs$ è il massimo numero di messaggi che devono essere comunicati
 in modo sequenziale.
@@ -541,12 +578,12 @@ molto più basso rispetto al costo di esecuzione locale.
 
 Possiamo essere interessati a:
 \begin{itemize}
-      \item Minimizzazione tempo di risposta: più parallelismo può portare ad
-            aumento del costo totale (maggiore numero di trasmissioni e
-            processing locale)
-      \item Minimizzazione costo totale: somma dei costi senza tener conto del
-            parallelismo: utilizza meglio le risorse e aumento del throughput (con
-            peggioramento del response time in generale)
+    \item Minimizzazione tempo di risposta: più parallelismo può portare ad
+          aumento del costo totale (maggiore numero di trasmissioni e
+          processing locale)
+    \item Minimizzazione costo totale: somma dei costi senza tener conto del
+          parallelismo: utilizza meglio le risorse e aumento del throughput (con
+          peggioramento del response time in generale)
 \end{itemize}
 \subsection{Operazione di join}
 Dato che nei quando si trasferiscono i dati non è possibile passare gli indici,
@@ -554,15 +591,15 @@ le operazioni di join sono quelle più costose dal punto di vista computazionale
 Per questo motivo, l'operazione di \textbf{semijoin} può essere in alcune circostanze
 un'alternativa più efficiente rispetto al join.
 \begin{definizione}[\textbf{Semijoin}]
-      Dati due insiemi $R$ e $S$, il semijoin di $R$ e $S$ è definito come:
-      \begin{equation*}
-            R \text{semijoin}_A S \equiv \pi_{R^\ast}(R \, \text{join}_A \, S)
-      \end{equation*}
-      dove $R^\ast$ è l'insieme delle colonne di $R$. Il semijoin è la proiezione
-      sugli attributi di $R$ del join di $R$ e $S$.
+    Dati due insiemi $R$ e $S$, il semijoin di $R$ e $S$ è definito come:
+    \begin{equation*}
+        R \text{semijoin}_A S \equiv \pi_{R^\ast}(R \, \text{join}_A \, S)
+    \end{equation*}
+    dove $R^\ast$ è l'insieme delle colonne di $R$. Il semijoin è la proiezione
+    sugli attributi di $R$ del join di $R$ e $S$.
 \end{definizione}
 \begin{nota}
-      Il semijoin non è commutativo.
+    Il semijoin non è commutativo.
 \end{nota}
 Chiaramente l'uso del semi - join è conveniente se il costo del suo calcolo e
 del trasferimento del risultato sono inferiori al costo di trasferimento
@@ -576,26 +613,26 @@ Fino a questo momento abbiamo considerato le interrogazioni più semplici. Vogli
 ora analizzare la gestione delle scritture sui database distribuiti. In particolare,
 possiamo classificare le transazioni in due categorie:
 \begin{itemize}
-      \item \textbf{Dirette a un unico server remoto}: in questo caso il controllo
-            della concorrenza è simile a quello dei DBMS centralizzati. Dobbiamo
-            distinguere tra due tipi di transazioni:
-            \begin{itemize}
-                  \item \textbf{Remote request}: ovvero operazioni di sola lettura
-                  \item \textbf{Remote transaction}: ovvero operazioni di lettura e scrittura.
-            \end{itemize}
-      \item \textbf{Dirette a un numero arbitrario di server}: in questo caso il
-            controllo della concorrenza è più complesso. In questo caso la
-            classificazione si divide in:
-            \begin{itemize}
-                  \item \textbf{Distributed requests}: operazioni read - only
-                        arbitrarie nelle quali ogni singola operazione SQL si può riferire
-                        a qualunque insieme dei server. Richiede un ottimizzatore distribuito.
-                  \item \textbf{Distributed transactions}: numero arbitrario di
-                        operazioni SQL, ogni operazione è diretta ad un unico server.
-                        Le transazione possono modificare più di un database. Richiede
-                        un protocollo transazionale di coordinamento distribuito (two
-                        - phase commit).
-            \end{itemize}
+    \item \textbf{Dirette a un unico server remoto}: in questo caso il controllo
+          della concorrenza è simile a quello dei DBMS centralizzati. Dobbiamo
+          distinguere tra due tipi di transazioni:
+          \begin{itemize}
+              \item \textbf{Remote request}: ovvero operazioni di sola lettura
+              \item \textbf{Remote transaction}: ovvero operazioni di lettura e scrittura.
+          \end{itemize}
+    \item \textbf{Dirette a un numero arbitrario di server}: in questo caso il
+          controllo della concorrenza è più complesso. In questo caso la
+          classificazione si divide in:
+          \begin{itemize}
+              \item \textbf{Distributed requests}: operazioni read - only
+                    arbitrarie nelle quali ogni singola operazione SQL si può riferire
+                    a qualunque insieme dei server. Richiede un ottimizzatore distribuito.
+              \item \textbf{Distributed transactions}: numero arbitrario di
+                    operazioni SQL, ogni operazione è diretta ad un unico server.
+                    Le transazione possono modificare più di un database. Richiede
+                    un protocollo transazionale di coordinamento distribuito (two
+                    - phase commit).
+          \end{itemize}
 \end{itemize}
 
 La distribuzione non ha conseguenze su consistenza e durabilità in quanto la
@@ -640,9 +677,9 @@ Nel distribuito il 2PL  non funziona più.
 \subsection{Two Phase Locking}
 Nella progettazione della base di dati bisogna considerare diverse informazioni:
 \begin{itemize}
-      \item Topologia della rappresentazione.
-      \item Tipologie di query distribuite.
-      \item Stime o statistiche su query distribuite.
+    \item Topologia della rappresentazione.
+    \item Tipologie di query distribuite.
+    \item Stime o statistiche su query distribuite.
 \end{itemize}
 
 In aggiunta dobbiamo considerare i problemi di scrittura e quindi problemi di
@@ -705,8 +742,8 @@ Per la gestione di questi è possibile utilizzare un algoritmo di rilevamento.
 Prima di analizzare tale algoritmo vediamo quali sono i tipi di attesa che
 si possono avere in un sistema distribuito:
 \begin{itemize}
-      \item \textbf{Attesa da remote procedure call}
-      \item \textbf{Attesa da rilascio di risorsa}
+    \item \textbf{Attesa da remote procedure call}
+    \item \textbf{Attesa da rilascio di risorsa}
 \end{itemize}
 La composizione dei due tipi di attesa può dare luogo a uno stato di deadlock
 globale.
@@ -714,13 +751,13 @@ globale.
 Possiamo caratterizzare le condizioni di attesa su ciascun nodo tramite delle
 condizioni di precedenza usando al seguente notazione:
 \begin{itemize}
-      \item \textbf{$EXT_i$}: external, ovvero la chiamata da un nodo remoto $i$.
-      \item $x < y$: ovvero $x$ attende il rilascio di una risorsa da $y$. Questo
-            può anche essere remoto.
+    \item \textbf{$EXT_i$}: external, ovvero la chiamata da un nodo remoto $i$.
+    \item $x < y$: ovvero $x$ attende il rilascio di una risorsa da $y$. Questo
+          può anche essere remoto.
 \end{itemize}
 La sequenza di attesa generale al nodo è della forma:
 \begin{equation*}
-      EXT_i < x < y < EXT_j
+    EXT_i < x < y < EXT_j
 \end{equation*}
 Da osservatore esterno, riusciamo a vedere quando c'è un ciclo di attese e
 quindi un deadlock globale, ma a livello di singolo nodo questo è più complicato.
@@ -731,32 +768,32 @@ procedura di risoluzione del deadlock.
 
 L'algoritmo di rilevamento dei deadlock distribuiti è composto come segue:
 \begin{itemize}
-      \item In ogni nodo, si integra il grafo locale con quello degli altri nodi
-            che ho ricevuto.
-      \item Si analizza il grafo in cerca di condizioni di attesa sul nodo e
-            rileva i deadlock locali.
-      \item Comunica le sequenze di attesa agli altri nodi. L'ordine di
-            comunicazione va dal nodo più piccolo a quello più grande
+    \item In ogni nodo, si integra il grafo locale con quello degli altri nodi
+          che ho ricevuto.
+    \item Si analizza il grafo in cerca di condizioni di attesa sul nodo e
+          rileva i deadlock locali.
+    \item Comunica le sequenze di attesa agli altri nodi. L'ordine di
+          comunicazione va dal nodo più piccolo a quello più grande
 \end{itemize}
 
 È possibile ovviamente che lo stesso deadlock venga riscoperto più volte. Per
 evitare ciò e rendere più efficiente l'algoritmo si inviano le sequenze di attesa:
 \begin{itemize}
-      \item In avanti verso il nodo dove è attiva la sotto-transazione $t_i$
-            attesa da $t_j$.
-      \item Solamente quando $i > j$ dove $i$ e $j$ identificano i nodi.
+    \item In avanti verso il nodo dove è attiva la sotto-transazione $t_i$
+          attesa da $t_j$.
+    \item Solamente quando $i > j$ dove $i$ e $j$ identificano i nodi.
 \end{itemize}
 L'ordine dei nodi si decide a priori durante la progettazione del sistema distribuito.
 \section{Recovery Management}
 In un sistema distribuito i problemi riguardanti l'atomicità possono essere
 suddivisi in:
 \begin{itemize}
-      \item Problemi locali: ogni singolo nodo può avere problemi, come ad
-            esempio rottura disco, bug nel SW.
-      \item Problemi globali: come la perdita di messaggi oppure legati al
-            partizionamento della rete, ovvero quando due o più porzioni della
-            rete non riescono a vedersi per vari motivi e considerano l'altra
-            parte morta.
+    \item Problemi locali: ogni singolo nodo può avere problemi, come ad
+          esempio rottura disco, bug nel SW.
+    \item Problemi globali: come la perdita di messaggi oppure legati al
+          partizionamento della rete, ovvero quando due o più porzioni della
+          rete non riescono a vedersi per vari motivi e considerano l'altra
+          parte morta.
 \end{itemize}
 La gestione dei problemi di partizionamento può essere fatta con una soluzione
 centralizzata in cui un nodo decide se la transazione distribuita deve essere
@@ -769,12 +806,12 @@ di messaggi tra TM e RM.
 
 In assenza di guasti, il funzionamento del protocollo è il seguente:
 \begin{itemize}
-      \item \textbf{Fase 1}: il TM chiede ai RM come intendono terminare la
-            transazione. Ogni RM risponde autonomamente con un messaggio in cui
-            comunica le sue intenzioni in modo irrevocabile.
-      \item \textbf{Fase 2}: il TM prende una decisione comune, se un solo RM
-            risponde con un abort, allora la decisione è abort, altrimenti è
-            commit. A questo punto il TM comunica la decisione ai RM.
+    \item \textbf{Fase 1}: il TM chiede ai RM come intendono terminare la
+          transazione. Ogni RM risponde autonomamente con un messaggio in cui
+          comunica le sue intenzioni in modo irrevocabile.
+    \item \textbf{Fase 2}: il TM prende una decisione comune, se un solo RM
+          risponde con un abort, allora la decisione è abort, altrimenti è
+          commit. A questo punto il TM comunica la decisione ai RM.
 \end{itemize}
 La gestione di tutte le operazioni avviene tramite i log, in particolare, il TM
 scrive nel suo file di log prima di prendere la decisione e dopo averla presa
@@ -783,24 +820,24 @@ viene fatto dai vari RM.
 
 Nei log compaiono due tipi di record:
 \begin{itemize}
-      \item \textbf{Record di transazione}: contiene informazioni sulle operazioni
-            effettuate.
-      \item \textbf{Record di sistema}: checkpoint e dump.
+    \item \textbf{Record di transazione}: contiene informazioni sulle operazioni
+          effettuate.
+    \item \textbf{Record di sistema}: checkpoint e dump.
 \end{itemize}
 
 Per il transaction manager i record di sistema sono:
 \begin{itemize}
-      \item Record di Prepare contenente l'identità di tutti i RM (nodi + transazioni).
-      \item Global Commit o Abort che indica come è finita la transazione. La
-            decisione diventa esecutiva quando il TM scrive nel proprio log
-            questo record.
-      \item Complete per indicare che la transazione è completata.
+    \item Record di Prepare contenente l'identità di tutti i RM (nodi + transazioni).
+    \item Global Commit o Abort che indica come è finita la transazione. La
+          decisione diventa esecutiva quando il TM scrive nel proprio log
+          questo record.
+    \item Complete per indicare che la transazione è completata.
 \end{itemize}
 Per i Resource Manager i record di sistema sono:
 \begin{itemize}
-      \item Ready Record indica la disponibilità irrevocabile del RM a partecipare
-            alla fase di commit.
-      \item Not Ready indica la indisponibilità del RM al commit.
+    \item Ready Record indica la disponibilità irrevocabile del RM a partecipare
+          alla fase di commit.
+    \item Not Ready indica la indisponibilità del RM al commit.
 \end{itemize}
 
 Nella prima fase TM usa un timeout per chiedere ai RM se sono disponibili. Se il
@@ -817,25 +854,25 @@ nel TM.
 Fino a questo momento abbiamo studiato il caso ottimale, ovvero quello in assenza
 di guasti. Nella realtà i guasti possono capitare in vari momenti, come ad esempio:
 \begin{itemize}
-      \item Write begin commit: se uno degli RM non risponde entro il tempo
-            prestabilito viene fatto l'abort della transazione.
-      \item Se nella fase in cui il TM deve ricevere la conferma qualche RM non
-            risponde, allora il transaction manager invia nuovamente le richieste.
-      \item Se un RM deve terminare una transazione con abort, ma non riceve TM
-            la conferma di abort globale, allora il RM può decidere di eseguire
-            un abort. Questo in quanto ne basta una (la sua) per terminare la
-            transazione con abort.
-      \item Se un RM deve terminare la transizone con un commit, ma il TM non
-            conferma la commit globale, allora il RM deve aspettare la decisione
-            del TM.
+    \item Write begin commit: se uno degli RM non risponde entro il tempo
+          prestabilito viene fatto l'abort della transazione.
+    \item Se nella fase in cui il TM deve ricevere la conferma qualche RM non
+          risponde, allora il transaction manager invia nuovamente le richieste.
+    \item Se un RM deve terminare una transazione con abort, ma non riceve TM
+          la conferma di abort globale, allora il RM può decidere di eseguire
+          un abort. Questo in quanto ne basta una (la sua) per terminare la
+          transazione con abort.
+    \item Se un RM deve terminare la transizone con un commit, ma il TM non
+          conferma la commit globale, allora il RM deve aspettare la decisione
+          del TM.
 \end{itemize}
 Per quanto riguarda i guasti relativi ai componenti la soluzione è quella di
 usare i file di log per riprendere il servizio e decidere che operazione eseguire.
 Si seguito sono riportati alcuni esempi:
 \begin{itemize}
-      \item Se il TM muore mentre si trova nello stato di WAIT una soluzione
-            consiste nel rimandare le richieste.
-      \item TM muore dopo decisione finale\dots
+    \item Se il TM muore mentre si trova nello stato di WAIT una soluzione
+          consiste nel rimandare le richieste.
+    \item TM muore dopo decisione finale\dots
 \end{itemize}
 
 Un altra possibile casistica è quella in cui il TM prima di iniziare le operazioni
@@ -847,10 +884,10 @@ avendo a disposizione tutti i RM la transizione terminerà di sicuro con un abor
 Il difetto del protocollo è all'aumentare dei nodi si possono avere più probabilità
 di errori, si possono fare ottimizzazioni:
 \begin{itemize}
-      \item Se un RM fa solo operazioni di lettura allora non è richiesta la
-            gestione delle transizioni e quindi si riducono i messaggi.
-      \item Possiamo dimenticare le risposte sugli abort in questo modo riduco
-            i log perché scrivo solo i commit e riduco i messaggi.
+    \item Se un RM fa solo operazioni di lettura allora non è richiesta la
+          gestione delle transizioni e quindi si riducono i messaggi.
+    \item Possiamo dimenticare le risposte sugli abort in questo modo riduco
+          i log perché scrivo solo i commit e riduco i messaggi.
 \end{itemize}
 
 Standard definito.
