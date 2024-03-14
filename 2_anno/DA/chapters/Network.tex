@@ -158,7 +158,7 @@ di un nodo, selezionato in modo casuale, siano collegati tra loro.
     i seguenti grafici:
     \begin{figure}[!ht]
         \centering
-        \includegraphics[width=0.7\textwidth]{./img/net/esempio1.png}
+        \includegraphics[width=0.5\textwidth]{./img/net/esempio1.png}
         \caption{Esempio di grafici ottenuti dallo studio di un grafo.}
         \label{fig:graphstats}
     \end{figure}
@@ -192,23 +192,24 @@ diversi criteri. Tra le misure di centralità più comuni troviamo:
     \item \textbf{Autovettori}
     \item \textbf{Pagerank}
 \end{itemize}
+Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}.
 \begin{definizione}[\textbf{Centralizzazione}]
     La \textbf{centralizzazione} di un grafo è una misura della distribuzione
     della centralità dei nodi del grafo. In particolare, la centralizzazione
     di un grafo è massima quando un nodo ha una centralità molto più alta
     rispetto agli altri nodi del grafo.
 \end{definizione}
-Il coeff. di centralizzazione: quanta variabilità c'è tra tutte le centralità dei
-nodi, è una misura varianza della centralità di grado. Ci serve il coefficiente
-di centralità massimo di nodi del grafo ($C_D(n^\ast)$) e la centralizzazione coincide
-con la somma degli scarti della centralità tra il nodo con più centralità e tutti gli altri,
-infine normalizzo per la massima somma di differenze per una rete che ha $n$ nodi.
-Coeff. max ($1$) abbiamo un nodo più centrale rispetto agli altri.
 
-La centralità di grado non è utile per determinare la funzione di ponte (separazione
-di gruppi) (è legato la coefficiente di clustering).
-
-
+La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
+\begin{equation}
+    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
+    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
+    \item $n$: corrisponde al numero di nodi del grafo.
+\end{itemize}
 \subsection{Degree}
 Una delle prime possibilità di misurare la centralità di un nodo è quella di
 utilizzare il grado del nodo. Questa misura è particolarmente utile nel caso di
@@ -229,20 +230,6 @@ La centralità massima per un nodo è $n - 1$.
 
 Questa misura può essere normalizzata ottenendo la centralità di grado normalizzata
 dividendo la centralità di grado per il numero di nodi meno uno.
-
-Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}
-di un grafo, ovvero la misura di quanto sia centrale un nodo rispetto agli altri.
-
-La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
-\begin{equation}
-    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
-\end{equation}
-dove:
-\begin{itemize}
-    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
-    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
-    \item $n$: corrisponde al numero di nodi del grafo.
-\end{itemize}
 \subsection{Betweenness}
 Un altra misura di centralità è la \textbf{betweeness}, ovvero il nodi più
 rilevanti sono quelli che fanno da ponte tra due gruppi di nodi. Posso anche
@@ -385,7 +372,7 @@ distribuzione di probabilità stazionaria se $A$ è irriducibile e aperiodica.
 \end{nota}
 Per garantire questo devono essere verificate le seguenti condizioni:
 \begin{itemize}
-    \item La matrice $A$ deve essere stocastica, ovvero la somma di ogni riga
+    \item La matrice $A$ deve essere \textbf{stocastica}, ovvero la somma di ogni riga
           deve essere uguale a 1.
           \begin{equation*}
               \sum_{j = 1}^n A_{ij} = 1
