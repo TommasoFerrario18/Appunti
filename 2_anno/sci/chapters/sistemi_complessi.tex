@@ -392,3 +392,154 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
         $$ \sigma \circ F^{-1}= F^{-1}\circ \sigma$$
     \end{itemize}
 \end{itemize}
+
+\subsection{Proprietà di suriettività}
+
+\begin{definizione} [\textbf{Estensione della regola locale}]
+    L'\textbf{estensione della regola locale} per parole di lunghezza maggiore di 
+    $2r+1$. coincide con la regola globale ma 
+    applicata ad una stringa finita. Formalmente, $f^\ast: A^\ast\rightarrow A^\ast$
+    tale che $\forall u\in A^\ast$:
+    \begin{equation*}
+        f^\ast(u) = \begin{cases}
+            \epsilon & |u| < 2r+1\\
+            f(u_1\dots u_{2r+1})f(u_2\dots u_{2r+2})\dots f(u_{n-2r}\dots u_{n})& altrimenti
+        \end{cases}
+    \end{equation*}  
+\end{definizione}
+
+\begin{nota}
+    Se $A^\ast\equiv A^\mathbb{Z}\implies F \equiv f^\ast$. 
+\end{nota}
+
+\begin{nota}
+    Per la suriettività di $F$ sarà importante conoscere se $f$ è bilanciata ovvero
+    se $|f^{-1}(0)| =|f^{-1}(1)|$, dove $  f^{-1}(y)$ coincide con l'insieme delle 
+    preimmagini di $y$.
+\end{nota}
+
+\begin{nota}
+    Sia un CA $\langle A,r,f\rangle$ e $G$ il suo grafo di De Bruijn associato.
+    I cammini bi-infiniti sui vertici di $G$ sono in corrispondenza biunivoca 
+    con gli elementi di $A^\mathbb{Z}$. Inoltre, $\forall x\in \mathbb{Z}$ ($ \forall u\in A^\ast$)
+    $F(x)$ ($f^\ast(u)$) è dato dalle etichette degli archi del cammino sui vertici
+    corrispondente a $x$ ($u$).
+    \begin{proof}
+        Deriva dalla definizione del grafo di De Bruijn associato ad un automa cellulare.
+    \end{proof}
+\end{nota}
+
+Questo è vero perché due nodi consecutivi in un cammino corrispondono ad un elemento
+del dominio di $f$, mentre l'etichetta dell'arco corrisponde all'immagine dell'elemento 
+stesso.
+
+\begin{nota}
+    Il grafo di De Bruijn $G$ di un CA $\langle A,r,f\rangle$ può essere considerato
+    come un \textbf{automa a stati finiti non deterministico} in cui tutti i nodi sono sia stati iniziali, sia 
+    stati finali. Questi particolari automi sono chiamati \textbf{automi di Fisher}
+\end{nota}
+
+Questi automi sono importanti perché permettono di accettare il linguaggio composto
+da parole bi-infinite che rappresentano tutte le possibili configurazioni dell'automa
+cellulare, sia bi-infinite, sia parziali.
+
+Da notare che dal grafo di De Bruijn otteniamo degli automi non deterministici, 
+per la teoria degli automi possiamo facilmente ricavare l'automa deterministico
+calcolando l'insieme potenza degli stati.
+
+\begin{definizione} [\textbf{Suriettività}]
+    La definizione di \textbf{suriettività} di un automa cellulare è quando la sua 
+    \textbf{regola globale} è \textbf{suriettiva} ovvero:
+    \begin{itemize}
+        \item $\forall y\in A^\mathbb{Z},\exists x\in A^\mathbb{Z}: F(x) = y$
+        \item $F(A^\mathbb{Z}) = A^\mathbb{Z}$
+        \item $\forall y \in A^\mathbb{Z}, F^{-1}(y) \ne \emptyset $
+    \end{itemize}
+    Dove $F^{-1}(y)$ è l'insieme delle preimmagini di $y$.
+\end{definizione}
+
+La suriettività è un proprietà di \textbf{raggiungibilità debole}
+
+\begin{nota}
+    Il significato di $f^{\ast}$ bilanciato significa che $\forall n\in \mathbb{N}, n>0$
+    ogni parola di $u\in A^n$ ha lo stesso numero di preimmagini. Questo significa
+    chiedere che ogni parola del dominio di $f^{\ast}$ ($|A|^{n+2r}$) abbia lo stesso 
+    numero di immagini ($|A|^n$). Questo significa che il numero di preimmagini
+    sarà
+    \begin{equation*}
+        |A|^{2r} = \frac{|A|^{n+2r}}{|A|^n} = \frac{|Dom|}{|CoDom|}
+    \end{equation*}
+\end{nota}
+
+\begin{teorema}
+    Sia $\langle A,r,f\rangle$ un CA e sia $F: A^\mathbb{Z}\rightarrow A^\mathbb{Z}$
+    la regola globale. Sia $G$ il grafo di De Bruijn associato all'automa cellulare.
+    Sia $\mathcal{L}$ il linguaggio associato all'automa ottenuto dal grafo di De Bruijn.
+    Allora le seguenti affermazioni sono equivalentementi:
+    \begin{enumerate}
+        \item \label{cond:1}$F$ è \textbf{suriettiva}
+        \item \label{cond:2}$f^\ast$ è \textbf{bilanciata} ossia $\forall u \in A^+ (u\ne \epsilon), |f^{\ast^{-1}}(u)|= |A^{2r}|$
+        \item \label{cond:3}$\mathcal{L} = A^\ast$
+    \end{enumerate}
+    \begin{proof}
+        Dimostriamo le singole implicazioni:
+        \begin{itemize}
+            \item $\ref{cond:1}\implies \ref{cond:2}$: la dimostrazione si basa 
+            sul dimostrare $\lnot \ref{cond:2}\implies \lnot \ref{cond:1}$.
+
+            Ipotizziamo per assurdo che $\exists u\in A^n$ t.c. $|f^{\ast^{-1}}|\ne |A|^{2r}$.
+            Senza perdere di generalità assumiamo che $|f^{\ast^{-1}}(u)|< |A|^{2r}$,
+            non perdiamo generalità perché se prendessimo $u$ tale che $|f^{\ast^{-1}}(u)|> |A|^{2r}$
+            allora esisterà un'altra stringa $u'$ tale che $|f^{\ast^{-1}}(u')|< |A|^{2r}$,
+            in caso avremmo preso quella.
+
+            Sia $s = |f^{\ast^{-1}}(u)|$, sia $k>1$ un numero arbitrario allora costruiamo
+            i seguenti insiemi di parole:
+            \begin{itemize}
+                \item $V$: sarà la giustapposizione di $k$ preimmagini qualunque 
+                di $u$. Quindi $|V| = s^k$
+                \item $W$: contenente parole del tipo $w={uA^{2r}}^{k-1}u$. Quindi $|W| = |A|^{(k-1)2r}$
+            \end{itemize}
+
+            Per costruzione sappiamo che $\forall v\in V, f^{\ast}(v)\in W$, ma $\exists
+            w'\in W\text{ t.c. } f^{\ast^{-1}} (w')= \emptyset$ (si sta controllando se è suriettiva)?
+            
+            Sicuramente $w'$ esiste se $|V|<|W|$, ovvero  $s^k<(|A|^{2r})^{(k-1)}$.
+            Sapendo che $s^k < |A|^{2r}$ allora $\exists k$ tale che  $|V|<|W|$.
+            Quindi $\exists w \in W: f^{\ast^{-1}} (w) =\emptyset$, perciò 
+            $\exists y \in A^{\mathbb{Z}}: F^{-1}(y) = \emptyset$, basta scegliere 
+            $y$ che contiene $w$. Concludiamo che $F$ non è surettiva.
+            
+            \item $\ref{cond:2}\implies \ref{cond:3}$: occorre mostrare che $\mathcal{L} \subseteq A^\ast$
+            e allo stesso tempo $ A^\ast \subseteq\mathcal{L}$. La prima deriva 
+            dalla definizione di $\mathcal{L}$, quindi ci basta dimostrare 
+            $A^\ast \subseteq\mathcal{L}$. Scegliamo arbitrariamente $v\in  A^\ast$,
+            mostriamo che $v\in \mathcal{L}$, ossia che $v$ si ottiene dalla concatenazione
+            delle etichette degli archi di un cammino sui vertici di $v$.
+            
+            Siccome $|f^{\ast^{-1}}(v)| = |A|^{2r}$, in particolare $\exists u \in A^\ast$
+            t.c $f^\ast(u) = v$. Per definizione di $G$, siccome $u$ corrisponde 
+            ad un cammino finito sui vertici di $G$, $f(u)=v$ si ottiene dalle etichette
+            degli archi di quel cammino.
+            \item $\ref{cond:3}\implies \ref{cond:1}$: scelto arbitrariamente $y\in A^\mathbb{Z}$,
+            occorre mostrare che $\exists x\in A^\mathbb{Z} \text{ t.c. } F(x) =y$.
+
+            Sia $y\in A^\mathbb{Z}$ scelto arbitrariamente. $\forall n\in \mathbb{N}$ 
+            sia $v^{(n)} = y_{[-n,n]}\in A^{2n+1}$.
+
+            Per ipotesi sappiamo $\exists u^{(n)}\in f^{\ast^{-1}}(v^{(n)})\subseteq A^{2n+2r+1}$.
+            Quindi $f^{\ast^{-1}}(u^{(n)}) = v^{(n)}$.
+
+            Sia $x^{(n)}\in A^\mathbb{Z}$ una qualunque configurazione tale che 
+            $$x^{(n)}_[-n-r,n+r] = u^{(n)}$$
+
+            Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_[-n,n]$,
+            ossia che $d(F(x^{(n)})_{[-n,n]},y_[-n,n])< \frac{1}{2^n}$.
+            
+            Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione
+            $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{N}}$).
+            Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$,
+            quindi $\exists x \in A^\mathbb{Z}$ t.c. $y = F(x)$
+        \end{itemize}
+    \end{proof}
+\end{teorema}
