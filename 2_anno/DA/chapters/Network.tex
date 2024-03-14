@@ -140,8 +140,6 @@ coefficiente sia uguale a 1, significa che tutti i vicini del nodo $i$ sono
 collegati tra loro. Nel caso in cui il coefficiente sia uguale a 0, significa
 che nessun vicino del nodo $i$ è collegato ad un altro vicino.
 
-% TODO: immagine di come varia il coefficiente di clustering
-
 Questa misura rappresenta la densità locale di un grafo. Per ottenere una
 misura \textbf{globale} della densità del grafo, possiamo calcolare il \textbf{coefficiente
     di clustering medio}. Tale misura può essere calcolata come segue:
@@ -149,99 +147,291 @@ misura \textbf{globale} della densità del grafo, possiamo calcolare il \textbf{
     \langle C \rangle = \frac{1}{n} \sum_{i=1}^{n} C_i
 \end{equation}
 dove $\langle C \rangle$ si può interpretare come la probabilità che due vicini
-di un nodo, selezionato in modo casuale, siano collegati tra loro. 
+di un nodo, selezionato in modo casuale, siano collegati tra loro.
+\begin{definizione}[\textbf{Hub}]
+    Un \textbf{hub} è un nodo che ha un grado molto alto, ovvero è connesso a
+    molti altri nodi e ha una probabilità molto bassa di occorrere nella rete.
+\end{definizione}
+\begin{esempio}
+    Vediamo ora un esempio di come commentare lo studio di un grafo dal punto di
+    vista delle statistiche descrittive. Supponiamo di avere ottenuto un
+    i seguenti grafici:
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics[width=0.7\textwidth]{./img/net/esempio1.png}
+        \caption{Esempio di grafici ottenuti dallo studio di un grafo.}
+        \label{fig:graphstats}
+    \end{figure}
 
-La distribuzione di grado ci da informazioni in più rispetto alla media, perché
-è uno stimatore distorto, sarebbe meglio la mediana però generalmente si analizza
-direttamente la distribuzione di grado. Inoltre la distribuzione di grado permette 
-di studiare gli hub (tutti i nodi che sono caratterizzati da un alto grado e bassa 
-probabilità di occorrere nella rete molto basso).
+    La distribuzione di grado, riportata nel grafico $b$ della figura \ref{fig:graphstats},
+    ci permette di ottenere informazioni in più rispetto alla media. Questo
+    perché la media è uno stimatore distorto, sarebbe meglio utilizzare la
+    mediana. Inoltre la distribuzione di grado permette di studiare gli \textbf{hub}.
 
-Grafico della distribuzione delle distanze nel grafo mi mostra il diametro, la media 
-e capire se sono molto presenti le distanze ampie o basse.
+    Il grafico $c$ della figura \ref{fig:graphstats} ci permette di ottenere
+    informazioni sul diametro del grafo, sulla lunghezza media dei cammini.
 
-Il oefficiente di clustering medio permette di capire quanto sono connessi i vicini
-di un nodo estratto casualmente. Il grafico del coeff. di clustering ci mostra 
-le relazioni tra grado e clustering. (ex: spoke hanno un coeff. di clustering maggiore 
-quindi il vicinato è molto connesso, sintomo organizzazione gerarchica).  
+    Il coefficiente di clustering medio permette di capire quanto sono connessi
+    i vicini di un nodo estratto casualmente. Il grafico del coefficiente di
+    clustering, riportato in figura \ref{fig:graphstats} $d$ mostra le relazioni
+    tra grado e clustering. In questo esempio, i nodi spoke hanno un coefficiente
+    di clustering maggiore quindi il vicinato è molto connesso, sintomo
+    organizzazione gerarchica.
 
-Con questi ragionamenti si riesce ad effettuare inferenze sul comportamento che 
-si ottiene se si dovessere rimuovere un nodo.
-
-\subsection{Centralità del grafo}
-Esistono diversi criteri per determinare la rilevanza del nodo (centrale). 
-
-Esistono diverse tipologie di centralità:
+    Con questi ragionamenti si riesce ad effettuare inferenze sul comportamento
+    che si ottiene se si dovesse rimuovere un nodo.
+\end{esempio}
+\section{Centralità del grafo}
+La centralità di un nodo è una misura dell'importanza di un nodo all'interno
+del grafo. Questa misura può essere calcolata in diversi modi, in base a
+diversi criteri. Tra le misure di centralità più comuni troviamo:
 \begin{itemize}
-    \item \textbf{degree} (non diretta): numero di collegamenti con i vici, coincide col grado
-    ciascun nodo.
-    $$C_D(i) = \sum_j x_{ij}$$
-    La centralità massima per un nodo è $n-1$ e spesso si calcola la centralità di 
-    grado normalizzata (divisa per la centralità massima).
-    \item \textbf{degree} (diretta):
-    \begin{itemize}
-        \item in-degree:
-        \item out-degree:
-    \end{itemize}
-    \item \textbf{betweeness} (centralità di ponte o collo di bottiglia): 
-    $$C_B(i) = \sum_{i\ne k \ne i} \frac{g_{jk}(i)}{g_{jk}}$$
-    Dove:
-    \begin{itemize}
-        \item $g_{ik}(i)$: corrisponde al numero di Shortest path tra $jk$ nella rete tale che 
-        passa da $i$
-        \item $g_{ik}$: corrisponde al numero di Shortest parth tra $jk$
-    \end{itemize}
-    Normalizziamo sui noti per confrontare reti con numero di nodi differenti.
-    Centralità massima significa nodo con maggiore capacità di unire gruppi. Centralità $0$
-    allora è un nodo posso perché non collega nessuno.
-    
-    Poi il coeff. di centralità viene normalizzato sul totale di tutti gli shortest 
-    path nel diretto o nel non orientato
-    \item \textbf{closeness}: calcola la somma di tutte le distanze tra $i$ e tutti gli altri.
-    elevo alla $-1$ per renderla una centralità e non una distanza. corrisponde 
-    alla misura di un vertice in merito alla sua efficienza nel comunicare l'informazionie.
-    La betweeness è una misura l'efficacia di un nodo nell trasmettere un'informazione.
-    \item \textbf{autovettori}: prima misura non locale di centralità. Si vuole 
-    raccogliere il rapporto rispetto agli altri nodi. L'idea è se un nodo è
-    importante allora tra quelli con cui è collegato ci saranno altri nodi importanti.
-    % inserisci formula 
-    Diverso alla centralità di grado perché non perforza un nodo è importante se 
-    riceve tanti link. Si considera il grado e il ruolo dei nodi che si collegano.
-    In aggiunta, un nodo con alta centralità non è necessariamente fortemente linkato
-    agli altri. (valido per grafi non orientati)
-    \item \textbf{pagerank} (per grafi orientati): consiste in una serie di voti
-    che ogni nodo ottiene dalla rete
-
-    matrice di transizione: mi dice la prob. che dato un nodo raggiungo un altro
-    se volessi simulare la navigazione dell'utente nel web attraverso diverse pagine
-    e sto moltiplicando le probabilità per ogni nodo che attraverso nella navigazione.
-    Se moltiplicassi la matrice di transizione per se stessa ottengo la probabilità 
-    di raggiungere un nodo da tutti. Possiamo riperlo all'infinito, ad un certo punto 
-    non avremo cambiamenti ovvero quando la matrice soddisfa le proprietà di :
-    \begin{itemize}
-        \item stocastica: se la somma per riga è $1$. Se definisco per $\frac{1}{O}$ 
-        dove $O$ ha link uscenti sarei apposto, il problema è che non tutti i nodi 
-        hanno link uscenti. Risolvo % perso le robe
-        \item irriducibile: se il grafo è fortemente connesso.
-        \item aperiodica: un nodo viene definito come periodico se esiste un 
-        ciclo che attraversa un nodo. 
-    \end{itemize} 
-    Per risolvere irriducibilità e aperiodicità si aggiunge un arco per ogni noto \dots
-    Si ha un sistema lineare che si deve risolvere per ottenere la metrica 
-    di pagerank.
-    Esiste un altro algoritmo per il page rank ma non ha funzionato perché prima 
-    partiva dalla creazioen del grafo che rispetta la query e poi calcola la metrica
-    (troppo costoso).
+    \item \textbf{Degree}
+    \item \textbf{Betweeness}
+    \item \textbf{Closeness}
+    \item \textbf{Autovettori}
+    \item \textbf{Pagerank}
 \end{itemize}
-
-Il coeff. di centralizzazione: quanta variabilità c'è tra tutte le centralità dei 
-nodi, è una misura varianza della centralità di grado. Ci serve il coefficiente 
-di centralità massimo di nodi del grafo ($C_D(n^\ast)$) e la centralizzazione coincide 
+\begin{definizione}[\textbf{Centralizzazione}]
+    La \textbf{centralizzazione} di un grafo è una misura della distribuzione
+    della centralità dei nodi del grafo. In particolare, la centralizzazione
+    di un grafo è massima quando un nodo ha una centralità molto più alta
+    rispetto agli altri nodi del grafo.
+\end{definizione}
+Il coeff. di centralizzazione: quanta variabilità c'è tra tutte le centralità dei
+nodi, è una misura varianza della centralità di grado. Ci serve il coefficiente
+di centralità massimo di nodi del grafo ($C_D(n^\ast)$) e la centralizzazione coincide
 con la somma degli scarti della centralità tra il nodo con più centralità e tutti gli altri,
 infine normalizzo per la massima somma di differenze per una rete che ha $n$ nodi.
-Coeff. max ($1$) abbiamo un nodo più centrale rispetto agli altri. 
+Coeff. max ($1$) abbiamo un nodo più centrale rispetto agli altri.
 
-La centralità di grado non è utile per determinare la funzione di ponte (separazione 
+La centralità di grado non è utile per determinare la funzione di ponte (separazione
 di gruppi) (è legato la coefficiente di clustering).
 
 
+\subsection{Degree}
+Una delle prime possibilità di misurare la centralità di un nodo è quella di
+utilizzare il grado del nodo. Questa misura è particolarmente utile nel caso di
+reti sociali, in cui il grado di un nodo corrisponde al numero di amici che
+questo nodo ha.
+\begin{equation}
+    C_D(i) = \sum_{j=1}^{n} x_{ij}
+\end{equation}
+Nel caso di grafo orientato, possiamo distinguere tra grado entrante e grado
+uscente. In particolare, il grado entrante di un nodo corrisponde al numero di
+archi che arrivano al nodo, mentre il grado uscente corrisponde al numero di
+archi che partono dal nodo.
+\begin{equation}
+    C_{D_{in}}(i) = \sum_{j=1}^{n} x_{ji} \quad \text{e} \quad
+    C_{D_{out}}(i) = \sum_{j=1}^{n} x_{ij}
+\end{equation}
+La centralità massima per un nodo è $n - 1$.
+
+Questa misura può essere normalizzata ottenendo la centralità di grado normalizzata
+dividendo la centralità di grado per il numero di nodi meno uno.
+
+Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}
+di un grafo, ovvero la misura di quanto sia centrale un nodo rispetto agli altri.
+
+La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
+\begin{equation}
+    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
+    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
+    \item $n$: corrisponde al numero di nodi del grafo.
+\end{itemize}
+\subsection{Betweenness}
+Un altra misura di centralità è la \textbf{betweeness}, ovvero il nodi più
+rilevanti sono quelli che fanno da ponte tra due gruppi di nodi. Posso anche
+vederli come nodi che fanno da collo di bottiglia. La betweeness di un nodo
+può essere calcolata come segue:
+\begin{equation}
+    C_B(i) = \sum_{i \neq j \neq k} \frac{g_{jk}(i)}{g_{jk}}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $g_{ik}(i)$: corrisponde al numero di \textit{shortest path} tra i
+          nodi $j$ e $k$ nella rete tale che il cammino passa per il nodo $i$.
+    \item $g_{ik}$: corrisponde al numero di \textit{shortest path} tra i nodi
+          $j$ e $k$.
+\end{itemize}
+In questo caso, la centralità è massima se un nodo ha alta capacità di unire
+gruppi. Mentre la centralità tende a $0$ il nodo non collega nessuno.
+
+Viene successivamente fatta una seconda normalizzazione, questa volta sui nodi,
+per rendere indipendentemente dalla dimensione del grafo. Questo può essere
+espresso nel caso di un grafo non orientato come segue:
+\begin{equation}
+    C_B(i) = \frac{C_B(i)}{(n - 1)(n - 2)}
+\end{equation}
+mentre nel caso di un grafo orientato come segue:
+\begin{equation}
+    C_B(i) = \frac{C_B(i)}{(n - 1)(n - 2) / 2}
+\end{equation}
+\subsection{Closeness}
+La centralità misurata come \textbf{closeness} è una misura della vicinanza di
+un nodo agli altri nodi del grafo. Questa misura può essere calcolata come segue:
+\begin{equation}
+    C_C(i) = \frac{1}{\sum_{j=1}^{n} d_{ij}}
+\end{equation}
+Corrisponde alla misura di un vertice in merito alla sua efficienza nel
+comunicare l'informazione, mentre la betweeness è una misura l'efficacia di un
+nodo nell trasmettere un'informazione.
+
+Questa misura può essere normalizzata come segue:
+\begin{equation}
+    C_C(i) = \frac{C_C(i)}{n - 1}
+\end{equation}
+\subsection{Autovettori}
+La misura dic centralità calcolata utilizzando il grado del nodo rappresenta una
+misura locale del grafo. Inoltre, questa misura non tiene conto del ruolo dei
+nodi con cui il nodo è collegato. Per ottenere una misura globale della
+centralità del nodo, possiamo utilizzare la \textbf{centralità di autovettori}.
+
+La centralità di autovettori è una misura della centralità di un nodo in base
+al ruolo dei nodi con cui è collegato, ovvero un nodo è importante se è
+collegato ad altri nodi importanti.
+
+Questa misura può essere calcolata come segue:
+\begin{equation}
+    C_A(i) = \frac{1}{\lambda} \sum_{j=1}^{n} A_{ij} C_A(j)
+\end{equation}
+dove $A$ è la matrice di adiacenza del grafo e $\lambda$ è l'autovalore
+corrispondente all'autovettore dominante della matrice di adiacenza.
+
+A differenza della misura basata sul grado, un nodo che ha un alto grado ma è
+collegato a nodi poco importanti avrà una centralità di autovettori bassa. Al
+contrario, un nodo che ha un grado basso ma è collegato a nodi molto importanti
+avrà una centralità di autovettori alta.
+\subsection{Pagerank}
+La centralità basata su \textbf{pagerank} è una specializzazione della centralità
+di autovettori. Nello specifico questa misura è stata sviluppata per misurare
+la centralità di un grafo orientato.
+
+L'assunzione su cui si basa questa misura è che un arco tra il nodo $i$ e il
+nodo $j$ rappresenta un voto del nodo $i$ al nodo $j$. Se i due nodi sono connessi
+attraverso un arco, la probabilità che i due nodi siano in qualche modo collegati
+è maggiore.
+
+L'idea alla base di questa misura è che un nodo $i$ è influenzato dall'importanza
+dai nodi che si collegano a lui, in altre parole, gli altri nodi votano per il
+nodo $i$.
+
+Il coefficiente di PageRank associato a un nodo $i$ può essere calcolato come:
+\begin{equation}
+    P(i) = \sum_{(j, i) \in E} \frac{P(j)}{O_j}
+\end{equation}
+dove $O_j$ rappresenta il numero di archi uscenti dal nodo $j$ e $P$ rappresenta
+il vettore di PageRank.
+
+Il vettore di PageRank può essere calcolato andando a risolvere un sistema
+lineare di $n$ equazioni in $n$ variabili. In particolare, possiamo scrivere il
+vettore di PageRank $P = (P(1), \dots, P(n))^T$ come segue:
+\begin{equation}
+    P = A^T \cdot P
+\end{equation}
+dove $A$ è la matrice di adiacenza del grafo definita come:
+\begin{equation*}
+    A_{ij} = \begin{cases}
+        \frac{1}{O_j} & \text{se esiste un arco da $j$ a $i$} \\
+        0             & \text{altrimenti}
+    \end{cases}
+\end{equation*}
+A questo punto, la soluzione del problema può essere ottenuta utilizzando un
+algoritmo iterativo che restituisce gli autovettori della matrice di adiacenza
+normalizzata.
+
+Il problema è che per garantire la convergenza di questo algoritmo è necessario
+rispettare due condizioni:
+\begin{itemize}
+    \item Si ha un unico autovettore dominante.
+    \item $P$ è il principale autovettore di $A$.
+\end{itemize}
+
+Un'altro possibile metodo per risolvere questo problema è quello di utilizzare
+la \textbf{Markov Chain}. In questo caso ogni nodo rappresenta uno stato della
+catena e ogni arco rappresenta una transizione che permette di passare da uno
+stato all'altro con una certa probabilità.
+
+Questa soluzione permette di simulare la navigazione dell'utente nel web
+attraverso diverse pagine e di calcolare la probabilità che l'utente raggiunga
+un nodo partendo da un altro nodo.
+
+Per questa soluzione viene utilizzata la matrice di transizione di probabilità
+$A$ definita in precedenza, dove ogni elemento $A_{ij}$ rappresenta la probabilità
+che l'utente passi dal nodo $i$ al nodo $j$.
+
+A questo punto, partendo da una probabilità iniziale $P_0 = (P_0(1), \dots, P_0(n))^T$
+e la matrice di transizione $A$ abbiamo:
+\begin{equation*}
+    \sum_{i = 1}^n P_0(i) = 1
+\end{equation*}
+Inoltre, se la matrice $A$ soddisfa la seguente proprietà:
+\begin{equation*}
+    \sum_{j = 1}^n A_{ij} = 1
+\end{equation*}
+allora la matrice $A$ è stocastica.
+
+Dal teorema della Markov Chain sappiamo che se la catena di Markov è definita da
+una matrice di transizione stocastica allora è caratterizzata da un unica
+distribuzione di probabilità stazionaria se $A$ è irriducibile e aperiodica.
+\begin{nota}
+    Una distribuzione di probabilità stazionaria garantisce che dopo un certo
+    numero di passi la probabilità di raggiungere un nodo da tutti gli altri
+    nodi non cambia.
+\end{nota}
+Per garantire questo devono essere verificate le seguenti condizioni:
+\begin{itemize}
+    \item La matrice $A$ deve essere stocastica, ovvero la somma di ogni riga
+          deve essere uguale a 1.
+          \begin{equation*}
+              \sum_{j = 1}^n A_{ij} = 1
+          \end{equation*}
+          Un problema in questo caso è rappresentato da una pagina che non ha
+          link uscenti, essa sarebbe rappresentata da una riga di $0$. Si hanno
+          due possibili soluzioni:
+          \begin{itemize}
+              \item Aggiungere un arco uscente per ogni nodo che non rispetta la
+                    condizione.
+              \item Rimuovere tutte le pagine che non hanno link uscenti.
+          \end{itemize}
+    \item \textbf{Irriducibilità}: se il grafo è fortemente connesso.
+    \item \textbf{Aperiodicità}: se tutti gli stati della catena sono aperiodici,
+          ovvero se non fa parte di cicli.
+\end{itemize}
+Una soluzione alle problematiche relative alla irriducibilità e aperiodicità
+si ottiene aggiungendo un arco da ogni nodo a tutti gli altri nodi del grafo con
+una probabilità di transizione molto bassa controllata da un parametro $d$:
+\begin{equation}
+    A_{ij} = (1 - d) + d \cdot \sum_{(j, i) \in E}\frac{P(j)}{O_j}
+\end{equation}
+
+Il coefficiente di PageRank $P_i$ può essere calcolato risolvendo il seguente
+sistema di equazioni:
+\begin{equation}
+    \left[
+        \begin{array}{c}
+            P_1    \\
+            \vdots \\
+            P_n
+        \end{array}
+        \right] = d \cdot \left[
+        \begin{array}{ccc}
+            A_{11} & \dots  & A_{1, n} \\
+            \vdots & \ddots & \vdots   \\
+            A_{n1} & \dots  & A_{nn}
+        \end{array}
+        \right] + (1 - d) \cdot \left[
+        \begin{array}{c}
+            1      \\
+            \vdots \\
+            1
+        \end{array} \right]
+\end{equation}
+Sotto la seguente condizione:
+\begin{equation*}
+    \sum_{i}^n P_i = 1
+\end{equation*}
