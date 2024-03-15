@@ -252,7 +252,7 @@ distingue gli agenti in:
     \item \textbf{Goal-based agents}: l'agente deve sapere quali sono le
           situazioni desiderate e quali azioni devono essere svolte per raggiungere
           tali situazioni. Possono essere più flessibili dato che la conoscenza
-          è rappresentata in modo esplicito e può essere manipolata.
+          è rappresentata in modo esplicito e può essere manipolata. 
           \begin{figure}[!ht]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/GlobalBasedAgent.png}
@@ -262,7 +262,9 @@ distingue gli agenti in:
     \item \textbf{Utility-based agents}: in questo caso uno stesso obiettivo può
           essere raggiunto in modi diversi. Viene definita una funzione di utilità che
           che descrive il grado di soddisfazione dell'agente in base alla situazione
-          in cui si trova.
+          in cui si trova. Ho bisogno
+          di una funzione utilità che mi rappresenti il mondo in modo da guidare 
+          le scelte dell'agente in base alla rappresentazione e i suoi obiettivi.
           \begin{figure}[!ht]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/UtilityBasedAgent.png}
@@ -274,3 +276,107 @@ distingue gli agenti in:
 La prima classe di questa classificazione corrisponde alla classe degli agenti
 tropistic, la seconda classe corrisponde alla classe degli agenti hysteretic. Le
 altre due classi sono invece una specializzazione della classe knowledge-based.
+
+Esistono altre classificazioni di agenti in base alle loro caratteristiche fondamentali
+o in base alle capacità (ex: agente di interfaccia).
+
+Possiamo avere agenti ibridi e sistemi eterogenei.
+
+\begin{esempio}[Esempio di agenti reattivi (Boids)]
+    Agenti che simulano il comportamento di stormi di uccelli. Il comportamento 
+    è ottenuto mischiando i seguenti comportamenti:
+    \begin{itemize}
+        \item \textbf{separazione}: ciascun Boid ha un raggio e riesce a percepire 
+        altri boid o ostacoli all'interno del raggio. Si ha un contributo nell'accellerazione
+        verso la direzione opposta per evitare l'affollamento tra gli altri.
+        \item \textbf{coesione}: il boid si muove verso la posizione centrale tra i vicini.
+        \item \textbf{allineamento}: orientamento spaziale deve conformarsi con 
+        i boid adiacenti.
+    \end{itemize}
+    I comportamenti vengono uniti mediante una combinazione lineare e dei pesi.
+\end{esempio}
+
+Gli agenti reattivi non hanno obiettivi, si possono anche chiamare behaviour-based.
+L'agente però è semplice computazionalmente, se voglio più complessità come per 
+esempio degli obiettivi allora devo complicare il modello.
+
+\begin{esempio}[Esempio di agenti mentalistici (3APL)]
+    L'agete prevede la speicifca di un comportamento cognitivo mediante un linguaggio
+    logico. Questo è caratterizzato da:
+    \begin{itemize}
+        \item azioni base: singole azioni 
+        \item beliefbase: insieme di fatti noti sul mondo, possono essere anche 
+        regole (base di conoscenza del mondo)
+        \item regole pratiche di ragionamento: insiemi di piani parzialemente istanziati,
+        insieme di passi generiche che mi portano all'obiettivo
+        \item obiettivi
+    \end{itemize}
+    Esempio robot:
+    \begin{itemize}
+        \item beliefbase: descrizione del mondo in PL.
+        \item capability: descrizione delle capacità (azione base) che può fare l'agente con 
+        la specifica di come deve essere aggiornata la base di conoscienza
+        \item goal: obiettivo è la testa di una regola di un piano
+        \item rulebase: insieme di piani, insieme di regole da mettere in partica
+        per portare a termine il piano e quindi l'obiettivo.
+    \end{itemize}
+
+    Hanno diversi problemi:
+    \begin{itemize}
+        \item devono avere la rappresentazione completa del mondo (ambiente può essere molto grande)
+        \item la percezione perde di significativo
+        \item come unisco reazione e deliberazione
+    \end{itemize}
+\end{esempio}
+
+\begin{esempio} [Jade platform]
+    Piattaforme SW per lo sviluppo di agenti, forniscono solo uno "standard SW" 
+    per eseguire comportamenti. L'agente viene eseguito dall'ambiente che sveglia
+    chi deve eseguire e non vengono eseguiti su Thread. Quindi 
+\end{esempio}
+
+Gli agenti come mostra Jade possono essere aoggetti, ma ci possono essere differenze:
+\begin{itemize}
+    \item autonomia: un agente può fornire servizi ma non devono rispondere a tutte 
+    le richieste
+    \item proattività: un agente deve avere almeno un thread per il suo controllo,
+    gli oggetti in Jade non vengono eseguiti su thread.
+    \item abilità sociale: per gli oggetti non si hanno comunicazione sociale perché
+    è limitata alla sua interfaccia che non è abbastanza espressiva rispetto ad un
+    modello sociale di comunicazione
+\end{itemize}
+
+Gli agenti possono essere visti come una specializzazione degli oggetti comuni.
+
+\subsection{Agenti ibridi}
+L'architettura può essere espressa come specifiche comportamentali
+a layer che può essere:
+\begin{itemize}
+    \item orizzontale: una singola percezzione può portare all'attivazione di due 
+    comportamenti paralleli
+    \item verticale: si ha una gerarchia con priorità sui comportamenti più importanti
+\end{itemize}
+
+Un sistema complesso può integrare quindi diverse tipologie di agenti (sistema eterogeneo), diventa fondamentale
+la loro interazione, specificando dei meccanismi di interazione (ex: robot spaziali).
+
+L'autonomia degli agenti può avere diverse declinazioni:
+\begin{itemize}
+    \item capacità di un agente di decidere le proprie azioni in base allo stimolo
+    esterno
+    \item abilità di decidere in base alla sua conoscenza
+\end{itemize}
+
+\subsection{Learning agent}
+Sono agenti che apprendono, agenti che possono essere il risultato di un processo 
+automatico. 
+Si ha un elemento che agisce (quello che sceglie l'azione dalle percezioni) (modello appreso),
+si ha il learning element (quello che allena il modello dalle percezioni). 
+Se l'agente contiene un learning element allora può apprendere durante la sua vita,
+altrimenti l'apprendimento può essere fatto a priori e quindi l'agente è solo il 
+risultato del processo.
+
+Spesso questi agenti vengono allenati utilizzando il reinforcement learning:
+gli agenti agiscono e l'oracolo ritorna come risposta all'azione un punteggio che 
+premia o penalizza l'azione. In questo modo l'agente esplora l'effetto delle azioni 
+nell'immediato o nel lungo termine.

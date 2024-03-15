@@ -421,7 +421,7 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
 \begin{nota}
     Sia un CA $\langle A,r,f\rangle$ e $G$ il suo grafo di De Bruijn associato.
     I cammini bi-infiniti sui vertici di $G$ sono in corrispondenza biunivoca 
-    con gli elementi di $A^\mathbb{Z}$. Inoltre, $\forall x\in \mathbb{Z}$ ($ \forall u\in A^\ast$)
+    con gli elementi di $A^\mathbb{Z}$. Inoltre, $\forall x\in A^\mathbb{Z}$ ($ \forall u\in A^\ast$)
     $F(x)$ ($f^\ast(u)$) è dato dalle etichette degli archi del cammino sui vertici
     corrispondente a $x$ ($u$).
     \begin{proof}
@@ -458,7 +458,7 @@ calcolando l'insieme potenza degli stati.
     Dove $F^{-1}(y)$ è l'insieme delle preimmagini di $y$.
 \end{definizione}
 
-La suriettività è un proprietà di \textbf{raggiungibilità debole}
+La suriettività è una proprietà di \textbf{raggiungibilità debole}
 
 \begin{nota}
     Il significato di $f^{\ast}$ bilanciato significa che $\forall n\in \mathbb{N}, n>0$
@@ -498,11 +498,11 @@ La suriettività è un proprietà di \textbf{raggiungibilità debole}
             \begin{itemize}
                 \item $V$: sarà la giustapposizione di $k$ preimmagini qualunque 
                 di $u$. Quindi $|V| = s^k$
-                \item $W$: contenente parole del tipo $w={uA^{2r}}^{k-1}u$. Quindi $|W| = |A|^{(k-1)2r}$
+                \item $W$: contenente parole del tipo $w=(uA^{2r})^{k-1}u$. Quindi $|W| = |A|^{(k-1)2r}$
             \end{itemize}
 
             Per costruzione sappiamo che $\forall v\in V, f^{\ast}(v)\in W$, ma $\exists
-            w'\in W\text{ t.c. } f^{\ast^{-1}} (w')= \emptyset$ (si sta controllando se è suriettiva)?
+            w'\in W\text{ t.c. } f^{\ast^{-1}} (w')= \emptyset$? (si sta controllando se non è suriettiva)
             
             Sicuramente $w'$ esiste se $|V|<|W|$, ovvero  $s^k<(|A|^{2r})^{(k-1)}$.
             Sapendo che $s^k < |A|^{2r}$ allora $\exists k$ tale che  $|V|<|W|$.
@@ -531,9 +531,9 @@ La suriettività è un proprietà di \textbf{raggiungibilità debole}
             Quindi $f^{\ast^{-1}}(u^{(n)}) = v^{(n)}$.
 
             Sia $x^{(n)}\in A^\mathbb{Z}$ una qualunque configurazione tale che 
-            $$x^{(n)}_[-n-r,n+r] = u^{(n)}$$
+            $$x^{(n)}_{[-n-r,n+r]} = u^{(n)}$$
 
-            Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_[-n,n]$,
+            Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_{[-n,n]}$,
             ossia che $d(F(x^{(n)})_{[-n,n]},y_[-n,n])< \frac{1}{2^n}$.
             
             Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione

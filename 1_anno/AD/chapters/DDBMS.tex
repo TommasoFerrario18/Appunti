@@ -188,32 +188,32 @@ I \textbf{DDBMS} hanno notevoli \textbf{vantaggi}:
     \item \textbf{Modularità} le modifiche alle applicazioni e ai dati possono
           essere effettuate a basso costo. Si ha una distribuzione dei dati incrementale e
           progressiva, infatti la configurazione si adatta alle esigenze delle applicazioni.
-    \item \textbf{Resistenza ai guasti}: grazie alla replicazione dei dati si ha 
-        ridondanza (fail soft). Ovviamente la ridondanza funziona in rete quindi 
-        si introduce fragilità per la comunicazione in rete.
+    \item \textbf{Resistenza ai guasti}: grazie alla replicazione dei dati si ha
+          ridondanza (fail soft). Ovviamente la ridondanza funziona in rete quindi
+          si introduce fragilità per la comunicazione in rete.
     \item \textbf{Prestazioni ed Efficienza}: distribuendo un database su più
           nodi, ogni nodo gestisce un DB di dimensioni ridotte. Questo
           significa che i singoli DB sono più facili da gestire e ottimizzare
           localmente e, in particolare, ogni nodo può adottare delle
           ottimizzazioni personalizzate. Il carico inoltre viene distribuito
-          sui nodi che permette di avere parallelismi tra le transazioni che fanno 
-          parte della stessa transazione distribuita. 
+          sui nodi che permette di avere parallelismi tra le transazioni che fanno
+          parte della stessa transazione distribuita.
           Tutto ciò però richiede chiaramente un coordinamento tra i
           nodi e aumenta il traffico di rete che può rivelarsi un collo di
           bottiglia per le prestazioni.
 \end{itemize}
 
 \subsection{Differenze rispetto ai DBMS}
-Si ha un \textbf{Indipendenza locale e cooperazione tra server}, ogni server 
-mantiene ha la sua applicazione, si hanno interazioni tra i vari server per la 
+Si ha un \textbf{Indipendenza locale e cooperazione tra server}, ogni server
+mantiene ha la sua applicazione, si hanno interazioni tra i vari server per la
 loro cooperazione, la cooperazione può avvenire per gestire due cose:
 \begin{itemize}
-  \item \textbf{interrogazioni}: sia query provenienti dalle applicazioni e 
-  i risultati provenienti dal server
-  \item \textbf{transazioni}: richieste di transazioni dalle applicazioni  e 
-  dati di controllo per il coordinamento dello stato delle transazioni.
+    \item \textbf{interrogazioni}: sia query provenienti dalle applicazioni e
+          i risultati provenienti dal server
+    \item \textbf{transazioni}: richieste di transazioni dalle applicazioni  e
+          dati di controllo per il coordinamento dello stato delle transazioni.
 \end{itemize}
-Il problema è l'ottimizzazione che è limitata per via della rete e l'obiettivo 
+Il problema è l'ottimizzazione che è limitata per via della rete e l'obiettivo
 sarà quello di distribuire i dati per avere più transazioni possibili in locale.
 
 Si hanno anche le seguenti funzionalità specifiche:
@@ -232,27 +232,19 @@ Si hanno anche le seguenti funzionalità specifiche:
           in merito alla rete, sia all'hardware stesso.
 \end{itemize}
 
-\subsubsection{Frammentazione e replicazione}
+\subsection{Frammentazione}
 \begin{definizione}[\textbf{Frammentazione}]
     Si definisce \textbf{frammentazione} come la possibilità di allocare porzioni
     diverse del database su nodi diversi.
 \end{definizione}
-\begin{definizione}[\textbf{Replicazione}]
-    Si definisce \textbf{replicazione} come la possibilità di allocare stesse
-    porzioni del database su nodi diversi.
-\end{definizione}
-\begin{definizione}[\textbf{Trasparenza}]
-    Si definisce \textbf{trasparenza} come la possibilità per l'applicazione di
-    accedere ai dati senza sapere dove sono allocati.
-\end{definizione}
-\subsubsection{Frammentazione}
+
 Esistono due tipi di frammentazione:
 \begin{itemize}
     \item \textbf{Frammentazione orizzontale}: si prende una tabella e la si
           frammenta in base alle righe. Si mantiene inalterato lo schema in
           quanto si ottengono solo delle tabelle più piccole. Per spezzare si
           usa una select che selezioni ogni volta un certo blocco di tabella.
-          (Ex: vengono separati i dottori nati a Milano da quelli nati a Napoli, 
+          (Ex: vengono separati i dottori nati a Milano da quelli nati a Napoli,
           alla fine si effettua la union per ricostruire la tabella originale)
     \item \textbf{Frammentazione verticale}: si prende una tabella e la si frammenta
           in base alle colonne. In ogni nuova tabella però la prima colonna
@@ -261,7 +253,7 @@ Esistono due tipi di frammentazione:
           la tabella originale con operazioni di join e garantire la
           trasparenza. Anche in questo caso uso una select che selezioni ogni
           volta un certo numero di colonne da mettere nella nuova tabella.
-          (Ex: si dividono gli attributi della tabella e si fa la join in fase di 
+          (Ex: si dividono gli attributi della tabella e si fa la join in fase di
           ricostruzione)
 \end{itemize}
 Quando si usa la frammentazione bisogna garantire le seguenti regole:
@@ -274,7 +266,13 @@ Quando si usa la frammentazione bisogna garantire le seguenti regole:
           rappresentato in uno solo dei frammenti
     \item \textbf{Replicazione}: l'opposto della disgiunzione
 \end{itemize}
-\subsubsection{Replicazione}
+\subsection{Replicazione}
+
+\begin{definizione}[\textbf{Replicazione}]
+    Si definisce \textbf{replicazione} come la possibilità di allocare stesse
+    porzioni del database su nodi diversi.
+\end{definizione}
+
 Si hanno diversi aspetti positivi per l'accesso in lettura, come il miglioramento
 delle prestazioni in quanto consente la coesistenza di applicazioni con requisiti
 operazionali diversi sugli stessi dati e aumenta la località dei dati usati da
@@ -289,7 +287,13 @@ frammento può essere allocato su un nodo diverso. Lo schema globale quindi
 è solo virtuale e lo schema di allocazione definisce il mapping tra un frammento
 e un nodo. Si ha quindi una tabella, un catalogo, che ci da informazioni sul
 partizionamento, associando ogni frammento al nodo in cui è allocato.
-\subsubsection{Trasparenza}
+\subsection{Trasparenza}
+
+\begin{definizione}[\textbf{Trasparenza}]
+    Si definisce \textbf{trasparenza} come la possibilità per l'applicazione di
+    accedere ai dati senza sapere dove sono allocati.
+\end{definizione}
+
 Con la trasparenza si ha la separazione della semantica di alto livello dalle
 modalità di frammentazione e allocazione. Si separa quindi la logica applicativa
 dalla logica dei dati ma per farlo serve uno strato software che gestisca la
@@ -311,7 +315,7 @@ modello distribuito:
 Frammentazione e allocazione sono tra lo schema logico globale e ogni schema
 logico locale. Si hanno quindi tre livelli di trasparenza:
 \begin{itemize}
-% TODO: immagini sull'effetto della trasparenza nelle  query
+    % TODO: immagini sull'effetto della trasparenza nelle  query
     \item \textbf{Trasparenza di frammentazione}, che permette di ignorare
           l'esistenza dei frammenti ed è lo scenario migliore per la
           programmazione applicativa. Il sistema si occupa di convertire query
@@ -328,7 +332,7 @@ logico locale. Si hanno quindi tre livelli di trasparenza:
           vengono quindi tradotte ottimizzatone di query. Questo è il livello
           di trasparenza più basso.
 \end{itemize}
-
+% ! da spostare
 \section{DBMS distribuito}
 Esistono diverse architetture di DBMS distribuiti alcune delle quali sono
 riportate in figura \ref{fig:DBMS_distributed_architecture}.
@@ -338,49 +342,68 @@ riportate in figura \ref{fig:DBMS_distributed_architecture}.
     \caption{Architetture di DBMS distribuiti}
     \label{fig:DBMS_distributed_architecture}
 \end{figure}
-\section{Query nei DBMS distribuiti}
-Nel capitolo precedente abbiamo visto come le query vengono ottimizzate in un
-DBMS centralizzato. In un DBMS distribuito, invece, le query vengono ottimizzate
+
+\section{Gestione delle query distribuite}
+In un DBMS distribuito, a differenza dei DBMS centralizzati, le query vengono ottimizzate
 in modo diverso. In particolare, si hanno le seguenti fasi:
 \begin{itemize}
-    \item \textbf{Query decomposition}: la query viene decomposta in
+    \item \textbf{Query decomposition}: la query distribuita viene decomposta in
           sottoquery che possono essere eseguite in modo indipendente. Questa
           fase tiene conto dello schema logico globale e non considera la
           distribuzione dei dati. Usa delle tecniche di ottimizzazione algebrica
           come quelle usate nei DBMS centralizzati.
-          In output a questa fase si ha un query tree globale, che non tiene
+          In output a questa fase si ha un \textbf{query tree globale} che non tiene
           conto dei costi di comunicazione.
     \item \textbf{Data Location}: in questa fase si considera la distribuzione
           dei frammenti. Si ottimizzano le operazioni rispetto alla
           frammentazione utilizzando tecniche di riduzione. In output si ha una
-          query efficiente sui frammenti ma non ottimizzata.
+          \textbf{query efficiente sui frammenti} ma non ottimizzata.
     \item \textbf{Global optimization}: in questa fase si ottimizza la query
           rispetto ai costi di comunicazione, aggiungendo agli operatori
           algebrici quelli per la comunicazione. L'obiettivo è quello di
-          trovare il piano di esecuzione che minimizza il costo totale. Le
+          trovare il piano di esecuzione che minimizza il costo totale, ovvero
+          l'ordine migliore delle operazioni nella query fragment. Le
           decisioni più importanti riguardano le operazioni di join perché
-          non si possono trasferire gli indici e quindi è l'operazione più lenta.
+          non si possono trasferire gli indici e quindi è l'operazione più lenta
+          (scelta se usare un join o semi-join) (Si ottimizza il costo di comunicazione).
     \item \textbf{Local optimization}: in questa fase si ottimizza il piano di
-          esecuzione per ogni singolo nodo.
+          esecuzione per ogni singolo nodo (si ottimizza indipendentemente il query fragment
+          usando le ottimizzazioni centralizzate).
 \end{itemize}
 Gli obiettivi dell'ottimizzazione sono ridurre il costo totale, ovvero la somma
 dei costi di operazioni locali come input e output, e il costo di comunicazione.
 Oltre a ciò, si vuole ridurre il response time, ovvero la somma dei costi tenendo
 conto del parallelismo.
 
-Nei database distribuiti il costo è dato dalla seguente formula:
+% TODO: aggiungere l'immagine dello schema dell'ottimizzazione
+% TODO: aggiungere l'esempio nelle slide
+
+Il costo principale nelle basi di dati è il \textbf{costo totale} che è dipendente
+dai \textbf{costi delle operazioni} (I/O e CPU) e dal costo di \textbf{costo di comunicazione}.
+\begin{equation*}
+    \text{costo totale} = \textbf{costo operazioni} + \text{costo di comunicazione}
+\end{equation*}
+
+Se si sommano tutti i costi di tutte le operazioni eseguite nella query distribuita,
+tenendo conto del parallelismo, si ottiene il \textbf{response time}.
+
+Nel caso distribuito il \textbf{costo di comunicazione} è quello più significativo rispetto
+ai \textbf{costi delle operazioni}. Per calcolare i costi di comunicazione si
+può seguire la seguente formula.
 \begin{equation*}
     \text{Costo comunicazione} = \text{C\_{MSG}} \cdot \#\ msgs  + \text{C\_{TR}} \cdot \#bytes
 \end{equation*}
 dove:
 \begin{itemize}
     \item \textbf{$C\_{MSG}$} è il costo di trasmissione di un messaggio
-    \item \textbf{$C_{TR}$} è il costo di trasmissione di un byte
+    \item \textbf{$C_{TR}$} è il costo di trasmissione fisso di un byte dipendente dalla topologia
     \item \textbf{$\#\ msgs$} è il numero di messaggi
     \item \textbf{$\#bytes$} è il numero di byte
 \end{itemize}
-Nel tempo di risposta, a differenza del costo di trasmissione, i costi delle
-operazioni in parallelo non si sommano, ottenendo la seguente formula:
+
+Per calcolare il \textbf{tempo di risposta} (response time), a differenza del
+costo totale, i costi delle operazioni in parallelo non si sommano,
+ottenendo la seguente formula:
 \begin{equation*}
     \text{Tempo di risposta} = C\_{MSG} \cdot seq\_\#msgs + C_{TR} \cdot seq\_\#bytes
 \end{equation*}
@@ -391,19 +414,21 @@ Naturalmente, il costo più importante deve essere valutato in base a alla
 situazione in cui mi trovo. Chiaramente se si lavora in una grande rete
 geografica, il costo di comunicazione sarà molto più alto rispetto al costo di
 esecuzione locale. Viceversa nelle reti locali, il costo di comunicazione sarà
-molto più basso rispetto al costo di esecuzione locale.
+molto più basso rispetto al costo di esecuzione locale. Ovviamente possiamo calcolare
+il costo totale assegnando dei pesi ai singoli costi.
 
 Possiamo essere interessati a:
 \begin{itemize}
-    \item Minimizzazione tempo di risposta: più parallelismo può portare ad
+    \item \textbf{Minimizzazione tempo di risposta}: più parallelismo può portare ad
           aumento del costo totale (maggiore numero di trasmissioni e
           processing locale)
-    \item Minimizzazione costo totale: somma dei costi senza tener conto del
+    \item \textbf{Minimizzazione costo totale}: somma dei costi senza tener conto del
           parallelismo: utilizza meglio le risorse e aumento del throughput (con
           peggioramento del response time in generale)
 \end{itemize}
+
 \subsection{Operazione di join}
-Dato che nei quando si trasferiscono i dati non è possibile passare gli indici,
+Dato che nei join quando si trasferiscono i dati non è possibile passare gli indici,
 le operazioni di join sono quelle più costose dal punto di vista computazionale.
 Per questo motivo, l'operazione di \textbf{semijoin} può essere in alcune circostanze
 un'alternativa più efficiente rispetto al join.
@@ -425,6 +450,7 @@ dell'intera relazione del costo del join intero.
 In generale, l'uso del semijoin è più conveniente se il costo del suo calcolo e
 del trasferimento del risultato è inferiore al consto del trasferimento
 dell'intera relazione e del costo del join intero.
+
 \section{Controllo della concorrenza}
 Fino a questo momento abbiamo considerato le interrogazioni più semplici. Vogliamo
 ora analizzare la gestione delle scritture sui database distribuiti. In particolare,
@@ -434,8 +460,8 @@ possiamo classificare le transazioni in due categorie:
           della concorrenza è simile a quello dei DBMS centralizzati. Dobbiamo
           distinguere tra due tipi di transazioni:
           \begin{itemize}
-              \item \textbf{Remote request}: ovvero operazioni di sola lettura
-              \item \textbf{Remote transaction}: ovvero operazioni di lettura e scrittura.
+              \item \textbf{Remote request}: ovvero transazioni di sola lettura
+              \item \textbf{Remote transaction}: ovvero transazioni di lettura e scrittura.
           \end{itemize}
     \item \textbf{Dirette a un numero arbitrario di server}: in questo caso il
           controllo della concorrenza è più complesso. In questo caso la
@@ -452,7 +478,7 @@ possiamo classificare le transazioni in due categorie:
           \end{itemize}
 \end{itemize}
 
-La distribuzione non ha conseguenze su consistenza e durabilità in quanto la
+La \textbf{distribuzione} non ha conseguenze su \textbf{consistenza} e \textbf{durabilità} in quanto la
 consistenza non dipende dalla distribuzione poiché i vincoli descrivono solo
 proprietà logiche dello schema. Mentre, la durabilità è garantita localmente da
 ogni sistema.
@@ -460,7 +486,7 @@ ogni sistema.
 È invece necessario rivedere alcuni componenti dell'architettura in merito a
 \textit{isolamento} tramite concurrency control e ad \textit{atomicità} tramite
 reliability control e recovery manager.
-\subsection{Concurrency control}
+
 L'idea alla base del controllo della concorrenza è che ogni transizione $t_i$
 possa essere suddivisa in $t_{ij}$ transazioni che saranno eseguite sul nodo $j$.
 Ogni sotto-transazione viene schedulata in modo indipendente dai server di
