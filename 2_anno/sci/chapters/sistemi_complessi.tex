@@ -21,8 +21,6 @@ Si studieranno le prorpietà dei fenomeni reali utilizzando i modelli e si mappe
 le domande sulle proprietà dei modelli, in questo modo si potrà rispondere alle
 domande analizzando le proprietà dei modelli.
 
-
-
 \section{Automi cellulari (alfabeto finito)}
 Gli automi cellulari sono delle reti di automi, gli automi, non per forza a stati
 finiti, di cui sono composte possono essere uguali (automi cellulari uniformi) o differenti (automi cellulari non
@@ -393,7 +391,7 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
     \end{itemize}
 \end{itemize}
 
-\subsection{Proprietà di suriettività}
+\subsection{Iniettività e suriettività degli automi cellulari}
 
 \begin{definizione} [\textbf{Estensione della regola locale}]
     L'\textbf{estensione della regola locale} per parole di lunghezza maggiore di 
@@ -472,6 +470,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
 \end{nota}
 
 \begin{teorema}
+    \label{th:suriettività_CA}
     Sia $\langle A,r,f\rangle$ un CA e sia $F: A^\mathbb{Z}\rightarrow A^\mathbb{Z}$
     la regola globale. Sia $G$ il grafo di De Bruijn associato all'automa cellulare.
     Sia $\mathcal{L}$ il linguaggio associato all'automa ottenuto dal grafo di De Bruijn.
@@ -543,3 +542,267 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
         \end{itemize}
     \end{proof}
 \end{teorema}
+
+\begin{teorema}
+    La suriettività è una proprietà decidibile per un CA \textbf{monodimensionale}.
+    \begin{proof}
+        Basta dimostrare la condizione \ref{cond:3} del teorema \ref{th:suriettività_CA}
+        che è decidibile. I passi per dimostrarlo sono i seguenti:
+        \begin{itemize}
+            \item Si costruisce l'automa di Fisher dall'automa di De Bruijn associato al CA
+            \item Trasformo l'automa in deterministico
+            \item Minimizzo l'automa
+            \item Controllo se il linguaggio accettato dall'automa minimizzato $\mathcal{L}$ sia 
+            uguale a $A^\ast$. Per farlo controllo che da ogni stato posso leggere 
+            tutti i caratteri di $A$.
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+\begin{nota}
+    Per controllare se $\mathcal{L} = A^\ast$ occorre costruire l'automa deterministico 
+    che risconosce $ \mathcal{L}$. Tale automa ha $\mathcal{P}(V)$ come insieme di 
+    vertici e quindi significa che la complessità dell'algoritmo decibile è maggiore
+    di $|\mathcal(P)| = 2^{|A|^{2r}}$. Con questo approccio non possiamo ridurre
+    la complessità perché è vincolata dai nodi del grafo di De Bruijn.
+\end{nota}
+
+\begin{nota}
+    La suriettività è indecidibile da dimostrare utilizzando la condizione \ref{cond:2} 
+    del teorema \ref{th:suriettività_CA} perché dobbiamo controllare $\forall u \in A^+$ (indecidibile),
+    questo significa che questa condizione è più utile per dimostrare la \textbf{non 
+    suriettività}, dal momento che ce ne basta una sola (semidecidibile). 
+\end{nota}
+
+\begin{definizione}[\textbf{configurazione $q$-finita}]
+    Sia $q\in A$, $x\in A^\mathbb{Z}$ è una \textbf{configurazione $q$-finita}
+    se $|\{i\in \mathbb{Z}| x_i\ne q\}|< \infty$ ossia se $x$ è della forma:
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{ccccccccc}
+            $x$    & $=$ & $($ & $\dots$ & $qqqqq$ & $u$     & $qqqqq$ & $\dots$ & $)$ \\
+        \end{tabular}
+    \end{table}
+    per qualsiasi $u\in A^\ast$
+\end{definizione}
+
+\begin{definizione}
+    Definiremo:
+    \begin{itemize}
+        \item $\mathcal{F}$: l'insieme delle \textbf{configurazioni $q$-finite}
+        \item $\mathcal{SP}$: l'insieme delle \textbf{configurazioni spazialmente periodiche}
+        \begin{equation*}
+            \mathcal{SP}= \{x\in A^\mathbb{Z} | \exists k \in \mathbb{N}, k>0 \text{ t.c. }\sigma^k(x)=x\}    
+        \end{equation*}
+    \end{itemize}
+\end{definizione}
+
+\begin{teorema}
+    Sia $\langle A,r,f\rangle$ un CA allora le seguenti affermazioni sono equivalentementi:
+    \begin{enumerate}
+        \item $F$ è \textbf{suriettiva}
+        \item $F_{\mathcal{SP}}$ è \textbf{suriettiva} (ovvero $F$ ristretta a $\mathcal{SP}$ è suriettiva)
+        \item $\forall x,y \in \mathcal{F}, x\ne y \implies F(x)\ne F(y)$ (ovvero $F$ iniettiva sulle \textbf{configurazioni $q$-finite})
+    \end{enumerate}
+\end{teorema}
+
+\begin{teorema}
+    Se $F$ è iniettiva allora $F$ è iniettiva sulle spazialmente periodiche quindi
+    $F$ è anche suriettiva.
+\end{teorema}
+
+\begin{teorema}
+    \label{th:iniettiva}
+    Sia $\langle A,r,f\rangle$ un CA allora le seguenti affermazioni sono equivalentementi:
+    \begin{enumerate}
+        \item $F$ è \textbf{iniettiva}
+        \item $\exists m \le |A|^{4r} \textbf{ t.c. } \forall x, y \in A^\mathcal{Z} F(x)_{[-m,m]}=F(y)_{[-m,m]} \implies x_0=y_0$
+        (caso bi-infinito)
+        \item \label{cond:th_ini_3}$\exists m \le |A|^{4r} \textbf{ t.c. } \forall u,v \in A^{2m+2r+1} f(u)= f(v) \implies u_{m+r+1} = v_{m+r+1}$
+        (caso finito)
+    \end{enumerate}
+\end{teorema}
+\begin{teorema}
+    L'iniettività è una proprietà decidibile per gli CA unidimensionali
+    
+\end{teorema}
+La proprietà \ref{cond:th_ini_3} del teorema \ref{th:iniettiva} è decidibile perché
+abbiamo anche un algoritmo per risolvere il problema (vedi figura \ref{fig:algo_iniettiva}).
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=.7\textwidth]{img/sistemi_complessi/algoritmo_iniettività.png}
+    \caption{Pseudocodice dell'algoritmo per testare la condizione \ref{cond:th_ini_3} del teorema \ref{th:iniettiva}}
+    \label{fig:algo_iniettiva}
+\end{figure}
+\begin{nota}
+    La complessità dell'algoritmo è maggiore di circa
+    \begin{equation*}
+        \frac{1}{2} \sum_{m=0}^{|A|^{4r}} |A|^{2(2m+2r+1)} = \frac{1}{2}  |A|^{4r+2}
+        \frac{1-(|A|^4)^{|A|^{4r}+1}}{1-|A|^4}
+    \end{equation*}
+\end{nota}
+
+Quindi per gli CA le seguenti proprità sono equivalenti:
+\begin{itemize}
+    \item iniettività
+    \item suriettività (esiste la regola globale inversa)
+    \item reversibilità
+\end{itemize}
+
+\begin{teorema}
+    $F$ è iniettiva $iff$ $F_{\mathcal{SP}}$ è iniettiva
+\end{teorema}
+
+\begin{teorema}
+    $F$ non è suriettiva $\iff$ $\exists$ un \textbf{diamente}, cioè se 
+    $\exists w \in A^{2r}, \exists u,v \in A^+, u\ne v$ con $|u|=|v|$ t.c. $f(wuw)=f(wvw)$
+    \begin{proof}
+        La dimostrazione dell'$\impliedby$ viene fatta costruendo $w^\infty u w^\infty$
+        e $w^\infty v w^\infty$ e controllando che $F(w^\infty u w^\infty) = F(w^\infty v w^\infty)$
+        in modo da trovare la non inettività e quindi la non suriettività.
+    \end{proof}
+\end{teorema}
+
+\begin{definizione}[\textbf{Grafo automa prodotto}]
+    Sia $G=(V,E,l)$ un grafo di De Bruijn di un CA, il \textbf{Grafo prodotto}
+    è $(V\times V,E',l')$ dove $$e'=((u',v'), (u'',v''))\in E'\land l(u',v') = l(u'',v'') = l'(e')$$
+\end{definizione}
+
+Sapendo che un cammino sul De Bruijn corrisponde all'immagine della configurazione 
+parziale o bi-infinita dell'automa, il cammino sul grafo prodotto corrisponde 
+a $2$ configurazioni dell'automa che condividono la stessa immagine. Quindi 
+formalmente un cammino bi-infinito sul grafo prodotto corrisponde ad una coppia
+$(x',x'')\in A^\mathbb{Z} \times A^\mathbb{Z} $ tale che $F(x')=F(x'')$.
+
+\begin{definizione}[\textbf{Diagonale del grafo prodotto}]
+    Dato un grafo prodotto $(V\times V,E',l')$ allora la \textbf{Diagonale del grafo prodotto}
+    $\Delta$ è definita nel seguente modo
+    $$\Delta = \{(u,u)| u \in V\}\subseteq V\times V$$
+\end{definizione}
+La diagonale corrisponde ad un isomorfismo del grafo di De Bruijn e un cammino
+bi-infinito sulla diagonale corrisponde ad un cammino bi-infinito sul grafo di De
+Bruijn (vedi figura \ref{fig:automa_prodotto}). 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=.7\textwidth]{img/sistemi_complessi/automa_prodotto.png}
+    \caption{Esempio di automa prodotto con la sua diagonale}
+    \label{fig:automa_prodotto}
+\end{figure}
+
+\begin{teorema}
+    Dato un automa CA monodimensionale allora \textbf{non è iniettivo} sse:
+    \begin{enumerate}
+        \item \label{cond:non_iniettiva_1} il suo grafo prodotto ha un ciclo che contiene un nodo fuori $\Delta$
+        \item \label{cond:non_iniettiva_2}il suo grafo prodotto ha un ciclo che contiene un nodo in $\Delta$ e
+        un nodo fuori $\Delta$
+    \end{enumerate}
+    \begin{proof}
+        Dimostriamo i singoli punti:
+        \begin{itemize}
+            \item condizione \ref{cond:non_iniettiva_1}: se CA non è iniettivo 
+            allora non è iniettivo sulle spazialmente periodiche. Quindi esisteranno
+            due configurazioni $c,e, c\ne e$ spazialmente periodiche tali che $F(c) = F(e)$,
+            quindi esisterà un camino sul grafo prodotto composto dai vertici che 
+            rappresentano $c$ ed $e$. Il precedente cammino sarà composto da un ciclo
+            contenente nodi fuori dalla diagonale dal momento che $c\ne e$ per la 
+            definizione di diagonale. Viceversa, dato un ciclo sul grafo prodotto contenente nodi 
+            fuori dalla diagonale, allo questo significa che rappresenta due 
+            configurazioni differenti aventi la stessa immagine, quindi CA non è
+            iniettivo.
+            \item condizione \ref{cond:non_iniettiva_2}: Sia $q\in A$ arbitrario.
+            Se CA non è suriettivo allora significa che non è iniettivo sulle 
+            configurazioni $q$-finite. Quindi esistono $c,e$ con $c\ne e $ configurazioni
+            $q$-finite tali che $F(c) =F(e)$. Il cammino corrispondente sul 
+            grafo prodotto sarà composto da un ciclo all'interno di $\Delta$
+            seguito da un ciclo che esce da $\Delta$ per poi ritornare in $\Delta$.
+            Questo significa che il ciclo è composto da nodi sia nella diagonale,
+            sia fuori; quindi non è iniettivo. Viceversa, dato un ciclo composto da nodi nella diagonale 
+            e fuori dalla diagonale, allora si ha un diamente, quindi CA non è suriettivo.
+            
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+Il grafo prodotto può essere ridotto rimuovendo alcune informazioni (figura \ref{fig:automa_prodotto_ridotto}):
+\begin{itemize}
+    \item tutti i nodi $v',v'' \in V\times V$ tali che $v'= (u,u'), v''=(u',u)$
+    allora rappresentano le stesse configurazioni specchiate, quindi possono essere 
+    accorpati
+    \item la diagonale può essere ridotta ad un unico nodo
+\end{itemize}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=.7\textwidth]{img/sistemi_complessi/automa_prodotto_ridotto.png}
+    \caption{Esempio di automa prodotto ridotto}
+    \label{fig:automa_prodotto_ridotto}
+\end{figure}
+
+Per scoprire se in un grafo ci sono dei cicli basta effettuare una DFS che ha una 
+complessità di $\mathcal{O}(|V|+|E|)$ e sapendo che $|V|= |V|^2$ dell'automa di 
+De Bruijn allora abbiamo un algoritmo polinomiale che ci permette di decidere 
+se il CA è suriettivo o iniettivo oppure no.
+
+\subsection{Stabilità ed instabilità degli automi cellulari}
+La notazione che verrà introdotto è valida per un qualsiasi \textbf{sistema dinamico a tempo 
+discreto} (DTDS), ovvero per ogni $(X,F)$ dove $(X,d)$ è uno spazio metrico e 
+$F:X\rightarrow X$ è una trasformazione continua. Nel nostro caso $X \equiv A^\mathbb{Z}$,
+$F$ è la regola globale e $d$ è la distanza di Tychonoff.
+
+\begin{definizione} [\textbf{Punto di stabilità (equicontinuo, Lyapunov stable)}]
+    $x\in X$ è un \textbf{punto stabile} (equicontinuo, Lyapunov stable) sse
+    $$\forall \epsilon > 0,\exists \delta > 0, \forall u\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+    
+    Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere 
+    la definizione in questo modo, $x\in X$ è un \textbf{punto stabile} sse
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z},x \ne y, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
+    Equivale a dire:
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
+    
+\end{definizione}
+Questa coincide con la definizione di continuità con l'aggiunta del controllo che 
+sia continua anche sulle successive applicazioni, quindi per i successivi passi 
+temporali.
+
+\begin{definizione} [\textbf{Punto di instabilità}]
+    $x\in X$ è un \textbf{punto instabile} sse $x$ \textbf{non è stabile}
+
+    $$\exists \epsilon > 0,\forall \delta > 0, \exists y\in X,x \ne y, d(y,x) < \delta \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \epsilon$$
+    
+    Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere 
+    la definizione in questo modo,
+    $$\exists n\in \mathbb{N} ,\forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, d(y,x) < \frac{1}{2^m} \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \frac{1}{2^n}$$
+    Equivale a dire:
+    $$\exists n\in \mathbb{N} ,\forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+    
+\end{definizione}
+
+\begin{definizione} [\textbf{Sistema stabile (stabilità globale)}]
+    $(X,F)$ è \textbf{stabile} se $\forall x \in X$, $x$ è un \textbf{punto stabile}
+\end{definizione}
+
+\begin{definizione} [\textbf{Sistema equicontinuo (equicontinuità)}]
+    $(X,F)$ è \textbf{stabile} dove la definizione di stabilità di un punto cambia
+    perché $\epsilon$ non dipende per un particolare punto $x\in X$ ovvero
+    $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+\end{definizione}
+
+\begin{nota}
+    L'equicontinuità è più stringente rispetto alla stabilità globale. Quando $X=A^\mathbb{Z}$
+    si hanno due definizioni equivalenti e possono essere riscritte come
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
+\end{nota}
+\begin{definizione} [\textbf{Sistema instabile (stabilità globale)}]
+    $(X,F)$ è \textbf{instabile} se $\forall x \in X$, $x$ è un \textbf{punto instabile}
+\end{definizione}
+
+\begin{definizione} [\textbf{Sistema sensibile alle condizioni iniziali (effetto butterfly)}]
+    $(X,F)$ è \textbf{sensibile alle condizioni iniziali} se
+    $$\exists \epsilon > 0,\forall x \in X, \forall \delta > 0, \exists y\in X,x \ne y, d(y,x) < \delta \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \epsilon$$
+    In $A^\mathbb{Z}$
+    $$\exists n\in \mathbb{N} ,\forall x \in A^\mathbb{Z}, \forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+\end{definizione} 
+\begin{nota}
+    Un sistema sensibile è un sistema instabile in cui la constante $\epsilon$
+    non dipende da $x\in X$, questa viene chiamata anche costante sensitiva e 
+    è una specifica feature del sistema.
+\end{nota}
