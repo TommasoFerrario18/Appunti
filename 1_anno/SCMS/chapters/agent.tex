@@ -235,25 +235,44 @@ Una differente classificazione degli agenti è quella Russell e Norvig, la quale
 classifica gli agenti in base alla loro architettura interna. Questa classificazione
 distingue gli agenti in:
 \begin{itemize}
-    \item \textbf{Simple reflex agents}
-          \begin{figure}[!ht]
+    \item \textbf{Simple reflex agents}: selezionano l'azione in base alla percezione
+        attuale, non mantiene lo storico delle percezioni. Sono agenti molto semplici
+        che rispondono immediatamente a stimoli immediatamente percepiti dall'ambiente.  
+          \begin{figure}[!h]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/SimpleReflexAgents.png}
               \caption{Schema di un agente}
               \label{fig:simpleReflex}
           \end{figure}
-    \item \textbf{Model-based reflex agents}
-          \begin{figure}[!ht]
+    \item \textbf{Model-based reflex agents}: mantiene uno stato interno che permette 
+          di modellare lo storico delle percezioni che riceve dall'ambiente e sceglie
+          l'azione in base al suo stato interno. Per aggiornare lo stato interno 
+          in base al cambiamento dell'ambiente ci servono 2 diverse conoscenze, ciascuna
+          modellata da due diversi modelli:
+          \begin{itemize}
+            \item \textbf{transition model}: informazioni in merito
+            al cambiamento del mondo nel tempo, queste vengono raccolte dall'analisi
+            dell'effetto delle azioni dell'agente e dall'evoluzione dell'ambiente 
+            indipendentemente dalle azioni dell'agente.
+            \item \textbf{sensor model}: informazioni in merito
+            a come si riflette il cambiamento del mondo nelle percezioni dell'agente
+          \end{itemize} 
+          L'insieme del transition e del sensor model permette all'agente di tenere
+          traccia del mondo.
+          \begin{figure}[!h]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/ModelBasedReflexAgent.png}
               \caption{Schema di un agente}
-              \label{fig:ModelReflex}>
+              \label{fig:ModelReflex}
           \end{figure}
     \item \textbf{Goal-based agents}: l'agente deve sapere quali sono le
           situazioni desiderate e quali azioni devono essere svolte per raggiungere
-          tali situazioni. Possono essere più flessibili dato che la conoscenza
-          è rappresentata in modo esplicito e può essere manipolata.
-          \begin{figure}[!ht]
+          tali situazioni. Ha sempre una rappresentazione del mondo derivante dal 
+          Model-based reflex agents, con la differenza che le decisioni prese sulla 
+          rappresentazione del mondo sono dipendenti dal Goal dell'agente.
+          Risultano più flessibili rispetto ai Model-based reflex agent, dato che 
+          possono cambiare il comportamento solo cambiando il goal.
+          \begin{figure}[!h]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/GlobalBasedAgent.png}
               \caption{Schema di un agente}
@@ -265,7 +284,7 @@ distingue gli agenti in:
           in cui si trova. Ho bisogno
           di una funzione utilità che mi rappresenti il mondo in modo da guidare
           le scelte dell'agente in base alla rappresentazione e i suoi obiettivi.
-          \begin{figure}[!ht]
+          \begin{figure}[!h]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/UtilityBasedAgent.png}
               \caption{Schema di un agente}
