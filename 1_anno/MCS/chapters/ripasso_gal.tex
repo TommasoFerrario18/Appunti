@@ -1,0 +1,285 @@
+\chapter{Ripasso Algebra Lineare}
+\begin{definizione} [\textbf{Spazio vettoriale}]
+    Un insieme $V$ si dice \textbf{spazio vettoriale} se sono definite su $V$ due
+    operazioni che godono di particolari proprietà:
+    \begin{itemize}
+        \item \textbf{Somma}: $+: V \times V \rightarrow V$
+        \item \textbf{Prodotto per uno scalare}: $\cdot : V \times \mathbb{R} \rightarrow V$
+    \end{itemize}
+\end{definizione}
+
+Le operazioni dello spazio vettoriale godono di alcune proprietà:
+\begin{itemize}
+    \item \textbf{Somma}:
+          \begin{itemize}
+              \item \textbf{Commutativa}: $\forall u,v \in V, u+v = v+u$
+                    \begin{proof}
+                        $\forall u,v \in V:$
+                        $$ u+v = \left[\begin{array}{c}
+                                    u_1 \\u_2\\ \vdots \\u_n
+                                \end{array}\right] + \left[\begin{array}{c}
+                                    v_1 \\v_2\\\vdots\\v_n
+                                \end{array}\right] = \left[\begin{array}{c}
+                                    u_1 + v_1 \\u_2 + v_2\\\vdots\\u_n+v_n
+                                \end{array}\right] = \left[\begin{array}{c}
+                                    v_1 + u_1 \\v_2 + u_2\\\vdots\\v_n+u_n
+                                \end{array}\right] = \left[\begin{array}{c}
+                                    v_1 \\v_2\\\vdots\\v_n
+                                \end{array}\right] + \left[\begin{array}{c}
+                                    u_1 \\u_2 \\\vdots\\u_n
+                                \end{array}\right] = v+ u$$
+                    \end{proof}
+              \item \textbf{Associativa}: $\forall u,v,z \in V, (u+v)+z = v+(u+z)$
+                    La dimostrazione si può fare facilmente utilizzando sempre la proprietà
+                    associativa della somma tra scalari.
+              \item \textbf{Esistenza dell'elemento neutro}: $\exists 0 \in V: 0+v = v,
+                        \forall v\in V$
+              \item $\forall u \in V, \exists w\in V \text{ unico}: u+w=0$
+          \end{itemize}
+    \item \textbf{Prodotto per uno scalare}:
+          \begin{itemize}
+              \item \textbf{Distributivo rispetto alla somma}: $\forall u,v \in
+                        V, \forall \lambda \in \mathbb{R}, \lambda(u+v) = \lambda
+                        u+\lambda v$
+              \item \textbf{Distributivo rispetto alla somma tra scalari}:
+                    $\forall u \in V, \forall \lambda,\mu\in \mathbb{R}: (\lambda +
+                        \mu)u = \lambda \cdot u + \mu \cdot u$
+              \item \textbf{Associativo rispetto al prodotto tra scalari}:
+                    $\forall u \in V, \forall \lambda,\mu\in \mathbb{R}: (\lambda \cdot
+                        \mu)u = \lambda \cdot (\mu \cdot u)$
+              \item \textbf{Esistenza dell'elemento neutro}: $\exists 1 \in
+                        \mathbb{R}:1\cdot v = v, \forall v\in V$
+          \end{itemize}
+\end{itemize}
+\begin{esempio}
+    Un esempio di spazio vettoriale è $V\in \mathbb{R}^n$
+\end{esempio}
+\begin{definizione} [\textbf{Prodotto scalare}]
+    Sia $V$ uno spazio vettoriale, definiremo il \textbf{prodotto scalare} è un'operazione
+    che a due elementi di $V$ associa un valore reale, $(\cdot, \cdot):V\times V
+        \rightarrow \mathbb{R}$.Tale operazione soddisfa le seguenti proprietà:
+    \begin{itemize}
+        \item \textbf{Simmetrica}: $\forall u,v \in V, (u,v) = (v,u)$
+        \item \textbf{Bi-lineare}: $\forall v_1,v_2,w \in V,\forall\alpha_1,
+                  \alpha_2 \in \mathbb{R}:(\alpha_1v_1+\alpha_2v_2, w) =
+                  \alpha_1(v_1, w) + \alpha_2(v_2, w)$
+        \item $\forall v \in V, v\ne 0: (v,v) \ge 0$
+    \end{itemize}
+\end{definizione}
+\begin{definizione} [\textbf{Norma di un vettore}]
+    Sia $V$ uno spazio vettoriale, definiremo la \textbf{norma di un vettore} è
+    un'operazione che a un elemento di $V$ associa un valore reale, $\|\cdot\|:
+        V \rightarrow \mathbb{R}$. Tale operazione soddisfa le seguenti proprietà:
+    \begin{itemize}
+        \item \textbf{scalabilità}: $\forall v \in V,\forall \alpha \in \mathbb{R}:
+                  \|\alpha v\| = |\alpha | \|v\|$
+        \item \textbf{disuguaglianza triangolare}: $\forall v,w \in V: \|v+w\|
+                  \le \|v\| + \|w\|$
+        \item $\forall v \in V, v\ne 0: \|v\| > 0\implies \|0\| = 0$
+    \end{itemize}
+\end{definizione}
+La definizione e le proprietà derivano dalla nota successiva
+\begin{nota} [\textbf{Norma indotta dal prodotto scalare}]
+    Sia $V$ uno spazio vettoriale in cui è definito un prodotto scalare allora è
+    possibile calcolare la norma da $(\cdot, \cdot)$
+    \begin{equation}
+        \|v\| = \sqrt{(v,v)}  \equiv \|v\|_2
+    \end{equation}
+    Tale norma viene chiamata \textbf{norma indotta dal prodotto scalare }
+\end{nota}
+\begin{nota}
+    Esistono diverse norme oltre alla $2$:
+    \begin{itemize}
+        \item $\|v\|_2 = \sqrt{\sum_{i=1}^{N}v_i^2} = \|v-0\|$
+        \item $\|v\|_1 = \sum_{i=1}^{N}|v_i|$
+        \item $\|v\|_\infty = \max_{i= 1\dots n}|v_i|$
+    \end{itemize}
+\end{nota}
+La norma euclidea ($\|\cdot\|_2$) è utile per calcolare la distanza di vettori
+perché $\|v\|_2$ calcola la distanza di $v$ da $0$, mentre $\|v-w\|_2$ calcola
+la distanza tra $v$ e $w$.
+
+Quindi dato un prodotto scalare possiamo sempre definire la norma, ma non possiamo
+dire il contrario.
+\begin{nota}
+    La norma ha una proprietà indotta dalla sua definizione e dalle sue proprietà,
+    $\forall v,w \in V$
+    \begin{equation*}
+        \|v\| -\|w\| \le \|v-w\|
+    \end{equation*}
+\end{nota}
+Possiamo definire anche le norme per le matrici $V\in \mathbb{R}^{r\times c}$:
+\begin{itemize}
+    \item $\|A\|_F = \sqrt{\sum_{i,j} |a_{i,j}|^2}$
+    \item $\|A\|_1 = \max_{i=1\dots r}{\sum_{j=1}^{c} |a_{i,j}|}$
+    \item $\|A\|_\infty = \max_{j=1\dots c}{\sum_{i=1}^{r} |a_{i,j}|}$
+\end{itemize}
+
+Altre operazioni utili per gli spazi vettoriali, generalmente per vettori e matrici, è
+la \textbf{trasposizione}.
+\begin{equation}
+    A=\left[\begin{array}{ccc}
+            a & b & c \\
+            d & e & f
+        \end{array}\right]\in \mathbb{R}^{2\times3},  A^t = \left[\begin{array}{cc}
+            a & d \\
+            b & e \\
+            c & f
+        \end{array}\right]\in \mathbb{R}^{3\times2}
+\end{equation}
+Il problema di questa operazione è che non è \textbf{chiusa} ovvero non rimane
+nello stesso spazio.
+
+In aggiunta si ha \textbf{prodotto tra matrici e vettori}. Dati $A\in \mathbb{R}^{r\times c}$
+e $v\in \mathbb{R}^{c}$ si ha:
+\begin{equation*}
+    Av = \left[\begin{array}{cccc}
+            a_{11} & a_{12} & \cdots & a_{1c} \\
+            a_{21} & a_{22} & \cdots & a_{2c} \\
+            \vdots & \vdots & \dots  & \vdots \\
+            a_{r1} & a_{r2} & \cdots & a_{rc}
+        \end{array}\right] \left[\begin{array}{c}
+            v_1 \\v_2\\\vdots\\v_c
+        \end{array}\right] = \left[\begin{array}{c}
+            a_{11}v_1+a_{12}v_2+\cdots a_{1c}v_c \\
+            a_{21}v_1+a_{22}v_2+\cdots a_{2c}v_c \\
+            \vdots                               \\
+            a_{r1}v_1+a_{r2}v_2+\cdots a_{rc}v_c \\
+        \end{array}\right]
+\end{equation*}
+Questa operazione è vincolata dal fatto che la matrice e il vettore devono
+essere compatibili, le colonne della matrice devono essere uguali alle righe del
+vettore. Inoltre abbiamo anche l'operazione di \textbf{prodotto matrice-matrice}.
+Sia $A\in \mathbb{R}^{3\times 2}, B\in \mathbb{R}^{2\times 4}$
+\begin{equation*}
+    AB = \left[\begin{array}{cc}
+            a & b \\
+            c & d \\
+            e & f
+        \end{array}\right]\left[\begin{array}{cccc}
+            g & h & i & l \\
+            m & n & o & p \\
+        \end{array}\right] = \left[\begin{array}{cccc}
+            ag+bm & ah+bn & ai+bo & al+bp \\
+            cg+dm & ch+dn & ci+do & cl+bp \\
+            eg+fm & eh+fn & ei+fo & el+fp \\
+        \end{array}\right]
+\end{equation*}
+Anche questa operazione è vincolante perché può essere effettuata solo quando la
+prima matrice ha il numero di colonne uguale al numero di righe della seconda.
+Inoltre la commutazione non sempre è fattibile perché potrebbero non essere
+compatibili e in generale \textbf{non} è commutativa. La soluzione del prodotto
+può essere conosciuta in anticipato quando tra i fattori del prodotto si hanno
+matrici particolari.
+\begin{definizione}[\textbf{Matrice sparsa}]
+    Se una matrice $A\in \mathbb{R}^{n \times m}$ ha poche entrate diverse da $0$
+    allora si dice \textbf{sparsa}.
+\end{definizione}
+
+Supponiamo di avere $A\in \mathbb{R}^{3\times 3}$ sparsa e $B\in \mathbb{R}^{3\times3}$
+\begin{equation*}
+    \left[\begin{array}{ccc}
+            1 & 0 & 0 \\
+            0 & 0 & 1 \\
+            0 & 1 & 0
+        \end{array}\right]  \left[\begin{array}{ccc}
+            a & b & c \\
+            e & f & g \\
+            h & i & l
+        \end{array}\right] = \left[\begin{array}{ccc}
+            a & b & c \\
+            h & i & l \\
+            e & f & g \\
+        \end{array}\right]
+\end{equation*}
+In questo caso si ha uno scambio della seconda riga con la terza.
+\begin{equation*}
+    \left[\begin{array}{ccc}
+            a & b & c \\
+            e & f & g \\
+            h & i & l
+        \end{array}\right] \left[\begin{array}{ccc}
+            1 & 0 & 0 \\
+            0 & 0 & 1 \\
+            0 & 1 & 0
+        \end{array}\right] = \left[\begin{array}{ccc}
+            a & c & b \\
+            e & g & f \\
+            h & l & i \\
+        \end{array}\right]
+\end{equation*}
+In questo caso abbiamo fatto lo scambio della seconda colonna con la terza.
+Quindi pre o post moltiplicare una matrice $B$ per una matrice $A$ composta da
+un solo uno per ogni riga/colonna ha l'effetto di scambiare le corrispondenti
+righe/colonne.
+\begin{definizione}[\textbf{Matrice di permutazione}]
+    Matrici $A \in \mathbb{R}^{n\times n}$ che permettono di effettuare scambi di
+    righe o colonne sono dette \textbf{matrici di permutazione}.
+\end{definizione}
+Queste sono utili per risolvere i sistemi lineari e permettono di velocizzare le
+operazioni di calcolo.
+
+Supponiamo ora di considerare il seguente esempio:
+\begin{equation*}
+    \left[\begin{array}{ccc}
+            1 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & 1
+        \end{array}\right]  \left[\begin{array}{ccc}
+            a & b & c \\
+            d & e & f \\
+            g & h & i
+        \end{array}\right] = \left[\begin{array}{ccc}
+            a    & b    & c    \\
+            2a+d & 2f+e & 2c+f \\
+            g    & h    & i    \\
+        \end{array}\right]
+\end{equation*}
+Da esso, possiamo affermare che meno coefficienti ha la matrice più è facile
+capire come sarà la matrice risultante.
+
+In aggiunta possiamo trasformare un sistema di equazioni lineari in un prodotto
+tra matrice e vettore ($Ax+b=0\equiv a_1x_1+a_2x_2+\dots a_n x_n = b$). Dove $a_i$
+è il vettore dei coefficienti della variabile $x_i$. Questa rappresentazione dei
+sistemi permette di risolverli facilmente utilizzando dei metodi specifici per le
+tipologie di matrici particolari, fondamentale sarà quindi riconoscere la tipologia
+di matrici.
+
+Altre matrici particolari sono quelle \textbf{triangolari inferiori/superiori}
+che sono utili per risolvere i sistemi lineari usando il metodo di sostituzioni.
+\begin{esempio}
+    Esempio di matrice triangolare inferiore
+    \begin{equation*}
+        \left[\begin{array}{ccc}
+                1 & 0 & 0 \\
+                2 & 1 & 0 \\
+                1 & 1 & 1
+            \end{array}\right]
+    \end{equation*}
+\end{esempio}
+\begin{esempio}
+    Esempio di matrice triangolare superiore
+    \begin{equation*}
+        \left[\begin{array}{ccc}
+                1 & 1 & 1 \\
+                2 & 1 & 0 \\
+                1 & 0 & 0 \\
+            \end{array}\right]
+    \end{equation*}
+\end{esempio}
+
+Un'altra matrice utile è quella \textbf{simmetrica}, ovvero una matrice quadrata
+tale che $a_{ij} = a_{ji}$.
+
+Un altro tipo di matrice particolare è quella dei sistemi con moltissime variabili,
+moltissime equazioni ciascuna con poche variabili, quindi si parlerà di
+\textbf{sistema lineare sparsi}, ovvero con un numero minore del $10\%$ di
+entrate con valori diversi da $0$. Sarà importante trovare un modo per salvare i
+valori delle matrici in modo efficiente.
+
+Un operazione utile per la risoluzione dei sistemi lineari è il \textbf{determinante},
+ovvero $det(A): \mathbb{R}^{n\times n} \rightarrow \mathbb{R}$. Il determinante
+è utile per scoprire la presenza di soluzioni e se sono uniche.
+\begin{equation}
+    det(A) = \sum_{j = 1}^{n}(-1)^{i+j} \, a_{ij} \, det(A_{ij})
+\end{equation}

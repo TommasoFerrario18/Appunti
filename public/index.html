@@ -12,13 +12,24 @@
     />
   </head>
   <script>
-    let corsiExtended = ["Machine Learning", "Modelli della Concorrenza", "Processo e Sviluppo Software", "Teoria della Computazione"];
-    let corsi = ["ML", "MC", "PSS", "TC"];
+    let corsiExtended = [
+      "Machine Learning",
+      "Modelli della Concorrenza",
+      "Processo e Sviluppo Software",
+      "Teoria della Computazione",
+      "Architetture Dati",
+      "Metodi per il Calcolo Scientifico",
+      "Modelli Probabilistici per le Decisioni",
+      "Data Analytics",
+      "Sistemi Complessi: Modelli e Simulazioni",
+      "Sistemi Complessi e Incerti"
+    ];
+    let corsi = ["ML", "MC", "PSS", "TC", "AD", "MCS", "MPPD", "DA", "SCMS", "sci"];
 
     let loadLinks = () => {
       return new Promise((acc, rej) => {
         let table = document.getElementById("table-body");
-        for (let i=0;i<corsi.length;i++){
+        for (let i = 0; i < corsi.length; i++) {
           let tr = document.createElement("tr");
           let th = document.createElement("th");
           th.setAttribute("scope", "row");
@@ -42,12 +53,14 @@
     };
   </script>
   <body onload="loadPage()">
-
     <div class="container mt-2">
       <div class="row">
         <div class="col">
-          <h1>Appunti del corso di laurea magistrale in informatica dell'Università degli Studi di Milano-Bicocca</h1>
-          <br>
+          <h1>
+            Appunti del corso di laurea magistrale in informatica
+            dell'Università degli Studi di Milano-Bicocca
+          </h1>
+          <br />
           <p>
             Questo repository contiene gli appunti del corso di laurea
             magistrale in informatica dell'Università degli Studi di
@@ -58,15 +71,14 @@
         </div>
       </div>
 
-    <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col">Materia</th>
             <th scope="col">PDF</th>
           </tr>
         </thead>
-        <tbody id="table-body">
-        </tbody>
+        <tbody id="table-body"></tbody>
       </table>
     </div>
 
@@ -76,8 +88,4 @@
       crossorigin="anonymous"
     ></script>
   </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 6b6db3c823cf54e144aa0ef2ca6ed0995ba24b78
