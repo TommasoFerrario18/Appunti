@@ -79,11 +79,13 @@ La semantica delle reti Bayesiane può essere presentata e compresa in base a:
     \item La rete rappresenta una \textbf{distribuzione congiunta} di probabilità.
           Questa invece risulta importante per comprendere come sia possibile
           effettuare inferenza utilizzando la probabilità congiunta.
-    \item La rete codifica un insieme di \textbf{relazioni di indipendenza condizionale}.
+    \item La rete codifica un insieme di \textbf{relazioni di indipendenza condizionale}
+          (semantica topologica).
           Questa
           risulta importante per comprendere come sia possibile costruire un
           modello di Rete Bayesiana.
-\end{itemize}
+\end{itemize}  
+
 
 La costruzione delle reti è un processo incrementale che può essere effettuato
 utilizzando le informazioni a priori del dominio se si è esperti di esso, oppure
@@ -118,7 +120,7 @@ che possono essere sfruttate per determinare la componente \textbf{topologica} d
 
 La regola della probabilità congiunta la possiamo scrivere come:
 \begin{equation*}
-    P(V_1= v_1,...,V_n = v_n) = 
+    P(V_1= v_1,...,V_n = v_n) =
 \end{equation*}
 \begin{equation*}
     =P(V_1=v_1)P(V_2=v_2|V_1=v_1)P(V_3 =v_3|V_1=v_1,V_2=v_2)\dots P(V_n=v_n|V_1=v_1,...,V_{n-1}=v_{n-1})
@@ -134,7 +136,10 @@ variabile $v_i$:
 \begin{equation}
     P(v_i|v_1,...,v_{i-1}) = P(v_i|parents(v_i))
 \end{equation}
-a patto che $parents(v_i) \subseteq \{v_1,...,v_{i-1}\}$.
+a patto che $parents(v_i) \subseteq \{v_1,...,v_{i-1}\}$. Quindi possiamo considerare
+che la probabilità di $V_i$ condizionato da tutti gli altri nodi della rete può essere
+vista come la probabilità di $V_i$ condizionato i suoi genitori. Una semplificazione
+molto utile.
 
 Una rete bayesiana rappresenta correttamente un dominio solo a condizione che ogni
 nodo risulti \textbf{condizionalmente indipendente} dai suoi non discendenti dati i suoi
@@ -185,3 +190,52 @@ Booleane avremo che la quantità di informazione necessaria per specificare una
 qualsiasi CPT è limitata superiormente da $2^k$ numeri per cui la rete completa
 richiede di specificare al più $n \cdot 2^k$ numeri. Mentre specificare l'intera
 distribuzione congiunta di probabilità richiede $2^n$ numeri.
+
+
+
+
+
+
+La semantica topologica permette di rendere indipendente una variabile da tutti i 
+suoi precedessori dati i suoi genitori. Un nodo è indipendente da tutti se conosciamo
+tutti i nodi della \textbf{Markov Blanket} (genitori, figlio e genitori dei figli). 
+
+Diremo che due nodi sono \textbf{D-separazione} dato un insieme di variabili con 
+evidenza sse ogni cammino ogni cammino non orientato da è bloccato.
+
+Un cammino è bloccato se si verificano le seguenti condizioni:
+\begin{itemize}
+    \item se esiste una variabile V tale che appartiene alle evidenze e gli archi
+    del camino sono tailtotail
+    \item se esiste una variabile V tale che appartiene alle evidenze e  gli archi 
+    che collevano V sono tail to head
+    \item se esiste una variabile V tale che la variabile e tutti i suoi figli
+    non hanno evidenza...
+\end{itemize}
+\begin{teorema}
+    pio pio
+\end{teorema}
+
+La d-separazione può essere calcolata in tempo lineare. (Ha evidenza = conosco la variabile )
+
+Per capire se due variabili sono condizionalmente indipendenti si può usare il 
+\textbf{process di moralizzazione}:
+\begin{itemize}
+    \item \textbf{disegnare grafo ancestrale}: rete conmposta delle variabili citate e tutti i 
+    predecessori
+    \item \textbf{moralizzaiamo il grafo}: 
+    \item \textbf{Disorientiamo il grafo}: 
+    \item \textbf{Eliminiamo i given e gli archi incidenti}: 
+\end{itemize}
+Se le variabili sono scollegate allora è garantita l'indipendenza e la d-separazione.
+
+Possiamo usare una distribuzione canonica che specifica dei pattern standard tra 
+i genitori e i figli e in questo modo si può ridurre il numero di parametri. Si 
+specifica quindi una relazione deterministica tra i nodi genitore e figlio, si esclude 
+l'incertezza. Le relazioni possono essere:
+\begin{itemize}
+    \item logiche
+    \item numeriche
+\end{itemize}
+
+Noisy or 

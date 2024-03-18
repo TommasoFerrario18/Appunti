@@ -44,8 +44,8 @@ jobs:
               1_anno/MCS/main.tex
               1_anno/MPPD/main.tex
               1_anno/SCMS/main.tex
-              1_anno/DA/main.tex
-              1_anno/SCI/main.tex
+              2_anno/DA/main.tex
+              2_anno/SCI/main.tex
           work_in_root_file_dir: true
       - name: Create Static Dist Directory
         run: | 
@@ -67,8 +67,8 @@ jobs:
             cp ./1_anno/MCS/main.pdf ./static/MCS/main.pdf
             cp ./1_anno/MPPD/main.pdf ./static/MPPD/main.pdf
             cp ./1_anno/SCMS/main.pdf ./static/SCMS/main.pdf
-            cp ./1_anno/DA/main.pdf ./static/DA/main.pdf
-            cp ./1_anno/SCI/main.pdf ./static/SCI/main.pdf
+            cp ./2_anno/DA/main.pdf ./static/DA/main.pdf
+            cp ./2_anno/SCI/main.pdf ./static/SCI/main.pdf
 
             cp ./public/index.html ./static/index.html
       - name: Configure Pages
