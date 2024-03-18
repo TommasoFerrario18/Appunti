@@ -76,22 +76,21 @@ variabili che non sono in relazione padre figlio ma che sono connesse.
 \section{Semantica delle reti Bayesiane}
 La semantica delle reti Bayesiane può essere presentata e compresa in base a:
 \begin{itemize}
-    \item La rete rappresenta una \textbf{distribuzione congiunta} di probabilità.
+    \item \textbf{semantica numerica}: La rete rappresenta una \textbf{distribuzione congiunta} di probabilità.
           Questa invece risulta importante per comprendere come sia possibile
           effettuare inferenza utilizzando la probabilità congiunta.
-    \item La rete codifica un insieme di \textbf{relazioni di indipendenza condizionale}
-          (semantica topologica).
-          Questa
+    \item \textbf{semantica topologica}: La rete codifica un insieme di
+          \textbf{relazioni di indipendenza condizionale}. Questa
           risulta importante per comprendere come sia possibile costruire un
           modello di Rete Bayesiana.
-\end{itemize}  
+\end{itemize}
 
 
 La costruzione delle reti è un processo incrementale che può essere effettuato
 utilizzando le informazioni a priori del dominio se si è esperti di esso, oppure
 utilizzando algoritmi di apprendimento.
 
-\subsection{Distribuzione Congiunta}
+\subsection{Semantica numerica}
 Ogni rete costituisce una descrizione completa del dominio che rappresenta, di
 conseguenza la distribuzione congiunta di probabilità di tutte le variabili
 rappresentate dalla rete può essere ottenuta direttamente dalla rete stessa.
@@ -114,7 +113,7 @@ delle opportune componenti delle CPT dei nodi della rete.
     probabilità della variabile condizionata dai suoi genitori.
 \end{nota}
 
-\subsection{Costruzione}
+\subsection{Semantica topologica}
 La formula di fattorizzazione implica relazioni di \textbf{indipendenza condizionale}
 che possono essere sfruttate per determinare la componente \textbf{topologica} della rete.
 
@@ -145,7 +144,10 @@ Una rete bayesiana rappresenta correttamente un dominio solo a condizione che og
 nodo risulti \textbf{condizionalmente indipendente} dai suoi non discendenti dati i suoi
 genitori. Pertanto, per costruire una Rete Bayesiana che abbia la corretta
 struttura del dominio da modellare è necessario scegliere, per ogni nodo, i nodi
-genitore in modo che tale proprietà risulti verificata.
+genitore in modo che tale proprietà risulti verificata. In aggiunta un nodo 
+\textbf{condizionalmente indipendente} da tutti i nodi restanti nella rete data 
+la conoscenza dello stato del suo \textbf{Markov Blanket}, ovvero l'insieme dei 
+genitori, dei figli e dei genitori dei figli.
 
 Una possibile procedura per la costruzione incrementale della componente topologica
 di una rete bayesiana è la seguente:
@@ -191,51 +193,91 @@ qualsiasi CPT è limitata superiormente da $2^k$ numeri per cui la rete completa
 richiede di specificare al più $n \cdot 2^k$ numeri. Mentre specificare l'intera
 distribuzione congiunta di probabilità richiede $2^n$ numeri.
 
+\subsection{Indipendenza condizionata}
+Abbiamo un metodo per scoprire quando due variabili sono condizionalmente 
+indipendenti.
 
+\begin{definizione}[\textbf{d-separazione}]
+    Siano $X$ e $Z$ sono \textbf{d-separati} da un insieme $E$ di variabili con 
+    evidenza sse ogni cammino non orientato da $X$ e $Z$ è \textbf{bloccato}
+\end{definizione}
+\begin{definizione}[\textbf{cammino bloccato}]
+    Un cammino è bloccato sse vale almeno una delle seguenti condizioni:
+    \begin{itemize}
+        \item se esiste una variabile $V$ tale che appartiene alle evidenze e gli archi
+              del camino sono \textbf{tail-to-tail}.
+              % TODO: inserire immagine collegamento
+        \item se esiste una variabile $V$ tale che appartiene alle evidenze e  gli archi
+              che collegano $V$ sono \textbf{tail-to-head}.
+              % TODO: inserire immagine collegamento
+        \item se esiste una variabile $V$ tale che la variabile e tutti i suoi figli
+              non appartengono ad $E$ e gli archi che collegano \textbf{head-to-head}.
+              % TODO: inserire immagine collegamento
+    \end{itemize}
+\end{definizione}
 
+La d-separazione può essere calcolata in tempo lineare. 
 
-
-
-La semantica topologica permette di rendere indipendente una variabile da tutti i 
-suoi precedessori dati i suoi genitori. Un nodo è indipendente da tutti se conosciamo
-tutti i nodi della \textbf{Markov Blanket} (genitori, figlio e genitori dei figli). 
-
-Diremo che due nodi sono \textbf{D-separazione} dato un insieme di variabili con 
-evidenza sse ogni cammino ogni cammino non orientato da è bloccato.
-
-Un cammino è bloccato se si verificano le seguenti condizioni:
-\begin{itemize}
-    \item se esiste una variabile V tale che appartiene alle evidenze e gli archi
-    del camino sono tailtotail
-    \item se esiste una variabile V tale che appartiene alle evidenze e  gli archi 
-    che collevano V sono tail to head
-    \item se esiste una variabile V tale che la variabile e tutti i suoi figli
-    non hanno evidenza...
-\end{itemize}
-\begin{teorema}
-    pio pio
+\begin{teorema} [\textbf{Verma \& Pearl}]
+    Se in una rete Bayesiana un insieme di variabili $E$ di evidenza d-separa $X$ e $Z$,
+    allora $X$ e $Z$ sono indipendenti.
 \end{teorema}
 
-La d-separazione può essere calcolata in tempo lineare. (Ha evidenza = conosco la variabile )
+\begin{definizione}[\textbf{d-connessione}]
+    Due variabili sono d-connesse sse non sono d-separate
+\end{definizione}
 
-Per capire se due variabili sono condizionalmente indipendenti si può usare il 
-\textbf{process di moralizzazione}:
+Per testare se le variabili sono condizionalmente indipendenti si può usare il 
+\textbf{processo di moralizzazione}:
 \begin{itemize}
-    \item \textbf{disegnare grafo ancestrale}: rete conmposta delle variabili citate e tutti i 
-    predecessori
-    \item \textbf{moralizzaiamo il grafo}: 
-    \item \textbf{Disorientiamo il grafo}: 
-    \item \textbf{Eliminiamo i given e gli archi incidenti}: 
+    \item \textbf{disegnare grafo ancestrale}: rete conmposta delle variabili citate e tutti i
+          loro predecessori
+    \item \textbf{moralizzaiamo il grafo}: per ogni coppia di variabili che hanno un 
+            figlio in comune traccia un arco non orientato tra loro, in caso di più
+            genitori si collegano le coppie a due a due
+    \item \textbf{Disorientiamo il grafo}: sostituzione degli archi orientati in non orientati
+    \item \textbf{Eliminiamo i given e gli archi incidenti}: eliminare i nodi 
+    facenti parte dell'evidenza e tutte le connessioni
 \end{itemize}
-Se le variabili sono scollegate allora è garantita l'indipendenza e la d-separazione.
-
-Possiamo usare una distribuzione canonica che specifica dei pattern standard tra 
-i genitori e i figli e in questo modo si può ridurre il numero di parametri. Si 
-specifica quindi una relazione deterministica tra i nodi genitore e figlio, si esclude 
-l'incertezza. Le relazioni possono essere:
+Se al termine di questo processo si ha:
 \begin{itemize}
-    \item logiche
-    \item numeriche
+    \item \textbf{variabili disconnesse}: è garantito che le variabili sono indipendenti
+    \item \textbf{variabili connesse}: non è garantito che le variabili siano indipendenti
 \end{itemize}
 
-Noisy or 
+\subsection{Distribuzioni condizionali}
+Per ridurre il numero di parametri nelle CPT possiamo utilizzare delle Distribuzioni
+canoniche per rappresentare dei pattern standard tra i parametri come per i nodi deterministici.
+
+\begin{definizione}[\textbf{Nodo deterministico}]
+    Un nodo deterministico è caratterizzato dal fatto che il valore che esso assume 
+    è completamente determinato tramite il valore assunto dai suoi genitori.
+\end{definizione}
+
+I nodi deterministici eliminano l'incertezza.
+
+Le relazioni tra genitori e figli possono essere:
+\begin{itemize}
+    \item \textbf{logiche}: or tra le variabili dei genitori.
+    \item \textbf{numeriche}: minimo valore delle variabili dei genitori. 
+\end{itemize}
+
+\subsection{Rappresentazioni efficiente delle distribuzioni continue}
+Per rappresentare efficientemente i nodi di distribuzioni continue, usando quelle
+canoniche, possiamo pensare di discretizzare defininendo un insieme finito di intervalli.
+
+Il problema è che perdiamo informazioni sul dato e le CPT spesso aumentano di dimensione.
+Una soluzione alternativa è rappresentare le variabili con delle funzioni di densità
+probabilità che permettono di descrivere in un numero finito di parametri i dati.
+EX: la normale viene descritta da media e deviazione standard.
+
+\begin{definizione}
+    Una rete che contiene nodi discreti e continui prende il nome di \textbf{Rete 
+    Bayesiana Ibrida}
+\end{definizione}
+
+Per specificare una Rete Bayesiana Ibrida dobbiamo definire due nuovi tipi di distribuzione:
+\begin{itemize}
+    \item la distribuzione condizionale di una variabile continua dati i genitori discreti o continui,
+    \item la distribuzione condizionale di una variabile discreta dati i genitori continui
+\end{itemize}
