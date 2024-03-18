@@ -40,6 +40,12 @@ jobs:
               1_anno/MC/main.tex
               1_anno/PSS/main.tex
               1_anno/TC/main.tex
+              1_anno/AD/main.tex
+              1_anno/MCS/main.tex
+              1_anno/MPPD/main.tex
+              1_anno/SCMS/main.tex
+              1_anno/DA/main.tex
+              1_anno/SCI/main.tex
           work_in_root_file_dir: true
       - name: Create Static Dist Directory
         run: | 
@@ -47,10 +53,23 @@ jobs:
             mkdir -p ./static/MC
             mkdir -p ./static/PSS
             mkdir -p ./static/TC
+            mkdir -p ./static/AD
+            mkdir -p ./static/MCS
+            mkdir -p ./static/MPPD
+            mkdir -p ./static/SCMS
+            mkdir -p ./static/DA
+            mkdir -p ./static/SCI
             cp ./1_anno/ML/main.pdf ./static/ML/main.pdf
             cp ./1_anno/MC/main.pdf ./static/MC/main.pdf
             cp ./1_anno/PSS/main.pdf ./static/PSS/main.pdf
             cp ./1_anno/TC/main.pdf ./static/TC/main.pdf
+            cp ./1_anno/AD/main.pdf ./static/AD/main.pdf
+            cp ./1_anno/MCS/main.pdf ./static/MCS/main.pdf
+            cp ./1_anno/MPPD/main.pdf ./static/MPPD/main.pdf
+            cp ./1_anno/SCMS/main.pdf ./static/SCMS/main.pdf
+            cp ./1_anno/DA/main.pdf ./static/DA/main.pdf
+            cp ./1_anno/SCI/main.pdf ./static/SCI/main.pdf
+
             cp ./public/index.html ./static/index.html
       - name: Configure Pages
         uses: actions/configure-pages@v2
