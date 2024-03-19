@@ -1,42 +1,46 @@
 \chapter{NoSQL}
-Parleremo dei modelli e successivamente delle tecnologie che li implementano.
 
-Un coglione ci paga per salvare dati legati alle cripto su db nosql. In sostanza
-si effettua una chiamata all'API che restituisce i valori in EUR e USD di bitcoin
-ed etherium. Attualmente salveremo tutto su una tabella di un DBMS relazionale.
-Per casi più complessi con risposte di query più complesse risulta essere molto
-complesso gestire il salvataggio dei risultati. soprattutto quando si hanno risposte
-molto complesse perché salvare dati in tante tabelle significa poi che l'accesso
-porta all'utilizzo di join e quindi risulta essere molto complessa la sua gestione.
+\begin{nota}
+    In quest capitolo non si vuole sostenere che i database NoSQL siano
+    migliori di quelli relazionali. I database NoSQL sono un'alternativa
+    ai database relazionali e non sempre sono la scelta migliore. Per ogni
+    applicazione è necessario valutare quale sia la scelta migliore.
+\end{nota}
 
-Posso ridurre le join duplicando i dati, il problema è che i dati che si duplicano
-devono essere costanti. In aggiunta posso ridurre le tabelle unendole 
-creando una grande tabella che può essere frammentata a livello fisico, il problema 
-è che ho tanti null.
+Fino a questo moment utilizzato database relazionali per gestire le
+nostre applicazioni. Tuttavia abbiamo, i database relazionali non sono l'unica
+opzione disponibile. In questo capitolo, esploreremo un'alternativa ai
+database relazionali: i database NoSQL.
 
-Nel relazionale ci sono tanti limiti:
-\begin{itemize}
-    \item salvataggio di dati poco omogenei
-    \item il codice viene scritto OOP
-    \item il db è in tabelle
-    \item si dovrà utilizzare ORM per mappare OOP in db
-\end{itemize}
+I database NoSQL sono nati con lo scopo di risolvere alcuni problemi di quelli
+relazionali come la scalabilità e la flessibilità. Inoltre, le assunzioni che
+si trovano dietro i database relazionali non sono sempre adatte per tutti i
+casi d'uso.
 
-Si aggiunge molta complessità per salvare una risposta JSON.
+\begin{esempio}
+    Un classico esempio di utilizzo di database NoSQL è il salvataggio del risultato
+    di una chiamata API complessa in realtime.
+    
+    Se dovessimo usa un DBMS relazionale avremo che i dati verranno frammentati 
+    in più tabelle, comportando un accesso meno efficiente per via dei join che 
+    si dovranno effettuare. In aggiunta, l'API col tempo potrebbe modificare i
+    suoi attributi, quindi risulta complesso definire un schema fisso per ogni tabella,
+    inoltre, i tipi dei dati potrebbero variare e cambiare i tipi di un attributo
+    in una tabella già compilata è impossibile.
 
-Un altro caso d'uso è il social network in cui si vuole salvare la relazione di 
-amicizia tra profili, il problema è che se si avessero 1M di utenti, ciascuno con 
-100 amici, allora la tabella amicizia diventa 100M di record. Troppa complessità
-soprattutto per una tabella che verrà usata spesso con delle join.
+    Quindi per questo caso d'uso risulta troppo difficile e macchinoso utilizzare 
+    un DB relazionale.
+\end{esempio}
 
 Il DB relazionali non sono in grado di modellare efficientemente i contesti applicativi
 con volumi molto significativi di dati.
+
 
 I vantaggi dei relazionali:
 \begin{itemize}
     \item SQL è semplice.
     \item molto rigido
-    \item vincoli nel DB allora le app possono non fare i controlli
+    \item sono presenti vincoli nel DB, quindi le app possono evitare di effettuare i controlli
     \item ipotesi di mondo chiuso: tutto quello che serve è nel DB, se non lo so possono
     specificare null
     \item tecnologia stabile e funzionante
@@ -49,46 +53,101 @@ Gli svantaggi dei relazionali:
     \item assunzione di chiusura del mondo: troppo pesante
     \item minimizzazione dei valori questo implica molte join
     \item un attributo ha un solo valore
-    \item non è compatibile con i linguaggi di programmazione
+    \item non è compatibile con i linguaggi di programmazione infatti si utilizzano
+    middleware come ORM per mappare i linguaggi OOP sul DB relazionale
     \item non supporta i cicli nei dati
     \item difficile modificare le tabelle
-    \item non è scalabile
+    \item non è facilmente scalabile
 \end{itemize}
 
-I DB NoSQL non esiste lo schema, non si effettua più la progettazione dello schema.
-I dati rappresentano lo schema. Questo porta flessibilità nei dati e nel salvataggio,
-il problema è che non si conosce cosa c'è dentro.
+\section{Introduzione}
+Con il termine NoSQL si intende un insieme di tecnologie che si differenziano
+dai database relazionali per il fatto che non utilizzano il modello relazionale
+per la gestione dei dati.
 
-Si ha un'assunzione di mondo aperto, inserisco solo dati che conosco.
+Partiamo con il dire che il termine NoSQL significa \textit{Not Only SQL}.
 
-Si hanno proprietà BASIC al contrario di ACID.
+Una caratteristica comune dei database NoSQL è che sono \textbf{schema-free} o
+\textbf{schema-less}. Questo significa che non è necessario definire uno schema
+prima di poter inserire i dati. L'inserimento dei dati implica per quel dato lo
+schema associato, il successivo inserimento di un dato può avere uno schema diverso.
 
-Più è semplice il modello allora più è facile scalarlo. Il modello relazione 
-è a metà tra la complessità delle colonne e i documenti.
+Oltre a ciò, per questi database vale il teorema \textbf{CAP}, che afferma che è
+impossibile per un sistema distribuito garantire contemporaneamente le seguenti
+tre proprietà:
+\begin{itemize}
+      \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati allo stesso
+            tempo.
+      \item \textbf{Availability}: ogni richiesta riceve una risposta, anche in
+            presenza di guasti.
+      \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
+            se alcune parti del sistema non sono disponibili.
+\end{itemize}
 
-Questi modelli devono risolvere il problema di mettere insieme i dati. EX: relazionale 
-usa i join, mentre per i documenti abbiamo un unico documento.
+Mentre nei database relazionali avevamo le transazioni ACID, nei database NoSQL
+abbiamo le transazioni BASE, che stanno per:
+\begin{itemize}
+      \item \textbf{Basically Available}: il sistema è sempre disponibile.
+      \item \textbf{Soft state}: lo stato del sistema può cambiare anche senza
+            input.
+      \item \textbf{Eventual consistency}: il sistema diventerà consistente in un
+            certo momento.
+\end{itemize}
 
-Si è passati dal progettare le architetture in modo da essere più specifiche 
-per l'applicazione, il contrario di come si faceva una volta: progettazione generalista.
+A differenza dei DB relazionali, i NoSQL hanno l'assunzione di \textbf{mondo aperto}:
+inserisco solo quello che conosco. In aggiunta, si è passati dal progettare le 
+architetture in modo da essere più specifiche per l'applicazione, il contrario 
+di come si faceva una volta: progettazione generalista.
 
+\section{Tipi di database NoSQL}
+In questo corso vedremo i seguenti tipi di database NoSQL:
+\begin{itemize}
+      \item \textbf{Document-based}: i dati sono memorizzati in documenti, che
+            possono essere in formato JSON, XML, BSON, YAML, etc.
+      \item \textbf{Key-value}: i dati sono memorizzati in coppie chiave-valore.
+      \item \textbf{Wide-column}: i dati sono memorizzati in colonne, simile ai
+            database relazionali, ogni gruppo di colonne viene indicizzato da un
+            indice.
+      \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
+\end{itemize}
 
+\subsection{Key value}
+I database key-value sono i più semplici tra i database NoSQL. In questi
+database, i dati sono memorizzati come tabelle di hash dove la chiave punta a un
+particolare valore. Si utilizzano le tabelle di hash per massimizzare le prestazioni
+di lettura e scrittura. Essendo semplice si può mantenere tutto in memory
 
-\section{Key value}
-Si salva solo chiave-valore. Molto efficiente, la chiave viene utilizza con delle 
-funzioni di hash.
+\begin{esempio}
+    Gestione del carrello di Amazon, utilizzando come chiave l'id della sessione
+    e come valore gli articoli del carrello
+\end{esempio}
 
-Modello molto semplice, i valori non sono accessibili (blob). Ad ogni valore si 
-può associare il tipo al valore. Usato per tenere traccia del carrello utilizzando 
-la chiave della sessione, essendo semplice si può mantenere tutto in memory.
+\subsection{Wide column}
+I database wide-column sono simili ai database relazionali, ma invece di
+memorizzare i dati in righe, i dati sono memorizzati in colonne. Questo permette
+di avere una maggiore flessibilità rispetto ai database relazionali. La chiave 
+punta a un insieme di colonne che può essere diverso per ogni riga.
 
-\section{Wide-column}
-La chiave porta a colonne multiple senza schema fisso. Ogni riga può essere 
-diversa dalle altre
+\subsection{Document based}
+I database document-based memorizzano i dati in documenti. I documenti sono 
+indirizzati nel database tramite una chiave unica. La ricerca dei dati è
+effettuata nei documenti stessi. Un documento può indicizzare alla chiave di un 
+altro documento.
 
-\section{Document based}
-Si indicizzano dei documenti nel db tramite una chiave unica, per ogni documento
-si può avere una chiave che indicizza ad un altro documento.
-\section{Graph}
-Potente ma semplice.
+\subsection{Graph based}
+I database graph-based memorizzano i dati in nodi e archi. Questi database sono
+utili per memorizzare dati che hanno relazioni complesse. I nodi rappresentano
+le entità e gli archi rappresentano le relazioni tra le entità.
 
+\section{Confronto}
+I database NoSQL sono una buona alternativa ai database relazionali, ma non
+sono adatti per tutti i casi d'uso. I database relazionali sono adatti per
+applicazioni che richiedono transazioni ACID e che hanno bisogno di una
+struttura ben definita. I database NoSQL sono adatti per applicazioni che
+richiedono scalabilità e flessibilità.
+
+Una differenza fondamentale rispetto al modello relazionale che mette tutti i 
+dati allo stesso livello di importanza, i modelli NoSQL mettono un concetto ad 
+un livello di importanza maggiore.
+
+% TODO: inserisci l'immagine di confronto su complessità e scalabilità.
