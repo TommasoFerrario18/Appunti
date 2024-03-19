@@ -1,10 +1,10 @@
 \chapter{Introduzione}
-In questo corso si analizzeranno modelli probabilistici di machine learning.
-I modelli probabilistici permettono di quantificare l'incertezza delle informazioni
-e successivamente prendere delle decisioni. Questi passi sono fondamentali perché
-siamo costantemente circondati da tantissimi dati (evidenze) che per loro natura sono incerti,
-quindi dobbiamo avere un modo per gestire l'incertezza con l'obiettivo di prendere 
-delle decisioni sensate.
+In questo corso si analizzeranno modelli probabilistici. Questi modelli permettono
+di quantificare l'incertezza delle informazioni e successivamente prendere delle
+decisioni. Questi passi sono fondamentali perché siamo costantemente circondati
+da tantissimi dati (evidenze) che per loro natura sono incerti, quindi dobbiamo
+avere un modo per gestire l'incertezza con l'obiettivo di prendere delle
+decisioni sensate.
 
 Quando devo prendere delle decisioni sui dati che analizzo, posso avere diversi
 problemi:
@@ -13,15 +13,14 @@ problemi:
     \item Evidenze inconsistenti
     \item Diverse fonti di incertezza
 \end{itemize}
-
 I \textbf{modelli probabilistici} rappresentano l'incertezza tramite le dipendenze
 tra le variabili (struttura del modello) e le probabilità (parametri del modello).
 Rappresentando l'incertezza, si riesce ad automatizzare la parte di previsione
 di conseguenza risultano:
 \begin{itemize}
-    \item scalabili
-    \item robusti
-    \item adattivi
+    \item Scalabili
+    \item Robusti
+    \item Adattivi
 \end{itemize}
 
 Per ora sono stati visti solo modelli \textbf{discriminativi}, al contrario i
@@ -38,11 +37,10 @@ La fase di inferenza si classifica in due tipi:
     \item \textbf{Diagnostica}: dalla classe si ricava l'evidenza.
     \item \textbf{Prognostica}: dall'evidenza si ricava la classe.
 \end{itemize}
-
 \begin{esempio}
     Definizione di un sistema di Ranking per gli scacchi basato sulla statistica.
     L'idea si basa sul fatto che non è possibile la misura diretta, ogni risultato
-    della partita dipende dalle persone. Quindi al termine di ogni partita bisogna 
+    della partita dipende dalle persone. Quindi al termine di ogni partita bisogna
     aggiornare la posizione in base al risultato della partita e chi ha giocato.
 
     Si esprime l'assunzione che la variabile che modella la mossa ha una distribuzione
@@ -57,14 +55,12 @@ La fase di inferenza si classifica in due tipi:
 
     L'inferenza sarà diagnostica (dall'esito all'inizio).
 \end{esempio}
-
 \begin{esempio}
     Supponiamo di chiedere un finanziamento di $10000$ per un auto con scadenza
     a $1$ anno. Il finanziamento può essere o al tasso fisso o al tasso variabile.
     I modelli probabilistici permettono di identificare il miglior tasso pur non
     sapendo come cambieranno.
 \end{esempio}
-
 In generale i sistemi che modellano anche l'incertezza dovrebbero funzionare meglio
 rispetto a quelli che non la gestiscono. Per modellare l'incertezza, si utilizzerà
 la teoria della probabilità.
