@@ -45,7 +45,7 @@ jobs:
               1_anno/MPPD/main.tex
               1_anno/SCMS/main.tex
               2_anno/DA/main.tex
-              2_anno/SCI/main.tex
+              2_anno/sci/main.tex
           work_in_root_file_dir: true
       - name: Create Static Dist Directory
         run: | 
@@ -58,7 +58,7 @@ jobs:
             mkdir -p ./static/MPPD
             mkdir -p ./static/SCMS
             mkdir -p ./static/DA
-            mkdir -p ./static/SCI
+            mkdir -p ./static/sci
             cp ./1_anno/ML/main.pdf ./static/ML/main.pdf
             cp ./1_anno/MC/main.pdf ./static/MC/main.pdf
             cp ./1_anno/PSS/main.pdf ./static/PSS/main.pdf
@@ -68,7 +68,7 @@ jobs:
             cp ./1_anno/MPPD/main.pdf ./static/MPPD/main.pdf
             cp ./1_anno/SCMS/main.pdf ./static/SCMS/main.pdf
             cp ./2_anno/DA/main.pdf ./static/DA/main.pdf
-            cp ./2_anno/SCI/main.pdf ./static/SCI/main.pdf
+            cp ./2_anno/sci/main.pdf ./static/sci/main.pdf
 
             cp ./public/index.html ./static/index.html
       - name: Configure Pages
