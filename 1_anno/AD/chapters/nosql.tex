@@ -1,0 +1,94 @@
+\chapter{NoSQL}
+Parleremo dei modelli e successivamente delle tecnologie che li implementano.
+
+Un coglione ci paga per salvare dati legati alle cripto su db nosql. In sostanza
+si effettua una chiamata all'API che restituisce i valori in EUR e USD di bitcoin
+ed etherium. Attualmente salveremo tutto su una tabella di un DBMS relazionale.
+Per casi più complessi con risposte di query più complesse risulta essere molto
+complesso gestire il salvataggio dei risultati. soprattutto quando si hanno risposte
+molto complesse perché salvare dati in tante tabelle significa poi che l'accesso
+porta all'utilizzo di join e quindi risulta essere molto complessa la sua gestione.
+
+Posso ridurre le join duplicando i dati, il problema è che i dati che si duplicano
+devono essere costanti. In aggiunta posso ridurre le tabelle unendole 
+creando una grande tabella che può essere frammentata a livello fisico, il problema 
+è che ho tanti null.
+
+Nel relazionale ci sono tanti limiti:
+\begin{itemize}
+    \item salvataggio di dati poco omogenei
+    \item il codice viene scritto OOP
+    \item il db è in tabelle
+    \item si dovrà utilizzare ORM per mappare OOP in db
+\end{itemize}
+
+Si aggiunge molta complessità per salvare una risposta JSON.
+
+Un altro caso d'uso è il social network in cui si vuole salvare la relazione di 
+amicizia tra profili, il problema è che se si avessero 1M di utenti, ciascuno con 
+100 amici, allora la tabella amicizia diventa 100M di record. Troppa complessità
+soprattutto per una tabella che verrà usata spesso con delle join.
+
+Il DB relazionali non sono in grado di modellare efficientemente i contesti applicativi
+con volumi molto significativi di dati.
+
+I vantaggi dei relazionali:
+\begin{itemize}
+    \item SQL è semplice.
+    \item molto rigido
+    \item vincoli nel DB allora le app possono non fare i controlli
+    \item ipotesi di mondo chiuso: tutto quello che serve è nel DB, se non lo so possono
+    specificare null
+    \item tecnologia stabile e funzionante
+    \item proprietà ACID
+\end{itemize}
+Gli svantaggi dei relazionali:
+\begin{itemize}
+    \item cambiare un tipo di un attributo della tabella quando ci sono i dati 
+    è molto complicato.
+    \item assunzione di chiusura del mondo: troppo pesante
+    \item minimizzazione dei valori questo implica molte join
+    \item un attributo ha un solo valore
+    \item non è compatibile con i linguaggi di programmazione
+    \item non supporta i cicli nei dati
+    \item difficile modificare le tabelle
+    \item non è scalabile
+\end{itemize}
+
+I DB NoSQL non esiste lo schema, non si effettua più la progettazione dello schema.
+I dati rappresentano lo schema. Questo porta flessibilità nei dati e nel salvataggio,
+il problema è che non si conosce cosa c'è dentro.
+
+Si ha un'assunzione di mondo aperto, inserisco solo dati che conosco.
+
+Si hanno proprietà BASIC al contrario di ACID.
+
+Più è semplice il modello allora più è facile scalarlo. Il modello relazione 
+è a metà tra la complessità delle colonne e i documenti.
+
+Questi modelli devono risolvere il problema di mettere insieme i dati. EX: relazionale 
+usa i join, mentre per i documenti abbiamo un unico documento.
+
+Si è passati dal progettare le architetture in modo da essere più specifiche 
+per l'applicazione, il contrario di come si faceva una volta: progettazione generalista.
+
+
+
+\section{Key value}
+Si salva solo chiave-valore. Molto efficiente, la chiave viene utilizza con delle 
+funzioni di hash.
+
+Modello molto semplice, i valori non sono accessibili (blob). Ad ogni valore si 
+può associare il tipo al valore. Usato per tenere traccia del carrello utilizzando 
+la chiave della sessione, essendo semplice si può mantenere tutto in memory.
+
+\section{Wide-column}
+La chiave porta a colonne multiple senza schema fisso. Ogni riga può essere 
+diversa dalle altre
+
+\section{Document based}
+Si indicizzano dei documenti nel db tramite una chiave unica, per ogni documento
+si può avere una chiave che indicizza ad un altro documento.
+\section{Graph}
+Potente ma semplice.
+
