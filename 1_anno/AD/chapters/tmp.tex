@@ -1,71 +1,88 @@
-% Lezione 13-03-2024
-\section{Controllo della concorrenza}
-Nei sistemi centralizzati la gestione delle letture e delle scritture avviene
-attraverso una fase di two phase locking, in cui si acquisiscono i lock in
-maniera sequenziale e si rilasciano in maniera sequenziale.
+\chapter{NoSQL}
+\begin{nota}
+      In quest capitolo non si vuole sostenere che i database NoSQL siano
+      migliori di quelli relazionali. I database NoSQL sono un'alternativa
+      ai database relazionali e non sempre sono la scelta migliore. Per ogni
+      applicazione è necessario valutare quale sia la scelta migliore.
+\end{nota}
+Fino a questo momento abbiamo utilizzato database relazionali per gestire le
+nostre applicazioni. Tuttavia, i database relazionali non sono l'unica
+opzione disponibile. In questo capitolo, esploreremo un'alternativa ai
+database relazionali: i database NoSQL.
 
-Le transazioni non è detto che lavorano sullo stesso nodo. Ogni transazione 
-viene schedulata in modo indipendente dai server di ciascun nodo.
+I database NoSQL sono nati con lo scopo di risolvere alcuni problemi di quelli
+relazionali come la scalabilità e la flessibilità. Inoltre, le assunzioni che
+si trovano dietro i database relazionali non sono sempre adatte per tutti i
+casi d'uso.
+\section{Introduzione}
+Con il termine NoSQL si intende un insieme di tecnologie che si differenziano
+dai database relazionali per il fatto che non utilizzano il modello relazionale
+per la gestione dei dati.
 
-Potrebbe generarsi una situazione di deadlock distribuito, questo perché il 2PL
-viene eseguito sui singoli nodi localmente e non c'è un coordinamento globale.
-Non posso chiedere lock su macchine diverse. Non posso usare l'idea di cancellare 
-le transazioni che aspettano troppo tempo come nei sistemi centralizzati, perché
-non c'è un coordinamento globale.
+Partiamo con il dire che il termine NoSQL significa \textit{Not Only SQL}.
 
-Quando ho le repliche ho dei problemi in fase di scrittura, perché devo aggiornare 
-tutte le versioni allo stesso stato. Una soluzione per evitare questo problema
-è quella di utilizzare il protocollo \textbf{ROWA} (Read One Write All), in cui
-si scrive su tutte le repliche e si legge da una sola. Solo quando tutte le 
-repliche hanno scritto si può considerare la transazione completata.
+Una caratteristica comune dei database NoSQL è che sono \textbf{schema-free} o
+\textbf{schema-less}. Questo significa che non è necessario definire uno schema
+prima di poter inserire i dati. L'inserimento dei dati implica per quel dato lo
+schema associato, il successivo inserimento di un dato può avere uno schema diverso.
 
-Si paga a livello di performance, bisogna scegliere in base al contesto.
-
-Posso estendere il protocollo 2PL a livello distribuito inserendo un
-coordinatore globale, che si occupa di gestire i lock a livello globale. 
-Si torna in una situazione simile a quella centralizzata, ma con problemi in 
-quanto il coordinatore può diventare un collo di bottiglia e un single point of
-failure.
-
-Una possibile soluzione è quella di utilizzare un lock manager secondario, ma 
-si hanno problemi di sincronizzazione se cade il primo devo ridirigere tutte le
-richieste al secondo.
-
-Una diversa strategia consiste nell'avere una tabella di lock centralizzata dove 
-si tiene traccia di tutti i lock acquisiti. I lock manager locali si occupano
-di gestire i singoli nodi. Il vantaggio è dovuto al fatto che non si ha un unico
-controllo globale.
-
-La gestione centralizzata dei deadlock può essere fatta costruendo un grafo di
-dipendenza. Se in questo grafo è presente un ciclo il sistema potrebbe essere in
-deadlock. 
-
-Si hanno due modalità di attesa:
+% Presa da internet la definizione
+Oltre a ciò, per questi database vale il teorema CAP, che afferma che è
+impossibile per un sistema distribuito garantire contemporaneamente le seguenti
+tre proprietà:
 \begin{itemize}
-    \item Attesa perché un nodo esterno ha richiesto la risorsa e sta eseuendo delle operazioni su essa
-    \item Si attende il rilascio della risorsa
+      \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati allo stesso
+            tempo.
+      \item \textbf{Availability}: ogni richiesta riceve una risposta, anche in
+            presenza di guasti.
+      \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
+            se alcune parti del sistema non sono disponibili.
 \end{itemize}
 
-Una soluzione consiste nel far comunicare i nodi tra di loro. In particolare, si assegna un ordinamento 
-ai nodi, ogni nodo esegue un analisi locale e partendo dal più basso si scambiano le informazioni 
-in modo che il nodo successivo possa riconoscere il deadlock e rilasciare la risorsa.
-Interagisce solamente con le risorse che sono locali ad esso.
+Mentre nei database relazionali avevamo le transazioni ACID, nei database NoSQL
+abbiamo le transazioni BASE, che stanno per:
+\begin{itemize}
+      \item \textbf{Basically Available}: il sistema è sempre disponibile.
+      \item \textbf{Soft state}: lo stato del sistema può cambiare anche senza
+            input.
+      \item \textbf{Eventual consistency}: il sistema diventerà consistente in un
+            certo momento.
+\end{itemize}
+\section{Tipi di database NoSQL}
+In questo corso vedremo i seguenti tipi di database NoSQL:
+\begin{itemize}
+      \item \textbf{Document-based}: i dati sono memorizzati in documenti, che
+            possono essere in formato JSON, XML, BSON, YAML, etc.
+      \item \textbf{Key-value}: i dati sono memorizzati in coppie chiave-valore.
+      \item \textbf{Wide-column}: i dati sono memorizzati in colonne, simile ai
+            database relazionali.
+      \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
+\end{itemize}
+\subsection{Key value}
+I database key-value sono i più semplici tra i database NoSQL. In questi
+database, i dati sono memorizzati come tabelle di hash dove la chiave punta a un
+particolare valore. Si utilizzano le tabelle di hash per massimizzare le prestazioni
+di lettura e scrittura.
+\subsection{Wide column}
+I database wide-column sono simili ai database relazionali, ma invece di
+memorizzare i dati in righe, i dati sono memorizzati in colonne. Questo permette
+di avere una maggiore flessibilità rispetto ai database relazionali. La chiave 
+punta a un insieme di colonne che può essere diverso per ogni riga.
+\subsection{Document based}
+I database document-based memorizzano i dati in documenti. I documenti sono 
+indirizzati nel database tramite una chiave unica. La ricerca dei dati è
+effettuata nei documenti stessi.
+\subsection{Graph based}
+I database graph-based memorizzano i dati in nodi e archi. Questi database sono
+utili per memorizzare dati che hanno relazioni complesse. I nodi rappresentano
+le entità e gli archi rappresentano le relazioni tra le entità.
+\section{Confronto}
+I database NoSQL sono una buona alternativa ai database relazionali, ma non
+sono adatti per tutti i casi d'uso. I database relazionali sono adatti per
+applicazioni che richiedono transazioni ACID e che hanno bisogno di una
+struttura ben definita. I database NoSQL sono adatti per applicazioni che
+richiedono scalabilità e flessibilità.
 
-Ogni singolo nodo non ha la visibilità globale del sistema, ma solo locale.
-\section{Atomicità}
-In un sistema distribuito la cosa più problematica è la perdita di informazioni 
-nello scambio di messaggi.
-
-Soluzioni centralizzata con un transaction manager
-
-Il transaction manager chiede a tutti se fare commit o rollback, se tutti dicono
-commit allora si fa commit, altrimenti rollback.
-
-Prima di fare qualunque operazione scrivo sul file di log eseguo l'operazione e 
-poi scrivo nuovamente sul file di log.
-
-Gestione dei timeout per evitare che un nodo si blocchi. Si ha un tempo entro il 
-quale si accettano risposte se qualcuno non risponde si fa l'abort della transazione.
-su tutti i nodi. Si introduce un secondo timeout per aspettare l'attesa della 
-conferma della corretta esecuzione dei vari nodi.
-
+Una differenza fondamentale rispetto al modello relazionale che mette tutti i 
+dati allo stesso livello di importanza, i modelli NoSQL mettono un concetto ad 
+un livello di importanza maggiore.
