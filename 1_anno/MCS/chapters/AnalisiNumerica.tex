@@ -163,10 +163,10 @@ risolvere sistemi composti da una matrice quadrata triangolare superiore.
         \vdots                                           \\
         u_{nn}x_n = b_n                                  \\
     \end{cases} \iff \left[\begin{array}{cccc}
-            u_{11} & u_{12} & \dots & u_{1n} \\
-            0      & u_{22} & \dots & u_{2n} \\
-            \vdots & \ddots &       & \vdots \\
-            0      & \dots  &       & u_{nn}
+            u_{11} & u_{12} & \dots  & u_{1n} \\
+            0      & u_{22} & \dots  & u_{2n} \\
+            \vdots & \ddots & \ddots & \vdots \\
+            0      & \dots  & 0      & u_{nn}
         \end{array} \right] \cdot x = \left[\begin{array}{c}
             b_1    \\
             b_2    \\
@@ -220,19 +220,107 @@ sistema.
     centrale. Lo stesso ragionamento si può applicare anche per matrici diagonali
     rispetto alla antidiagonale.
 \end{nota}
-\subsection{Trasformazioni di Gauss}
+\begin{nota}
+    Ricorda che quando si effettua un permutazione delle righe il sistema rimane
+    invariato, al contrario se effettuassi una permutazione delle colonne allora 
+    sto cambiando le incognite, perciò dovrei cambiare anche il vettore delle incognite
+    se io volessi mantenere lo stesso sistema.
+\end{nota}
+\subsection{Trasformazioni di Gau$\Beta$}
+Per risolvere matrici di questo tipo non possiamo più pensare all'algoritmo precedente.
+\begin{equation}
+    \begin{cases}
+        a_{11}x_1 + a_{12} x_2 + \dots + a_{1n} x_n= b_1 \\
+        a_{21}x_1 + a_{22} x_2 + \dots + a_{2n} x_n= b_2 \\
+        \vdots                                           \\
+        a_{n1}x_1 + a_{n2} x_2 + \dots + a_{nn} x_n= b_n \\
+    \end{cases} 
+\end{equation}
+
 Per matrici generiche i metodi variano, si può pensare di trasformare la matrice
 in una triangolare superiore equivalente, utilizzando le trasformazioni di Gauss:
 \begin{itemize}
     \item \textbf{Scambiare le righe}
-    \item \textbf{Sostituire una riga con una combinazione lineare di se stessa
-              con un'altra}
+    \item \textbf{Riduzione}: Sostituire una riga con una combinazione lineare di se stessa
+              con un'altra
 \end{itemize}
-\begin{equation}
-    \begin{cases}
-        a_{11}x_1 + a_{12} x_2 + \dots + a_{1n} x_n= b_1 \\
-        a_{21}x_1 + a_{22} x_2 + \dots + a_{2n} x_n= b_1 \\
-        \vdots                                           \\
-        a_{n1}x_1 + a_{n2} x_2 + \dots + a_{nn} x_n= b_1 \\
-    \end{cases}
-\end{equation}
+Successivamente si eseguerà sul sistema equivalente il metodo di risoluzione per 
+sostituzione all'indietro.
+
+Per la riduzione della matrice del sistema ad una triangolare superiore applichiamo 
+sempre le trasformazioni in modo da azzerare i coefficienti al di sotto della 
+diagonale. L'applicazioni delle trasformazioni deve eessere effettuata sulle righe 
+della \textbf{augmented matrix form} che corrisponde alla matrice del sistema con
+l'aggiunta del vettore dei termini noti a destra dei coefficienti delle incognite.
+
+\begin{nota}
+    Sotto l'ipotesi di sistema risolubile (determinante non nullo) allora il metodo 
+    di Gau$\Beta$ convergerà ad una matrice triangolare superiore. Quindi non rischio
+    di sostituire una riga con un coefficiente moltiplicatore di un'altra riga 
+    avente denominatore nullo. Quindi quando abbiamo una riga che ha il coefficiente 
+    sulla diagonale pari a $0$ allora siamo sicuri che troveremo un'altra riga 
+    con un coefficiente non nullo.
+\end{nota}
+
+Calcoliamo la complessità, il peggiore dei casi è quando effettuiamo la prima riduzione.
+Nella prima riduzione dobbiamo calcolare 
+$$R_i = R_i - \frac{a_{11}\cdot a_{a_i1}}{a_{11}} R_1$$
+Queste operazioni sono $n+1$ differenze, $n+1$ prodotti e  $1$ divisione. Quindi 
+per una riga sono $1+n+1+n+1=2n+3=\mathcal{O}(n)$, questo deve essere ripetuto per $n-1$
+volte per azzerare la prima colonna, quindi $\mathcal{O}(n^2)$. Dal momento che dobbiamo 
+ridurre un totale di $n-1$ colonne quindi si ha $\mathcal{O}(n^2\cdot n) = \mathcal{O}(n^3)$.
+Attualmente non stiamo risolvendo il sistema, bensì lo stiamo solo trasformando, 
+per anche risolverlo impiegheremo  $\mathcal{O}(n^3+ n^2) =\mathcal{O}(n^3)$.
+
+La scelta su da quale equazione partire porta ad avere cambiamenti sugli errori 
+ottenuti dal calcolo della soluzione dovuta all'aritmetica floating point. Quindi 
+l'obiettivo sarà di ridurre al minimo l'errore, sapendo che l'operazione problematica 
+è la somma/differenza sopprattutto quando effettuiamo il calcolo $x-x$. Quindi 
+possiamo mitigare questi problemi utilizzando il \textbf{pivoting}, ovvere scegliere 
+come pivot quello in valore assoluto maggiore presente sulla colonna da ridurre.  
+Si sceglie il maggiore perché supponendo di essere in questo esempio:
+$$a_{21} - \frac{a_{21}}{a_11} \ a_{22}-\frac{a_{21}}{a_11}$$
+Sapendo che $a_{21}=0$ allora sostituisco direttamente con $0$ senza effettuare 
+la sottrazione (non compiendo errori) e se si sceglie come pivot il massimo allora 
+$\frac{a_{21}}{a_11}$ sarà piccolo quindi si compie un errore minore nel calcolo 
+di $a_{22}-\frac{a_{21}}{a_11}$. Si può ottimizzare ancora meglio effettuando il 
+\textbf{pivoting totale}. 
+% TODO: aggiungi la tabella del confronto degli errori utilizzando diversi metodi di pivoting 
+
+Utilizzando il metodo di Gau$\Beta$ ha un problema, quando dobbiamo risolvere i 
+seguenti sistemi
+$$Ax= b_1 \ \ Ax=b_2 \ \ Ax=b_3$$
+Dobbiamo ogni volta riapplicare le trasformazioni. 
+
+Sapendo che i termini noti sono indipendenti dalla selta del pivoting allora dobbiamo
+trovare un modo per aggiornare $b_i$ per evitare di aggiornare ogni volta $A$. 
+Risolvere più volte questo sistema variando $b_i$ coincide con il calcolo dell'inversa.
+Dove $x$ corrisponde alla colonna $i$ dell'inversa con il vettore di termini noti $b_i$,
+dove $b_i$ è il vettore di tutti $0$ tranne un $1$ nella posizione $i$-esima.7
+
+Per risolvere questo problema uso la decomposizione LU. Ovvero dato un sistema $Ax=b$,
+l'idea è di riscrivere $A=L\cdot U$ che rappresentano rispettivamente una Matrice
+triangolare inferiore e una matrice triangolare superiore. Quindi si risolverà 
+il sistema $L\cdot U \cdot x =b$, quando dobbiamo cambiare $b$ basta sostituire 
+$b$ e le matrici $L$ e $U$ rimarranno uguali.
+
+Per risolvere $L\cdot U \cdot x =b$, prima si risolve $L\cdot y =b$ con una \textbf{
+    soluzione in avanti} $\mathcal{O}(n^2)$, poi si risolve $U\cdot x =y$ con una \textbf{
+        soluzione all'indietro} $\mathcal{O}(n^2)$.
+
+\begin{teorema}
+    Sia $A\in \mathbb{R}^{n\times n}$ una matrice non singolare (determinante 
+    non nullo), allora esiste $L,U \in \mathbb{R}^{n\times n}$ talu che $A=L\cdot U$.
+    \begin{equation*}
+        U=\left[\begin{array}{ccc}
+            a_{11} & a_{12} & a_{13}\\
+            0 & a_{22}' & a_{23}'\\
+            0 & 0 & a_{33}''\\
+        \end{array}\right] \ \ L=\left[\begin{array}{ccc}
+            1 & 0 & 0\\
+            \frac{a_{ 21}}{a_{11}} & 1 & 0\\
+            \frac{a_{31}}{a_{11}} & \frac{a_{32}'}{a_{22}'} & 1\\
+        \end{array}\right]
+    \end{equation*}
+
+\end{teorema}
