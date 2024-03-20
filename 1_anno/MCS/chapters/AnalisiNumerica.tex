@@ -61,7 +61,7 @@ a errori di approssimazione.
 \end{definizione}
 
 Il problema è conoscere la soluzione esatta del sistema per calcolare l'errore.
-Un modo per ottenere la soluzione esatta possiamo inizializare un vettore $x$ in modo
+Un modo per ottenere la soluzione esatta possiamo inizializzare un vettore $x$ in modo
 randomico. In questo modo si calcola il vettore $b =A\cdot x $ e successivamente
 si utilizza algoritmo di risoluzione di sistemi per risolvere il seguente
 sistema $A\cdot \stackrel{\sim}{x} = b$. In questo modo $x$ è la soluzione esatta
@@ -70,7 +70,6 @@ la soluzione reale, ma ci interessa principalmente sapere se è risolvibile il s
 e con che errore. Questo è determinato dalla matrice $A$ ma non dal vettore dei
 termini noti $b$, per questo ci si calcola un vettore $b$ dipendente dalla soluzione
 "esatta" randomica.
-
 \begin{teorema}\label{teo:NormeEquivalenti}
     Il comportamento delle norme di vettori in $\mathbb{R}^n$ è equivalente. ossia
     preso un vettore $x\in \mathbb{R}^n$, $\exists c_1,c_2\in \mathbb{R}$ tali che:
@@ -148,7 +147,6 @@ Esistono due tipologie di metodi per la risoluzione dei sistemi lineari:
           $\|x -\stackrel{\sim}{x}\|\rightarrow 0$ oppure si calcola $\frac{\|x
                   -\stackrel{\sim}{x}\|}{\|A\stackrel{\sim}{x} - b\|}\rightarrow 0$.
 \end{itemize}
-
 \section{Metodi diretti}
 Partiamo analizzando il caso più semplice, ovvero che il sistema ammette un unica
 soluzione. L'assunzione principale è che le matrici abbiano determinante diverso
@@ -191,7 +189,8 @@ ci dice che esiste una sola soluzione se il determinante è diverso da $0$
 
 La complessità dell'algoritmo sarà:
 \begin{equation*}
-    \#\_righe \cdot \#operazioni\_max\_riga = n \cdot (n - 1 + n - 1 + 1) = n \cdot (2n - 1) = \mathcal{O}(n^2)
+    \#\_righe \cdot \#operazioni\_max\_riga = n \cdot (n - 1 + n - 1 + 1) = n
+    \cdot (2n - 1) = \mathcal{O}(n^2)
 \end{equation*}
 \begin{nota}
     Dove il numero massimo di operazioni per riga è $n - 1$ differenze, $n - 1$
@@ -200,7 +199,6 @@ La complessità dell'algoritmo sarà:
         x_1 = \frac{(b_1 - u_{12} x_2 - u_{13}x_3 - \dots - x_{1n} x_n)}{u_{11}}
     \end{equation*}
 \end{nota}
-
 Ogni singola operazione per riga si può ricavare iterativamente nel seguente modo
 \begin{equation*}
     x_{n-i} = \frac{(b_i-(u_{n-i},x))}{u_{ii}}
@@ -222,113 +220,165 @@ sistema.
 \end{nota}
 \begin{nota}
     Ricorda che quando si effettua un permutazione delle righe il sistema rimane
-    invariato, al contrario se effettuassi una permutazione delle colonne allora 
-    sto cambiando le incognite, perciò dovrei cambiare anche il vettore delle incognite
-    se io volessi mantenere lo stesso sistema.
+    invariato, al contrario se effettuassi una permutazione delle colonne allora
+    sto cambiando le incognite, perciò dovrei cambiare anche il vettore delle
+    incognite se io volessi mantenere lo stesso sistema.
 \end{nota}
 \subsection{Trasformazioni di Gau$\Beta$}
-Per risolvere matrici di questo tipo non possiamo più pensare all'algoritmo precedente.
+Per risolvere sistemi a cui sono associate matrici che non sono triangolari,
+come quella riportata di seguito, non possiamo più pensare all'algoritmo di
+sostituzione all'indietro.
 \begin{equation}
     \begin{cases}
         a_{11}x_1 + a_{12} x_2 + \dots + a_{1n} x_n= b_1 \\
         a_{21}x_1 + a_{22} x_2 + \dots + a_{2n} x_n= b_2 \\
         \vdots                                           \\
         a_{n1}x_1 + a_{n2} x_2 + \dots + a_{nn} x_n= b_n \\
-    \end{cases} 
+    \end{cases}
 \end{equation}
 
-Per matrici generiche i metodi variano, si può pensare di trasformare la matrice
-in una triangolare superiore equivalente, utilizzando le trasformazioni di Gauss:
+Per sistemi generici di $n$ equazioni in $n$ incognite i metodi di risoluzione
+sono diversi. L'algoritmo di eliminazione di Gauss si basa sul fatto che, preso
+un sistema lineare è possibile modificare le sue equazioni in modo da ottenere
+un sistema lineare equivalente, ossia che ha la stessa soluzione del sistema di
+partenza. Questo si può fare utilizzando le seguenti trasformazioni:
 \begin{itemize}
     \item \textbf{Scambiare le righe}
-    \item \textbf{Riduzione}: Sostituire una riga con una combinazione lineare di se stessa
-              con un'altra
+    \item \textbf{Riduzione}: Sostituire una riga con una combinazione lineare di
+          se stessa con un'altra
 \end{itemize}
-Successivamente si eseguerà sul sistema equivalente il metodo di risoluzione per 
+Successivamente si eseguirà sul sistema equivalente il metodo di risoluzione per
 sostituzione all'indietro.
 
-Per la riduzione della matrice del sistema ad una triangolare superiore applichiamo 
-sempre le trasformazioni in modo da azzerare i coefficienti al di sotto della 
-diagonale. L'applicazioni delle trasformazioni deve eessere effettuata sulle righe 
-della \textbf{augmented matrix form} che corrisponde alla matrice del sistema con
-l'aggiunta del vettore dei termini noti a destra dei coefficienti delle incognite.
-
+Per effettuare riduzione della matrice associata al sistema ad una matrice
+triangolare superiore, applichiamo una serie di trasformazioni in modo da azzerare
+i coefficienti al di sotto della diagonale. L'applicazioni delle trasformazioni
+deve essere effettuata sulle righe della \textbf{augmented matrix form}, ovvero
+la matrice del sistema con l'aggiunta del vettore dei termini noti a destra dei
+coefficienti delle incognite.
+\begin{definizione}[\textbf{Pivot}]
+    Il termine che si sceglie per procedere con la sostituzione di tutte le
+    equazioni del sistema lineare viene chiamato \textbf{pivot}.
+\end{definizione}
 \begin{nota}
-    Sotto l'ipotesi di sistema risolubile (determinante non nullo) allora il metodo 
-    di Gau$\Beta$ convergerà ad una matrice triangolare superiore. Quindi non rischio
-    di sostituire una riga con un coefficiente moltiplicatore di un'altra riga 
-    avente denominatore nullo. Quindi quando abbiamo una riga che ha il coefficiente 
-    sulla diagonale pari a $0$ allora siamo sicuri che troveremo un'altra riga 
-    con un coefficiente non nullo.
+    Sotto l'ipotesi di sistema risolubile (determinante non nullo) allora il metodo
+    di Gau$\Beta$ convergerà ad una matrice triangolare superiore. Quindi non
+    rischio di sostituire una riga con un coefficiente moltiplicatore di un'altra
+    riga avente denominatore nullo. Quindi, quando abbiamo una riga che ha il
+    coefficiente sulla diagonale pari a $0$ allora siamo sicuri che troveremo
+    un'altra riga con un coefficiente non nullo.
 \end{nota}
+\begin{osservazione}
+    Durante tutto il procedimento osserviamo che la scelta del pivot e quindi
+    del moltiplicatore dipende solamente dalla matrice A e non dal termine noto.
+    Il termine noto viene sempre e solo aggiornato in modo da ottenere un sistema
+    lineare equivalente!
+\end{osservazione}
 
-Calcoliamo la complessità, il peggiore dei casi è quando effettuiamo la prima riduzione.
-Nella prima riduzione dobbiamo calcolare 
-$$R_i = R_i - \frac{a_{11}\cdot a_{a_i1}}{a_{11}} R_1$$
-Queste operazioni sono $n+1$ differenze, $n+1$ prodotti e  $1$ divisione. Quindi 
-per una riga sono $1+n+1+n+1=2n+3=\mathcal{O}(n)$, questo deve essere ripetuto per $n-1$
-volte per azzerare la prima colonna, quindi $\mathcal{O}(n^2)$. Dal momento che dobbiamo 
+Calcoliamo ora la complessità di tale algoritmo. Il peggiore dei casi è quando
+effettuiamo la prima riduzione. Nello specifico, per essa dobbiamo calcolare:
+\begin{equation*}
+    R_i = R_i - \frac{a_{11}\cdot a_{a_i1}}{a_{11}} R_1
+\end{equation*}
+Queste operazioni sono $n + 1$ differenze, $n + 1$ prodotti e $1$ divisione. Quindi
+per una riga sono necessarie $1 + n + 1 + n + 1 = 2 n + 3 =\mathcal{O}(n)$.
+Questo deve essere ripetuto per $n - 1$ volte per azzerare la prima colonna,
+in termini di complessità asintotica $\mathcal{O}(n^2)$. Dal momento che dobbiamo
 ridurre un totale di $n-1$ colonne quindi si ha $\mathcal{O}(n^2\cdot n) = \mathcal{O}(n^3)$.
-Attualmente non stiamo risolvendo il sistema, bensì lo stiamo solo trasformando, 
+Attualmente non stiamo risolvendo il sistema, bensì lo stiamo solo trasformando,
 per anche risolverlo impiegheremo  $\mathcal{O}(n^3+ n^2) =\mathcal{O}(n^3)$.
 
-La scelta su da quale equazione partire porta ad avere cambiamenti sugli errori 
-ottenuti dal calcolo della soluzione dovuta all'aritmetica floating point. Quindi 
-l'obiettivo sarà di ridurre al minimo l'errore, sapendo che l'operazione problematica 
-è la somma/differenza sopprattutto quando effettuiamo il calcolo $x-x$. Quindi 
-possiamo mitigare questi problemi utilizzando il \textbf{pivoting}, ovvere scegliere 
-come pivot quello in valore assoluto maggiore presente sulla colonna da ridurre.  
+La scelta su da quale equazione partire porta ad avere cambiamenti sugli errori
+ottenuti dal calcolo della soluzione dovuta all'aritmetica floating point. Quindi
+l'obiettivo sarà di ridurre al minimo l'errore, sapendo che l'operazione problematica
+è la somma/differenza soprattutto quando effettuiamo il calcolo $x + y$ dove $y
+    \sim -x$. Quindi possiamo mitigare questi problemi utilizzando il \textbf{pivoting},
+ovvero scegliere come pivot quello in valore assoluto maggiore presente sulla
+colonna da ridurre.
+
+Esistono due strategie per trovare il miglior pivot:
+\begin{itemize}
+    \item \textbf{Pivoting Parziale}: si cerca fra i coefficienti della matrice
+          nella colonna che vogliamo eliminare il termine che ha il valore
+          assoluto più alto.
+    \item \textbf{Pivoting Totale}:  si cerca fra tutti i coefficienti della
+          sotto matrice il termine più grande in modulo. Una volta scelto il
+          coefficiente è necessario fare anche uno scambio di colonne in modo
+          tale che quello sia il termine più a destra, altrimenti, andando
+          avanti con l'eliminazione di Gau$\beta$, si perderebbe la struttura
+          risultante di triangolare superiore.
+\end{itemize}
+
 Si sceglie il maggiore perché supponendo di essere in questo esempio:
 $$a_{21} - \frac{a_{21}}{a_11} \ a_{22}-\frac{a_{21}}{a_11}$$
-Sapendo che $a_{21}=0$ allora sostituisco direttamente con $0$ senza effettuare 
-la sottrazione (non compiendo errori) e se si sceglie come pivot il massimo allora 
-$\frac{a_{21}}{a_11}$ sarà piccolo quindi si compie un errore minore nel calcolo 
-di $a_{22}-\frac{a_{21}}{a_11}$. Si può ottimizzare ancora meglio effettuando il 
-\textbf{pivoting totale}. 
-% TODO: aggiungi la tabella del confronto degli errori utilizzando diversi metodi di pivoting 
+Sapendo che $a_{21}=0$ allora sostituisco direttamente con $0$ senza effettuare
+la sottrazione (non compiendo errori) e se si sceglie come pivot il massimo allora
+$\frac{a_{21}}{a_11}$ sarà piccolo quindi si compie un errore minore nel calcolo
+di $a_{22}-\frac{a_{21}}{a_11}$. Si può ottimizzare ancora meglio effettuando il
+\textbf{pivoting totale}.
 
-Utilizzando il metodo di Gau$\Beta$ ha un problema, quando dobbiamo risolvere i 
-seguenti sistemi
-$$Ax= b_1 \ \ Ax=b_2 \ \ Ax=b_3$$
-Dobbiamo ogni volta riapplicare le trasformazioni. 
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Pivot Totale} & \textbf{Casuale} & \textbf{Pivot Più Piccolo} \\
+        $3.2138 e^{-14}$      & $1.0214 e^{-12}$ & $6.9658 e^{-11}$           \\
+        \hline
+    \end{tabular}
+\end{table}
 
-Sapendo che i termini noti sono indipendenti dalla selta del pivoting allora dobbiamo
-trovare un modo per aggiornare $b_i$ per evitare di aggiornare ogni volta $A$. 
-Risolvere più volte questo sistema variando $b_i$ coincide con il calcolo dell'inversa.
-Dove $x$ corrisponde alla colonna $i$ dell'inversa con il vettore di termini noti $b_i$,
-dove $b_i$ è il vettore di tutti $0$ tranne un $1$ nella posizione $i$-esima.7
+Utilizzando il metodo di Gau$\beta$ ha un problema, quando dobbiamo risolvere i
+seguenti sistemi che presentano la stessa matrice ma con termini noti diversi:
+\begin{equation*}
+    Ax=b_1 \quad Ax=b_2 \quad Ax=b_3
+\end{equation*}
+In questa situazione dobbiamo risolvere tre volte lo stesso sistema in quanto
+non si tiene memoria delle operazioni che sono state effettuate.
 
-Per risolvere questo problema uso la decomposizione LU. Ovvero dato un sistema $Ax=b$,
-l'idea è di riscrivere $A=L\cdot U$ che rappresentano rispettivamente una Matrice
-triangolare inferiore e una matrice triangolare superiore. Quindi si risolverà 
-il sistema $L\cdot U \cdot x =b$, quando dobbiamo cambiare $b$ basta sostituire 
-$b$ e le matrici $L$ e $U$ rimarranno uguali.
+Sapendo che i termini noti sono indipendenti dalla scelta del pivoting allora
+dobbiamo trovare un modo per aggiornare $b_i$ per evitare di aggiornare ogni
+volta $A$.
+\begin{osservazione}
+    Risolvere più volte questo sistema variando $b_i$ coincide con il calcolo
+    dell'inversa. Dove $x$ corrisponde alla colonna $i$ dell'inversa con il
+    vettore di termini noti $b_i$, dove $b_i$ è il vettore di tutti $0$ tranne
+    un $1$ nella posizione $i$-esima.
+\end{osservazione}
+Per risolvere questo problema uso la decomposizione LU. Ovvero dato un sistema
+$Ax=b$, l'idea è di riscrivere la matrice $A$ come il prodotto di $L$ e $U$ ($A
+    = L \cdot U$) che rappresentano rispettivamente una matrice triangolare
+inferiore e una matrice triangolare superiore. Quindi si risolverà il sistema $L
+    \cdot U \cdot x = b$, quando dobbiamo cambiare $b$ basta sostituire $b$ e le
+matrici $L$ e $U$ rimarranno uguali.
 
-Per risolvere $L\cdot U \cdot x =b$, prima si risolve $L\cdot y =b$ con una \textbf{
-    soluzione in avanti} $\mathcal{O}(n^2)$, poi si risolve $U\cdot x =y$ con una \textbf{
-        soluzione all'indietro} $\mathcal{O}(n^2)$.
-
+Per risolvere $L\cdot U \cdot x =b$, prima si risolve $L\cdot y =b$ con una
+\textbf{soluzione in avanti} $\mathcal{O}(n^2)$, poi si risolve $U \cdot x = y$
+con una \textbf{soluzione all'indietro} $\mathcal{O}(n^2)$.
 \begin{teorema}
-    Sia $A\in \mathbb{R}^{n\times n}$ una matrice non singolare (determinante 
-    non nullo), allora esiste $L,U \in \mathbb{R}^{n\times n}$ talu che $A=L\cdot U$.
+    Sia $A \in \mathbb{R}^{n\times n}$ una matrice non singolare (determinante
+    non nullo), allora esistono $L,U \in \mathbb{R}^{n\times n}$ tali che $A =
+        L \cdot U$.
+    Dove la matrice $U$ è definita come:
     \begin{equation*}
         U=\left[\begin{array}{ccc}
-            a_{11} & a_{12} & a_{13}\\
-            0 & a_{22}' & a_{23}'\\
-            0 & 0 & a_{33}''\\
-        \end{array}\right] \ \ L=\left[\begin{array}{ccc}
-            1 & 0 & 0\\
-            \frac{a_{ 21}}{a_{11}} & 1 & 0\\
-            \frac{a_{31}}{a_{11}} & \frac{a_{32}'}{a_{22}'} & 1\\
-        \end{array}\right]
+                a_{11} & a_{12}  & a_{13}   \\
+                0      & a_{22}' & a_{23}'  \\
+                0      & 0       & a_{33}'' \\
+            \end{array}\right]
     \end{equation*}
-
+    Mentre la matrice $L$ è definita come:
+    \begin{equation*}
+        L=\left[\begin{array}{ccc}
+                1      & 0       & 0       \\
+                l_{21} & 1       & 0       \\
+                l_{31} & l_{32}  & 1       \\
+            \end{array}\right]
+    \end{equation*}
 \end{teorema}
-Per calolare $L,U$ ci si impiega $\mathcal{O}(n^3)$ e generalmente $L$ viene salvata 
-in $U$.
-
+Per calcolare $L,U$ ci si impiega $\mathcal{O}(n^3)$ e generalmente $L$ viene 
+salvata in $U$.
 \begin{nota}
     Possiamo pensare di risolvere $Ax=b$ in $x= A^{-1}b$, il problema è che per
-    trovare $A^{-1}$ servono $\mathcal{0}(n^4)$ operazioni in cui si accumulano 
+    trovare $A^{-1}$ servono $\mathcal{0}(n^4)$ operazioni in cui si accumulano
     errori. Inoltre per trovare l'inversa risolviamo più sistemi.
 \end{nota}
