@@ -324,3 +324,11 @@ Per risolvere $L\cdot U \cdot x =b$, prima si risolve $L\cdot y =b$ con una \tex
     \end{equation*}
 
 \end{teorema}
+Per calolare $L,U$ ci si impiega $\mathcal{O}(n^3)$ e generalmente $L$ viene salvata 
+in $U$.
+
+\begin{nota}
+    Possiamo pensare di risolvere $Ax=b$ in $x= A^{-1}b$, il problema è che per
+    trovare $A^{-1}$ servono $\mathcal{0}(n^4)$ operazioni in cui si accumulano 
+    errori. Inoltre per trovare l'inversa risolviamo più sistemi.
+\end{nota}
