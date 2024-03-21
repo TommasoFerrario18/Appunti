@@ -24,13 +24,12 @@ Tra le proprietà più importanti troviamo:
     un nodo. Nel caso di grafi diretti si parla di \textbf{grado uscente} o
     \textbf{out degree} e \textbf{grado entrante} o \textbf{in degree}.
 \end{definizione}
-
 Se si considera un grafo rappresentato attraverso una matrice di adiacenza, il
 grado di un nodo può essere calcolato sommando i valori della riga o della
 colonna corrispondente al nodo in questione. Nello specifico, se si considera
-un grafo orientato, il grado uscente di un nodo corrisponde alla somma dei
-valori della riga corrispondente al nodo, mentre il grado entrante corrisponde
-alla somma dei valori della colonna corrispondente al nodo.
+un grafo orientato, il grado uscente corrisponde alla somma dei valori della 
+riga corrispondente al nodo, mentre il grado entrante corrisponde alla somma dei 
+valori della colonna ad esso associata.
 
 Più in generale possiamo riassumere il calcolo del grado di un nodo come segue:
 \begin{equation}
@@ -57,13 +56,13 @@ grafo è orientato dobbiamo distinguere tra grado uscente e grado entrante.
               \begin{equation}
                   \langle k \rangle = \frac{2E}{n}
               \end{equation}
-              dove $E$ rappresenta il numero di archi del grafo.
         \item Nel caso di grafi orientati:
               \begin{equation}
                   \langle k \rangle = \frac{E}{n}
               \end{equation}
-              dove $E$ rappresenta il numero di archi.
     \end{itemize}
+    dove $E$ rappresenta il numero di archi del grafo e $n$ rappresenta il
+    numero di nodi.
 \end{nota}
 Una misura più rappresentativa della media dei gradi dei nodi è la \textbf{distribuzione
     dei gradi}. Possiamo definire $p(k)$ come la probabilità che un nodo abbia
@@ -89,9 +88,8 @@ valori di $p(k)$.
         \sum_{k=0}^{\infty} p(k) = 1
     \end{equation*}
 \end{nota}
-
 Il valore della distribuzione mi permette di rappresentare molti fenomeni dalla
-robustezza della rete alla sua vulnerabilità.
+robustezza della rete, alle sue vulnerabilità.
 \subsection{Cammino e distanza}
 \begin{definizione}[\textbf{Cammino}]
     Un \textbf{cammino} è una sequenza di nodi in cui ciascun nodo è adiacente
@@ -114,7 +112,7 @@ l'algoritmo BFS (Breadth First Search).
         \langle d \rangle = \frac{1}{2E_{max}} \sum_{i \neq j} d_{ij}
     \end{equation}
 \end{definizione}
-Nei grafi non orientati, la lunghezza media dei cammini può essere calcolata
+Mentre, nei grafi non orientati, la lunghezza media dei cammini può essere calcolata
 come segue:
 \begin{equation}
     \langle d \rangle = \frac{1}{E_{max}} \sum_{i \neq j} d_{ij}
@@ -123,11 +121,11 @@ dove $d_{ij}$ rappresenta la distanza tra i nodi $i$ e $j$ e $E_{max}$ rappresen
 il numero massimo di archi presenti nel grafo.
 \subsection{Coefficienti di clustering}
 \begin{definizione}[\textbf{Coefficienti di clustering}]
-    I coefficienti di clustering sono una misura della presenza di nodi vicini
-    tra loro. In particolare, il coefficiente di clustering di un nodo è una
+    I \textbf{coefficienti di clustering} sono una misura della presenza di nodi 
+    vicini tra loro. In particolare, il coefficiente di clustering di un nodo è una
     misura della probabilità che i vicini di un nodo siano collegati tra loro.
     Dato un nodo $i$ con grado $k_i$, il coefficiente di clustering locale è
-    definito come segue (grafo indiretto):
+    definito come segue (grafo non orientato):
     \begin{equation}
         C_i = \frac{2E_i}{k_i(k_i - 1)}
     \end{equation}
@@ -141,8 +139,9 @@ collegati tra loro. Nel caso in cui il coefficiente sia uguale a 0, significa
 che nessun vicino del nodo $i$ è collegato ad un altro vicino.
 
 Questa misura rappresenta la densità locale di un grafo. Per ottenere una
-misura \textbf{globale} della densità del grafo, possiamo calcolare il \textbf{coefficiente
-    di clustering medio}. Tale misura può essere calcolata come segue:
+misura \textbf{globale} della densità del grafo, possiamo calcolare il 
+\textbf{coefficiente di clustering medio}. Tale misura può essere calcolata come 
+segue:
 \begin{equation}
     \langle C \rangle = \frac{1}{n} \sum_{i=1}^{n} C_i
 \end{equation}
@@ -214,7 +213,7 @@ dove:
 Una delle prime possibilità di misurare la centralità di un nodo è quella di
 utilizzare il grado del nodo. Questa misura è particolarmente utile nel caso di
 reti sociali, in cui il grado di un nodo corrisponde al numero di amici che
-questo nodo ha.
+il nodo ha.
 \begin{equation}
     C_D(i) = \sum_{j=1}^{n} x_{ij}
 \end{equation}
@@ -256,7 +255,7 @@ espresso nel caso di un grafo non orientato come segue:
 \end{equation}
 mentre nel caso di un grafo orientato come segue:
 \begin{equation}
-    C_B(i) = \frac{C_B(i)}{(n - 1)(n - 2) / 2}
+    C_B(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
 \end{equation}
 \subsection{Closeness}
 La centralità misurata come \textbf{closeness} è una misura della vicinanza di
