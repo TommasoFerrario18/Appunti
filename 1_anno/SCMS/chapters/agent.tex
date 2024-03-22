@@ -236,27 +236,27 @@ classifica gli agenti in base alla loro architettura interna. Questa classificaz
 distingue gli agenti in:
 \begin{itemize}
     \item \textbf{Simple reflex agents}: selezionano l'azione in base alla percezione
-        attuale, non mantiene lo storico delle percezioni. Sono agenti molto semplici
-        che rispondono immediatamente a stimoli immediatamente percepiti dall'ambiente.  
+          attuale, non mantiene lo storico delle percezioni. Sono agenti molto semplici
+          che rispondono immediatamente a stimoli immediatamente percepiti dall'ambiente.
           \begin{figure}[!h]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/SimpleReflexAgents.png}
               \caption{Schema di un agente}
               \label{fig:simpleReflex}
           \end{figure}
-    \item \textbf{Model-based reflex agents}: mantiene uno stato interno che permette 
+    \item \textbf{Model-based reflex agents}: mantiene uno stato interno che permette
           di modellare lo storico delle percezioni che riceve dall'ambiente e sceglie
-          l'azione in base al suo stato interno. Per aggiornare lo stato interno 
+          l'azione in base al suo stato interno. Per aggiornare lo stato interno
           in base al cambiamento dell'ambiente ci servono 2 diverse conoscenze, ciascuna
           modellata da due diversi modelli:
           \begin{itemize}
-            \item \textbf{transition model}: informazioni in merito
-            al cambiamento del mondo nel tempo, queste vengono raccolte dall'analisi
-            dell'effetto delle azioni dell'agente e dall'evoluzione dell'ambiente 
-            indipendentemente dalle azioni dell'agente.
-            \item \textbf{sensor model}: informazioni in merito
-            a come si riflette il cambiamento del mondo nelle percezioni dell'agente
-          \end{itemize} 
+              \item \textbf{transition model}: informazioni in merito
+                    al cambiamento del mondo nel tempo, queste vengono raccolte dall'analisi
+                    dell'effetto delle azioni dell'agente e dall'evoluzione dell'ambiente
+                    indipendentemente dalle azioni dell'agente.
+              \item \textbf{sensor model}: informazioni in merito
+                    a come si riflette il cambiamento del mondo nelle percezioni dell'agente
+          \end{itemize}
           L'insieme del transition e del sensor model permette all'agente di tenere
           traccia del mondo.
           \begin{figure}[!h]
@@ -267,10 +267,10 @@ distingue gli agenti in:
           \end{figure}
     \item \textbf{Goal-based agents}: l'agente deve sapere quali sono le
           situazioni desiderate e quali azioni devono essere svolte per raggiungere
-          tali situazioni. Ha sempre una rappresentazione del mondo derivante dal 
-          Model-based reflex agents, con la differenza che le decisioni prese sulla 
+          tali situazioni. Ha sempre una rappresentazione del mondo derivante dal
+          Model-based reflex agents, con la differenza che le decisioni prese sulla
           rappresentazione del mondo sono dipendenti dal Goal dell'agente.
-          Risultano più flessibili rispetto ai Model-based reflex agent, dato che 
+          Risultano più flessibili rispetto ai Model-based reflex agent, dato che
           possono cambiare il comportamento solo cambiando il goal.
           \begin{figure}[!h]
               \centering
@@ -410,159 +410,220 @@ ottengono un punteggio che li premia o penalizza. In questo modo l'agente esplor
 l'effetto delle azioni nell'immediato o nel lungo termine.
 
 \section{Agent interaction}
-Interazioni tra agente e ambiente.
+Vogliamo ora studiare come gli agenti interagiscono con altri agenti e/o con
+l'ambiente. Iniziamo definendo cosa si intende per \textbf{interazione}.
 \begin{definizione}[\textbf{Interazione}]
-    Un'interazione occorre quando 2 o più agenti hanno una relazione dinamica attraverso delle 
-    azioni reciproche (inviare o chiedere c'è un'info)
+    Un'interazione occorre quando 2 o più agenti hanno una relazione dinamica
+    attraverso delle azioni reciproche. Un esempio di interazione è rappresentata
+    da un agente che richiede delle informazioni e uno che le fornisce quando
+    riceve la richiesta.
 \end{definizione}
-L'interazione è necessaria quando un singolo agente non può svolgere un singolo compito,
-questo spesso è dovuto per le seguenti motivazioni:
+L'interazione è necessaria quando un singolo agente non può svolgere il compito
+ad esso associato, questo spesso è dovuto per le seguenti motivazioni:
 \begin{itemize}
-    \item risorse insufficienti (non conosco l'informazioni)
-    \item risorse che possono essere intrinsicamente distribuite nell'ambiente (non possono accedere all'informazioni)
-    \item abilità insufficienti (non posso trasportare dei materiali)
-    \item usare un approccio distribuito per risolvere un particolare problema
+    \item Risorse insufficienti (non conosco l'informazioni)
+    \item Risorse che possono essere intrinsecamente distribuite nell'ambiente
+          (non possono accedere all'informazioni)
+    \item Abilità insufficienti (non posso trasportare dei materiali)
+    \item Usare un approccio distribuito per risolvere un particolare problema
 \end{itemize}
 
-Il tipo di interazione varia in base alla compatibilità degli obiettivi, disponibilità 
-delle risorse e abilità degli agenti. Se i goal sono compatibili allora si ha una
-cooperazione, se le risorse sono scarse allora si hanno ...
+Le interazioni possono essere classificate in base a diversi criteri. Un primo
+criterio di classificazione si basa sulla compatibilità degli obiettivi,
+disponibilità delle risorse e abilità degli agenti. Questo non è l'unico criterio
+di classificazione per le interazioni.
 
-Interessante risulta lo studio su come far interagire gli agenti al netto della 
-loro architettura interna. Ci concentreremo sulla loro comunicazione, quindi scopriremo
-dei \textbf{modelli di interazione}.
+Risulta interessante lo studio di come far interagire gli agenti al netto della
+loro architettura interna. Nel nostro caso ci concentreremo sulla loro
+comunicazione, studieremo dei \textbf{modelli di interazione}.
 
 % TODO: aggiungi schema di interazione
-
 \subsection{Interazione diretta}
-Gli agenti sono in grado di scambiare informazioni direttamente. Lo scambio di informazioni
-avviene attraverso:
+Gli agenti sono in grado di scambiare informazioni direttamente. Lo scambio di
+informazioni avviene attraverso:
 \begin{itemize}
-    \item comunication/conversation rules: ACL che regola le conversazioni, specifica il protocollo
-    \item message structure and contents: specifica effettevamente il linguaggio 
-    per esprimere il contenuto, bisognerà quindi specificare delle ontologie condivise.
+    \item \textbf{Communication/Conversation rules}: vengono definite delle
+          regole per gestire le conversazioni, queste regole prendono il nome di
+          Agent Communication Language (ACL).
+    \item \textbf{Message structure and contents}: specifica effettivamente il
+          linguaggio per esprimere il contenuto, bisognerà quindi specificare
+          delle ontologie condivise.
 \end{itemize}
 
-In questa comunicazione i messaggi non si devono deteriorale (messaggio inalterato)
-quindi lo scambio deve essere indiscriminato, però gli agenti si devono conoscere
-per comunicare.
+In questa tipologia di comunicazione i messaggi non si devono deteriorare, ovvero
+il messaggio non viene alterato nel mentre, quindi lo scambio di messaggi viene
+definito \textbf{indiscriminato}. È molto importante, per questo tipo di
+comunicazione, che gli agenti conoscano per poter interagire.
+\begin{esempio}[\textbf{KQML}]
+    Un esempio di modello per la comunicazione diretta sono \textbf{KQML} e
+    \textbf{KIF}, i quali sono stati prodotti da ARPA knowledge sharing effort.
+    Nello specifico:
+    \begin{itemize}
+        \item \textbf{KQML}: Knowledge Query and Manipulation Language, è un
+              linguaggio per la comunicazione tra agenti. È un linguaggio ad
+              alto livello.
+        \item \textbf{KIF}: Knowledge Interchange Format, è un linguaggio per
+              rappresentare il contenuto.
+    \end{itemize}
 
-\begin{esempio} [KQML]
-    KQML e KIF sono stati prodotti da ARPA knowledge sharing effort.
-
-    KQLM: è un ACL per l'interazione ad alto livello
-    KIF: linguaggio che specifica la sintassi del contenuto
-
-    KQML è definito da messaggi basici che compongono una conversazione. L'idea 
-    si basa sull'atto comunicativo, ovvero su un'etichetta che dice all'interlocutore 
-    come interagire in una comunicazione. 
+    KQML definisce delle primitive per comporre una conversazione tra agenti.
+    L'idea su cui si basa è quella dell'atto comunicativo, ovvero su un'etichetta
+    che dice all'interlocutore come interagire in una comunicazione.
 
     Un messaggio KQLM ha una sintassi simile a lisp composto da:
     \begin{itemize}
-        \item performative: azione o scopo del messaggio, sono diverse tra query,
-        informazioni, richieste, risposte\dots
-        \item parametri: parametri informativi come ontologie in comunce
-        \item valore: 
+        \item Performative: azione o scopo del messaggio, sono diverse tra query,
+              informazioni, richieste, risposte\dots
+        \item Parametri: parametri informativi come ontologie in comune.
+        \item Valore:
     \end{itemize}
     Il messaggio specifica un singolo atto comunicativo che fa parte di una comunicazione.
-
 \end{esempio}
 
-Gli agenti devono conoscere il loro partner di comunicazione, per fare ciò possiamo 
-assegnare un nome agli agenti, inoltre per aiutare gli agenti a capire chi è l'agente 
-pinco pallino con il quale vuole comunicare si possono utilizzare dei facilitatori
-che forniscono le informazioni, questi non fanno altro che effetuare un registry
-dei nomi (DNS). In aggiunta essendo in un mondo distribuito dobbiamo anche avere 
-robustezza, quindi repliche e studio su come mantenerli allineati.
+Come già anticipato, gli agenti devono conoscere il loro partner di comunicazione,
+per fare ciò possiamo assegnare un nome agli agenti, inoltre per aiutare gli
+agenti a capire chi è l'agente con il quale si vuole comunicare si possono
+utilizzare dei facilitatori, ovvero degli intermediari che aiutano gli agenti
+a trovare il partner di comunicazione. Questi agenti si occupano di creare un
+registry dei nomi, come ad esempio fa il DNS nelle reti. In aggiunta essendo in
+un mondo distribuito dobbiamo anche avere robustezza, quindi repliche e studio
+su come mantenerli allineati.
 
-Bisogna anche definire nella comunicazione una semantica, si possono specificare 
-dei ragionatori logici, il problema è che si perde l'autonomia.
-La semantica può essere data tramite automi o reti di petri ma si limita l'autonomia.
+Oltre a questo, bisogna anche definire una semantica per la comunicazione, si
+possono specificare dei ragionatori logici, il problema di questa soluzione è
+che si va a perdere l'autonomia degli agenti.
 
-I protocolli di interazione diretta  sono simili ai protocolli per sistemi distribuiti,
-si hanno scambi di messaggi punto putno e facilmente implementabili sopra un middleware.
-Il problema è che si hanno problemi di definizioni di ontologie comuni, ci sono 
-problemi sulla semantica perché si perde autonomia e si ha un problema di discovery.
+La specifica della conversazione può essere espressa tramite automi a stati finiti
+o reti di petri, in questo modo si limita l'autonomia.
 
-Per la comunicazione diretta si possono avere registry multipli e possono informare 
-anche gli agenti sulle capacità degli altri agenti. In aggiunta si possono avere 
-reti di registry per mantenere la robustezza, inoltre, si possono anche fornire
-informazioni sui servizi offerti dagli agenti.
+I protocolli di interazione diretta sono simili ai protocolli per sistemi distribuiti,
+si hanno scambi di messaggi punto-punto e sono facilmente implementabili sopra
+un middleware. Il problema è che si hanno problemi di definizioni di ontologie
+comuni, ci sono problemi sulla semantica perché si perde autonomia e si ha un
+problema di discovery.
+
+Per la gestione della comunicazione diretta si possono avere registry multipli
+per garantire la robustezza, inoltre si possono informare anche gli agenti sulle
+capacità degli altri.
 
 Possiamo avere anche robe più complicate rispetto ai registry, per esempio i broker.
-Si ha quindi scambi di messaggi con publish and subscribe tra i singoli agenti.
-Ogni agente si iscrive alla lista di messaggi se voule accedere alla comunicazione 
-con un sottoinsieme di agenti. Questa metodologia risolve il problema dei naming
-e non mette in comunicazione direttamente due agenti, ovviamente i messaggi sono 
-accessibili solo se gli agenti sono attivi al momento dell'invio. 
-
+Si ha quindi scambi di messaggi con un meccanismo di publish and subscribe tra
+i singoli agenti. Ogni agente si iscrive alla lista di messaggi se vuole accedere
+alla comunicazione con un sottoinsieme di agenti. Questa metodologia risolve il
+problema dei naming e non mette in comunicazione direttamente due agenti,
+ovviamente i messaggi sono accessibili solo se gli agenti sono attivi al momento
+dell'invio.
 \subsection{Interazione indiretta}
-Si ha un intermediario, si hanno regole di interazione tra agenti e l'intermediario,
-le regole forniscono un contesto locale e percezioni, si hanno disaccoppiamenti 
-dei nomi e non tutti gli agenti devono essere online nel sistema (disaccoppiamento di tempo).
-Infine si ha disaccoppiamento spaziale perché possono pubblicare i messaggi e
-disattivarsi.
-
-L'interazione può essere mediata attraverso artefatti, l'artefatto può essere:
+In questa tipologia di comunicazione tra gli agenti è presente un intermediario,
+il quale non è un agente ma un'entità che si occupa di gestire la comunicazione
+tra gli agenti. Questa entità fornisce i meccanismi di interazione e
+definisce le regole di interazione tra gli agenti. Questi definiscono un
+contesto locale e delle percezioni. Sono presenti dei disaccoppiamenti
+dei nomi e non tutti gli agenti devono essere online nel sistema, si ha quindi
+anche un disaccoppiamento nel tempo. Infine si ha disaccoppiamento spaziale
+perché possono pubblicare i messaggi e disattivarsi.
+\subsubsection{Guidata da artefatti}
+L'interazione può essere mediata attraverso artefatti condivisi, i quali possono
+essere:
 \begin{itemize}
-    \item osservato
-    \item modificato
+    \item Osservati
+    \item Modificati
 \end{itemize}
-Si ha un canale di comunicazione broadcast tra agenti e si hanno regole di accesso 
-al canale.
-La comunicazione può avvenire secondo il sistema blackboard con controllo degli accessi.
-Un implementazione più recente è Linda, ovvero una struttura dati che contiene tuple
-contententi dati e altre tuple possono essere processi. I processi scrivono e legono
-le tuple in condivisione, gli agenti possono anche non comunicare leggendo tuple,
-scrivendo tuple, consumando tuple e creando processi di calcolo. Il problema di 
-questo metodo è che se siamo in un mondo distribuito dobbiamo analizzare dove 
-mettere lo spazio di tuple condiviso, possiamo salvare lo spazio di tuple 
-in diversi nodi e implementare un middleware che si occupa di aggiornare lo spazio
-di tuple distribuito. Lo spazio distribuito può essere programmato o reattivo,
+Questi elementi costituiscono un canale di comunicazione tra gli agenti, che
+viene caratterizzato da una trasmissione broadcast. Gli agenti che vogliono
+accedere a questo canale possono farlo attraverso delle regole di accesso.
+
+La comunicazione può avvenire secondo il \textit{sistema blackboard} con
+controllo degli accessi. Si ha un qualcosa che tutti gli agenti possono vedere
+contemporaneamente, mentre per scrivere si utilizza un controllo degli accessi.
+
+Un implementazione di questo meccanismo è Linda, la quale struttura i dati che
+contiene come delle tuple ognuna delle quali contiene informazioni, una diversa
+tipologia di tuple sono quelle che contengono i processi.
+
+A questo punto i processi possono leggere e scrivere le tuple che si hanno in
+condivisione. Gli agenti possono anche comunicare leggendo tuple, scrivendo tuple,
+consumando tuple e creando processi di calcolo.
+
+Il problema di questo metodo è che se ci troviamo in un mondo distribuito,
+dobbiamo analizzare come gestire lo spazio di tuple condiviso. Una soluzione
+consiste nel salvare tale spazio in diversi nodi e implementare un middleware che
+si occupa di aggiornare esso. Lo spazio distribuito può essere programmato o reattivo,
 si possono aggiungere anche astrazioni come regole o policies del mondo.
 
-Il problema di questo metodo è la complessità di implementazione.
+Come si può capire, il problema di questo metodo è dato dalla difficoltà di
+implementazione del meccanismo.
 
-DIRETTO: percezioni e azioni devono essere passati per messaggi
-ARTEFATTI: non tutto deve essere un messaggio, l'artefatto è l'ambiente e le letture 
-e scritture di tuple è la comunicazione. L'ambiente viene rappresentato dalle tuple.
-
-Posso permettere l'interazione attraverso una struttura spaziale che rappresenta 
-esplicitamente l'ambiente, la rappresentazione deve essere algebrica e spaziale, 
-ex: automi cellulari. Gli automi sono agenti isteretici.
-
-\subsection{Ambiente}
-L'ambiente ha diverse caratteristiche:
+riassumendo:
 \begin{itemize}
-    \item \textbf{accessibile vs non accessibile}: l'agente può ottenere informazioni
-    complete, aggiornate e accurate sullo stato dell'ambiente (la maggior parte non 
-    sono accessibili). Non sempre si possono avere informazioni complete 
-    come nel poker. Non sempre tutte le informazioni si possono avere accurate,
-    ex: area B te puoi anche non uscire. Non sempre possiamo avere un'informazione 
-    aggiornata perché dipende dalle frequenze di campionamento dei sensori. più
-    è accessibile l'ambiente allora più è facile muoversi.
-    \item \textbf{deterministico vs non deterministico}: l'agente quando decide 
-    l'effetto dell'azione deve essere certo. In un ambiente non deterministico 
-    l'agente deve controllare l'effetto delle sue azioni.
-    \item \textbf{static vs dynamic}: l'ambiente è statico se non cambia mentre 
-    l'agente decide.
-    \item \textbf{discreto vs continuo}: l'ambiente è continuo se ci sono un numero 
-    finito e fisso di azioni e percezioni del mondo.
+    \item \textbf{Interazione diretta}: percezioni e azioni devono essere passati
+          per messaggi.
+    \item \textbf{Interazione indiretta con artefatti}:  non tutto deve essere
+          un messaggio, l'artefatto è l'ambiente e le letture e scritture di tuple
+          è la comunicazione. L'ambiente viene rappresentato dalle tuple.
+\end{itemize}
+\subsubsection{Basata sull'ambiente}
+L'interazione può essere mediata attraverso una struttura spaziale che
+rappresenta esplicitamente l'ambiente, la rappresentazione deve essere algebrica
+e spaziale. Un esempio sono gli automi cellulari, i quali possono essere
+classificati come agenti Hysteretic.
+\section{Ambiente}
+L'ambiente può essere visto come il contesto nel quale gli agenti agiscono. Per
+esso si possono definire diverse caratteristiche:
+\begin{itemize}
+    \item \textbf{Accessibile}: l'agente può ottenere informazioni complete,
+          aggiornate e accurate sullo stato dell'ambiente. In caso di assenza di
+          alcune di queste caratteristiche si parla di \textbf{parzialmente
+              accessibile} o \textbf{non accessibile}.
+          Non sempre si possono avere informazioni complete come nel poker.
+          Non sempre tutte le informazioni si possono avere accurate, ex: area
+          B te puoi anche non uscire. Non sempre possiamo avere un'informazione
+          aggiornata perché dipende dalle frequenze di campionamento dei sensori.
+
+          Più è accessibile l'ambiente allora più è facile operare in esso.
+    \item \textbf{Deterministico}: l'agente quando decide l'effetto dell'azione
+          deve essere certo. In un ambiente \textbf{non deterministico}
+          l'agente deve controllare l'effetto delle sue azioni.
+    \item \textbf{Static}: l'ambiente è statico se non cambia mentre
+          l'agente decide. Al contrario si tratta un ambiente \textbf{Dynamic}.
+    \item \textbf{Discreto}: se ci sono un numero fisso di azioni e percezioni
+          possibili. Al contrario si tratta di un ambiente \textbf{Continuo}.
 \end{itemize}
 
-Il comportamento degli agenti è quasi interamente dipendente dall'ambiente. Gli
-agenti semplici sono quelli che si comportano in modo reattivo rispetto all'ambiente.
-Gli agenti più complessi o proattivi allora l'ambiente è un fornitore di informazioni
-o un vincolo sul proprio piano.
+Il comportamento degli agenti può essere influenzato dall'ambiente. Gli agenti
+semplici sono quelli che si comportano in modo reattivo rispetto all'ambiente.
+Mentre gli agenti più complessi o pro-attivi allora l'ambiente è un fornitore di
+informazioni o un vincolo sul proprio piano.
 
-L'ambiente contiene gli agenti, gli agenti hanno specifiche comportamentali differenti,
-l'interazione può avvenire in forma diretta o mediata, l'ambiente gestisce la dinamica
-complessiva (gestisce il tempo), inoltre può essere da tramite per la comunicazione 
-diretta tra agenti.
+L'ambiente contiene gli agenti, i quali hanno specifiche comportamentali
+differenti, l'interazione può avvenire in forma diretta o mediata, l'ambiente
+gestisce la dinamica complessiva (gestisce il tempo), inoltre può essere da
+tramite per la comunicazione diretta tra agenti.
 
-L'ambiente è un luogo in cui io posso dover specificare delle regole, ex: regole 
-fisiche.
+In base a come si vuole modellare l'ambiente può essere utile specificare delle
+regole. Ad esempio, se vogliamo descrivere un mondo reale si possono specificare
+le regole fisiche.
 
-% TODO: aggiungi la tabella dei metodi di interazione
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \rowcolor[HTML]{EFEFEF}
+                                                                                                                             &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}Direct Interaction}                                                       &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Indirect Artifact \\ Based\end{tabular}}       &
+        \multicolumn{1}{l}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Indirect Spatially \\ founded\end{tabular}}                     \\ \midrule
+        \begin{tabular}[c]{@{}l@{}}Time/Space\\ uncoupling\end{tabular}                                                      & No & Yes & Yes \\
+        Name uncoupling                                                                                                      & No & Yes & Yes \\
+        Agent Environment                                                                                                    &
+        \begin{tabular}[c]{@{}c@{}}Communication\\ infrastructure\end{tabular}                                               &
+        Shared Artifact                                                                                                      &
+        \begin{tabular}[c]{@{}c@{}}Spatial representation \\ of agents' environment \\ and its properties\end{tabular}                        \\
+        Agent context                                                                                                        &
+        \begin{tabular}[c]{@{}c@{}}Well known middle-\\ agents, other known \\ agents and its \\ knowledge base\end{tabular} &
+        \begin{tabular}[c]{@{}c@{}}Information present in \\ the artifact and its state\end{tabular}                         &
+        \begin{tabular}[c]{@{}c@{}}Viewable portion of \\ space and its state\end{tabular}                                                    \\ \bottomrule
+    \end{tabular}
+\end{table}
 
 In caso di interazione diretta l'ambiente fa da registri o middle agent.
