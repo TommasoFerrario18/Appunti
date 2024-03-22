@@ -1,0 +1,133 @@
+\chapter{Simulazione di un sistema complesso basato su Agenti}
+Si tratterà dell'esempio di sistema complesso di una folla di persone.
+
+definizoni sui sistemi complessi
+
+si ha tanti elementi interagenti che collaborano, si ha non linearità, una struttura 
+gerarchica o connessa, si ha robustezza e plasticità del sistema. Si hanno feedback
+positivi o negativi dal sistema, ex: affolamento nel ristorante. Questi feedback
+possono essere degli output del sistema che vengono ridati in input per modificare 
+l'ambiente, ex: feedback positivi e negativi. Quindi si hanno meccanismi di inibizione 
+e stimulazione nel sistema, ex: sistemi sociali.
+
+La ricerca nei sistemi complessi è utile anche per gli ingegneri che possono prendere 
+spunto dai sistemi naturali per quelli artificiali.
+
+L'obiettivo dei sistemi complessi è quello di studiare la simulazione del modello
+per scoprire proprietà del sistema reale.
+
+Modellare sistemi di folla perchette di effettuare simulazioni sulla sicurezza,
+sul posizionamento dei cartelli per luoghi con un afflusso di persone.
+L'obiettivo è studiare il comportamento dei pedoni all'interno di un edificio e dello spazio,
+è utile studiare le folle perché permette di effettuare dei test sulla macchina.
+
+Il sistema della folla è complesso perché si hanno dei pedoni (agenti), le loro 
+decisioni sono individuali ma dipendenti dal contesto (ambiente). Il comportamento 
+delle persone è difficile da prevedere perché è influenzato da moltissimi fattori.
+
+Nella folla si ha una competizione per avere lo spazio condiviso, si ha anche una 
+cooperazione per evitare situazioni di stallo (ex: norme sociali, lasciare uscire 
+le persone dal vagone prima di entrare). I pedoni possono anche avere stimuli 
+di imitazione (Ex: attraversare perché lo fa già qualcuno), inoltre si ha una 
+tendesta a stare a distanza dagli altri (ex: quando le persone si siedono in un
+aula tendono a lasciare dello spazio agli altri). Nel sistema si possono avere anche
+dei \textbf{fenomeni emergenti} (ex: Hola degli stadi perché è risultante da un 
+comportamento aggregato di tanti agenti, non si riconosce la derivazione dal singolo)
+(ex: code a tratti di una strada).
+
+Possiamo avere meccanismi di folla non solo fisici, ma anche i meme su internet.
+
+\begin{definizione}[\textbf{modello computazionale}]
+    Un modello computazionale è un qualcosa di sufficientemente ben definito per esere 
+    implementato.
+\end{definizione}
+
+\begin{definizione}[\textbf{Simulazione}]
+    La simulazione al pc è un modo per sfruttare un modello computazionale, con lo 
+    scopo di:
+    \begin{itemize}
+        \item valutare piani di design prima di effettivamente metterli in pratica 
+        nel mondo reale
+        \item valutare teorie e modelli esistenti di un sistema complesso attraverso l'analisi
+        degli effetti delle scelte modellistiche (ex: ricerca della cura di una cellula
+        attraverso dei processi chimici, si potrebbe simulare l'ambiente per capire 
+        come funziona)
+    \end{itemize}
+\end{definizione}
+L'uso dell'ambiente simulativo è necessario perché spesso il sistema reale è inesistente
+ (si sta progettando) o per motivi etici o pratici (ex: studio delle vie di fuga 
+ di un'edificio, non posso appiccare un incendio).
+
+Il ciclo vita della simulazione:
+\begin{itemize}
+    \item si parte da un sottosistema del sistema reale
+    \item creo il modello (matematico, algoritmo, ad agenti) legato al sottosistema
+    \item implemento il modello, creando un simulatore
+    \item si crea una campagna di simulazione, eseguo il simulatore su diverse 
+    condizioni iniziali. Per ogni esecuzione genero dei dati di simulazione.
+    \item analizzo i risultati ottenuti dal simulatore e li confronto sul sottosistema
+    reale. In questo modo valuto il simulatore e se i risultati sono realistici 
+    allora posso usarlo per fini predittivi e di spiegazione.
+\end{itemize}
+
+Si suddivide quindi il processo di simulazione in:
+\begin{itemize}
+    \item sintesi: si azzarda una sintesi del sistema reale e si crea un simulatore,
+    formalizzo i fenomeni del sistema, ciò mi permette di definire indicatori, metriche. 
+    \item analisi: si analizzano i risultati ottenuti dal simulatore e li confronto 
+    con i dati reali per validare i simulatori.
+\end{itemize}
+
+Analizzando le folle di persone possiamo definire i seguenti livelli:
+\begin{itemize}
+    \item livello operazionale: insieme di azioni che ci sono nel sitema: camminare
+    aspettare, effettuare un'attività, scelta della traiettoria a livello geometrico e 
+    ad ostacoli. (agente semplice)
+    \item livello tattico (pianifico): si discretizza il livello precedente spesso in un grafo,
+    aggiungendo uno scheduling delle attività, scelta della strada. (base di conoscenza)
+    \item livello strategico
+\end{itemize}
+
+Possiamo modellare 2 aspetti delle folle:
+\begin{itemize}
+    \item macroscopico: modello gli aspetti globali, spesso si specificano dei 
+    vincoli a livello globale (sistema di equazioni differenziali). Ha diversi
+    problemi:
+    \begin{itemize}
+        \item gli agenti hanno lo stesso obiettivo e comportamento
+        \item difficile da considerare gli aspetti dinamici dell'ambiente perché
+        dovremo specificare un nuovo sistema differenziale che modella il secondo
+        stato dell'ambiente e abilitare i singoli sistemi in base alla tempo.
+        \item \dots
+    \end{itemize}
+    Spesso sono simulazioni approssimative, si fa variale il tempo e si prende 
+    uno screenshot del modello a due tempi differenti. 
+    Buone prestazioni computazionali perchè sono indipendenti dal numero di pedoni,
+    però sono più limitati.
+    \item microscopico: modello il singolo agente o pedone. Si specifica il modello 
+    dei singoli agenti secondo la loro architettura e poi devo tener traccia degli 
+    agenti. Serve maggior attenzione sul sistema modellato per renderlo compatibile 
+    con la versione macroscopica. Con questo modello si possono sempre generare le 
+    stesse dinamiche aggregate della modellazione macrospopica.
+    La modellazione microscopica può essere realizzata in diversi modi:
+    \begin{itemize}
+        \item particelle (gli agenti sono particelle ma permette di mantenere la 
+        componente fisica, ma si modellano i singoli e non le componenti aggragate): 
+        si specifica una velocità delle particelle e si applicano 
+        delle forse su di esse anche in base ai vicini. Le forze sono generate 
+        dagli obietivi e dalle altre particelle (chiamate forze sociali).
+        \item automi cellulari
+    \end{itemize}
+    \item mesoscopiche: si hanno gli individui con delle semplificiazioni sui loro 
+    comportamenti.
+\end{itemize}
+
+Per complichiamo i simulatori, perché ho parametri liberi, non posso modellare 
+l'eterogeneità, non posso specificare strutture particolari dell'ambiente\dots
+Non esiste un approcco modellistico migliore, dipende tutto da quanto conosciamo 
+il fenomeno, gli obientivi e i dati che abbiamo o misuriamo.
+
+Simulare è difficile, passiamo dal reale al SW. Prendiamo un sottosistema, astraiamo il
+modello rimuovendo i dettagli reali, creiamo il modello computazionale e poi lo 
+implementiamo. Tutte queste fasi possono essere suggette ad errori e inserimenti 
+di bayes.
