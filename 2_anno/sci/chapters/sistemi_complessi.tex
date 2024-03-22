@@ -77,7 +77,7 @@ Per questo gli automi cellulari sono un paradigma di calcolo:
 \begin{definizione}[\textbf{spazio delle configurazioni}]
     Lo \textbf{spazio delle configurazioni} è
     $$A^\mathbb{Z}= \left\{x|x:\mathbb{Z}\rightarrow A\right\}$$
-    Coincide con l'insieme di ttte le sequenze \textbf{bi-infinite} sull'alfabeto
+    Coincide con l'insieme di tutte le sequenze \textbf{bi-infinite} sull'alfabeto
     $A$
 \end{definizione}
 Lo spazio delle configurazioni è un insieme di funzioni, ciascuna funzione rappresenta
@@ -149,11 +149,6 @@ ovviamente il calcolo cambia. Sia $d_i$ la distanza con il calcolo di $n$ centra
 in $i$ allora per ottenere $n$ si prende il valore $n'$ centrato in $i$ e si somma
 l'offset dall'indice $0$.
 
-\begin{nota}
-    $\forall x,y\in A^\mathbb{Z}$, $\forall n\in \mathbb{N}$ vale che
-    $$d(x,y)< \frac{1}{2^n}\iff x_{[-n, n]}=_{[-n, n]}$$
-\end{nota}
-
 \begin{nota} [Proprietà $1$ della distanza] \label{prop:dist}
     $\forall x,y\in A^\mathbb{Z}$, $\forall n\in \mathbb{N}$ vale che
     $$d(x,y)< \frac{1}{2^n}\iff x_{[-n, n]}=y_{[-n, n]}$$
@@ -165,13 +160,13 @@ l'offset dall'indice $0$.
 
 \begin{nota} [Proprietà $2$ della distanza]
     $(A^\mathbb{Z}, d)$ è un \textbf{spazio metrico compatto} cioè ogni successione
-    di eleemnti di $A^\mathbb{Z}$ ammette una sottosuccessione convergente in $A^\mathbb{Z}$.
+    di elementi di $A^\mathbb{Z}$ ammette una sottosuccessione convergente in $A^\mathbb{Z}$.
 \end{nota}
 \begin{definizione} [ \textbf{Automa cellulare 1D} ]
     Un \textbf{Automa cellulare 1D}  è una tripla $\langle A, r, f\rangle$
     dove:
     \begin{itemize}
-        \item $A$: insieme finito di caratteri, corrisponde all'alfabet dell'automa e
+        \item $A$: insieme finito di caratteri, corrisponde all'alfabeto dell'automa e
               quindi agli stati degli automi interni.
         \item $r\in \mathbb{N}$: raggio degli automi interni, specifica il raggio
               di dipendenza degli automi interni da quelli vicini. La transizione degli
@@ -331,11 +326,11 @@ di ogni automa nel CA.
                   la definizione sia ben posta per ogni valore $z$. Lo è dal momento che
                   $\forall z',z''\in A^\mathbb{Z}: z'_{[-r,r]} =  z''_{[-r,r]}\implies F(z')_0 = F(z'')_0$.
                   Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$
-                  $$F(x)_i = f(x_{[i-r,i+r]}), i = 0$$
+                  $$F(x)_i = f(x_{[i-r,i+r]}) = 0$$
                   Questo è vero perché discende dalla definizione di $f$ con $z = x$.
                   Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$
-                  $$F(x)_i = f(x_{[i-r,i+r]}), i \ne 0$$
-                  $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]}), i \ne 0$$
+                  $$F(x)_i = f(x_{[i-r,i+r]})\ne 0$$
+                  $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]}) \ne 0$$
         \end{itemize}
     \end{proof}
 \end{teorema}
@@ -369,7 +364,8 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
           Per dimostrare che $F^2$ sia una regola globale possiamo utilizzare il teorema di
           hedlund:
           \begin{itemize}
-              \item \textbf{continuità}: si perché $F$ è continua
+              \item \textbf{continuità}: si perché $F^2$ è una composizione di funzioni $F$ 
+              che sono continua
               \item \textbf{commutatività}: $F^2\circ \sigma = F\circ (F\circ \sigma ) = F\circ (\sigma\circ F  ) = \sigma\circ (F\circ F  )  = \sigma \circ F^2$
           \end{itemize}
           Quindi è una regola globale.
@@ -486,7 +482,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
             \item $\ref{cond:1}\implies \ref{cond:2}$: la dimostrazione si basa
                   sul dimostrare $\lnot \ref{cond:2}\implies \lnot \ref{cond:1}$.
 
-                  Ipotizziamo per assurdo che $\exists u\in A^n$ t.c. $|f^{\ast^{-1}}|\ne |A|^{2r}$.
+                  Ipotizziamo per assurdo che $\exists u\in A^n$ t.c. $|f^{\ast^{-1}}(u)|\ne |A|^{2r}$.
                   Senza perdere di generalità assumiamo che $|f^{\ast^{-1}}(u)|< |A|^{2r}$,
                   non perdiamo generalità perché se prendessimo $u$ tale che $|f^{\ast^{-1}}(u)|> |A|^{2r}$
                   allora esisterà un'altra stringa $u'$ tale che $|f^{\ast^{-1}}(u')|< |A|^{2r}$,
@@ -518,7 +514,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
 
                   Siccome $|f^{\ast^{-1}}(v)| = |A|^{2r}$, in particolare $\exists u \in A^\ast$
                   t.c $f^\ast(u) = v$. Per definizione di $G$, siccome $u$ corrisponde
-                  ad un cammino finito sui vertici di $G$, $f(u)=v$ si ottiene dalle etichette
+                  ad un cammino finito sui vertici di $G$, $f^\ast(u)=v$ si ottiene dalle etichette
                   degli archi di quel cammino.
             \item $\ref{cond:3}\implies \ref{cond:1}$: scelto arbitrariamente $y\in A^\mathbb{Z}$,
                   occorre mostrare che $\exists x\in A^\mathbb{Z} \text{ t.c. } F(x) =y$.
@@ -533,7 +529,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
                   $$x^{(n)}_{[-n-r,n+r]} = u^{(n)}$$
 
                   Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_{[-n,n]}$,
-                  ossia che $d(F(x^{(n)})_{[-n,n]},y_[-n,n])< \frac{1}{2^n}$.
+                  ossia che $d(F(x^{(n)})_{[-n,n]},y_{[-n,n]})< \frac{1}{2^n}$.
 
                   Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione
                   $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{N}}$).
@@ -562,7 +558,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
     Per controllare se $\mathcal{L} = A^\ast$ occorre costruire l'automa deterministico
     che risconosce $ \mathcal{L}$. Tale automa ha $\mathcal{P}(V)$ come insieme di
     vertici e quindi significa che la complessità dell'algoritmo decibile è maggiore
-    di $|\mathcal(P)| = 2^{|A|^{2r}}$. Con questo approccio non possiamo ridurre
+    di $|\mathcal{P}(V)| = 2^{|A|^{2r}}$. Con questo approccio non possiamo ridurre
     la complessità perché è vincolata dai nodi del grafo di De Bruijn.
 \end{nota}
 
@@ -615,7 +611,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
     Sia $\langle A,r,f\rangle$ un CA allora le seguenti affermazioni sono equivalentementi:
     \begin{enumerate}
         \item $F$ è \textbf{iniettiva}
-        \item $\exists m \le |A|^{4r} \textbf{ t.c. } \forall x, y \in A^\mathcal{Z} F(x)_{[-m,m]}=F(y)_{[-m,m]} \implies x_0=y_0$
+        \item $\exists m \le |A|^{4r} \textbf{ t.c. } \forall x, y \in A^\mathbb{Z} F(x)_{[-m,m]}=F(y)_{[-m,m]} \implies x_0=y_0$
               (caso bi-infinito)
         \item \label{cond:th_ini_3}$\exists m \le |A|^{4r} \textbf{ t.c. } \forall u,v \in A^{2m+2r+1} f(u)= f(v) \implies u_{m+r+1} = v_{m+r+1}$
               (caso finito)
@@ -649,7 +645,7 @@ Quindi per gli CA le seguenti proprità sono equivalenti:
 \end{itemize}
 
 \begin{teorema}
-    $F$ è iniettiva $iff$ $F_{\mathcal{SP}}$ è iniettiva
+    $F$ è iniettiva $\iff$ $F_{\mathcal{SP}}$ è iniettiva
 \end{teorema}
 
 \begin{teorema}
@@ -782,7 +778,7 @@ temporali.
 \end{definizione}
 
 \begin{definizione} [\textbf{Sistema equicontinuo (equicontinuità)}]
-    $(X,F)$ è \textbf{stabile} dove la definizione di stabilità di un punto cambia
+    $(X,F)$ è \textbf{equicontinuo} dove la definizione di stabilità di un punto cambia
     perché $\epsilon$ non dipende per un particolare punto $x\in X$ ovvero
     $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 \end{definizione}
