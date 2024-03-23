@@ -747,13 +747,13 @@ $F$ è la regola globale e $d$ è la distanza di Tychonoff.
 \begin{definizione} [\textbf{Punto di stabilità (equicontinuo, Lyapunov stable)}]
     % TODO: controllare not equal se va solo nelle definizioni di instabilità o anche in quelle di stabilità
     $x\in X$ è un \textbf{punto stabile} (equicontinuo, Lyapunov stable) sse
-    $$\forall \epsilon > 0,\exists \delta > 0, \forall y\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+    $$\forall \epsilon > 0,\exists \delta > 0, \forall y\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 
     Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
     la definizione in questo modo, $x\in X$ è un \textbf{punto stabile} sse
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z},x \ne y, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
     Equivale a dire:
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
 
 \end{definizione}
 Questa coincide con la definizione di continuità con l'aggiunta del controllo che
@@ -780,13 +780,13 @@ temporali.
 \begin{definizione} [\textbf{Sistema equicontinuo (equicontinuità)}]
     $(X,F)$ è \textbf{equicontinuo} dove la definizione di stabilità di un punto cambia
     perché $\epsilon$ non dipende per un particolare punto $x\in X$ ovvero
-    $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+    $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 \end{definizione}
 
 \begin{nota}
     L'equicontinuità è più stringente rispetto alla stabilità globale. Quando $X=A^\mathbb{Z}$
     si hanno due definizioni equivalenti e possono essere riscritte come
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
 \end{nota}
 \begin{definizione} [\textbf{Sistema instabile (instabilità globale)}]
     $(X,F)$ è \textbf{instabile} se $\forall x \in X$, $x$ è un \textbf{punto instabile}
@@ -856,6 +856,17 @@ $p$ colpi di $F$ tornarno alla configurazione zero.
     \textbf{Nilpotenza} significa $\exists t:\forall x\in X$$F^t(x)$ sarà la configurazione
     zero.
 \end{definizione}
+
+\begin{nota}
+    $\sigma(zero) = zero$ e $F(zero) = zero$ quindi $zero$ è anche un \textbf{punto fisso}.
+    Inoltre:
+    \begin{itemize}
+        \item $\sigma(zero) = \sigma(F^t(x)) = F^t(\sigma(x)) = zero$
+        \item $F(zero) = F(F^t(x)) = F^t(F(x)) = zero$
+    \end{itemize}
+    Quindi $zero$ è una configurazione composta da soli caratteri uguali.
+\end{nota}
+
 L'insieme di configurazioni $\{x,F(x), \dots, F^{q-1}(x)\}$ è chiamato transiente
 e la sua lunghezza è $q$.
 
@@ -889,21 +900,21 @@ periodici e quindi non possiamo studiare comportamenti instabili.
         \begin{itemize}
             \item U.P $\implies$ Equicontinuo: dobbiamo dimostrare la definizione
                   di equicontinuità.
-                  $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+                  $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
                   Scelto arbitrariamente $\epsilon>0$ dal momento che $F^0, F^{1}, \dots, F^{q-1},F^{q},F^{q+1},\dots,F^{q+p-1}$
                   sono funzioni uniformamente continue allora applicando singolarmente le funzioni:
                   \begin{equation*}
                       \begin{array}{cl}
-                          \left[F^0\right]       & \exists \delta_0 > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta_0 \implies d(F^0(y),F^0(x))< \epsilon                         \\
-                          \left[F^1\right]       & \exists \delta_1 > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta_1 \implies d(F^1(y),F^1(x))< \epsilon                         \\
+                          \left[F^0\right]       & \exists \delta_0 > 0, \forall y, x\in X, d(y,x) < \delta_0 \implies d(F^0(y),F^0(x))< \epsilon                         \\
+                          \left[F^1\right]       & \exists \delta_1 > 0, \forall y, x\in X, d(y,x) < \delta_1 \implies d(F^1(y),F^1(x))< \epsilon                         \\
                           \vdots                 & \vdots                                                                                                                         \\
-                          \left[F^q\right]       & \exists \delta_q > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta_q \implies d(F^q(y),F^q(x))< \epsilon                         \\
+                          \left[F^q\right]       & \exists \delta_q > 0, \forall y, x\in X, d(y,x) < \delta_q \implies d(F^q(y),F^q(x))< \epsilon                         \\
                           \vdots                 & \vdots                                                                                                                         \\
-                          \left[F^{q+p-1}\right] & \exists \delta_{q+p-1} > 0, \forall y, x\in X,x \ne y, d(y,x) < \delta_{q+p-1} \implies d(F^{q+p-1}(y),F^{q+p-1}(x))< \epsilon \\
+                          \left[F^{q+p-1}\right] & \exists \delta_{q+p-1} > 0, \forall y, x\in X, d(y,x) < \delta_{q+p-1} \implies d(F^{q+p-1}(y),F^{q+p-1}(x))< \epsilon \\
                       \end{array}
                   \end{equation*}
                   allora $\exists \delta = \min \{\delta_0,\delta_1, \dots, \delta_q,\dots, \delta_{q+p-1}\}$ tale che
-                  $$\forall y, x\in X,x \ne y, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon \implies $$$$\implies
+                  $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon \implies $$$$\implies
                       \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
             \item Equiconinuo $\implies$ almeno equicontinuo: se $(X ,F)$ è equiconinuo
                 allora $\xi = X$.  Abbiamo che $\xi = \bigcap_{n\in \mathbb{N}}X_n$ con $X_n= X$,
@@ -911,3 +922,204 @@ periodici e quindi non possiamo studiare comportamenti instabili.
         \end{itemize}
     \end{proof}
 \end{teorema}
+
+\begin{nota}
+    Una qualsiasi configurazione \textbf{spazialmente periodica} è \textbf{ultimamente periodica}.
+    Sia $x\in A^\mathbb{Z}$ tale che $\sigma ^n(x)=x$ per un $n\in \mathbb{N}$.
+
+    Sia $x=^\infty u^{(0)\infty}$ per qualche $u^{(0)}\in  A^n$ e sia $F$ una regola 
+    globale di un CA. 
+
+    Dal momento che un'immagine di una spazialmente periodica rimane spazialmente periodica,
+    abbiamo:
+    \begin{itemize}
+        \item $F(x)=^\infty u^{(1)\infty}$ per qualche $u^{(1)}\in  A^n$
+        \item $F(x)=^\infty u^{(2)\infty}$ per qualche $u^{(2)}\in  A^n$
+        \item $\vdots$
+        \item $F(x)=^\infty u^{(t)\infty}$ per qualche $u^{(t)}\in  A^n$
+    \end{itemize}
+    Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x\ge 0$ 
+    tale che $F^{q_x+p_x-1}(x)=F^{q_x}(x)$ ($x$ è ultimamente periodica).
+\end{nota}
+\begin{definizione}[\textbf{Blocking word}]
+    Sia $u\in A^n$ per qualche $n\in \mathbb{N}$. Sia $s\in \mathbb{N}$ con $s>0$,
+    la parola $u$ è $s$\textbf{-blocking} se $\exists \theta\in [0,n-s]$ (offset)
+    tale che $\forall x,y\in A^\mathbb{Z}:x_{[0,n)}=y_{[0,n)}=u$ e vale $forall t\in \mathbb{N}:
+    F^t(x)_{[\theta,\theta +s)} =F^t(y)_{[\theta,\theta +s)}$
+\end{definizione}
+
+Se $s\ge r$ allora $u$ è un muro che impedisce alle celle a sinistra di influenzare 
+l'evoluzione delle celle a destra, quindi $u$ produce una disconnessione dello 
+spazio delle celle $\mathbb{Z}$. Tutto questo si può generalizzare facendo iniziare 
+$u$ ad un indige $i$ generico, attenzione che si devono incrementare di conseguenza 
+tutti gli indici.
+
+\begin{nota}
+    Ecco la generalizzazione delle parole bloccanti, $u$ è la parola colorata.
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=.7\textwidth]{img/sistemi_complessi/parola_bloccante.png}
+        \caption{Generalizzazione delle parole bloccanti che iniziano da $i$}
+        \label{fig:parola_bloccante}
+    \end{figure}
+\end{nota}
+
+\begin{nota}
+    Se $u\in A^n$ è $s$-blocking allora ogni $v\in A^m$ con $m>n$ tale che ha 
+    $u$ come sottosequenza allora anche $v$ è $s$-blocking.
+\end{nota}
+
+\begin{nota}
+    Se $u\in A^n$ è $s_1$-blocking con un offset $\theta_1$ e $v\in A^m$ è  $s_2$-blocking
+    con un offset $\theta_2$, allora $\forall w \in A^+$ la parola $uwv$ è una parola 
+    bloccante. 
+    La regione che va da $\theta_1$ a $s_2$ sarà lunga $n - \theta_1 + | w | + \theta_2 + s_2$.
+\end{nota}
+
+Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
+\begin{teorema}
+    Sia $F$ la regola globale per un CA di raggio $r$. Se $u$ è una parola $r$-bloccante
+    allora l'insieme $\xi$ dei punti di equicontinuità di $F$ è infinito (e denso).
+    \begin{proof}
+        Sia $x\in A^\mathbb{Z}$ una qualsiasi configurazione del tipo $(uA^\ast)^+$,
+        andremo a dismostrare che $x$ sia un punto di equicontinuità, ovvero 
+        $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
+        Scelto un $n \in \mathbb{N}$ e sua $m$ tale che $[-n,n]\subseteq [-m,m]$
+        e $[-n,n]$ è contenuto all'interno del segmento $[-m,m]$ tale che 
+        inizi all'interno segmento definito dal primo muro della prima occorrenza di $u$ in $[-m,m]$ fino 
+        all'ultimo muro dell'ultima occorrenza di $u$. Allora $x$ è un punto di 
+        equicontinuità. Questo deriva dal fatto che $u$ è $r$-bloccante, quindi un
+        qualsiasi cambiamento esterno a $[-m,m]$ non influenza la regione interna
+        delimitata dalla parola $u$.
+    \end{proof} 
+\end{teorema}
+\begin{teorema}[\textbf{Caratterizzazzione della equiconinuità}]
+    Sia $\langle A,r,f\rangle$ un CA e sia $F$ la regola globale allora i seguenti
+    punti sono equivalenti:
+    \begin{enumerate}
+        \item \label{cond:non_carr_equi_1} $(A^\mathbb{Z}, F)$ è un \textbf{sistema equicontinuo}
+        \item \label{cond:non_carr_equi_2} $\exists k>0$ tale che $\forall u \in A^{2k+1}$, $u$ è $r$-bloccante
+        \item \label{cond:non_carr_equi_3} $(A^\mathbb{Z}, F)$ è \textbf{ultimamente periodico}
+    \end{enumerate}
+    \begin{proof}[dimostrazione opzionale]
+        Dimostriamo le singole implicazioni:
+        \begin{itemize}
+            \item \ref{cond:non_carr_equi_1} $\implies $\ref{cond:non_carr_equi_2}:
+            Sappiamo che il sistema è equicontinuo, quindi
+            $$\forall n\in \mathbb{N} ,\exists k\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-k,k]} = x_{[-k,k]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
+            Sia $n=r$ allora 
+            $$\exists k\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-k,k]} = x_{[-k,k]} \implies \forall t\in \mathbb{N} F^t(y)_{[-r,r]}=F^t(x)_{[-r,r]}$$
+            Pertanto sappiamo che esistono parole $r$-bloccanti e presa una qualsiasi $u\in A^{2k+1}$ è $(2k+1)$-bloccante se è anche $r$-bloccante.
+            \item \ref{cond:non_carr_equi_2} $\implies $\ref{cond:non_carr_equi_3}: 
+            andremo a mostrare che esistono $p>0$ e $q\ge 0$ tali che $F^{q+p} = F^q$.
+            Per ogni $u\in A^{2k+1}$, consideriamo $x^{(u)}=^\infty u^\infty$ (per 
+            definizione è spazialmentente periodica e per ipotesi $r$-bloccante).
+            Sappiamo che $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è utilimamente periodica,
+            allora  anche $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica.
+            Questo significa che $\exists p_u>0$ e $q_u\ge 0$ tali che $F^{q_u+p_u}(x^{(u)})_0 =F^{q_u}(x^{(u)})_0 $.
+            Sia $p=\text{mcd}\{p_u|u\in A^{2k+1}\}$ e $q=\max\{q_u|u\in A^{2k+1}\}$.
+            Allora $\forall u\in A^{2k+1}, F^{q+p}(x^{(u)})_0 = F^{q}(x^{(u)})_0$.
+
+            Sia $x\in A^\mathbb{Z}$ una qualsiasi configurazione e $u=x_{[-k,k]}$.
+            Dal momento che $u$ è $r$-bloccante, $\forall t\in \mathbb{N}, F^t(x)$
+             e $ F^t(x^{(u)})$ sono uguali per una finestra diu lunghezza $r$, 
+             senza perdere d igeneralità supponiamo che contenga la cella $0$, allora 
+             $F^{q+p}(x)_0 = F^{q}(x)_0$. Ora $\forall i\in \mathbb{Z}$
+             $$F^{q+p}(x)_i = \sigma^i(F^{q+p}(x))_0 = F^{q+p}(\sigma^i(x))_0= F^{q}(\sigma^i(x))_0 = \sigma^i(F^{q}(x))_0 = F^{q}(x)_i$$
+
+            \item \ref{cond:non_carr_equi_3} $\implies $\ref{cond:non_carr_equi_1}: 
+            è già stata dimostrata.
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+Se si negano le condizioni si ha la caratterizzazione per i sistemi sensibili
+alle condizioni iniziali.
+
+\begin{nota}
+    Se il sistema è \textbf{equicontinuo} allora tutte le parole da un certo punto 
+    in poi sono bloccanti, mentre se è \textbf{almeno equicontinuo} allora ne esisterà
+    una che prima o poi diventerà bloccante.
+\end{nota}
+
+\begin{teorema}[\textbf{Caratterizzazzione dell\'almeno equiconinuità}]
+    Sia $\langle A,r,f\rangle$ un CA e sia $F$ la regola globale allora i seguenti
+    punti sono equivalenti:
+    \begin{enumerate}
+        \item \label{cond:non_carr_a_equi_1} $(A^\mathbb{Z}, F)$ non è \textbf{sistema 
+        sensibile alle condizioni iniziali}
+        \item \label{cond:non_carr_a_equi_2} $(A^\mathbb{Z}, F)$ ha una parola $r$-bloccante
+        \item \label{cond:non_carr_a_equi_3} $(A^\mathbb{Z}, F)$ è \textbf{almeno equiconinuo}
+    \end{enumerate}
+    \begin{proof}
+        Dimostriamo le singole implicazioni:
+        \begin{itemize}
+            \item \ref{cond:non_carr_equi_1} $\implies $\ref{cond:non_carr_equi_2}:
+            per ipotesi il sistema non è sensibile alle condizioni iniziali quindi
+            $$\forall n\in \mathbb{N} ,\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+            Scegliamo arbitrariamente $n$ in modo tale che $2n+1\ge r$.
+            $$\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+            Quindi $u=x_{[-m,m]}$ è $(2n+1)$-bloccante quindi
+            $$\forall z,z'\in A^\mathbb{Z}: z_{[-m,m]}=z'_{[-m,m]} = x_{[-m,m]} =u$$
+            Questo significa che 
+            $$\forall t, F^t(z)_{[-n,n]} = F^t(x)_{[-n,n]}\text{ e } F^t(z')_{[-n,n]} = F^t(x)_{[-n,n]}$$
+            Quindi $F^t(z)_{[-n,n]} = F^t(z')_{[-n,n]},\forall t$. In conclusione $u$
+            è anche $r$-bloccante da $2n+1\ge r$.
+            \item \ref{cond:non_carr_equi_2} $\implies $\ref{cond:non_carr_equi_3}: 
+            abbiamo già dimostrata.
+            \item \ref{cond:non_carr_equi_3} $\implies $\ref{cond:non_carr_equi_1}: 
+            se il sistema è A.E. allora esiste un punto di equicontinuità e quindi
+            non può essere sensibile alle condizioni iniziali.
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+
+\begin{teorema}
+    Sia $\langle A,r,f\rangle$ un CA, è decidibile stabilire se data una word $u\in A^+$
+    è $r$-bloccante
+\end{teorema}
+
+\begin{teorema}
+    Il problema di stabilire se il CA ammette una parola $r$-bloccante 
+    è indecidibile.
+\end{teorema}
+
+\begin{teorema}
+    Stabilire se un CA è almeno equicontinuo o sensibile alle condizioni iniziali 
+    è un problema indecidibile.
+\end{teorema}
+
+\begin{teorema}
+    Stabilire se un CA è nilpotente è un problema indecidibile.
+\end{teorema}
+
+\begin{teorema}
+    Stabilire se un CA è equicontinuo (o ultimamente periodico) è un problema indecidibile.
+    \begin{proof} [cenni di dimostrazione]
+        Per assurdo assumiamo che l'ultima periodicità è decidibile. Sia 
+        $\langle A,r,f\rangle$  un CA e $F$ la sua regola globale, dal momento
+        che l'ultima periodicità è decidibile, possiamo stabilire quando $F$ entra 
+        nei seguenti casi:
+        \begin{itemize}
+            \item $F$ non è ultimamente periodica $\implies$ $F$ non è nilpotente
+            \item $F$ è ultimamente periodica allora $\exists p>0, q\in \mathbb{N}$
+            tale che $F^q=F^{q+p}$. Dalle configurazioni spazialmente periodiche,
+            $p$ e $q$ sono computabili quindi:
+            \begin{itemize}
+                \item $p\ne 1\implies F$ non è nilpotente
+                \item $p= 1$ allora:
+                \begin{itemize}
+                    \item Se $^\infty q^\infty$ è l'unica $x$ tale che $F(x)=x$ allora
+                    $F$ è nilpotente
+                    \item Altrimenti $F$ non è nilpotente
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+
+\begin{definizione}[\textbf{Permutativa RM/LM}]
+    $f:A^{2r+1}\rightarrow A$ è \textbf{permutativa} se 
+    $$\forall b\in A, \forall u \in A^{2r}, \exists ! a\in A: f(ua)=b (f(au))=b$$
+    Permutativa perché $\forall u \in A^{2r}, f_{|u}:A\rightarrow A:f_{|u}(a) = b$
+    e $f_{|u}$ è biettiva.
+\end{definizione}
