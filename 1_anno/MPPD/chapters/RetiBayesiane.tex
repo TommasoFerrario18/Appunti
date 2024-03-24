@@ -113,6 +113,11 @@ dove $parents(V_i)$ rappresenta la realizzazione congiunta dei genitori di $V_i$
 Ogni elemento della distribuzione congiunta è rappresentato tramite il prodotto
 delle opportune componenti delle CPT dei nodi della rete.
 \begin{nota}
+    Ricorda che per il teorema di Bayes
+    $$P(V_i=v_i|parents(V_i)) = \frac{P(V_i=v_i,parents(V_i))}{P(parents(V_i))} = \alpha P(V_i=v_i,parents(V_i))$$
+    Per questo di usa la costante di normalizzazione.
+\end{nota}
+\begin{nota}
     Non si vedono più le dipendenze di una variabile da tutte le altre ma bensì
     probabilità della variabile condizionata dai suoi genitori.
 \end{nota}
@@ -283,8 +288,14 @@ Se al termine di questo processo si hanno:
 \subsection{Distribuzioni condizionali}
 Per ridurre il numero di parametri nelle CPT possiamo utilizzare le \textbf{distribuzioni
     canoniche} per rappresentare dei pattern standard tra i parametri come per
-i nodi deterministici. In questo caso è possibile, una volta identificato il
-pattern, specificare un numero limitato di parametri per compilare la CPT.
+i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo 
+quando si possono notare dei pattern particolari, ex: and tra genitori, or tra 
+genitori, somma dei genitori$\dots$
+
+Una volta identificato il pattern, questo ci permette di specificare un numero limitato 
+di parametri per compilare la CPT, dal momento che alcuni si derivano con le 
+distribuzioni canoniche.
+
 \begin{definizione}[\textbf{Nodo deterministico}]
     Un \textbf{nodo deterministico} è caratterizzato dal fatto che il valore che
     esso assume è completamente determinato tramite il valore assunto dai suoi
@@ -297,12 +308,18 @@ Le relazioni tra genitori e figli possono essere di diversi tipi:
     \item \textbf{numeriche}: come ad esempio il \texttt{minimo} valore delle
           variabili dei genitori.
 \end{itemize}
+
+Un importante pattern è l'\textbf{indipendenza di uno specifico contesto} ovvero
+quando la probabilità condizionata di un nodo è condizionalmente indipendente 
+da alcuni genitori dati certi valori di altri (if-else sintax). Un secondo pattern 
+è \textbf{noisy-or} che permette di modellare l'incertezza dei genitori nel causare 
+il figlio.
+
 \subsection{Rappresentazioni efficiente delle distribuzioni continue}
 Per rappresentare efficientemente i nodi di distribuzioni continue, usando quelle
 canoniche, possiamo pensare di discretizzare le variabili continue definendo un
-insieme finito di intervalli.
-
-Il problema che sorge utilizzando questo approccio è legato alla perdita di
+insieme finito di intervalli. Il problema che sorge utilizzando questo approccio 
+è legato alla perdita di
 informazioni sul dato. Inoltre, le CPT spesso aumentano di dimensione.
 Una soluzione alternativa è rappresentare le variabili con delle \textbf{funzioni
     di densità di probabilità} vengono descritte tramite un numero finito e di
