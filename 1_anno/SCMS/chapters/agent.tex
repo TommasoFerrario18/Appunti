@@ -284,12 +284,7 @@ distingue gli agenti in:
           in cui si trova. Ho bisogno
           di una funzione utilità che mi rappresenti il mondo in modo da guidare
           le scelte dell'agente in base alla rappresentazione e i suoi obiettivi.
-          \begin{figure}[!h]
-              \centering
-              \includegraphics[width=0.25\textwidth]{./img/Agenti/UtilityBasedAgent.png}
-              \caption{Schema di un agente}
-              \label{fig:UtilityBased}
-          \end{figure}
+          c
 \end{itemize}
 
 La prima classe di questa classificazione corrisponde alla classe degli agenti
@@ -340,6 +335,13 @@ esempio degli obiettivi allora devo complicare il modello.
               per portare a termine il piano e quindi l'obiettivo.
     \end{itemize}
 
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.50\textwidth]{./img/Agenti/3APL.jpg}
+        \caption{Schema 3APL}
+        \label{fig:3APL}
+    \end{figure}
+
     Hanno diversi problemi:
     \begin{itemize}
         \item Devono avere la rappresentazione completa del mondo (ambiente può
@@ -376,7 +378,12 @@ può essere:
     \item Verticale: si ha una gerarchia con priorità sui comportamenti più
           importanti.
 \end{itemize}
-% ! Immagine di un agente ibrido
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.50\textwidth]{./img/Agenti/agente_ibrido.jpg}
+    \caption{Possibili schemi di un agente ibrido}
+    \label{fig:Agente_ibrido}
+\end{figure}
 \subsection{Sistema eterogeneo}
 Un sistema complesso può integrare quindi diverse tipologie di agenti
 (sistema eterogeneo), diventa fondamentale la loro interazione, specificando dei
@@ -397,7 +404,13 @@ specifico contengono:
     \item \textbf{Performance element}: l'agente sceglie le azioni in base alle
           percezioni. Contiene il modello appreso.
 \end{itemize}
-% ! Immagine di un learning agent
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.50\textwidth]{./img/Agenti/learning_agent.jpg}
+    \caption{Learning agent}
+    \label{fig:Learning_agent}
+\end{figure}
 
 Se l'agente contiene un learning element allora può apprendere durante la sua vita,
 altrimenti l'apprendimento può essere fatto a priori e quindi l'agente è solo il
@@ -437,7 +450,15 @@ Risulta interessante lo studio di come far interagire gli agenti al netto della
 loro architettura interna. Nel nostro caso ci concentreremo sulla loro
 comunicazione, studieremo dei \textbf{modelli di interazione}.
 
-% TODO: aggiungi schema di interazione
+
+% TODO: cambiare immagine schema di interazione
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.50\textwidth]{./img/Agenti/SchemaDiInterazione.PNG}
+    \caption{Schema di interazione}
+    \label{fig:Schema_di_interazione}
+\end{figure}
+
 \subsection{Interazione diretta}
 Gli agenti sono in grado di scambiare informazioni direttamente. Lo scambio di
 informazioni avviene attraverso:
