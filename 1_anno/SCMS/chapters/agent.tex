@@ -453,7 +453,7 @@ informazioni avviene attraverso:
 In questa tipologia di comunicazione i messaggi non si devono deteriorare, ovvero
 il messaggio non viene alterato nel mentre, quindi lo scambio di messaggi viene
 definito \textbf{indiscriminato}. È molto importante, per questo tipo di
-comunicazione, che gli agenti conoscano per poter interagire.
+comunicazione, che gli agenti si conoscano per poter interagire.
 \begin{esempio}[\textbf{KQML}]
     Un esempio di modello per la comunicazione diretta sono \textbf{KQML} e
     \textbf{KIF}, i quali sono stati prodotti da ARPA knowledge sharing effort.
@@ -475,7 +475,7 @@ comunicazione, che gli agenti conoscano per poter interagire.
         \item Performative: azione o scopo del messaggio, sono diverse tra query,
               informazioni, richieste, risposte\dots
         \item Parametri: parametri informativi come ontologie in comune.
-        \item Valore:
+        \item Valore: vero e proprio contenuto del messaggio
     \end{itemize}
     Il messaggio specifica un singolo atto comunicativo che fa parte di una comunicazione.
 \end{esempio}
@@ -491,16 +491,15 @@ su come mantenerli allineati.
 
 Oltre a questo, bisogna anche definire una semantica per la comunicazione, si
 possono specificare dei ragionatori logici, il problema di questa soluzione è
-che si va a perdere l'autonomia degli agenti.
-
-La specifica della conversazione può essere espressa tramite automi a stati finiti
-o reti di petri, in questo modo si limita l'autonomia.
+che si va a perdere l'autonomia degli agenti. La semantica della conversazione può essere espressa tramite automi a stati finiti
+o reti di petri, ma in questo modo si limita l'autonomia.
 
 I protocolli di interazione diretta sono simili ai protocolli per sistemi distribuiti,
 si hanno scambi di messaggi punto-punto e sono facilmente implementabili sopra
-un middleware. Il problema è che si hanno problemi di definizioni di ontologie
-comuni, ci sono problemi sulla semantica perché si perde autonomia e si ha un
-problema di discovery.
+un middleware, si integrano facilmente con gli agenti deliberativi perché si possono
+scambiare triple che rappresentano la conoscenza. Il problema è che si hanno problemi di definizioni di ontologie
+comuni, ci sono problemi sulla semantica condivisa perché si perde autonomia e si ha un
+problema di discovery degli agenti.
 
 Per la gestione della comunicazione diretta si possono avere registry multipli
 per garantire la robustezza, inoltre si possono informare anche gli agenti sulle
@@ -581,8 +580,8 @@ esso si possono definire diverse caratteristiche:
           aggiornata perché dipende dalle frequenze di campionamento dei sensori.
 
           Più è accessibile l'ambiente allora più è facile operare in esso.
-    \item \textbf{Deterministico}: l'agente quando decide l'effetto dell'azione
-          deve essere certo. In un ambiente \textbf{non deterministico}
+    \item \textbf{Deterministico}: se il prossimo stato dell'ambiente è determinato
+    dallo stato attuale e l'azione che esegue l'agente. In un ambiente \textbf{non deterministico}
           l'agente deve controllare l'effetto delle sue azioni.
     \item \textbf{Static}: l'ambiente è statico se non cambia mentre
           l'agente decide. Al contrario si tratta un ambiente \textbf{Dynamic}.
