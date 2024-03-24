@@ -28,9 +28,18 @@ termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
         \path [->] (X) edge node {} (Y);
     \end{tikzpicture}
 \end{center}
+\begin{definizione}[Condizionalmente indipendente]
+    L'evento $A$ è \textbf{condizionalmente indipendente} dall'evento $B$, se dato
+    un evento $C$ vale la seguente relazione:
+    \begin{equation}
+        P(A|B,C) = P(A|C)
+    \end{equation}
+    ovvero che la conoscenza a priori di $B$ non influisce sulla probabilità di
+    $A$ rispetto a quella che si ha conoscendo $C$.
+\end{definizione}
 La topologia della rete, ovvero la sua struttura, e le probabilità condizionate
-dei nodi dati i loro genitori sono sufficienti a specificare la distribuzione
-congiunta di tutte le variabili rappresentate dalla rete.
+dei nodi dati i loro genitori sono sufficienti a specificare la \textbf{distribuzione
+    congiunta} di tutte le variabili rappresentate dalla rete.
 
 La componente quantitativa contenuta in ogni nodo è costituita da un insieme di
 \textbf{tabelle di probabilità condizionate} (CPT), queste tabelle rappresentano
@@ -230,7 +239,6 @@ condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separaz
               \end{figure}
     \end{itemize}
 \end{definizione}
-
 La d-separazione può essere calcolata in tempo lineare. Quindi abbiamo a
 disposizione un algoritmo efficiente per inferire automaticamente se apprendere
 il valore di una variabile può fornirci delle informazioni aggiuntive su altre
