@@ -316,8 +316,7 @@ la sottrazione (non compiendo errori) e se si sceglie come pivot il massimo allo
 $\frac{a_{21}}{a_11}$ sarà piccolo quindi si compie un errore minore nel calcolo
 di $a_{22}-\frac{a_{21}}{a_11}$. Si può ottimizzare ancora meglio effettuando il
 \textbf{pivoting totale}.
-
-\begin{table}
+\begin{table}[!ht]
     \centering
     \begin{tabular}{|c|c|c|}
         \hline
@@ -369,202 +368,244 @@ con una \textbf{soluzione all'indietro} $\mathcal{O}(n^2)$.
     Mentre la matrice $L$ è definita come:
     \begin{equation*}
         L=\left[\begin{array}{ccc}
-                1      & 0       & 0       \\
-                l_{21} & 1       & 0       \\
-                l_{31} & l_{32}  & 1       \\
+                1      & 0      & 0 \\
+                l_{21} & 1      & 0 \\
+                l_{31} & l_{32} & 1 \\
             \end{array}\right]
     \end{equation*}
 \end{teorema}
-Per calcolare $L,U$ ci si impiega $\mathcal{O}(n^3)$ e generalmente $L$ viene 
+Per calcolare $L,U$ ci si impiega $\mathcal{O}(n^3)$ e generalmente $L$ viene
 salvata in $U$.
 \begin{nota}
     Possiamo pensare di risolvere $Ax=b$ in $x= A^{-1}b$, il problema è che per
     trovare $A^{-1}$ servono $\mathcal{0}(n^4)$ operazioni in cui si accumulano
     errori. Inoltre per trovare l'inversa risolviamo più sistemi.
 \end{nota}
-
-Esiste anche una seconda decomposizione, ovvelo la $PALU$. Si effettua una decomposizione
-$LU$ della matrice $A$ e si moltiplica sia la matrice e sia il termine noto per una 
-matrice di permutazione $P$ che permette di effettuare il pivoting migliore.
-Quindi avremo $PA=LU$.
-
 \begin{nota}
-    Si utilizza la decomposizione $LU$ per calcolare facilmente il determinante
-    della matrice $A$ perché $det(A)=det(LU) = det(L)det(U)$ dal momento che 
-    $L$ e $U$ sono matrici triangonali, allora il determinante è il prodotto dei 
-    coefficienti sulla diagonale. Inoltre $L$ ha solo $1$ sulla diagonale, quidni 
-    $det(L) = 1$ mentre il $det(U)= u_{11}\dots u_{nn}$. Quindi per calolare 
-    il determinante costa $\mathcal{O}(n^3)$ dalla decomposizione.
+    Un possibile utilizzo della decomposizione $LU$ è quello di calcolare il
+    determinante della matrice $A$. Questo può essere fatto nel seguente modo:
+    \begin{equation}
+        det(A) = det(LU) = det(L)det(U)
+    \end{equation}
+    dal momento che $L$ e $U$ sono matrici triangolari, allora il determinante è
+    il prodotto dei coefficienti sulla diagonale. Inoltre $L$ ha solamente il
+    valore $1$ sulla diagonale, quindi $det(L) = 1$ mentre il $det(U) = u_{11}
+        \dots u_{nn}$. Quindi per calcolare il determinante costa $\mathcal{O}(n^3)$
+    dalla decomposizione.
 \end{nota}
 
+\subsection{Decomposizione PALU}
+La decomposizione PALU permette di risolvere un insieme di sistemi lineari in
+cui varia solamente il termine noto.
+\begin{teorema}
+    Sia $A \in \mathbb{R}^{n\times n}$ una matrice quadrata tale che $det(A) \neq 0$,
+    allora esistono tre matrici $P,L,U$ tali che:
+    \begin{equation}
+        PA=LU
+    \end{equation}
+    dove $P$ è una matrice di permutazione, $L$ è una matrice triangolare inferiore
+    con diagonale unitaria e $U$ è una matrice triangolare superiore.
+\end{teorema}
+La matrice di permutazione $P$ mi permette di effettuare la scelta del pivot migliore.
 \begin{nota}
-    Anche per la decomposizione $PALU$, il determinante è semplice calcolare perché
-    $det(PA)= det(LU)$ quindi $det(P)det(A)=det(L)det(U)$, dal momento che $P$ è
-    una matrice di permutazione allora si può dimostrare che 
-    $det(P) = (-1)^{\#\_scambi}$. Quindi $(-1)^{\#\_scambi}det(A)=det(L)det(U)$ ovvero
-    $det(A)=\frac{det(L)det(U)}{(-1)^{\#\_scambi}}$
+    Anche per la decomposizione $PALU$, il determinante è semplice calcolare
+    il determinante della matrice $A$, nel seguente modo:
+    \begin{equation*}
+        det(PA) = det(LU)
+    \end{equation*}
+    quindi $det(P) \cdot det(A) = det(L) \cdot det(U)$, dal momento che $P$ è
+    una matrice di permutazione allora si può dimostrare che il determinante della
+    matrice di permutazione si può calcolare come:
+    \begin{equation*}
+        det(P) = (-1)^{\#\_scambi}
+    \end{equation*}
+    Quindi $(-1)^{\#\_scambi}det(A) = det(L)det(U)$ ovvero:
+    \begin{equation*}
+        det(A) = \frac{det(L)det(U)}{(-1)^{\#\_scambi}}
+    \end{equation*}
 \end{nota}
-
 \subsection{Decomposizione di Cholesky}
+Se la matrice $A$ che stiamo considerando, presenta delle caratteristiche
+particolari, può essere fattorizzata utilizzando una strategia differente
+rispetto alla decomposizione $PALU$, ovvero la decomposizione di \textbf{Cholesky}.
+
 Si può applicare questa decomposizione su matrici che rispettano queste ipotesi:
 \begin{itemize}
-    \item $A$ simmetrica, $A=A^t$
-    \item $A$ è definita positiva, $y^t A y^t >0, \forall u\in \mathbb{R}, y\ne 0$,
-    oppure tutti i suoi autovalori sono positivi (non si ammettono autovalori null)
+    \item $A$ simmetrica, $A = A^t$.
+    \item $A$ è definita positiva, $y^t A y >0, \forall y \in \mathbb{R}, y \neq \vec{0}$,
+          oppure tutti i suoi autovalori sono positivi (non si ammettono
+          autovalori nulli).
 \end{itemize}
-La decomposizione è la seguente
-\begin{equation*}
-    A= R^tR, R \text{ è triangolare superiore}
-\end{equation*} 
+\begin{teorema}
+    Sia $A \in \mathbb{R}^{n\times n}$ una matrice simmetrica e definita positiva,
+    allora esiste una matrice $R \in \mathbb{R}^{n\times n}$ tale che:
+    \begin{equation}
+        A = R^t R
+    \end{equation}
+\end{teorema}
+La matrice $R$ è una matrice triangolare superiore.
+\begin{dimostrazione}
+    Dimostreremo questo teorema in modo costruttivo, ossia diremo come costruire
+    la sola matrice $R$ che ci serve a partire dai coefficienti della matrice $A$.
 
-Data 
-\begin{equation*}
-    A=\left[\begin{array}{cccc}
-        a_{11}&a_{12} & \dots & a_{1n}\\
-        a_{21}&a_{22} & \dots & a_{2n}\\
-        \vdots&\vdots & \ddots & \vdots\\
-        a_{n1}&a_{n2} & \dots & a_{nn}\\
-    \end{array}\right]
-\end{equation*}
-che rispetta le ipotesi della decomposizione, supponiamo di 
-suddividere la matrice in queste regioni
+    Data la matrice $A$ definita come:
+    \begin{equation*}
+        A=\left[\begin{array}{cccc}
+                a_{11} & a_{12} & \dots  & a_{1n} \\
+                a_{21} & a_{22} & \dots  & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \dots  & a_{nn} \\
+            \end{array}\right]
+    \end{equation*}
+    che rispetta le ipotesi della decomposizione di Cholesky, supponiamo di
+    suddividere la matrice in queste regioni.
+    \begin{equation*}
+        A=\left[\begin{array}{c|c}
+                \alpha       & \textbf{a}_1^t \\
+                \textbf{a}_1 & A_\ast         \\
+            \end{array}\right]
+    \end{equation*}
+    dove abbiamo definito:
+    \begin{equation*}
+        \textbf{a}_1 = \left[\begin{array}{c}
+                a_{12} \\
+                \vdots \\
+                a_{1n} \\
+            \end{array}\right] \quad A_{1, 1} = \left[
+            \begin{array}{ccc}
+                a_{2, 2} & \dots  & a_{2, n} \\
+                \dots    & \vdots & \dots    \\
+                a_{n, 2} & \dots  & a_{n, n}
+            \end{array} \right]
+    \end{equation*}
+    In questo modo dobbiamo cercare i coefficienti della matrice $R$ che permetta
+    di ricavare ciascun coefficiente della matrice $A$ che si sta selezionando.
 
-\begin{equation*}
-    A=\left[\begin{array}{c|ccc}
-        a_{11}&a_{12} & \dots & a_{1n}\\
-        \hline
-        a_{21}&a_{22} & \dots & a_{2n}\\
-        \vdots&\vdots & \ddots & \vdots\\
-        a_{n1}&a_{n2} & \dots & a_{nn}\\
-    \end{array}\right]
-\end{equation*}
+    Quindi la matrice $R$ può essere definita come:
+    \begin{equation*}
+        A=\left[\begin{array}{c|c}
+                \rho          & \underline{r} \\
+                \hline
+                \underline{0} & R_\ast        \\
+            \end{array}\right]
+    \end{equation*}
+    In questo modo bisogna trovare $\rho, r$ che permetta di ottenere secondo la
+    relazione $A = R^tR$ il coefficiente $a_{11}$, successivamente si reitera lo
+    stesso procedimento per tutti gli altri coefficienti ottenendo sotto-matrice
+    $R_\ast$.
 
-In questo modo dobbiamo cercare i coefficienti della matrice $R$ che permetta di 
-ricavare ciascun coefficiente della matrice $A$ che si sta selezionando,
-ex: il coefficiente $a_{11}$.
-
-Quindi la matrice $R$ può essere di questo tipo
-\begin{equation*}
-    A=\left[\begin{array}{c|c}
-        \rho &\underline{r}\\
-        \hline
-        \underline{0}&R_\ast\\
-    \end{array}\right]
-\end{equation*}
-In questo modo bisogna trovare $\rho, r$ che permetta di ottenere seoncod la 
-relazione $A=R^tR$ il coefficiente $a_{11}$, successivamente si reitera lo stesso 
-procedimento per tutti gli altri coefficienti ottenendo sottomatrice $R_\ast$.
-
-Data la matrice $A$ che rispetta le ipotesi della decomposizione allora sapendo che 
-è simmetrica allora possiamo dividerla in questo modo
-\begin{equation*}
-    A=\left[\begin{array}{c|ccc}
-        a_{11}&\underline{a_1}\\
-        \hline
-        \underline{a_1}^t & A_\ast
-    \end{array}\right]
-\end{equation*} 
-
-Quindi possiamo dire 
-\begin{equation*}
-    \left[\begin{array}{c|ccc}
-        a_{11}&\underline{a_1}\\
-        \hline
-        \underline{a_1}^t & A_\ast
-    \end{array}\right] = A = R^tR= \left[\begin{array}{c|c}
-        \rho &\underline{0}^t\\
-        \hline
-        \underline{r}^t&R_\ast^t\\
-    \end{array}\right]\left[\begin{array}{c|c}
-        \rho &\underline{r}\\
-        \hline
-        \underline{0}&R_\ast\\
-    \end{array}\right]=\left[\begin{array}{c|c}
-        \rho^2 &\rho \cdot\underline{r}\\
-        \hline
-        \underline{r}^t\cdot\rho &\underline{r}^t\underline{r}+R_\ast^t R_\ast\\
-    \end{array}\right] 
-\end{equation*} 
-
-\begin{nota}
-    Nota che dato $r\in \mathbb{R}^n$ allora
+    Data la matrice $A$, la quale rispetta le ipotesi della decomposizione, allora
+    sapendo che essa è simmetrica possiamo rappresentarla come segue:
+    \begin{equation*}
+        A=\left[\begin{array}{c|ccc}
+                a_{11}            & \underline{a_1} \\
+                \hline
+                \underline{a_1}^t & A_\ast
+            \end{array}\right]
+    \end{equation*}
+    Quindi possiamo dire che:
+    \begin{equation*}
+        \left[\begin{array}{c|ccc}
+                a_{11}            & \underline{a_1} \\
+                \hline
+                \underline{a_1}^t & A_\ast
+            \end{array}\right] = A = R^tR= \left[\begin{array}{c|c}
+                \rho            & \underline{0}^t \\
+                \hline
+                \underline{r}^t & R_\ast^t        \\
+            \end{array}\right]\left[\begin{array}{c|c}
+                \rho          & \underline{r} \\
+                \hline
+                \underline{0} & R_\ast        \\
+            \end{array}\right]=\left[\begin{array}{c|c}
+                \rho^2                   & \rho \cdot\underline{r}                      \\
+                \hline
+                \underline{r}^t\cdot\rho & \underline{r}^t\underline{r}+R_\ast^t R_\ast \\
+            \end{array}\right]
+    \end{equation*}
+    Dato che il vettore $r \in \mathbb{R}^n$ allora possiamo dire che:
     \begin{equation*}
         \underline{r}^t\underline{r} \in \mathbb{R}^{n\times n}
     \end{equation*}
-\end{nota}
+    Dalla generazione del prodotto $R^tR$ allora possiamo dire che:
+    \begin{equation*}
+        \begin{cases}
+            \rho^2 = a_{11}                                                                     \\
+            \underline{r} = \rho \underline{a}_1 & \text{che vale sia per riga sia per colonna} \\
+            \underline{r}^t\underline{r}+R_\ast^t R_\ast = A_\ast
+        \end{cases}
+    \end{equation*}
+    Risolvendo questo sistema le incognite $\rho, r, R_\ast$:
+    \begin{equation*}
+        \begin{cases}
+            a_{11} = \rho ^2                    \\
+            \underline{a}_1= \rho \underline{r} \\
+            A_\ast = \underline{r}^t\underline{r}+R_\ast^t R_\ast
+        \end{cases}\iff \begin{cases}
+            \rho = +\sqrt{a_{11}}                \\
+            \underline{r}= \rho  \underline{a}_1 \\
+            R_\ast^t R_\ast = A_\ast - \frac{1}{a_{11}} \underline{a}_1^t \underline{a}_1
+        \end{cases}
+    \end{equation*}
+    Dato che una delle ipotesi su cui si basa la decomposizione di Cholesky è che la
+    matrice sia definita positiva, allora siamo sicuri ogni coefficiente sulla
+    diagonale sarà sempre $> 0$, permettendoci di calcolare $\rho$.
+\end{dimostrazione}
 
-Dalla generazione del prodotto $R^tR$ allora possiamo dire che:
+Questo sistema è ricorsivo e il problema è che bisogna reiterare il procedimento
+per ottenere gli altri coefficienti, quindi è necessario che $R_\ast ^t R_\ast$
+sia simmetrica e definita positiva. Proviamo a dimostrarlo, chiamiamo $B$ la
+matrice definita come $R_\ast ^t R_\ast$, quindi $B = A_\ast - \frac{1}{a_{11}}
+    \underline{a}_1^t \underline{a}_1$.
 \begin{itemize}
-    \item $a_{11} = \rho ^2$
-    \item $\underline{a}_1= \rho \underline{r}$ che vale sia per riga sia per colonna
-    \item $A_\ast = \underline{r}^t\underline{r}+R_\ast^t R_\ast$
+    \item Dimostriamo che la matrice B sia simmetrica:
+          \begin{equation*}
+              B^t = \left(A_\ast - \frac{1}{a_{11}} \underline{a}_1^t
+              \underline{a}_1\right)^t= A_\ast - \frac{1}{a_{11}} (\underline{a}_1^t
+              \underline{a}_1)^t =A_\ast - \frac{1}{a_{11}} \underline{a}_1^t
+              \underline{a}_1 = B
+          \end{equation*}
+    \item Dimostriamo che sia definita positiva:
+          \begin{equation*}
+              0<\underline{y}^t A \underline{y} = \left[\begin{array}{cc}
+                      \eta & \underline{y_1}
+                  \end{array}\right]\left[\begin{array}{c|ccc}
+                      a_{11}            & \underline{a_1} \\
+                      \hline
+                      \underline{a_1}^t & A_\ast
+                  \end{array}\right]\left[\begin{array}{c}
+                      \eta \\
+                      \underline{y_1}
+                  \end{array}\right] = \left[\begin{array}{cc}
+                      \eta & \underline{y_1}
+                  \end{array}\right]\left[\begin{array}{c}
+                      \eta a_{11}+\underline{a_1}\underline{y}_1^t \\
+                      \eta\underline{a_1}^t + A_\ast \underline{y}_1^t
+                  \end{array}\right] =
+          \end{equation*}
+          \begin{equation*}
+              = \eta^2 a_{11}+\eta\underline{a_1}\underline{y}_1^t+\eta
+              \underline{y}_1\underline{a_1}^t + \underline{y}_1 A_\ast
+              \underline{y}_1^t = \eta^2 a_{11}+2\eta\underline{a_1}\underline{y}_1^t +
+              \underline{y}_1 A_\ast \underline{y}_1^t>0
+          \end{equation*}
+          Quindi equivale ad una disequazione di secondo grado in $\eta$, quindi
+          bisogna controllare che $\Delta < 0\implies b^2-4ac<0$, questo significa:
+          \begin{equation*}
+              \Delta =(2\underline{a_1}\underline{y}_1^t)^2 -4a_{11}
+              \underline{y}_1 A_\ast \underline{y}_1^t = \not 4(\underline{a_1}
+              \underline{y}_1^t)^2 -\not 4 a_{11} \underline{y}_1 A_\ast \underline{y}_1^t
+              < 0\iff
+          \end{equation*}
+          \begin{equation*}
+              \iff \underline{y}_1 A_\ast \underline{y}_1^t - \frac{1}{a_{11}}
+              (\underline{a_1}\underline{y}_1^t)^2>0
+          \end{equation*}
+          Ma ripetendo la matrice $B$ e per controllare che sia definita positiva
+          è esattamente:
+          \begin{equation*}
+              \underline{y}B\underline{y}^t=\underline{y}A_\ast\underline{y}^t -
+              \frac{1}{a_{11}} \underline{y}\underline{a}_1^t \underline{a}_1\underline{y}^t >0
+          \end{equation*}
+          Che è esattamente quanto trovato precedentemente.
 \end{itemize}
-Ma questo può essere messo in un sistema nelle incognite $\rho, r, R_\ast$
-\begin{equation*}
-    \begin{cases}
-        a_{11} = \rho ^2\\
-        \underline{a}_1= \rho \underline{r}\\
-        A_\ast = \underline{r}^t\underline{r}+R_\ast^t R_\ast
-    \end{cases}\iff \begin{cases}
-        \rho = +\sqrt{a_{11}}\\
-        \underline{r}= \rho  \underline{a}_1\\
-        R_\ast^t R_\ast = A_\ast - \frac{1}{a_{11}} \underline{a}_1^t \underline{a}_1
-    \end{cases}
-\end{equation*}
-Per univocità della decomposizione di Cholesky, si prende sempre la radice positiva
-per $\rho$.
-\begin{nota}
-    Richiedendo $A$ definita positiva allora ogni coefficiente sarà sempre $>0$,
-    permettendoci di calcolare $\rho$.
-\end{nota}
-
-Questo sistema è ricorsivo e il problema è che bisogna reiterare 
-il procedimento per ottenere gli altri coefficienti, quindi è necessario che $R_\ast ^t R_\ast$ 
-sia simmetrica e definita positiva. Proviamo a dimostrarlo, chiamiamo $R_\ast ^t R_\ast$ con $B$,
-quindi $B=A_\ast - \frac{1}{a_{11}} \underline{a}_1^t \underline{a}_1$.
-\begin{itemize}
-    \item \textbf{dimostriamo che sia simmetrica}:
-    \begin{equation*}
-        B^t = \left(A_\ast - \frac{1}{a_{11}} \underline{a}_1^t \underline{a}_1\right)^t= A_\ast - \frac{1}{a_{11}} (\underline{a}_1^t \underline{a}_1)^t =A_\ast - \frac{1}{a_{11}} \underline{a}_1^t \underline{a}_1 = B  
-    \end{equation*}
-    \item \textbf{dimostriamo che sia definita positiva}: dimostrato nella nota sotto
-\end{itemize}
-
-\begin{nota}
-    \begin{equation*}
-        0<\underline{y}^t A \underline{y} = \left[\begin{array}{cc}
-            \eta & \underline{y_1}
-        \end{array}\right]\left[\begin{array}{c|ccc}
-            a_{11}&\underline{a_1}\\
-            \hline
-            \underline{a_1}^t & A_\ast
-        \end{array}\right]\left[\begin{array}{c}
-            \eta \\
-            \underline{y_1}
-        \end{array}\right] = \left[\begin{array}{cc}
-            \eta & \underline{y_1}
-        \end{array}\right]\left[\begin{array}{c}
-            \eta a_{11}+\underline{a_1}\underline{y}_1^t\\
-            \eta\underline{a_1}^t + A_\ast \underline{y}_1^t
-        \end{array}\right] = 
-        \eta^2 a_{11}+\eta\underline{a_1}\underline{y}_1^t+\eta
-        \underline{y}_1\underline{a_1}^t + \underline{y}_1 A_\ast \underline{y}_1^t = 
-    \end{equation*}
-    \begin{equation*}
-        =\eta^2 a_{11}+2\eta\underline{a_1}\underline{y}_1^t + \underline{y}_1 A_\ast \underline{y}_1^t>0
-    \end{equation*}
-    Quindi equivale ad una disequazione di secondo grado in $\eta$, quindi bisogna controllare 
-    che $\Delta < 0\implies b^2-4ac<0$, questo significa 
-    \begin{equation*}
-        \Delta =(2\underline{a_1}\underline{y}_1^t)^2 -4a_{11} \underline{y}_1 A_\ast \underline{y}_1^t = \not 4(\underline{a_1}\underline{y}_1^t)^2 -\not 4 a_{11} \underline{y}_1 A_\ast \underline{y}_1^t < 0\iff
-    \end{equation*}
-    \begin{equation*}
-        \iff \underline{y}_1 A_\ast \underline{y}_1^t - \frac{1}{a_{11}} (\underline{a_1}\underline{y}_1^t)^2>0
-    \end{equation*}
-    Ma riprendento la matrice $B$ e per controllare che sia definita positiva è
-    esattamente
-    \begin{equation*}
-        \underline{y}B\underline{y}^t=\underline{y}A_\ast\underline{y}^t - \frac{1}{a_{11}} \underline{y}\underline{a}_1^t \underline{a}_1\underline{y}^t >0
-    \end{equation*}
-    Che è esattamente quanto trovato precedentemente.
-\end{nota}
