@@ -115,7 +115,11 @@ delle opportune componenti delle CPT dei nodi della rete.
 \begin{nota}
     Ricorda che per il teorema di Bayes
     $$P(V_i=v_i|parents(V_i)) = \frac{P(V_i=v_i,parents(V_i))}{P(parents(V_i))} = \alpha P(V_i=v_i,parents(V_i))$$
-    Per questo di usa la costante di normalizzazione.
+    Quindi la teorema la probabilità condizionata è la congiunta diviso la probabilità
+    degli eventi congiunti. Per semplificare la probabilità si può solo calolare 
+    la congiunta e successivamente moltiplicarla per il fattore $\alpha$ di normalizzazione.
+    $\alpha$ per $P(V_i=v_i|parents(V_i))$ si trova nel seguente modo:
+    $$\alpha =\frac{1}{P(V_i=\lnot v_i,parents(V_i)) + P(V_i=v_i,parents(V_i))}$$
 \end{nota}
 \begin{nota}
     Non si vedono più le dipendenze di una variabile da tutte le altre ma bensì
