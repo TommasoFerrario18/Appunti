@@ -609,3 +609,79 @@ matrice definita come $R_\ast ^t R_\ast$, quindi $B = A_\ast - \frac{1}{a_{11}}
           \end{equation*}
           Che è esattamente quanto trovato precedentemente.
 \end{itemize}
+
+\subsection{Perturbazione dei dati}
+Per ora sono stati introdotti solo dei metodi diretti per risolvere in modo approssimato 
+sistemi di equazione lineare. Ora vogliamo studia come la soluzione trovata cambia
+al variare dei coefficienti di $A$ e $b$ del sistema.
+
+Fissiamo $A$ e consideriamo i seguenti sistemi lineari
+\begin{equation*}
+    Ax=b \ \ \ \ \ \ Ax = b+ \delta b
+\end{equation*}
+In modo tale che $\|\delta b\| < b$. Sia $\stackrel{\sim }{x}$ la soluzione del 
+sistema $Ax=b$, vogliamo scoprire come $\stackrel{\sim}{x}$ si modifica nel sistema 
+perturbato. Possiamo osservare innanzitutto
+$$A\stackrel{\sim}{x}=b \implies \|A\stackrel{\sim}{x}\|=\|b\|\implies 
+\|A\|\|\stackrel{\sim}{x}\|\ge \|b\|\implies\frac{1}{\|\stackrel{\sim}{x}\|}\le \frac{\|A\|}{\|b\|}$$
+Con quanto detto, dal momento che $\stackrel{\sim}{x}$ è una soluzione del sistema 
+allora $det(A)\ne 0 $ quindi la matrice è invertibile, di conseguenza
+$$Ax = b+\delta b\implies A^{-1}Ax = A^{-1}(b+\delta b)\implies A^{-1}Ax = A^{-1}b+A^{-1}\delta b$$ 
+Dal momento che per un sistema in cui esiste una soluzione allora si ha che $x= A^{-1}b$
+allora possiamo dire che 
+$$A^{-1}Ax = A^{-1}b+A^{-1}\delta b\implies x = \stackrel{\sim}{x}+A^{-1}\delta b\implies x - \stackrel{\sim}{x} = A^{-1}\delta b$$
+Anche qui possiamo passare alle norme
+$$\|x - \stackrel{\sim}{x} \|= \|A^{-1}\delta b\|$$
+utilizzando le proprietà delle norme si ha
+$$\|x - \stackrel{\sim}{x} \|\le\|A^{-1}\|\|\delta b\|$$
+
+Ora unendo le due due relazioni tra le soluzioni e i singoli sistemi, ovvero 
+a sinistra si moltiplicano le norme delle soluzioni e a destra si moltiplicano 
+le norme dei termini dei sistemi.
+
+$$\|\frac{1}{\stackrel{\sim}{x}}\|\|x - \stackrel{\sim}{x} \|\le   \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\|$$
+Questo vale per una qualsiasi norma, fissiamo la norma $2$, allora possiamo introdurre 
+il \textbf{numero di condizionamento}.
+$$\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\|\implies
+\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies 
+\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies $$
+
+\section{Metodi iterativi}
+Dato un generico sistema $Ax=b$ con $A$ invertibile.
+I metodi iterativi partono da un vettore iniziale $x^{(0)}$, creano una sequenza 
+di soluzioni $x^{(k)}$ che si avvicinano sempre di più alla soluzione esatta 
+$\stackrel{\sim}{x}$.
+
+\subsection{Fill-in}
+Dal momento che la maggior parte delle volte sono molto grandi e spesso sparse 
+allora verranno salvate secondo la rappresentazione sparsa. 
+
+Nel momento in cui si effettua una decomposizione PALU o Cholesky è possibile che 
+le matrici risultanti non siano sparse, questo fenomeno è chiamato \textbf{fill-in}.
+Questo comporta che per una matrice sparsa, una volta applicata una decomposizione,
+essa potrebbe essere soggetta a fenomeno di \textbf{fill-in} quindi produce 
+delle matrici non sparse, comportando un aumento di complessità spaziale portanto 
+ad occupare troppa memoria. I metodi iterativi permettono di risolvere questo problema,
+perché utilizzando le operazioni tra matrici, preservano la natura sparsa quindi 
+non si incombe nel fenomeno di fill-in.
+
+\subsection{Criterio di arresto}
+Come detto in precedenza, i metodi iterativi continuano a generare soluzioni sempre 
+più vicine a quella esatta. 
+Negli algoritmi iterativi si ha una quantità, chiamata \textbf{tolleranza}, che
+coincide con la soglia che specifica quando terminare le iterazioni. Si termina 
+quando vale la seguente relazione
+$$\frac{\|x^{(k)}-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} < \texttt{tolleranza}$$
+
+Non potendo conoscere la soluzione esatta allora si utilizzano i seguenti metodi 
+di arresto:
+\begin{itemize}
+    \item \textbf{incremento tra due iterate}: alla iterazione $k$ si calcola
+    $$\frac{\|x^{(k)}-x^{(k-1)}\|}{\|x^{(0)}\|}$$
+    Questo misura quanto le quantità $x^{(k)}$ e $x^{(k-1)}$ differiscono. Ci si 
+    ferma quando la differenza è minima.
+    \item \textbf{residuo scalato}: alla iterazione $k$ si calcola
+    $$\frac{\|b- Ax^{(k)}\|}{\|b\|}$$
+    Dove $A$ e $b$ sono la matrice e il vettore dei termini noti del sistema che 
+    si sta risolvendo
+\end{itemize}
