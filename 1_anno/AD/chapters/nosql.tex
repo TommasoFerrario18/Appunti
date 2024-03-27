@@ -162,10 +162,75 @@ I database wide-column sono simili ai database relazionali, ma invece di
 memorizzare i dati in righe, i dati sono memorizzati in colonne. Questo permette
 di avere una maggiore flessibilità rispetto ai database relazionali. La chiave
 punta a un insieme di colonne che può essere diverso per ogni riga.
+
+\paragraph{HBASE}
+Si ha una chiave che punta ad un insieme di valori con tipi differenti. Possiamo 
+avere delle column family che contiene più attributi che condividono delle informazioni.
+Ogni riga abbiamo anche un timestamp. Il qualifier è il nome
+dell'attributo all'interno di una column family.
+
+Quando dobbiamo modellare un DB nosql non conosciamo lo schema.
+
+L'utilizzo di timestamp permette di gestire le transazioni distribuite senza l'uso
+di locking ma la gestione si effetua sulla base del timestamp. Qui si può facilmente
+implementare relazioni 1-n nelal stessa riga.
+\paragraph{Cassandra}
+Inventato da FB per gestire la comunicazione con le mail.
+Abbiamo uno spazio di chiavi che rappresenta la tabella nel relazionale, 
+abbiamo sempre column family e per ciascuno abbiamo chiavi che portano a 
+liste di nomi, valori e timestamp.
+
+Quindi una column family equivale ad una tabella e utilizzo la chiave riga 
+accede ad un particolare dato della column family.
+L'accesso si esegue specificando: column family, chiave di riga e il nome del valore.
+
+Il query language di Cassandra è molto simile a SQL, perché così è più semplice 
+passare da RDBMS a Cassandra, inoltre, permette di utilizzare nella stessa applicazione 
+DBMS relazionali e Cassandra senza apportare molte modifiche.
+
+Ogni riga è indipendente dalle altre, quindi nel distribuito posso frammentare 
+come voglio, dal momento che non si effettuano join visto che le informazioni sono 
+presenti nella stessa riga. 
+
 \subsection{Document based}
 I database document-based memorizzano i dati in documenti. I documenti sono
 indirizzati nel database tramite una chiave unica. La ricerca dei dati è
 effettuata nei documenti stessi.
+
+\paragraph{MongoDB}
+Abbiamo un documento che è composto da un albero composto da:
+\begin{itemize}
+      \item radice che è una chiave che punta ad un nome, un documento, un arrai di documenti. (JSON)
+\end{itemize}
+
+Possiamo salvare tutto come nel relazionale, non abbiamo tabelle ma documenti json 
+(2 documenti separati legati da reference). Oppure possiamo salvare tutto senza references,
+ma in un insieme di documenti nidificati (documenti-sottodocumenti).
+
+Il vantaggio del secondo metodo è che abbiamo tutto in un documento, non dobbiamo 
+fare join. Il problema potrebbe essere quello di ottenere la somma di un particolare 
+attributo per ogni documento, però nella norma non si fa spesso.
+
+Efficiente quando dobbiamo accedere alle info più vicine alla radice, meno quando 
+accediamo alle foglie.
+
+Lo schema non è vincolante e corrisponde all'unione di tutti gli attributi e 
+sottoattributi.
+
+Ha la sua terminologia
+
+Il query language è OOP e le query e gli operatori delle query sono in JSON.
+
+update è un oggetto che contiene un oggetto della clausula, un oggetto che specifica
+cosa settare ed infine un oggetto che specifica si aggiornare solo se trovi.
+
+non servono più middleware come Hibernate per mappare gli oggetti su db.
+Mongo permette di creare degli indici 
+
+
+\paragraph{MongoDB}
+
+
 \subsection{Graph based}
 I database graph-based memorizzano i dati in nodi e archi. Questi database sono
 utili per memorizzare dati che hanno relazioni complesse. I nodi rappresentano

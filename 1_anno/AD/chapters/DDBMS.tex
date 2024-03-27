@@ -404,6 +404,28 @@ logico locale. Si hanno quindi tre livelli di trasparenza:
                   \item \textbf{trasparenza di replicazione/allocazione}: \texttt{SELECT client FROM Pickup3 as P JOIN SalesPerson as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
                   \item \textbf{trasparenza di linguaggio}: \texttt{SELECT client FROM Pickup3@company.Taiwan.com as P JOIN SalesPerson@company.Taiwan.com as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
             \end{itemize}
+            \item terza query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT machine FROM Produciton as P JOIN Pickup as PU ON P.SN = PU.SN JOIN Client ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                  \item \textbf{trasparenza di replicazione/allocazione}:  \texttt{SELECT machine FROM Produciton2 as P JOIN Pickup2 as PU ON P.SN = PU.SN JOIN Client2 ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                  \item \textbf{trasparenza di linguaggio}:  \texttt{SELECT machine FROM Produciton2@company.com as P JOIN Pickup2@company.com as PU ON P.SN = PU.SN JOIN Client2@company.com ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+            \end{itemize}
+            \item quarta query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}:  \texttt{UPDATE FROM Client SET address="k3$\dots$" AND City="Taiwa" WHERE name="$\dots$"}
+                  \item \textbf{trasparenza di replicazione/allocazione}:  prima si inserisce il nuovo record
+                  \texttt{INSERT INTO Client3 (Name, City,Address) VALUES ("Brown", "Taiwan", "43$\dots$")}\\ successivamente cancelliamo il cliente dalla vecchia tabella
+                  \texttt{DELETE FROM Client1 WHERE name="Brown"}
+            \end{itemize}
+            \item quinta query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
+                  \item \textbf{trasparenza di replicazione/allocazione}: creiamo prima
+                  le view delle tabelle non frammentate
+                  \texttt{CREATE VIEW Client UNION Client1 UNION Client2 UNION Client3} \\
+                  \texttt{CREATE VIEW Pickup UNION Pickup1 UNION Pickup2 UNION Pickup3} \\ 
+                  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
+            \end{itemize}
       \end{itemize}
 \end{esempio}
 \section{Gestione delle query distribuite}
@@ -684,6 +706,12 @@ La sequenza di attesa generale al nodo è della forma:
 \begin{equation*}
       EXT_i < x < y < EXT_j
 \end{equation*}
+
+\begin{nota}
+      Prima di eseguire la transazione si effettua la richiesta di lock e solo 
+      al suo termine rilascia il lock.
+\end{nota}
+
 Da osservatore esterno, riusciamo a vedere quando c'è un ciclo di attese e
 quindi un deadlock globale, ma a livello di singolo nodo questo è più complicato.
 La soluzione a questo problema avviene attivando periodicamente sui diversi nodi

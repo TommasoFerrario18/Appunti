@@ -563,8 +563,8 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
 \end{nota}
 
 \begin{nota}
-    La suriettività è indecidibile da dimostrare utilizzando la condizione \ref{cond:2}
-    del teorema \ref{th:suriettività_CA} perché dobbiamo controllare $\forall u \in A^+$ (indecidibile),
+    La suriettività è semi-decidibile da dimostrare utilizzando la condizione \ref{cond:2}
+    del teorema \ref{th:suriettività_CA} perché dobbiamo controllare $\forall u \in A^+$ (semi-decidibile),
     questo significa che questa condizione è più utile per dimostrare la \textbf{non
         suriettività}, dal momento che ce ne basta una sola (semidecidibile).
 \end{nota}
@@ -1080,20 +1080,20 @@ alle condizioni iniziali.
 
 \begin{teorema}
     Il problema di stabilire se il CA ammette una parola $r$-bloccante 
-    è indecidibile.
+    è semi-decidibile.
 \end{teorema}
 
 \begin{teorema}
     Stabilire se un CA è almeno equicontinuo o sensibile alle condizioni iniziali 
-    è un problema indecidibile.
+    è un problema semi-decidibile.
 \end{teorema}
 
 \begin{teorema}
-    Stabilire se un CA è nilpotente è un problema indecidibile.
+    Stabilire se un CA è nilpotente è un problema semi-decidibile.
 \end{teorema}
 
 \begin{teorema}
-    Stabilire se un CA è equicontinuo (o ultimamente periodico) è un problema indecidibile.
+    Stabilire se un CA è equicontinuo (o ultimamente periodico) è un problema semi-decidibile.
     \begin{proof} [cenni di dimostrazione]
         Per assurdo assumiamo che l'ultima periodicità è decidibile. Sia 
         $\langle A,r,f\rangle$  un CA e $F$ la sua regola globale, dal momento
@@ -1123,3 +1123,36 @@ alle condizioni iniziali.
     Permutativa perché $\forall u \in A^{2r}, f_{|u}:A\rightarrow A:f_{|u}(a) = b$
     e $f_{|u}$ è biettiva.
 \end{definizione}
+
+\begin{teorema}
+    Se $F$ un CA con una regola locale $f:A^{2r+1}\rightarrow A$. $\forall t\in \mathbb{N}$
+    sia $f^{(t)}:A^{2rt+1}\rightarrow A$ la regola locale di un CA $F^t$. Se $f$
+    è RM/LM permutativa allora anche $f^{(t)}$ lo è.
+\end{teorema}
+
+\begin{nota}
+    Se $F$ un CA con una regola locale $f$ L/R permutativa. Allora $F$ è sensibile 
+    alle \textbf{mitchel condition}
+    \begin{proof}
+        Dimostreremo che $\exists n=r: \forall x\in A^\mathbb{Z}, \forall m\in \mathbb{N},
+        \exists y \in A^\mathbb{Z}, y\ne x, \text{ t.c. } y_{[-m,m]} = x_{[-m,m]}\land 
+        \exists t\in \mathbb{N},F^t(y)_{[-r,r]} =F^t(x)_{[-r,r]}$.
+
+        Scelto arbitrariamente $x\in A^\mathbb{Z}$ e $m\in \mathbb{N}$ costruiamo
+        $y\in A^\mathbb{Z}$ nel seguente modo: sia $t\in\mathbb{N}$ tale che 
+        $[-m,m]\subset [r-tr,r+tr]$ e che:
+        \begin{itemize}
+            \item $y_{[r-tr, r+tr-1]} = x_{[r-tr, r+tr-1]}$, quindi $y_{[-m,m]} = x_{[-m,m]}$
+            \item $y_{r+tr} \ne x_{r+tr}$
+        \end{itemize} 
+        Quindi $x$ e $y$ sono uguali da $-r-tr$ fino a $r+tr-1$, l'ultima cella 
+        deve essere differente per le due stringhe.
+
+        Essendo $f^{(t)}$ $R$-permutativa, allora secondo le due condizioni 
+        specificate precedentemente allora 
+        $$F^t(y)_r=f^{(t)}(y_{[r-tr, r+tr]})=f^{(t)}(y_{[r-tr, r+tr-1]}y_{r+tr})=$$
+        $$=f^{(t)}(x_{[r-tr, r+tr-1]}y_{r+tr})$$
+        $$F^t(x)_r=f^{(t)}(x_{[r-tr, r+tr-1]}x_{r+tr}) $$
+        Questo significa che $F^t(y)_r \ne F^t(x)_r$.
+    \end{proof}
+\end{nota}
