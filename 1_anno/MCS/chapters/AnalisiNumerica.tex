@@ -673,15 +673,127 @@ coincide con la soglia che specifica quando terminare le iterazioni. Si termina
 quando vale la seguente relazione
 $$\frac{\|x^{(k)}-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} < \texttt{tolleranza}$$
 
-Non potendo conoscere la soluzione esatta allora si utilizzano i seguenti metodi 
+Non potendo conoscere la soluzione esatta allora si riscrive la relazione utilizzano i seguenti metodi 
 di arresto:
 \begin{itemize}
     \item \textbf{incremento tra due iterate}: alla iterazione $k$ si calcola
-    $$\frac{\|x^{(k)}-x^{(k-1)}\|}{\|x^{(0)}\|}$$
+    $$\frac{\|x^{(k)}-x^{(k-1)}\|}{\|x^{(0)}\|}< \texttt{tolleranza}$$
     Questo misura quanto le quantità $x^{(k)}$ e $x^{(k-1)}$ differiscono. Ci si 
-    ferma quando la differenza è minima.
+    ferma quando la differenza è minima. Quindi questo corrisponde a calcolare l'errore relativo rispetto alla soluzione 
+    precedente normalizzato rispetto la soluzione iniziale.
     \item \textbf{residuo scalato}: alla iterazione $k$ si calcola
-    $$\frac{\|b- Ax^{(k)}\|}{\|b\|}$$
+    $$\frac{\|b- Ax^{(k)}\|}{\|b\|}< \texttt{tolleranza}$$
     Dove $A$ e $b$ sono la matrice e il vettore dei termini noti del sistema che 
-    si sta risolvendo
+    si sta risolvendo. Quindi questo corrisponde a calcolare l'errore relativo rispetto alla soluzione 
+    precedente normalizzato rispetto la soluzione iniziale.
+    
 \end{itemize}
+
+ della soluzione $k$-esima
+normalizzato secondo la la prima soluzione o secondo il vettore dei termini noti.
+
+\begin{nota}
+    Questi criteri funzionano per qualsiasi norma si vuole utilizzare.
+\end{nota}
+
+Analizzando la \textbf{complessità del criterio di arresto basato sull'incremento tra due 
+iterate successive}, si può notare che si effettua una sottrazione tra vettori 
+di dimensione $n$ ($n$ somme ovvero $\mathcal{O}(n)$), la norma ha una complessità
+di $\mathcal{O}(n)$ (quindi $2\mathcal{O}(n)$ perché si calcola due volte) e 
+successivamente si ha $1$ divisione.
+Il costo totale risulta
+$$\mathcal{O}(n^2)+ \mathcal{O}(n)+2\mathcal{O}(n)+1 = \mathcal{O}(n)$$
+
+Per quanto riguarda la \textbf{complessità del criterio di arresto basato sull'incremento tra due 
+iterate successive} si hanno delle operazioni più complesse:
+\begin{itemize}
+    \item prodotto tra matrice e vettore: $\mathcal{O}(n^2)$
+    \item somma tra vettori: $\mathcal{O}(n)$
+    \item calcolo di due norme: $2\mathcal{O}(n)$
+    \item un rapporto: $\mathcal{O}(1)$
+\end{itemize}
+Il totale risulta 
+$$\mathcal{O}(n^2)+ \mathcal{O}(n)+2\mathcal{O}(n)+1 = \mathcal{O}(n^2)$$
+
+Il costo è maggiore rispetto al primo criterio anche se rimane sempre polinomiale 
+di grado basso. In aggiunta si può notare che spesso i metodi iterativi calcolano
+già la quantità $b-Ax^{(k)}$ per ottenere la soluzione $x^{(k+1)}$, quindi la parte 
+più onerosa del calcolo del residuo si sposta nel calcolo della soluzione successiva.
+
+\begin{nota}
+    Quando si calcola il residuo si calcola una sola volta la norma di $b$, perché
+    per tutto l'algoritmo il vettore rimane invariato.
+\end{nota}
+
+\begin{nota}
+    In aggiunta non è stato tenuto conto che quando calcoliamo i criteri di arresto
+    quando facciamo il prodotto matrice-vettore, la matrice è sparsa, quindi 
+    il prodotto non è $\mathcal{O}(n^2)$ ma una complessità dipendente dalle entrate 
+    non nulle.
+\end{nota}
+
+\subsection{Generico algoritmo iterativo}
+Tutti gli algoritmi iterativi sono identici a meno della metodologia di calcolo
+della soluzione $x^{(k)}$.
+
+Un generico algoritmo prende in input:
+\begin{itemize}
+    \item una matrice $A$
+    \item un vettore dei termini noti $b$
+    \item una tolleranza \texttt{tolleranza}
+    \item eventuali parametri addizionali utili per il calcolo della soluzione 
+    $k$-esima.
+\end{itemize}
+
+Il vettore $x^{(0)}$ di partenza e sotto opportune ipotesi della matrice $A$, la 
+scelta della soluzione iniziale mantiene invariata la convergenza dell'algoritmo.
+
+Si ha un ciclo while che ha come condizione la verifica del criterio di arresto,
+ovvero uno dei criteri specificati precedentemente. Oltre al criterio di arresto 
+spesso si aggiunge un numero di iterazioni massime perché spesso si rischia di 
+non poter mai raggiungere la soluzione esatta.
+
+Nell'algoritmo non si effettuano mai operazioni che modificano la matrice $A$,
+quindi non si rischierà l'effetto fill-in.
+
+\begin{nota}
+    Il numero di iterazioni massime, per alcuni problemi, può essere stabilito
+    a priori in base alla dimensione della matrice. In generale si considera
+    sempre un numero arbitrariamente alto
+\end{nota}
+
+% TODO: aggiungere l'algoritmo inb pseudocodice
+
+
+
+\subsection{Metodi iterativi stazionari}
+Per definire un metodo risolutivo iterativo, si inizia da una procedura di \textbf{splitting}.
+Data una matrice $A\in \mathbb{R}^{n\times n}$, supponiamo di spezzarla nel seguente 
+modo
+$$A=P-N$$
+con $P,N\in \mathbb{R}^{n\times n}$. Con questa decomposizione il sistema lineare 
+si riscrive in
+$$Ax= b \iff (P-N)x= b \iff Px = Nx+b \iff x= P^{-1}Nx+P^{-1}b$$
+L'ultima uguaglianza suggerisce la procedura iterativa, ovvero partendo da una 
+soluzione iniziale $x^{(0)}$ si ha
+\begin{equation}
+    x^{k+1} =  P^{-1}Nx^{k}+P^{-1}b
+    \label{eq:iterativo_stazionario}
+\end{equation}
+
+Tutti i metodi iterartivi si basano sul fatto che il calcolo della matrice $P^{-1}$ 
+sia veloce e facile. Se non fosse così allora converrebbe trovare l'inversa di 
+$A$ al posto di $P$, in modo tale da calcolare $x=A^{-1}b$.
+
+Questi metodi vengono chiamati stazionari perché le matrici $P,N$ non dipendono 
+dal parametro $k$.
+
+\begin{teorema}
+    Supponiamo che esista una decomposizione di $A=P-N $ in due matrici $P, N$ simmetriche 
+    e definite positive. Se anche la matrice $2P-N$ è definita positiva allora 
+    il metodo iterativo definito nell'equazione \ref{eq:iterativo_stazionario} 
+    converge per ogni valore iniziale $x^{(0)}$ e $|\lambda_{\max}| < 1$.
+
+    Dove $\lambda_{\max}$ è l'autovalore di modulo massimo della matrice $P^{-1}N$.
+    Inoltre la convergenza è monotona rispetto alle norme $\|\cdot\|_p$
+\end{teorema}
