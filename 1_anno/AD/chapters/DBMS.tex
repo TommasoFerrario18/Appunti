@@ -1,5 +1,13 @@
 \chapter{DBMS}
-% ! È già presente nell'introduzione questa definizione
+Nel percorso universitario affrontato fino a questo momento, sono state studiate
+le basi di dati centralizzate, ovvero basi di dati in cui i dati sono memorizzati
+in un unico luogo. L'architettura di tali strumenti è definita attraverso:
+\begin{itemize}
+    \item Uno o più spazi per la memorizzazione dei dati, tutti localizzati nello
+          stesso luogo.
+    \item Il DBMS, che è un software che consente di gestire i dati.
+    \item Un'interfaccia che consente agli utenti di leggere e scrivere i dati.
+\end{itemize}
 \begin{definizione}[\textbf{DBMS}]
       Un \textbf{DBMS} (DataBase Management System) è un sistema software in grado
       di gestire collezioni di dati che siano:
@@ -15,6 +23,22 @@
             \item \textbf{Affidabili}: devono essere resistenti a guasti.
       \end{itemize}
 \end{definizione}
+Per quanto riguarda i DBMS centralizzati, la loro architettura dati è definita 
+su tre livelli:
+\begin{enumerate}
+    \item \textbf{Schema esterno}: rappresenta ciò che vede l'utente finale,
+          permette all'utente di avere viste personalizzate dei dati.
+    \item \textbf{Schema concettuale} (logico): è la rappresentazione dei dati in modo
+          indipendente dal DBMS. Questo schema è definito attraverso un modello
+          di dati, che può essere relazionale, gerarchico, a oggetti, ecc.
+    \item \textbf{Schema fisico}: questo schema rappresenta l'approccio fisico
+          del sistema e quindi le modalità utilizzate da un DBMS per implementare
+          le sue tabelle, le sue configurazioni, tutti i dati di cui ha bisogno
+          sulla memoria fisica stessa.
+\end{enumerate}
+\begin{nota}
+    Uno schema fisico è associato ad un solo schema concettuale (logico).
+\end{nota}
 I DBMS sono solitamente posizionati tra la base di dati fisica e le applicazioni
 che la utilizzano. Questo permette di separare la gestione dei dati dalla
 gestione delle applicazioni, permettendo di modificare le applicazioni senza
@@ -49,7 +73,6 @@ applicazioni, questo rende necessario introdurre dei meccanismi di
 accessi. In un mondo ideale, le \textbf{transazioni} sono \textbf{corrette} se
 sono \textbf{seriali}, ma questo penalizzerebbe di molto l'efficienza del sistema e
 quindi il \textbf{controllo della concorrenza} permette un ragionevole compromesso.
-% ! Fino a qui è già presente nell'introduzione
 
 Quando gli utenti eseguono le \textbf{query} sulle basi di dati, lo fanno avendo
 a disposizione lo schema logico. Questo schema però non rappresenta come sono

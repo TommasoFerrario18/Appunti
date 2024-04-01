@@ -46,8 +46,9 @@ Da questo use case possiamo osservare che il modello relazionale presenta dei
 limiti nella gestione dei dati:
 \begin{itemize}
       \item Si ha uno svantaggio nel salvare di dati poco omogenei, questo è dovuto
-            principalmente alla rigidità dello schema. In quanto prima di poter
-            inserire i dati, è necessario definire uno schema.
+            principalmente alla rigidità dello schema dei modelli relazionali, in
+            quanto prima di poter inserire i dati, è necessario definire la loro
+            struttura.
       \item Si ha uno svantaggio in relazione al paradigma di programmazione che
             viene usato (Programmazione a oggetti). Questo obbliga a utilizzare
             un ORM per mappare i dati del database relazionale con gli oggetti
@@ -99,9 +100,9 @@ prima di poter inserire i dati. L'inserimento dei dati implica per quel dato lo
 schema associato, il successivo inserimento di un dato può avere uno schema diverso.
 
 % Presa da internet la definizione
-Oltre a ciò, per questi database vale il teorema CAP, che afferma che è
-impossibile per un sistema distribuito garantire contemporaneamente le seguenti
-tre proprietà:
+Oltre a ciò, per questi database vale il \textbf{teorema CAP}, il quale afferma
+che è impossibile per un sistema distribuito garantire contemporaneamente le
+seguenti tre proprietà:
 \begin{itemize}
       \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati allo stesso
             tempo.
@@ -110,9 +111,8 @@ tre proprietà:
       \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
             se alcune parti del sistema non sono disponibili.
 \end{itemize}
-
-Mentre nei database relazionali avevamo le transazioni ACID, nei database NoSQL
-abbiamo le transazioni BASE, che stanno per:
+Mentre nei database relazionali avevamo le transazioni \textbf{ACID}, nei database
+NoSQL abbiamo le transazioni \textbf{BASE}, che stanno per:
 \begin{itemize}
       \item \textbf{Basically Available}: il sistema è sempre disponibile.
       \item \textbf{Soft state}: lo stato del sistema può cambiare anche senza
@@ -130,7 +130,7 @@ per l'applicazione, il contrario di come si faceva una volta: progettazione gene
 \section{Tipi di database NoSQL}
 Esistono diverse tipologie di database NoSQL, ognuna con le proprie caratteristiche
 e i propri casi d'uso. Possiamo dire che più è semplice il modello, più è facile
-scalarlo. Nella figura \ref{fig:tipi_nosql} possiamo come si posizionano i
+scalarlo. Nella figura \ref{fig:tipi_nosql} possiamo osservare come si posizionano i
 database NoSQL rispetto alla dimensione e complessità del modello.
 \begin{figure}[!ht]
       \centering
@@ -138,8 +138,10 @@ database NoSQL rispetto alla dimensione e complessità del modello.
       \caption{Tipi di database NoSQL}
       \label{fig:tipi_nosql}
 \end{figure}
-Rispetto questa rappresentazione possiamo posizionare il modello relazionale a metà
-tra la complessità delle colonne e i documenti.
+
+Rispetto questa rappresentazione possiamo posizionare il modello relazionale tra
+il modello column-based e il modello document-based.
+
 In questo corso vedremo i seguenti tipi di database NoSQL:
 \begin{itemize}
       \item \textbf{Document-based}: i dati sono memorizzati in documenti, che
@@ -149,16 +151,16 @@ In questo corso vedremo i seguenti tipi di database NoSQL:
             database relazionali.
       \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
 \end{itemize}
-Una caratteristica che accomuna questi modelli è che tutti devono risolvere il
-problema di mettere insieme i dati. Ad esempio, i database relazionali usano i join,
-mentre i database document-based usano un unico documento.
+Una caratteristica che accomuna queste tipologie di database è legata al problema
+di mettere insieme i dati. Ad esempio, i database relazionali usano le operazioni
+di join, mentre i database document-based usano un unico documento.
 \subsection{Key value}
-I database key-value sono i più semplici tra i database NoSQL. In questi
+I database \textbf{key-value} sono i più semplici tra i database NoSQL. In questi
 database, i dati sono memorizzati come tabelle di hash dove la chiave punta a un
 particolare valore. Si utilizzano le tabelle di hash per massimizzare le prestazioni
 di lettura e scrittura.
 \subsection{Wide column}
-I database wide-column sono simili ai database relazionali, ma invece di
+I database \textbf{wide-column} sono simili ai database relazionali, ma invece di
 memorizzare i dati in righe, i dati sono memorizzati in colonne. Questo permette
 di avere una maggiore flessibilità rispetto ai database relazionali. La chiave
 punta a un insieme di colonne che può essere diverso per ogni riga.
@@ -209,13 +211,14 @@ Un vantaggio dell'utilizzo di questo database è legato al fatto che ogni riga �
 indipendente dalle altre. Quindi, in un contesto distribuito, è possibile frammentare
 come si vuole il database senza dover fare join.
 \subsection{Document based}
-I database document-based permettono di memorizzare delle informazioni sotto
+I database \textbf{document-based} permettono di memorizzare delle informazioni sotto
 forma di documenti. Ognuno dei quali è identificato attraverso una chiave unica.
 Tutte le operazioni di lettura e manipolazione dei dati avvengono all'interno
 dei documenti stessi.
 \paragraph{MongoDB}
-MongoDB è un database document-based che memorizza i dati in documenti JSON.
-Ogni documento è identificato da una chiave unica, chiamata \texttt{\_id}.
+MongoDB è un database document-based che memorizza i dati in documenti JSON, più
+precisamente, utilizza un formato binario di JSON chiamato BSON. Ogni documento
+è identificato da una chiave unica, chiamata \texttt{\_id}.
 
 Possiamo immaginare la struttura di un file JSON come un albero, dove la radice
 è la chiave \texttt{\_id} e i figli sono i campi del documento.
@@ -245,7 +248,7 @@ Vediamo ora un parallelismo tra i database relazionali e MongoDB:
       \item \textbf{Foreign key} $\rightarrow$ \textbf{Reference}
       \item \textbf{Partition} $\rightarrow$ \textbf{Shard}
 \end{itemize}
-Le operazioni che si vogliono svolgere sulla base di dato vengono espresse
+Le operazioni che si vogliono svolgere sulla base di dati vengono espresse
 attraverso una notazione che ricorda quella della programmazione a oggetti, ovvero
 attraverso la \textit{dot notation}. Inoltre, nelle operazioni tutti gli
 operatori devono essere espressi in JSON. Questo permette di eliminare l'utilizzo
@@ -263,14 +266,22 @@ Mongo permette di creare degli indici per velocizzare le operazioni.
 \begin{esempio}
       Vediamo ora un esempio di parallelismo tra una query SQL e una per
       MongoDB:
+      \begin{center}
+            db.\textcolor{red}{users}.find(\textcolor{green}{\{age: \{ \$gt: 18 \}\}},
+            \textcolor{cyan}{\{name: 1, age: 1\}}).\textcolor{magenta}{limits(10)}
+      \end{center}
+      \begin{center}
+            \textcolor{cyan}{SELECT name, age} \textcolor{red}{FROM users}
+            \textcolor{green}{WHERE age $>$ 18} \textcolor{magenta}{LIMIT 10}
+      \end{center}
 \end{esempio}
 Nelle interrogazioni, tutte le clausole sono specificate in \texttt{AND}, se si
 vuole specificare in \texttt{OR} è necessario utilizzare il comando $\$or$ seguito
 da una lista di oggetti JSON.
 
 Nelle versioni successive è stato definito il concetto di \textbf{aggregation} e
-di \textbf{pipeline}. Una pipeline è un comando che rappresenta una sequenza di 
-operazioni che vengono eseguite in serie e possono essere usate per operazioni 
+di \textbf{pipeline}. Una pipeline è un comando che rappresenta una sequenza di
+operazioni che vengono eseguite in serie e possono essere usate per operazioni
 di analytics.
 
 \subsection{Graph based}
