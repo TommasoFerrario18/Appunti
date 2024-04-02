@@ -609,190 +609,231 @@ matrice definita come $R_\ast ^t R_\ast$, quindi $B = A_\ast - \frac{1}{a_{11}}
           \end{equation*}
           Che è esattamente quanto trovato precedentemente.
 \end{itemize}
-
 \subsection{Perturbazione dei dati}
-Per ora sono stati introdotti solo dei metodi diretti per risolvere in modo approssimato 
-sistemi di equazione lineare. Ora vogliamo studia come la soluzione trovata cambia
-al variare dei coefficienti di $A$ e $b$ del sistema.
+Fino a questo momento ci siamo concentrati sul trovare la soluzione che meglio
+approssima la soluzione esatta di un generico sistema lineare $Ax=b$. Ora vogliamo
+analizzare come varia la soluzione approssimata $x_h$ al variare dei dati, ossia
+se la matrice $A$ e il vettore $b$ vengono modificati.
 
 \paragraph{Perturbazione di $b$}
-Fissiamo $A$ e consideriamo i seguenti sistemi lineari
+Fissiamo $A$ e consideriamo i seguenti sistemi lineari:
 \begin{equation*}
-    Ax=b \ \ \ \ \ \ Ax = b+ \delta b
+    Ax=b \quad \text{e} \quad Ax=b+\delta b
 \end{equation*}
-In modo tale che $\|\delta b\|$ sia piccola. Sia $\stackrel{\sim }{x}$ la soluzione del 
-sistema $Ax=b$, vogliamo scoprire come $\stackrel{\sim}{x}$ si modifica nel sistema 
-perturbato. Possiamo osservare innanzitutto
-$$A\stackrel{\sim}{x}=b \implies \|A\stackrel{\sim}{x}\|=\|b\|\implies 
-\|A\|\|\stackrel{\sim}{x}\|\ge \|b\|\implies\frac{1}{\|\stackrel{\sim}{x}\|}\le \frac{\|A\|}{\|b\|}$$
-Con quanto detto, dal momento che $\stackrel{\sim}{x}$ è una soluzione del sistema 
-allora $det(A)\ne 0 $ quindi la matrice è invertibile, di conseguenza
-$$Ax = b+\delta b\implies A^{-1}Ax = A^{-1}(b+\delta b)\implies A^{-1}Ax = A^{-1}b+A^{-1}\delta b$$ 
-Dal momento che per un sistema in cui esiste una soluzione allora si ha che $\stackrel{\sim}{x}= A^{-1}b$
-allora possiamo dire che 
-$$A^{-1}Ax = A^{-1}b+A^{-1}\delta b\implies x = \stackrel{\sim}{x}+A^{-1}\delta b\implies x - \stackrel{\sim}{x} = A^{-1}\delta b$$
-Anche qui possiamo passare alle norme
-$$\|x - \stackrel{\sim}{x} \|= \|A^{-1}\delta b\|$$
-utilizzando le proprietà delle norme si ha
-$$\|x - \stackrel{\sim}{x} \|\le\|A^{-1}\|\|\delta b\|$$
+In modo tale che $\|\delta b\|$ sia piccola. Sia $\stackrel{\sim }{x}$ la soluzione
+del sistema $Ax=b$, vogliamo scoprire come $\stackrel{\sim}{x}$ si modifica nel
+sistema perturbato. Possiamo osservare innanzitutto che:
+\begin{equation}
+    A\stackrel{\sim}{x}=b \implies \|A\stackrel{\sim}{x}\|=\|b\|\implies \|A\|\|
+    \stackrel{\sim}{x}\|\geq \|b\|\implies\frac{1}{\|\stackrel{\sim}{x}\|} \leq \frac{\|A\|}{\|b\|}
+\end{equation}
+Con quanto detto, dal momento che $\stackrel{\sim}{x}$ è una soluzione del sistema
+allora $det(A) \neq 0$ quindi la matrice è invertibile, di conseguenza:
+\begin{equation}
+    Ax = b + \delta b \implies A^{-1} Ax = A^{-1}(b + \delta b) \implies A^{-1}
+    Ax = A^{-1} b + A^{-1} \delta b
+\end{equation}
+Dal momento che per un sistema in cui esiste una soluzione allora si ha che
+$\stackrel{\sim}{x}= A^{-1}b$ allora possiamo dire che:
+\begin{equation}
+    A^{-1}Ax = A^{-1}b+A^{-1}\delta b\implies x = \stackrel{\sim}{x}+A^{-1}\delta
+    b\implies x - \stackrel{\sim}{x} = A^{-1}\delta b
+\end{equation}
+Anche qui possiamo passare alle norme e ottenere i seguenti risultati:
+\begin{equation}
+    \|x - \stackrel{\sim}{x} \| = \|A^{-1}\delta b\|
+\end{equation}
+utilizzando le proprietà delle norme si ottiene:
+\begin{equation}
+    \|x - \stackrel{\sim}{x} \| \leq \|A^{-1}\|\|\delta b\|
+\end{equation}
+Unendo quanto ottenuto moltiplicando a sinistra per le norme delle soluzioni e a
+destra per le norme dei termini dei sistemi, otteniamo la seguente disequazione:
+\begin{equation}
+    \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \frac{\|A\|}{\|b\|}
+    \|A^{-1}\|\|\delta b\|
+\end{equation}
+Quanto scritto fino a questo momento può essere generalizzato per qualunque norma.
+Dato che il nostro obiettivo è quello di capire la relazione tra il \textbf{numero
+    di condizionamento} e la soluzione del sistema, usiamo la norma 2.
+\begin{equation}
+    \begin{aligned}
+        \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|} & \leq \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\| \implies \\
+        \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|} & \leq \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|} \implies \\
+        \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|} & \leq \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|} \implies \\
+        \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|} & \leq  cond(A)\frac{\|\delta b\|}{\|b\|}
+    \end{aligned}
+\end{equation}
+Questo perché possiamo scrivere il numero di condizionamento come:
+\begin{equation*}
+    \|A^{-1}\|_2\cdot \|A\|_2 = \frac{|\lambda_{\max}|}{|\lambda_{\min}|} = cond(A)
+\end{equation*}
+Nella disequazione si può notare come a sinistra abbiamo una sorta di \textit{errore
+    relativo} tra la soluzione del sistema lineare originale e quella del sistema
+lineare perturbato. A destra abbiamo la misura dell'entità di perturbazione e il
+numero di condizionamento.
 
-Ora unendo le due due relazioni tra le soluzioni e i singoli sistemi, ovvero 
-a sinistra si moltiplicano le norme delle soluzioni e a destra si moltiplicano 
-le norme dei termini dei sistemi.
-
-$$\|\frac{1}{\stackrel{\sim}{x}}\|\|x - \stackrel{\sim}{x} \|\le   \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\|$$
-Questo vale per una qualsiasi norma, fissiamo la norma $2$, allora possiamo introdurre 
-il \textbf{numero di condizionamento} che ci permette di mantenere la relazione 
-tra soluzione e numero di condizionamento.
-$$\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\|\implies
-\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies 
-\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies 
-$$$$\implies \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le  cond(A)\frac{\|\delta b\|}{\|b\|}$$
-Questo perché $\|A^{-1}\|_2\cdot \|A\|_2 = \frac{|\lambda_{\max}|}{|\lambda_{\min}|} = cond(A)$.
-
-Nella disequazioe si può notare come a sinistra abbiamo una sorta di errore relativo 
-tra la soluzione del sistema lineare originale e quella del sistema lineare perturbato.
-A destra abbiamo la misura dell'entità di perturbazione e il numero di condizionamento.
-
-Data una piccola perturbazione e facendo variare $A$. dall'ultima disequazione 
-possiamo notare che più grande il condizionamento, più la soluzione del sistema 
-perturbato sarà diversa dal sistema originale. Questo offre informazioni in merito 
-al ambiamento delle soluzioni, più precisamente maggiore sarà il condizionamento,
-più la matrice è sensibile al cambiamento del termine di destra e maggiore 
-sarà il cambiamento della soluzone.
-
+Data una piccola perturbazione e facendo variare $A$, dall'ultima disequazione
+possiamo notare che più grande il condizionamento, più la soluzione del sistema
+perturbato sarà diversa dal sistema originale. Questo offre informazioni in merito
+al cambiamento delle soluzioni, più precisamente maggiore sarà il condizionamento,
+più la matrice è sensibile al cambiamento del termine di destra e maggiore
+sarà il cambiamento della soluzione.
 \paragraph{Perturbazione di $A$}
-Questo è l caso più complicato, fissiamo $b$ e consideriamo i seguenti sistemi lineari
+Consideriamo ora il caso in cui la matrice $A \in \mathbb{R}^{n \times n}$ viene
+perturbata. Fissiamo il termine noto $b \in \mathbb{R}^n$ e consideriamo i seguenti
+sistemi lineari:
 \begin{equation*}
-    Ax=b \ \ \ \ \ \ (A+E)x = b
+    Ax = b \quad \text{e} \quad (A + E)x = b
 \end{equation*}
+Sia $\stackrel{\sim}{x}$ la soluzione del sistema originale, vogliamo capire come
+varia la soluzione applicando la perturbazione.
 
-Sia $\stackrel{\sim}{x}$ la soluzione del sistema originale, vogliamo capire come 
-varia la soluzione applicando la perturbazione. 
-
-Il problema principale sulla perturbazione è il fatto che sommando $A+E$ c'è il 
-rischio che il determinante diventi $0$ portando alla impossibilità di risolvere
-il sistema.
-
+Il problema principale di questa casistica è dovuto al fatto che, sommando $A + E$
+si introduce il rischio che il determinante si annulli ($det(A + E) = 0$) facendo
+quindi diventare il sistema non risolvibile. Per evitare questo problema si può
+sfruttare il seguente teorema.
 \begin{teorema}
-    Sia $A$ una matrice non singolare e sia $E$ tale che $\|A^{-1}E\|<1$. Allora 
-    la matrice $A+E$ è non singolare.
+    Sia $A$ una matrice non singolare e sia $E$ una matrice tale che:
+    \begin{equation*}
+        \| A^{-1}E \| < 1
+    \end{equation*}
+    allora la matrice $A + E$ è non singolare.
 \end{teorema}
-
-Questo permette di scegliere la matrice $E$ in modo tale da preservare la risolubilità
-
+Questo permette di scegliere la matrice $E$ in modo tale da preservare la
+risolubilità del sistema.
 \begin{nota}
-    Nel teorema precedente si è utilizzata la definizione per una generica norma, 
-    dal momento che ci vogliamo ricondurre al numero di condizionamento allora 
+    Nel teorema precedente si è utilizzata la definizione per una generica norma,
+    dal momento che ci vogliamo ricondurre al numero di condizionamento allora
     useremo la norma $2$.
 \end{nota}
 
-Stimiamo come variano le soluzioni, per ipotesi $A$ è invertibile e $\stackrel{\sim}{x}$
-è la soluzione del sistema originale.
-$$(A+E)x= b \implies A^{-1}(A+E)x= A^{-1}b \implies x+A^{-1}Ex=\stackrel{\sim}{x}\implies
-x-\stackrel{\sim}{x}=-A^{-1}Ex$$
-Successivamente passiamo alle norme
-$$\|x-\stackrel{\sim}{x}\|=\|-A^{-1}Ex\|\implies \|x-\stackrel{\sim}{x}\|=|-1|\|A^{-1}Ex\|
-\implies \|x-\stackrel{\sim}{x}\|=\|A^{-1}Ex\|\implies  
-$$$$\implies\|x-\stackrel{\sim}{x}\|\le\|A^{-1}E\|\|x\|\implies \frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}\le\|A^{-1}E\|$$
-
-Come effettuato per la perturbazione di $b$, vogliamo avere al denominatore 
+Stimiamo come variano le soluzioni, partendo dall'ipotesi che $A$ sia invertibile
+e $\stackrel{\sim}{x}$ è la soluzione del sistema originale.
+\begin{equation*}
+    (A + E)x = b \implies A^{-1}(A + E)x = A^{-1}b \implies x + A^{-1} Ex =
+    \stackrel{\sim}{x} \implies x - \stackrel{\sim}{x} = -A^{-1} Ex
+\end{equation*}
+Successivamente passiamo alle norme e otteniamo:
+\begin{equation*}
+    \begin{aligned}
+        \|x - \stackrel{\sim}{x}\| = \|-A^{-1}Ex\| & \implies \|x - \stackrel{\sim}{x}\|
+        = |-1|\|A^{-1}Ex\| \implies                                                      \\
+        \|x - \stackrel{\sim}{x}\| = \|A^{-1}Ex\|  & \implies \|x - \stackrel{\sim}{x}\|
+        \leq \|A^{-1}E\|\|x\| \implies                                                   \\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|x\|}\leq\|A^{-1}E\|
+    \end{aligned}
+\end{equation*}
+Come effettuato per la perturbazione di $b$, vogliamo avere al denominatore
 la norma della soluzione del sistema non perturbato ($\|\stackrel{\sim}{x}\|$).
-Sia $\rho:=\|A^{-1}E\|$ allora
-$$\frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}\le \rho \implies \rho\|x\|\ge \|x-\stackrel{\sim}{x}\|
-\implies \rho\|x\|\ge \|x\|-\|\stackrel{\sim}{x}\|\implies \|\stackrel{\sim}{x}\| \ge (1-\rho) \|x\|\implies
-\frac{1}{\|\stackrel{\sim}{x}\|}\le \frac{1}{(1-\rho)\|x\|}$$
+Sia $\rho:=\|A^{-1}E\|$ allora:
+\begin{equation}
+    \frac{\|x - \stackrel{\sim}{x}\|}{\|x\|} \leq \rho \implies \rho \|x\|\geq
+    \|x - \stackrel{\sim}{x}\| \implies \rho\|x\| \geq \|x\| - \|\stackrel{\sim}{x}\|
+    \implies \|\stackrel{\sim}{x}\| \geq (1-\rho) \|x\| \implies \frac{1}{\|
+        \stackrel{\sim}{x}\|} \leq \frac{1}{(1-\rho)\|x\|}
+\end{equation}
+Successivamente, moltiplicando entrambi i membri per $\|x-\stackrel{\sim}{x}\|$
+si ottiene:
+\begin{equation*}
+    \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \frac{\|x -
+        \stackrel{\sim}{x}\|}{(1 - \rho)\|x\|}
+\end{equation*}
+Successivamente, sapendo che $\rho = \frac{\|x - \stackrel{\sim}{x}\|}{\|x\|}$ allora:
+\begin{equation*}
+    \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \frac{\|x -
+        \stackrel{\sim}{x}\|}{(1 - \rho)\|x\|} \implies \frac{\|x - \stackrel{\sim}{x}\|}
+    {\|\stackrel{\sim}{x}\|} \leq \frac{\rho}{(1-\rho)}
+\end{equation*}
+Sapendo che $\rho$ è molto piccolo e positivo, perché deve valere il teorema
+introdotto precedentemente, quindi $\rho = \|A^{-1}E\| < 1$, allora vale la seguente
+approssimazione $\frac{\rho}{(1-\rho)} \approx \rho$.
 
-Susccessivamente moltiplico entrambi i membri per $\|x-\stackrel{\sim}{x}\|$ e ottengo
-$$\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \frac{\|x-\stackrel{\sim}{x}\|}{(1-\rho)\|x\|}$$
-Successivamente sapendo che $\rho=frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}$ allora
-$$\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \frac{\|x-\stackrel{\sim}{x}\|}{(1-\rho)\|x\|} \implies \frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \frac{\rho}{(1-\rho)}$$
-
-Sapendo che $\rho$ è molto piccolo e positivo, perché deve valere il teorema introdotto
-precedentemente, quindi $\rho=\|A^{-1}E\|<1$, allora vale la seguente approssimazione $\frac{\rho}{(1-\rho)}\approx \rho$.
-
-Successivamente si possono espandere i calcoli per ottenere il nuemro di condizionamento.
-$$\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}E\| \implies 
-\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}\|\|E\|\implies
-\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}\|\|E\|\frac{\|A\|}{\|A\|}\implies
-\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}\|\|A\|\frac{\|E\|}{\|A\|}\implies
-$$$$\implies\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le cond(A)\frac{\|E\|}{\|A\|}$$
-Ovviamente il passaggio al numero di condizionamento vale per la norma $2$. La 
-soluzione del sistema perturbato dipende dal numero di condizionamento di $A$ e 
+Successivamente si possono espandere i calcoli per ottenere il numero di condizionamento.
+\begin{equation*}
+    \begin{aligned}
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \|A^{-1}E\|
+         & \implies \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \|A^{-1}\|\|E\| \implies \\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \|A^{-1}\|\|E\|\frac{\|A\|}{\|A\|} 
+        & \implies \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \|A^{-1}\|\|A\|\frac{\|E\|}{\|A\|} \implies \\
+        & \implies \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq cond(A)\frac{\|E\|}{\|A\|}
+    \end{aligned}
+\end{equation*}
+Ovviamente il passaggio al numero di condizionamento vale per la norma $2$. La
+soluzione del sistema perturbato dipende dal numero di condizionamento di $A$ e
 da quanto è perturbato il sistema.
-
 \section{Metodi iterativi}
 Dato un generico sistema $Ax=b$ con $A$ invertibile.
-I metodi iterativi partono da un vettore iniziale $x^{(0)}$, creano una sequenza 
-di soluzioni $x^{(k)}$ che si avvicinano sempre di più alla soluzione esatta 
+I metodi iterativi partono da un vettore iniziale $x^{(0)}$, creano una sequenza
+di soluzioni $x^{(k)}$ che si avvicinano sempre di più alla soluzione esatta
 $\stackrel{\sim}{x}$.
 
 \subsection{Fill-in}
-Dal momento che la maggior parte delle volte sono molto grandi e spesso sparse 
-allora verranno salvate secondo la rappresentazione sparsa. 
+Dal momento che la maggior parte delle volte sono molto grandi e spesso sparse
+allora verranno salvate secondo la rappresentazione sparsa.
 
-Nel momento in cui si effettua una decomposizione PALU o Cholesky è possibile che 
+Nel momento in cui si effettua una decomposizione PALU o Cholesky è possibile che
 le matrici risultanti non siano sparse, questo fenomeno è chiamato \textbf{fill-in}.
 Questo comporta che per una matrice sparsa, una volta applicata una decomposizione,
-essa potrebbe essere soggetta a fenomeno di \textbf{fill-in} quindi produce 
-delle matrici non sparse, comportando un aumento di complessità spaziale portanto 
+essa potrebbe essere soggetta a fenomeno di \textbf{fill-in} quindi produce
+delle matrici non sparse, comportando un aumento di complessità spaziale portanto
 ad occupare troppa memoria. I metodi iterativi permettono di risolvere questo problema,
-perché utilizzando le operazioni tra matrici, preservano la natura sparsa quindi 
+perché utilizzando le operazioni tra matrici, preservano la natura sparsa quindi
 non si incombe nel fenomeno di fill-in.
 
 \subsection{Criterio di arresto}
-Come detto in precedenza, i metodi iterativi continuano a generare soluzioni sempre 
-più vicine a quella esatta. 
+Come detto in precedenza, i metodi iterativi continuano a generare soluzioni sempre
+più vicine a quella esatta.
 Negli algoritmi iterativi si ha una quantità, chiamata \textbf{tolleranza}, che
-coincide con la soglia che specifica quando terminare le iterazioni. Si termina 
+coincide con la soglia che specifica quando terminare le iterazioni. Si termina
 quando vale la seguente relazione
 $$\frac{\|x^{(k)}-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} < \texttt{tolleranza}$$
 
-Non potendo conoscere la soluzione esatta allora si riscrive la relazione utilizzano i seguenti metodi 
+Non potendo conoscere la soluzione esatta allora si riscrive la relazione utilizzano i seguenti metodi
 di arresto:
 \begin{itemize}
     \item \textbf{incremento tra due iterate}: alla iterazione $k$ si calcola
-    $$\frac{\|x^{(k)}-x^{(k-1)}\|}{\|x^{(0)}\|}< \texttt{tolleranza}$$
-    Questo misura quanto le quantità $x^{(k)}$ e $x^{(k-1)}$ differiscono. Ci si 
-    ferma quando la differenza è minima. Quindi questo corrisponde a calcolare l'errore relativo rispetto alla soluzione 
-    precedente normalizzato rispetto la soluzione iniziale.
+          $$\frac{\|x^{(k)}-x^{(k-1)}\|}{\|x^{(0)}\|}< \texttt{tolleranza}$$
+          Questo misura quanto le quantità $x^{(k)}$ e $x^{(k-1)}$ differiscono. Ci si
+          ferma quando la differenza è minima. Quindi questo corrisponde a calcolare l'errore relativo rispetto alla soluzione
+          precedente normalizzato rispetto la soluzione iniziale.
     \item \textbf{residuo scalato}: alla iterazione $k$ si calcola
-    $$\frac{\|b- Ax^{(k)}\|}{\|b\|}< \texttt{tolleranza}$$
-    Dove $A$ e $b$ sono la matrice e il vettore dei termini noti del sistema che 
-    si sta risolvendo. Quindi questo corrisponde a calcolare l'errore relativo rispetto alla soluzione 
-    precedente normalizzato rispetto la soluzione iniziale.
-    
+          $$\frac{\|b- Ax^{(k)}\|}{\|b\|}< \texttt{tolleranza}$$
+          Dove $A$ e $b$ sono la matrice e il vettore dei termini noti del sistema che
+          si sta risolvendo. Quindi questo corrisponde a calcolare l'errore relativo rispetto alla soluzione
+          precedente normalizzato rispetto la soluzione iniziale.
+
 \end{itemize}
 
- della soluzione $k$-esima
+della soluzione $k$-esima
 normalizzato secondo la la prima soluzione o secondo il vettore dei termini noti.
 
 \begin{nota}
     Questi criteri funzionano per qualsiasi norma si vuole utilizzare.
 \end{nota}
 
-Analizzando la \textbf{complessità del criterio di arresto basato sull'incremento tra due 
-iterate successive}, si può notare che si effettua una sottrazione tra vettori 
+Analizzando la \textbf{complessità del criterio di arresto basato sull'incremento tra due
+    iterate successive}, si può notare che si effettua una sottrazione tra vettori
 di dimensione $n$ ($n$ somme ovvero $\mathcal{O}(n)$), la norma ha una complessità
-di $\mathcal{O}(n)$ (quindi $2\mathcal{O}(n)$ perché si calcola due volte) e 
+di $\mathcal{O}(n)$ (quindi $2\mathcal{O}(n)$ perché si calcola due volte) e
 successivamente si ha $1$ divisione.
 Il costo totale risulta
 $$\mathcal{O}(n^2)+ \mathcal{O}(n)+2\mathcal{O}(n)+1 = \mathcal{O}(n)$$
 
-Per quanto riguarda la \textbf{complessità del criterio di arresto basato sull'incremento tra due 
-iterate successive} si hanno delle operazioni più complesse:
+Per quanto riguarda la \textbf{complessità del criterio di arresto basato sull'incremento tra due
+    iterate successive} si hanno delle operazioni più complesse:
 \begin{itemize}
     \item prodotto tra matrice e vettore: $\mathcal{O}(n^2)$
     \item somma tra vettori: $\mathcal{O}(n)$
     \item calcolo di due norme: $2\mathcal{O}(n)$
     \item un rapporto: $\mathcal{O}(1)$
 \end{itemize}
-Il totale risulta 
+Il totale risulta
 $$\mathcal{O}(n^2)+ \mathcal{O}(n)+2\mathcal{O}(n)+1 = \mathcal{O}(n^2)$$
 
-Il costo è maggiore rispetto al primo criterio anche se rimane sempre polinomiale 
+Il costo è maggiore rispetto al primo criterio anche se rimane sempre polinomiale
 di grado basso. In aggiunta si può notare che spesso i metodi iterativi calcolano
-già la quantità $b-Ax^{(k)}$ per ottenere la soluzione $x^{(k+1)}$, quindi la parte 
+già la quantità $b-Ax^{(k)}$ per ottenere la soluzione $x^{(k+1)}$, quindi la parte
 più onerosa del calcolo del residuo si sposta nel calcolo della soluzione successiva.
 
 \begin{nota}
@@ -802,8 +843,8 @@ più onerosa del calcolo del residuo si sposta nel calcolo della soluzione succe
 
 \begin{nota}
     In aggiunta non è stato tenuto conto che quando calcoliamo i criteri di arresto
-    quando facciamo il prodotto matrice-vettore, la matrice è sparsa, quindi 
-    il prodotto non è $\mathcal{O}(n^2)$ ma una complessità dipendente dalle entrate 
+    quando facciamo il prodotto matrice-vettore, la matrice è sparsa, quindi
+    il prodotto non è $\mathcal{O}(n^2)$ ma una complessità dipendente dalle entrate
     non nulle.
 \end{nota}
 
@@ -816,16 +857,16 @@ Un generico algoritmo prende in input:
     \item una matrice $A$
     \item un vettore dei termini noti $b$
     \item una tolleranza \texttt{tolleranza}
-    \item eventuali parametri addizionali utili per il calcolo della soluzione 
-    $k$-esima.
+    \item eventuali parametri addizionali utili per il calcolo della soluzione
+          $k$-esima.
 \end{itemize}
 
-Il vettore $x^{(0)}$ di partenza e sotto opportune ipotesi della matrice $A$, la 
+Il vettore $x^{(0)}$ di partenza e sotto opportune ipotesi della matrice $A$, la
 scelta della soluzione iniziale mantiene invariata la convergenza dell'algoritmo.
 
 Si ha un ciclo while che ha come condizione la verifica del criterio di arresto,
-ovvero uno dei criteri specificati precedentemente. Oltre al criterio di arresto 
-spesso si aggiunge un numero di iterazioni massime perché spesso si rischia di 
+ovvero uno dei criteri specificati precedentemente. Oltre al criterio di arresto
+spesso si aggiunge un numero di iterazioni massime perché spesso si rischia di
 non poter mai raggiungere la soluzione esatta.
 
 Nell'algoritmo non si effettuano mai operazioni che modificano la matrice $A$,
@@ -843,31 +884,31 @@ quindi non si rischierà l'effetto fill-in.
 
 \subsection{Metodi iterativi stazionari}
 Per definire un metodo risolutivo iterativo, si inizia da una procedura di \textbf{splitting}.
-Data una matrice $A\in \mathbb{R}^{n\times n}$, supponiamo di spezzarla nel seguente 
+Data una matrice $A\in \mathbb{R}^{n\times n}$, supponiamo di spezzarla nel seguente
 modo
 $$A=P-N$$
-con $P,N\in \mathbb{R}^{n\times n}$. Con questa decomposizione il sistema lineare 
+con $P,N\in \mathbb{R}^{n\times n}$. Con questa decomposizione il sistema lineare
 si riscrive in
 $$Ax= b \iff (P-N)x= b \iff Px = Nx+b \iff x= P^{-1}Nx+P^{-1}b$$
-L'ultima uguaglianza suggerisce la procedura iterativa, ovvero partendo da una 
+L'ultima uguaglianza suggerisce la procedura iterativa, ovvero partendo da una
 soluzione iniziale $x^{(0)}$ si ha
 \begin{equation}
     x^{k+1} =  P^{-1}Nx^{k}+P^{-1}b
     \label{eq:iterativo_stazionario}
 \end{equation}
 
-Tutti i metodi iterartivi si basano sul fatto che il calcolo della matrice $P^{-1}$ 
-sia veloce e facile. Se non fosse così allora converrebbe trovare l'inversa di 
+Tutti i metodi iterartivi si basano sul fatto che il calcolo della matrice $P^{-1}$
+sia veloce e facile. Se non fosse così allora converrebbe trovare l'inversa di
 $A$ al posto di $P$, in modo tale da calcolare $x=A^{-1}b$.
 
-Questi metodi vengono chiamati stazionari perché le matrici $P,N$ non dipendono 
+Questi metodi vengono chiamati stazionari perché le matrici $P,N$ non dipendono
 dal parametro $k$.
 
 \begin{teorema}
     \label{th:metodi_iterativi}
-    Supponiamo che esista una decomposizione di $A=P-N $ con $A, P$ simmetriche 
-    e definite positive. Se anche la matrice $2P-A$ è definita positiva allora 
-    il metodo iterativo definito nell'equazione \ref{eq:iterativo_stazionario} 
+    Supponiamo che esista una decomposizione di $A=P-N $ con $A, P$ simmetriche
+    e definite positive. Se anche la matrice $2P-A$ è definita positiva allora
+    il metodo iterativo definito nell'equazione \ref{eq:iterativo_stazionario}
     converge per ogni valore iniziale $x^{(0)}$ e $|\lambda_{\max}| < 1$.
 
     Dove $\lambda_{\max}$ è l'autovalore di modulo massimo della matrice $P^{-1}N$.
@@ -875,25 +916,25 @@ dal parametro $k$.
 \end{teorema}
 
 \begin{definizione}
-    LA matrice $P^{-1}N$, che solitamente è indicata con $B$, viene chiamata matrice 
+    LA matrice $P^{-1}N$, che solitamente è indicata con $B$, viene chiamata matrice
     di iterazione del metodo.
 \end{definizione}
 
-Il teorema \ref{th:metodi_iterativi} è molto importante per gli algoritmi basati 
+Il teorema \ref{th:metodi_iterativi} è molto importante per gli algoritmi basati
 sullo splitting per i seguenti motivi:
 \begin{itemize}
     \item ci dice le ipotesi sulle matrici $A, P$ in modo tale che il metodo iterativo
-    converga sempre per ogni soluzione iniziale.
-    \item inoltre, la convergenza è monotona, ovvero che ad ogni passo si trova 
-    una soluzione più vicina a quella esatta, infatti si riduce l'errore.
+          converga sempre per ogni soluzione iniziale.
+    \item inoltre, la convergenza è monotona, ovvero che ad ogni passo si trova
+          una soluzione più vicina a quella esatta, infatti si riduce l'errore.
 \end{itemize}
 
 Possiamo ricondurci ad un'espressione simile al residuo scalato
 $ x^{(k+1)}= P^{-1}Nx^{(k)}+P^{-1}b \iff x^{(k+1)} = P^{-1}(P-A)x^{(k)}+P^{-1}b$
-sostituendo $N=P-A$. Questo significa $ x^{(k+1)} = P^{-1}(P-A)x^{(k)}+P^{-1}b\iff  
-x^{(k+1)} = x^{(k)}-P^{-1}Ax^{(k)}+P^{-1}b$. Successivamente possiamo
+sostituendo $N=P-A$. Questo significa $ x^{(k+1)} = P^{-1}(P-A)x^{(k)}+P^{-1}b\iff
+    x^{(k+1)} = x^{(k)}-P^{-1}Ax^{(k)}+P^{-1}b$. Successivamente possiamo
 raccogliere $P^{-1}$ quind avremo
 $$x^{(k+1)} = x^{(k)}-P^{-1}(b-Ax^{(k)})$$
-Da questo si evince che $b-Ax^{(k)}$ è il \textbf{residuo} $r^{(k)}$ e questo è 
+Da questo si evince che $b-Ax^{(k)}$ è il \textbf{residuo} $r^{(k)}$ e questo è
 utile se si sta usando il residuo come criterio di stop.
 
