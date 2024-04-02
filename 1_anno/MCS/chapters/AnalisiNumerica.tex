@@ -615,11 +615,12 @@ Per ora sono stati introdotti solo dei metodi diretti per risolvere in modo appr
 sistemi di equazione lineare. Ora vogliamo studia come la soluzione trovata cambia
 al variare dei coefficienti di $A$ e $b$ del sistema.
 
+\paragraph{Perturbazione di $b$}
 Fissiamo $A$ e consideriamo i seguenti sistemi lineari
 \begin{equation*}
     Ax=b \ \ \ \ \ \ Ax = b+ \delta b
 \end{equation*}
-In modo tale che $\|\delta b\| < b$. Sia $\stackrel{\sim }{x}$ la soluzione del 
+In modo tale che $\|\delta b\|$ sia piccola. Sia $\stackrel{\sim }{x}$ la soluzione del 
 sistema $Ax=b$, vogliamo scoprire come $\stackrel{\sim}{x}$ si modifica nel sistema 
 perturbato. Possiamo osservare innanzitutto
 $$A\stackrel{\sim}{x}=b \implies \|A\stackrel{\sim}{x}\|=\|b\|\implies 
@@ -627,7 +628,7 @@ $$A\stackrel{\sim}{x}=b \implies \|A\stackrel{\sim}{x}\|=\|b\|\implies
 Con quanto detto, dal momento che $\stackrel{\sim}{x}$ è una soluzione del sistema 
 allora $det(A)\ne 0 $ quindi la matrice è invertibile, di conseguenza
 $$Ax = b+\delta b\implies A^{-1}Ax = A^{-1}(b+\delta b)\implies A^{-1}Ax = A^{-1}b+A^{-1}\delta b$$ 
-Dal momento che per un sistema in cui esiste una soluzione allora si ha che $x= A^{-1}b$
+Dal momento che per un sistema in cui esiste una soluzione allora si ha che $\stackrel{\sim}{x}= A^{-1}b$
 allora possiamo dire che 
 $$A^{-1}Ax = A^{-1}b+A^{-1}\delta b\implies x = \stackrel{\sim}{x}+A^{-1}\delta b\implies x - \stackrel{\sim}{x} = A^{-1}\delta b$$
 Anche qui possiamo passare alle norme
@@ -641,10 +642,84 @@ le norme dei termini dei sistemi.
 
 $$\|\frac{1}{\stackrel{\sim}{x}}\|\|x - \stackrel{\sim}{x} \|\le   \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\|$$
 Questo vale per una qualsiasi norma, fissiamo la norma $2$, allora possiamo introdurre 
-il \textbf{numero di condizionamento}.
+il \textbf{numero di condizionamento} che ci permette di mantenere la relazione 
+tra soluzione e numero di condizionamento.
 $$\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \frac{\|A\|}{\|b\|} \|A^{-1}\|\|\delta b\|\implies
 \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies 
-\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies $$
+\frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le   \|A\| \|A^{-1}\|\frac{\|\delta b\|}{\|b\|}\implies 
+$$$$\implies \frac{\|x - \stackrel{\sim}{x} \|}{\|\stackrel{\sim}{x}\|}\le  cond(A)\frac{\|\delta b\|}{\|b\|}$$
+Questo perché $\|A^{-1}\|_2\cdot \|A\|_2 = \frac{|\lambda_{\max}|}{|\lambda_{\min}|} = cond(A)$.
+
+Nella disequazioe si può notare come a sinistra abbiamo una sorta di errore relativo 
+tra la soluzione del sistema lineare originale e quella del sistema lineare perturbato.
+A destra abbiamo la misura dell'entità di perturbazione e il numero di condizionamento.
+
+Data una piccola perturbazione e facendo variare $A$. dall'ultima disequazione 
+possiamo notare che più grande il condizionamento, più la soluzione del sistema 
+perturbato sarà diversa dal sistema originale. Questo offre informazioni in merito 
+al ambiamento delle soluzioni, più precisamente maggiore sarà il condizionamento,
+più la matrice è sensibile al cambiamento del termine di destra e maggiore 
+sarà il cambiamento della soluzone.
+
+\paragraph{Perturbazione di $A$}
+Questo è l caso più complicato, fissiamo $b$ e consideriamo i seguenti sistemi lineari
+\begin{equation*}
+    Ax=b \ \ \ \ \ \ (A+E)x = b
+\end{equation*}
+
+Sia $\stackrel{\sim}{x}$ la soluzione del sistema originale, vogliamo capire come 
+varia la soluzione applicando la perturbazione. 
+
+Il problema principale sulla perturbazione è il fatto che sommando $A+E$ c'è il 
+rischio che il determinante diventi $0$ portando alla impossibilità di risolvere
+il sistema.
+
+\begin{teorema}
+    Sia $A$ una matrice non singolare e sia $E$ tale che $\|A^{-1}E\|<1$. Allora 
+    la matrice $A+E$ è non singolare.
+\end{teorema}
+
+Questo permette di scegliere la matrice $E$ in modo tale da preservare la risolubilità
+
+\begin{nota}
+    Nel teorema precedente si è utilizzata la definizione per una generica norma, 
+    dal momento che ci vogliamo ricondurre al numero di condizionamento allora 
+    useremo la norma $2$.
+\end{nota}
+
+Stimiamo come variano le soluzioni, per ipotesi $A$ è invertibile e $\stackrel{\sim}{x}$
+è la soluzione del sistema originale.
+$$(A+E)x= b \implies A^{-1}(A+E)x= A^{-1}b \implies x+A^{-1}Ex=\stackrel{\sim}{x}\implies
+x-\stackrel{\sim}{x}=-A^{-1}Ex$$
+Successivamente passiamo alle norme
+$$\|x-\stackrel{\sim}{x}\|=\|-A^{-1}Ex\|\implies \|x-\stackrel{\sim}{x}\|=|-1|\|A^{-1}Ex\|
+\implies \|x-\stackrel{\sim}{x}\|=\|A^{-1}Ex\|\implies  
+$$$$\implies\|x-\stackrel{\sim}{x}\|\le\|A^{-1}E\|\|x\|\implies \frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}\le\|A^{-1}E\|$$
+
+Come effettuato per la perturbazione di $b$, vogliamo avere al denominatore 
+la norma della soluzione del sistema non perturbato ($\|\stackrel{\sim}{x}\|$).
+Sia $\rho:=\|A^{-1}E\|$ allora
+$$\frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}\le \rho \implies \rho\|x\|\ge \|x-\stackrel{\sim}{x}\|
+\implies \rho\|x\|\ge \|x\|-\|\stackrel{\sim}{x}\|\implies \|\stackrel{\sim}{x}\| \ge (1-\rho) \|x\|\implies
+\frac{1}{\|\stackrel{\sim}{x}\|}\le \frac{1}{(1-\rho)\|x\|}$$
+
+Susccessivamente moltiplico entrambi i membri per $\|x-\stackrel{\sim}{x}\|$ e ottengo
+$$\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \frac{\|x-\stackrel{\sim}{x}\|}{(1-\rho)\|x\|}$$
+Successivamente sapendo che $\rho=frac{\|x-\stackrel{\sim}{x}\|}{\|x\|}$ allora
+$$\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \frac{\|x-\stackrel{\sim}{x}\|}{(1-\rho)\|x\|} \implies \frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \frac{\rho}{(1-\rho)}$$
+
+Sapendo che $\rho$ è molto piccolo e positivo, perché deve valere il teorema introdotto
+precedentemente, quindi $\rho=\|A^{-1}E\|<1$, allora vale la seguente approssimazione $\frac{\rho}{(1-\rho)}\approx \rho$.
+
+Successivamente si possono espandere i calcoli per ottenere il nuemro di condizionamento.
+$$\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}E\| \implies 
+\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}\|\|E\|\implies
+\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}\|\|E\|\frac{\|A\|}{\|A\|}\implies
+\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le \|A^{-1}\|\|A\|\frac{\|E\|}{\|A\|}\implies
+$$$$\implies\frac{\|x-\stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|}\le cond(A)\frac{\|E\|}{\|A\|}$$
+Ovviamente il passaggio al numero di condizionamento vale per la norma $2$. La 
+soluzione del sistema perturbato dipende dal numero di condizionamento di $A$ e 
+da quanto è perturbato il sistema.
 
 \section{Metodi iterativi}
 Dato un generico sistema $Ax=b$ con $A$ invertibile.
@@ -789,11 +864,36 @@ Questi metodi vengono chiamati stazionari perché le matrici $P,N$ non dipendono
 dal parametro $k$.
 
 \begin{teorema}
-    Supponiamo che esista una decomposizione di $A=P-N $ in due matrici $P, N$ simmetriche 
-    e definite positive. Se anche la matrice $2P-N$ è definita positiva allora 
+    \label{th:metodi_iterativi}
+    Supponiamo che esista una decomposizione di $A=P-N $ con $A, P$ simmetriche 
+    e definite positive. Se anche la matrice $2P-A$ è definita positiva allora 
     il metodo iterativo definito nell'equazione \ref{eq:iterativo_stazionario} 
     converge per ogni valore iniziale $x^{(0)}$ e $|\lambda_{\max}| < 1$.
 
     Dove $\lambda_{\max}$ è l'autovalore di modulo massimo della matrice $P^{-1}N$.
     Inoltre la convergenza è monotona rispetto alle norme $\|\cdot\|_p$
 \end{teorema}
+
+\begin{definizione}
+    LA matrice $P^{-1}N$, che solitamente è indicata con $B$, viene chiamata matrice 
+    di iterazione del metodo.
+\end{definizione}
+
+Il teorema \ref{th:metodi_iterativi} è molto importante per gli algoritmi basati 
+sullo splitting per i seguenti motivi:
+\begin{itemize}
+    \item ci dice le ipotesi sulle matrici $A, P$ in modo tale che il metodo iterativo
+    converga sempre per ogni soluzione iniziale.
+    \item inoltre, la convergenza è monotona, ovvero che ad ogni passo si trova 
+    una soluzione più vicina a quella esatta, infatti si riduce l'errore.
+\end{itemize}
+
+Possiamo ricondurci ad un'espressione simile al residuo scalato
+$ x^{(k+1)}= P^{-1}Nx^{(k)}+P^{-1}b \iff x^{(k+1)} = P^{-1}(P-A)x^{(k)}+P^{-1}b$
+sostituendo $N=P-A$. Questo significa $ x^{(k+1)} = P^{-1}(P-A)x^{(k)}+P^{-1}b\iff  
+x^{(k+1)} = x^{(k)}-P^{-1}Ax^{(k)}+P^{-1}b$. Successivamente possiamo
+raccogliere $P^{-1}$ quind avremo
+$$x^{(k+1)} = x^{(k)}-P^{-1}(b-Ax^{(k)})$$
+Da questo si evince che $b-Ax^{(k)}$ è il \textbf{residuo} $r^{(k)}$ e questo è 
+utile se si sta usando il residuo come criterio di stop.
+
