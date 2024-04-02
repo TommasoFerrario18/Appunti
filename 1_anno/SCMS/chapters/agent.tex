@@ -27,7 +27,6 @@ vogliamo ora riportare alcune definizioni di agente:
     Un ulteriore esempio possono avere agenti robotici composti dai rispettivi
     sensori e attuatori.
 \end{esempio}
-
 Di un agente possiamo definire la \textbf{funzione agente} che mappa la storia
 delle percezioni in una azione, ovvero:
 \begin{equation}
@@ -42,7 +41,6 @@ delle azioni. Questa funzione può essere rappresentata in diversi modi:
     \item \textbf{Neural network}
     \item \textbf{Decision-theorem system}
 \end{itemize}
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{./img/Agenti/AgenteEAmbiente.png}
@@ -119,7 +117,6 @@ può essere distribuito:
     Un esempio sono i nemici di un videogioco che cooperano che sconfiggere il
     giocatore. Rappresento e gestisco i bot come agenti.
 \end{esempio}
-
 Nel passato per implementare la distribuited AI si avevano diversi metodi:
 \begin{itemize}
     \item \textbf{Memoria distribuita}: struttura dati condivisa con problemi
@@ -145,6 +142,8 @@ Gli approcci basati su sistemi di agenti presentano diverse criticità:
           degli agenti.
 \end{itemize}
 \section{Architettura degli agenti}
+\subsection{Classificazione degli agenti}
+\subsubsection{Genesereth}
 Una prima classificazione degli agenti è quella di Genesereth la quale si basa
 sul fatto che gli agenti possono essere classificati in base alle loro capacità
 interne e alle risorse a loro disposizione. Questa prima classificazione
@@ -158,7 +157,7 @@ distingue gli agenti in:
     Questa analisi è stata effettuata considerando un singolo agente, ma
     possiamo estendere questa analisi a sistemi multi agente.
 \end{nota}
-\subsection{Tropistic Agents}
+\paragraph{Tropistic Agents}
 In questa classe gli agenti sono definiti attraverso una tupla composta da 6
 elementi:
 \begin{equation*}
@@ -181,7 +180,7 @@ dove:
 
 In questa classe gli agenti osservano l'ambiente, scelgono l'azione appropriata
 e la eseguono.
-\subsection{Hysteretic Agents}
+\paragraph{Hysteretic Agents}
 Gli agenti hysteretic sono definiti attraverso una tupla composta da 9 elementi:
 \begin{equation*}
     \langle I, E, P, A, i_0, \text{see}, \text{internal,} \text{do}, \text{action} \rangle
@@ -205,7 +204,7 @@ dove:
 \end{itemize}
 In questa classe gli agenti osservano l'ambiente, aggiornano il loro stato interno
 e scelgono l'azione appropriata e la eseguono.
-\subsection{Knowledge-based Agents}
+\paragraph{Knowledge-based Agents}
 Gli agenti knowledge-based sono definiti attraverso una tupla composta da 9 elementi:
 \begin{equation*}
     \langle D, E, P, A, d_0, \text{see}, \text{database}, \text{do}, \text{action} \rangle
@@ -230,18 +229,19 @@ dove:
 In questa classe gli agenti osservano l'ambiente, aggiornano il loro database
 e scelgono l'azione da svolgere in in base a un ragionamento sulle conoscenze
 possedute e infine eseguono l'azione.
-\subsection{Russell e Norvig}
+\subsubsection{Russell e Norvig}
 Una differente classificazione degli agenti è quella Russell e Norvig, la quale
 classifica gli agenti in base alla loro architettura interna. Questa classificazione
 distingue gli agenti in:
 \begin{itemize}
-    \item \textbf{Simple reflex agents}: selezionano l'azione in base alla percezione
-          attuale, non mantiene lo storico delle percezioni. Sono agenti molto semplici
-          che rispondono immediatamente a stimoli immediatamente percepiti dall'ambiente.
-          \begin{figure}[!h]
+    \item \textbf{Simple reflex agents}: selezionano l'azione in base alla
+          percezione attuale, non mantiene lo storico delle percezioni. Sono
+          agenti molto semplici che rispondono immediatamente a stimoli immediatamente
+          percepiti dall'ambiente.
+          \begin{figure}[!ht]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/SimpleReflexAgents.png}
-              \caption{Schema di un agente}
+              \caption{Schema di un agente di tipo Simple reflex agents}
               \label{fig:simpleReflex}
           \end{figure}
     \item \textbf{Model-based reflex agents}: mantiene uno stato interno che permette
@@ -251,18 +251,19 @@ distingue gli agenti in:
           modellata da due diversi modelli:
           \begin{itemize}
               \item \textbf{transition model}: informazioni in merito
-                    al cambiamento del mondo nel tempo, queste vengono raccolte dall'analisi
-                    dell'effetto delle azioni dell'agente e dall'evoluzione dell'ambiente
-                    indipendentemente dalle azioni dell'agente.
-              \item \textbf{sensor model}: informazioni in merito
-                    a come si riflette il cambiamento del mondo nelle percezioni dell'agente
+                    al cambiamento del mondo nel tempo, queste vengono raccolte
+                    dall'analisi dell'effetto delle azioni dell'agente e
+                    dall'evoluzione dell'ambiente indipendentemente dalle azioni
+                    dell'agente.
+              \item \textbf{sensor model}: informazioni in merito a come si
+                    riflette il cambiamento del mondo nelle percezioni dell'agente.
           \end{itemize}
           L'insieme del transition e del sensor model permette all'agente di tenere
           traccia del mondo.
-          \begin{figure}[!h]
+          \begin{figure}[!ht]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/ModelBasedReflexAgent.png}
-              \caption{Schema di un agente}
+              \caption{Schema di un agente di tipo Model-based reflex agents}
               \label{fig:ModelReflex}
           \end{figure}
     \item \textbf{Goal-based agents}: l'agente deve sapere quali sono le
@@ -272,19 +273,24 @@ distingue gli agenti in:
           rappresentazione del mondo sono dipendenti dal Goal dell'agente.
           Risultano più flessibili rispetto ai Model-based reflex agent, dato che
           possono cambiare il comportamento solo cambiando il goal.
-          \begin{figure}[!h]
+          \begin{figure}[!ht]
               \centering
               \includegraphics[width=0.25\textwidth]{./img/Agenti/GlobalBasedAgent.png}
-              \caption{Schema di un agente}
+              \caption{Schema di un agente di tipo Goal-based agents}
               \label{fig:GoalBased}
           \end{figure}
     \item \textbf{Utility-based agents}: in questo caso uno stesso obiettivo può
-          essere raggiunto in modi diversi. Viene definita una funzione di utilità che
-          che descrive il grado di soddisfazione dell'agente in base alla situazione
-          in cui si trova. Ho bisogno
-          di una funzione utilità che mi rappresenti il mondo in modo da guidare
-          le scelte dell'agente in base alla rappresentazione e i suoi obiettivi.
-          c
+          essere raggiunto in modi diversi. Viene definita una funzione di utilità
+          che che descrive il grado di soddisfazione dell'agente in base alla
+          situazione in cui si trova. Ho bisogno di una funzione utilità che mi
+          rappresenti il mondo in modo da guidare le scelte dell'agente in base
+          alla rappresentazione e i suoi obiettivi.
+          \begin{figure}[!ht]
+              \centering
+              \includegraphics[width=0.25\textwidth]{./img/Agenti/UtilityBasedAgent.png}
+              \caption{Schema di un agente di tipo Utility-based agents}
+              \label{fig:UtilityBased}
+          \end{figure}
 \end{itemize}
 
 La prima classe di questa classificazione corrisponde alla classe degli agenti
@@ -334,8 +340,7 @@ esempio degli obiettivi allora devo complicare il modello.
         \item Rule base: insieme di piani, insieme di regole da mettere in pratica
               per portare a termine il piano e quindi l'obiettivo.
     \end{itemize}
-
-    \begin{figure}[!h]
+    \begin{figure}[!ht]
         \centering
         \includegraphics[width=0.50\textwidth]{./img/Agenti/3APL.jpg}
         \caption{Schema 3APL}
@@ -356,15 +361,18 @@ esempio degli obiettivi allora devo complicare il modello.
     chi deve eseguire e non vengono eseguiti su Thread. Quindi
 \end{esempio}
 
-Gli agenti come mostra Jade possono essere a oggetti, ma ci possono essere differenze:
+Gli agenti come rappresentati da Jade sono degli oggetti dei linguaggi di
+programmazione, il problema è dovuto dal fatto che ci possono essere differenze
+tra questi due concetti, come ad esempio:
 \begin{itemize}
     \item \textbf{Autonomia}: un agente può fornire servizi ma non devono
           rispondere a tutte le richieste.
     \item \textbf{Pro-attività}: un agente deve avere almeno un thread per il
           suo controllo, gli oggetti in Jade non vengono eseguiti su thread.
-    \item \textbf{Abilità sociale}: per gli oggetti non si hanno comunicazione
-          sociale perché è limitata alla sua interfaccia che non è abbastanza
-          espressiva rispetto ad un modello sociale di comunicazione.
+    \item \textbf{Abilità sociale}: per gli oggetti non si ha la possibilità di
+          implementare una comunicazione sociale. Questo è principalmente dovuto
+          alla sua limitata interfaccia che non è abbastanza espressiva rispetto
+          ad un modello sociale di comunicazione.
 \end{itemize}
 Gli agenti possono essere visti come una specializzazione degli oggetti comuni.
 \subsection{Agenti ibridi}
@@ -373,12 +381,12 @@ composta da strati. Ogni strato implementa un comportamento specifico.
 L'architettura può essere espressa come specifiche comportamentali a layer che
 può essere:
 \begin{itemize}
-    \item Orizzontale: una singola percezione può portare all'attivazione di due
-          comportamenti paralleli.
-    \item Verticale: si ha una gerarchia con priorità sui comportamenti più
-          importanti.
+    \item \textit{Orizzontale}: una singola percezione può portare all'attivazione
+          di due comportamenti paralleli.
+    \item \textit{Verticale}: si ha una gerarchia con priorità sui comportamenti
+          più importanti.
 \end{itemize}
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=0.50\textwidth]{./img/Agenti/agente_ibrido.jpg}
     \caption{Possibili schemi di un agente ibrido}
@@ -387,7 +395,7 @@ può essere:
 \subsection{Sistema eterogeneo}
 Un sistema complesso può integrare quindi diverse tipologie di agenti
 (sistema eterogeneo), diventa fondamentale la loro interazione, specificando dei
-meccanismi di interazione (ex: robot spaziali).
+meccanismi di interazione.
 
 L'autonomia degli agenti può avere diverse declinazioni:
 \begin{itemize}
@@ -404,8 +412,7 @@ specifico contengono:
     \item \textbf{Performance element}: l'agente sceglie le azioni in base alle
           percezioni. Contiene il modello appreso.
 \end{itemize}
-
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=0.50\textwidth]{./img/Agenti/learning_agent.jpg}
     \caption{Learning agent}
@@ -421,12 +428,11 @@ Spesso questi agenti vengono allenati utilizzando tecniche di reinforcement
 learning, ovvero gli agenti compiono delle azioni e come risposta all'azione
 ottengono un punteggio che li premia o penalizza. In questo modo l'agente esplora
 l'effetto delle azioni nell'immediato o nel lungo termine.
-
 \section{Agent interaction}
 Vogliamo ora studiare come gli agenti interagiscono con altri agenti e/o con
 l'ambiente. Iniziamo definendo cosa si intende per \textbf{interazione}.
 \begin{definizione}[\textbf{Interazione}]
-    Un'interazione occorre quando 2 o più agenti hanno una relazione dinamica
+    Un'\textbf{interazione} occorre quando 2 o più agenti hanno una relazione dinamica
     attraverso delle azioni reciproche. Un esempio di interazione è rappresentata
     da un agente che richiede delle informazioni e uno che le fornisce quando
     riceve la richiesta.
@@ -449,16 +455,12 @@ di classificazione per le interazioni.
 Risulta interessante lo studio di come far interagire gli agenti al netto della
 loro architettura interna. Nel nostro caso ci concentreremo sulla loro
 comunicazione, studieremo dei \textbf{modelli di interazione}.
-
-
-% TODO: cambiare immagine schema di interazione
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.50\textwidth]{./img/Agenti/SchemaDiInterazione.PNG}
+    \includegraphics[width=0.5\textwidth]{./img/Agenti/SchemaDiInterazione.PNG}
     \caption{Schema di interazione}
     \label{fig:Schema_di_interazione}
 \end{figure}
-
 \subsection{Interazione diretta}
 Gli agenti sono in grado di scambiare informazioni direttamente. Lo scambio di
 informazioni avviene attraverso:
@@ -470,11 +472,10 @@ informazioni avviene attraverso:
           linguaggio per esprimere il contenuto, bisognerà quindi specificare
           delle ontologie condivise.
 \end{itemize}
-
 In questa tipologia di comunicazione i messaggi non si devono deteriorare, ovvero
 il messaggio non viene alterato nel mentre, quindi lo scambio di messaggi viene
 definito \textbf{indiscriminato}. È molto importante, per questo tipo di
-comunicazione, che gli agenti si conoscano per poter interagire.
+comunicazione che gli agenti si conoscano per poter interagire.
 \begin{esempio}[\textbf{KQML}]
     Un esempio di modello per la comunicazione diretta sono \textbf{KQML} e
     \textbf{KIF}, i quali sono stati prodotti da ARPA knowledge sharing effort.
@@ -512,27 +513,28 @@ su come mantenerli allineati.
 
 Oltre a questo, bisogna anche definire una semantica per la comunicazione, si
 possono specificare dei ragionatori logici, il problema di questa soluzione è
-che si va a perdere l'autonomia degli agenti. La semantica della conversazione può essere espressa tramite automi a stati finiti
-o reti di petri, ma in questo modo si limita l'autonomia.
+che si va a perdere l'autonomia degli agenti. La semantica della conversazione 
+può essere espressa tramite automi a stati finiti o reti di petri, ma in questo 
+modo si limita l'autonomia.
 
 I protocolli di interazione diretta sono simili ai protocolli per sistemi distribuiti,
 si hanno scambi di messaggi punto-punto e sono facilmente implementabili sopra
-un middleware, si integrano facilmente con gli agenti deliberativi perché si possono
-scambiare triple che rappresentano la conoscenza. Il problema è che si hanno problemi di definizioni di ontologie
-comuni, ci sono problemi sulla semantica condivisa perché si perde autonomia e si ha un
-problema di discovery degli agenti.
+un middleware, si integrano facilmente con gli agenti deliberativi perché si 
+possono scambiare triple che rappresentano la conoscenza. Il problema è che si 
+hanno problemi di definizioni di ontologie comuni, ci sono problemi sulla semantica 
+condivisa perché si perde autonomia e si ha un problema di discovery degli agenti.
 
 Per la gestione della comunicazione diretta si possono avere registry multipli
 per garantire la robustezza, inoltre si possono informare anche gli agenti sulle
 capacità degli altri.
 
-Possiamo avere anche robe più complicate rispetto ai registry, per esempio i broker.
-Si ha quindi scambi di messaggi con un meccanismo di publish and subscribe tra
-i singoli agenti. Ogni agente si iscrive alla lista di messaggi se vuole accedere
-alla comunicazione con un sottoinsieme di agenti. Questa metodologia risolve il
-problema dei naming e non mette in comunicazione direttamente due agenti,
-ovviamente i messaggi sono accessibili solo se gli agenti sono attivi al momento
-dell'invio.
+Possiamo avere anche soluzioni più complicate rispetto ai registry, per esempio 
+i broker. Si ha quindi scambi di messaggi con un meccanismo di publish and subscribe 
+tra i singoli agenti. Ogni agente si iscrive alla lista di messaggi se vuole 
+accedere alla comunicazione con un sottoinsieme di agenti. Questa metodologia 
+risolve il problema dei naming e non mette in comunicazione direttamente due 
+agenti, ovviamente i messaggi sono accessibili solo se gli agenti sono attivi al 
+momento dell'invio.
 \subsection{Interazione indiretta}
 In questa tipologia di comunicazione tra gli agenti è presente un intermediario,
 il quale non è un agente ma un'entità che si occupa di gestire la comunicazione
@@ -562,8 +564,8 @@ contiene come delle tuple ognuna delle quali contiene informazioni, una diversa
 tipologia di tuple sono quelle che contengono i processi.
 
 A questo punto i processi possono leggere e scrivere le tuple che si hanno in
-condivisione. Gli agenti possono anche comunicare leggendo tuple, scrivendo tuple,
-consumando tuple e creando processi di calcolo.
+condivisione. Gli agenti possono anche comunicare leggendo, scrivendo,
+consumando delle tuple oppure creando processi di calcolo.
 
 Il problema di questo metodo è che se ci troviamo in un mondo distribuito,
 dobbiamo analizzare come gestire lo spazio di tuple condiviso. Una soluzione
@@ -602,8 +604,9 @@ esso si possono definire diverse caratteristiche:
 
           Più è accessibile l'ambiente allora più è facile operare in esso.
     \item \textbf{Deterministico}: se il prossimo stato dell'ambiente è determinato
-    dallo stato attuale e l'azione che esegue l'agente. In un ambiente \textbf{non deterministico}
-          l'agente deve controllare l'effetto delle sue azioni.
+          dallo stato attuale e l'azione che esegue l'agente. In un ambiente 
+          \textbf{non deterministico} l'agente deve controllare l'effetto delle 
+          sue azioni.
     \item \textbf{Static}: l'ambiente è statico se non cambia mentre
           l'agente decide. Al contrario si tratta un ambiente \textbf{Dynamic}.
     \item \textbf{Discreto}: se ci sono un numero fisso di azioni e percezioni
@@ -623,7 +626,6 @@ tramite per la comunicazione diretta tra agenti.
 In base a come si vuole modellare l'ambiente può essere utile specificare delle
 regole. Ad esempio, se vogliamo descrivere un mondo reale si possono specificare
 le regole fisiche.
-
 \begin{table}[!ht]
     \centering
     \begin{tabular}{@{}lccc@{}}
@@ -645,5 +647,4 @@ le regole fisiche.
         \begin{tabular}[c]{@{}c@{}}Viewable portion of \\ space and its state\end{tabular}                                                    \\ \bottomrule
     \end{tabular}
 \end{table}
-
 In caso di interazione diretta l'ambiente fa da registri o middle agent.

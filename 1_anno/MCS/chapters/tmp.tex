@@ -1,0 +1,123 @@
+\section{Perturbazione dei dati}
+Fino a questo momento ci siamo concentrati sul trovare la soluzione che meglio
+approssima la soluzione esatta di un generico sistema lineare $Ax=b$. Ora vogliamo
+analizzare come varia la soluzione approssimata $x_h$ al variare dei dati, ossia
+se la matrice $A$ e il vettore $b$ vengono modificati.
+
+In entrambi i casi, la dipendenza della soluzione approssimata $x_h$ dai dati
+è legata al condizionamento della matrice.
+\subsection{Perturbazione di $b$}
+Fissiamo la matrice $A$ e consideriamo i seguenti sistemi lineari:
+\begin{equation}
+    Ax=b \quad \text{e} \quad Ax=b+\delta b
+\end{equation}
+dove $\delta b \in \mathbb{R}^n$ è un vettore la cui norma assume valori piccoli.
+Sia $\stackrel{\sim}{x}$ la soluzione del sistema $Ax = b$, vediamo ora come la
+soluzione del sistema perturbato, ossia $Ax = b + \delta b$, dipende da $\stackrel{\sim}{x}$.
+
+Iniziamo dalla seguente osservazione:
+\begin{equation}
+    \begin{aligned}
+        A\stackrel{\sim}{x} &= b \\
+        \|A\stackrel{\sim}{x}\| = \|b\| &\leq \|A\|\|\stackrel{\sim}{x}\| \\
+        \frac{1}{\|\stackrel{\sim}{x}\|} &\leq \frac{\|A\|}{\|b\|}
+    \end{aligned}
+\end{equation}
+Grazie a questa disuguaglianza possiamo ottenere il risultato finale:
+\begin{equation}
+    \begin{aligned}
+        Ax &= b + \delta b \\
+        A^{-1}Ax &= A^{-1}b + A^{-1}\delta b\\
+        x &= \stackrel{\sim}{x} + A^{-1}\delta b\\
+        x - \stackrel{\sim}{x} &= A^{-1}\delta b\\
+        \|x - \stackrel{\sim}{x}\| &= \|A^{-1}\delta b\|\\
+        \|x - \stackrel{\sim}{x}\| &\leq \|A^{-1}\|\|\delta b\|\\
+    \end{aligned}
+\end{equation}  
+Unendo i risultati che abbiamo appena ottenuto, possiamo scrivere:
+\begin{equation}
+    \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} \leq \frac{\|A\|}{\|b\|}\|A^{-1}\|\|\delta b\|
+\end{equation}
+Quanto scritto fino a questo momento può essere generalizzato per qualunque norma.
+Dato che il nostro obiettivo è quello di capire la relazione tra il numero di 
+condizionamento e la soluzione del sistema, usiamo la norma 2. Ricordandoci che:
+\begin{equation*}
+    \|A^{-1}\|_2 \|A\|_2 = \frac{|\lambda_{max}|}{|\lambda_{min}|} = cond(A)
+\end{equation*}
+possiamo scrivere:
+\begin{equation}
+    \frac{\|x - \stackrel{\sim}{x}\|_2}{\|\stackrel{\sim}{x}\|_2} \leq cond(A) \frac{\|\delta b\|_2}{\|b\|_2}
+\end{equation}
+Analizzando la disuguaglianza appena ottenuta, possiamo notare che il termine a 
+sinistra rappresenta una sorta di misura di errore relativo tra le soluzioni dei 
+due sistemi. Mentre, a destra è presente una misura dell'entità della perturbazione. 
+\subsection{Perturbazione di $A$}
+Consideriamo ora il caso in cui la matrice $A \in \mathbb{R}^{n \times n}$ viene
+perturbata. Fissiamo il termine noto $b \in \mathbb{R}^n$ e consideriamo i seguenti
+sistemi lineari:
+\begin{equation}
+    Ax = b \quad \text{e} \quad (A + E)x = b
+\end{equation}
+Sia $\stackrel{\sim}{x}$ la soluzione del sistema $Ax = b$, vediamo ora come la
+soluzione del sistema perturbato, ossia $(A + E)x = b$, dipende da $\stackrel{\sim}{x}$.
+\begin{nota}
+    Sommare la matrice $E$ ad $A$ potrebbe far diventare il sistema non risolvibile.
+\end{nota}
+\begin{teorema}
+    Sia $A$ una matrice non singolare e sia $E$ una matrice tale che:
+    \begin{equation*}
+        \| A^{-1}E \| < 1 
+    \end{equation*}
+    allora la matrice $A + E$ è non singolare.
+\end{teorema}
+Partendo dal sistema $(A + E)x = b$, cerchiamo di ottenere una stima di come 
+variano le soluzioni dei due sistemi.
+\begin{equation*}
+    \begin{aligned}
+        (A + E)x &= b \\
+        A^{-1}(A + E)x &= A^{-1}b \\
+        x + A^{-1}Ex &= \stackrel{\sim}{x} \\
+        x - \stackrel{\sim}{x} &= - A^{-1}Ex \\
+        \| x - \stackrel{\sim}{x} \| & =  \|(-1) (A^{-1} E x)\| \\
+        \| x - \stackrel{\sim}{x} \| & =  |(-1)| \|A^{-1} E x\| \\    
+        \| x - \stackrel{\sim}{x} \| & =  \|A^{-1} E x\| \\
+        \|x - \stackrel{\sim}{x}\| &\leq \|A^{-1}E\|\|x\| \\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} &\leq \|A^{-1}E\|
+    \end{aligned}
+\end{equation*}
+Nella disuguaglianza ottenuta vorremmo avere a denominatore la norma della 
+soluzione del problema non perturbato, ossia $\|x\|$. Per sopperire a questo 
+problema partiamo dall'ultima disuguaglianza della precedente equazione:
+\begin{equation*}
+    \begin{aligned}
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|x\|} &\leq \|A^{-1}E\| \\
+        \|A^{-1}E\| \|x\| &\geq \|x - \stackrel{\sim}{x}\|\\
+        \|A^{-1}E\| \|x\| &\geq \|x\| - \|\stackrel{\sim}{x}\|\\
+        \|\stackrel{\sim}{x}\| &\geq (1 - \|A^{-1}E\|) \|x\|\\
+        \frac{1}{\|\stackrel{\sim}{x}\|} & \leq \frac{1}{(1 - \|A^{-1}E\|) \|x\|}\\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} &\leq \frac{\|x - \stackrel{\sim}{x}\|}{(1 - \|A^{-1}E\|)\|x\|}\\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} &\leq \frac{\|A^{-1}E\|}{1 - \|A^{-1}E\|}
+    \end{aligned}
+\end{equation*}
+A questo punto se $\|A^{-1} E\|$ è molto piccolo e positivo abbiamo che vale la 
+seguente approssimazione:
+\begin{equation}
+    \frac{\|A^{-1}E\|}{1 - \|A^{-1}E\|} \approx \|A^{-1}E\|
+\end{equation}
+Il fatto che $\|A^{-1} E\|$ sia molto piccolo ha senso perché deve valere il 
+teorema e quindi $\|A^{-1} E\| < 1$. Infine abbiamo:
+\begin{equation}
+    \begin{aligned}
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} &\leq \|A^{-1}E\|\\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} &\leq \|A^{-1}\|\|E\|\\
+        \frac{\|x - \stackrel{\sim}{x}\|}{\|\stackrel{\sim}{x}\|} &\leq \|A^{-1}\|\|A\|\frac{\|E\|}{\|A\|}
+    \end{aligned}
+\end{equation}
+I passaggi precedenti sono fatti per una generica norma, ma se utilizziamo la 
+norma due otteniamo:
+\begin{equation}
+    \frac{\|x - \stackrel{\sim}{x}\|_2}{\|\stackrel{\sim}{x}\|_2} \leq cond(A) \frac{\|E\|_2}{\|A\|_2}
+\end{equation}
+Come per il caso del termine noto, la soluzione del sistema perturbato dipende 
+dal condizionamento della matrice $A$ e da quanto essa è perturbata, ovvero il 
+valore specificato dal termine $\frac{\|E\|_2}{\|A\|_2}$.
