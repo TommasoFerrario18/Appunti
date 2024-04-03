@@ -746,7 +746,7 @@ complessità di $\mathcal{O}(|V|+|E|)$ e sapendo che $|V|= |V|^2$ dell'automa di
 De Bruijn allora abbiamo un algoritmo polinomiale che ci permette di decidere
 se il CA è suriettivo o iniettivo oppure no.
 
-\subsection{Stabilità ed instabilità degli automi cellulari}
+\subsection{Stabilità, instabilità e caos degli automi cellulari}
 La notazione che verrà introdotto è valida per un qualsiasi \textbf{sistema dinamico a tempo
     discreto} (DTDS), ovvero per ogni $(X,F)$ dove $(X,d)$ è uno spazio metrico e
 $F:X\rightarrow X$ è una trasformazione continua. Nel nostro caso $X \equiv A^\mathbb{Z}$,
@@ -1127,10 +1127,48 @@ alle condizioni iniziali.
 
 \begin{definizione}[\textbf{Permutativa RM/LM}]
     $f:A^{2r+1}\rightarrow A$ è \textbf{permutativa} se 
-    $$\forall b\in A, \forall u \in A^{2r}, \exists ! a\in A: f(ua)=b (f(au))=b$$
+    $$\forall b\in A, \forall u \in A^{2r}, \exists ! a\in A: f(ua)=b \ (f(au)=b)$$
     Permutativa perché $\forall u \in A^{2r}, f_{|u}:A\rightarrow A:f_{|u}(a) = b$
     e $f_{|u}$ è biettiva.
 \end{definizione}
+
+\begin{teorema}
+    Stabilire se una regola locale è permutativa è un problema decidibile.
+\end{teorema}
+
+\begin{nota}
+    Le regole locali possono essere:
+    \begin{itemize}
+        \item solo LM permutive
+        \item solo RM permutive
+        \item sia LM sia RM permutive
+    \end{itemize}
+\end{nota}
+
+\begin{teorema}
+    Se $f$ è una regola locale RM o LM permutive allora la regola globale del CA 
+    $F$ è suriettiva.
+    \begin{proof}
+        Dobbiamo mostrare che la regola globale sia suriettiva, questo significa
+        che dobbiamo dimostrare che la regola globale sia bilanciata ovvero
+        $$\forall v \in A^+, |f^{-1}(v)| = |A|^{2r}$$
+        Scelto arbitrariamente $v\in A^n$ e sia $u\in A^{2r}$ una qualsiasi parola.
+        
+        Supponiamo che $f$ sia $RM$, allora dato $v$ possiamo ottenere tutte le parole
+        appartenenti all'insieme $f^{-1}(v)$ nel seguente modo, dato un carattere
+        in posizione $v_i$, dal momento che $f$ è RM allora quello coincide col
+        carattere della configurazione di partenza alla posizione $i+r$. Quindi 
+        $v$ sarà la sottoconfigurazione di partenza che comparirà più a destra,
+        mentre $u$ sarà la stringa che rimane da aggiungere a $v$ per riottenere $v$.
+        Quindi $u$ può essere composta da un totale di $|A|^{2r}$ possibili scelte 
+        di caratteri e questo coincide con la cardinalità delle preimmagini di $v$.
+        Quindi $f$ è bilanciata.
+        \begin{figure}[!h]
+            \centering
+            \includegraphics[width=.3\textwidth]{img/sistemi_complessi/preimmagini.png}
+        \end{figure}
+    \end{proof}
+\end{teorema}
 
 \begin{teorema}
     Se $F$ un CA con una regola locale $f:A^{2r+1}\rightarrow A$. $\forall t\in \mathbb{N}$
@@ -1140,9 +1178,10 @@ alle condizioni iniziali.
 
 \begin{nota}
     Se $F$ un CA con una regola locale $f$ L/R permutativa. Allora $F$ è sensibile 
-    alle \textbf{mitchel condition}
+    alle condizioni iniziali
     \begin{proof}
-        Dimostreremo che $\exists n=r: \forall x\in A^\mathbb{Z}, \forall m\in \mathbb{N},
+        Dovremo rincondurci alla definizione di sensibilità alle condizioni iniziali
+        $\exists n=r: \forall x\in A^\mathbb{Z}, \forall m\in \mathbb{N},
         \exists y \in A^\mathbb{Z}, y\ne x, \text{ t.c. } y_{[-m,m]} = x_{[-m,m]}\land 
         \exists t\in \mathbb{N},F^t(y)_{[-r,r]} =F^t(x)_{[-r,r]}$.
 
@@ -1163,4 +1202,152 @@ alle condizioni iniziali.
         $$F^t(x)_r=f^{(t)}(x_{[r-tr, r+tr-1]}x_{r+tr}) $$
         Questo significa che $F^t(y)_r \ne F^t(x)_r$.
     \end{proof}
+\end{nota}
+
+\begin{definizione}[(\textbf{Positivamente espansivo})]
+    Un DTDS $(X,F)$ è detto \textbf{positivamente espansivo} se 
+    $$\exists \epsilon >0, \forall x,y\in X, x\ne y, \exists t\in \mathbb{N}, d(F^t(y),F^t(x))\ge \epsilon$$
+    Negli automi cellulari si ha
+    $$\exists m\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
+\end{definizione}
+
+\begin{teorema}
+    Sia $(X,F)$ un DTDS con $|X|=\infty$, se è espansivo allora è sensibile alle condizioni iniziali.
+
+    Nel momento in cui avessi $|X|<\infty$ non sarebbe più sensibile perché posso
+    prendere un intorno talmente piccolo da non avere altri alementi dal di fuori 
+    dello stesso, portando ad non avere un sistema sensibile. 
+\end{teorema}
+
+\begin{nota}
+    Se $(X,F)$ un DTDS con $|X|<\infty$ allora:
+    \begin{enumerate}
+        \item è ultimamente periodico, quindi equicontinuo
+        \item è espansivo
+    \end{enumerate}
+    \begin{proof}
+        Si può fare una bozza di dimostrazione del secondo punto.
+
+        Sia $\epsilon = \min\{d(x,y)|x,y\in X, x\ne y\}$, sicuramente esiste un 
+        elemento e dato che è una distanza allora sarà anche positiva non nulla.
+        Per costruzione abbiamo $\forall x,y\in X, d(x,y)\ge \epsilon$, quindi il 
+        sistema è espansivo e questo non vuol dire che $F$ sia instabile.
+    \end{proof}
+\end{nota}
+
+\begin{teorema}
+    Sia $(A^\mathbb{Z}, F)$ un CA con una regola locale  che sia LM sia RM permutive.
+    Allora $F$ è posivamente espansivo.    
+\end{teorema}
+
+\begin{esempio}
+    Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ non è positivamente espansivo.
+    La stessa cosa vale per la regola del traffico ($184$).
+\end{esempio}
+
+La sensitività rispetto alle condizioni iniziali non è abbastanza per dire che un
+sistema è anche \textbf{caotico}.
+
+\begin{esempio}
+    Supponiamo il seguente sistema $(X:=\mathbb{R},F(x):= 2\cdot x)$, una ipotetica
+    evoluzione dinamica è $2^t\cdot x$.
+
+    Quindi $\forall x,y\in X, d(F^t(x),F^t(y)) = |2^tx-2^ty|= 2^t|x-y|$. Si riesce 
+    facilmente a dimostrare che il sistema è espansivo e sensibile alle condizioni 
+    iniziali. Il problema è che noi non voglia considerare questo sistema caotico 
+    quindi dobbiamo introdurre nuovi concetti.
+\end{esempio}
+
+\begin{definizione}[\textbf{Transitivo}]
+    Dato un DTDS $(X,F)$ è detto \textbf{transitivo} se 
+    $$\forall x\in X,\forall \delta >0, \forall y\in X,\forall \epsilon>0, \exists 
+    z\in X, d(z,x)< \delta \land \exists t\in \mathbb{N},d(F^t(z),y)<\epsilon$$
+
+    In $(A^\mathbb{Z},F)$
+    $$\forall x\in A^\mathbb{Z},\forall m \in\mathbb{N}, \forall y\in A^\mathbb{Z},\forall n\in\mathbb{N}, \exists 
+    z\in A^\mathbb{Z}, z_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N},F^t(z)_{[-n,n]} = y_{[-n,n]}$$
+
+\end{definizione}
+Un sistema è transitivo se per ogni coppia di elementi, presi due loro vicini allora 
+da un vicino si può raggiungere il secondo vicino in $t$ colpi di $F$. La proprietà 
+di transitività specifica che il sistema deve essere irriducibile o non decomponibile
+
+\begin{nota}
+    La proprietà di transitività coincide con la proprietà di raggiungibilità debole.
+\end{nota}
+
+\begin{esempio}
+    Il sistema lineare $F(x):= 2x$ non è transitivo perché dati $x=2$ e $y=-2$ 
+    non esistono due elementi vicini raggiungibili visto che sono discordi.
+\end{esempio}
+
+\begin{definizione}[\textbf{Punto periodico}]
+    $p\in X$ è un \textbf{punto periodico} se è ultimamente periodico di preperiodo
+    $0$
+\end{definizione}
+
+\begin{definizione} [\textbf{Orbite densamente periodiche}]
+    Dato un DTDS $(X,F)$ ha \textbf{Orbite densamente periodiche} (DPO) se
+    $\forall x\in X, \forall \epsilon>0 \exists p \text{ punto periodico }:  d(x,p)<\epsilon$. 
+
+    Quindi tutti gli elementi devono avere un elemento periodico
+\end{definizione}
+
+\begin{esempio}
+    Riprendendo l'esempio del sistema lineare, l'unico punto periodico è la configurazione $0$.
+\end{esempio}
+\begin{teorema}
+    Dato un automa cellulare $(A^\mathbb{Z},F)$ allora:
+    \begin{itemize}
+        \item se è transitivo $\implies$ anche suriettivo
+        \item se ha DPO $\implies$ anche suriettivo
+    \end{itemize}
+\end{teorema}
+
+\begin{definizione} [\textbf{DTDS caotico}]
+    Un DTDS $(X,F)$ è \textbf{caotico} se:
+    \begin{itemize}
+        \item $|X|=\infty$ 
+        \item $(X,F)$ è \textbf{sensibile alle condizioni iniziali}
+        \item $(X,F)$ è \textbf{transitivo}
+        \item $(X,F)$ è \textbf{DPO}
+    \end{itemize}
+\end{definizione}
+
+\begin{teorema}
+    Se un DTDS $(X,F)$ con $|X|=\infty$ è transitivo e ha dei DPO allora è anche 
+    sensibile alle condizioni iniziali. 
+\end{teorema}
+
+\begin{teorema} [\textbf{Solo per CA}]
+    Se un CA $(A^\mathbb{Z},F)$ è transitivo allora è anche sensibile alle condizioni iniziali.
+    Se un CA $(A^\mathbb{Z},F)$ è espansivo allora è anche transitivo.
+\end{teorema}
+
+Quindi le condizioni di $|X|=\infty$ e di sensibilità sono superflue.
+
+\begin{teorema}
+    Se un CA $(A^\mathbb{Z},F)$ con una regola locale LM/RM è transitivo e ha DPO.
+\end{teorema}
+\begin{teorema}
+    Se un CA $(A^\mathbb{Z},F)$ con una regola locale LM/RM è caotico.
+\end{teorema}
+Ecco la classificazione finale degli automi cellulari (figura \ref{fig:classificazione_ca}).
+
+\begin{figure}[!hb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/classificazione_ca.png}
+    \caption{Classificazione automi cellulari}
+    \label{fig:classificazione_ca}
+\end{figure}
+\begin{nota}
+    Tutti i CA caotici studiati sono suriettivi ma non è detto che suriettività 
+    implica caotico.
+\end{nota}
+
+\begin{nota}
+    Esistono CA non permutive che sono transitivi ed espansivi.
+
+    Preso un qualunque L-permutive CA $F$ e un CA iniettivo $G$ che non è ne L ne R-permutive.
+    Allora $G^{-1}\odot F\odot G$ è un CA che non è permutivo ma transitivo.
 \end{nota}
