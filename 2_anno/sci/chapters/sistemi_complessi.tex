@@ -17,7 +17,7 @@ nelle simulazioni, un sesempio sono:
           lati di due piastrelle omogenee (problema NP-Hard).
 \end{itemize}
 
-Si studieranno le prorpietà dei fenomeni reali utilizzando i modelli e si mapperanno
+Si studieranno le proprietà dei fenomeni reali utilizzando i modelli e si mapperanno
 le domande sulle proprietà dei modelli, in questo modo si potrà rispondere alle
 domande analizzando le proprietà dei modelli.
 
@@ -244,11 +244,11 @@ Più precisamente per rappresentare un CA  $\langle A, r, f\rangle$ ci sono 3 mo
 
 La rappresentazione a grafo è quella più riusabile perché se dovessimo cambiare
 la regola locale allora basta solo aggiornare l'etichette degli archi. In aggiunta
-data una regola locale generica $f$, possiamo risriverla nel segunete modo.
+data una regola locale generica $f$, possiamo riscriverla nel segunete modo.
 \begin{equation}
-    f: A\times A^{2r} \rightarrow A \equiv \delta: Q\times \sigma \rightarrow Q
+    f: A\times A^{2r} \rightarrow A \equiv \delta: Q\times \Sigma \rightarrow Q
 \end{equation}
-Con $Q= A$ e $\sigma = A^{2r} $, così è possibile sottolineare la funzione di transizione
+Con $Q= A$ e $\Sigma = A^{2r} $, così è possibile sottolineare la funzione di transizione
 di ogni automa nel CA.
 \subsection{ Mappa di Shift e teorema di Hedlund}
 \begin{definizione} [\textbf{Mappa di shift}]
@@ -301,7 +301,7 @@ di ogni automa nel CA.
                   Possiamo notare che
                   $$(F(\sigma(x)))_i = f(\sigma(x)_{[i-r,i+r]})=f(x_{[i-r+1,i+r+1]})$$
                   Inoltre
-                  $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x)_{[i+1-r,i+1+r]}$$
+                  $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x_{[i+1-r,i+1+r]})$$
                   Abbiamo dimostrato che commutano.
             \item $\impliedby$: dobbiamo dimostrare che esiste la tripla che definisce il CA.
                   Per prima cosa conosciamo l'alfabeto che è $A$ ricavato da $F$. Successivamente
@@ -325,15 +325,22 @@ di ogni automa nel CA.
                   $A^\mathbb{Z}$ tale che $z_{[-r,r]} = u$. Bisogna però controllare che
                   la definizione sia ben posta per ogni valore $z$. Lo è dal momento che
                   $\forall z',z''\in A^\mathbb{Z}: z'_{[-r,r]} =  z''_{[-r,r]}\implies F(z')_0 = F(z'')_0$.
-                  Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$
-                  $$F(x)_i = f(x_{[i-r,i+r]}) = 0$$
+                  Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$ ovvero $\forall i \in \mathbb{Z}$
+                  $$F(x)_i = f(x_{[i-r,i+r]})$$
                   Questo è vero perché discende dalla definizione di $f$ con $z = x$.
-                  Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$
-                  $$F(x)_i = f(x_{[i-r,i+r]})\ne 0$$
-                  $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]}) \ne 0$$
+                  Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$. Abbiamo
+                  già dimostrato che è vero per $i=0$ ovvero che $F(x)_0 = f(x_{[-r,r]})$
+                  in generale 
+                  $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]})$$
         \end{itemize}
     \end{proof}
 \end{teorema}
+
+\begin{nota}
+    La continuità uniforme differisce dalla continuità perché $\delta$ dipende 
+    solo da $\epsilon$ e non anche da $x$. Quindi questa definizione di continuità non 
+    è più puntuale ed è per questo che si chiama uniforme.
+\end{nota}
 
 \begin{definizione}
     Un elemento $x\in A^\mathbb{Z}$ è detto \textbf{configurazione spazialmente
@@ -348,12 +355,12 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
           è  \textbf{spazialmente periodica}
           \begin{proof}
               Se $x\in A^\mathbb{Z}$  è spazialmente periodica $\implies\exists k>0$ t.c.
-              $\sigma^k(x)=x \implies F(\sigma^k(x)) = F(x)\implies \sigma^k(F(x))$.
+              $\sigma^k(x)=x \implies F(\sigma^k(x)) = F(x)\implies \sigma^k(F(x))=F(x)$.
               Si noti che se $x$ è la ripetizione di una parola di lunghezza $k>0$ allora
               anche $F(x)$ è la ripetizione di una parola di lunghezza $k$. Perciò dopo
               un numero finito di applicazioni consecutive di $F$ (al più $k$), si riuscirà
               a riottenere la stringa già ottenuta dalle applicazioni precedenti dal momento
-              che si effettua una permutazione di una stringa $k$. Infatti l'\textbf{evoluzione
+              che si effettua una permutazione di una stringa di lungheza $k$. Infatti l'\textbf{evoluzione
                   periodica} poiché $A^k$ è un insieme finito.
           \end{proof}
     \item Dato un $CA = <A,r,f>$ con regola globale $F$, è possibile definire un  $CA '= <A,2r,f'>$
@@ -438,7 +445,7 @@ da parole bi-infinite che rappresentano tutte le possibili configurazioni dell'a
 cellulare, sia bi-infinite, sia parziali.
 
 Da notare che dal grafo di De Bruijn otteniamo degli automi non deterministici,
-per la teoria degli automi possiamo facilmente ricavare l'automa deterministico
+per la teoria degli automi possiamo facilmente ricavare l'automa deterministico,
 calcolando l'insieme potenza degli stati.
 
 \begin{definizione} [\textbf{Suriettività}]
@@ -523,16 +530,17 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
                   sia $v^{(n)} = y_{[-n,n]}\in A^{2n+1}$.
 
                   Per ipotesi sappiamo $\exists u^{(n)}\in f^{\ast^{-1}}(v^{(n)})\subseteq A^{2n+2r+1}$.
-                  Quindi $f^{\ast^{-1}}(u^{(n)}) = v^{(n)}$.
+                  Quindi $f^{\ast^{-1}}(v^{(n)}) = u^{(n)}$.
 
                   Sia $x^{(n)}\in A^\mathbb{Z}$ una qualunque configurazione tale che
                   $$x^{(n)}_{[-n-r,n+r]} = u^{(n)}$$
 
                   Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_{[-n,n]}$,
+                  
                   ossia che $d(F(x^{(n)})_{[-n,n]},y_{[-n,n]})< \frac{1}{2^n}$.
 
                   Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione
-                  $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{N}}$).
+                  $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{Z}}$).
                   Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$,
                   quindi $\exists x \in A^\mathbb{Z}$ t.c. $y = F(x)$
         \end{itemize}

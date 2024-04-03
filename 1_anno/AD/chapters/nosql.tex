@@ -273,8 +273,67 @@ di \textbf{pipeline}. Una pipeline è un comando che rappresenta una sequenza di
 operazioni che vengono eseguite in serie e possono essere usate per operazioni 
 di analytics.
 
+\begin{nota}
+      Dato un problema non sempre per avere efficienza dobbiamo scegliere la 
+      soluzione banale, spesso dobbiamo prendere soluzioni controintuitive. Ex:
+      salvare i dati non in modo efficiente e sfruttare la potenza di esecuzione 
+      delle query dei DBMS.
+\end{nota}
+\begin{nota}
+      Un documento è un albero.
+\end{nota}
+
 \subsection{Graph based}
+
 I database graph-based memorizzano i dati in nodi e archi. Questi database sono
 utili per memorizzare dati che hanno relazioni complesse. I nodi rappresentano
 le entità e gli archi rappresentano le relazioni tra le entità.
 
+Spesso si usano per retisociali, recommendations systems, logistica, financial 
+transaction, bioinformatica, autorizzation and access control.
+
+Possiamo avere diverse proprietà:
+\begin{itemize}
+      \item storage nativo/non nativo: i dati vengono salvati sottoforma di grafo 
+      (storage nativo), però non scalano. Spesso si usa uno storage non nativo 
+      che consiste nel salvarli in una struttura differente da un grafo ma che 
+      logicamente permette di essere visto come un grafo (ex: tabelle).
+      \item processing engine nativo/non nativo: QL permette di effettuare 
+      direttamente query nel linguaggio dei grafi e quindi chiedere proprietà dei 
+      grafi (processing engine nativo), il problema è che mentalmente dobbiamo mappare
+      le query reali in proprietà del grafo. Il processing engine non nativo permette
+      di utilizzare un altro linguaggio (SQL) per effettuare query che non devono 
+      essere per forza proprietà del grafo. 
+\end{itemize}
+
+storage nativo spesso si basa sull'\textbf{index friend adjacency} ovvero permette 
+di implementare la realzione di amicizia tra nodi che sono vici, il problema che 
+la costruzione è lenta ma le query sono veloci. Il collegamento tra concetti 
+si effettua attraverso un cammino tra nodi, mentre nel relazionale si effettua tramite 
+valori, invece nel documentale si usa l'embedding.
+
+\begin{nota}
+Si può pensare di rappresentare un grafo in un albero, quindi nel modello documentale,
+ma significa utilizzare il referencing dei documenti come per i modelli relazionali.
+\end{nota}
+
+Per modellare un grafo in modo non nativo ma efficiente, dal momento che sappiamo 
+che altri modelli non sono efficienti, spesso conviene fare come google, quando si 
+cerca un'informazione si mostrano i risultati più rilevanti, ovvero i primi nodi 
+più vicini, mentre gli altri li lasciamo nascosti quindi nelle pagine secondarie.
+Una seconda soluzione è quella di usare relazioni differenti nel grafo per aumentare 
+l'espressività del grafo e semplifica i collegamenti. Questo può essere implementato 
+facilmente.
+
+\begin{esempio}
+      Metti l'esempio del confronto delle interrogazioni tra modelli.
+\end{esempio}
+
+Nel modello a grafo ogni nodo ha delle proprietà, ovvero coppie chiave-valore dove 
+la chiave è anche l'etichetta della proprietà, mentre le relazioni sono degli archi
+con un'ettichetta che specifica la relazione e anche nei collegamenti possono mettere 
+le proprietà per specificare dei pesi sulle relazioni.
+Per modellare le info tipo: indirizzi multipli di una persona si possono utilizzare 
+delle relazioni con solo la proprietà nel nodo, oppure l'etichetta indirizzo che collega 
+l'utente e i nodi indirizzo, oppure utilizzare i collegamenti con proprietà che 
+specifica la tipologia dell'indirizzo. 
