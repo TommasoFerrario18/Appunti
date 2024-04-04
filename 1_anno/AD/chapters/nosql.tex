@@ -285,66 +285,90 @@ operazioni che vengono eseguite in serie e possono essere usate per operazioni
 di analytics.
 
 \begin{nota}
-      Dato un problema non sempre per avere efficienza dobbiamo scegliere la 
+      Dato un problema non sempre per avere efficienza dobbiamo scegliere la
       soluzione banale, spesso dobbiamo prendere soluzioni controintuitive. Ex:
-      salvare i dati non in modo efficiente e sfruttare la potenza di esecuzione 
+      salvare i dati non in modo efficiente e sfruttare la potenza di esecuzione
       delle query dei DBMS.
 \end{nota}
 \begin{nota}
       Un documento è un albero.
 \end{nota}
-
 \subsection{Graph based}
+I database graph-based memorizzano i dati salvando le informazioni nei nodi e
+utilizzando gli archi per definire delle relazioni tra esse. Questi database sono
+utili per memorizzare dati che hanno relazioni complesse, come ad esempio le
+relazioni dei social network.
 
-I database graph-based memorizzano i dati in nodi e archi. Questi database sono
-utili per memorizzare dati che hanno relazioni complesse. I nodi rappresentano
-le entità e gli archi rappresentano le relazioni tra le entità.
-
-Spesso si usano per retisociali, recommendations systems, logistica, financial 
+Spesso si usano per reti sociali, recommendations systems, logistica, financial
 transaction, bioinformatica, autorizzation and access control.
 
-Possiamo avere diverse proprietà:
+I database basati sui grafi godono delle seguenti proprietà:
 \begin{itemize}
-      \item storage nativo/non nativo: i dati vengono salvati sottoforma di grafo 
-      (storage nativo), però non scalano. Spesso si usa uno storage non nativo 
-      che consiste nel salvarli in una struttura differente da un grafo ma che 
-      logicamente permette di essere visto come un grafo (ex: tabelle).
-      \item processing engine nativo/non nativo: QL permette di effettuare 
-      direttamente query nel linguaggio dei grafi e quindi chiedere proprietà dei 
-      grafi (processing engine nativo), il problema è che mentalmente dobbiamo mappare
-      le query reali in proprietà del grafo. Il processing engine non nativo permette
-      di utilizzare un altro linguaggio (SQL) per effettuare query che non devono 
-      essere per forza proprietà del grafo. 
+      \item \textbf{Storage}:
+            \begin{itemize}
+                  \item \textbf{Nativo}: i dati vengono salvati sotto forma di
+                        grafo, si ha la problematica legata alla scalabilità 
+                        della soluzione.
+                  \item \textbf{Non nativo}: i dati vengono salvati in una struttura 
+                        differente da un grafo, ma che logicamente permette di essere
+                        visto come un grafo.
+            \end{itemize}
+      \item \textbf{Processing engine}:
+            \begin{itemize}
+                  \item \textbf{Nativo}: permette di effettuare direttamente query
+                        nel linguaggio dei grafi, sfruttando le proprietà dei 
+                        grafi. Il problema di questa soluzione è dovuto al fatto 
+                        che bisogna mappare le query reali utilizzando le proprietà 
+                        del grafo.
+                  \item \textbf{Non nativo}: permette di utilizzare un altro 
+                        linguaggio (es. SQL) per effettuare query che non devono 
+                        per forza essere proprietà del grafo.
+            \end{itemize}
 \end{itemize}
+Lo storage nativo, spesso si basa sull'\textbf{index friend adjacency}, ovvero 
+i nodi che sono vicini sono fisicamente salvati insieme. Questo permette di 
+effettuare query molto velocemente, ma la costruzione del grafo è molto lenta.
 
-storage nativo spesso si basa sull'\textbf{index friend adjacency} ovvero permette 
-di implementare la realzione di amicizia tra nodi che sono vici, il problema che 
-la costruzione è lenta ma le query sono veloci. Il collegamento tra concetti 
-si effettua attraverso un cammino tra nodi, mentre nel relazionale si effettua tramite 
-valori, invece nel documentale si usa l'embedding.
+Il collegamento tra concetti si effettua attraverso un cammino tra nodi, mentre 
+nel relazionale si effettua tramite valori, invece nel documentale si usa l'embedding.
 
-\begin{nota}
-Si può pensare di rappresentare un grafo in un albero, quindi nel modello documentale,
-ma significa utilizzare il referencing dei documenti come per i modelli relazionali.
-\end{nota}
+La struttura a grafo dei dati permette di rappresentare le informazioni 
+attraverso un database documentale, ma essendo la base di tale modello una 
+struttura ad albero risulta più complesso mappare le relazioni tra i dati. 
+Per risolvere questo problema si utilizzando i riferimenti tra vari documenti.
 
-Per modellare un grafo in modo non nativo ma efficiente, dal momento che sappiamo 
-che altri modelli non sono efficienti, spesso conviene fare come google, quando si 
-cerca un'informazione si mostrano i risultati più rilevanti, ovvero i primi nodi 
-più vicini, mentre gli altri li lasciamo nascosti quindi nelle pagine secondarie.
-Una seconda soluzione è quella di usare relazioni differenti nel grafo per aumentare 
-l'espressività del grafo e semplifica i collegamenti. Questo può essere implementato 
+Un modo efficiente per modellare un grafo in modo non nativo è quello di sfruttare 
+i vicini. Ad esempio, in un modello documentale possiamo utilizzare l'embedding
+per memorizzare i nodi vicini, mentre per i nodi lontani possiamo utilizzare i
+riferimenti.
+
+Una seconda soluzione è quella di usare relazioni differenti nel grafo per aumentare
+l'espressività del grafo e semplifica i collegamenti. Questo può essere implementato
 facilmente.
 
 \begin{esempio}
       Metti l'esempio del confronto delle interrogazioni tra modelli.
 \end{esempio}
 
-Nel modello a grafo ogni nodo ha delle proprietà, ovvero coppie chiave-valore dove 
-la chiave è anche l'etichetta della proprietà, mentre le relazioni sono degli archi
-con un'ettichetta che specifica la relazione e anche nei collegamenti possono mettere 
-le proprietà per specificare dei pesi sulle relazioni.
-Per modellare le info tipo: indirizzi multipli di una persona si possono utilizzare 
-delle relazioni con solo la proprietà nel nodo, oppure l'etichetta indirizzo che collega 
-l'utente e i nodi indirizzo, oppure utilizzare i collegamenti con proprietà che 
-specifica la tipologia dell'indirizzo. 
+Nel modello a grafo, ogni nodo rappresenta le informazioni al suo interno con 
+delle proprietà, ovvero coppie chiave-valore dove la chiave è rappresentata 
+dall'etichetta e il valore rappresenta l'informazione. Anche le relazioni possono
+avere un etichetta a cui è associata una proprietà.
+
+Una stessa informazione può essere modellata in modi diversi, la scelta dipende
+dalle query che si vogliono effettuare. Le due soluzioni sono:
+\begin{itemize}
+      \item \textbf{Stessa etichetta}: si ha una sola etichetta per accedere
+            a tutte le informazioni, mentre all'interno della relazione si specifica
+            il tipo di informazione.
+      \item \textbf{Etichette multiple}: si ha una relazione per ogni tipo di
+            informazione.
+\end{itemize}
+Ad esempio, per modellare una situazione in cui a una persona sono associati più
+indirizzi, si possono utilizzare le due soluzioni, la scelta dipende dalle 
+tipologie di query che si vogliono effettuare. Se si vogliono trovare tutti 
+gli indirizzi di una persona, allora è meglio utilizzare una soluzione in cui 
+si ha una stessa etichetta per accedere a tutti gli indirizzi e poi all'interno 
+della relazione si specifica il tipo di indirizzo. Mentre, se si vogliono 
+effettuare query per sapere uno specifico tipo di indirizzo è più conveniente
+utilizzare una relazione per ogni tipo di indirizzo. 
