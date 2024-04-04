@@ -1,0 +1,64 @@
+\chapter{Modelli}
+\section{Automi cellulari}
+Possono riprodurre fenomeni di auto-riproduzione e auto-organizzazione, sono 
+utili per modellare sistemi complessi dinamici e la simulazione. Utili per simulare 
+e studiare sistemi come: traffico, afflusso di persone, percolazione (studio della 
+fluido dinamica), sistema immunitario, sistemi sociali\dots.
+
+L'idea è di non discrivere il sistema complesso dall'alto, ad alto livello ex: sistemi
+di equazione differenziali. In realtà lo fa definendo delle regole locali e 
+la combinazione delle regole apporta dei comportamenti complessi (interazioni 
+semplici degli individui che generano comportamenti complessi).
+
+Gli automi cellulari sono:
+\begin{itemize}
+    \item \textbf{sistemi}: insieme di entità che interagiscono
+    \item \textbf{dinamici}: evolvono nel tempo in un insieme di passi
+    \item \textbf{discreti}: spazio, tempo e proprietà devono essere solo finiti
+    con un numero numerabile di stati. Spazio finito perché dobbiamo rappresentare
+    la realtà.
+\end{itemize}
+
+Esistono automi cellulari a più dimensioni che specificano quante dimensioni è lo spazio.
+
+Lo spazio è rappresentato da celle discrtete, si ha un tempo di evoluzione discreto.
+Una cella può assumere un particolare stato e la sua evoluzione dipende dagli stati
+delle celle adiacienti. Si guardano solo le celle del vicinato quindi si ha una relazione 
+locale e uniforme con le celle adiacenti.
+
+\begin{definizione}
+    Un automa cellulare è
+    $$\leftangle L, Q, q_0, u,f\rightangle$$
+    dove:
+    \begin{itemize}
+        \item $L$ è l'array di automi a stati finiti uniformi
+        \item $Q$ insieme di stati finiti
+        \item $q_0$ è lo stato iniziale
+        \item $u$ è la connessione della singola cella tra quelle adiacenti
+        \item $f$ la regola di transizione locale
+    \end{itemize}
+\end{definizione}
+
+Lavorando con automi cellulari finiti sarà importante definire una \textbf{condizione 
+di bordo}, ovvero come deve essere la regola quando le celle sono vicino al bordo,
+quando non hanno la specifica dei vicini richiesta. La scelta della condizione di
+bordo può essere fatta in questo modo:
+\begin{itemize}
+    \item collegare i bordi
+    \item guardare i bordi come uno specchio
+\end{itemize}
+
+Per gli automi cellulari 1-D possono codificare le regole come numeri decimali.
+Per mostrare l'evoluzione dell'automa 1D si usa il diagramma spazio-tempo, dove 
+permette di mostrare l'evoluzione dell'automa nel tempo.   
+
+\begin{esempio}[Traffico]
+    La regola del traffico 184 permette di modellare semplicemente il flusso del
+    traffico su una strada a singola corsia.
+
+    Possiamo complicare tutto il modello e al posto di avere la cella che specifica
+    se è presente il veicolo, si specifica la velocità del veicolo in quella cella.
+    Si aumenta il raggio delle celle che si considera vicine. Ogni veicolo accellera 
+    di una velocità fino a quando non rischia di fare incidenti.
+\end{esempio}
+ 
