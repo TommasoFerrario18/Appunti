@@ -24,33 +24,33 @@ La più importante classificazione che riguarda i $3$ aspetti è:
 fa riferimento al grado di \textbf{indipendenza} tra i nodi. Possiamo distinguere
 diversi livelli di autonomia:
 \begin{itemize}
-      \item \textbf{Autonomia di progetto}: ogni nodo ha un proprio modello dei
+      \item \textbf{di progetto}: ogni nodo ha un proprio modello dei
             dati e di gestione delle transizioni.
-      \item \textbf{Autonomia di condivisione}: ogni nodo sceglie la porzione di
+      \item \textbf{di condivisione}: ogni nodo sceglie la porzione di
             dati da condividere con gli altri nodi.
-      \item \textbf{Autonomia di esecuzione}: ogni nodo sceglie in che modo eseguire
+      \item \textbf{di esecuzione}: ogni nodo sceglie in che modo eseguire
             le transazioni che gli vengono inviate.
 \end{itemize}
 Partendo da questa classificazione possiamo definire diversi tipi di DBMS autonomi:
 \begin{itemize}
-      \item \textbf{DBMS Strettamente integrati}: in questo caso non c'è nessuna
+      \item \textbf{Strettamente integrati}: in questo caso non c'è nessuna
             autonomia, si ha un unico \textbf{data manager} (DM) centralizzato
             responsabile delle transazioni applicative. I data
             manager locali non operano in maniera autonoma.
-      \item \textbf{DBMS Semi - autonomi}: ogni DM è autonomo ma partecipa
+      \item \textbf{Semi - autonomi}: ogni DM è autonomo ma partecipa
             alle transazioni globali. Una parte dei dati è condivisa e richiedono
             modifiche architetturali per poter far parte della federazione.
-      \item \textbf{DBMS Totalmente autonomi} (peer - to - peer): ogni DBMS lavora in
+      \item \textbf{Totalmente autonomi} (peer - to - peer): ogni DBMS lavora in
             completa autonomia ed è inconsapevole dell'esistenza degli altri.
 \end{itemize}
 \paragraph{Distribuzione} La \textbf{distribuzione} dei dati può avvenire in diversi
 modi:
 \begin{itemize}
-      \item \textbf{Distribuzione client - server}: i dati sono distribuiti su più server
+      \item \textbf{client - server}: i dati sono distribuiti su più server
             e i client accedono ai dati attraverso le richieste fatte ai server.
             I server forniscono la gestione dei dati, mentre i client forniscono
             l'applicativo e la presentazione.
-      \item \textbf{Distribuzione peer - to - peer}: i dati sono distribuiti su più nodi
+      \item \textbf{peer - to - peer}: i dati sono distribuiti su più nodi
             e ogni nodo può essere sia client che server. Ogni nodo è autonomo
             e può eseguire transazioni locali.
       \item \textbf{Nessuna distribuzione}: i dati sono centralizzati
@@ -67,7 +67,6 @@ che compongono la federazione. Questa diversità può essere di diversi tipi:
       \item \textbf{Schema concettuale e logico}: i DBMS possono avere schemi
             concettuali diversi.
 \end{itemize}
-
 Per le architetture eterogenee dobbiamo occuparci di aggiungere un gestore delle
 transazioni (TM) che si occupi di mappare una query distribuita sui singoli DBMS
 e che si occupi della parte di \textbf{concurrency control} e \textbf{recovery}.
@@ -97,7 +96,7 @@ Per ogni DBMS distribuito si hanno due tipologie architetture:
 \end{itemize}
 \begin{figure}[!ht]
       \centering
-      \includegraphics[width=0.60\textwidth]{img/SharedNothing.jpg}
+      \includegraphics[width=0.5\textwidth]{img/SharedNothing.jpg}
       \caption{Architettura shared-nothing}
       \label{fig:sharedNothing}
 \end{figure}
@@ -105,7 +104,7 @@ Esistono diverse architetture di DBMS distribuiti alcune delle quali sono
 riportate in figura \ref{fig:DBMS_distributed_architecture}.
 \begin{figure}[!ht]
       \centering
-      \includegraphics[width=0.7\textwidth]{./img/DBMS/DBMS_distributed_architecture.png}
+      \includegraphics[width=0.5\textwidth]{./img/DBMS/DBMS_distributed_architecture.png}
       \caption{Architetture di DBMS distribuiti}
       \label{fig:DBMS_distributed_architecture}
 \end{figure}
@@ -113,15 +112,15 @@ riportate in figura \ref{fig:DBMS_distributed_architecture}.
 Non avendo il concetto di eterogeneità si mantiene lo stesso schema di un DBMS
 centralizzato, distribuendo i dati. Questo comporta la necessità di aggiungere
 uno schema logico locale tra lo schema logico e quello fisico. Non si avrà più
-un solo schema logico e un unisco schema fisico, ma tanti schemi logici locali e
+un solo schema logico e un unico schema fisico, ma tanti schemi logici locali e
 fisici locali (ad ogni logico corrisponde un fisico).
 
 I vari schemi logici locali si interfacciano con uno schema logico globale,
 tali schemi non sono altro che delle viste dello schema logico globale. Questa
 organizzazione tra schemi logici locali e schema logico globale è la cosiddetta
 organizzazione \textbf{LAV} (Local As View). L'applicazione interroga
-lo schema logico globale e saranno varie a mappare le query distribuite sugli schemi
-logici locali.
+lo schema logico globale e successivamente verranno mappate le query distribuite 
+sugli schemi logici locali.
 
 % TODO: inserisci immagine dello schema logico
 
@@ -161,7 +160,6 @@ implementate da ogni singolo DBMS per offrire una connettività standard.
 
 Il protocollo funziona sia se si ha che fare con omogeneità che con eterogeneità
 dei DDBMS.
-
 
 % ! da spostare
 Si hanno altri approcci:
@@ -209,7 +207,7 @@ I \textbf{DDBMS} hanno notevoli \textbf{vantaggi}:
             bottiglia per le prestazioni.
 \end{itemize}
 \subsection{Differenze rispetto ai DBMS}
-Si ha un \textbf{Indipendenza locale e cooperazione tra server}, ogni server
+Si ha un \textbf{indipendenza locale e cooperazione tra server}, ogni server
 mantiene ha la sua applicazione, si hanno interazioni tra i vari server per la
 loro cooperazione, la cooperazione può avvenire per gestire due cose:
 \begin{itemize}
@@ -218,8 +216,9 @@ loro cooperazione, la cooperazione può avvenire per gestire due cose:
       \item \textbf{transazioni}: richieste di transazioni dalle applicazioni  e
             dati di controllo per il coordinamento dello stato delle transazioni.
 \end{itemize}
-Il problema è l'ottimizzazione che è limitata per via della rete e l'obiettivo
-sarà quello di distribuire i dati per avere più transazioni possibili in locale.
+Il problema è legato all'ottimizzazione, la quale è limitata per via della rete. 
+L'obiettivo sarà quello di distribuire i dati per avere più transazioni possibili 
+in locale in modo da limitare lo scambio di messaggi tra i vari server.
 
 Si hanno anche le seguenti funzionalità specifiche:
 \begin{itemize}
@@ -243,32 +242,86 @@ Si hanno anche le seguenti funzionalità specifiche:
 \end{definizione}
 Esistono due tipi di frammentazione:
 \begin{itemize}
-      \item \textbf{Frammentazione orizzontale}: si prende una tabella e la si
+      \item \textbf{orizzontale}: si prende una tabella e la si
             frammenta in base alle righe. Si mantiene inalterato lo schema in
             quanto si ottengono solo delle tabelle più piccole. Per spezzare si
             usa una select che selezioni ogni volta un certo blocco di tabella.
             (Ex: vengono separati i dottori nati a Milano da quelli nati a Napoli,
             alla fine si effettua la union per ricostruire la tabella originale)
-      \item \textbf{Frammentazione verticale}: si prende una tabella e la si frammenta
+      \item \textbf{verticale}: si prende una tabella e la si frammenta
             in base alle colonne. In ogni nuova tabella però la prima colonna
             deve essere uguale alla prima della tabella originale (ovvero dove si
             ha la chiave primaria), questo per garantire che si possa ricomporre
             la tabella originale con operazioni di join e garantire la
             trasparenza. Anche in questo caso uso una select che selezioni ogni
             volta un certo numero di colonne da mettere nella nuova tabella.
-            (Ex: si dividono gli attributi della tabella e si fa la join in fase di
-            ricostruzione)
 \end{itemize}
 Quando si usa la frammentazione bisogna garantire le seguenti regole:
 \begin{itemize}
       \item \textbf{Completezza}: ogni record della relazione R di partenza
-            deve poter essere ritrovato in almeno uno dei frammenti
+            deve poter essere ritrovato in almeno uno dei frammenti.
       \item \textbf{Ricostruibilità}: la relazione R di partenza deve poter essere
-            ricostruita senza perdita di informazione a partire dai frammenti
+            ricostruita senza perdita di informazione a partire dai frammenti.
       \item \textbf{Disgiunzione}: ogni record della relazione R deve essere
-            rappresentato in uno solo dei frammenti
-      \item \textbf{Replicazione}: l'opposto della disgiunzione
+            rappresentato in uno solo dei frammenti.
+      \item \textbf{Replicazione}: l'opposto della disgiunzione.
 \end{itemize}
+\begin{esempio}[\textbf{Esercizio 1, esercitazione 1}]
+      Esempio esercitazione frammentazione delle tabelle nelle posizioni geografiche.
+      La tabella \textbf{Production} verrà frammentata orizzontalmente in questo modo:
+      \begin{equation*}
+            Poduction1=\sigma_{PartType=CPU}(Production)
+      \end{equation*}
+      \begin{equation*}
+            Poduction2=\sigma_{PartType=Keyboard}(Production)
+      \end{equation*}
+      \begin{equation*}
+            Poduction3=\sigma_{PartType=Screen}(Production)
+      \end{equation*}
+      \begin{equation*}
+            Poduction4=\sigma_{PartType=Pipe}(Production)
+      \end{equation*}
+      La tabella \textbf{Pickup} verrà frammentata orizzontalmente in questo modo:
+      \begin{equation*}
+            Pickup1=\pi_{SN, Lot, Client,SalesPerson, Amount}(\sigma_{PartType=CPU}(Production)\triangleright\triangleleft_{Pickup.SN=Production.SN}(Pickup))
+      \end{equation*}
+      \begin{equation*}
+            Pickup2=\pi_{SN, Lot, Client,SalesPerson, Amount}(\sigma_{PartType=Keyboard}(Production)\triangleright\triangleleft_{Pickup.SN=Production.SN}(Pickup))
+      \end{equation*}
+      \begin{equation*}
+            Pickup3=\pi_{SN, Lot, Client,SalesPerson, Amount}(\sigma_{PartType=Screen}(Production)\triangleright\triangleleft_{Pickup.SN=Production.SN}(Pickup))
+      \end{equation*}
+      \begin{equation*}
+            Pickup4=\pi_{SN, Lot, Client,SalesPerson, Amount}(\sigma_{PartType=Pipe}(Production)\triangleright\triangleleft_{Pickup.SN=Production.SN}(Pickup))
+      \end{equation*}
+      Per frammentare \textbf{SalesPerson} si può frammentare in questo modo:
+      \begin{equation*}
+            SalesPerson1=\sigma_{City=SanJose}(SalesPerson)
+      \end{equation*}
+      \begin{equation*}
+            SalesPerson2=\sigma_{City=Zurich \lor City=Dublin}(SalesPerson)
+      \end{equation*}
+      \begin{equation*}
+            SalesPerson3=\sigma_{City=Taiwan}(SalesPerson)
+      \end{equation*}
+      Per frammentare \textbf{Client} si può frammentare in questo modo:
+      \begin{equation*}
+            Client1=\sigma_{City=SanJose}(Client)
+      \end{equation*}
+      \begin{equation*}
+            Client2=\sigma_{City=Zurich \lor City=Dublin}(Client)
+      \end{equation*}
+      \begin{equation*}
+            Client3=\sigma_{City=Taiwan}(Client)
+      \end{equation*}
+      Le tabelle appena calcolate verranno distribuite nel seguente modo:
+      \begin{itemize}
+            \item \textbf{San Josè}: Production1, Pickup1, Client1 e Sales1 
+            \item \textbf{Zurich}: Production2, Pickup2, Client2 e Sales2 
+            \item \textbf{Taiwan}: Production3, Pickup3, Client3 e Sales3
+            \item \textbf{Dublin}: Production4 
+      \end{itemize}
+\end{esempio}
 \subsection{Replicazione}
 \begin{definizione}[\textbf{Replicazione}]
       Si definisce \textbf{replicazione} come la possibilità di allocare stesse
@@ -331,12 +384,51 @@ logico locale. Si hanno quindi tre livelli di trasparenza:
             vengono quindi tradotte ottimizzatone di query. Questo è il livello
             di trasparenza più basso.
 \end{itemize}
+\begin{esempio} [\textbf{esercizio 1, esertcitazione 1}]
+      Eseguiamo le seguenti query:
+      \begin{itemize}
+            \item prima query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione} (specifichiamo solo la tabella logica): \texttt{SELECT quantity FROM Production WHERE SerialNumber = 77y6878}
+                  \item \textbf{trasparenza di replicazione/allocazione} (specifichiamo il frammento al quale effettuare la richiesta): \texttt{SELECT quantity FROM Production1 WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production2 WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production3 WHERE SerialNumber = 77y6878  }
+                  \item \textbf{trasparenza di linguaggio} (specifichiamo il nodo al quale effettuare la richiesta): \texttt{SELECT quantity FROM Production1@company.SanJose.com WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production2@company.Taiwan.com WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production3@company.Zurich.com WHERE SerialNumber = 77y6878  }
+            \end{itemize}
+            \item seconda query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}: 
+                  \item \textbf{trasparenza di replicazione/allocazione}: \texttt{SELECT client FROM Pickup3 as P JOIN SalesPerson as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
+                  \item \textbf{trasparenza di linguaggio}: \texttt{SELECT client FROM Pickup3@company.Taiwan.com as P JOIN SalesPerson@company.Taiwan.com as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
+            \end{itemize}
+            \item terza query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT machine FROM Produciton as P JOIN Pickup as PU ON P.SN = PU.SN JOIN Client ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                  \item \textbf{trasparenza di replicazione/allocazione}:  \texttt{SELECT machine FROM Produciton2 as P JOIN Pickup2 as PU ON P.SN = PU.SN JOIN Client2 ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                  \item \textbf{trasparenza di linguaggio}:  \texttt{SELECT machine FROM Produciton2@company.com as P JOIN Pickup2@company.com as PU ON P.SN = PU.SN JOIN Client2@company.com ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+            \end{itemize}
+            \item quarta query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}:  \texttt{UPDATE FROM Client SET address="k3$\dots$" AND City="Taiwa" WHERE name="$\dots$"}
+                  \item \textbf{trasparenza di replicazione/allocazione}:  prima si inserisce il nuovo record
+                  \texttt{INSERT INTO Client3 (Name, City,Address) VALUES ("Brown", "Taiwan", "43$\dots$")}\\ successivamente cancelliamo il cliente dalla vecchia tabella
+                  \texttt{DELETE FROM Client1 WHERE name="Brown"}
+            \end{itemize}
+            \item quinta query:
+            \begin{itemize}
+                  \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
+                  \item \textbf{trasparenza di replicazione/allocazione}: creiamo prima
+                  le view delle tabelle non frammentate
+                  \texttt{CREATE VIEW Client UNION Client1 UNION Client2 UNION Client3} \\
+                  \texttt{CREATE VIEW Pickup UNION Pickup1 UNION Pickup2 UNION Pickup3} \\ 
+                  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
+            \end{itemize}
+      \end{itemize}
+\end{esempio}
 \section{Gestione delle query distribuite}
 In un DBMS distribuito, a differenza dei DBMS centralizzati, le query vengono ottimizzate
 in modo diverso. In particolare, si hanno le seguenti fasi:
 \begin{itemize}
       \item \textbf{Query decomposition}: la query distribuita viene decomposta in
-            sottoquery che possono essere eseguite in modo indipendente. Questa
+            sotto-query che possono essere eseguite in modo indipendente. Questa
             fase tiene conto dello schema logico globale e non considera la
             distribuzione dei dati. Usa delle tecniche di ottimizzazione algebrica
             come quelle usate nei DBMS centralizzati.
@@ -372,10 +464,9 @@ conto del parallelismo.
 
 Il costo principale nelle basi di dati è il \textbf{costo totale} che è dipendente
 dai \textbf{costi delle operazioni} (I/O e CPU) e dal costo di \textbf{costo di comunicazione}.
-\begin{equation*}
-      \text{costo totale} = \textbf{costo operazioni} + \text{costo di comunicazione}
-\end{equation*}
-
+\begin{center}
+      \text{costo totale} = \textbf{costo operazioni} + \textbf{costo di comunicazione}
+\end{center}
 Se si sommano tutti i costi di tutte le operazioni eseguite nella query distribuita,
 tenendo conto del parallelismo, si ottiene il \textbf{response time}.
 
@@ -393,7 +484,6 @@ dove:
       \item \textbf{$\#\ msgs$} è il numero di messaggi
       \item \textbf{$\#bytes$} è il numero di byte
 \end{itemize}
-
 Per calcolare il \textbf{tempo di risposta} (response time), a differenza del
 costo totale, i costi delle operazioni in parallelo non si sommano,
 ottenendo la seguente formula:
@@ -419,7 +509,6 @@ Possiamo essere interessati a:
             parallelismo: utilizza meglio le risorse e aumento del throughput (con
             peggioramento del response time in generale)
 \end{itemize}
-
 \subsection{Operazione di join}
 Dato che nei join quando si trasferiscono i dati non è possibile passare gli indici,
 le operazioni di join sono quelle più costose dal punto di vista computazionale.
@@ -443,7 +532,6 @@ dell'intera relazione del costo del join intero.
 In generale, l'uso del semijoin è più conveniente se il costo del suo calcolo e
 del trasferimento del risultato è inferiore al consto del trasferimento
 dell'intera relazione e del costo del join intero.
-
 \section{Controllo della concorrenza}
 Fino a questo momento abbiamo considerato le interrogazioni più semplici. Vogliamo
 ora analizzare la gestione delle scritture sui database distribuiti. In particolare,
@@ -518,7 +606,6 @@ Nella progettazione della base di dati bisogna considerare diverse informazioni:
       \item Tipologie di query distribuite.
       \item Stime o statistiche su query distribuite.
 \end{itemize}
-
 In aggiunta dobbiamo considerare i problemi di scrittura e quindi problemi di
 concorrenza. Dobbiamo costruire una serie di protocolli che ci permettono di
 risolvere questi problemi, nel sistema centralizzato un metodo è quello di usare
@@ -609,6 +696,12 @@ La sequenza di attesa generale al nodo è della forma:
 \begin{equation*}
       EXT_i < x < y < EXT_j
 \end{equation*}
+
+\begin{nota}
+      Prima di eseguire la transazione si effettua la richiesta di lock e solo 
+      al suo termine rilascia il lock.
+\end{nota}
+
 Da osservatore esterno, riusciamo a vedere quando c'è un ciclo di attese e
 quindi un deadlock globale, ma a livello di singolo nodo questo è più complicato.
 La soluzione a questo problema avviene attivando periodicamente sui diversi nodi

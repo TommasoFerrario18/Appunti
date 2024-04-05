@@ -1,9 +1,9 @@
 \chapter{NoSQL}
 \begin{nota}
-    In quest capitolo non si vuole sostenere che i database NoSQL siano
-    migliori di quelli relazionali. I database NoSQL sono un'alternativa
-    ai database relazionali e non sempre sono la scelta migliore. Per ogni
-    applicazione è necessario valutare quale sia la scelta migliore.
+      In quest capitolo non si vuole sostenere che i database NoSQL siano
+      migliori di quelli relazionali. I database NoSQL sono un'alternativa
+      ai database relazionali e non sempre sono la scelta migliore. Per ogni
+      applicazione è necessario valutare quale sia la scelta migliore.
 \end{nota}
 Fino a questo momento abbiamo utilizzato database relazionali per gestire le
 nostre applicazioni. Tuttavia, i database relazionali non sono l'unica
@@ -15,11 +15,11 @@ Iniziamo analizzando uno Use Case. Un cliente vuole salvare dati legati alle
 crypto che vengono forniti da un API. Con le conoscenze conseguite fino a questo
 momento, salveremo tutto su una tabella di un DBMS relazionale dove si hanno 5 colonne:
 \begin{itemize}
-    \item id
-    \item Simbolo
-    \item Prezzo\_USD
-    \item Prezzo\_EUR
-    \item Data
+      \item id
+      \item Simbolo
+      \item Prezzo\_USD
+      \item Prezzo\_EUR
+      \item Data
 \end{itemize}
 Nel caso in cui nella risposta fossero presenti informazioni aggiuntive o nel caso
 in cui si volessero salvare informazioni aggiuntive, si dovrebbe modificare la
@@ -45,13 +45,14 @@ con volumi molto significativi di dati.
 Da questo use case possiamo osservare che il modello relazionale presenta dei
 limiti nella gestione dei dati:
 \begin{itemize}
-    \item Si ha uno svantaggio nel salvare di dati poco omogenei, questo è dovuto
-          principalmente alla rigidità dello schema. In quanto prima di poter
-          inserire i dati, è necessario definire uno schema.
-    \item Si ha uno svantaggio in relazione al paradigma di programmazione che
-          viene usato (Programmazione a oggetti). Questo obbliga a utilizzare
-          un ORM per mappare i dati del database relazionale con gli oggetti
-          del linguaggio di programmazione.
+      \item Si ha uno svantaggio nel salvare di dati poco omogenei, questo è dovuto
+            principalmente alla rigidità dello schema dei modelli relazionali, in
+            quanto prima di poter inserire i dati, è necessario definire la loro
+            struttura.
+      \item Si ha uno svantaggio in relazione al paradigma di programmazione che
+            viene usato (Programmazione a oggetti). Questo obbliga a utilizzare
+            un ORM per mappare i dati del database relazionale con gli oggetti
+            del linguaggio di programmazione.
 \end{itemize}
 Inoltre, essendo le risposte delle API solitamente in formato JSON, si ha un
 ulteriore svantaggio in quanto si deve fare un parsing della risposta per
@@ -67,31 +68,31 @@ relazionali, ma che sono un'alternativa ai database relazionali. Per ogni
 applicazione è necessario valutare quale sia la scelta migliore. Di seguito
 elenchiamo alcuni motivi per cui utilizzare i database relazionali:
 \begin{itemize}
-    \item SQL è semplice.
-    \item Molto rigido
-    \item Vincoli nel database allora le app possono non fare i controlli
-    \item ipotesi di mondo chiuso: tutto quello che serve è nel database, se non
-          lo so devo inserire il valore \texttt{null}.
-    \item Tecnologia stabile e funzionante che alle spalle anni di ricerca e
-          sviluppo.
-    \item Sono valide le proprietà ACID, molto utili in contesti in cui si
-          hanno transazioni.
+      \item SQL è semplice.
+      \item Molto rigido
+      \item Vincoli nel database allora le app possono non fare i controlli
+      \item ipotesi di mondo chiuso: tutto quello che serve è nel database, se non
+            lo so devo inserire il valore \texttt{null}.
+      \item Tecnologia stabile e funzionante che alle spalle anni di ricerca e
+            sviluppo.
+      \item Sono valide le proprietà ACID, molto utili in contesti in cui si
+            hanno transazioni.
 \end{itemize}
 È corretto presentare anche gli svantaggi dei database relazionali:
 \begin{itemize}
-    \item Modificare una tabella nella quale sono già presenti dei valori è molto
-          complicato.
-    \item Assunzione mondo chiuso: può risultare troppo pesante in determinate
-          situazioni.
-    \item Il concetto di minimizzare le ripetizioni dei valori implica la necessità
-          di effettuare molte join per ottenere l'informazione desiderata.
-    \item Si ha un mapping un attributo ha un valore.
-    \item Non è compatibile con i linguaggi di programmazione ad oggetti.
-    \item Presenta delle difficoltà nella gestione dei self-join.
-    \item È difficilmente scalabile.
+      \item Modificare una tabella nella quale sono già presenti dei valori è molto
+            complicato.
+      \item Assunzione mondo chiuso: può risultare troppo pesante in determinate
+            situazioni.
+      \item Il concetto di minimizzare le ripetizioni dei valori implica la necessità
+            di effettuare molte join per ottenere l'informazione desiderata.
+      \item Si ha un mapping un attributo ha un valore.
+      \item Non è compatibile con i linguaggi di programmazione ad oggetti.
+      \item Presenta delle difficoltà nella gestione dei self-join.
+      \item È difficilmente scalabile.
 \end{itemize}
 \begin{nota}
-    Il termine NoSQL significa \textit{Not Only SQL}.
+      Il termine NoSQL significa \textit{Not Only SQL}.
 \end{nota}
 Una caratteristica comune dei database NoSQL è che sono \textbf{schema-free} o
 \textbf{schema-less}. Questo significa che non è necessario definire uno schema
@@ -99,30 +100,29 @@ prima di poter inserire i dati. L'inserimento dei dati implica per quel dato lo
 schema associato, il successivo inserimento di un dato può avere uno schema diverso.
 
 % Presa da internet la definizione
-Oltre a ciò, per questi database vale il teorema CAP, che afferma che è
-impossibile per un sistema distribuito garantire contemporaneamente le seguenti
-tre proprietà:
+Oltre a ciò, per questi database vale il \textbf{teorema CAP}, il quale afferma
+che è impossibile per un sistema distribuito garantire contemporaneamente le
+seguenti tre proprietà:
 \begin{itemize}
-    \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati allo stesso
-          tempo.
-    \item \textbf{Availability}: ogni richiesta riceve una risposta, anche in
-          presenza di guasti.
-    \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
-          se alcune parti del sistema non sono disponibili.
+      \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati allo stesso
+            tempo.
+      \item \textbf{Availability}: ogni richiesta riceve una risposta, anche in
+            presenza di guasti.
+      \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
+            se alcune parti del sistema non sono disponibili.
+\end{itemize}
+Mentre nei database relazionali avevamo le transazioni \textbf{ACID}, nei database
+NoSQL abbiamo le transazioni \textbf{BASE}, che stanno per:
+\begin{itemize}
+      \item \textbf{Basically Available}: il sistema è sempre disponibile.
+      \item \textbf{Soft state}: lo stato del sistema può cambiare anche senza
+            input.
+      \item \textbf{Eventual consistency}: il sistema diventerà consistente in un
+            certo momento.
 \end{itemize}
 
-Mentre nei database relazionali avevamo le transazioni ACID, nei database NoSQL
-abbiamo le transazioni BASE, che stanno per:
-\begin{itemize}
-    \item \textbf{Basically Available}: il sistema è sempre disponibile.
-    \item \textbf{Soft state}: lo stato del sistema può cambiare anche senza
-          input.
-    \item \textbf{Eventual consistency}: il sistema diventerà consistente in un
-          certo momento.
-\end{itemize}
-
-Inoltre, a differenza dei database relazionali, i database NoSQL si basano su 
-un'assunzione di mondo aperto, ovvero viene inserito solo quello che conosco se 
+Inoltre, a differenza dei database relazionali, i database NoSQL si basano su
+un'assunzione di mondo aperto, ovvero viene inserito solo quello che conosco se
 mi mancano delle informazioni non le metto.
 
 Si è passati dal progettare le architetture in modo da essere più specifiche
@@ -130,44 +130,245 @@ per l'applicazione, il contrario di come si faceva una volta: progettazione gene
 \section{Tipi di database NoSQL}
 Esistono diverse tipologie di database NoSQL, ognuna con le proprie caratteristiche
 e i propri casi d'uso. Possiamo dire che più è semplice il modello, più è facile
-scalarlo. Nella figura \ref{fig:tipi_nosql} possiamo come si posizionano i
+scalarlo. Nella figura \ref{fig:tipi_nosql} possiamo osservare come si posizionano i
 database NoSQL rispetto alla dimensione e complessità del modello.
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[scale=0.5]{./img/nosql/tipi_nosql.png}
-    \caption{Tipi di database NoSQL}
-    \label{fig:tipi_nosql}
+      \centering
+      \includegraphics[scale=0.5]{./img/nosql/tipi_nosql.png}
+      \caption{Tipi di database NoSQL}
+      \label{fig:tipi_nosql}
 \end{figure}
-Rispetto questa rappresentazione possiamo posizionare il modello relazionale a metà
-tra la complessità delle colonne e i documenti.
+
+Rispetto questa rappresentazione possiamo posizionare il modello relazionale tra
+il modello column-based e il modello document-based.
+
 In questo corso vedremo i seguenti tipi di database NoSQL:
 \begin{itemize}
-    \item \textbf{Document-based}: i dati sono memorizzati in documenti, che
-          possono essere in formato JSON, XML, BSON, YAML, etc.
-    \item \textbf{Key-value}: i dati sono memorizzati in coppie chiave-valore.
-    \item \textbf{Wide-column}: i dati sono memorizzati in colonne, simile ai
-          database relazionali.
-    \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
+      \item \textbf{Document-based}: i dati sono memorizzati in documenti, che
+            possono essere in formato JSON, XML, BSON, YAML, etc.
+      \item \textbf{Key-value}: i dati sono memorizzati in coppie chiave-valore.
+      \item \textbf{Wide-column}: i dati sono memorizzati in colonne, simile ai
+            database relazionali.
+      \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
 \end{itemize}
-Una caratteristica che accomuna questi modelli è che tutti devono risolvere il 
-problema di mettere insieme i dati. Ad esempio, i database relazionali usano i join,
-mentre i database document-based usano un unico documento.
+Una caratteristica che accomuna queste tipologie di database è legata al problema
+di mettere insieme i dati. Ad esempio, i database relazionali usano le operazioni
+di join, mentre i database document-based usano un unico documento.
 \subsection{Key value}
-I database key-value sono i più semplici tra i database NoSQL. In questi
+I database \textbf{key-value} sono i più semplici tra i database NoSQL. In questi
 database, i dati sono memorizzati come tabelle di hash dove la chiave punta a un
 particolare valore. Si utilizzano le tabelle di hash per massimizzare le prestazioni
 di lettura e scrittura.
 \subsection{Wide column}
-I database wide-column sono simili ai database relazionali, ma invece di
+I database \textbf{wide-column} sono simili ai database relazionali, ma invece di
 memorizzare i dati in righe, i dati sono memorizzati in colonne. Questo permette
 di avere una maggiore flessibilità rispetto ai database relazionali. La chiave
 punta a un insieme di colonne che può essere diverso per ogni riga.
-\subsection{Document based}
-I database document-based memorizzano i dati in documenti. I documenti sono
-indirizzati nel database tramite una chiave unica. La ricerca dei dati è
-effettuata nei documenti stessi.
-\subsection{Graph based}
-I database graph-based memorizzano i dati in nodi e archi. Questi database sono
-utili per memorizzare dati che hanno relazioni complesse. I nodi rappresentano
-le entità e gli archi rappresentano le relazioni tra le entità.
 
+\paragraph{HBASE}
+HBase è un database wide-column che è stato ispirato da Google BigTable. In HBase
+si ha una chiave che punta ad un insieme di valori che possono avere tipi differenti.
+
+In questa struttura, possiamo definire delle \textbf{column family}, le quali
+contengono più attributi che condividono delle informazioni. Il \textbf{qualifier} è
+il nome dell'attributo all'interno di una column family. Ogni riga ha anche
+un campo relativo al timestamp in cui è stata modificata.
+
+L'utilizzo di timestamp fornisce un modo diverso per gestire le transazioni,
+anche quelle distribuite, senza l'uso di lock. Questo metodo associa a ogni
+transazione un timestamp, in modo che se due transazioni si sovrappongono,
+possono essere risolte in base a tale valore.
+
+In questa implementazione è possibile realizzare facilmente relazioni di tipo 1-n
+nella stessa riga.
+\paragraph{Cassandra}
+Cassandra è un database wide-column che è stato realizzato da Facebook per gestire
+la comunicazione con le mail.
+
+Questo database si differenzia da HBase per il fatto si ha uno spazio delle chiavi,
+il quale può essere visto come una tabella nel modello relazionale. Questo spazio
+è suddiviso in column family, le quali sono differenti da quelle di HBase in quanto
+la stessa chiave primaria può essere usata in più column family.
+
+I valori che si trovano all'interno di una column family possono essere di tipo
+diverso, inoltre, ogni riga ha un timestamp associato.
+
+Quindi una column family equivale ad una \textit{tabella}, e si utilizza la chiave
+primaria della riga per accedere ad un particolare dato di essa.
+
+L'accesso viene effettuato specificando i seguenti campi:
+\begin{itemize}
+      \item \texttt{column family}
+      \item \texttt{row key}
+      \item \texttt{column name}
+\end{itemize}
+Per semplificare il passaggio da database relazionali a Cassandra, il query
+language di Cassandra (CQL) è molto simile a SQL. Attraverso questo meccanismo
+è possibile sviluppare un applicazione che è in grado di utilizzare sia database
+relazionali che Cassandra senza apportare molte modifiche.
+
+Un vantaggio dell'utilizzo di questo database è legato al fatto che ogni riga è
+indipendente dalle altre. Quindi, in un contesto distribuito, è possibile frammentare
+come si vuole il database senza dover fare join.
+\subsection{Document based}
+I database \textbf{document-based} permettono di memorizzare delle informazioni sotto
+forma di documenti. Ognuno dei quali è identificato attraverso una chiave unica.
+Tutte le operazioni di lettura e manipolazione dei dati avvengono all'interno
+dei documenti stessi.
+\paragraph{MongoDB}
+MongoDB è un database document-based che memorizza i dati in documenti JSON, più
+precisamente, utilizza un formato binario di JSON chiamato BSON. Ogni documento
+è identificato da una chiave unica, chiamata \texttt{\_id}.
+
+Possiamo immaginare la struttura di un file JSON come un albero, dove la radice
+è la chiave \texttt{\_id} e i figli sono i campi del documento.
+
+Questa tipologia permette di salvare i dati come si faceva negli schemi relazionali,
+ovvero suddividendo le informazioni in diverse \textbf{collezioni}. Per fare ciò,
+si utilizzano i \textbf{riferimenti} tra i documenti. Lo svantaggio di questa
+soluzione è che si devono fare molte join per ottenere l'informazione desiderata.
+
+Un'altra soluzione è quella di salvare i dati in un unico documento, sfruttando
+l'embedding, in modo da evitare le join. Questo metodo è molto efficiente quando
+si devono accedere alle informazioni più vicine alla radice, ma meno efficiente
+quando si devono accedere alle foglie, si ha comunque un tempo di accesso minore
+rispetto alle join.
+
+Nei database document-based lo schema non è vincolante, in particolare, corrisponde
+all'unione di tutti gli attributi e sotto-attributi del documento.
+
+Vediamo ora un parallelismo tra i database relazionali e MongoDB:
+\begin{itemize}
+      \item \textbf{Database} $\rightarrow$ \textbf{Database}
+      \item \textbf{Tabella} $\rightarrow$ \textbf{Collection}
+      \item \textbf{Row} $\rightarrow$ \textbf{Document}
+      \item \textbf{Column} $\rightarrow$ \textbf{Field}
+      \item \textbf{Index} $\rightarrow$ \textbf{Index}
+      \item \textbf{Join} $\rightarrow$ \textbf{Embedded document}
+      \item \textbf{Foreign key} $\rightarrow$ \textbf{Reference}
+      \item \textbf{Partition} $\rightarrow$ \textbf{Shard}
+\end{itemize}
+Le operazioni che si vogliono svolgere sulla base di dati vengono espresse
+attraverso una notazione che ricorda quella della programmazione a oggetti, ovvero
+attraverso la \textit{dot notation}. Inoltre, nelle operazioni tutti gli
+operatori devono essere espressi in JSON. Questo permette di eliminare l'utilizzo
+di framework come Hibernate per mappare gli oggetti sul database.
+\begin{nota}
+      Quando si devono caricare grandi quantità di dati è utile disabilitare
+      l'ack che viene mandato per ogni operazione.
+\end{nota}
+Le query di modifica di un documento presentano degli oggetti JSON come
+clausole, simile alla clausola \texttt{WHERE} delle query SQL. Oltre a questo
+è possibile specificare di creare un documento nuovo nel caso non sia presente
+quello che si vuole modificare.
+
+Mongo permette di creare degli indici per velocizzare le operazioni.
+\begin{esempio}
+      Vediamo ora un esempio di parallelismo tra una query SQL e una per
+      MongoDB:
+      \begin{center}
+            db.\textcolor{red}{users}.find(\textcolor{green}{\{age: \{ \$gt: 18 \}\}},
+            \textcolor{cyan}{\{name: 1, age: 1\}}).\textcolor{magenta}{limits(10)}
+      \end{center}
+      \begin{center}
+            \textcolor{cyan}{SELECT name, age} \textcolor{red}{FROM users}
+            \textcolor{green}{WHERE age $>$ 18} \textcolor{magenta}{LIMIT 10}
+      \end{center}
+\end{esempio}
+Nelle interrogazioni, tutte le clausole sono specificate in \texttt{AND}, se si
+vuole specificare in \texttt{OR} è necessario utilizzare il comando $\$or$ seguito
+da una lista di oggetti JSON.
+
+Nelle versioni successive è stato definito il concetto di \textbf{aggregation} e
+di \textbf{pipeline}. Una pipeline è un comando che rappresenta una sequenza di
+operazioni che vengono eseguite in serie e possono essere usate per operazioni
+di analytics.
+
+\begin{nota}
+      Dato un problema non sempre per avere efficienza dobbiamo scegliere la
+      soluzione banale, spesso dobbiamo prendere soluzioni controintuitive. Ex:
+      salvare i dati non in modo efficiente e sfruttare la potenza di esecuzione
+      delle query dei DBMS.
+\end{nota}
+\begin{nota}
+      Un documento è un albero.
+\end{nota}
+\subsection{Graph based}
+I database graph-based memorizzano i dati salvando le informazioni nei nodi e
+utilizzando gli archi per definire delle relazioni tra esse. Questi database sono
+utili per memorizzare dati che hanno relazioni complesse, come ad esempio le
+relazioni dei social network.
+
+Spesso si usano per reti sociali, recommendations systems, logistica, financial
+transaction, bioinformatica, autorizzation and access control.
+
+I database basati sui grafi godono delle seguenti proprietà:
+\begin{itemize}
+      \item \textbf{Storage}:
+            \begin{itemize}
+                  \item \textbf{Nativo}: i dati vengono salvati sotto forma di
+                        grafo, si ha la problematica legata alla scalabilità 
+                        della soluzione.
+                  \item \textbf{Non nativo}: i dati vengono salvati in una struttura 
+                        differente da un grafo, ma che logicamente permette di essere
+                        visto come un grafo.
+            \end{itemize}
+      \item \textbf{Processing engine}:
+            \begin{itemize}
+                  \item \textbf{Nativo}: permette di effettuare direttamente query
+                        nel linguaggio dei grafi, sfruttando le proprietà dei 
+                        grafi. Il problema di questa soluzione è dovuto al fatto 
+                        che bisogna mappare le query reali utilizzando le proprietà 
+                        del grafo.
+                  \item \textbf{Non nativo}: permette di utilizzare un altro 
+                        linguaggio (es. SQL) per effettuare query che non devono 
+                        per forza essere proprietà del grafo.
+            \end{itemize}
+\end{itemize}
+Lo storage nativo, spesso si basa sull'\textbf{index friend adjacency}, ovvero 
+i nodi che sono vicini sono fisicamente salvati insieme. Questo permette di 
+effettuare query molto velocemente, ma la costruzione del grafo è molto lenta.
+
+Il collegamento tra concetti si effettua attraverso un cammino tra nodi, mentre 
+nel relazionale si effettua tramite valori, invece nel documentale si usa l'embedding.
+
+La struttura a grafo dei dati permette di rappresentare le informazioni 
+attraverso un database documentale, ma essendo la base di tale modello una 
+struttura ad albero risulta più complesso mappare le relazioni tra i dati. 
+Per risolvere questo problema si utilizzando i riferimenti tra vari documenti.
+
+Un modo efficiente per modellare un grafo in modo non nativo è quello di sfruttare 
+i vicini. Ad esempio, in un modello documentale possiamo utilizzare l'embedding
+per memorizzare i nodi vicini, mentre per i nodi lontani possiamo utilizzare i
+riferimenti.
+
+Una seconda soluzione è quella di usare relazioni differenti nel grafo per aumentare
+l'espressività del grafo e semplifica i collegamenti. Questo può essere implementato
+facilmente.
+
+\begin{esempio}
+      Metti l'esempio del confronto delle interrogazioni tra modelli.
+\end{esempio}
+
+Nel modello a grafo, ogni nodo rappresenta le informazioni al suo interno con 
+delle proprietà, ovvero coppie chiave-valore dove la chiave è rappresentata 
+dall'etichetta e il valore rappresenta l'informazione. Anche le relazioni possono
+avere un etichetta a cui è associata una proprietà.
+
+Una stessa informazione può essere modellata in modi diversi, la scelta dipende
+dalle query che si vogliono effettuare. Le due soluzioni sono:
+\begin{itemize}
+      \item \textbf{Stessa etichetta}: si ha una sola etichetta per accedere
+            a tutte le informazioni, mentre all'interno della relazione si specifica
+            il tipo di informazione.
+      \item \textbf{Etichette multiple}: si ha una relazione per ogni tipo di
+            informazione.
+\end{itemize}
+Ad esempio, per modellare una situazione in cui a una persona sono associati più
+indirizzi, si possono utilizzare le due soluzioni, la scelta dipende dalle 
+tipologie di query che si vogliono effettuare. Se si vogliono trovare tutti 
+gli indirizzi di una persona, allora è meglio utilizzare una soluzione in cui 
+si ha una stessa etichetta per accedere a tutti gli indirizzi e poi all'interno 
+della relazione si specifica il tipo di indirizzo. Mentre, se si vogliono 
+effettuare query per sapere uno specifico tipo di indirizzo è più conveniente
+utilizzare una relazione per ogni tipo di indirizzo. 

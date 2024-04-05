@@ -1,74 +1,4 @@
 \chapter{Introduzione}
-\section{Ripasso}
-Nel percorso universitario affrontato fino a questo momento, sono state studiate
-le basi di dati centralizzate, ovvero basi di dati in cui i dati sono memorizzati
-in un unico luogo. L'architettura di tali strumenti è definita attraverso:
-\begin{itemize}
-    \item Uno o più spazi per la memorizzazione dei dati, tutti localizzati nello
-          stesso luogo.
-    \item Il DBMS, che è un software che consente di gestire i dati.
-    \item Un'interfaccia che consente agli utenti di leggere e scrivere i dati.
-\end{itemize}
-\begin{definizione}[\textbf{DBMS}]
-    Un \textbf{DBMS} (Database Management System) è un sistema software che
-    consente di gestire in modo efficiente e sicuro grandi quantità di dati,
-    garantendo la loro integrità e la loro disponibilità.
-
-    Le collezioni di dati che vengono gestite da un DBMS sono:
-    \begin{itemize}
-        \item \textbf{Grandi}: ovvero di dimensioni maggiori rispetto a quelle
-              che possono essere gestite da un singolo file.
-        \item \textbf{Persistenti}: ovvero che hanno un periodo di vita
-              indipendente da quello del programma che li utilizza.
-        \item \textbf{Condivise}: ovvero che possono essere utilizzate da
-              più utenti contemporaneamente, i quali possono accedere ai dati
-              sia in lettura che in scrittura. Questo comporta la necessità di
-              garantire la coerenza dei dati e di definire il workflow di accesso.
-        \item \textbf{Affidabilità}: ovvero che devono essere garantite
-              l'integrità e la disponibilità dei dati. Le transazioni devono
-              essere atomiche, cioè o vengono eseguite completamente o non
-              vengono eseguite affatto.
-    \end{itemize}
-\end{definizione}
-Per quanto riguarda i DBMS centralizzati, la loro architettura dati è definita su tre livelli:
-\begin{enumerate}
-    \item \textbf{Schema esterno}: rappresenta ciò che vede l'utente finale,
-          permette all'utente di avere viste personalizzate dei dati.
-    \item \textbf{Schema concettuale} (logico): è la rappresentazione dei dati in modo
-          indipendente dal DBMS. Questo schema è definito attraverso un modello
-          di dati, che può essere relazionale, gerarchico, a oggetti, ecc.
-    \item \textbf{Schema fisico}: questo schema rappresenta l'approccio fisico
-          del sistema e quindi le modalità utilizzate da un DBMS per implementare
-          le sue tabelle, le sue configurazioni, tutti i dati di cui ha bisogno
-          sulla memoria fisica stessa.
-\end{enumerate}
-\begin{nota}
-    Uno schema fisico è associato ad un solo schema concettuale (logico).
-\end{nota}
-Inoltre, i DBMS centralizzati sono caratterizzati da:
-\begin{itemize}
-    \item Nessuna distribuzione dei dati e nessuna eterogeneità fisica.
-    \item Un unico linguaggio di interrogazione.
-    \item Un unico sistema di gestione di accesso ai dati.
-    \item Un unica modalità di ripristino a fronte dei guasti.
-    \item Un unico amministratore dei dati e quindi nessuna autonomia gestionale.
-\end{itemize}
-A causa degli accessi condivisi ai database si hanno problemi di \textbf{concorrenza},
-avendo accesso multi-utente alla stessa dei dati condivisa. In merito alla
-concorrenza si ha che le transazioni sono corrette se sono \textbf{seriali}
-(ordinate temporalmente) ma questo non è sempre applicabile in quanto si vanno
-ad aumentare i tempi per eseguire le operazioni, e quindi si deve stabilire un
-controllo della concorrenza.
-
-Inoltre, il controllo della concorrenza permette anche di garantire la
-\textbf{consistenza} del sistema, ma a volte potrebbe essere più conveniente
-prediligere la concorrenza piuttosto che la consistenza.
-
-Un ulteriore problema di sicurezza è dato dalla \textbf{privacy}, ovvero la
-necessità di garantire che i dati siano accessibili solo a chi ha i permessi
-per farlo. Risulta quindi necessario introdurre un sistema di autenticazione
-e autorizzazione.
-
 \section{Gestione dei dati tramite Use Case}
 Nella gestione dei dati non sempre è sufficiente un database relazionale soprattutto
 quando si hanno tanti dati e tanti utenti in accesso.
@@ -120,7 +50,6 @@ Tutto si basa sugli Use Case
     \item \textbf{AI generativa per la gestione dei dati}: come usare AI
           generativa nei sistemi di gestione dei dati.
 \end{itemize}
-
 % Sistemo appena carica le slide
 \section{Gestione operazioni bancarie}
 Si vuole un'architettura dati che permetta di effettuare le normali operazioni
@@ -135,14 +64,12 @@ Abbiamo le seguenti operazioni:
     \item transizioni bancarie
     \item bonifici multibanca
 \end{itemize}
-
 Per prima cosa bisogna studiare il workload:
 \begin{itemize}
     \item letture e scritture: bilanciate
     \item quante sono: sono tante
     \item complessità: semplici
 \end{itemize}
-
 I volume dei dati è elevato
 
 Si ha eterogeneità dei sistemi.
@@ -155,7 +82,6 @@ questo comporta notevoli problemi di sicurezza e tempi di accesso alti.
 L'architettura di base non è più sufficiente perché possiamo perdere i dati visto
 che abbiamo un unico punto di fallimento. Soluzione: distribuzione del database
 su più nodi.
-
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{./img/modellazione_banca.jpg}
@@ -187,11 +113,9 @@ esempi di soluzioni identificate dai colori delle frecce blu e arancioni:
           scriviamo sul master, oppure possiamo leggere tutte le repliche e 
           considerare solo l'informazione presente su più repliche (majority base)
 \end{itemize}
-
 %la parte qui sotto non andrebbe messa con la spiegazione che ci aveva fatto a 
 % fine lezione? È più un esempio del DDBMS
-
-Nel nostro use case, per implementare una base di dati di una banca dobbiamo ragiornare
+Nel nostro use case, per implementare una base di dati di una banca dobbiamo ragionare
 prima sui vincoli introdotti dalla legge, la quale afferma che bisogna avere i
 dati dislocati in almeno $3$ regioni geografiche diverse. Perciò non possiamo più
 ragionare sul centralizzato ma dobbiamo parlare di distribuito.
@@ -202,27 +126,26 @@ e tre le regioni.
 
 Avendo $3$ sedi distaccate in cui vengono salvati i dati, bisogna capire cosa salvare
 e dove salvarlo.
-Una \textbf{prima soluzione} è salvare tutto in tutte e tre le regioni (replica), questo comporta
-maggior tempo per effettuare le scritture, con un vantaggio nella velocità di lettura.
+Una \textbf{prima soluzione} è salvare tutto in tutte e tre le regioni (replica), 
+questo comporta maggior tempo per effettuare le scritture, con un vantaggio nella 
+velocità di lettura.
 
-La \textbf{seconda soluzione} è salvare i dati solo nella regione dove vengono utilizzati,
-questo significa \textbf{frammentare} i dati. Ex: Roma c'è il
+La \textbf{seconda soluzione} è salvare i dati solo nella regione dove vengono 
+utilizzati, questo significa \textbf{frammentare} i dati. Ex: Roma c'è il
 reparto risorse umane allora i dati sulle risorse umane verranno spostati lì.
 
 Ovviamente si possono avere dati utili per più sedi, la soluzione è salvarli in
 entrambe le sedi (replica).
-
 \begin{nota}
     La frammentazione porta vantaggi nelle letture e scritture a patto che non
     si facciano operazioni su dati non in comune tra sedi. In caso contrario si
     hanno gli stessi problemi della prima soluzione.
 \end{nota}
-
 \begin{nota}
-    Distribuire i dati è molto complesso e rischioso, conviene farlo solo quando è davvero
-    necessario prima di aggiungere complessità inutilmente. Motori di database
-    distribuiti, frammentare i dati tra nodi diversi, oppure edge computing i device
-    salvano localmente i dati. Il problema è che quando si distribuiscono i dati
-    bisogna capire cosa distribuire, ovvero capire come distribuire tra client e
-    server le parti di gestione.
+    Distribuire i dati è molto complesso e rischioso, conviene farlo solo quando 
+    è davvero necessario prima di aggiungere complessità inutilmente. Motori di 
+    database distribuiti, frammentare i dati tra nodi diversi, oppure edge 
+    computing i device salvano localmente i dati. Il problema è che quando si 
+    distribuiscono i dati bisogna capire cosa distribuire, ovvero capire come 
+    distribuire tra client e server le parti di gestione.
 \end{nota}

@@ -61,7 +61,7 @@ a errori di approssimazione.
 \end{definizione}
 
 Il problema è conoscere la soluzione esatta del sistema per calcolare l'errore.
-Un modo per ottenere la soluzione esatta possiamo inizializare un vettore $x$ in modo
+Un modo per ottenere la soluzione esatta possiamo inizializzare un vettore $x$ in modo
 randomico. In questo modo si calcola il vettore $b =A\cdot x $ e successivamente
 si utilizza algoritmo di risoluzione di sistemi per risolvere il seguente
 sistema $A\cdot \stackrel{\sim}{x} = b$. In questo modo $x$ è la soluzione esatta
@@ -70,7 +70,6 @@ la soluzione reale, ma ci interessa principalmente sapere se è risolvibile il s
 e con che errore. Questo è determinato dalla matrice $A$ ma non dal vettore dei
 termini noti $b$, per questo ci si calcola un vettore $b$ dipendente dalla soluzione
 "esatta" randomica.
-
 \begin{teorema}\label{teo:NormeEquivalenti}
     Il comportamento delle norme di vettori in $\mathbb{R}^n$ è equivalente. ossia
     preso un vettore $x\in \mathbb{R}^n$, $\exists c_1,c_2\in \mathbb{R}$ tali che:
@@ -148,91 +147,3 @@ Esistono due tipologie di metodi per la risoluzione dei sistemi lineari:
           $\|x -\stackrel{\sim}{x}\|\rightarrow 0$ oppure si calcola $\frac{\|x
                   -\stackrel{\sim}{x}\|}{\|A\stackrel{\sim}{x} - b\|}\rightarrow 0$.
 \end{itemize}
-
-\section{Metodi diretti}
-Partiamo analizzando il caso più semplice, ovvero che il sistema ammette un unica
-soluzione. L'assunzione principale è che le matrici abbiano determinante diverso
-da $0$.
-\subsection{Sostituzione all'indietro}
-Il metodo della \textbf{sostituzione all'indietro} è il metodo più efficiente per
-risolvere sistemi composti da una matrice quadrata triangolare superiore.
-\begin{equation}
-    \begin{cases}
-        u_{11}x_1 + u_{12} x_2 + \dots + u_{1n} x_n= b_1 \\
-        u_{22}x_2 + u_{23} x_3 + \dots + u_{2n} x_n= b_2 \\
-        \vdots                                           \\
-        u_{nn}x_n = b_n                                  \\
-    \end{cases} \iff \left[\begin{array}{cccc}
-            u_{11} & u_{12} & \dots & u_{1n} \\
-            0      & u_{22} & \dots & u_{2n} \\
-            \vdots & \ddots &       & \vdots \\
-            0      & \dots  &       & u_{nn}
-        \end{array} \right] \cdot x = \left[\begin{array}{c}
-            b_1    \\
-            b_2    \\
-            \vdots \\
-            b_n
-        \end{array}\right]
-\end{equation}
-A livello computazione è semplice testare se la matrice è compatibile con questo
-metodo.
-
-Una volta effettuata la verifica, il metodo coincide con il risolvere il sistema
-per sostituzione.
-\begin{nota}
-    Bisogna stare attenti che la diagonale non contenga $0$ perché ogni volta
-    si divide per un termine sulla diagonale.
-\end{nota}
-
-Sotto le ipotesi di matrice triangolare superiore possiamo calcolare facilmente
-il determinante, basta calcolare il prodotto dei termini sulla diagonale, questo
-ci dice che esiste una sola soluzione se il determinante è diverso da $0$
-($\mathcal{O}(n)$). In aggiunta, questo ci assicura che la diagonale non contiene $0$.
-
-La complessità dell'algoritmo sarà:
-\begin{equation*}
-    \#\_righe \cdot \#operazioni\_max\_riga = n \cdot (n - 1 + n - 1 + 1) = n \cdot (2n - 1) = \mathcal{O}(n^2)
-\end{equation*}
-\begin{nota}
-    Dove il numero massimo di operazioni per riga è $n - 1$ differenze, $n - 1$
-    prodotti e $1$ divisione perché nella prima riga si ha:
-    \begin{equation*}
-        x_1 = \frac{(b_1 - u_{12} x_2 - u_{13}x_3 - \dots - x_{1n} x_n)}{u_{11}}
-    \end{equation*}
-\end{nota}
-
-Ogni singola operazione per riga si può ricavare iterativamente nel seguente modo
-\begin{equation*}
-    x_{n-i} = \frac{(b_i-(u_{n-i},x))}{u_{ii}}
-\end{equation*}
-Con $x$ inizializzato a tutti $0$ tranne la cella $n$ che sarà inizializzata a:
-\begin{equation*}
-    x_n = \frac{b_n}{u_{nn}}
-\end{equation*}
-Mentre $i$ è inizializzato a $1$, ad ogni iterazione si utilizza il vettore $x$
-aggiornato nell'iterazione precedente. Al termine si ottiene una soluzione per il
-sistema.
-\begin{nota}
-    Questo metodo può essere utilizzato anche per i sistemi lineari descritti da
-    una matrice triangolare inferiore. In questo caso prima sarà necessario
-    trasformare la matrice in una matrice triangolare superiore. Questo si può
-    fare riordinando le righe della matrice e specchiando la matrice la colonna
-    centrale. Lo stesso ragionamento si può applicare anche per matrici diagonali
-    rispetto alla antidiagonale.
-\end{nota}
-\subsection{Trasformazioni di Gauss}
-Per matrici generiche i metodi variano, si può pensare di trasformare la matrice
-in una triangolare superiore equivalente, utilizzando le trasformazioni di Gauss:
-\begin{itemize}
-    \item \textbf{Scambiare le righe}
-    \item \textbf{Sostituire una riga con una combinazione lineare di se stessa
-              con un'altra}
-\end{itemize}
-\begin{equation}
-    \begin{cases}
-        a_{11}x_1 + a_{12} x_2 + \dots + a_{1n} x_n= b_1 \\
-        a_{21}x_1 + a_{22} x_2 + \dots + a_{2n} x_n= b_1 \\
-        \vdots                                           \\
-        a_{n1}x_1 + a_{n2} x_2 + \dots + a_{nn} x_n= b_1 \\
-    \end{cases}
-\end{equation}
