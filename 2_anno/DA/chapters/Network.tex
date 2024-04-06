@@ -421,3 +421,96 @@ Sotto la seguente condizione:
 \begin{equation*}
     \sum_{i}^n P_i = 1
 \end{equation*}
+
+
+\section{Community detection}
+
+\begin{definizione}
+    Le comuniti sono dei sottogruppi di oggetti che condividono delle proprietà
+\end{definizione}
+
+Ci interessa l'identificazione delle comunity oper:
+\begin{itemize}
+    \item scoprire funzionalità relative agli oggetti
+    \item studiare interazioni tra gruppi
+    \item inferire sui collegamenti che ci sono tra community ex: social Network
+    \item inferire dei dati mancanti di un nodo dalla sua community
+\end{itemize}
+
+nei social le community sono degli insiemi di utenti che che effettuano delle 
+interazioni particolari.
+
+\begin{esempio}
+    Nell'esempio delle community possiamo identificare delle community tra 
+    componenti connesse o tra elementi vicine.
+\end{esempio}
+
+Le community possono non essere disgiunte e quindi avere un overlap.
+I criteri per identificare le community sono:
+\begin{itemize}
+    \item node-centric: si creano delle community sulla base delle caratteristiche 
+    sui singoli nodi. I nodi soddisfano completa muualità, raggiungibilità e gradi 
+    dei nodi. Si usano nelle reti piccole, però le proprietà permettono di essere 
+    utilizzate nei trasporti. Spesso si usano a livello gerarchico nella gerarchia
+    più piccola. Ecco i diversi algoritmi:
+    \begin{itemize}
+        \item clique: cerca la clique, una sottocomponente fortemente connessa. 
+        Si hanno diverse varianti: massima clique, ovvero la clique massimale o clique
+        con un numero minimo. (NPHard) Per $100$ nodi si hanno $2^{99}-1$ operazioni. 
+        Si può semplificare introducendo un'operazione di \textbf{prining}, se cerchiamo
+        clique di grandezza $k$ allora sicuramente tutti i nodi che ne fanno parte 
+        devo avere almento $k$ archi. Questo permette di sfoltire la rete eliminando 
+        i nodi che hanno meno di $k$ archi. In ogni caso le clique sono molto rare 
+        quindi rimane sempre pesante questa strategia.
+        \item k-clique, k-club: si guarda che ogni nodo in un gruppo si araggiungibile con $K$
+        archi e quindi si valuta la raggiungibilità.
+    \end{itemize}
+    \item group-centric: si creano delle community dal punto di vista di un gruppo,
+    non si visitano tutti i nodi ma si valuta il gruppo di nodi. Si stabilisce 
+    un determinato criterio che deve essere rispettato dal gruppo, ex: densità del
+    gruppo, si cercano quindi delle quasi-clique (non si conoscono il numero di gruppi). Si cercano quindi insiemi che 
+    massimizzano il criterio (problema di massimizzazione) o i gruppi che superano
+    la treshold. Una seconda strategia è quella di utilizzare la metodologia greedy,
+    ovvero si parte da un nodo con il massimo criterio, si espande la quasi-clique
+    introducendo nodi con il valore di criterio massimo. (NPHard) Si usano quindi
+    per reti molto piccole o quando si hanno caratteristiche che devono essere 
+    rispettate dalle quasi-clique.
+    \item network-centric: si valuta il criterio nell'interezza della rete. I noti 
+    simili saranno quelli che hanno una struttura simile, ex: nodi connessi agli stessi nodi,
+    quindi hanno gli stessi vicini. L'equivalenza strutturale è la prossimità di 
+    secondo ordine, perché il primo ordine è il singolo arco. Si calcola la vector
+    similarity utilizzando delle funzioni di similarità (simili alle distanze) applicate sulla matrice delle similarità
+    (matrice di adiacienza). Si usano i network-centric perché spesso si\dots
+    
+    Se due nodi hanno lo stesso vicinato allora abbiamo due righe euguali quindi 
+    la misura di similarità è massima (cosine considera gli archi pesati, mentre jackarta
+    non considera il peso). Si creano le community utilizzando K-means e come distanza
+    si usa la similarità. Questo comporta che le community verranno generate da un 
+    nodo quelli che inizializzano i centroidi. Usando k-means (un algo di k-means) porta ai soliti 
+    problemi come minimi locali, sensibilità all'inizializzaione dei centroidi e 
+    clister sferici. L'idea dei network-centric è che si creano community di nodi simili.
+
+    Un altro approccio è quello di effettuare lo spectral clustering. Si prende 
+    la matrice di adiacienza, calcoliamo autovettori e autovalori. Ordiniamo gli 
+    autovettori per modulo, si ordinano le componenti e si guardano . (guarda esempio)
+
+    Possiamo usare matrice laplaciana, calcolando il determinante, se nullo allora 
+    si hanno vettori dipendenti quindi nodi che hanno distanze dipendenti e quindi 
+    nodi simili, facenti parte della community.
+    % metti esempio
+
+    Un altro approccio è a massimizzazzione della modularità. Si valuta il grafo 
+    con un grafico randomico generato dalla stessa distribuzione degli archi. 
+    Si più appplicare solo quando conosciamo la distribuzione di probabilità degli 
+    archi. Se il grafo ha una struttura simile al grafo randomico allora la struttura 
+    non è così particolare, si valuta se le connessioni del grafo sono dovute dal 
+    caso oppure no. Se non lo fossero allora potrebbero essere delle community.
+    Maggiore è la differenza tra la matrice di adiacienza e il dato strimato allora 
+    abbiamo una forte relazione tra nodi. L'obiettivo è di massimzizare la misura.
+
+    La modularità assume valori in un intervallo (per la costante di normalizzazione al denominatore)
+    $(-1,1)$. Dal calcolo della matrice di modularità si calcolano gli autovettori.
+    \item hierarchy-centric: si costruisce una struttura gerarchica sul grafo 
+\end{itemize}
+
+Vanno dalla più stringente a quella meno stringente.
