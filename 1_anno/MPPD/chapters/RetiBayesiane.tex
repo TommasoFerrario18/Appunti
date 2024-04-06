@@ -10,7 +10,7 @@ o usando l'esperienza delle persone afferenti al dominio.
 Usando l'indipendenza e l'indipendenza condizionata il modello causale è molto
 più compatto, il numero di parametri utilizzato si riduce.
 \begin{definizione}[\textbf{Rete Bayesiana}]
-    Una \textbf{rete bayesiana} è un \textbf{grafo orientato aciclico} in cui i
+    Una \textbf{rete Bayesiana} è un \textbf{grafo orientato aciclico} in cui i
     nodi sono annotati con una \textbf{informazione quantitativa}, ovvero la
     tabella di probabilità condizionata (CPT), e gli archi definiscono la
     \textbf{dipendenza e indipendenza condizionale} tra le variabili rappresentate
@@ -28,7 +28,7 @@ termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
         \path [->] (X) edge node {} (Y);
     \end{tikzpicture}
 \end{center}
-\begin{definizione}[Condizionalmente indipendente]
+\begin{definizione}[\textbf{Condizionalmente indipendente}]
     L'evento $A$ è \textbf{condizionalmente indipendente} dall'evento $B$, se dato
     un evento $C$ vale la seguente relazione:
     \begin{equation}
@@ -76,18 +76,18 @@ Consideriamo ora la componente quantitativa di una rete Bayesiane, ovvero le
     \end{equation*}
     Quindi il falso è un parametro dipendente.
 \end{nota}
-Per le reti Bayesiane si può fare sia inferenza \textit{diagnostica} (dai figli
-ai padri) sia \textit{prognostica} (dai genitori ai figli). Posso anche calcolare
-la probabilità di variabili che non sono in relazione padre figlio ma che sono
-connesse.
+Per le reti Bayesiane si può fare sia inferenza \textit{diagnostica}, ovvero fatta
+dai figli verso i genitori, sia \textit{prognostica} dai genitori verso i figli.
+Posso anche calcolare la probabilità di variabili che non sono in relazione padre
+figlio ma che sono connesse.
 \section{Semantica delle reti Bayesiane}
 La semantica delle reti Bayesiane può essere presentata e compresa in base a:
 \begin{itemize}
-    \item \textbf{Semantica numerica}: La rete rappresenta una \textbf{distribuzione
+    \item \textbf{Semantica numerica}: la rete rappresenta una \textbf{distribuzione
               congiunta} di probabilità. Questa invece risulta importante per
           comprendere come sia possibile effettuare inferenza utilizzando la
           probabilità congiunta.
-    \item \textbf{Semantica topologica}: La rete codifica un insieme di
+    \item \textbf{Semantica topologica}: la rete codifica un insieme di
           \textbf{relazioni di indipendenza condizionale}. Questa risulta
           importante per comprendere come sia possibile costruire un modello di
           Rete Bayesiane.
@@ -113,13 +113,21 @@ dove $parents(V_i)$ rappresenta la realizzazione congiunta dei genitori di $V_i$
 Ogni elemento della distribuzione congiunta è rappresentato tramite il prodotto
 delle opportune componenti delle CPT dei nodi della rete.
 \begin{nota}
-    Ricorda che per il teorema di Bayes
-    $$P(V_i=v_i|parents(V_i)) = \frac{P(V_i=v_i,parents(V_i))}{P(parents(V_i))} = \alpha P(V_i=v_i,parents(V_i))$$
-    Quindi la teorema la probabilità condizionata è la congiunta diviso la probabilità
-    degli eventi congiunti. Per semplificare la probabilità si può solo calolare 
-    la congiunta e successivamente moltiplicarla per il fattore $\alpha$ di normalizzazione.
-    $\alpha$ per $P(V_i=v_i|parents(V_i))$ si trova nel seguente modo:
-    $$\alpha =\frac{1}{P(V_i=\lnot v_i,parents(V_i)) + P(V_i=v_i,parents(V_i))}$$
+    Ricorda che per il teorema di Bayes:
+    \begin{equation*}
+        P(V_i = v_i|parents(V_i)) = \frac{P(V_i = v_i,parents(V_i))}{P(parents(V_i))}
+        = \alpha P(V_i = v_i,parents(V_i))
+    \end{equation*}
+    Quindi la probabilità condizionata viene considerata come la probabilità
+    congiunta divisa per la probabilità degli eventi congiunti. Per semplificare
+    la probabilità si può solo calcolare la congiunta e successivamente moltiplicarla
+    per il fattore $\alpha$ di normalizzazione.
+
+    Il valore di $\alpha$ per la probabilità $P(V_i=v_i|parents(V_i))$ si trova
+    nel seguente modo:
+    \begin{equation*}
+        \alpha = \frac{1}{P(V_i = \lnot v_i, parents(V_i)) + P(V_i = v_i,parents(V_i))}
+    \end{equation*}
 \end{nota}
 \begin{nota}
     Non si vedono più le dipendenze di una variabile da tutte le altre ma bensì
@@ -134,9 +142,9 @@ La regola della probabilità congiunta la possiamo scrivere come:
 \begin{equation*}
     \begin{aligned}
         P(V_1= v_1,...,V_n = v_n) = P(V_1 = v_1) \cdot P(V_2 = v_2|V_1 = v_1)
-        \cdot P(V_3 = v_3|V_1 = v_1,V_2 = v_2) \dots \\ \dots P(V_n = v_n|V_1 =
-        v_1, \dots,V_{n-1}=v_{n-1}) = \prod_{i=1}^{n} P(V_i = v_i| \bigcap_{j = 1}^{i - 1}
-        V_j= v_j)
+        \cdot P(V_3 = v_3|V_1 = v_1,V_2 = v_2) \dots \\
+        \dots P(V_n = v_n|V_1 = v_1, \dots,V_{n-1}=v_{n-1}) = \prod_{i=1}^{n}
+        P(V_i = v_i| \bigcap_{j = 1}^{i - 1} V_j= v_j)
     \end{aligned}
 \end{equation*}
 Questa uguaglianza è vera per ogni insieme di variabili aleatorie ed è nota con
@@ -148,16 +156,16 @@ variabile $v_i$:
     P(v_i|v_1,...,v_{i-1}) = P(v_i|parents(v_i))
 \end{equation}
 a patto che $parents(v_i) \subseteq \{v_1,...,v_{i-1}\}$. Quindi possiamo
-considerare che la probabilità di $V_i$ condizionato da tutti gli altri nodi
-della rete può essere vista come la probabilità di $V_i$ condizionato i suoi
-genitori. Una semplificazione molto utile.
+considerare la probabilità di $V_i$ condizionata da tutti gli altri nodi della 
+rete, può essere vista come la probabilità di $V_i$ condizionata solamente dai 
+suoi genitori. Questo ci permette di effettuare una semplificazione molto utile.
 
 Una rete Bayesiane rappresenta correttamente un dominio solo a condizione che ogni
 nodo risulti \textbf{condizionalmente indipendente} dai suoi non discendenti
-dati i suoi genitori. Pertanto, per costruire una Rete Bayesiane che abbia la
+dati i suoi genitori. Pertanto, per costruire una Rete Bayesiana che abbia la
 corretta struttura del dominio da modellare è necessario scegliere, per ogni nodo,
 i nodi genitore in modo che tale proprietà risulti verificata. In aggiunta un nodo
-\textbf{condizionalmente indipendente} da tutti i nodi restanti nella rete data
+è \textbf{condizionalmente indipendente} da tutti i nodi restanti della rete data
 la conoscenza dello stato del suo \textbf{Markov Blanket}, ovvero l'insieme dei
 genitori, dei figli e dei genitori dei figli.
 \begin{figure}[!ht]
@@ -191,7 +199,7 @@ impatta notevolmente sulla quantità di parametri che devono essere specificati
 per la rete.
 
 Oltre a costituire una rappresentazione completa e non ridondante di un dominio
-una Rete Bayesiane è spesso molto più compatta dell'intera distribuzione di
+una Rete Bayesiana è spesso molto più compatta dell'intera distribuzione di
 probabilità congiunta. Questo rende possibile il trattamento di domini
 caratterizzati da un numero molto elevato di variabili.
 
@@ -201,17 +209,17 @@ sotto-componente interagisce solo con un numero limitato di altre componenti,
 indipendentemente dal numero totale di componenti del sistema.
 
 La strutturazione locale è di norma associata ad un fattore di crescita della
-complessità lineare e non esponenziale. Nel caso di una Rete Bayesiane è ragionevole
-ipotizzare che ogni variabile sia direttamente influenzata da al massimo $k$
-variabili.
+complessità lineare e non esponenziale. Nel caso di una Rete Bayesiana è 
+ragionevole ipotizzare che ogni variabile sia direttamente influenzata da al 
+massimo $k$ variabili.
 
-Nel caso in cui si consideri una Rete Bayesiane costituita da $n$ variabili
+Nel caso in cui si consideri una Rete Bayesiana costituita da $n$ variabili
 Booleane avremo che la quantità di informazione necessaria per specificare una
 qualsiasi CPT è limitata superiormente da $2^k$ numeri per cui la rete completa
 richiede di specificare al più $n \cdot 2^k$ numeri. Mentre specificare l'intera
 distribuzione congiunta di probabilità richiede $2^n$ numeri.
 \subsection{Indipendenza condizionata}
-Esiste un metodo per scoprire se in una rete Bayesiane due variabili sono
+Esiste un metodo per scoprire se in una rete Bayesiana due variabili sono
 condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separazione}.
 \begin{definizione}[\textbf{D-separazione}]
     Due nodi $X$ e $Z$ sono \textbf{D-separati} da un insieme $E$ di variabili con
@@ -253,7 +261,7 @@ disposizione un algoritmo efficiente per inferire automaticamente se apprendere
 il valore di una variabile può fornirci delle informazioni aggiuntive su altre
 variabili, date le informazioni a disposizione.
 \begin{teorema} [\textbf{Verma \& Pearl}]
-    Se in una rete Bayesiane un insieme di variabili $E$ di evidenza D-separa
+    Se in una rete Bayesiana un insieme di variabili $E$ di evidenza D-separa
     $X$ e $Z$, allora $X$ e $Z$ sono indipendenti.
 \end{teorema}
 \begin{definizione}[\textbf{d-connessione}]
@@ -292,51 +300,61 @@ Se al termine di questo processo si hanno:
 \subsection{Distribuzioni condizionali}
 Per ridurre il numero di parametri nelle CPT possiamo utilizzare le \textbf{distribuzioni
     canoniche} per rappresentare dei pattern standard tra i parametri come per
-i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo 
-quando si possono notare dei pattern particolari, ex: and tra genitori, or tra 
+i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo
+quando si possono notare dei pattern particolari, ex: and tra genitori, or tra
 genitori, somma dei genitori$\dots$
 
-Una volta identificato il pattern, questo ci permette di specificare un numero limitato 
-di parametri per compilare la CPT, dal momento che alcuni si derivano con le 
-distribuzioni canoniche.
-
+Una volta identificato il pattern, questo ci permette di specificare un numero 
+limitato di parametri per compilare la CPT, dal momento che alcuni si derivano 
+con le distribuzioni canoniche.
 \begin{definizione}[\textbf{Nodo deterministico}]
     Un \textbf{nodo deterministico} è caratterizzato dal fatto che il valore che
     esso assume è completamente determinato tramite il valore assunto dai suoi
     genitori. Non c'è incertezza.
 \end{definizione}
-
 Le relazioni tra genitori e figli possono essere di diversi tipi:
 \begin{itemize}
     \item \textbf{Logiche}: come ad esempio l'\texttt{OR} tra le variabili dei genitori.
     \item \textbf{numeriche}: come ad esempio il \texttt{minimo} valore delle
           variabili dei genitori.
 \end{itemize}
-
 Un importante pattern è l'\textbf{indipendenza di uno specifico contesto} ovvero
-quando la probabilità condizionata di un nodo è condizionalmente indipendente 
-da alcuni genitori dati certi valori di altri (if-else sintax). Un secondo pattern 
-è \textbf{noisy-or} che permette di modellare l'incertezza dei genitori nel causare 
-il figlio.
+quando la probabilità condizionata di un nodo è condizionalmente indipendente
+da alcuni genitori dati certi valori di altri (if-else sintax).
 
+Le relazioni incerte, possono essere caratterizzate dalle \textbf{Noisy Logical
+    Relations} che permettono di modellare l'incertezza dei genitori nel causare
+il figlio. Queste relazioni sono utili per modellare situazioni in cui la presenza
+di un genitore non implica necessariamente la presenza del figlio.
+Andiamo per esempio ad analizzare il modello \textbf{Noisy-OR}. Questo modello 
+consente di introdurre incertezza circa la capacità di ogni nodo genitore di 
+causare il valore vero della variabile figlio. 
+
+Il modello Noisy-OR effettua le seguenti ipotesi:
+\begin{itemize}
+    \item Tutte le possibili cause sono note
+    \item L'inibizione di un genitore è indipendente dall'inibizione degli altri
+          genitori per il nodo considerato.
+\end{itemize}
+In questo caso specifico la probabilità di un determinato evento, è data dal 
+prodotto delle probabilità di inibizione per ogni nodo genitore.
 \subsection{Rappresentazioni efficiente delle distribuzioni continue}
 Per rappresentare efficientemente i nodi di distribuzioni continue, usando quelle
 canoniche, possiamo pensare di discretizzare le variabili continue definendo un
-insieme finito di intervalli. Il problema che sorge utilizzando questo approccio 
-è legato alla perdita di
-informazioni sul dato. Inoltre, le CPT spesso aumentano di dimensione.
+insieme finito di intervalli. Il problema che sorge utilizzando questo approccio
+è legato alla perdita di informazioni sul dato. Inoltre, le CPT spesso aumentano 
+di dimensione.
 
 Una soluzione alternativa è rappresentare le variabili con delle \textbf{funzioni
     di densità di probabilità} vengono descritte tramite un numero finito e di
 norma contenuto di parametri. Un esempio è la funzione di densità di probabilità
 della distribuzione normale, la quale viene completamente specificata tramite
 la media e la deviazione standard.
-\begin{definizione}[\textbf{Rete Bayesiane Ibrida}]
+\begin{definizione}[\textbf{Rete Bayesiana Ibrida}]
     Una rete che contiene nodi discreti e continui prende il nome di \textbf{Rete
         Bayesiane Ibrida}
 \end{definizione}
-
-Per specificare una Rete Bayesiane Ibrida dobbiamo definire due nuovi tipi di
+Per specificare una Rete Bayesiana Ibrida dobbiamo definire due nuovi tipi di
 distribuzione:
 \begin{itemize}
     \item La distribuzione condizionale di una variabile continua dati i genitori
