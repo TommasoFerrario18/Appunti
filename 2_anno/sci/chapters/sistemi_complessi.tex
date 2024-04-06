@@ -1332,6 +1332,7 @@ Quindi le condizioni di $|X|=\infty$ e di sensibilità sono superflue.
 \begin{teorema}
     Se un CA $(A^\mathbb{Z},F)$ con una regola locale LM/RM è caotico.
 \end{teorema}
+
 Ecco la classificazione finale degli automi cellulari (figura \ref{fig:classificazione_ca}).
 
 \begin{figure}[!hb]
@@ -1340,14 +1341,275 @@ Ecco la classificazione finale degli automi cellulari (figura \ref{fig:classific
     \caption{Classificazione automi cellulari}
     \label{fig:classificazione_ca}
 \end{figure}
+
 \begin{nota}
     Tutti i CA caotici studiati sono suriettivi ma non è detto che suriettività 
     implica caotico.
 \end{nota}
 
 \begin{nota}
-    Esistono CA non permutive che sono transitivi ed espansivi.
+    Esistono CA non permutivi che sono transitivi ed espansivi.
 
     Preso un qualunque L-permutive CA $F$ e un CA iniettivo $G$ che non è ne L ne R-permutive.
     Allora $G^{-1}\odot F\odot G$ è un CA che non è permutivo ma transitivo.
 \end{nota}
+
+In generale tutte le proprietà basate su un colpo di $F$ sono decidibili, mentre 
+tutte le proprietà basate su $F^t$ sono indecidibili. L'unica proprietà basata 
+su $F^t$ di cui non è stata dimostrata la sua indecidibilità è l'\textbf{espansivo},
+ovvero non esiste un algoritmo che mi dica subito un CA è espansivo o no. In ogni 
+caso si può credere che sia indecidibile.
+
+\subsection{Automi cellulari lineari}
+Definiamo $A= \mathbb{Z}_s = \{0,1,\dots, s-1\} =\mathbb{Z}/s\mathbb{Z}$ come 
+l'insieme delle classi di equivalenza della relazione di equivalenza modulo $s$.
+Sulla relazione di equivalenza si definisce un anello commutativo $\langle \mathbb{Z}_s,
++, \cdot \rangle$.
+
+\begin{definizione} [\textbf{Regola locale lineare}]
+    Sia $f:\mathbb{Z}_s^{2r+1}\rightarrow \mathbb{Z}_s$ è una \textbf{regola locale lineare} se  $\exists \lambda_{-r},
+    \dots,\lambda_0,\dots,\lambda_r\in \mathbb{Z}_s$ tale che 
+    \begin{equation*}
+    \forall (x_{-r},\dots, x_r)\in \mathbb{Z}_s^{2r+1}, f(x_{-r},\dots, x_r) = \left(\sum_{i=-r}^{r}\lambda_ix_i\right)\mod s
+    \end{equation*}
+\end{definizione}
+
+\begin{definizione} [\textbf{Automa cellulare lineare}]
+    Un CA $F$ è lineare se è definito da una \textbf{regola locale lineare}.
+\end{definizione}
+
+Gli automi cellulari lineari sono utili perché su qualsiasi dimensione le proprietà
+sono tutte decidibili, dal momento che ciascuna è caratterizzabile usando i divisori.
+
+Ovviamente se $f$ è lineare allora $F$ è additiva e gli LCA sono utili per rappresentare 
+sistemi che rispettano il principio di sovrapposizione, proprio come la maggior parte 
+dei fenomeni reali.
+
+\begin{teorema}
+    Sia $(\mathbb{Z}_s^\mathbb{Z}, F)$ un LCA definito da una regola locale con i 
+    seguenti coefficienti: $\lambda_{-r}, \dots,\lambda_0,\dots,\lambda_r$.
+
+    Sia $\mathcal{P}$ che denota l'insieme dei fattori primi di $s$, denotiamo $a|b$
+    il fatto che $a$ divide $b$, allora:
+    \begin{itemize}
+        \item $F$ è \textbf{suriettiva} $\iff\text{ MCD }(s,\lambda_{-r}, \dots,\lambda_0,\dots,\lambda_r) = 1$
+        \item $F$ è \textbf{iniettiva} $\iff \forall p\in \mathcal{P}, \exists !\lambda_i: p\not |\lambda_i$
+        \item $F$ è \textbf{transitivo} $\iff\text{ MCD }(s,\lambda_{-r}, \dots,\lambda_{-1},\lambda_{1},\dots,\lambda_r) = 1$
+        \item $F$ è \textbf{sensibile alle condizioni iniziali} $\iff \exists  p\in \mathcal{P}: p\not |\text{ MCD }(\lambda_{-r}, \dots,\lambda_{-1},\lambda_{1},\dots,\lambda_r) $
+        \item $F$ è \textbf{espansivo} $\iff \text{ MCD }(\lambda_{-r}, \dots,\lambda_{-1})=\text{ MCD }(\lambda_{1},\dots,\lambda_r)=1 $
+        \item $F$ è \textbf{suriettiva} $\iff F$ ha DPO
+        \item $F$ è \textbf{equiconinua} $\iff F$ è \textbf{almeno equiconinua} $\iff F$ non è \textbf{sensibile alle condizioni iniziali}
+        \item $F$ è \textbf{caotica} $\iff F$ è \textbf{transitiva}
+    \end{itemize}
+\end{teorema}
+
+\begin{teorema}
+    Ciascuna proprietà è decidibile nei LCA.
+\end{teorema}
+
+\subsection{Automi cellulari $d$-D}
+Dato un insieme di stati finito $S$.
+
+\begin{definizione}[\textbf{Configurazioni}]
+    Le \textbf{configurazioni} del CA sono elementi di $S^{\mathbb{Z}^d}$, ovvero
+    funzioni che assegnano uno stato ad una particolare posizione $\mathbb{Z}^d\rightarrow S$.
+\end{definizione}
+
+Abbiamo che la singola cella non è nient'altro che un vettore nello spazio di dimensione 
+$d$ che assume degli stati nell'insieme $S$.
+
+\begin{definizione}[\textbf{Vettore di vicinanza}]
+    Il \textbf{vettore di vicinanza} è un vettore di $n$ diversi vettori di $\mathbb{Z}^d$
+    che specificano il relativo offsets di tutti gli elementi che specifica il 
+    vicinato.
+    $$N=\left(\underline{x_1},\underline{x_2},\dots,\underline{x_n}\right)$$
+\end{definizione}
+
+La cella vicina ad una cella $\underline{x }\in \mathbb{Z}^d$ è una qualsiasi cella $\underline{x}+\underline{x_i}$ 
+con $\underline{x_i} \in N$.
+
+\begin{esempio}
+    Un esempio di vicinato in 2D per le due classiche regole di vicinato sono 
+    le seguenti:
+    \begin{itemize}
+        \item \textbf{Von Neumann}: Il vicinato sono le celle che condividono un 
+        lato
+        $$N=\left(\left(0,0\right),\left(\pm 1,0\right), \left(0,\pm 1\right)\right)$$
+        \item \textbf{Moore}: Il vicinato sono le celle che condividono un 
+        lato e un vertice
+        $$N=\{-1,0,1\}^2$$
+    \end{itemize}
+\end{esempio}
+
+\begin{definizione}[\textbf{Regola locale}]
+    La \textbf{regola locale} è una funzione 
+    $$f:S^n\rightarrow S$$
+    dove $n$ è la dimensione del vicinato $N$ ($n=|N|$) e il nuovo stato sarà
+    $$f(a_1,\dots,a_n)$$
+\end{definizione}
+
+\begin{definizione}[\textbf{Regola globale}]
+    La regola locale determina la dinamica globale del CA. Data una generica 
+    configurazione $c$, diventa la nuova configurazione $e$ nel seguente modo:
+    $$e(\underline{x}) = f(c(\underline{x}+ \underline{x}_1),c(\underline{x}+ \underline{x}_2),\dots, c(\underline{x}+ \underline{x}_n)), \forall \underline{x}\in \mathbb{Z}^d, \forall \underline{x}_i\in N$$
+    Il passaggio dalla configurazione $c$ nella configurazione $e$ è scrivibile 
+    formalmente nell'applicazione della \textbf{regola globale}
+    $$G:S^{\mathbb{Z}^d}\rightarrow S^{\mathbb{Z}^d} $$
+    tale che $G(c) = e$.
+\end{definizione}
+
+La generalizzazione della mappa shift al caso $d$-dimensionale non è altro che una 
+traslazione $\tau$ determinata dal vettore $\underline{r}\in  \mathbb{Z}^d$, è
+la trasformazione
+$$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow \rightarrow S^{\mathbb{Z}^d}$$
+tale che 
+$$e =\tau_{\underline{r}}(c) \iff e(\underline{x}) =  c(\underline{x}+\underline{r}), \forall \underline{x},\underline{r}\in \mathbb{Z}^d$$
+
+Un generico vettore $\underline{r}$ associato alla traslazione è un vettore 
+unitario.
+
+\begin{teorema} [\textbf{Hedlund}] 
+    Sia $G:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$ una qualunque funzione.
+    $G$ è la regola globale di un CA \textbf{sse} entrambe le seguenti affermazioni
+    sono vere:
+    \begin{itemize}
+        \item $G$ continua
+        \item $G$ con tutte le traslazioni
+    \end{itemize}
+\end{teorema}
+
+\begin{definizione} [\textbf{CA iniettivi, suriettivi e biettivi}]
+    Un CA è chiamato:
+    \begin{itemize}
+        \item \textbf{iniettivo} se $G$ è inivettiva
+        \item \textbf{suriettivo} se $G$ è suriettiva
+        \item \textbf{biettivo} se $G$ è sia iniettiva, sia suriettiva
+    \end{itemize}
+
+\end{definizione}
+
+
+\begin{definizione} [\textbf{CA reversivile}]
+    Un CA è chiamato \textbf{reversibile} se esiste un altro CA con una funzione 
+    globale $F$ che è l'inversa di un automa dato con funzione $G$, ovvero
+    $$ G\odot F= F\odot G = Id$$
+    Quindi $F$ e $G$ sono RCA e vengono chiamati \textbf{automi inversi}.
+\end{definizione}
+
+\begin{teorema}
+    Un CA $G$ è reversibile sse è biettivo
+\end{teorema}
+\begin{teorema}
+    Un CA $G$ è reversibile sse è biettivo
+\end{teorema}
+
+\begin{definizione} [\textbf{Regola locale bilanciata}]
+    Una \textbf{regola locale bilanciata} è una regola $f$ di un generico automa 
+    tale che 
+    $$|f^{-1}(a)| = | S | ^{n-1}, \forall a \in S$$
+    Dove $S$ è l'insieme degli stati ($\mathbb{Z}^d$) e $n$ è la dimensione del 
+    vicinato ($n=|N|$)
+\end{definizione}
+
+Ci sono poi le stesse proprietà del caso $1$-D.
+
+Per dimostrare l'indecidibilità delle proprietà si utilizza il tileset.
+\subsection{Tiling problem }
+Dato un insieme $C$ di colori.
+
+\begin{definizione} [\textbf{Wang tile}]
+    Una \textbf{Wang tile} è un quadrato di lato $1$ con i lati colorati. 
+    I lati non devono essere di un solo colore.
+\end{definizione}
+
+\begin{definizione} [\textbf{Tile set}]
+    Un  \textbf{tile set} $T$ è una collezione finita di \textbf{wang tile}
+\end{definizione}
+
+\begin{definizione} [\textbf{Tiling valido}]
+    Un  \textbf{tiling valido} è una funzione 
+    $$c: \mathbb{Z}^2\rightarrow T$$
+    che assegna ad ogni posizione del piano un tile in modo tale che questo abbia
+    i tile vicini con i lati in condivisione dello stesso colore.
+\end{definizione}
+
+Data una generica configurazione $c\in T^{\mathbb{Z}^2}$, ovvero una particolare 
+tile di un piano, esso è valido per un $M\subseteq \mathbb{Z}^2, |M|<\infty$ (un sottorettangolo finito
+del piano) se il tiling è valido ristretto alla regione $M$. Quando $M=\mathbb{Z}^2$ 
+allora il tiling è valido su tutto il piano.
+
+Quindi il tiling valido rispetto a $T$ è invariante rispetto alle translazioni,
+perché il tiling rimane valido quando traslo il piano.
+
+\begin{definizione} [\textbf{Tiling problem}]
+    Il \textbf{tiling problem} è il problema di decisione che determina se dato un 
+    tile set finito ammette un tiling valido sul piano.
+\end{definizione}
+
+\begin{teorema}
+    Il problema del tiling è indecidibile
+\end{teorema}
+
+
+\begin{definizione} [\textbf{Principio di compattezza del tiling} (compattezza degli insiemi)]
+    Se $T$ ammette un tiling valido all'interno di un quadrato di arbitraria
+    dimensione, allora ammette un tiling valido su tutto il piano.
+
+    $\forall n, \exists$ un quadrato $n\times n$ nel quale $T$ ammette un tiling 
+    finito valido $\implies$ $T$ ammette un tiling valido su tutto il piano $\mathbb{Z}^2$
+
+\end{definizione}
+\begin{nota} 
+    La negazione del principio è la seguente. Se $T$ non ammette un tiling valido 
+    su tutto il piano $\mathbb{Z}^2$ $\implies$ $\exists n, \forall$ quadrato $n\times n$ $T$
+    contiene un errore di tiling
+\end{nota}
+
+Il tiling problem è utile per dimostrare l'indecidibilità di alcune proprietà, come 
+la nilpotenza.
+
+\begin{definizione} [\textbf{Nilpotenza di CA}]
+    Un CA è chiamato \textbf{Nilpotente} se tutte le configurazioni evolvono
+    in una configurazione \textbf{quiesciente} (si entra in una configurazione 
+    dalla quale non si esce più)
+\end{definizione}
+
+Ovviamente per un CA nilpotente, deve diventare quiesciente in un numero finito
+e unguale salti per ogni configurazione. 
+
+\begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-2D}]
+    Il problema di identificare se un CA-2D è nilpotente è indecidibile. 
+    \begin{proof}
+        Per un dato tile set $T$, l'obiettivo è di costruire un CA 2-D che è
+        nilpotente sse non ammette tiling.
+
+        La costruzione del CA è la seguente:
+        \begin{itemize}
+            \item stati: $S=T\cup \{q\}$ dove $q\not\in T$
+            \item vicinanza di Von Neumann
+            \item regola locale: lascia tutto invariato se tutti gli stati nel 
+            vicinato sono tile e il vincolo del colore dei lati è soddisfatto, in 
+            tutti gli altri casi il nuovo stato è $q$.
+        \end{itemize}
+        Dimostrimao i singoli punti:
+        \begin{itemize}
+            \item $\implies$:
+            Quindi se $CA$ ammette il tile corretto $c$ allora $c$ è un punto fisso 
+            non quiesciente (perché se fosse quiesciente allora sarebbe composto 
+            da una sola piastrella o simbolo e questo è impossibile per la definizione 
+            di tiling). 
+            \item $\impliedby$: si sfrutta la negazione del principio di compattezza.
+            Se esiste un quadrato di dimensione $n\times n$ per cui non è valido 
+            il tiling finito, ovvero il quadrato contiene almento un simbolo $q$.
+            Allora $T$ non ammette tiling valido su tutto il piano. Questo è vero
+            perché $q$ si propaga e in al più $2n$ passi tutte le celle diventano 
+            $q$. Quindi CA diventa nilpotente.
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+
+Si più dimostrare l'indecidibilità in 1D usando il NW-deterministic tiling.
+
+\begin{definizione} [\textbf{NW-deterministic tiling}]
+    
+\end{definizione}
