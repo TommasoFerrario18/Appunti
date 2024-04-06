@@ -27,8 +27,8 @@ Tra le proprietà più importanti troviamo:
 Se si considera un grafo rappresentato attraverso una matrice di adiacenza, il
 grado di un nodo può essere calcolato sommando i valori della riga o della
 colonna corrispondente al nodo in questione. Nello specifico, se si considera
-un grafo orientato, il grado uscente corrisponde alla somma dei valori della 
-riga corrispondente al nodo, mentre il grado entrante corrisponde alla somma dei 
+un grafo orientato, il grado uscente corrisponde alla somma dei valori della
+riga corrispondente al nodo, mentre il grado entrante corrisponde alla somma dei
 valori della colonna ad esso associata.
 
 Più in generale possiamo riassumere il calcolo del grado di un nodo come segue:
@@ -121,7 +121,7 @@ dove $d_{ij}$ rappresenta la distanza tra i nodi $i$ e $j$ e $E_{max}$ rappresen
 il numero massimo di archi presenti nel grafo.
 \subsection{Coefficienti di clustering}
 \begin{definizione}[\textbf{Coefficienti di clustering}]
-    I \textbf{coefficienti di clustering} sono una misura della presenza di nodi 
+    I \textbf{coefficienti di clustering} sono una misura della presenza di nodi
     vicini tra loro. In particolare, il coefficiente di clustering di un nodo è una
     misura della probabilità che i vicini di un nodo siano collegati tra loro.
     Dato un nodo $i$ con grado $k_i$, il coefficiente di clustering locale è
@@ -139,8 +139,8 @@ collegati tra loro. Nel caso in cui il coefficiente sia uguale a 0, significa
 che nessun vicino del nodo $i$ è collegato ad un altro vicino.
 
 Questa misura rappresenta la densità locale di un grafo. Per ottenere una
-misura \textbf{globale} della densità del grafo, possiamo calcolare il 
-\textbf{coefficiente di clustering medio}. Tale misura può essere calcolata come 
+misura \textbf{globale} della densità del grafo, possiamo calcolare il
+\textbf{coefficiente di clustering medio}. Tale misura può essere calcolata come
 segue:
 \begin{equation}
     \langle C \rangle = \frac{1}{n} \sum_{i=1}^{n} C_i
@@ -421,96 +421,219 @@ Sotto la seguente condizione:
 \begin{equation*}
     \sum_{i}^n P_i = 1
 \end{equation*}
-
-
 \section{Community detection}
-
-\begin{definizione}
-    Le comuniti sono dei sottogruppi di oggetti che condividono delle proprietà
+\begin{definizione}[\textbf{Community}]
+    Le community sono dei sottogruppi di oggetti che condividono delle proprietà.
 \end{definizione}
-
-Ci interessa l'identificazione delle comunity oper:
+Ci interessa l'identificazione delle community per:
 \begin{itemize}
-    \item scoprire funzionalità relative agli oggetti
-    \item studiare interazioni tra gruppi
-    \item inferire sui collegamenti che ci sono tra community ex: social Network
-    \item inferire dei dati mancanti di un nodo dalla sua community
+    \item Scoprire funzionalità relative agli oggetti.
+    \item Studiare interazioni tra gruppi.
+    \item Inferire sui collegamenti che ci sono tra community ex: social Network.
+    \item Inferire dei dati mancanti di un nodo dalla sua community.
 \end{itemize}
-
-nei social le community sono degli insiemi di utenti che che effettuano delle 
-interazioni particolari.
-
 \begin{esempio}
-    Nell'esempio delle community possiamo identificare delle community tra 
-    componenti connesse o tra elementi vicine.
+    Un esempio di community sono quelle presenti nei social network. In questo caso,
+    le community sono degli insiemi di utenti che effettuano delle interazioni
+    tra di loro, come ad esempio relazioni di amicizia, oppure mettere like a
+    uno stesso post.
 \end{esempio}
+Non esiste una definizione unica di community, ma esistono diversi criteri per
+identificarle. Ad esempio, se consideriamo la figura \ref{fig:community}, possiamo
+identificare 3 community, ovvero quelle rappresentate dalle componenti connesse,
+oppure 9 se le consideriamo come insiemi di nodi vicini tra loro, insiemi densi
+di nodi.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/net/community.png}
+    \caption{Esempio di community.}
+    \label{fig:community}
+\end{figure}
 
-Le community possono non essere disgiunte e quindi avere un overlap.
-I criteri per identificare le community sono:
+In una rete, le community che vengono identificate possono essere disgiunte,
+oppure possono sovrapporsi (overlap).
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/net/overlap.png}
+    \caption{Esempio di community che si sovrappongono.}
+    \label{fig:overlap}
+\end{figure}
+\subsection{Criteri per identificare le community}
+Esistono diversi criteri per identificare le community, ognuno dei quali si adatta
+a diversi tipi di studi che si vogliono effettuare. Questi criteri possono essere
+suddivisi nelle seguenti categorie  ordinate dalla più stringente alla meno
+stringente:
 \begin{itemize}
-    \item node-centric: si creano delle community sulla base delle caratteristiche 
-    sui singoli nodi. I nodi soddisfano completa muualità, raggiungibilità e gradi 
-    dei nodi. Si usano nelle reti piccole, però le proprietà permettono di essere 
-    utilizzate nei trasporti. Spesso si usano a livello gerarchico nella gerarchia
-    più piccola. Ecco i diversi algoritmi:
-    \begin{itemize}
-        \item clique: cerca la clique, una sottocomponente fortemente connessa. 
-        Si hanno diverse varianti: massima clique, ovvero la clique massimale o clique
-        con un numero minimo. (NPHard) Per $100$ nodi si hanno $2^{99}-1$ operazioni. 
-        Si può semplificare introducendo un'operazione di \textbf{prining}, se cerchiamo
-        clique di grandezza $k$ allora sicuramente tutti i nodi che ne fanno parte 
-        devo avere almento $k$ archi. Questo permette di sfoltire la rete eliminando 
-        i nodi che hanno meno di $k$ archi. In ogni caso le clique sono molto rare 
-        quindi rimane sempre pesante questa strategia.
-        \item k-clique, k-club: si guarda che ogni nodo in un gruppo si araggiungibile con $K$
-        archi e quindi si valuta la raggiungibilità.
-    \end{itemize}
-    \item group-centric: si creano delle community dal punto di vista di un gruppo,
-    non si visitano tutti i nodi ma si valuta il gruppo di nodi. Si stabilisce 
-    un determinato criterio che deve essere rispettato dal gruppo, ex: densità del
-    gruppo, si cercano quindi delle quasi-clique (non si conoscono il numero di gruppi). Si cercano quindi insiemi che 
-    massimizzano il criterio (problema di massimizzazione) o i gruppi che superano
-    la treshold. Una seconda strategia è quella di utilizzare la metodologia greedy,
-    ovvero si parte da un nodo con il massimo criterio, si espande la quasi-clique
-    introducendo nodi con il valore di criterio massimo. (NPHard) Si usano quindi
-    per reti molto piccole o quando si hanno caratteristiche che devono essere 
-    rispettate dalle quasi-clique.
-    \item network-centric: si valuta il criterio nell'interezza della rete. I noti 
-    simili saranno quelli che hanno una struttura simile, ex: nodi connessi agli stessi nodi,
-    quindi hanno gli stessi vicini. L'equivalenza strutturale è la prossimità di 
-    secondo ordine, perché il primo ordine è il singolo arco. Si calcola la vector
-    similarity utilizzando delle funzioni di similarità (simili alle distanze) applicate sulla matrice delle similarità
-    (matrice di adiacienza). Si usano i network-centric perché spesso si\dots
-    
-    Se due nodi hanno lo stesso vicinato allora abbiamo due righe euguali quindi 
-    la misura di similarità è massima (cosine considera gli archi pesati, mentre jackarta
-    non considera il peso). Si creano le community utilizzando K-means e come distanza
-    si usa la similarità. Questo comporta che le community verranno generate da un 
-    nodo quelli che inizializzano i centroidi. Usando k-means (un algo di k-means) porta ai soliti 
-    problemi come minimi locali, sensibilità all'inizializzaione dei centroidi e 
-    clister sferici. L'idea dei network-centric è che si creano community di nodi simili.
-
-    Un altro approccio è quello di effettuare lo spectral clustering. Si prende 
-    la matrice di adiacienza, calcoliamo autovettori e autovalori. Ordiniamo gli 
-    autovettori per modulo, si ordinano le componenti e si guardano . (guarda esempio)
-
-    Possiamo usare matrice laplaciana, calcolando il determinante, se nullo allora 
-    si hanno vettori dipendenti quindi nodi che hanno distanze dipendenti e quindi 
-    nodi simili, facenti parte della community.
-    % metti esempio
-
-    Un altro approccio è a massimizzazzione della modularità. Si valuta il grafo 
-    con un grafico randomico generato dalla stessa distribuzione degli archi. 
-    Si più appplicare solo quando conosciamo la distribuzione di probabilità degli 
-    archi. Se il grafo ha una struttura simile al grafo randomico allora la struttura 
-    non è così particolare, si valuta se le connessioni del grafo sono dovute dal 
-    caso oppure no. Se non lo fossero allora potrebbero essere delle community.
-    Maggiore è la differenza tra la matrice di adiacienza e il dato strimato allora 
-    abbiamo una forte relazione tra nodi. L'obiettivo è di massimzizare la misura.
-
-    La modularità assume valori in un intervallo (per la costante di normalizzazione al denominatore)
-    $(-1,1)$. Dal calcolo della matrice di modularità si calcolano gli autovettori.
-    \item hierarchy-centric: si costruisce una struttura gerarchica sul grafo 
+    \item \textbf{Node-centric}: si creano delle community sulla base delle
+          caratteristiche sui singoli nodi.
+    \item \textbf{Group-centric}: si creano delle community dal punto di vista
+          di un gruppo. Il gruppo deve rispettare un determinato criterio senza
+          considerare i singoli nodi.
+    \item \textbf{Network-centric}: si valuta il criterio nell'interezza della rete.
+    \item \textbf{Hierarchy-centric}: si costruisce una struttura gerarchica delle
+          community.
 \end{itemize}
+\subsubsection{Node-centric}
+Questo criterio si basa sulla ricerca di caratteristiche comuni tra i singoli
+nodi. In particolare, i nodi che fanno parte della stessa community devono
+rispettare delle proprietà comuni.
 
-Vanno dalla più stringente a quella meno stringente.
+Con questo criterio possiamo identificare le community che soddisfano le seguenti
+proprietà utilizzando diversi algoritmi:
+\begin{itemize}
+    \item \textbf{Complete Mutuality}: tutti i nodi della community sono connessi
+          tra di loro. Questo problema può essere risolto utilizzando l'algoritmo
+          di ricerca delle \textbf{clique}. Una clique è una sotto-componente
+          fortemente connessa del grafo. Questo problema è NP-Hard, quindi richiede
+          un tempo esponenziale per essere risolto. Possiamo distinguere due varianti
+          di questo problema:
+          \begin{enumerate}
+              \item \textbf{Massima clique}: è la clique di grandezza massimale,
+                    ovvero quella con il massimo numero di nodi.
+              \item \textbf{All maximal clique}: è la clique con un numero minimo
+                    di nodi.
+          \end{enumerate}
+          Data la complessità del problema, è possibile semplificare la ricerca
+          introducendo un'operazione di \textbf{pruning}. Tale operazione
+          consiste nell'eliminare i nodi che non possono far parte della clique.
+          Se stiamo cercando una clique di grandezza $k$, allora tutti i nodi che
+          fanno parte della clique devono avere almeno $k$ archi. Questo ci permette
+          di non considerare i nodi il cui grado è minore di $k - 1$.
+
+          In ogni caso le clique sono molto rare quindi rimane sempre pesante
+          questa strategia.
+    \item \textbf{Reachability of members}: tutti i nodi della community devono
+          essere raggiungibili con un numero massimo di archi. Si possono utilizzare
+          algoritmi come k-clique e k-club per svolgere questo compito.
+          \begin{itemize}
+              \item \textbf{k-clique}: si cercano sotto-grafi in cui la distanza
+                    maggiore che si può avere tra due nodi è $\leq k$.
+              \item \textbf{k-club}: si cercano sotto-grafi in cui il diametro è
+                    $\leq k$.
+          \end{itemize}
+    \item \textbf{Node degree}: si cercano nodi con un grado minimo utilizzando
+          algoritmi come $k-plex$ e $k-core$.
+\end{itemize}
+Questi metodi sono utili per reti di dimensioni ridotte a causa della loro
+complessità.
+\subsubsection{Group-centric}
+Questo criterio si basa sul fatto che l'intero gruppo deve soddisfare un determinato
+criterio, non si considerano i singoli nodi.
+
+Un esempio di criterio utilizzato per questa categoria è la densità del gruppo.
+In pratica si cercano delle \textbf{quasi-clique}, ovvero dei gruppi di nodi
+che soddisfa il seguente vincolo:
+\begin{equation}
+    \frac{2 |E_s|}{|V_s|(|V_s| - 1)} \geq \delta
+\end{equation}
+Definito il vincolo, si possono definire diversi problemi di ottimizzazione per
+trovare le quasi-clique:
+\begin{itemize}
+    \item \textbf{Massimizzazione}: si cercano i gruppi che massimizzano il criterio.
+    \item \textbf{Threshold}: si cercano i gruppi che superano una determinata soglia.
+\end{itemize}
+Un'altra strategia per identificare le community è quella di utilizzare un approccio
+\textbf{greedy}. In questo caso si parte da un nodo con grado elevato e si espande
+la quasi-clique introducendo nodi che si pensa possano aiutare a costruire una
+quasi-clique più grande.
+
+Questo approccio è molto utile per reti di piccole dimensioni o quando si hanno
+caratteristiche che devono essere rispettate dalle quasi-clique. Si tratta comunque
+di un problema NP-Hard.
+\subsubsection{Network-centric}
+Si valuta la rete nella sua interezza. Un primo approccio è quello basato sulla
+\textbf{Node similarity}.
+\paragraph{Node similarity}
+In questo caso, due nodi si considerano simili se hanno un pattern di interazione
+simile, ovvero se sono connessi agli stessi nodi. Questo viene anche chiamato
+\textbf{structural equivalence}. Questo approccio viene applicato utilizzando la
+\textbf{vector similarity}, la quale può essere calcolata utilizzando diverse
+funzioni di similarità, come ad esempio:
+\begin{itemize}
+    \item \textbf{Cosine similarity}: calcola la similarità tra due nodi, si
+          utilizza solitamente quando il grafo è pesato.
+          \begin{equation*}
+              \cos(\theta) = \frac{A \cdot B}{||A|| \cdot ||B||}
+          \end{equation*}
+    \item \textbf{Jaccard similarity}: calcola la similarità tra due nodi
+          considerando solamente se l'arco è presente o meno. Questa misura
+          è molto utilizzata per grafi non pesati.
+          \begin{equation*}
+              J(A, B) = \frac{|A \cap B|}{|A \cup B|}
+          \end{equation*}
+\end{itemize}
+Usando il valore di similarità, abbiamo che due nodi simili avranno un valore
+di similarità alto, mentre due nodi dissimili avranno un valore di similarità
+basso. Sfruttando questo valore, possiamo creare le community utilizzando
+degli algoritmi di clustering, come ad esempio il \textbf{K-means}. 
+\begin{nota}
+    Usando l'algoritmo K-means è necessario considerare sempre tutti i problemi 
+    che si possono verificare con questo algoritmo, come ad esempio la sensibilità
+    all'inizializzazione dei centroidi, la presenza di minimi locali e la forma
+    sferica dei cluster.
+\end{nota}
+\paragraph{Spectral clustering}
+Un altro approccio per identificare le community è quello di utilizzare lo 
+\textbf{spectral clustering}. Questo approccio rappresenta la similarità tra due 
+grafi utilizzando le matrici e gli autovalori e auto vettori. Questi ultimi 
+rappresentano le informazioni globali sulla struttura del grafo.
+
+Lo scopo di questo approccio è quello di portare i dati in uno spazio di dimensione
+inferiore, in modo da poterli separare in maniera più semplice usando gli autovettori
+e il grafo Laplaciano.
+
+Il primo passo consiste nel rappresentare il grafo con una matrice di adiacenza
+$A$. A questo punto, possiamo costruire la matrice Laplaciana del grafo, la quale
+può essere calcolata come segue:
+\begin{equation}
+    L = D - A
+\end{equation}
+dove $D$ è la matrice diagonale che contiene la somma delle righe della matrice
+di adiacenza $A$.
+
+A questo punto possiamo calcolare gli autovalori e gli autovettori della matrice
+Laplaciana. Usando uno o più autovettori, possiamo rappresentare il grafo in uno
+spazio di dimensione inferiore. 
+
+Una volta ottenuta la rappresentazione del grafo in uno spazio di dimensione 
+inferiore, possiamo assegnare i nodi alle community.
+\paragraph{Mudularity maximization}
+Un altro approccio per identificare le community è quello di utilizzare la
+\textbf{modularity maximization}. Questo approccio si basa sull'assunzione che 
+un grafo del ottenuto dal mondo reale ha una struttura molto lontana rispetto a 
+quella di un grafo generato in modo casuale. Quindi, più il grafo in analisi è 
+distante da uno casuale, più la sua struttura sarà particolare.
+
+La \textbf{modularity} vuole fornire una misura di quanto sono diverse le 
+interazioni tra i gruppi nel grafo che stiamo analizzando rispetto a delle 
+interazioni casuali. In un grafo con $m$ archi, considerando due nodi con grado 
+rispettivamente $d_i$ e $d_j$, le connessioni casuali tra i due nodi sarebbero
+date da:
+\begin{equation}
+    \frac{d_i \cdot d_j}{2m}
+\end{equation}
+L'interazione tra due nodi in un gruppo è data dalla seguente formula:
+\begin{equation}
+    \sum_{i, j}\left(A_{ij} - \frac{d_i \cdot d_j}{2m}\right)
+\end{equation}
+La modularity può essere calcolata come segue:
+\begin{equation}
+    Q = \frac{1}{2m} \sum_{i, j} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
+\end{equation}
+Più è grande la differenza tra $A_{ij} - \frac{d_i \cdot d_j}{2m}$, più forti 
+sono le connessioni tra i nodi. Al contrario, se la differenza è piccola,
+allora le connessioni tra i nodi sono casuali.
+Un vantaggio di questo approccio è che il valore di modularity è compreso tra 
+$-1$ e $1$. Inoltre, una modularity uguale a $0$ indica che tutti i nodi 
+appartengono allo stesso gruppo.
+
+Questo valore può essere calcolato attraverso gli autovettori della matrice di 
+modularità, ovvero la matrice definita come segue:
+\begin{equation}
+    B_{ij} = A_{ij} - \frac{d_i \cdot d_j}{2m}
+\end{equation}
+\begin{nota}
+    La limitazione di tutti questi approcci è che l'utente deve specificare il 
+    numero di community che si vogliono identificare.
+\end{nota}
+\subsubsection{Hierarchy-centric}
