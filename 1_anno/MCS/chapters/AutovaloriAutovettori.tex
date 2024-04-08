@@ -12,7 +12,7 @@ In generale una matrice A di dimensione n ha n autovalori/autovettori. Trovare
 lo \textbf{spettro}, ossia tutti gli n autovalori/autovettori, è una procedura
 onerosa in termini di operazioni macchina.
 \section{Localizzazione autovalori}
-Dato che gli autovalori λ di una matrice A sono numeri complessi, dovremmo
+Dato che gli autovalori $\lambda$ di una matrice $A$ sono numeri complessi, dovremmo
 lavorare sul piano complesso e non semplicemente sulla retta reale.
 
 Una prima stima sulla posizione degli autovalori è fornita dalla norma della
@@ -21,7 +21,7 @@ matrice $A$.Infatti vale il seguente teorema.
     Sia $\|\cdot\|$ una norma di matrici e sia $A$ una matrice quadrata, allora
     sappiamo che:
     \begin{equation*}
-        |\lambda| \leq \|A\|
+        |\lambda_{\max}| \leq \|A\|
     \end{equation*}
 \end{teorema}
 Possiamo studiare questo teorema considerando che la norma di una matrice è
@@ -53,6 +53,18 @@ da cui otteniamo attraverso delle semplificazioni:
 \end{equation*}
 Il problema di questa caratterizzazione è che non è facilmente computabile per
 $A$ molto grandi.
+
+\begin{definizione} [\textbf{Sfera di Greshgorin}]
+    Presa una matrice $A\in \mathbb{R}^{n\times n}$, la \textbf{sfera di Gershgorin} $R_i$ 
+    associata all'$i$-esima riga è un cerchio nel piano complesso che ha centro 
+    in $a_{ii}$ e raggio $r$.
+    $$r = \sqrt{\sum_{i\ne j}|a_{ij}|}$$
+    Oppure la sfera si può definire così $$R_i:=\{z\in \mathbb{C}|
+    |z-A_{ii}| \leq \sum_{l=1, l\neq j}^{n} |A_{il}|\}$$
+\end{definizione}
+
+La sfera di Greshgorin contiene tutti i numeri complessi presenti nel raggio. 
+
 \begin{teorema} [\textbf{Greshgorin}]
     Definiamo $\sigma(A):=\{\lambda | \lambda\text{ è autovalore di }A\}$, esso
     rappresenta lo spettro della matrice. Inoltre, definiamo $R_j:=\{z\in \mathbb{C}|
@@ -71,7 +83,7 @@ $A$ molto grandi.
             \vec{v}_\lambda = \vec{0}$. A questo punto possiamo spezzare la matrice 
         $A$ nel seguente modo: $A = D + E$ dove $D = diag(A)$ mentre $E = A - diag(A)$. 
         Sappiamo che $D - \lambda Id$ è una matrice diagonale ed invertibile 
-        perché stiamo assumendo che $\lambda \neq A_{jj}, \forall j = 1 \dots n$.
+        perché stiamo assumendo che $\lambda \neq A_{jj}, \forall j = 1 \dots n$ (determinante non nullo).
         Quindi possiamo scrivere:
         \begin{equation*}
             (A - \lambda Id)\vec{v}_\lambda = \vec{0} \implies (D + E - \lambda 
@@ -90,10 +102,10 @@ $A$ molto grandi.
         \end{equation*}
         Facciamo una digressione, scelgo la norma $\infty$, allora:
         \begin{equation*}
-            \|M\vec{x}\|_\infty = \max_{j = 1}^n |\sum_{l = 1}^{n}M_{jl}x_j| \leq
-             \max_{j = 1}^n\sum_{l = 1}^{n}|M_{jl}||x_j|\leq \max_{j = 1}^n|
-             \sum_{l = 1}^{n}M_{jl}|(\max_{j = 1}^n|x_j|)\leq \|\vec{x}\|_\infty
-             \max_{j = 1}^n|\sum_{l = 1}^{n}M_{jl}|
+            \|M\vec{x}\|_\infty = \max_{j = 1}^n \sum_{l = 1}^{n}|M_{jl}x_j| \leq
+             \max_{j = 1}^n\sum_{l = 1}^{n}|M_{jl}||x_j|\leq \max_{j = 1}^n
+             \sum_{l = 1}^{n}|M_{jl}|(\max_{j = 1}^n|x_j|)\leq \|\vec{x}\|_\infty
+             \max_{j = 1}^n\sum_{l = 1}^{n}|M_{jl}|
         \end{equation*}
 
         Tornando alla dimostrazione:
