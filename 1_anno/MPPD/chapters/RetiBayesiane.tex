@@ -156,8 +156,8 @@ variabile $v_i$:
     P(v_i|v_1,...,v_{i-1}) = P(v_i|parents(v_i))
 \end{equation}
 a patto che $parents(v_i) \subseteq \{v_1,...,v_{i-1}\}$. Quindi possiamo
-considerare la probabilità di $V_i$ condizionata da tutti gli altri nodi della 
-rete, può essere vista come la probabilità di $V_i$ condizionata solamente dai 
+considerare la probabilità di $V_i$ condizionata da tutti gli altri nodi della
+rete, può essere vista come la probabilità di $V_i$ condizionata solamente dai
 suoi genitori. Questo ci permette di effettuare una semplificazione molto utile.
 
 Una rete Bayesiane rappresenta correttamente un dominio solo a condizione che ogni
@@ -209,8 +209,8 @@ sotto-componente interagisce solo con un numero limitato di altre componenti,
 indipendentemente dal numero totale di componenti del sistema.
 
 La strutturazione locale è di norma associata ad un fattore di crescita della
-complessità lineare e non esponenziale. Nel caso di una Rete Bayesiana è 
-ragionevole ipotizzare che ogni variabile sia direttamente influenzata da al 
+complessità lineare e non esponenziale. Nel caso di una Rete Bayesiana è
+ragionevole ipotizzare che ogni variabile sia direttamente influenzata da al
 massimo $k$ variabili.
 
 Nel caso in cui si consideri una Rete Bayesiana costituita da $n$ variabili
@@ -304,8 +304,8 @@ i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo
 quando si possono notare dei pattern particolari, ex: and tra genitori, or tra
 genitori, somma dei genitori$\dots$
 
-Una volta identificato il pattern, questo ci permette di specificare un numero 
-limitato di parametri per compilare la CPT, dal momento che alcuni si derivano 
+Una volta identificato il pattern, questo ci permette di specificare un numero
+limitato di parametri per compilare la CPT, dal momento che alcuni si derivano
 con le distribuzioni canoniche.
 \begin{definizione}[\textbf{Nodo deterministico}]
     Un \textbf{nodo deterministico} è caratterizzato dal fatto che il valore che
@@ -326,9 +326,9 @@ Le relazioni incerte, possono essere caratterizzate dalle \textbf{Noisy Logical
     Relations} che permettono di modellare l'incertezza dei genitori nel causare
 il figlio. Queste relazioni sono utili per modellare situazioni in cui la presenza
 di un genitore non implica necessariamente la presenza del figlio.
-Andiamo per esempio ad analizzare il modello \textbf{Noisy-OR}. Questo modello 
-consente di introdurre incertezza circa la capacità di ogni nodo genitore di 
-causare il valore vero della variabile figlio. 
+Andiamo per esempio ad analizzare il modello \textbf{Noisy-OR}. Questo modello
+consente di introdurre incertezza circa la capacità di ogni nodo genitore di
+causare il valore vero della variabile figlio.
 
 Il modello Noisy-OR effettua le seguenti ipotesi:
 \begin{itemize}
@@ -336,13 +336,13 @@ Il modello Noisy-OR effettua le seguenti ipotesi:
     \item L'inibizione di un genitore è indipendente dall'inibizione degli altri
           genitori per il nodo considerato.
 \end{itemize}
-In questo caso specifico la probabilità di un determinato evento, è data dal 
+In questo caso specifico la probabilità di un determinato evento, è data dal
 prodotto delle probabilità di inibizione per ogni nodo genitore.
 \subsection{Rappresentazioni efficiente delle distribuzioni continue}
 Per rappresentare efficientemente i nodi di distribuzioni continue, usando quelle
 canoniche, possiamo pensare di discretizzare le variabili continue definendo un
 insieme finito di intervalli. Il problema che sorge utilizzando questo approccio
-è legato alla perdita di informazioni sul dato. Inoltre, le CPT spesso aumentano 
+è legato alla perdita di informazioni sul dato. Inoltre, le CPT spesso aumentano
 di dimensione.
 
 Una soluzione alternativa è rappresentare le variabili con delle \textbf{funzioni
@@ -362,78 +362,115 @@ distribuzione:
     \item La distribuzione condizionale di una variabile discreta dati i genitori
           continui.
 \end{itemize}
-
 \section{Inferenza}
-L'obiettivo fondamentale è quello di riuscire a calcolare la posterior di un insieme 
-di variabili considerando una serie di variabili di evidenza.
+Il compito primario di ogni sistema inferenziale probabilistico consiste nel
+computare la distribuzione a posteriori, per un determinato insieme di \textbf{variabili
+    di query}, quando si è osservato un determinato evento, ovvero un assegnamento
+congiunto di valori per un insieme di \textbf{variabili di evidenza}.
 
+In questa sezione useremo la seguente notazione:
 \begin{itemize}
-    \item $X$ sarà la variabile di query
-    \item $E$ insieme di variabili di evidenza
-    \item $e$ specifico evento, ovvero un assegnamento congiunto dei singoli valori
-    delle variabili di evidenza
-    \item $Y$ insieme di variabili non di evidenza
+    \item $X$: la variabile di query.
+    \item $E$: insieme di variabili di evidenza.
+    \item $e$: specifico evento, ovvero un assegnamento congiunto dei singoli
+          valori delle variabili di evidenza.
+    \item $Y$: insieme di variabili non di evidenza.
 \end{itemize}
-
-L'insieme complessivo di variabili è $V = \{X\} \cup E \cup Y$. 
-Una tipica query della quale bisogna calcolare la posterior è
-$$P(X | E = e)$$
-Prima chiedevamo di calcolare la distribuzione di probabilità della viabile date 
+L'insieme complessivo di variabili è rappresentato da:
+\begin{equation*}
+    V = \{X\} \cup E \cup Y
+\end{equation*}
+Una tipica query della quale bisogna calcolare la posterior è:
+\begin{equation*}
+    P(X|E=e)
+\end{equation*}
+Prima chiedevamo di calcolare la distribuzione di probabilità della variabile date
 tutte le altre variabili nella rete.
 
 Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
 \begin{itemize}
-    \item \textbf{diagnostica}: si passa dagli effetti alle cause, l'evidenza è 
-    nei discendenti e l'informormazione sale dai figli ai genitori.
-    \item \textbf{causale}: si passa dalle cause agli effetti, l'evidenza è 
-    nei genitori e l'informormazione scende dai genitori ai figli.
-    \item \textbf{intercausale}: si passa l'informazione tra cause ed effetti comuni
-    \item \textbf{mista}: l'informazione è presente sia nel genitore sia nel figlioe 
-    quindi abbiamo sia una una componente diagnostica sia una componente intercausale
+    \item \textbf{Diagnostica}: si passa dagli effetti alle cause, l'evidenza è
+          nei discendenti e l'informazione sale dai figli ai genitori.
+          \begin{figure}
+              \centering
+              \includegraphics[width=0.5\textwidth]{./img/Reti/Diagnostica.png}
+              \caption{Inferenza diagnostica}
+              \label{fig:diagnostica}
+          \end{figure}
+    \item \textbf{Causale}: si passa dalle cause agli effetti, l'evidenza è
+          nei genitori e l'informazione scende dai genitori ai figli.
+          \begin{figure}
+              \centering
+              \includegraphics[width=0.5\textwidth]{./img/Reti/Causale.png}
+              \caption{Inferenza causale}
+              \label{fig:causale}
+          \end{figure}
+    \item \textbf{Intercausale}: si passa l'informazione tra le cause di comuni
+          a un effetto.
+          \begin{figure}
+              \centering
+              \includegraphics[width=0.5\textwidth]{./img/Reti/Intercausale.png}
+              \caption{Inferenza intercausale}
+              \label{fig:intercausale}
+          \end{figure}
+    \item \textbf{mista}: combinazione di due o più delle tipologie di inferenza
+          presentate in precedenza.
+          \begin{figure}
+              \centering
+              \includegraphics[width=0.5\textwidth]{./img/Reti/Mista.png}
+              \caption{Inferenza mista}
+              \label{fig:mista}
+          \end{figure}
 \end{itemize}
+Conoscere l'evidenza di una variabile può influenzare la probabilità di altri nodi
+nella rete. Quindi, quando si osserva un evento, si aggiornano le distribuzioni
+di probabilità di tutti i nodi della rete. Una volta effettuato questa operazione,
+è possibile eseguire le query sulle CPT aggiornate.
 
-Inserire l'evidenza nella rete allora significa che si devono aggiurnare tutte le 
-CPT della rete bayesiana. Quindi implementare il meccanismo inferenza data una 
-evidenza allora significa inserire l'evidenza che aggiorna le CPT e successivamente 
-si possono evvettuare tutte le query che si vogliono fare. La distribuzione si 
-calcola facilmente perché sono state aggiornate precedentemente le CPT in base 
-all'evidenza osservata.
+Per rispondere ad una query generica del tipo:
+\begin{equation*}
+    P(X|E=e)
+\end{equation*}
+allora posso sfruttare la seguente equazione, ovvero l'algoritmo di enumerazione:
+\begin{equation*}
+    P(X|E=e) = \alpha P(X,E=e) = \alpha \sum_{y} P(X,E=e, Y=y)
+\end{equation*}
+dove $\alpha$ mi rappresenta un parametro di normalizzazione, mentre $\sum_{y}
+    P(X,E = e, Y = y)$ rappresenta la al variare delle variabili nascoste.
 
-% TODO: inserire immagini
-
-Per rispondere ad una query generica 
-$$P(X|E=e)$$
-allora sfrutto la seguente equazione (algoritmo per enumerazione) 
-$$P(X|E=e) = \alpha P(X,E=e) = \alpha \sum_{y} P(X,E=e, Y=y)$$
-$\alpha \sum_{y} P(X,E=e, Y=y) \equiv P(X,E=e, Y=y)$ ovvero la probabilità congiunta
-tra tutte le variabili, quello che effettivamente calcolavamo precedentemente. 
 Si parla di enumerazione perché calcoliamo tutte le possibili combinazioni di valori
 delle variabili che non fanno parte dell'evidenza.
-Nota che si aggiunge la costante di normalizzazione, ovvero $\alpha = \frac{1}{\prod_{x\in X}^{max}P(X=x)}$.
+\begin{nota}
+    Si aggiunge la costante di normalizzazione, ovvero:
+    \begin{equation*}
+        \alpha = \frac{1}{\prod_{x\in X}^{max}P(X = x)}
+    \end{equation*}
+\end{nota}
+Inoltre, possiamo sfruttare la regola di fattorizzazione per calcolare la probabilità
+$P(X,E=e,Y=y)$, ovvero:
+\begin{equation*}
+    P(X,E=e,Y=y) = \prod_{K} P(K=k | parents(K))
+\end{equation*}
 
-$P(X,E=e, Y=y)$ la calcoleremo con la regola di fattorizzazione, come facevamo prima.
+In generale, quando si effettua l'inferenza in una rete Bayesiana, si calcola il
+valore della variabile di query per tutti i suoi possibili assegnamenti:
+\begin{equation*}
+    P(X=x|E=e) = \langle P(X = x'|E = e), P(X = x''|E = e),\dots \rangle
+\end{equation*}
 
-Quindi in generale 
-$$P(X|E=e) = <P(X=x'|E=e), P(X=x''|E=e),\dots>$$
-
-Quindi 
-$$P(X=x'|E=e) = \alpha \sum_{y} P(X=x',E=e, Y=y) = \alpha \sum_{y} P(X=x',E=e, Y=y)$$ 
-Dove $P(X=x',E=e, Y=y)$ lo calcoliamo come facevamo sempre, ovvero sia $K \in \{X, E, Y\}$
-allora 
-$$P(X=x',E=e, Y=y) = \prod_{K} P(K=k | parents(K))$$
-Mentre $\alpha = \frac{1}{\prod_{x\in X}^{max}P(X=x)}$.
-
-Il processo di inferenza per $n$ variabili booleane è pari a $O(n2^n)$. Possiamo 
-migliorare le tempistiche in questo modo:
+Il processo di inferenza per $n$ variabili booleane è pari a $\mathcal{O}(n2^n)$.
+Possiamo però migliorare le tempistiche attraverso delle semplificazioni:
 \begin{itemize}
-    \item migliorare il calcolo $P(K=k | parents(K))$ andando a raccogliere 
-    quei fattori che non dipendo dalle sommatorie e quindi rispariamo delle moltiplicazioni.
-    \item dal momento che calcoliamo tutte le combinazioni dei valori delle variabili
-    significa che ricalcoliamo sempre gli stessi valori, quindi cambieremo approccio
-    e useremo l'algoritmo delle elimininazioni delle variabili.
+    \item Si può migliorare il calcolo $P(K=k | parents(K))$ andando a raccogliere
+          i fattori che non dipendo dalle sommatorie. Così facendo si risparmiano
+          delle moltiplicazioni.
+    \item Dal momento che calcoliamo tutte le combinazioni dei valori delle
+          variabili significa che alcuni valori vengono calcolati più volte. 
+          Quindi cambieremo approccio e useremo l'algoritmo delle eliminazione 
+          delle variabili.
 \end{itemize}
 
-L'algoritmo si basa sul principio di risolvere il calcolo delle sommatorie in 
-\textbf{bottom-up}, ovvero da dx verso sx e si salvano quei valori in modo tale 
-da calcolarlo senza ripetizione.
+L'algoritmo si basa sul principio di risolvere il calcolo delle sommatorie in
+\textbf{bottom-up}, ovvero da destra verso sinistra e salvando i valori in modo 
+tale da calcolarlo senza ripetizione.
 

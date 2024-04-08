@@ -11,9 +11,10 @@ opzione disponibile. In questo capitolo, esploreremo un'alternativa ai
 database relazionali: i database NoSQL.
 \section*{Use Cases}
 \subsection*{Crypto}
-Iniziamo analizzando uno Use Case. Un cliente vuole salvare dati legati alle
-crypto che vengono forniti da un API. Con le conoscenze conseguite fino a questo
-momento, salveremo tutto su una tabella di un DBMS relazionale dove si hanno 5 colonne:
+Iniziamo analizzando il seguente Use Case: un cliente vuole salvare dati legati 
+alle crypto che vengono forniti da un API. Con le conoscenze conseguite fino a 
+questo momento, salveremo tutto su una tabella di un DBMS relazionale dove si 
+hanno 5 colonne:
 \begin{itemize}
       \item id
       \item Simbolo
@@ -21,18 +22,21 @@ momento, salveremo tutto su una tabella di un DBMS relazionale dove si hanno 5 c
       \item Prezzo\_EUR
       \item Data
 \end{itemize}
-Nel caso in cui nella risposta fossero presenti informazioni aggiuntive o nel caso
-in cui si volessero salvare informazioni aggiuntive, si dovrebbe modificare la
-tabella. Questo si può osservare soprattutto quando si hanno risposte molto
-complesse, perché salvare dati in molteplici tabelle significa per ottenere
-l'informazione intera si devono fare molte join, questo comporta un rallentamento
-delle prestazioni.
+Questa soluzione presenta dei problemi, ad esempio, se si volesse salvare
+informazioni aggiuntive o se la risposta dell'API si dovesse modificare, si
+dovrebbe modificare la tabella. Un altro problema sorge quando nella risposta 
+sono contenuti elementi complessi, come ad esempio un array di oggetti. In questa 
+situazione, usando un database relazionale, si dovrebbero creare tabelle diverse 
+e ogni volta che si vuole fare una nuova interrogazione è necessario fare delle 
+join tra le tabelle. Questo comporta un rallentamento delle prestazioni.
 
 Una soluzione per ridurre il numero di join è quello di duplicare i dati, il
-problema è che i dati che si duplicano devono essere consistenti. In aggiunta
-posso ridurre le tabelle unendole creando una grande tabella che può essere
-frammentata a livello fisico, il problema di questa soluzione è che si vanno a
-inserire un elevato numero di valori \texttt{null}.
+problema in questo caso non è più legato alla velocità delle interrogazioni, ma
+al mantenere la consistenza dei dati. 
+
+In aggiunta posso ridurre le tabelle unendole creando una grande tabella che può 
+essere frammentata a livello fisico, il problema di questa soluzione è che si 
+vanno a inserire un elevato numero di valori \texttt{null}.
 \subsection*{Social network}
 Un altro caso d'uso è il social network in cui si vuole salvare la relazione di
 amicizia tra profili, il problema è che se si avessero 1M di utenti, ciascuno con
