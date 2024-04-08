@@ -376,3 +376,110 @@ si ha una stessa etichetta per accedere a tutti gli indirizzi e poi all'interno
 della relazione si specifica il tipo di indirizzo. Mentre, se si vogliono 
 effettuare query per sapere uno specifico tipo di indirizzo è più conveniente
 utilizzare una relazione per ogni tipo di indirizzo. 
+
+La modellazione tramite grafo risulta semplice a livello semantico da costruire,
+il problema è che non si ha uno standard per il Query language, eccone alcuni:
+\begin{itemize}
+      \item cypher: linguaggio dichiarativo può effettuare aggregation, ordering
+      e limit. L'obiettivo di cypher è fare pattern matching, ovvero cerca tutti 
+      i sottografi che metchano con grafo di query. (esattamente come in prolog)
+
+      Il risultato di una query grafo può essere una tabella o un sottografo.
+      \item gremlin (graph traversal language): la query consiste nel specificare 
+      un percorso, il percorso si inizializza in tutti i nodi e la query specifica
+      dei constrain su archi e nodi per selezionare quali nodi attraversare. 
+
+      Questo linguaggio è pensato per essere eseguito ad agenti, quindi è parallelizzabile
+      ed eseguibile in ambienti distribuiti.
+\end{itemize}
+
+Un esempio è ArangoDB che supporta i seguenti modelli:
+\begin{itemize}
+      \item keyvalue
+      \item graph
+      \item document
+      \item ricerca full text
+\end{itemize}
+Tutti i modelli sono gestiti come documenti JSON, il chiave valore è un documento 
+chiave valore, document è banale, mentre i grafi si specificano in documenti JSON
+mentre gli archi come reference a documenti quindi è pesante a causa dei Join.
+
+\section{CAP theorem}
+Nota che i sistemi RDBMS hanno un'upperbound di scalabilità fisico e teorico. I 
+sistemi NoSQL sono stati implementati rispettando il CAP theorem e le proprietà
+BASE.
+
+\begin{teorema} [\textbf{CAP}]
+      In un sistema distribuito non è possibile che contemporaneamente si hanno 
+      le seguenti proprietà garantite:
+      \begin{itemize}
+            \item consistenza (Consistency)
+            \item disponibilità (Availability)
+            \item tolleranza alle partizioni (Partision tolerance)
+      \end{itemize}      
+      Il sistema può soddisfarne al più due contemporanemente.
+\end{teorema}
+
+Questo ha permesso di sviluppare DBMS che non rispettano le 3 proprietà.  Noi 
+dovremmo scegliere con consapevolezza.
+
+I principi BASE sono:
+\begin{itemize}
+      \item basic Availability: ricerve le richieste anche sotto partial consistency
+      \item soft state:
+\end{itemize}
+
+
+Redis offre meccanismi di trasparenza automatici di replica per avere alta Availability.
+
+HBase ha un modello Master Slave, il master conosce la locazione dei blocchi distribuiti
+e poi si hanno gli slave che sono le macchine che contengono i dati frammentati.
+Si implementa la frammentazione orizzontale e la replica per distribuire tra gli
+slave. Si ha un orchestratore (zookeeper) che risolve problemi di fallimento.
+
+Cassandra ha un'architettura peer to peer ad anello per ogni datacenter. Tutti i nodi sono collegati in modo da 
+avere massima Availability e partition tolerance. In caso di guasto non ci sono 
+problemi perché i dati sono replicati, ogni dato è replicato almeno 3 volte. I
+vengono orchestrati con zookeeper. La frammentazione si decide sfruttando le funzioni
+di hashing ovvero si mappa l'anello con valori da $0$ a $1$ e si usano le funzioni 
+di hashing per salvare il dato in un nodo rispetto ad un altro. Più precisamente 
+se l'hash della chiave mi restituisce un valore tra i nodi A-B allora inserisco il 
+dato in B. Se aggiungo un nuovo nodo allora i nuovi dati che cadono tra il nodo 
+precedente e il nuovo nodo verranno salvati su quello nuovo. Quelli che sono presenti 
+nel nodo successivo che devono essere salvati in quello nuovo allora si replicano 
+in quello nuovo. 
+Dal momento che non si ha più un'architettura master-slave ma a cluster allora 
+si usa il gossip protocol per far capire lo stato dei nodi nel cluster.
+Per identificare il fallimento si utilizza una probabilità di fallimento che viene aggiornata 
+in base alla latenza della rete. Questo perché il timeout è troppo stringente.
+La scrittura avviene in questo modo:
+\begin{itemize}
+      \item scrivo nel LOG
+      \item scrivo in memoria 
+      \item scrivo su disco
+\end{itemize}
+
+Quando il client vuole scrivere nel cluster si deve specificare il grado di 
+consistenza dei dati:
+\begin{itemize}
+      \item consistency one: si ritorna la risposta al client dopo una scrittura 
+      su disco solo su un nodo del cluster
+      \item consistency all: si ritorna la risposta al client dopo una scrittura 
+      su disco solo su tutti i nodi del replication factor nodi del cluster
+      \item consistency quorum: si ritorna la risposta al client dopo $n/2+1$ nodi che 
+      hanno scritto su disco
+\end{itemize}
+
+La cancellazione avviene disabilitando \dots
+
+L'allineamento
+
+La lettura
+
+MongoDB è CP, anche qui ha un'architettura master e slave. Ogni dato è frammentato
+e replicato, si hanno nodi shard che sono slave, istanze diverse di mongo. Il master 
+fa da orchestratore, se cade il master allora si promuove il primo slave. 
+
+Voting
+
+Frammentazione si 
