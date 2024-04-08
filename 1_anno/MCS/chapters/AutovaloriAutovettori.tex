@@ -1,83 +1,144 @@
 \chapter{Autovalori e autovalori}
-
 \begin{definizione} [\textbf{Autovalore e autovettore}]
-    Data una matrice $A\in \mathbb{R}^{n\times n}$ un autovalore di una matrice 
-    e l'autovettore associato 
-    sono una coppia $(\lambda, \underline{v}_\lambda)\in \mathbb{C}\times\mathbb{C}^{n}$
-    tale che 
-    $$A\underline{v}_\lambda = \lambda \underline{v}_\lambda $$
+    Data una matrice $A \in \mathbb{R}^{n\times n}$ un \textbf{autovalore} di una
+    matrice e l'\textbf{autovettore} associato ad esso, sono una coppia $(\lambda,
+        \vec{v}_\lambda)\in \mathbb{C}\times\mathbb{C}^{n}$ tale che vale la
+    seguente identità:
+    \begin{equation*}
+        A\vec{v}_\lambda = \lambda \vec{v}_\lambda
+    \end{equation*}
 \end{definizione}
+In generale una matrice A di dimensione n ha n autovalori/autovettori. Trovare
+lo \textbf{spettro}, ossia tutti gli n autovalori/autovettori, è una procedura
+onerosa in termini di operazioni macchina.
+\section{Localizzazione autovalori}
+Dato che gli autovalori λ di una matrice A sono numeri complessi, dovremmo
+lavorare sul piano complesso e non semplicemente sulla retta reale.
 
-Possiamo sfruttare la norma di matrice $\|A\|=\max _{\underline{x}_\lambda\in \mathbb{R}^n}\frac{\|A\underline{x}_\lambda\|}{\|\underline{x}_\lambda\|} $
-
-Quindi possiamo dire come sono fatti gli autovalori 
-% TODO: scrivi procedimento
-$|\lambda| \le \|A\|$. Il problema di questa caratterizzazione è che non è facilmente 
-computabile per $A$ molto grandi.
-
+Una prima stima sulla posizione degli autovalori è fornita dalla norma della
+matrice $A$.Infatti vale il seguente teorema.
+\begin{teorema}
+    Sia $\|\cdot\|$ una norma di matrici e sia $A$ una matrice quadrata, allora
+    sappiamo che:
+    \begin{equation*}
+        |\lambda| \leq \|A\|
+    \end{equation*}
+\end{teorema}
+Possiamo studiare questo teorema considerando che la norma di una matrice è
+definita come:
+\begin{equation*}
+    \|A\| = \max_{\vec{x}_\lambda \in \mathbb{R}^n} \frac{\|A\vec{x}_\lambda\|}{\|\vec{x}_\lambda\|}
+\end{equation*}
+Dato che vogliamo verificare la seguente identità:
+\begin{equation*}
+    A\vec{v}_\lambda = \lambda \vec{v}_\lambda
+\end{equation*}
+di sicuro, vogliamo che la norma di $A \vec{v}_\lambda$ e $\lambda \vec{v}_\lambda$
+siano uguali, ovvero:
+\begin{equation*}
+    \|A\vec{v}_\lambda\| = \|\lambda \vec{v}_\lambda\|
+\end{equation*}
+essendo $\lambda$ uno scalare possiamo scrivere:
+\begin{equation*}
+    \|A\vec{v}_\lambda\| = |\lambda| \|\vec{v}_\lambda\|
+\end{equation*}
+A questo punto, se dividiamo il termine a sinistra per $\|\vec{v}_\lambda\|$ otteniamo:
+\begin{equation*}
+    \|\vec{v}_\lambda\| \frac{\|A\vec{v}_\lambda\|}{\|\vec{v}_\lambda\|} = |\lambda| \|\vec{v}_\lambda\|
+    \leq \left(\max_{\vec{x}_\lambda \in \mathbb{R}^n} \frac{\|A\vec{x}_\lambda\|}{\|\vec{x}_\lambda\|}\right) \cdot \|\vec{v}_\lambda\|
+\end{equation*}
+da cui otteniamo attraverso delle semplificazioni:
+\begin{equation*}
+    |\lambda| \leq \|A\|
+\end{equation*}
+Il problema di questa caratterizzazione è che non è facilmente computabile per
+$A$ molto grandi.
 \begin{teorema} [\textbf{Greshgorin}]
-    Definniamo $\sigma(A):=\{\lambda | \lambda\text{ è autovalore di }A\}$ (è lo 
-    spettro della matrice). Definiamo $R_j:=\{z\in \mathbb{C}| |z-A_{jj}| \le \sum_{l=1, l\ne j}^{n} |A_{jl}|\}$.
-    Allora $\sigma(A)\subseteq \bigcup_{j=1}^n R_j$. 
+    Definiamo $\sigma(A):=\{\lambda | \lambda\text{ è autovalore di }A\}$, esso
+    rappresenta lo spettro della matrice. Inoltre, definiamo $R_j:=\{z\in \mathbb{C}|
+        |z-A_{jj}| \leq \sum_{l=1, l\neq j}^{n} |A_{jl}|\}$.
+    Allora:
+    \begin{equation*}
+        \sigma(A) \subseteq \bigcup_{j=1}^{n} R_j
+    \end{equation*}
     \begin{proof}
-        Sia $\lambda = A_{jj}$ per qualche $j=1\dots n$ allora $\lambda$ è all'interno
-        della palla.
-        
-        Quindi senza perdere generalità, sia $\lambda \ne A_{jj},\forall j=1\dots n$.
-        Sia $\underline{v}_\lambda$ il vettore associato a $\lambda$, conosco che 
-        $A \underline{v}_\lambda = \lambda \underline{v}_\lambda \implies (A-\lambda Id)\underline{v}_\lambda = \underline{0}$.
-        Spezzo $A=D+E$ dove $D= diag(A)$ mentre $E= E-diag(A)$. Sappiamo che $D-\lambda Id$ è
-        una matrice diagonale ed invertibile perché stiamo assumendo che $\lambda \ne A_{jj}, \forall j =1\dots n$.
-        
-        $(A-\lambda Id)\underline{v}_\lambda = \underline{0} \implies (D+E-\lambda Id)\underline{v}_\lambda = \underline{0}\implies (D-\lambda Id)\underline{v}_\lambda = -E\underline{v}_\lambda \implies
-        \underline{v}_\lambda = -(D-\lambda Id)^{-1}E\underline{v}_\lambda$
+        Sia $\lambda = A_{jj}$ per qualche $j = 1 \dots n$ allora $\lambda$ è
+        all'interno della sfera.
 
+        Quindi, senza perdere generalità, sia $\lambda \neq A_{jj}, \forall j= 1 \dots n$.
+        Sia $\vec{v}_\lambda$ il vettore associato a $\lambda$, conosco che
+        $A \vec{v}_\lambda = \lambda \vec{v}_\lambda \implies (A - \lambda Id)
+            \vec{v}_\lambda = \vec{0}$. A questo punto possiamo spezzare la matrice 
+        $A$ nel seguente modo: $A = D + E$ dove $D = diag(A)$ mentre $E = A - diag(A)$. 
+        Sappiamo che $D - \lambda Id$ è una matrice diagonale ed invertibile 
+        perché stiamo assumendo che $\lambda \neq A_{jj}, \forall j = 1 \dots n$.
+        Quindi possiamo scrivere:
+        \begin{equation*}
+            (A - \lambda Id)\vec{v}_\lambda = \vec{0} \implies (D + E - \lambda 
+            Id)\vec{v}_\lambda = \vec{0} \implies (D - \lambda Id)\vec{v}_\lambda 
+            = - E\vec{v}_\lambda \implies \vec{v}_\lambda = -(D - \lambda Id)^{-1}
+            E\vec{v}_\lambda
+        \end{equation*}
         Quindi possiamo passare alle norme:
-        
-        $\|\underline{v}_\lambda\| = \|-(D-\lambda Id)^{-1}E\underline{v}_\lambda\|$
+        \begin{equation*}
+            \|\vec{v}_\lambda\| = \|-(D - \lambda Id)^{-1}E\vec{v}_\lambda\|
+        \end{equation*}
+        Per ogni norma possiamo dire che:
+        \begin{equation*}
+            \|\vec{v}_\lambda\| = \|(D - \lambda Id)^{-1}E\vec{v}_\lambda\| \leq
+            \|(D - \lambda Id)^{-1}E\| \|\vec{v}_\lambda\|
+        \end{equation*}
+        Facciamo una digressione, scelgo la norma $\infty$, allora:
+        \begin{equation*}
+            \|M\vec{x}\|_\infty = \max_{j = 1}^n |\sum_{l = 1}^{n}M_{jl}x_j| \leq
+             \max_{j = 1}^n\sum_{l = 1}^{n}|M_{jl}||x_j|\leq \max_{j = 1}^n|
+             \sum_{l = 1}^{n}M_{jl}|(\max_{j = 1}^n|x_j|)\leq \|\vec{x}\|_\infty
+             \max_{j = 1}^n|\sum_{l = 1}^{n}M_{jl}|
+        \end{equation*}
 
-        Per ogni norma possiamo dire 
-        $\|\underline{v}_\lambda\| = \|-(D-\lambda Id)^{-1}E\|\|\underline{v}_\lambda\|\implies 1\le \|(D-\lambda Id)^{-1}E\|$.
-        
-        Facciamo una digressione, scelgo la norma $\infty$, allora $\|M\underline{x}\|_\infty = \max_{j=1}^n|\sum_{l=1}^{n}M_{jl}x_j|\le \max_{j=1}^n\sum_{l=1}^{n}|M_{jl}||x_j|\le 
-        \max_{j=1}^n|\sum_{l=1}^{n}M_{jl}|(\max_{j=1}^n|x_j|)\le\|\underline{x}\|_\infty  \max_{j=1}^n|\sum_{l=1}^{n}M_{jl}|$
-        $\dots$
-
-        Tornando alla dimostrazione, continuamo
-        $$1\le \|(D-\lambda Id)^{-1}E\|_\infty \implies 1 \le \max_{j=1}^n\sum_{l=1,j\ne l}^{n} \frac{|A_{jl}|}{|A_{jj}-\lambda|}
-        = \sum_{l=1,l\ne k}^{n} \frac{|A_{kl}|}{|A_{kk}-\lambda|}, \text{per qualche}k = 1\dots n\implies$$
-        $$|A_{kk}-\lambda| \le \sum_{l=1,l\ne k}^{n} |A_{kl}| \implies \lambda \in R_k\implies \lambda \in \bigcup_{j=1}^n R_j, \forall \lambda \impl 
-        \sigma(A)\subseteq \bigcup_{j=1}^n R_j$$
-
+        Tornando alla dimostrazione:
+        \begin{equation*}
+            \begin{aligned}
+                1 \leq \|(D - \lambda Id)^{-1}E\|_\infty \implies 1 \leq \max_{j = 1}^n
+                \sum_{l = 1,j \neq l}^{n} \frac{|A_{jl}|}{|A_{jj} - \lambda|} = 
+                \sum_{l = 1,l \neq k}^{n} \frac{|A_{kl}|}{|A_{kk} - \lambda|}, 
+                \text{ per qualche }k = 1 \dots n \\ \implies |A_{kk} - \lambda| \leq 
+                \sum_{l = 1,l \neq k}^{n} |A_{kl}| \implies \lambda \in R_k \implies 
+                \lambda \in \bigcup_{j = 1}^n R_j, \forall \lambda \implies 
+                \sigma(A) \subseteq \bigcup_{j = 1}^n R_j
+            \end{aligned}
+        \end{equation*}
     \end{proof}
 \end{teorema}
-
-Questo mi serve perché posso trovare l'intervallo finale in cui sono inclusi tutti 
-gli autovalori. Quindi se l'intervallo non contiene lo $0$ allora tutti gli autovalori 
-sono $\ne 0$ e quindi il determinante $\ne 0$, quindi la matrice è invertibile.
-
+Questo mi permette di identificare l'intervallo in cui sono inclusi tutti gli
+autovalori. Quindi se l'intervallo non contiene lo $0$ allora tutti gli autovalori
+sono $\neq 0$ e quindi il determinante $\ne 0$, quindi la matrice è invertibile.
 \begin{nota}
-    $R_j$ è l'insieme dei numeri complessi che distano $\le$ la somma delle entrate 
+    $R_j$ è l'insieme dei numeri complessi che distano $\le$ la somma delle entrate
     alla riga $j$ esclusa l'entrata $A_{jj}$. Vengono chiamata \textbf{cerchi Greshgorin}.
 \end{nota}
-
 \section{Metodo delle potenze}
-Algoritmo per calcolare l'autovalore della matrice $A$ di modulo massimo e l'autovettore 
-associato.
+Algoritmo per calcolare l'autovalore della matrice $A$ di modulo massimo e 
+l'autovettore associato.
 
-Data $A\in \mathbb{R}^{n\times n}$, $\{\lambda_j\}^n_{j=1}$ autovalori tali che 
-$$|\lambda_1|> |\lambda_2| \ge \dots \ge |\lambda_N|$$
-
-Il problema di questo metodo è che si assume che $|\lambda_1|> |\lambda_2|$, 
-se fosse $|\lambda_1| = |\lambda_2|$ allora non si avrebbe la convergenza. 
+Data $A\in \mathbb{R}^{n\times n}$, $\{\lambda_j\}^n_{j = 1}$ autovalori tali che:
+\begin{equation*}
+    |\lambda_1|> |\lambda_2| \ge \dots \ge |\lambda_N|
+\end{equation*}
+Il problema di questo metodo è che si assume che $|\lambda_1|> |\lambda_2|$,
+se fosse $|\lambda_1| = |\lambda_2|$ allora non si avrebbe la convergenza.
 
 Dato $\underline{q}^{(0)}\in \mathbb{R}^n$ generico tale che $\|\underline{q}^{(0)}\|_2=1$.
-
-% TODO: pseudocodice
-
+A questo punto si itera il seguente algoritmo:
+\begin{equation*}
+    \underline{q}^{(k+1)} = \frac{A\underline{q}^{(k)}}{\|A\underline{q}^{(k)}\|_2}
+\end{equation*}
+per ottenere l'autovalore $\lambda_1$ possiamo calcolare l'autovalore massimo come:
+\begin{equation*}
+    \lambda_1^{(k + 1)} = q^{(k+1)T}Aq^{(k+1)}
+\end{equation*}
 \begin{nota}
-    Se $A$ è diagonalizzabile con autovettori $\{\underline{v}_{\lambda_j}\}$,tale che 
-    gli autovettori sono una base di $\mathbb{R}^n$
+    Se $A$ è diagonalizzabile con autovettori $\{\underline{v}_{\lambda_j}\}$, 
+    tale che gli autovettori sono una base di $\mathbb{R}^n$.
 \end{nota}
-
-Essendo che che gli autovettori sono dei vettori generatori allora 
+Essendo che che gli autovettori sono dei vettori generatori allora
