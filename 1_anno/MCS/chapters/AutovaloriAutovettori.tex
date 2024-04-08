@@ -1,0 +1,83 @@
+\chapter{Autovalori e autovalori}
+
+\begin{definizione} [\textbf{Autovalore e autovettore}]
+    Data una matrice $A\in \mathbb{R}^{n\times n}$ un autovalore di una matrice 
+    e l'autovettore associato 
+    sono una coppia $(\lambda, \underline{v}_\lambda)\in \mathbb{C}\times\mathbb{C}^{n}$
+    tale che 
+    $$A\underline{v}_\lambda = \lambda \underline{v}_\lambda $$
+\end{definizione}
+
+Possiamo sfruttare la norma di matrice $\|A\|=\max _{\underline{x}_\lambda\in \mathbb{R}^n}\frac{\|A\underline{x}_\lambda\|}{\|\underline{x}_\lambda\|} $
+
+Quindi possiamo dire come sono fatti gli autovalori 
+% TODO: scrivi procedimento
+$|\lambda| \le \|A\|$. Il problema di questa caratterizzazione è che non è facilmente 
+computabile per $A$ molto grandi.
+
+\begin{teorema} [\textbf{Greshgorin}]
+    Definniamo $\sigma(A):=\{\lambda | \lambda\text{ è autovalore di }A\}$ (è lo 
+    spettro della matrice). Definiamo $R_j:=\{z\in \mathbb{C}| |z-A_{jj}| \le \sum_{l=1, l\ne j}^{n} |A_{jl}|\}$.
+    Allora $\sigma(A)\subseteq \bigcup_{j=1}^n R_j$. 
+    \begin{proof}
+        Sia $\lambda = A_{jj}$ per qualche $j=1\dots n$ allora $\lambda$ è all'interno
+        della palla.
+        
+        Quindi senza perdere generalità, sia $\lambda \ne A_{jj},\forall j=1\dots n$.
+        Sia $\underline{v}_\lambda$ il vettore associato a $\lambda$, conosco che 
+        $A \underline{v}_\lambda = \lambda \underline{v}_\lambda \implies (A-\lambda Id)\underline{v}_\lambda = \underline{0}$.
+        Spezzo $A=D+E$ dove $D= diag(A)$ mentre $E= E-diag(A)$. Sappiamo che $D-\lambda Id$ è
+        una matrice diagonale ed invertibile perché stiamo assumendo che $\lambda \ne A_{jj}, \forall j =1\dots n$.
+        
+        $(A-\lambda Id)\underline{v}_\lambda = \underline{0} \implies (D+E-\lambda Id)\underline{v}_\lambda = \underline{0}\implies (D-\lambda Id)\underline{v}_\lambda = -E\underline{v}_\lambda \implies
+        \underline{v}_\lambda = -(D-\lambda Id)^{-1}E\underline{v}_\lambda$
+
+        Quindi possiamo passare alle norme:
+        
+        $\|\underline{v}_\lambda\| = \|-(D-\lambda Id)^{-1}E\underline{v}_\lambda\|$
+
+        Per ogni norma possiamo dire 
+        $\|\underline{v}_\lambda\| = \|-(D-\lambda Id)^{-1}E\|\|\underline{v}_\lambda\|\implies 1\le \|(D-\lambda Id)^{-1}E\|$.
+        
+        Facciamo una digressione, scelgo la norma $\infty$, allora $\|M\underline{x}\|_\infty = \max_{j=1}^n|\sum_{l=1}^{n}M_{jl}x_j|\le \max_{j=1}^n\sum_{l=1}^{n}|M_{jl}||x_j|\le 
+        \max_{j=1}^n|\sum_{l=1}^{n}M_{jl}|(\max_{j=1}^n|x_j|)\le\|\underline{x}\|_\infty  \max_{j=1}^n|\sum_{l=1}^{n}M_{jl}|$
+        $\dots$
+
+        Tornando alla dimostrazione, continuamo
+        $$1\le \|(D-\lambda Id)^{-1}E\|_\infty \implies 1 \le \max_{j=1}^n\sum_{l=1,j\ne l}^{n} \frac{|A_{jl}|}{|A_{jj}-\lambda|}
+        = \sum_{l=1,l\ne k}^{n} \frac{|A_{kl}|}{|A_{kk}-\lambda|}, \text{per qualche}k = 1\dots n\implies$$
+        $$|A_{kk}-\lambda| \le \sum_{l=1,l\ne k}^{n} |A_{kl}| \implies \lambda \in R_k\implies \lambda \in \bigcup_{j=1}^n R_j, \forall \lambda \impl 
+        \sigma(A)\subseteq \bigcup_{j=1}^n R_j$$
+
+    \end{proof}
+\end{teorema}
+
+Questo mi serve perché posso trovare l'intervallo finale in cui sono inclusi tutti 
+gli autovalori. Quindi se l'intervallo non contiene lo $0$ allora tutti gli autovalori 
+sono $\ne 0$ e quindi il determinante $\ne 0$, quindi la matrice è invertibile.
+
+\begin{nota}
+    $R_j$ è l'insieme dei numeri complessi che distano $\le$ la somma delle entrate 
+    alla riga $j$ esclusa l'entrata $A_{jj}$. Vengono chiamata \textbf{cerchi Greshgorin}.
+\end{nota}
+
+\section{Metodo delle potenze}
+Algoritmo per calcolare l'autovalore della matrice $A$ di modulo massimo e l'autovettore 
+associato.
+
+Data $A\in \mathbb{R}^{n\times n}$, $\{\lambda_j\}^n_{j=1}$ autovalori tali che 
+$$|\lambda_1|> |\lambda_2| \ge \dots \ge |\lambda_N|$$
+
+Il problema di questo metodo è che si assume che $|\lambda_1|> |\lambda_2|$, 
+se fosse $|\lambda_1| = |\lambda_2|$ allora non si avrebbe la convergenza. 
+
+Dato $\underline{q}^{(0)}\in \mathbb{R}^n$ generico tale che $\|\underline{q}^{(0)}\|_2=1$.
+
+% TODO: pseudocodice
+
+\begin{nota}
+    Se $A$ è diagonalizzabile con autovettori $\{\underline{v}_{\lambda_j}\}$,tale che 
+    gli autovettori sono una base di $\mathbb{R}^n$
+\end{nota}
+
+Essendo che che gli autovettori sono dei vettori generatori allora 
