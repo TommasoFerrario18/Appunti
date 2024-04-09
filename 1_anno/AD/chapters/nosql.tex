@@ -11,9 +11,9 @@ opzione disponibile. In questo capitolo, esploreremo un'alternativa ai
 database relazionali: i database NoSQL.
 \section*{Use Cases}
 \subsection*{Crypto}
-Iniziamo analizzando il seguente Use Case: un cliente vuole salvare dati legati 
-alle crypto che vengono forniti da un API. Con le conoscenze conseguite fino a 
-questo momento, salveremo tutto su una tabella di un DBMS relazionale dove si 
+Iniziamo analizzando il seguente Use Case: un cliente vuole salvare dati legati
+alle crypto che vengono forniti da un API. Con le conoscenze conseguite fino a
+questo momento, salveremo tutto su una tabella di un DBMS relazionale dove si
 hanno 5 colonne:
 \begin{itemize}
       \item id
@@ -24,18 +24,18 @@ hanno 5 colonne:
 \end{itemize}
 Questa soluzione presenta dei problemi, ad esempio, se si volesse salvare
 informazioni aggiuntive o se la risposta dell'API si dovesse modificare, si
-dovrebbe modificare la tabella. Un altro problema sorge quando nella risposta 
-sono contenuti elementi complessi, come ad esempio un array di oggetti. In questa 
-situazione, usando un database relazionale, si dovrebbero creare tabelle diverse 
-e ogni volta che si vuole fare una nuova interrogazione è necessario fare delle 
+dovrebbe modificare la tabella. Un altro problema sorge quando nella risposta
+sono contenuti elementi complessi, come ad esempio un array di oggetti. In questa
+situazione, usando un database relazionale, si dovrebbero creare tabelle diverse
+e ogni volta che si vuole fare una nuova interrogazione è necessario fare delle
 join tra le tabelle. Questo comporta un rallentamento delle prestazioni.
 
 Una soluzione per ridurre il numero di join è quello di duplicare i dati, il
 problema in questo caso non è più legato alla velocità delle interrogazioni, ma
-al mantenere la consistenza dei dati. 
+al mantenere la consistenza dei dati.
 
-In aggiunta posso ridurre le tabelle unendole creando una grande tabella che può 
-essere frammentata a livello fisico, il problema di questa soluzione è che si 
+In aggiunta posso ridurre le tabelle unendole creando una grande tabella che può
+essere frammentata a livello fisico, il problema di questa soluzione è che si
 vanno a inserire un elevato numero di valori \texttt{null}.
 \subsection*{Social network}
 Un altro caso d'uso è il social network in cui si vuole salvare la relazione di
@@ -280,356 +280,451 @@ Mongo permette di creare degli indici per velocizzare le operazioni.
       \end{center}
 \end{esempio}
 Nelle interrogazioni, tutte le clausole sono specificate in \texttt{AND}, se si
-vuole specificare in \texttt{OR} è necessario utilizzare il comando $\$or$ seguito
-da una lista di oggetti JSON.
+vuole specificare in \texttt{OR} è necessario utilizzare il comando \$$or$ seguito
+      da una lista di oggetti JSON.
 
-Nelle versioni successive è stato definito il concetto di \textbf{aggregation} e
-di \textbf{pipeline}. Una pipeline è un comando che rappresenta una sequenza di
-operazioni che vengono eseguite in serie e possono essere usate per operazioni
-di analytics.
+      Nelle versioni successive è stato definito il concetto di \textbf{aggregation} e
+      di \textbf{pipeline}. Una pipeline è un comando che rappresenta una sequenza di
+      operazioni che vengono eseguite in serie e possono essere usate per operazioni
+      di analytics.
 
-\begin{nota}
-      Dato un problema non sempre per avere efficienza dobbiamo scegliere la
-      soluzione banale, spesso dobbiamo prendere soluzioni controintuitive. Ex:
-      salvare i dati non in modo efficiente e sfruttare la potenza di esecuzione
-      delle query dei DBMS.
-\end{nota}
-\begin{nota}
-      Un documento è un albero.
-\end{nota}
-\subsection{Graph based}
-I database graph-based memorizzano i dati salvando le informazioni nei nodi e
-utilizzando gli archi per definire delle relazioni tra esse. Questi database sono
-utili per memorizzare dati che hanno relazioni complesse, come ad esempio le
-relazioni dei social network.
+      \begin{nota}
+            Dato un problema non sempre per avere efficienza dobbiamo scegliere la
+            soluzione banale, spesso dobbiamo prendere soluzioni controintuitive. Ex:
+            salvare i dati non in modo efficiente e sfruttare la potenza di esecuzione
+            delle query dei DBMS.
+      \end{nota}
+      \begin{nota}
+            Un documento è un albero.
+      \end{nota}
+      \subsection{Graph based}
+      I database graph-based memorizzano i dati salvando le informazioni nei nodi e
+      utilizzando gli archi per definire delle relazioni tra esse. Questi database sono
+      utili per memorizzare dati che hanno relazioni complesse, come ad esempio le
+      relazioni dei social network.
 
-Spesso si usano per reti sociali, recommendations systems, logistica, financial
-transaction, bioinformatica, autorizzation and access control.
+      Spesso si usano per reti sociali, recommendations systems, logistica, financial
+      transaction, bioinformatica, autorizzation and access control.
 
-I database basati sui grafi godono delle seguenti proprietà:
-\begin{itemize}
-      \item \textbf{Storage}:
-            \begin{itemize}
-                  \item \textbf{Nativo}: i dati vengono salvati sotto forma di
-                        grafo, si ha la problematica legata alla scalabilità 
-                        della soluzione.
-                  \item \textbf{Non nativo}: i dati vengono salvati in una struttura 
-                        differente da un grafo, ma che logicamente permette di essere
-                        visto come un grafo.
-            \end{itemize}
-      \item \textbf{Processing engine}:
-            \begin{itemize}
-                  \item \textbf{Nativo}: permette di effettuare direttamente query
-                        nel linguaggio dei grafi, sfruttando le proprietà dei 
-                        grafi. Il problema di questa soluzione è dovuto al fatto 
-                        che bisogna mappare le query reali utilizzando le proprietà 
-                        del grafo.
-                  \item \textbf{Non nativo}: permette di utilizzare un altro 
-                        linguaggio (es. SQL) per effettuare query che non devono 
-                        per forza essere proprietà del grafo.
-            \end{itemize}
-\end{itemize}
-Lo storage nativo, spesso si basa sull'\textbf{index friend adjacency}, ovvero 
-i nodi che sono vicini sono fisicamente salvati insieme. Questo permette di 
-effettuare query molto velocemente, ma la costruzione del grafo è molto lenta.
-
-Il collegamento tra concetti si effettua attraverso un cammino tra nodi, mentre 
-nel relazionale si effettua tramite valori, invece nel documentale si usa l'embedding.
-
-La struttura a grafo dei dati permette di rappresentare le informazioni 
-attraverso un database documentale, ma essendo la base di tale modello una 
-struttura ad albero risulta più complesso mappare le relazioni tra i dati. 
-Per risolvere questo problema si utilizzando i riferimenti tra vari documenti.
-
-Un modo efficiente per modellare un grafo in modo non nativo è quello di sfruttare 
-i vicini. Ad esempio, in un modello documentale possiamo utilizzare l'embedding
-per memorizzare i nodi vicini, mentre per i nodi lontani possiamo utilizzare i
-riferimenti.
-
-Una seconda soluzione è quella di usare relazioni differenti nel grafo per aumentare
-l'espressività del grafo e semplifica i collegamenti. Questo può essere implementato
-facilmente.
-
-\begin{esempio}
-      Metti l'esempio del confronto delle interrogazioni tra modelli.
-\end{esempio}
-
-Nel modello a grafo, ogni nodo rappresenta le informazioni al suo interno con 
-delle proprietà, ovvero coppie chiave-valore dove la chiave è rappresentata 
-dall'etichetta e il valore rappresenta l'informazione. Anche le relazioni possono
-avere un etichetta a cui è associata una proprietà.
-
-Una stessa informazione può essere modellata in modi diversi, la scelta dipende
-dalle query che si vogliono effettuare. Le due soluzioni sono:
-\begin{itemize}
-      \item \textbf{Stessa etichetta}: si ha una sola etichetta per accedere
-            a tutte le informazioni, mentre all'interno della relazione si specifica
-            il tipo di informazione.
-      \item \textbf{Etichette multiple}: si ha una relazione per ogni tipo di
-            informazione.
-\end{itemize}
-Ad esempio, per modellare una situazione in cui a una persona sono associati più
-indirizzi, si possono utilizzare le due soluzioni, la scelta dipende dalle 
-tipologie di query che si vogliono effettuare. Se si vogliono trovare tutti 
-gli indirizzi di una persona, allora è meglio utilizzare una soluzione in cui 
-si ha una stessa etichetta per accedere a tutti gli indirizzi e poi all'interno 
-della relazione si specifica il tipo di indirizzo. Mentre, se si vogliono 
-effettuare query per sapere uno specifico tipo di indirizzo è più conveniente
-utilizzare una relazione per ogni tipo di indirizzo. 
-
-\paragraph{Query language}
-La modellazione tramite grafo risulta semplice a livello semantico da costruire,
-il problema è che non si ha uno standard per il Query language, eccone alcuni:
-\begin{itemize}
-      \item \textbf{Cypher}: linguaggio dichiarativo basato sul \textbf{pattern-matching 
-      query language} (come SQL), infatti cerca tutti i sottografi che metchano 
-      con il grafo di query. Permette di effettuare aggregation, ordering
-      e limit.
-
-      Il risultato di una query grafo può essere una tabella o un sottografo.
-      \item \textbf{Gremlin} (graph traversal language): la query consiste nel specificare 
-      un percorso, il percorso si inizializza in tutti i nodi e la query specifica
-      dei constrain su archi e nodi per selezionare quali percorsi considerare. 
-
-      Questo linguaggio è pensato per essere eseguito ad agenti, quindi è parallelizzabile
-      ed eseguibile in ambienti distribuiti.
-\end{itemize}
-
-\paragraph{ArangoDB (Esempio multimodel DB)}
-
-\textbf{ArangoDB} è un DBMS che supporta i seguenti modelli:
-\begin{itemize}
-      \item \textbf{keyvalue}
-      \item \textbf{graph}
-      \item \textbf{document}
-      \item \textbf{ricerca full text}
-\end{itemize}
-
-Tutti i modelli sono gestiti come documenti JSON, più precisamente si hanno due 
-documenti principali:
-\begin{itemize}
-      \item \textbf{databases} (schemas): contengono lo schema generico delle collections 
-      \item \textbf{collections} (tables): contengono documenti JSON di tipi simili
-\end{itemize} 
-
-In questo modo si possono facilmente gestire i modelli keyvalue. Per quanto riguarda 
-il graph model, in questo caso ArangoDB utilizza una collection per specificare 
-i nodi, ciascun nodo viene descritto da un documento JSON. Successivamente si 
-rappresentano i collegamenti utilizzando una nuova collection che contiene un documento 
-JSON per ogni arco. Il documento contiene gli indici dei due nodi e quindi si effettua
-il referencing tra documenti. In fase di query si effettuerà la Join per collegare 
-i nodi agli archi.
-
-\subsection{Distribuited NoSQL}
-
-I sistemi RDBMS sono facilmente scalabili verticalmente (potenziamento della singola 
-macchina), ma non sono facilmente scalabili orizzontalmente (aggiungere nodi all'infinito al cluster).
-Questo vincolo è dovuto alle proprietà ACID che devono essere mantenute.
-
-Negli ultimi hanni è stato dimostrato il seguente teorema.
-
-\begin{teorema} [\textbf{CAP}]
-      In un sistema distribuito non è possibile che contemporaneamente si hanno 
-      le seguenti proprietà garantite:
+      I database basati sui grafi godono delle seguenti proprietà:
       \begin{itemize}
-            \item consistenza (Consistency)
-            \item disponibilità (Availability)
-            \item tolleranza alle partizioni (Partision tolerance)
-      \end{itemize}      
-      Il sistema può soddisfarne al più due contemporanemente.
-\end{teorema}
-
-Con la nuova scoperta si ogni DBMS si è incentrato su solo 2 proprietà di quelle 
-descritte. Generalmente i RDBMS rispettano CA, mentre per i NoSQL, per via delle 
-proprietà BASIC, non si limitano alla combinazione di solo CA. Con queste considerazioni
-i sistemi NoSQL sono più facili da scalare (vedi figura \ref{fig:cap}).
-
-\begin{figure} [!h]
-      \centering
-      \includegraphics[width=0.5\textwidth]{img/nosql/CAP.png}
-      \caption{DBMS con le proprietà che assicurano di rispettare}
-      \label{fig:cap}
-\end{figure}
-
-\paragraph{Keyvalue model: Redis}
-Redis essengo un keyvalue non effettua frammentazione, permette di creare dei 
-cluster con più nodi e permette di implementare meccanismi automatici e trasparenti
-di replica per avere alta Availability.
-
-La replica può essere implementata a livello di cluster, si utilizza un cluster 
-"Master" di nodi su cui si effettuano le letture e le scritture, successivamente 
-si utilizzano dei cluster "Slave" di nodi su cui si effettua la replica dei cluster 
-"Master", questi vengono usati principalmente in lettura. Un'altra implementazione 
-è tramite la definizione delle repliche sugli stessi nodi del cluster, questo 
-comporta che non abbiamo meccanismi Master-slave a livello di cluster, bensì a livello
-di nodi. Quindi per ogni cluster possiamo sia leggere sia scrivere (vedi \ref{fig:dist_redis}). 
-
-
-\begin{figure} [!h]
-      \centering
-      \includegraphics[width=0.5\textwidth]{img/nosql/redis_distribuited.png}
-      \caption{Due metodologie per replicare con Redis}
-      \label{fig:dist_redis}
-\end{figure}
-
-\paragraph{Comn Family model: HBASE}
-La distribuzione con HBase si basa sul meccanismo Master-slave e sulla frammentazione 
-orizzontale, ciascun frammento si chiama \textbf{Region}. 
-
-La distribuzione si basa su 2 componenti:
-\begin{itemize}
-      \item \textbf{HBase master}: è un'istanza di HBase che si occupa di coordinare gli slave,
-      assegna i region agli slave e riconosce i fallimenti. Permette inoltre di 
-      effettuare operazioni di admin.
-      \item \textbf{Region server}: sono le singole istanze slaves del cluster,
-      si occumano di salvare effettivamente i region assegnati dal master e si 
-      occupa di gestirli, fornisce le funzioni di lettura e scrittura dei suoi region
-      tramite i log. Su ogni Region server si possono implementare meccanismi di replica.
-\end{itemize}
-
-Il cluster sarà formato da un nodo HBase master e tanti Region Server, quest'ultimi 
-possono avere diversi nodi per la replica. Nel cluster si avrà poi un'orchestratore
-(zookeeper) che permette il coordinamento tra Client, Master e Slaves in modo da 
-risolvere eventuali problemi di fallimento (vedi \ref{fig:dist_hbase})
-
-
-\begin{figure} [!h]
-      \centering
-      \includegraphics[width=0.4\textwidth]{img/nosql/hbase_distribuited.png}
-      \caption{Architettura distribuita HBase}
-      \label{fig:dist_hbase}
-\end{figure}
-
-\paragraph{Comn Family model: CASSANDRA}
-
-Cassandra distribuito ha un'architettura a cluster, ciascuno viene gestito in peer 
-to peer con una rete ad anello. I dati vengono partizionati tra in nodi della rete e 
-per risolvere i fallimenti si usa la replicaizone. Si scrive e legge su 
-qualsiasi nodo, il numero di nodi del cluster può essere aggiornato a runtime. 
-Le performance dipendono linearmente rispetto al numero di nodi.
-
-Essendo un'architettura perr-to-peer allora non ha single point of failure 
-fornendo massima Availability. In aggiunta si può partizionare il database 
-su più cluster differenti e separati geograficamente. 
-
-Cassandra implementa anche la replicazione dei dati di un cluster in due modi:
-\begin{itemize}
-      \item \textbf{replicazione su un nodo}: si replicano i dati sullo stesso nodo
-      \item \textbf{replicazione su un nodo diverso}: si replicano i dati su un altro nodo 
-      dello stesso cluster. Questo permette di salvarsi dalla perdita di dati se 
-      un nodo si guasta perché ci sarà una replica in un altro nodo.
-\end{itemize} 
-Si utilizzerà zookeeper per gestire le repliche, nota che le repliche devono essere 
-almento $3$.
-
-Il singolo cluster gestisce una partizione del database e nel singolo cluster si 
-ha un ulteriore partizionamento dei dati che dai che deve gestire tra i suoi nodi. Il 
-partizionamento sul singolo cluster avviene sfruttando l'hashing. I nodi sono 
-formano un anello topologico, l'intero anello può essere considerato come un intervallo 
-di valori $[0,1]$ che corrisponde all'intervalo dei valori che possono restituire 
-le funzioni di hash applicate sulle chiavi. Ciascun nodo viene posizionato nell'anello
-ad un particolare valore, in questo modo ciascun nodo si occupa dei dati le cui 
-funzioni di hash applicate sull'indice ritorna un valore compreso tra il valore del
-nodo precedente e il suo valore. Per risolvere eventuali problemi di overload di 
-un nodo, si possono spostare i nodi su altri valori dell'anello topologico e si
-replicano i dati di conseguenza. 
-Quando si aggiunge un nuovo nodo al cluster, si inserisce nell'anello ad un particolare 
-valore e si replicano i dati del nodo successivo che cadono nell'intervallo del 
-nuovo nodo nel nuovo nodo.
-
-Dal momento che si ha un'architettura peer-to-peer, per comunicare lo stato 
-dei nodi e la locazione dei dati nel cluster si usa il \textbf{gossip protocol},
-in sostanza se i dati non sono sul nodo attuale allora chiedo a quelli adiacienti,
-i quali se non hanno le informazioni chiedono a quelli adiacienti, fino a quando non 
-sono stati visitati tutti. Vista la ridondanza della comunicazione allora 
-il protocollo è molto robusto. 
-
-Utilizzando il \textbf{gossip protocol} si può facilemnte \textbf{identificare il fallimento},
-infatti ogni nodo tiene salvato la sua probabilità di fallimento e in fase 
-di comunicazione, in base alla velocità delle risposte aggiorna la sua probabilità,
-in questo modo si aumenta quando le condizioni della rete peggiorano, come la 
-latenza ecc\dots
-
-Si usa una soglia che specifica sopra quanto la probabilità deve essere per considerare
-il nodo dead. (non si usa il timeout perché è troppo stringente)
-
-% ! non so quanto sia corretto sul failure detection
-
-Le operazioni di scrittura su ciascun nodo seguono questi passi:
-\begin{itemize}
-      \item scrivo l'operazione nel LOG
-      \item scrivo il dato in RAM
-      \item quando i dati in RAM sono abbastanza scrivo su disco
-\end{itemize}
-
-Dal momento che si hanno partizioni e repliche in un particolare cluster, diventa 
-fondamentale gestire la consistenza, in fase di query si deve specificare 
-la tipologia di consistenza e il replication\_factor e successivamente in base alle operazioni 
-si hanno diversi livelli di consistenza;
-\begin{itemize}
-      \item scrittura:
-      \begin{itemize}
-            \item consistency one: si ritorna la risposta al client dopo una scrittura 
-            su disco solo su un nodo del cluster
-            \item consistency all: si ritorna la risposta al client dopo una scrittura 
-            su disco solo su un numero di nodi del cluster pari al replication factor 
-            \item consistency quorum: si ritorna la risposta al client dopo $replication\_factor/2+1$ nodi che 
-            hanno scritto su disco
+            \item \textbf{Storage}:
+                  \begin{itemize}
+                        \item \textbf{Nativo}: i dati vengono salvati sotto forma di
+                              grafo, si ha la problematica legata alla scalabilità
+                              della soluzione.
+                        \item \textbf{Non nativo}: i dati vengono salvati in una struttura
+                              differente da un grafo, ma che logicamente permette di essere
+                              visto come un grafo.
+                  \end{itemize}
+            \item \textbf{Processing engine}:
+                  \begin{itemize}
+                        \item \textbf{Nativo}: permette di effettuare direttamente query
+                              nel linguaggio dei grafi, sfruttando le proprietà dei
+                              grafi. Il problema di questa soluzione è dovuto al fatto
+                              che bisogna mappare le query reali utilizzando le proprietà
+                              del grafo.
+                        \item \textbf{Non nativo}: permette di utilizzare un altro
+                              linguaggio (es. SQL) per effettuare query che non devono
+                              per forza essere proprietà del grafo.
+                  \end{itemize}
       \end{itemize}
-      
-      \item lettura:
+      Lo storage nativo, spesso si basa sull'\textbf{index friend adjacency}, ovvero
+      i nodi che sono vicini sono fisicamente salvati insieme. Questo permette di
+      effettuare query molto velocemente, ma la costruzione del grafo è molto lenta.
+
+      Il collegamento tra concetti si effettua attraverso un cammino tra nodi, mentre
+      nel relazionale si effettua tramite valori, invece nel documentale si usa l'embedding.
+
+      La struttura a grafo dei dati permette di rappresentare le informazioni
+      attraverso un database documentale, ma essendo la base di tale modello una
+      struttura ad albero risulta più complesso mappare le relazioni tra i dati.
+      Per risolvere questo problema si utilizzando i riferimenti tra vari documenti.
+
+      Un modo efficiente per modellare un grafo in modo non nativo è quello di sfruttare
+      i vicini. Ad esempio, in un modello documentale possiamo utilizzare l'embedding
+      per memorizzare i nodi vicini, mentre per i nodi lontani possiamo utilizzare i
+      riferimenti.
+
+      Una seconda soluzione è quella di usare relazioni differenti nel grafo per aumentare
+      l'espressività del grafo e semplifica i collegamenti. Questo può essere implementato
+      facilmente.
+
+      \begin{esempio}
+            Metti l'esempio del confronto delle interrogazioni tra modelli.
+      \end{esempio}
+
+      Nel modello a grafo, ogni nodo rappresenta le informazioni al suo interno con
+      delle proprietà, ovvero coppie chiave-valore dove la chiave è rappresentata
+      dall'etichetta e il valore rappresenta l'informazione. Anche le relazioni possono
+      avere un etichetta a cui è associata una proprietà.
+
+      Una stessa informazione può essere modellata in modi diversi, la scelta dipende
+      dalle query che si vogliono effettuare. Le due soluzioni sono:
       \begin{itemize}
-            \item consistency one: si ritorna la risposta al client dopo la lettura 
-            su un nodo del cluster
-            \item consistency all: si ritorna la risposta al client dopo una lettura 
-            solo su un numero di nodi del cluster pari al replication factor 
+            \item \textbf{Stessa etichetta}: si ha una sola etichetta per accedere
+                  a tutte le informazioni, mentre all'interno della relazione si specifica
+                  il tipo di informazione.
+            \item \textbf{Etichette multiple}: si ha una relazione per ogni tipo di
+                  informazione.
       \end{itemize}
-\end{itemize} 
+      Ad esempio, per modellare una situazione in cui a una persona sono associati più
+      indirizzi, si possono utilizzare le due soluzioni, la scelta dipende dalle
+      tipologie di query che si vogliono effettuare. Se si vogliono trovare tutti
+      gli indirizzi di una persona, allora è meglio utilizzare una soluzione in cui
+      si ha una stessa etichetta per accedere a tutti gli indirizzi e poi all'interno
+      della relazione si specifica il tipo di indirizzo. Mentre, se si vogliono
+      effettuare query per sapere uno specifico tipo di indirizzo è più conveniente
+      utilizzare una relazione per ogni tipo di indirizzo.
+      \paragraph{Query language}
+      La modellazione tramite grafo risulta semplice a livello semantico da costruire,
+      il problema è che non si ha uno standard per il Query language, eccone alcuni:
+      \begin{itemize}
+            \item \textbf{Cypher}: linguaggio dichiarativo basato sul \textbf{
+                        pattern-matching query language} (come SQL), infatti
+                  cerca tutti i sottografi che metchano con il grafo di query.
+                  Permette di effettuare aggregation, ordering e limit.
 
-Le query di cancellazione vengono implementate attraverso le marcature che 
-comunicano che il record è cancellato ma lo cancellano effettivamente in un secondo 
-momento, più precisamente attraverso \textbf{major compaction} o dopo un timer.
+                  Il risultato di una query grafo può essere una tabella o un
+                  sottografo. La notazione di Cypher è la seguente:
+                  \begin{center}
+                        \texttt{(nodo)-[:etichetta]->(nodo2)}
+                  \end{center}
+                  Mettendo più condizioni separate dalla virgola equivale a
+                  considerarle in and. Vediamo ora un esempio di query in Cypher:
+                  \begin{lstlisting}[language=SQL]
+                        MATCH (n:Person)-[r:KNOWS]->(m:Person)
+                        WHERE n.name = 'Alice'
+                        RETURN m.name
+                  \end{lstlisting}
+            \item \textbf{Gremlin} (graph traversal language): la query consiste
+                  nel specificare un percorso. Il percorso viene inizializzato in
+                  tutti i nodi. Nella query è possibile specificare dei constrain
+                  su archi e nodi per selezionare quali percorsi considerare.
 
-La \textbf{compaction} consiste nel riorganizzare tutte le SSTables sul singolo nodo per 
-eliminare i record marcati, compattare i record se ci sono dei duplicati e infine 
-riordinarli. Questo è utile per l'efficienza. Le SSTables sono le strutture su 
-disco nelle quali vengono salvati i dati.
+                  Questo linguaggio è pensato per essere eseguito ad agenti,
+                  quindi è parallelizzabile ed eseguibile in ambienti distribuiti.
 
-Per sincronizzare i dati tra diversi nodi si utilizza l'\textbf{entropia}, in sostanza
-si utilizzano degli hash tree, % ! non ci ho capito una sega
+                  Vediamo un esempio di query in Gremlin:
+                  \begin{lstlisting}[language=SQL]
+                        g.V().has('name', 'Marko').out('KNOWS').values('name')
+                  \end{lstlisting}
+      \end{itemize}
 
-Cassandra rientra nella catergoria AP.
-\paragraph{Document model: MongoDB}
-MongoDB ha un'architettura master (primary) e slave (secondary). 
-Si effettuano le scritture sul primary che poi replica sui secondary usando il 
-file di LOG del primary.
+      \section{Modelli poliglotti}
+      Esistono delle soluzioni che integrano più modelli di database in un unico
+      sistema, queste soluzioni sono chiamate modelli poliglotti.
 
-In sostanza ciascun cluster di nodi è chiamato shard, in ogni shard si identifica un nodo primary 
-e tutti gli altri saranno secondary. Se il primary dovesse cadere allora si effettuerà
-un'elezione tra i secondary per identificare il nuovo primary, l'elezione si 
-baserà sui nodi che sono più aggiornati e in questa fase le scritture si interrompono.
+      Un esempio di modello poliglotta è \textbf{ArangoDB}, un DBMS che supporta i
+      seguenti modelli:
+      \begin{itemize}
+            \item \textbf{keyvalue}
+            \item \textbf{graph}
+            \item \textbf{document}
+            \item \textbf{ricerca full text}
+      \end{itemize}
+      Tutti i modelli sono gestiti come documenti JSON, più precisamente si hanno due
+      documenti principali:
+      \begin{itemize}
+            \item \textbf{databases} (schemas): contengono lo schema generico delle collections
+            \item \textbf{collections} (tables): contengono documenti JSON di tipi simili
+      \end{itemize}
+      In questo modo si possono facilmente gestire i modelli key-value. Per quanto riguarda
+      il graph model, in questo caso ArangoDB utilizza una collection per specificare
+      i nodi, ciascun nodo viene descritto da un documento JSON. Successivamente si
+      rappresentano i collegamenti utilizzando una nuova collection che contiene un documento
+      JSON per ogni arco. Il documento contiene gli indici dei due nodi e quindi si effettua
+      il referencing tra documenti. In fase di query si effettuerà la Join per collegare
+      i nodi agli archi.
+      \section{Distribuited NoSQL}
+      I sistemi RDBMS sono facilmente scalabili verticalmente (\textbf{Scale up}),
+      ovvero si potenzia la singola macchina, ma non sono facilmente scalabili
+      orizzontalmente (\textbf{scale out}), il che consiste nell'aggiungere nodi
+      all'infinito al cluster.
 
-Per identificare quando un nodo dello shard cade si effettua un heartbeat con timeout
-per avvisare gli altri che sono attivi, nel replica set si ha una gerarchia dei 
-nodi, ogni nodo ha un numero che specifica il livello di priorità. In caso il 
-primary cade allora il secondary con la priorità più alta chiede le elezioni. 
-Ne replica set si possono avere al massimo 50 nodi di cui $7$ solo votanti.
+      Questo vincolo è dovuto alle proprietà ACID che devono essere rispettate per
+      definizione. Questo non è un problema per i database NoSQL, in quanto sono
+      progettati per essere scalati orizzontalmente. Infatti, per questi database vale
+      il CAP theorem, il quale afferma che:
+      \begin{teorema}[\textbf{CAP theorem}]
+            In un sistema distribuito non è possibile garantire contemporaneamente
+            le tre proprietà seguenti:
+            \begin{itemize}
+                  \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati
+                  \item \textbf{Availability}: ogni richiesta riceve una risposta
+                  \item \textbf{Partition tolerance}: il sistema continua a funzionare
+                        anche in presenza di partizioni di rete
+            \end{itemize}
+            al massimo due di queste proprietà possono essere garantite contemporaneamente.
+      \end{teorema}
+      Con la nuova scoperta si ogni DBMS si è incentrato su solo 2 proprietà di quelle
+      descritte. Generalmente i RDBMS rispettano CA, mentre per i NoSQL, per via delle
+      proprietà BASE, non si limitano alla combinazione di solo CA. Con queste considerazioni
+      i sistemi NoSQL sono più facili da scalare (vedi figura \ref{fig:cap}).
+      \begin{figure} [!ht]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/nosql/CAP.png}
+            \caption{DBMS con le proprietà che assicurano di rispettare}
+            \label{fig:cap}
+      \end{figure}
+      Oltre a questo teorema, i modelli NoSQL si basano sul principio \textbf{BASE},
+      ovvero:
+      \begin{itemize}
+            \item \textbf{Basically Available}: il sistema garantisce una disponibilità
+                  di servizio anche in presenza di fallimenti
+            \item \textbf{Soft state}: lo stato del sistema può cambiare anche in assenza
+                  di input
+            \item \textbf{Eventually consistent}: il sistema raggiunge uno stato consistente
+                  in un certo momento, anche se non è garantito che lo sia in ogni momento
+      \end{itemize}
+      \subsection{Keyvalue model: Redis}
+      Redis essengo un keyvalue non effettua frammentazione, permette di creare dei
+      cluster con più nodi e permette di implementare meccanismi automatici e trasparenti
+      di replica per avere alta Availability.
+
+      La replica può essere implementata a livello di cluster, si utilizza un cluster
+      "Master" di nodi su cui si effettuano le letture e le scritture, successivamente
+      si utilizzano dei cluster "Slave" di nodi su cui si effettua la replica dei cluster
+      "Master", questi vengono usati principalmente in lettura. Un'altra implementazione
+      è tramite la definizione delle repliche sugli stessi nodi del cluster, questo
+      comporta che non abbiamo meccanismi Master-slave a livello di cluster, bensì a
+      livello di nodi. Quindi per ogni cluster possiamo sia leggere sia scrivere
+      (vedi \ref{fig:dist_redis}).
+      \begin{figure} [!ht]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/nosql/redis_distribuited.png}
+            \caption{Due metodologie per replicare con Redis}
+            \label{fig:dist_redis}
+      \end{figure}
+
+      Le shard create possono essere:
+      \begin{itemize}
+            \item \textbf{Dense}: se un nodo ha abbastanza memoria allocata per il
+                  database, allora le shard possono essere posizionate sullo stesso nodo
+                  e solamente dopo che è pieno si passa a un nuovo nodo.
+            \item \textbf{Sparse}: viene utilizzato il massimo numero di nodi per
+                  distribuire le shard.
+      \end{itemize}
+      \subsection{Column Family model: HBASE}
+      La distribuzione con HBase si basa sul meccanismo Master-slave e sulla frammentazione
+      orizzontale, ciascun frammento si chiama \textbf{Region}.
+
+      La distribuzione si basa su 2 componenti:
+      \begin{itemize}
+            \item \textbf{HBase master}: è un'istanza di HBase che si occupa di
+                  coordinare gli slave, assegna i region agli slave e riconosce i
+                  fallimenti. Permette inoltre di effettuare operazioni di admin.
+            \item \textbf{Region server}: sono le singole istanze slaves del cluster,
+                  si occumano di salvare effettivamente i region assegnati dal master
+                  e si occupa di gestirli, fornisce le funzioni di lettura e scrittura
+                  dei suoi region tramite i log. Su ogni Region server si possono
+                  implementare meccanismi di replica.
+            \item \textbf{Hbase Client}: è il client che dialoga con il master per fare le
+                  richieste.
+      \end{itemize}
+      Il cluster sarà formato da un nodo HBase master e tanti Region Server, quest'ultimi
+      possono avere diversi nodi per la replica. Nel cluster si avrà poi un'orchestratore
+      (\textbf{ZooKeeper}) che permette il coordinamento tra Client, Master e Slaves
+      in modo da risolvere eventuali problemi di fallimento (vedi \ref{fig:dist_hbase})
+      \begin{figure} [!ht]
+            \centering
+            \includegraphics[width=0.4\textwidth]{img/nosql/hbase_distribuited.png}
+            \caption{Architettura distribuita HBase}
+            \label{fig:dist_hbase}
+      \end{figure}
+      \subsection{Column Family model: CASSANDRA}
+      Cassandra distribuito ha un'architettura a cluster, ciascuno viene gestito in peer
+      to peer con una rete ad anello. I dati vengono partizionati tra in nodi della rete e
+      per risolvere i fallimenti si usa la replicaizone. Si scrive e legge su qualsiasi
+      nodo, il numero di nodi del cluster può essere aggiornato a runtime.
+
+      Le performance dipendono linearmente rispetto al numero di nodi.
+
+      Essendo un'architettura peer-to-peer allora non ha single point of failure
+      fornendo massima Availability. In aggiunta si può partizionare il database
+      su più cluster differenti e separati geograficamente.
+
+      Cassandra implementa anche la replicazione dei dati di un cluster in due modi:
+      \begin{itemize}
+            \item \textbf{Replicazione su un nodo}: si replicano i dati sullo
+                  stesso nodo
+            \item \textbf{Replicazione su un nodo diverso}: si replicano i dati su un
+                  altro nodo dello stesso cluster. Questo permette di salvarsi dalla
+                  perdita di dati se un nodo si guasta perché ci sarà una replica in
+                  un altro nodo.
+      \end{itemize}
+      Si utilizzerà zookeeper per gestire le repliche, nota che le repliche devono essere
+      almento $3$.
+
+      Ogni cluster gestisce una partizione del database. Ognuna di queste presenta
+      un ulteriore partizionamento dei dati, il quale viene gestito dai nodi interni.
+
+      Il partizionamento avviene sfruttando funzioni di hashing. I nodi sono divisi in
+      modo logico in una forma ad anello, detta ring topology. Si usano quindi i valori
+      hash delle chiavi, associate alle partizioni dati, per assegnare l'informazione
+      a uno dei nodi.
+
+      Ciascun nodo viene posizionato nell'anello e gli viene associato un particolare
+      valore, in questo modo ciascun nodo si occupa dei dati le cui funzioni di hash
+      mappano l'informazione nella porzione di anello che va dal nodo precedente al
+      nodo stesso.
+
+      Quando si aggiunge un nuovo nodo si divide lo spazio di indirizzamento in modo
+      da avere una distribuzione uniforme e i dati vengono replicati in modo automatico.
+
+      Dal momento che si ha un'architettura peer-to-peer, per comunicare lo stato
+      dei nodi e la locazione dei dati nel cluster si usa il \textbf{gossip protocol}.
+      Questo protocollo permette di comunicare in modo efficiente tra i nodi, sfruttando
+      il seguente meccanismo: se i dati non sono sul nodo attuale, allora si chiede a
+      quelli adiacienti, i quali a loro volta controllano se hanno le informazioni. In
+      caso contrario chiedono a quelli adiacienti, fino a quando non sono stati visitati
+      tutti i nodi.
+
+      Utilizzando il \textbf{gossip protocol} si può facilemnte \textbf{identificare
+            il fallimento}, infatti, ogni nodo tiene salvato la sua probabilità di
+      fallimento e in fase di comunicazione, in base alla velocità delle risposte
+      aggiorna la sua probabilità, in questo modo si aumenta quando le condizioni
+      della rete peggiorano, come la latenza ecc\dots
+
+      Si usa una soglia che specifica sopra quanto la probabilità deve essere per considerare
+      il nodo dead. Non si usa una politica basata sui timeout in quanto la rete può
+      essere riempita di messaggi di gossip e quindi si può avere un ritardo.
+
+      Le operazioni di scrittura su ciascun nodo seguono questi passi:
+      \begin{itemize}
+            \item Scrivo l'operazione nel LOG
+            \item Scrivo il dato in RAM
+            \item Quando i dati in RAM sono abbastanza scrivo su disco
+      \end{itemize}
+
+      Dal momento che si hanno partizioni e repliche in un particolare cluster, diventa
+      fondamentale gestire la consistenza, in fase di query si deve specificare
+      la tipologia di consistenza e il replication\_factor e successivamente in base
+      alle operazioni si hanno diversi livelli di consistenza:
+      \begin{itemize}
+            \item scrittura:
+                  \begin{itemize}
+                        \item consistency one: si ritorna la risposta al client dopo una scrittura
+                              su disco solo su un nodo del cluster
+                        \item consistency all: si ritorna la risposta al client dopo una scrittura
+                              su disco solo su un numero di nodi del cluster pari al replication factor
+                        \item consistency quorum: si ritorna la risposta al client dopo $replication\_factor/2+1$ nodi che
+                              hanno scritto su disco
+                  \end{itemize}
+            \item lettura:
+                  \begin{itemize}
+                        \item consistency one: si ritorna la risposta al client dopo la lettura
+                              su un nodo del cluster
+                        \item consistency all: si ritorna la risposta al client dopo una lettura
+                              solo su un numero di nodi del cluster pari al replication factor
+                  \end{itemize}
+      \end{itemize}
+
+      Le query di cancellazione vengono implementate attraverso le marcature che
+      comunicano che il record è cancellato ma lo cancellano effettivamente in un secondo
+      momento, più precisamente attraverso \textbf{major compaction} o dopo un timer.
+
+      In merito alle operazioni di delete si ha che esse semplicemente rendono il
+      dato non disponibile, essendo più veloce cambiare un flag piuttosto che cancellare.
+      A causa di ciò comunque si creano nelle tabelle fisiche dei problemi di
+      spazio, quindi periodicamente si fanno dei merge, ovvero ogni singolo nodo
+      procede alla “compattazione” dei propri dati, sovrascrivendo i valori non più
+      disponibili.
+
+      Per assicurare la sincronizzazione dei nodi e per evitare perdita di consistenza
+      si utilizzano dei checksum per comparare i dati di un nodo con quelli dei
+      successivi. Per effettuare questo controllo, nel dettaglio, vengono usati degli
+      hash-tree detti \textbf{Merkle tree} nel seguente modo:
+      \begin{itemize}
+            \item Vengono mandati degli snapshot dei dati ai nodi successivi.
+            \item Vengono creati e trasmessi ad ogni “compattazione” principale.
+            \item Se due nodi prendono uno snapshot con un intervallo pari a
+                  \texttt{TREE\_STORE\_TIMEOUT} allora i due snapshot sono comparati e in
+                  caso di successo i dati vengono sincronizzati.
+      \end{itemize}
+      Cassandra rientra nella catergoria AP.
+      \subsection{Document model: MongoDB}
+      MongoDB ha un'architettura master (primary) e slave (secondary). Si effettuano le
+      scritture sul primary che poi replica sui secondary usando il file di LOG del primary.
+
+      In sostanza ciascun cluster di nodi è chiamato shard, in ogni shard si identifica
+      un nodo primary e tutti gli altri saranno secondary. Se il primary dovesse cadere
+      allora si effettuerà un'elezione tra i secondary per identificare il nuovo primary,
+      l'elezione si baserà sui nodi che sono più aggiornati e in questa fase le
+      scritture si interrompono.
+
+      Per identificare quando un nodo dello shard cade si effettua un heartbeat con timeout
+      per avvisare gli altri che sono attivi, nel replica set si ha una gerarchia dei
+      nodi, ogni nodo ha un numero che specifica il livello di priorità. In caso il
+      primary cade allora il secondary con la priorità più alta chiede le elezioni.
+      Ne replica set si possono avere al massimo 50 nodi di cui $7$ solo votanti.
+
 Un nodo può essere definito:
 \begin{itemize}
       \item votante: può lasciare un solo voto
       \item non votante: deve avere priorità a $0$
 \end{itemize}
 
-La frammentazione dei dati avviene separando i dati tra i vari shard. 
+La frammentazione dei dati avviene separando i dati tra i vari shard.
 
 L'architettura distribuita si basa su 3 componenti:
 \begin{itemize}
-      \item Mongos: entry point che esegue le query
-      \item Config server: server che gestiscono la configurazione del cluster che
-      contiene i diversi shard, questi devono essere gestiti in replica set per 
-      fornire sempre il servizio
+      \item mongos: è il punto di accesso software per le query, tutte le query
+            verranno eseguite su questo processo. Quando riceve una query capisce
+            dove sono i frammenti, grazie al config server, e quindi procede con
+            la query di tipo:
+            \begin{itemize}
+                  \item target query se deve interrogare solo un nodo
+                  \item broadcast query se deve interrogare più nodi
+            \end{itemize}
+      \item config server: ovvero un file che conosce la struttura degli shard,
+            conoscendo frammentazioni e repliche.
       \item Shards: singoli cluster che salvano un frammento dei dati.
 \end{itemize}
-
+La scrittura avviene sul nodo primario e si hanno diverse politiche in base
+tramite l'opzione writeConcern che dice cosa fare per le replicaSet. Si hanno
+tre parametri:
+\begin{itemize}
+      \item w: indica il numero di nodi in cui il dato deve essere replicato
+            prima di essere considerata conclusa l'operazione. Nel dettaglio,
+            possiamo avere:
+            \begin{itemize}
+                  \item w = 0: non da alcuna certezza di inserimento, utile per
+                        operazioni veloci
+                  \item w = 1: implica la scrittura sul nodo primary
+                  \item w = n: implica la scrittura su n nodi
+                  \item w = majority: dove almeno la metà dei nodi più 1 deve aver
+                        scritto prima della conferma dell'operazione
+            \end{itemize}
+      \item j: ovvero l'intenzione di scrivere sul log di Wiredtiger, tramite la
+            logica write ahead logging.
+      \item wtimeout: ovvero il tempo limite, espresso in ms, da aspettare nel
+            caso in cui $w > 0$, se 0 non devo aspettare risposta da nessuno.
+\end{itemize}
+Per quanto riguarda le letture, si utilizza una politica di readConcern, la quale
+deve essere consistente come per writeConcern, facendo scegliere se è più
+dispendioso scrivere o leggere:
+\begin{itemize}
+      \item local: è il valore di default per leggere i dati dai nodi in un
+            replicaSet. La query è fatta secondo la località spaziale e quindi
+            se legge un nodo non primary rischio di leggere dati non ancora
+            replicati.
+      \item available: di default per lettura su nodi secondari, che fa vedere
+            che il dato c'è ed è consistente.
+      \item majority: quando almeno metà più 1 repliche ha ricevuto un ack
+            in scrittura sul dato allora posso leggere.
+\end{itemize}
+Dalla versione 4.0 MongoDB ha introdotto nel modello documentale le transazione
+tramite l'engine Wiredtiger. Introduce quindi il concetto di log che indica che
+tutto è nel nodo primary. Si opera sempre sul nodo facendo un lock che può essere
+di tipo:
+\begin{itemize}
+      \item shared (S): per le letture
+      \item exclusive (X): per le scritture
+      \item intent sharded (IS): esprimere l'intenzione di bloccare in
+            modo condiviso uno dei nodi che discende dal nodo corrente.
+      \item intent exclusive (IX): per esprimere l'intenzione di bloccare in
+            modo esclusivo uno dei nodi che discende da quello corrente:
+\end{itemize}
 
 Mongo rientra nella catergoria CP.
