@@ -377,37 +377,56 @@ della relazione si specifica il tipo di indirizzo. Mentre, se si vogliono
 effettuare query per sapere uno specifico tipo di indirizzo è più conveniente
 utilizzare una relazione per ogni tipo di indirizzo. 
 
+\paragraph{Query language}
 La modellazione tramite grafo risulta semplice a livello semantico da costruire,
 il problema è che non si ha uno standard per il Query language, eccone alcuni:
 \begin{itemize}
-      \item cypher: linguaggio dichiarativo può effettuare aggregation, ordering
-      e limit. L'obiettivo di cypher è fare pattern matching, ovvero cerca tutti 
-      i sottografi che metchano con grafo di query. (esattamente come in prolog)
+      \item \textbf{Cypher}: linguaggio dichiarativo basato sul \textbf{pattern-matching 
+      query language} (come SQL), infatti cerca tutti i sottografi che metchano 
+      con il grafo di query. Permette di effettuare aggregation, ordering
+      e limit.
 
       Il risultato di una query grafo può essere una tabella o un sottografo.
-      \item gremlin (graph traversal language): la query consiste nel specificare 
+      \item \textbf{Gremlin} (graph traversal language): la query consiste nel specificare 
       un percorso, il percorso si inizializza in tutti i nodi e la query specifica
-      dei constrain su archi e nodi per selezionare quali nodi attraversare. 
+      dei constrain su archi e nodi per selezionare quali percorsi considerare. 
 
       Questo linguaggio è pensato per essere eseguito ad agenti, quindi è parallelizzabile
       ed eseguibile in ambienti distribuiti.
 \end{itemize}
 
-Un esempio è ArangoDB che supporta i seguenti modelli:
-\begin{itemize}
-      \item keyvalue
-      \item graph
-      \item document
-      \item ricerca full text
-\end{itemize}
-Tutti i modelli sono gestiti come documenti JSON, il chiave valore è un documento 
-chiave valore, document è banale, mentre i grafi si specificano in documenti JSON
-mentre gli archi come reference a documenti quindi è pesante a causa dei Join.
+\paragraph{ArangoDB (Esempio multimodel DB)}
 
-\section{CAP theorem}
-Nota che i sistemi RDBMS hanno un'upperbound di scalabilità fisico e teorico. I 
-sistemi NoSQL sono stati implementati rispettando il CAP theorem e le proprietà
-BASE.
+\textbf{ArangoDB} è un DBMS che supporta i seguenti modelli:
+\begin{itemize}
+      \item \textbf{keyvalue}
+      \item \textbf{graph}
+      \item \textbf{document}
+      \item \textbf{ricerca full text}
+\end{itemize}
+
+Tutti i modelli sono gestiti come documenti JSON, più precisamente si hanno due 
+documenti principali:
+\begin{itemize}
+      \item \textbf{databases} (schemas): contengono lo schema generico delle collections 
+      \item \textbf{collections} (tables): contengono documenti JSON di tipi simili
+\end{itemize} 
+
+In questo modo si possono facilmente gestire i modelli keyvalue. Per quanto riguarda 
+il graph model, in questo caso ArangoDB utilizza una collection per specificare 
+i nodi, ciascun nodo viene descritto da un documento JSON. Successivamente si 
+rappresentano i collegamenti utilizzando una nuova collection che contiene un documento 
+JSON per ogni arco. Il documento contiene gli indici dei due nodi e quindi si effettua
+il referencing tra documenti. In fase di query si effettuerà la Join per collegare 
+i nodi agli archi.
+
+\subsection{Distribuited NoSQL}
+
+I sistemi RDBMS sono facilmente scalabili verticalmente (potenziamento della singola 
+macchina), ma non sono facilmente scalabili orizzontalmente (aggiungere nodi all'infinito al cluster).
+Questo vincolo è dovuto alle proprietà ACID che devono essere mantenute.
+
+Negli ultimi hanni è stato dimostrato il seguente teorema.
 
 \begin{teorema} [\textbf{CAP}]
       In un sistema distribuito non è possibile che contemporaneamente si hanno 
@@ -420,66 +439,197 @@ BASE.
       Il sistema può soddisfarne al più due contemporanemente.
 \end{teorema}
 
-Questo ha permesso di sviluppare DBMS che non rispettano le 3 proprietà.  Noi 
-dovremmo scegliere con consapevolezza.
+Con la nuova scoperta si ogni DBMS si è incentrato su solo 2 proprietà di quelle 
+descritte. Generalmente i RDBMS rispettano CA, mentre per i NoSQL, per via delle 
+proprietà BASIC, non si limitano alla combinazione di solo CA. Con queste considerazioni
+i sistemi NoSQL sono più facili da scalare (vedi figura \ref{fig:cap}).
 
-I principi BASE sono:
+\begin{figure} [!h]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/nosql/CAP.png}
+      \caption{DBMS con le proprietà che assicurano di rispettare}
+      \label{fig:cap}
+\end{figure}
+
+\paragraph{Keyvalue model: Redis}
+Redis essengo un keyvalue non effettua frammentazione, permette di creare dei 
+cluster con più nodi e permette di implementare meccanismi automatici e trasparenti
+di replica per avere alta Availability.
+
+La replica può essere implementata a livello di cluster, si utilizza un cluster 
+"Master" di nodi su cui si effettuano le letture e le scritture, successivamente 
+si utilizzano dei cluster "Slave" di nodi su cui si effettua la replica dei cluster 
+"Master", questi vengono usati principalmente in lettura. Un'altra implementazione 
+è tramite la definizione delle repliche sugli stessi nodi del cluster, questo 
+comporta che non abbiamo meccanismi Master-slave a livello di cluster, bensì a livello
+di nodi. Quindi per ogni cluster possiamo sia leggere sia scrivere (vedi \ref{fig:dist_redis}). 
+
+
+\begin{figure} [!h]
+      \centering
+      \includegraphics[width=0.5\textwidth]{img/nosql/redis_distribuited.png}
+      \caption{Due metodologie per replicare con Redis}
+      \label{fig:dist_redis}
+\end{figure}
+
+\paragraph{Comn Family model: HBASE}
+La distribuzione con HBase si basa sul meccanismo Master-slave e sulla frammentazione 
+orizzontale, ciascun frammento si chiama \textbf{Region}. 
+
+La distribuzione si basa su 2 componenti:
 \begin{itemize}
-      \item basic Availability: ricerve le richieste anche sotto partial consistency
-      \item soft state:
+      \item \textbf{HBase master}: è un'istanza di HBase che si occupa di coordinare gli slave,
+      assegna i region agli slave e riconosce i fallimenti. Permette inoltre di 
+      effettuare operazioni di admin.
+      \item \textbf{Region server}: sono le singole istanze slaves del cluster,
+      si occumano di salvare effettivamente i region assegnati dal master e si 
+      occupa di gestirli, fornisce le funzioni di lettura e scrittura dei suoi region
+      tramite i log. Su ogni Region server si possono implementare meccanismi di replica.
+\end{itemize}
+
+Il cluster sarà formato da un nodo HBase master e tanti Region Server, quest'ultimi 
+possono avere diversi nodi per la replica. Nel cluster si avrà poi un'orchestratore
+(zookeeper) che permette il coordinamento tra Client, Master e Slaves in modo da 
+risolvere eventuali problemi di fallimento (vedi \ref{fig:dist_hbase})
+
+
+\begin{figure} [!h]
+      \centering
+      \includegraphics[width=0.4\textwidth]{img/nosql/hbase_distribuited.png}
+      \caption{Architettura distribuita HBase}
+      \label{fig:dist_hbase}
+\end{figure}
+
+\paragraph{Comn Family model: CASSANDRA}
+
+Cassandra distribuito ha un'architettura a cluster, ciascuno viene gestito in peer 
+to peer con una rete ad anello. I dati vengono partizionati tra in nodi della rete e 
+per risolvere i fallimenti si usa la replicaizone. Si scrive e legge su 
+qualsiasi nodo, il numero di nodi del cluster può essere aggiornato a runtime. 
+Le performance dipendono linearmente rispetto al numero di nodi.
+
+Essendo un'architettura perr-to-peer allora non ha single point of failure 
+fornendo massima Availability. In aggiunta si può partizionare il database 
+su più cluster differenti e separati geograficamente. 
+
+Cassandra implementa anche la replicazione dei dati di un cluster in due modi:
+\begin{itemize}
+      \item \textbf{replicazione su un nodo}: si replicano i dati sullo stesso nodo
+      \item \textbf{replicazione su un nodo diverso}: si replicano i dati su un altro nodo 
+      dello stesso cluster. Questo permette di salvarsi dalla perdita di dati se 
+      un nodo si guasta perché ci sarà una replica in un altro nodo.
+\end{itemize} 
+Si utilizzerà zookeeper per gestire le repliche, nota che le repliche devono essere 
+almento $3$.
+
+Il singolo cluster gestisce una partizione del database e nel singolo cluster si 
+ha un ulteriore partizionamento dei dati che dai che deve gestire tra i suoi nodi. Il 
+partizionamento sul singolo cluster avviene sfruttando l'hashing. I nodi sono 
+formano un anello topologico, l'intero anello può essere considerato come un intervallo 
+di valori $[0,1]$ che corrisponde all'intervalo dei valori che possono restituire 
+le funzioni di hash applicate sulle chiavi. Ciascun nodo viene posizionato nell'anello
+ad un particolare valore, in questo modo ciascun nodo si occupa dei dati le cui 
+funzioni di hash applicate sull'indice ritorna un valore compreso tra il valore del
+nodo precedente e il suo valore. Per risolvere eventuali problemi di overload di 
+un nodo, si possono spostare i nodi su altri valori dell'anello topologico e si
+replicano i dati di conseguenza. 
+Quando si aggiunge un nuovo nodo al cluster, si inserisce nell'anello ad un particolare 
+valore e si replicano i dati del nodo successivo che cadono nell'intervallo del 
+nuovo nodo nel nuovo nodo.
+
+Dal momento che si ha un'architettura peer-to-peer, per comunicare lo stato 
+dei nodi e la locazione dei dati nel cluster si usa il \textbf{gossip protocol},
+in sostanza se i dati non sono sul nodo attuale allora chiedo a quelli adiacienti,
+i quali se non hanno le informazioni chiedono a quelli adiacienti, fino a quando non 
+sono stati visitati tutti. Vista la ridondanza della comunicazione allora 
+il protocollo è molto robusto. 
+
+Utilizzando il \textbf{gossip protocol} si può facilemnte \textbf{identificare il fallimento},
+infatti ogni nodo tiene salvato la sua probabilità di fallimento e in fase 
+di comunicazione, in base alla velocità delle risposte aggiorna la sua probabilità,
+in questo modo si aumenta quando le condizioni della rete peggiorano, come la 
+latenza ecc\dots
+
+Si usa una soglia che specifica sopra quanto la probabilità deve essere per considerare
+il nodo dead. (non si usa il timeout perché è troppo stringente)
+
+% ! non so quanto sia corretto sul failure detection
+
+Le operazioni di scrittura su ciascun nodo seguono questi passi:
+\begin{itemize}
+      \item scrivo l'operazione nel LOG
+      \item scrivo il dato in RAM
+      \item quando i dati in RAM sono abbastanza scrivo su disco
+\end{itemize}
+
+Dal momento che si hanno partizioni e repliche in un particolare cluster, diventa 
+fondamentale gestire la consistenza, in fase di query si deve specificare 
+la tipologia di consistenza e il replication\_factor e successivamente in base alle operazioni 
+si hanno diversi livelli di consistenza;
+\begin{itemize}
+      \item scrittura:
+      \begin{itemize}
+            \item consistency one: si ritorna la risposta al client dopo una scrittura 
+            su disco solo su un nodo del cluster
+            \item consistency all: si ritorna la risposta al client dopo una scrittura 
+            su disco solo su un numero di nodi del cluster pari al replication factor 
+            \item consistency quorum: si ritorna la risposta al client dopo $replication\_factor/2+1$ nodi che 
+            hanno scritto su disco
+      \end{itemize}
+      
+      \item lettura:
+      \begin{itemize}
+            \item consistency one: si ritorna la risposta al client dopo la lettura 
+            su un nodo del cluster
+            \item consistency all: si ritorna la risposta al client dopo una lettura 
+            solo su un numero di nodi del cluster pari al replication factor 
+      \end{itemize}
+\end{itemize} 
+
+Le query di cancellazione vengono implementate attraverso le marcature che 
+comunicano che il record è cancellato ma lo cancellano effettivamente in un secondo 
+momento, più precisamente attraverso \textbf{major compaction} o dopo un timer.
+
+La \textbf{compaction} consiste nel riorganizzare tutte le SSTables sul singolo nodo per 
+eliminare i record marcati, compattare i record se ci sono dei duplicati e infine 
+riordinarli. Questo è utile per l'efficienza. Le SSTables sono le strutture su 
+disco nelle quali vengono salvati i dati.
+
+Per sincronizzare i dati tra diversi nodi si utilizza l'\textbf{entropia}, in sostanza
+si utilizzano degli hash tree, % ! non ci ho capito una sega
+
+Cassandra rientra nella catergoria AP.
+\paragraph{Document model: MongoDB}
+MongoDB ha un'architettura master (primary) e slave (secondary). 
+Si effettuano le scritture sul primary che poi replica sui secondary usando il 
+file di LOG del primary.
+
+In sostanza ciascun cluster di nodi è chiamato shard, in ogni shard si identifica un nodo primary 
+e tutti gli altri saranno secondary. Se il primary dovesse cadere allora si effettuerà
+un'elezione tra i secondary per identificare il nuovo primary, l'elezione si 
+baserà sui nodi che sono più aggiornati e in questa fase le scritture si interrompono.
+
+Per identificare quando un nodo dello shard cade si effettua un heartbeat con timeout
+per avvisare gli altri che sono attivi, nel replica set si ha una gerarchia dei 
+nodi, ogni nodo ha un numero che specifica il livello di priorità. In caso il 
+primary cade allora il secondary con la priorità più alta chiede le elezioni. 
+Ne replica set si possono avere al massimo 50 nodi di cui $7$ solo votanti.
+Un nodo può essere definito:
+\begin{itemize}
+      \item votante: può lasciare un solo voto
+      \item non votante: deve avere priorità a $0$
+\end{itemize}
+
+La frammentazione dei dati avviene separando i dati tra i vari shard. 
+
+L'architettura distribuita si basa su 3 componenti:
+\begin{itemize}
+      \item Mongos: entry point che esegue le query
+      \item Config server: server che gestiscono la configurazione del cluster che
+      contiene i diversi shard, questi devono essere gestiti in replica set per 
+      fornire sempre il servizio
+      \item Shards: singoli cluster che salvano un frammento dei dati.
 \end{itemize}
 
 
-Redis offre meccanismi di trasparenza automatici di replica per avere alta Availability.
-
-HBase ha un modello Master Slave, il master conosce la locazione dei blocchi distribuiti
-e poi si hanno gli slave che sono le macchine che contengono i dati frammentati.
-Si implementa la frammentazione orizzontale e la replica per distribuire tra gli
-slave. Si ha un orchestratore (zookeeper) che risolve problemi di fallimento.
-
-Cassandra ha un'architettura peer to peer ad anello per ogni datacenter. Tutti i nodi sono collegati in modo da 
-avere massima Availability e partition tolerance. In caso di guasto non ci sono 
-problemi perché i dati sono replicati, ogni dato è replicato almeno 3 volte. I
-vengono orchestrati con zookeeper. La frammentazione si decide sfruttando le funzioni
-di hashing ovvero si mappa l'anello con valori da $0$ a $1$ e si usano le funzioni 
-di hashing per salvare il dato in un nodo rispetto ad un altro. Più precisamente 
-se l'hash della chiave mi restituisce un valore tra i nodi A-B allora inserisco il 
-dato in B. Se aggiungo un nuovo nodo allora i nuovi dati che cadono tra il nodo 
-precedente e il nuovo nodo verranno salvati su quello nuovo. Quelli che sono presenti 
-nel nodo successivo che devono essere salvati in quello nuovo allora si replicano 
-in quello nuovo. 
-Dal momento che non si ha più un'architettura master-slave ma a cluster allora 
-si usa il gossip protocol per far capire lo stato dei nodi nel cluster.
-Per identificare il fallimento si utilizza una probabilità di fallimento che viene aggiornata 
-in base alla latenza della rete. Questo perché il timeout è troppo stringente.
-La scrittura avviene in questo modo:
-\begin{itemize}
-      \item scrivo nel LOG
-      \item scrivo in memoria 
-      \item scrivo su disco
-\end{itemize}
-
-Quando il client vuole scrivere nel cluster si deve specificare il grado di 
-consistenza dei dati:
-\begin{itemize}
-      \item consistency one: si ritorna la risposta al client dopo una scrittura 
-      su disco solo su un nodo del cluster
-      \item consistency all: si ritorna la risposta al client dopo una scrittura 
-      su disco solo su tutti i nodi del replication factor nodi del cluster
-      \item consistency quorum: si ritorna la risposta al client dopo $n/2+1$ nodi che 
-      hanno scritto su disco
-\end{itemize}
-
-La cancellazione avviene disabilitando \dots
-
-L'allineamento
-
-La lettura
-
-MongoDB è CP, anche qui ha un'architettura master e slave. Ogni dato è frammentato
-e replicato, si hanno nodi shard che sono slave, istanze diverse di mongo. Il master 
-fa da orchestratore, se cade il master allora si promuove il primo slave. 
-
-Voting
-
-Frammentazione si 
+Mongo rientra nella catergoria CP.
