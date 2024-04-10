@@ -474,3 +474,72 @@ L'algoritmo si basa sul principio di risolvere il calcolo delle sommatorie in
 \textbf{bottom-up}, ovvero da destra verso sinistra e salvando i valori in modo 
 tale da calcolarlo senza ripetizione.
 
+\subsection{Inferenza approssimata}
+Permette di effettuare inferenza in tempi ragionevoli quando si hanno tante 
+variabili che non fanno parte dell'evidenza.
+
+\begin{definizione}
+    Una sequenza casuale è una sequenza di realizzazioni di varibili aleatorie 
+    indipendenti e identicamente distribuite
+\end{definizione}
+
+\begin{definizione}
+    Una sequenza di numeri pseudo casuali è una sequenza di numeri che sembrano
+    impredicibili, da cui non si riesce ad estrarre alcuna regolarità
+\end{definizione}
+
+Quindi i numeri casuali non sono regolati da una particolare regola, al contrario 
+i numeri pseudocasuali hanno delle regolarità e quindi ripetono un pattern.
+
+Le proprietà statistiche dei numeri casuali sono:
+\begin{itemize}
+    \item indipendenza statistica, numeri indipendenti tra di loro
+    \item uniformità della distribuzione, distr. uniforme
+    \item riproducibilità della sequenza di valori che dipende dalla distribuzione
+    \item non ci deve essere una 
+\end{itemize}
+
+Una routine di generazioni di numeri casuali deve:
+\begin{itemize}
+    \item essere veloce
+    \item avere un ciclo periodico lungo
+    \item non presentare larghi gap
+    \item essere replicabile
+\end{itemize}
+Un primo metodo di generare numeri casuali è attraverso l'utilizzo di una cifra 
+di $10$ numeri, si eleva al quadrato e si prendono le $10$ cifre centrali. 
+La sequenza non è casuale perché ogni numero è ottenibile da quello precedente,
+inoltre si hanno problemi a causa dell'operazione di elevazione (inserire esempio).
+
+\paragraph{MCM}
+
+Metodo per generare numeri casuali 
+sia $x_0$ il seed della sequenza, $x_n=ax_{n-1}\mod M$ con $0\le x_n\le M$.
+
+$a,M$ sono numeri interi maggiori di $0$.
+
+Il problema di questo metodo è che genera sempre gli stessi numeri. Si può risolvere 
+facilmente scelgiendo $M$ molto grande e primo.
+
+Un'idea  è generarlo $x_n=(ax_{n-1} + c)\mod M$ con $a,c>0$ e $m> x_0,c,a$.
+In ogni caso abbiamo sempre la periodicità quindi $M$ si cerca di scegliere $M$ 
+molto grande.
+
+\paragraph{Trasfromazione lineare inversa}
+Vogliamo generare una variabile aleatoria $X$ con funzione di probabilità si 
+utilizza la funzione di probabilità comulata e sfruttiamo la funzione comulata inversa 
+della probabilità in modo tale che, a partire da una probabilità generata uniformemente 
+da $0$ a $1$, applichiamo la $F^{-1}$ per ottenere il valore della variabile
+
+\begin{esempio}
+    Sia $X$ la nostra variabile con $3$ simboli.
+    $$P(X = x_0) = 0,1,P(X = x_1) = 0,3, P(X = x_2) = 0,6$$
+
+    Per campionare tante volte la variabile $X$, genero tanti numeri casuali tra $0-1$.
+    Sia $\mu_1 = 0,2$
+\end{esempio}
+
+Non sempre è possibile calcolare $F^{-1}$ o spesso è complesso.
+
+\paragraph{Acceptance rejection}
+Utilizzato per varibili definite per intervalli finiti $[a,b]$.

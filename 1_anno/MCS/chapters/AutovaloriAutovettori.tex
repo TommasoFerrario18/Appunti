@@ -151,6 +151,118 @@ per ottenere l'autovalore $\lambda_1$ possiamo calcolare l'autovalore massimo co
 \end{equation*}
 \begin{nota}
     Se $A$ è diagonalizzabile con autovettori $\{\underline{v}_{\lambda_j}\}$, 
-    tale che gli autovettori sono una base di $\mathbb{R}^n$.
+    allora gli autovettori sono una base di $\mathbb{R}^n$.
 \end{nota}
-Essendo che che gli autovettori sono dei vettori generatori allora
+
+Convergenza del metodo delle potenze.
+Abbiamo che $v_{\lambda_1}$ è autovettore associato a $\lambda_1$
+$$q^{(k)} = \frac{z^{(k)}}{\|z^{(k)}\|_2} = \frac{Aq^{(k-1)}}{\|Aq^{(k-1)}\|_2} =  \frac{A\frac{z^{(k-1)}}{\|z^{(k-1)}\|_2}}{\|A\frac{z^{(k-1)}}{\|z^{(k-1)}\|_2}\|_2} = \frac{Az^{(k-1)}}{\|Az^{(k-1)}\|_2} = \dots = \frac{A^kq^{(0)}}{\|A^kq^{(0)}\|_2}$$
+
+Sappiamo che 
+$$A^kq^{(0)} = A^k \cdot (\alpha_1v_{\lambda_1}+\alpha_2v_{\lambda_2} + \dots + \alpha_nv_{\lambda_n}) = \alpha$$
+
+Possiamo utilizzare lo stesso approccio ma per trovare l'autovettore minimo utilizzando 
+$A^{-1}$.
+
+\section{Pagerank}
+Introduciamo "vicinity matrix" $H\in \mathbb{R}^{n\times n}$ 
+tale che 
+$$H_{ij} = \begin{cases}
+    1 & i\rightarrow j\\
+    0 & altrimenti
+\end{cases}$$
+Introduco il vettore $w$ che contiene in $w_j$ il valore della pagina $j$ esima. 
+Insostanza è il vettore di incognita.
+
+Introduciamo anche un vettore $d$, tale che $d_i:=\sum_{l=1\dots n} H_{il}$ $d_i$ 
+rappresenta gli archi uscenti.
+
+L'algoritmo di Brin-Page
+$$w_j = \sum_{i=1}^n w_i \frac{H_{ij}}{d_i}$$
+
+Il valore della pagina $j$ è la somma dei link entranti pesato per il valore della 
+pagina entrante, diviso i link uscenti di $i$.
+
+Per inizializzare il vettore $d = H \cdot e $ dove 
+$e = \begin{array}{c} 1 \\ 1 \\ \vdots \\ 1 \end{array}$
+
+Possiamo creare $D = diag(d)$ e definire $M= D^{-1}H$
+quindi possiamo dire
+$$w_j = \sum_{i=1}^n w_i \frac{H_{ij}}{d_i} \iff w^t M = w \iff M^t w=w$$
+Quindi questo è un problema di autovalori e autovettori con autovalore fissato $\lambda = 1$.
+
+Ho diversi problemi in questa modellazione:
+\begin{itemize}
+    \item se ho $d_i=0$ ovvero una pagina che viene citata ma non cita nessun'altra dangling nodes.
+    \item in generale non è detto che esista l'autovalore $1$ per la matrice $M$,
+    inoltre se non ha $1$, posso trovare degli autovalori.
+    \item se esiste la soluzione è unica?
+    \item $w$ ha entrate solo positive? (devono essere positivi i punteggi)
+    \item come si calcola $w$?
+\end{itemize}
+La prima problematica si risolve facendo si che la pagina posso citi tutti Ovvero
+che $H_{ij} = \left[0,0,\dots, 0\right] \rightarrow \hat{H}_{ij} =\left[1,1,\dots, 1\right], \forall j$.
+Quindi a livello pratico sarà $\hat{H} =H + u \cdot e, e= \left[\begin{array}{c}
+    1\\1\\\vdots\\1
+\end{array}\right], u_j= \begin{cases}
+    1 & j \text{ è un nodo pozzo}\\
+    0& altrimenti
+\end{cases}$.
+Quindi di conseguenza definiremo $\hat{d} = \hat{H}e, \hat{D}=diag(\hat{d}), \hat{M}  =\hat{D}^{-1}\hat{H}$.
+Ho sostituito tutte le entry di $H$ con $1$ quindi $D$ è sicuramente invertibile.
+
+Per risolvere i problemi $2,3,4$ si usa il seguente teorema.
+
+\begin{teorema} [\textbf{Frobenius-Perron}]
+    Sia $A\in \mathbb{R}^{n\times n}$ con entrate non negative. Allora $\exists \lambda>0$
+    autovalore, il cui autovettore associato $v_\lambda$ ha entrate non negative. 
+    Inoltre, se $A$ ha entrate positive e $A$ è irriducibile allora 
+    $\exists !$ autovalore di modulo massimo $\lambda$, tale che $v_lambda$ ha entrate 
+    tutte positive.
+\end{teorema}
+
+\begin{definizione}
+    $A$ è irriducibile se il mio vicinity graph è fortemente connesso
+\end{definizione}
+Il problema è che non abbiamo la certezza di avere un vicinity graph fortemente 
+connesso. Possiamo modificare l'algoritmo  andando a modificare la matrice $\hat{M}$
+con $A= \gamma \hat{M}+ (1-\gamma) e \cdot v^t$ dove $v$ è un vettore di doping 
+dove $\sum_{j=1}^n v_j = 1, 0<v_j <1$ e $\gamma \in (0,1)$.
+
+\begin{nota}
+    La matrice $A$ ha entrate positive perché $\hat{M}$ ha entrate non negative e 
+    $e\cdot v$ ha entrate positive. 
+\end{nota}
+\begin{nota}
+    Se $\gamma = 0$ allora mi dice che le pagine sono tutte uguali perché $w_j = 1$
+
+    Se $\gamma = 1$ allora si ritorna al metodo iniziale che non rispetta il teorema. 
+\end{nota}
+
+$e\cdot v$ è un bias che permette di personalizzare l'algoritmo di pagerank.
+
+La conseguenza della prima osservazione porta al fatto che il teorema si può applicare, 
+esiste ed è unico l'autovalore di modulo massimo.
+
+L'obiettivo finale è dimostrare che $1$ è l'autovalore di modulo massimo.
+\begin{proof}
+    Sia $$\|x\|_1 = \sum_{j=1}^n |x_j|$$ 
+    $$\|Ax\|_1 = \sum_{j=1}^n |(Ax)_j| = \sum_{j=1}^n|\sum_{l=1}^nA_{jl}x_l|\le \sum_{j=1}^n\sum_{l=1}^n|A_{jl}||x_l| =  \sum_{l=1}^n|x_l|(\sum_{j=1}^n|A_{jl}|)$$
+
+    $$\le  \sum_{l=1}^n|x_l|(\max_{l=1}^n\sum_{j=1}^n|A_{jl}|) = (\max_{l=1}^n\sum_{j=1}^n|A_{jl}|) \sum_{l=1}^n|x_l| = (\max_{l=1}^n\sum_{j=1}^n|A_{jl}|) \|x\|_1 $$
+
+    Quindi $$\|A\|_1 = \sup_{x\in \mathbb{R}^n - \{0\}} \frac{\|Ax\|_1}{\|x\|}\le \max_{l=1}^n\sum_{j=1}^n|A_{jl}|$$
+
+    Inoltre 
+    $$|\lambda_{max}| \le \|A\|_1 = \|\gamma \hat{M} + (1-\gamma) e \cdot v^t\|_1 \le \gamma \|\hat{M}^t\|_1 + (1-\gamma) \|e \cdot v^t\|_1$$
+    $\|e \cdot v^t\|_1\le 1$  mentre $\|\hat{M}^t\|_1\le 1$, quindi $\le \gamma 1 + (1-\gamma) 1$.
+
+\end{proof}
+
+Quindi abiamo che:
+\begin{itemize}
+    \item $\|\lambda_{max} | \le 1$
+    \item $\lambda = 1$ è autovalore per costruzione 
+    \item il teorema implkica esiste un unico autovalore di modulo massimo.
+\end{itemize}
+

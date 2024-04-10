@@ -1,0 +1,71 @@
+\chapter{MLOPS}
+Prima in machine learning  prendavamo il training set, allenavamo l'argoritmo e 
+ottenavamo il modello.
+
+Possiamo pensare che nel mondo reale ci sia una pipeline di gestione e creazione 
+dei modelli, un esempio è CRISP-DM che è una pipeline circolare composta 
+dai seguenti passi:
+\begin{itemize}
+    \item comprensione del dominio
+    \item data understanding che rappresenti il dominio, oltre a capirli bisogna 
+    anche trovarli o produrli
+    \item data preparation, ci si mobilita per integrare i dati provenienti da 
+    diverse fonti, sistemazione del dataset per gestire dati mancanti, outliers ecc\dots
+    \item creazione del modello
+    \item pubblicazione del modello
+\end{itemize}
+
+% TODO: aggiungi la foto del ciclo
+
+Avere i dati corretti è fondamentale per produrre la qualità del modello, se non avessimo
+dati corretti (stessa distribuzione della production) allora si avranno problemi 
+di bias. Infatti i dati di training e testing devono derivare dai dati reali che verranno 
+dati in fase di production.
+
+Una volta ottenuti i dati reali dovremo separarli in:
+\begin{itemize}
+    \item training data: dati da utilizzare per creare e valutare il modello
+    \item serving data: dati da dare in fase di production
+\end{itemize}
+
+successivamente i dati, sia di training, sia serving, devono essere preparati,
+successivamente una volta creato il modello dobbiamo valutarlo (ciclo che deve essere
+ripetuto). 
+
+Il problema è che nel tempo i dati cambiano o cambia il contesto quindi bisogna 
+aggiungere una fase di validation dei dati quando si sta creando il modello.
+L'obiettivo è capire le feature significative che fanno variare il modello,
+questo serve per poi controllare in futuro se queste feature significative sono 
+cambiate. Ovvero si confrontano le distribuzioni delle features ritenute significative 
+durante il training con la distribuzione delle stesse feature prese dai dati odierni.
+In questo modo possiamo segnalare quando le distribuzioni cambiano e nel caso devo
+adottare delle soluzioni:
+\begin{itemize}
+    \item riaddestrare il modello
+    \item avvisare l'utente che qualcosa sta cambiando
+    \item non fare niente
+\end{itemize}
+Oppure spesso quello che succede è che cambiano nel tempo i tipi di dati, quindi, 
+in questa fase di validation, bisogna correggere i dati per renderli compatibili col
+modello.
+
+Una delle fasi più importanti è Data Acquisition, infatti possiamo avere diversi 
+problemi come bias nei dati che invalidano i risultati del modello.
+
+In aggiunta dobbiamo fare Data Provenance ovvero documentare come ho costruito 
+il dataset di training e validation, ovvero quali sono i dati utilizzati, da dove 
+vengono, come ho costruito il dataset. In questo modo si risolvono eventuali problemi
+dovuti a risultati sballati per dati che sono stati iniettati nel dataset.
+
+Successivamente dobbiamo effettuare la Data Exploration che permette di studiare 
+le distribuzioni dei valori, gli outliers ecc\dots. (Questa fase si fa in tutti i rettangoli 
+dello schema) Questo viene continuamente fatto in CI.
+
+Per effettuare tutti i passi della pipeline servono diverse figure lavorative:
+\begin{itemize}
+    \item ML expert 
+    \item SW engineer
+    \item Site Reability Expert engineer: esperto che si occupa di gestire la produzione
+\end{itemize}
+
+
