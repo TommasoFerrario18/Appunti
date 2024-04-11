@@ -476,70 +476,150 @@ tale da calcolarlo senza ripetizione.
 
 \subsection{Inferenza approssimata}
 Permette di effettuare inferenza in tempi ragionevoli quando si hanno tante 
-variabili che non fanno parte dell'evidenza.
+variabili che non fanno parte dell'evidenza, infatti questo evita di ricadere 
+nell'NP-Hard con l'inferenza esatta. L'inferenza approssimata consiste nel 
+approssimare queste variabili libere, campianandole generando dei numeri casuali.
+In questo modo non si controllano le probabilità di tutte le combinazioni di valori 
+(i famosi $2^n$) ma si controllano le probabilità di una successione finita di 
+numeri casuali, non entrando nella complessità esponenziale.
 
-\begin{definizione}
-    Una sequenza casuale è una sequenza di realizzazioni di varibili aleatorie 
+\begin{definizione} [\textbf{Sequenza di numeri casuale}]
+    Una \textbf{sequenza di numeri casuale} è una sequenza di realizzazioni di varibili aleatorie 
     indipendenti e identicamente distribuite
 \end{definizione}
 
-\begin{definizione}
-    Una sequenza di numeri pseudo casuali è una sequenza di numeri che sembrano
-    impredicibili, da cui non si riesce ad estrarre alcuna regolarità
+\begin{definizione} [\textbf{Sequenza di numeri pseudocasuali}]
+    Una \textbf{sequenza di numeri pseudocasuali} è una sequenza di numeri che sembrano
+    impredicibili da cui non si riesce ad estrarre alcuna regolarità
 \end{definizione}
 
 Quindi i numeri casuali non sono regolati da una particolare regola, al contrario 
 i numeri pseudocasuali hanno delle regolarità e quindi ripetono un pattern.
 
-Le proprietà statistiche dei numeri casuali sono:
+\begin{nota}    
+I metodi di generazione di numeri pseudocasuali implementati nel PC sono tutti 
+basati sull'aritmetica 
+\end{nota}
+
+Le proprietà statistiche dei numeri pseudocasualicasuali sono:
 \begin{itemize}
-    \item indipendenza statistica, numeri indipendenti tra di loro
-    \item uniformità della distribuzione, distr. uniforme
-    \item riproducibilità della sequenza di valori che dipende dalla distribuzione
-    \item non ci deve essere una 
+    \item \textbf{indipendenza statistica}: tutti i numeri della sequenza devono essere 
+    indipendenti tra di loro
+    \item \textbf{uniformità della distribuzione}: tutti i numeri della sequenza devono 
+    essere estratti dalla stessa distribuzione
+    \item \textbf{riproducibilità della sequenza di valori}
+    \item \textbf{non ripetitività su un prefissato periodo}: la sequenza non si 
+    deve ripetere in un dato periodo
 \end{itemize}
 
-Una routine di generazioni di numeri casuali deve:
+Una routine di generazioni di numeri pseudocasuali deve:
 \begin{itemize}
     \item essere veloce
-    \item avere un ciclo periodico lungo
+    \item avere un ciclo periodico sufficientemente lungo
     \item non presentare larghi gap
     \item essere replicabile
+    \item generare numeri con proprietà statistiche simili a quelle ideali
 \end{itemize}
+
+\paragraph{Metodo Naive}
 Un primo metodo di generare numeri casuali è attraverso l'utilizzo di una cifra 
 di $10$ numeri, si eleva al quadrato e si prendono le $10$ cifre centrali. 
 La sequenza non è casuale perché ogni numero è ottenibile da quello precedente,
-inoltre si hanno problemi a causa dell'operazione di elevazione (inserire esempio).
+inoltre si hanno problemi a causa dell'operazione di elevazione.
 
-\paragraph{MCM}
+\begin{esempio}
+    Ecco un esempio di un problema su un numero a $4$ cifre.
+    $$6100**2 = 37\underline{2100}00$$
+    $$2100**2 = 4\underline{4100}00$$
+    $$4100**2 = 16\underline{8100}00$$
+    $$\vdots$$
+\end{esempio}
 
-Metodo per generare numeri casuali 
-sia $x_0$ il seed della sequenza, $x_n=ax_{n-1}\mod M$ con $0\le x_n\le M$.
+\paragraph{Moltiplicative Congruential Method}
+Sia $x_0$ il seed della sequenza allora un generico numero pseudocasuale può essere 
+generato da quello precedente nel seguente modo 
+$$x_n=ax_{n-1}\mod M, \ 0\le x_n\le M$$
+Con $a,M \in \mathbb{N}^+$.
 
-$a,M$ sono numeri interi maggiori di $0$.
+Il problema di questo metodo è che genera sempre esattamente gli stessi numeri. 
+Si può risolvere facilmente scelgiendo $M$ molto grande e primo.
 
-Il problema di questo metodo è che genera sempre gli stessi numeri. Si può risolvere 
-facilmente scelgiendo $M$ molto grande e primo.
+\paragraph{Linear Moltiplicative Congruential Method}
+Una versione di quello precedente è la verione linear, ovvero aggiungere 
+un bias $c$, in modo tale da personalizzare la sequenza. 
 
-Un'idea  è generarlo $x_n=(ax_{n-1} + c)\mod M$ con $a,c>0$ e $m> x_0,c,a$.
+$$x_n=(ax_{n-1} + c)\mod M, a,c>0, M>x_0,c,a$$.
 In ogni caso abbiamo sempre la periodicità quindi $M$ si cerca di scegliere $M$ 
 molto grande.
 
-\paragraph{Trasfromazione lineare inversa}
-Vogliamo generare una variabile aleatoria $X$ con funzione di probabilità si 
-utilizza la funzione di probabilità comulata e sfruttiamo la funzione comulata inversa 
-della probabilità in modo tale che, a partire da una probabilità generata uniformemente 
-da $0$ a $1$, applichiamo la $F^{-1}$ per ottenere il valore della variabile
+% TODO: chiedi al prof
+
+\subsubsection{Generazione di una sequenza di numeri pseudocasuali derivanti da una
+distribuzione generica}
+Vogliamo avere degli approcci per generare randomicamente dei numeri da una distribuzione 
+generica. Si utilizzano diversi metodi che a partire da un numero random estratto 
+in modo uniforme tra $0$ e $1$, generano numeri che rispettano una particolare 
+ditribuzione. Questi metodi sono:
+\begin{itemize}
+    \item \textbf{trasformazione inversa}
+    \item \textbf{accettazione/rifiuto}
+    \item \textbf{composizione}
+\end{itemize}
+
+In sostanza si stanno generando variabili aleatorie.
+
+\paragraph{Trasformazione inversa}
+Vogliamo generare una variabile aleatoria $X = x$ con una certa distribuzione. 
+Si parte dalla sua \textbf{funzione di probabilità} ($f_X(x)$) scelta, si ricava la \textbf{funzione di 
+probabilità cumulativa} ($F(X = x)$), quest'ultima funzione è:
+\begin{itemize}
+    \item continua
+    \item monotona
+    \item crescente
+    \item limitata, compresa tra $[0,1]$
+    \item definita nel seguente modo $F(X=x) =P(X\le x)$
+\end{itemize}
+
+La generazione si effettua in questo modo:
+\begin{itemize}
+    \item si seleziona la distribuzione che desideriamo 
+    per la variabile $X$, definendo $f_X(x)$ e successivamente $F(X=x)$
+    \item si genera un numero $\mu \sim U([0,1])$
+    \item si ottiene il numero randomico derivante dalla distribuzione di $X$ 
+    nel seguente modo $x = F^{-1}(X=u)$
+\end{itemize} 
+
+Questo procedimento vale sia per Variabili discrete, sia per variabili continue.
+Questo approccio coincide col campionamento della variabile $X$.
 
 \begin{esempio}
     Sia $X$ la nostra variabile con $3$ simboli.
-    $$P(X = x_0) = 0,1,P(X = x_1) = 0,3, P(X = x_2) = 0,6$$
+    $$P(X = x_0) = 0,1,P(X = x_1) = 0,3, P(X = x_2) = 0,6, F(X=x_i) = \sum_{l=0}^{i} P(X=x_l)$$
 
-    Per campionare tante volte la variabile $X$, genero tanti numeri casuali tra $0-1$.
-    Sia $\mu_1 = 0,2$
+    Sia $F^{-1}$ la funzione inversa della funzione cumulativa. Allora 
+    posso campionare tante volte la variabile $X$, generando tanti numeri casuali $\mu_i \in U([0-1])$.
+    Sia $\mu_i = 0,2$ allora calcolo $F^{-1}(\mu_i) = x_1$ e allora genero $x_1$.
 \end{esempio}
 
-Non sempre è possibile calcolare $F^{-1}$ o spesso è complesso.
+Il problema di questo approccio è che non sempre è possibile calcolare $F^{-1}$ o 
+spesso è complesso.
 
 \paragraph{Acceptance rejection}
-Utilizzato per varibili definite per intervalli finiti $[a,b]$.
+Si può utilizzare per generare numeri $x$ derivanti da distribuzioni $X$ limitate da intervalli
+finiti $[a,b]$. 
+
+Scegliendo una distribuzione $f_X$ per $X$ tale che $X$ sia definita solo in $[a,b]$
+e quindi $f_X : [a,b] \rightarrow [0,c]$.
+
+Il metodo si basa sul generare coppie di numeri $\mu_i,\mu_j$ estratti da distribuzioni $U[0-1]$,
+allora genereremo due valori 
+
+$$\begin{cases}
+    x_i = a+(b-a)\mu_1\\
+    y_i = c\mu_2
+\end{cases}$$
+
+se la coppia $(x_i, y_i)$ cade all'interno dell'area sottesa alla curva della funzione
+$f_X(x)$ allora sarà accettata e verrà utilizzata per generare la sequenza di numeri 
+casuali, altrimenti viene rigettata e si ripetono i passi fino a quando non troviamo 
+una coppia ammessa.
