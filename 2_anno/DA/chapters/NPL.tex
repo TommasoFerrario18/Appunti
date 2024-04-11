@@ -1,0 +1,91 @@
+\chapter{NPL}
+
+NPL si occupa di introdurre la semantica e quindi le relazioni tra le parole.
+Per esempio su un dataset di tweet possiamo analizzare le emozioni, capire la polarità
+o il topic.
+
+NPL la parte fondamentale è trovare una rappresentazione utilizzabile. Questo non è
+una cosa banale:
+\begin{itemize}
+    \item spesso ci serve un contesto per rappresentare un testo che abbiamo
+    \item In aggiunta ci può essere del rumore nei dati (dati errati o non fedeli)
+    \item ambiguità nelle frasi, per esempio abbiamo modi di dire 
+    (si risolve effettuando l'analisi sintattici, part-of-speech tagginxg)
+    \item ambiguità sintattica part-tree-disambiguation
+\end{itemize} 
+
+Le librerie che forniscono sistemi di disambiguità restituiscono l'albero della 
+frase più probabile. 
+
+Gli NLP sono utili per:
+\begin{itemize}
+    \item sentiment analysis (hidden semantics)
+    \item named-entity recognition, identificare le entità nel contesto
+    \item named-entity linking, relazionare entità con la loro scheda nella base 
+    di conoscienza (ex: entità con la pagina wikipedia)
+\end{itemize}
+
+\section{Sentiment analysis}
+
+\begin{definizione}
+    Analisi del testo per analizzare le emozioni che trasparano dalla frase.
+\end{definizione}
+
+I passi possono essere diversi, si può partire dal testo, suddividere in:
+\begin{itemize}
+    \item oggettiva: si sta esprimendo un fatto
+    \item soggettiva (emozione): si sta esprimendo un'emozione 
+    \begin{itemize}
+        \item positivo
+        \item negativo
+        \item neutrale: complesso perché spesso è molto vicino ad una frase oggettiva o
+        spesso si pesa la frase tra positiva e negativa, quindi se è bilanciata è neutrale.
+    \end{itemize}
+\end{itemize}
+Un altro problema di riconoscere il senitment analysis è capire se c'è dell'ironia
+o del sarcasmo nel testo.
+
+Spesso si classifica il testo su 8 emozioni che sono graduali.
+
+In ogni caso bisogna trattare la rappresentazione del testo, questa può essere 
+fatta utilizzando un vocabolario e segnaliamo con un flag le parole che sono presenti
+in una frase. Abbiamo quindi un dizionario con un array di bit. Questo problema 
+è che il dizionario sarà sparso, enorme, perdiamo l'ordinamento delle parole nelle 
+frasi.
+
+Un ulterio metodo è  BagOfWorld usare la rappresentazione tramite vettore in uno spazio.
+Il problema è che manca la composizionalità delle parole
+
+Possiamo rappresentare usando una rappresentazione deep basata su word2vec, si rappresentare
+il termine in base a quello che viene prima e dopo (simile a bagofworld ma permette 
+di mantenere la composizionalità):
+\begin{itemize}
+    \item skip-gram: parte da una parola del documento e cerca di predire l'intorno della parola.
+    Rappresenteremo la singola parola del documento con un one-hot-vector, un bitvector (lungo quanto il
+    il vocabolario) con un 
+    bit a $1$ nella posizione associata alla parola all'interno del vocabolario.
+    Successivamente costruiamo una NN (Encoder Decoder) che preso in input il bitvector, in output
+    dobbiamo avere un vettore lungo tanto quanto il vocabolario con un peso associato 
+    ad ogni parola. La rappresentazione vettoriale coincide con la rappresentazione 
+    nell'hidden layer, la sua dimensione è decisa in fase di construzione della 
+    rete. Il documento viene rappresentato dal vettore media dei vettori dei termini
+    presenti nel documento. La differenza dalle rappresentazioni più vecchie è che 
+    abbiamo alla fine un vettore di dimensione $n$ selezionato dalla rete. Il
+    problea è che non consideriamo il contesto del mondo.
+    Esistono metodi più efficaci per rappresentare il testo come $USE$ e $BERT$. 
+    \item cbow: cerca di predire la parola sulla base dell'intorno delle parole vicine
+    (ex: fill in the blanks)
+\end{itemize}
+Questi permettono di avere parole con lo stesso significato o simini vine nello spazio.
+
+Successivamente si deve identificare la polarità:
+\begin{itemize}
+    \item se usiamo BagOfWorld possiamo avere un dizionario di termini associati
+    ai livelli di polarità, possiamo contare i vettori del testo che sono uguali ai termini
+    associati alle emozioni, restiutisco l'emozione col conteggio maggiore. Se 
+    le accezioni hanno lo stesso numero di vettori allora sono neutre. 
+    Importante è scegliere bene il lessico e lo studio del lessico perché parole 
+    possono essere positive o negative in base al contesto
+    \item possiamo utilizzare l'approccio deeplearning  per classificare l'emozione
+\end{itemize}
+

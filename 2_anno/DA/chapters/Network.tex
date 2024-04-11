@@ -471,7 +471,7 @@ stringente:
           considerare i singoli nodi.
     \item \textbf{Network-centric}: si valuta il criterio nell'interezza della rete.
     \item \textbf{Hierarchy-centric}: si costruisce una struttura gerarchica delle
-          community.
+          community basata sulla topologia della rete.
 \end{itemize}
 \subsubsection{Node-centric}
 Questo criterio si basa sulla ricerca di caratteristiche comuni tra i singoli
@@ -637,3 +637,76 @@ modularità, ovvero la matrice definita come segue:
     numero di community che si vogliono identificare.
 \end{nota}
 \subsubsection{Hierarchy-centric}
+
+Si costruisce una struttura gerarchica basate sulla topologia delle community.
+Per costruire la struttura gerarchica del grafo si sfrutta la matrice delle distanze 
+che viene aggiornata riducendo la dimensione (eliminando le colonne e righe dei nodi
+uniti sotto una community) in modo da creare delle community. 
+
+
+Altrimenti si può ragionare partizionando la rete. Si calcola la Betweeness sugli 
+arichi e si rimuovono quelli con betweeness maggiore. In questo modo si partiziona
+il grafo per definire le community. Si continua la partizione fino ai singoli nodi.
+
+\subsection{Social media Analitics}
+HUB = nodi con tanti collegamenti
+Spoke = nodi con pochi collegamenti
+
+Questo si applica anche nei social. In base al contesto risultano importanti i
+collegamenti hub-hub o hub-spoke.
+
+Possiamo stimare la probabilità che un nodo di un grado $k$ e un nodo di grado $k'$
+che siano connessi, questo conto dipende dagli archi della rete. In pratica abbiamo
+che gli hubs sono molto più facilmente collegati agli altri rispetto ai gradi di grado massimo.
+Quindi se due nodi hanno molti archi allora si ha più probabilità che siano connessi.
+
+
+La rete può essere:
+\begin{itemize}
+    \item assortativo: avremo una tendenza ad avere hub che si collegano tra di loro
+    \item neutrale: rete che ha collegamenti tra due nodi con probabilità randomica
+    \item disassortativo: avremo la tendenza ad avere spoke collegati agli hub
+\end{itemize}
+
+Possiamo plottare i collegamenti tra due nodi rispetto al loro grado, se il grafico 
+mostra se la nuvola è sulla diagonale principale allora è assortativa, se non ha una 
+direazione allora è neutrale, se ha una direzione sul'antidiagonale allora è disassortativa.
+
+Possiamo definire la matrice di correlazione (la matrice plottata dal grafico prec.) 
+permette di mostrare la correlazioene tra collegamenti di nodi di gradi differenti.
+La matrice viene riempita contando il numero di archi che connette un nodo di 
+grado $i$ con uno di grado $j$, poi la somma viene normalizzata.
+
+Se il grafo è orientato allora non è simmetrica è il contrario. 
+
+Possiamo determinare l'assortativa o sisassortatività può essere fatta controllando 
+che $e_{ij} = q_iq_j$ dove $q_i$ e $q_j$ sono le probabilità che un nodo di grado 
+$i$ sia collegato con un nodo di grado $j$ in una rete randomica. Se $=$ allora 
+la rete è neutrale, altrimenti è assortativa o disassortativo. Possiamo utilizzare 
+un coefficiente $-1<r<1$ che se $r<0$ allora disassortativa, $r=0$ neutrale e $r>0$ assortativa. 
+
+La rimozione di un hub che è connesso ad altri hub o possiamo rimuovere un spoke.
+In questo modo una volta che sappiamo la tipologia della rete (assortativa o disassortativa)
+allora si può studiare la robustezza della rete.
+
+\begin{definizione}
+    Giant component è la più grande componente connessa di un grafo
+\end{definizione}
+
+Per studiare la robustessa si costruisce una rete a parte in cui si inseriscono 
+randomicamente gli archi della rete di partenza nella rete randomica. quando 
+aggiungiamo un arco allora i cammini esistenti tra quei nodi si espandono.
+Se siamo in una rete assortativa, quando aggiungiamo un arco tra hub allora si avrà
+un impatto notevole sui cammini della rete perché la Giant component si paleserà
+prima nella costruzione. Se è disassortativa allora impiegheremo più tempo a palesare 
+la giant component.
+
+Quindi si può studiare la palesazione della Giant component in base alle caratteristiche 
+della rete. Quindi si può studiare le proprietà di costruzione e distruzione della rete.
+
+Per studiare la resistenza della rete si studia la rimozione dei nodi (site percolation)
+o la rimozione degli archi (bond percolation). In questo caso studiamo quanto tempo 
+impieghiamo a distruggere la Giant component. Se elimino un nodo allora cambio il 
+grado della rete. Se l'assortativa si distrugge più lentamente.
+
+
