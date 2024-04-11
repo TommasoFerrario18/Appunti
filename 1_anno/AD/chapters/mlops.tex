@@ -1,71 +1,84 @@
-\chapter{MLOPS}
-Prima in machine learning  prendavamo il training set, allenavamo l'argoritmo e 
-ottenavamo il modello.
-
-Possiamo pensare che nel mondo reale ci sia una pipeline di gestione e creazione 
-dei modelli, un esempio è CRISP-DM che è una pipeline circolare composta 
-dai seguenti passi:
+\chapter{MLops}
+Una tipica pipeline per un progetto di machine learning è composta da diverse fasi:
 \begin{itemize}
-    \item comprensione del dominio
-    \item data understanding che rappresenti il dominio, oltre a capirli bisogna 
-    anche trovarli o produrli
-    \item data preparation, ci si mobilita per integrare i dati provenienti da 
-    diverse fonti, sistemazione del dataset per gestire dati mancanti, outliers ecc\dots
-    \item creazione del modello
-    \item pubblicazione del modello
+    \item Comprensione del problema
+    \item Raccolta dei dati
+    \item Comprensione dei dati
+    \item Preparazione dei dati
+    \item Modellazione
+    \item Valutazione
+    \item Deployment
 \end{itemize}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/MLops/CRISP-DM.png}
+    \caption{ML Pipeline}
+    \label{fig:ml_pipeline}
+\end{figure}
+In questa parte del corso ci occuperemo della parte di gestione dei dati, nello
+specifico analizzeremo la parte di \textbf{Data Understanding} e \textbf{Data
+    Preparation}.
 
-% TODO: aggiungi la foto del ciclo
-
-Avere i dati corretti è fondamentale per produrre la qualità del modello, se non avessimo
-dati corretti (stessa distribuzione della production) allora si avranno problemi 
-di bias. Infatti i dati di training e testing devono derivare dai dati reali che verranno 
-dati in fase di production.
-
+Avere i dati corretti è una parte fondamentale per la creazione di un modello di
+che sia in grado di ottenere dei risultati corretti.
+\begin{center}
+    \textit{Garbage in, garbage out}
+\end{center}
+I dati di training e testing devono derivare dai dati reali che verranno raccolti
+in fase di production.
+\section{Pipeline}
 Una volta ottenuti i dati reali dovremo separarli in:
 \begin{itemize}
-    \item training data: dati da utilizzare per creare e valutare il modello
-    \item serving data: dati da dare in fase di production
+    \item \textbf{Training data}: vengono utilizzati per addestrare e valutare
+          il modello, sono quindi di dimensioni elevate e vengono raccolti
+          attraverso diverse fonti. Spesso caratterizzati da un elevato throughput.
+    \item \textbf{Serving data}: raccolti e utilizzati per fare previsioni in
+          fase di production. Questa tipologia di dati è spesso caratterizzata
+          da una bassa latenza.
 \end{itemize}
+Entrambi questi tipi di dati devono passare attraverso una fase di preparazione.
+In questa fase si vogliono stabilire quali sono le informazioni principali,
+quali dati sono rilevanti e quali dati sono irrilevanti. Si effettua dunque una
+prima analisi. Inoltre, vengono eseguite diverse operazioni per far si che i dati
+si adattino al modello che si vuole creare.
 
-successivamente i dati, sia di training, sia serving, devono essere preparati,
-successivamente una volta creato il modello dobbiamo valutarlo (ciclo che deve essere
-ripetuto). 
+Prima di arrivare alla parte di addestramento del modello, si passa attraverso una
+fase di validazione dei dati. Quest fase è necessaria in quanto i dati cambiano
+o cambia il contesto.
 
-Il problema è che nel tempo i dati cambiano o cambia il contesto quindi bisogna 
-aggiungere una fase di validation dei dati quando si sta creando il modello.
-L'obiettivo è capire le feature significative che fanno variare il modello,
-questo serve per poi controllare in futuro se queste feature significative sono 
-cambiate. Ovvero si confrontano le distribuzioni delle features ritenute significative 
-durante il training con la distribuzione delle stesse feature prese dai dati odierni.
+L'obiettivo principale è quello di capire quali feature sono significative
+per il modello e quali no. Questo serve per controllare in futuro se queste
+feature significative sono cambiate.
+
+Questa fase viene fatta confrontando le distribuzioni delle features ritenute
+significative durante il training con la distribuzione delle stesse feature prese
+dai dati raccolti in produzione.
+
 In questo modo possiamo segnalare quando le distribuzioni cambiano e nel caso devo
 adottare delle soluzioni:
 \begin{itemize}
-    \item riaddestrare il modello
-    \item avvisare l'utente che qualcosa sta cambiando
-    \item non fare niente
+    \item Riaddestrare il modello.
+    \item Avvisare l'utente che qualcosa sta cambiando.
+    \item Non fare niente.
 \end{itemize}
-Oppure spesso quello che succede è che cambiano nel tempo i tipi di dati, quindi, 
-in questa fase di validation, bisogna correggere i dati per renderli compatibili col
-modello.
-
-Una delle fasi più importanti è Data Acquisition, infatti possiamo avere diversi 
-problemi come bias nei dati che invalidano i risultati del modello.
-
-In aggiunta dobbiamo fare Data Provenance ovvero documentare come ho costruito 
-il dataset di training e validation, ovvero quali sono i dati utilizzati, da dove 
-vengono, come ho costruito il dataset. In questo modo si risolvono eventuali problemi
-dovuti a risultati sballati per dati che sono stati iniettati nel dataset.
-
-Successivamente dobbiamo effettuare la Data Exploration che permette di studiare 
-le distribuzioni dei valori, gli outliers ecc\dots. (Questa fase si fa in tutti i rettangoli 
-dello schema) Questo viene continuamente fatto in CI.
+Può capitare nel tempo i le feature cambino il tipo (ad esempio si passa da int
+a float), quindi, nella fase di validation, bisogna correggerli per renderli
+compatibili col modello.
 
 Per effettuare tutti i passi della pipeline servono diverse figure lavorative:
 \begin{itemize}
-    \item ML expert 
-    \item SW engineer
-    \item Site Reability Expert engineer: esperto che si occupa di gestire la produzione
+    \item \textbf{Machine Learning Expert}
+    \item \textbf{Software Engineer}
+    \item \textbf{Site Reliability Engineer}: esperto che si occupa di gestire
+          tutta la pipeline e di risolvere eventuali problemi.
 \end{itemize}
+\section{Data Acquisition}
+Una delle fasi più importanti è \textbf{Data Acquisition}. In questa fase possiamo
+avere diversi problemi come ad esempio l'introduzione di bias nei dati che
+invalidano i risultati del modello.
 
-
+In aggiunta, è obbligatorio sapere la \textbf{Data Provenance} ovvero documentare
+come ho costruito il dataset di training e validation. Questo consiste nel sapere
+quali sono i dati utilizzati, da dove vengono, come ho costruito il dataset. In
+questo modo si risolvono eventuali problemi dovuti a risultati sballati per dati
+che sono stati iniettati nel dataset.
