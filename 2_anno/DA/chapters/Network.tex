@@ -565,17 +565,17 @@ funzioni di similarità, come ad esempio:
 Usando il valore di similarità, abbiamo che due nodi simili avranno un valore
 di similarità alto, mentre due nodi dissimili avranno un valore di similarità
 basso. Sfruttando questo valore, possiamo creare le community utilizzando
-degli algoritmi di clustering, come ad esempio il \textbf{K-means}. 
+degli algoritmi di clustering, come ad esempio il \textbf{K-means}.
 \begin{nota}
-    Usando l'algoritmo K-means è necessario considerare sempre tutti i problemi 
+    Usando l'algoritmo K-means è necessario considerare sempre tutti i problemi
     che si possono verificare con questo algoritmo, come ad esempio la sensibilità
     all'inizializzazione dei centroidi, la presenza di minimi locali e la forma
     sferica dei cluster.
 \end{nota}
 \paragraph{Spectral clustering}
-Un altro approccio per identificare le community è quello di utilizzare lo 
-\textbf{spectral clustering}. Questo approccio rappresenta la similarità tra due 
-grafi utilizzando le matrici e gli autovalori e autovettori. Questi ultimi 
+Un altro approccio per identificare le community è quello di utilizzare lo
+\textbf{spectral clustering}. Questo approccio rappresenta la similarità tra due
+grafi utilizzando le matrici e gli autovalori e autovettori. Questi ultimi
 rappresentano le informazioni globali sulla struttura del grafo.
 
 Lo scopo di questo approccio è quello di portare i dati in uno spazio di dimensione
@@ -593,20 +593,20 @@ di adiacenza $A$.
 
 A questo punto possiamo calcolare gli autovalori e gli autovettori della matrice
 Laplaciana. Usando uno o più autovettori, possiamo rappresentare il grafo in uno
-spazio di dimensione inferiore. 
+spazio di dimensione inferiore.
 
-Una volta ottenuta la rappresentazione del grafo in uno spazio di dimensione 
+Una volta ottenuta la rappresentazione del grafo in uno spazio di dimensione
 inferiore, possiamo assegnare i nodi alle community.
 \paragraph{Mudularity maximization}
 Un altro approccio per identificare le community è quello di utilizzare la
-\textbf{modularity maximization}. Questo approccio si basa sull'assunzione che 
-un grafo ottenuto dal mondo reale ha una struttura molto lontana rispetto a 
-quella di un grafo generato in modo casuale. Quindi, più il grafo in analisi è 
+\textbf{modularity maximization}. Questo approccio si basa sull'assunzione che
+un grafo ottenuto dal mondo reale ha una struttura molto lontana rispetto a
+quella di un grafo generato in modo casuale. Quindi, più il grafo in analisi è
 distante da uno casuale, più la sua struttura sarà particolare.
 
-La \textbf{modularity} vuole fornire una misura di quanto sono diverse le 
-interazioni tra i gruppi nel grafo che stiamo analizzando rispetto a delle 
-interazioni casuali. In un grafo con $m$ archi, considerando due nodi con grado 
+La \textbf{modularity} vuole fornire una misura di quanto sono diverse le
+interazioni tra i gruppi nel grafo che stiamo analizzando rispetto a delle
+interazioni casuali. In un grafo con $m$ archi, considerando due nodi con grado
 rispettivamente $d_i$ e $d_j$, le connessioni casuali tra i due nodi sarebbero
 date da:
 \begin{equation}
@@ -620,93 +620,157 @@ La modularity può essere calcolata come segue:
 \begin{equation}
     Q = \frac{1}{2m} \sum_{i, j} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
 \end{equation}
-Più è grande la differenza tra $A_{ij} - \frac{d_i \cdot d_j}{2m}$, più forti 
+Più è grande la differenza tra $A_{ij} - \frac{d_i \cdot d_j}{2m}$, più forti
 sono le connessioni tra i nodi. Al contrario, se la differenza è piccola,
 allora le connessioni tra i nodi sono casuali.
-Un vantaggio di questo approccio è che il valore di modularity è compreso tra 
-$-1$ e $1$. Inoltre, una modularity uguale a $0$ indica che tutti i nodi 
+Un vantaggio di questo approccio è che il valore di modularity è compreso tra
+$-1$ e $1$. Inoltre, una modularity uguale a $0$ indica che tutti i nodi
 appartengono allo stesso gruppo.
 
-Questo valore può essere calcolato attraverso gli autovettori della matrice di 
+Questo valore può essere calcolato attraverso gli autovettori della matrice di
 modularità, ovvero la matrice definita come segue:
 \begin{equation}
     B_{ij} = A_{ij} - \frac{d_i \cdot d_j}{2m}
 \end{equation}
 \begin{nota}
-    La limitazione di tutti questi approcci è che l'utente deve specificare il 
+    La limitazione di tutti questi approcci è che l'utente deve specificare il
     numero di community che si vogliono identificare.
 \end{nota}
 \subsubsection{Hierarchy-centric}
+L'obiettivo di questa categoria è quello di costruire una struttura gerarchica
+delle community basata sulla topologia della rete.
 
-Si costruisce una struttura gerarchica basate sulla topologia delle community.
-Per costruire la struttura gerarchica del grafo si sfrutta la matrice delle distanze 
-che viene aggiornata riducendo la dimensione (eliminando le colonne e righe dei nodi
-uniti sotto una community) in modo da creare delle community. 
-
-
-Altrimenti si può ragionare partizionando la rete. Si calcola la Betweeness sugli 
-arichi e si rimuovono quelli con betweeness maggiore. In questo modo si partiziona
-il grafo per definire le community. Si continua la partizione fino ai singoli nodi.
-
-\subsection{Social media Analitics}
-HUB = nodi con tanti collegamenti
-Spoke = nodi con pochi collegamenti
-
-Questo si applica anche nei social. In base al contesto risultano importanti i
-collegamenti hub-hub o hub-spoke.
-
-Possiamo stimare la probabilità che un nodo di un grado $k$ e un nodo di grado $k'$
-che siano connessi, questo conto dipende dagli archi della rete. In pratica abbiamo
-che gli hubs sono molto più facilmente collegati agli altri rispetto ai gradi di grado massimo.
-Quindi se due nodi hanno molti archi allora si ha più probabilità che siano connessi.
-
-
-La rete può essere:
+Questo obiettivo può essere raggiunto utilizzando due approcci differenti:
 \begin{itemize}
-    \item assortativo: avremo una tendenza ad avere hub che si collegano tra di loro
-    \item neutrale: rete che ha collegamenti tra due nodi con probabilità randomica
-    \item disassortativo: avremo la tendenza ad avere spoke collegati agli hub
+    \item \textbf{Agglomerative}: si parte da una situazione in cui ogni nodo
+          rappresenta una community a sé stante. A questo punto, si uniscono
+          le community in base a un criterio di similarità.
+    \item \textbf{Divisive}: si parte da una situazione in cui tutti i nodi
+          appartengono alla stessa community. A questo punto, si dividono le
+          community in base a un criterio di similarità.
 \end{itemize}
+Solitamente, la costruzione di tale struttura, sfrutta la matrice delle distanze,
+la quale viene aggiornata, ad ogni iterazione, riducendo la dimensione (eliminando
+le colonne e righe dei nodi uniti sotto una community) in modo da creare delle
+community.
 
-Possiamo plottare i collegamenti tra due nodi rispetto al loro grado, se il grafico 
-mostra se la nuvola è sulla diagonale principale allora è assortativa, se non ha una 
-direazione allora è neutrale, se ha una direzione sul'antidiagonale allora è disassortativa.
+Il prodotto di questa operazione può essere rappresentato con una struttura ad
+albero, detta \textbf{dendrogramma}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/net/dendrogram.png}
+    \caption{Esempio di dendrogramma.}
+    \label{fig:dendrogram}
+\end{figure}
 
-Possiamo definire la matrice di correlazione (la matrice plottata dal grafico prec.) 
-permette di mostrare la correlazioene tra collegamenti di nodi di gradi differenti.
-La matrice viene riempita contando il numero di archi che connette un nodo di 
-grado $i$ con uno di grado $j$, poi la somma viene normalizzata.
+Un possibile criterio per suddividere la rete è la \textbf{edge-betweeness}, ovvero
+il numero di cammini minimi tra ogni coppia di nodi che passa attraverso l'arco
+su cui calcolo la metrica.
 
-Se il grafo è orientato allora non è simmetrica è il contrario. 
-
-Possiamo determinare l'assortativa o sisassortatività può essere fatta controllando 
-che $e_{ij} = q_iq_j$ dove $q_i$ e $q_j$ sono le probabilità che un nodo di grado 
-$i$ sia collegato con un nodo di grado $j$ in una rete randomica. Se $=$ allora 
-la rete è neutrale, altrimenti è assortativa o disassortativo. Possiamo utilizzare 
-un coefficiente $-1<r<1$ che se $r<0$ allora disassortativa, $r=0$ neutrale e $r>0$ assortativa. 
-
-La rimozione di un hub che è connesso ad altri hub o possiamo rimuovere un spoke.
-In questo modo una volta che sappiamo la tipologia della rete (assortativa o disassortativa)
-allora si può studiare la robustezza della rete.
-
-\begin{definizione}
-    Giant component è la più grande componente connessa di un grafo
+A questo punto, attraverso un processo iterativo, si procede eliminando gli archi
+con edge-betweeness maggiore, fino a quando non si ottiene la struttura gerarchica
+delle community. Ad ogni iterazione è necessario ricalcolare la metrica, in quanto
+la struttura della rete cambia.
+\section{Social media Analysis}
+In questa sezione, dobbiamo sapere sapere le definizioni di \textbf{hub} e \textbf{spoke}.
+\begin{definizione}[\textbf{Hub}]
+    Un hub è un nodo con un grado molto alto, ovvero un nodo che è connesso a molti
+    altri nodi.
 \end{definizione}
+\begin{definizione}[\textbf{Spoke}]
+    Un spoke è un nodo con un grado molto basso, ovvero un nodo che è connesso a pochi
+    altri nodi.
+\end{definizione}
+Reti che rappresentano domini diversi presentano delle strutture diverse nei
+collegamenti tra hub-hub e hub-spoke.
 
-Per studiare la robustessa si costruisce una rete a parte in cui si inseriscono 
-randomicamente gli archi della rete di partenza nella rete randomica. quando 
-aggiungiamo un arco allora i cammini esistenti tra quei nodi si espandono.
-Se siamo in una rete assortativa, quando aggiungiamo un arco tra hub allora si avrà
-un impatto notevole sui cammini della rete perché la Giant component si paleserà
-prima nella costruzione. Se è disassortativa allora impiegheremo più tempo a palesare 
-la giant component.
+Per iniziare ad analizzare la rete, possiamo stimare la probabilità che un nodo
+di un grado $k$ e un nodo di grado $k'$ che siano connessi da un arco. Questo
+valore dipende dagli archi della rete.
+\begin{equation}
+    P(k, k') = \frac{k \cdot k'}{2m}
+\end{equation}
+dove $m$ è il numero di archi della rete. Questa formula ci permette di dire che
+gli hubs sono molto più facilmente collegati tra di loro, rispetto agli spoke.
+Quindi se due nodi hanno un grado molto alto, allora è molto probabile che siano
+connessi tra di loro.
 
-Quindi si può studiare la palesazione della Giant component in base alle caratteristiche 
-della rete. Quindi si può studiare le proprietà di costruzione e distruzione della rete.
+La rete può essere classificata in base alla tipologia di collegamenti tra i nodi.
+Possiamo avere tre tipologie di rete:
+\begin{itemize}
+    \item \textbf{Assortativa}: avremo una tendenza ad avere hub che si collegano
+          tra di loro. Un esempio sono le reti sociali, in cui gli hubs (persone
+          famose), tendono a collegarsi tra di loro.
+    \item \textbf{Neutrale}: rete che ha collegamenti tra due nodi con probabilità
+          casuale.
+    \item \textbf{Disassortativa}: avremo la tendenza ad avere spoke collegati
+          agli hub. Un esempio sono le reti proteiche.
+\end{itemize}
+Un primo modo di studiare la tipologia della rete è quello di rappresentare
+attraverso un grafico i collegamenti tra due nodi rispetto al loro grado. Si
+costruisce una matrice in cui nella cella $i, j$ si inserisce il numero di archi
+che collegano un nodo di grado $i$ con un nodo di grado $j$.
 
-Per studiare la resistenza della rete si studia la rimozione dei nodi (site percolation)
-o la rimozione degli archi (bond percolation). In questo caso studiamo quanto tempo 
-impieghiamo a distruggere la Giant component. Se elimino un nodo allora cambio il 
-grado della rete. Se l'assortativa si distrugge più lentamente.
+Questa matrice viene poi normalizzata, dividendo il numero di archi per il numero
+totale di archi della rete.
 
+Attraverso la visualizzazione di questa matrice, possiamo capire se la rete è
+assortativa, disassortativa o neutrale. Se la matrice presenta sulla diagonale
+principale una nuvola di punti allora la rete è assortativa. Al contrario, se
+la nuvola è sulla diagonale secondaria, allora la rete è disassortativa. Infine,
+se si ha una distribuzione uniforme, allora la rete è neutrale.
+\begin{nota}
+    Se il grafo è orientato allora non è simmetrica è il contrario.
+\end{nota}
 
+Possiamo determinare l'assortativa o disassortatività controllando se la seguente
+uguaglianza è verificata:
+\begin{equation}
+    e_{ij} = q_iq_j
+\end{equation}
+dove $q_i$ e $q_j$ sono le probabilità che un nodo di grado $i$ sia collegato
+con un nodo di grado $j$ in una rete creata in modo randomico. Se tale uguaglianza
+è verificata, allora la rete è neutrale. Altrimenti, possiamo calcolare la
+differenza tra $e_{ij}$ e $q_iq_j$ per capire se la rete è assortativa o
+disassortativa. Questo viene fatto attraverso la seguente formula:
+\begin{equation}
+    \sum_{i, j}jk(e_{ij} - q_iq_j)
+\end{equation}
+Il valore ottenuto viene successivamente normalizzato dividendo la formula per:
+\begin{equation}
+    \sigma^2 = \sum_{k}k^2  - q_k - \left[\sum_{k}kq_k\right]^2
+\end{equation}
+Si ottiene quindi un valore $r$ compreso tra $-1$ e $1$.
+\begin{equation}
+    r = \frac{\sum_{i, j}jk(e_{ij} - q_iq_j)}{\sigma^2}
+\end{equation}
+In base al valore di $r$ possiamo determinare se:
+\begin{itemize}
+    \item $r > 0$ la rete è assortativa.
+    \item $r = 0$ la rete è neutrale.
+    \item $r < 0$ la rete è disassortativa.
+\end{itemize}
+Il motivo per cui si studiano queste proprietà è per capire quanto la rete è
+robusta. Ad esempio, vogliamo capire quanto influisce sulla rete se rimuoviamo
+un nodo.
+\begin{definizione}[\textbf{Giant component}]
+    La \textbf{Giant component} è la più grande componente connessa di un grafo.
+\end{definizione}
+Per studiare la robustezza della rete si procede costruendo una rete in cui si
+inseriscono casualmente gli archi della rete di partenza. Quando aggiungiamo un
+arco allora i cammini esistenti tra i vari nodi si espandono, aumentando di
+conseguenza la Giant component. Se la rete è assortativa, quando aggiungiamo un
+arco tra hub allora si avrà un impatto notevole sui cammini della rete perché la
+Giant component si paleserà prima nella costruzione. Al contrario, se è
+disassortativa allora impiegheremo più tempo per arrivare ad osservare la giant
+component.
+
+Quindi si può studiare la comparsa della Giant component in base alle caratteristiche
+della rete. Questo permette di studiare le proprietà di costruzione e distruzione
+di essa.
+
+Per studiare la resistenza della rete si studia la rimozione dei nodi (\textbf{site
+    percolation}) o la rimozione degli archi (\textbf{bond percolation}). In
+questo caso studiamo quanto tempo impieghiamo a distruggere la Giant component.
+Se elimino un nodo allora cambio il grado della rete. Se l'assortativa si distrugge
+più lentamente.
