@@ -99,116 +99,124 @@ si mostra l'evoluzione dell'automa nel tempo.
     step di 1 se c'è spazio, altrimenti si ferma. Inoltre, non si considera il
     tempo di reazione del guidatore e molti altri fattori.
 
-    Possiamo complicare leggermente il modello sostituendo il valore che 
+    Possiamo complicare leggermente il modello sostituendo il valore che
     rappresenta la presenza o meno del veicolo con la velocità del veicolo.
-    Si aumenta il raggio delle celle da considerare come vicine. Inoltre, ogni 
+    Si aumenta il raggio delle celle da considerare come vicine. Inoltre, ogni
     veicolo accelera di una velocità fino a quando non rischia di fare incidenti.
 \end{esempio}
-
 \begin{nota}
-    Le celle possono essere anche triangolari, esagonali e pentagonali. Infatti 
-    spesso si usano gli esagoni al posto dei quadrati, perché permettono di mantenere
-    la velocità di spostamento degli elementi uguale anche in diagonale. Il vicinato 
-    ad esagono si implementa con 3 vicini da una parte e 3 vicini dall'altra.
+    Le celle possono assumere anche forme differenti da quella quadrata. Ad esempio
+    possiamo avere celle triangolari, esagonali e pentagonali. Spesso si usano gli
+    esagoni al posto dei quadrati, perché permettono di mantenere la velocità di
+    spostamento degli elementi uguale anche in diagonale. Il vicinato ad esagono si
+    implementa con 3 vicini da una parte e 3 vicini dall'altra.
 \end{nota}
-
-Per gli automi cellulari sarà importante definire un raggio del vicinato, estendere 
-il raggio permette alle celle di essere influenzate da celle presenti nel vicinato,
-istantaneamente senza attendere il tempo per raggiungere la cella. Estendere il 
-raggio, implica maggior complessità.
-
+Per gli automi cellulari sarà importante definire un raggio del vicinato. Estendere
+il raggio comporta al fatto che la cella è influenzata da più celle, quindi
+l'aggiornamento della cella sarà più complesso.
 \begin{nota}
-    Non abusare dei termini per la relazione, ex: emergenza di un fenomeno.    
+    Non abusare dei termini per la relazione, ex: emergenza di un fenomeno.
 \end{nota}
-
-Esistono automi che sono invarianti secondo la rotazione, in generale sono 
-quelli che effettuano un conto sui vicini, inoltre non hanno una direzione dei vicini. 
-Questi automi sono detti totalitaristici.
-
+Esistono automi che sono invarianti secondo la rotazione, in generale sono quelli
+che effettuano un conto sui vicini, inoltre non hanno una direzione dei vicini.
+Questi automi sono detti \textbf{totalitaristici}.
 \section{Modellazione della folla di persone}
-Inizialmente la modellazione delle folle di persone è stata effettuata considerando 
-le singole persone senza relazioni tra di loro quindi:
+Inizialmente la modellazione delle folle di persone è stata effettuata considerando
+le persone indipendenti l'una dall'altra, ottenendo quindi un sistema dove:
 \begin{itemize}
-    \item Ogni persona ha un proprio obiettivo
-    \item Le altre persone sono considerate come ostacoli
+    \item Ogni persona ha un proprio obiettivo.
+    \item Le altre persone sono considerate come ostacoli.
 \end{itemize}
+Ora si vuole modellare la folla di persone in cui le persone hanno la possibilità
+di muoversi in gruppo.
 
-Ora si vuole modellare la folla di persone con delle relazioni (Ex: madre-figlia,
-gruppi di persone differenti). 
+Un primo studio su questo argomento è stato effettuato da un gruppo di architetti
+che hanno studiato il movimento delle persone lungo un marciapiede. Il loro lavoro
+è stato quello di osservare la situazione e annotare i movimenti delle persone.
 
-All'epoca non c'era molto, si è partiti da uno studio di architetti che hanno 
-osservato un marciapiede e categorizzavano le persone che passavano su quel marciapiede 
-e se fossero singole o a gruppi. Si è notato che i gruppi hanno velocità più bassa e 
-una ridotta varianza nella velocità rispetto al singolo. Hanno fatto lo stesso 
-studio è stato effettuato in un aereoporto e si è notato che le velocità medie e la varianza 
-cambiano. Inoltre più aumenta la dimensione dei gruppi allora più bassa è la velocità
-e più costante sarà. Si modella usando il social force model con una forza aggiuntiva 
-che modella la formazione delle persone nei gruppi. (ex: Line-ABreast, V-like, River-like nei gruppi da 3).
+Da questo si è notato che i gruppi tendono ad avere una velocità più bassa e con
+una varianza ridotta rispetto al singolo. Lo stesso esperimento è stato ripetuto
+in un aeroporto e si è notato che le velocità medie e la varianza cambiano.
+Inoltre, più aumenta la dimensione dei gruppi più bassa sarà la velocità e più
+sarà costante.
 
-Esistono anche modelli più complessi che non si limitano a gruppi piccoli, in realtà 
-la moda dei gruppi è spesso $3$.
+Questo comportamento può essere modellato usando il \textbf{social force model}
+con una forza aggiuntiva che modella la formazione di gruppi.
 
-Studio della folla che passa in galleria: si è notato che i gruppi vanno da $1$ a $4$
-persone, di cui i gruppi da $4$ sono molto piccoli. Si è notato che i singoli sono 
-più veloci e hanno traiettorie meno lineari, mentre il contrario per i gruppi.
+% TODO: immagine gruppi (ex: Line-ABreast, V-like, River-like nei gruppi da 3).
 
-è stata successivamente studiata la dispersione, si è notato che gruppi piccoli
-sono meno dispersi mentre gruppi più grandi si dispergono maggiormente. Studiato
-il fenomeno reale è stato definito il modello, si è partiti dai sistemi 
-dinamici discreti, si è partiti da \textbf{floor field CA}. Il modello 
-è basasto su:
+Esistono anche modelli più complessi che non si limitano a gruppi piccoli, in realtà
+la moda dei gruppi è spesso $3$. % ! Non mi ricordo la parte sul fatto che la moda sia 3
+
+Un studio diverso è stato effettuato nella galleria vittorio emanuele, dove si è
+notato che i gruppi sono composti da un numero compreso tra $1$ a $4$ di elementi.
+
+Si è notato che i singoli sono più veloci e hanno traiettorie meno lineari rispetto
+a quello che è stato osservato per i gruppi.
+
+È stata successivamente studiata la dispersione, da questo si è notato che gruppi
+piccoli tendono ad essere più coesi a differenza di gruppi più grandi.
+
+Studiato il fenomeno reale si è passati alla definizione del modello. Per fare
+questo, si è partiti dai sistemi dinamici discreti, \textbf{floor field CA}. Il
+modello è basato su:
 \begin{itemize}
     \item spostamento probabilistico
     \item goal oriented: abbiamo un gradiente che specifica la direzione dell'obiettivo
     \item presenza di ostacoli: simula gli ostacoli è statica
-    \item presenza di altri pedoni: simula la folla che è dinamica si calcola ad 
-    ogni passo. Si valuta negativamente perché si cerca di stare lontano.
+    \item presenza di altri pedoni: simula la folla che è dinamica si calcola ad
+          ogni passo. Si valuta negativamente perché si cerca di stare lontano.
 \end{itemize}
 è stato aggiunto:
 \begin{itemize}
-    \item nozione di gruppo: coesione del gruppo per modellare i gruppi che 
-    rallenta le persone del gruppo se uno rallenta
+    \item nozione di gruppo: coesione del gruppo per modellare i gruppi che
+          rallenta le persone del gruppo se uno rallenta
 \end{itemize}
-la modellazione dell'ambiente è stata fatta discretizzandolo (introducendo un errore)
-si hanno dei marker di inizio (generazione di agenti) e fine (obiettivo e distruzione di agenti). 
+La modellazione dell'ambiente è stata fatta discretizzandolo, viene quindi
+introdotto un errore, e utilizzando dei marker per segnare il punto di ingresso
+nel sistema  dove vengono generati gli agenti e un punto di fine, ovvero
+l'obiettivo e distruzione di agenti.
 
-Per effettuare lo spostamento degli agenti si determina la metrica della distanza 
-e questo implica l'induzione di particolari comportamenti. Inoltre è stata implementata 
-la possibilità di occupare mezza cella aumentando la densità. Si è introdotta la 
-coesione tra individui dello stess gruppi.
+Per effettuare lo spostamento degli agenti si determina la metrica della distanza
+e questo implica l'induzione di particolari comportamenti. Inoltre è stata implementata
+la possibilità di occupare mezza cella aumentando la densità. Si è introdotta la
+coesione tra individui dello stesso gruppi.
 
-Si è notato che gli individui hanno una velocità più elevata quando aumenta la densità,
-fino a quando è troppa e quindi diventano lenti quanto il singolo. Addirittura 
-il flusso dei gruppi diventa superiore perché si mettono in coda.
-Nell'osservazione reale si notava la dispersioen, questo può essere implementato 
-nel modello sempre calcolando i centroidi e questo permette di testare l'algoritmo 
+Si è notato che gli individui hanno una velocità più elevata quando aumenta la
+densità, fino a quando è troppa e quindi diventano lenti quanto il singolo.
+Addirittura il flusso dei gruppi diventa superiore perché si mettono in coda.
+
+Nell'osservazione reale si notava la dispersione, questo può essere implementato
+nel modello sempre calcolando i centroidi e questo permette di testare l'algoritmo
 di coesione per confrontarlo nella realtà.
 
 L'aggiornamento degli agenti si può effettuare:
 \begin{itemize}
-    \item sequential shuffle update: genero 
-    una sequenza di pedoni randomica e aggiorno un pedone alla volta.
-    \item parallel update: si sceglie il movimento per ogni pedone, si risolvono 
-    i conflitti (uno si muove e l'altro no, altrimenti si fermano entrambi)    
-\end{itemize} 
-L'approccio basato sugli atuomi cellulari porta ad dei limiti, come le traiettorie 
-zig-zag, in aggiunta dobbiamo simulare anche la velocità. Questo lo possiamo fare 
-in base alla frequenza di aggiornamento, dimensione della cella e ottenere la 
-velocità corrispondente nel mondo reale. Se abbiamo velocità diverse (eterogenee)
-possiamo tranquillamente modificare quante volte si muovono per turno, il problema
-è che ci potrebbe essere il problema di traiettorie che si intrecciano, quindi 
-conflitti e anticiparli non è così banale.
+    \item \textbf{Sequential shuffle update}: genero una sequenza di pedoni
+          randomica e aggiorno un pedone alla volta.
+    \item \textbf{Parallel update}: si sceglie il movimento per ogni pedone, si
+          risolvono i conflitti (uno si muove e l'altro no, altrimenti si fermano
+          entrambi)
+\end{itemize}
+L'approccio basato sugli automi cellulari porta ad dei limiti, come le traiettorie
+zig-zag, in aggiunta dobbiamo simulare anche la velocità. Questo lo possiamo fare
+in base alla frequenza di aggiornamento, dimensione della cella e ottenere la
+velocità corrispondente nel mondo reale. 
 
-Un'alternativa è considerare la velocità come numero reale tra $0-1$ al posto che 
+Se abbiamo velocità diverse (eterogenee) possiamo tranquillamente modificare quante 
+volte si muovono per turno, il problema è che ci potrebbe essere il problema di 
+traiettorie che si intrecciano, quindi conflitti e anticiparli non è così banale.
+
+Un'alternativa è considerare la velocità come numero reale tra $0-1$ al posto che
 il numero di celle.
 
 C'è anche un meccanismo di Reaction Time.
 
-I limiti del modello è che nello spazio possiamo avere corridoi obliqui e quindi 
-compiamo degli errori nel modello e si può stimare l'errore. Questo è dovuto all'utilizzo
-dei CA che discretizzano con celle. 
+I limiti del modello è che nello spazio possiamo avere corridoi obliqui e quindi
+compiamo degli errori nel modello e si può stimare l'errore. Questo è dovuto 
+all'utilizzo degli automi cellulari che discretizzano con celle.
 
-Se volessimo modellare le scale allora è come se le celle rallentano la velocità 
+Se volessimo modellare le scale allora è come se le celle rallentano la velocità
 dell'individuo.
 
 Successivamente si prende il modello e si compara con quanto osservato.
