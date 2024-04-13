@@ -170,7 +170,7 @@ la conoscenza dello stato del suo \textbf{Markov Blanket}, ovvero l'insieme dei
 genitori, dei figli e dei genitori dei figli.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{./img/Reti/MarkovBlanket.png}
+    \includegraphics[width=0.35\textwidth]{./img/Reti/MarkovBlanket.png}
     \caption{I nodi $U_i, Z_{ij}, Y_j$ appartengono alla Markov Blanket di $X$}
     \label{fig:MarkovBlanket}
 \end{figure}
@@ -233,7 +233,7 @@ condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separaz
               gli archi del camino sono \textbf{tail-to-tail}.
               \begin{figure}[!ht]
                   \centering
-                  \includegraphics[width=0.5\textwidth]{./img/Reti/TailToTail.png}
+                  \includegraphics[width=0.35\textwidth]{./img/Reti/TailToTail.png}
                   \caption{Collegamento tail-to-tail}
                   \label{fig:tail-to-tail}
               \end{figure}
@@ -241,7 +241,7 @@ condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separaz
               gli archi che collegano $V$ sono \textbf{tail-to-head}.
               \begin{figure}[!ht]
                   \centering
-                  \includegraphics[width=0.5\textwidth]{./img/Reti/TailToHead.png}
+                  \includegraphics[width=0.35\textwidth]{./img/Reti/TailToHead.png}
                   \caption{Collegamento tail-to-head}
                   \label{fig:tail-to-head}
               \end{figure}
@@ -250,7 +250,7 @@ condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separaz
               resto del cammino sono \textbf{head-to-head}.
               \begin{figure}[!ht]
                   \centering
-                  \includegraphics[width=0.5\textwidth]{./img/Reti/HeadToHead.png}
+                  \includegraphics[width=0.35\textwidth]{./img/Reti/HeadToHead.png}
                   \caption{Collegamento head-to-head}
                   \label{fig:head-to-head}
               \end{figure}
@@ -385,8 +385,8 @@ Una tipica query della quale bisogna calcolare la posterior è:
 \begin{equation*}
     P(X|E=e)
 \end{equation*}
-Prima chiedevamo di calcolare la distribuzione di probabilità della variabile date
-tutte le altre variabili nella rete.
+Fino a questo momento, calcolavamo la distribuzione di probabilità di una
+variabile date tutte le altre variabili nella rete.
 
 Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
 \begin{itemize}
@@ -394,7 +394,7 @@ Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
           nei discendenti e l'informazione sale dai figli ai genitori.
           \begin{figure}[!ht]
               \centering
-              \includegraphics[width=0.1\textwidth]{./img/Reti/Diagnostica.png}
+              \includegraphics[width=0.08\textwidth]{./img/Reti/Diagnostica.png}
               \caption{Inferenza diagnostica}
               \label{fig:diagnostica}
           \end{figure}
@@ -402,7 +402,7 @@ Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
           nei genitori e l'informazione scende dai genitori ai figli.
           \begin{figure}[!ht]
               \centering
-              \includegraphics[width=0.1\textwidth]{./img/Reti/Causale.png}
+              \includegraphics[width=0.08\textwidth]{./img/Reti/Causale.png}
               \caption{Inferenza causale}
               \label{fig:causale}
           \end{figure}
@@ -410,15 +410,15 @@ Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
           a un effetto.
           \begin{figure}[!ht]
               \centering
-              \includegraphics[width=0.25\textwidth]{./img/Reti/Intercausale.png}
+              \includegraphics[width=0.2\textwidth]{./img/Reti/Intercausale.png}
               \caption{Inferenza intercausale}
               \label{fig:intercausale}
           \end{figure}
-    \item \textbf{mista}: combinazione di due o più delle tipologie di inferenza
+    \item \textbf{Mista}: combinazione di due o più delle tipologie di inferenza
           presentate in precedenza.
           \begin{figure}[!ht]
               \centering
-              \includegraphics[width=0.1\textwidth]{./img/Reti/Mista.png}
+              \includegraphics[width=0.08\textwidth]{./img/Reti/Mista.png}
               \caption{Inferenza mista}
               \label{fig:mista}
           \end{figure}
@@ -432,10 +432,11 @@ Per rispondere ad una query generica del tipo:
 \begin{equation*}
     P(X|E=e)
 \end{equation*}
-allora posso sfruttare la seguente equazione, ovvero l'algoritmo di enumerazione:
-\begin{equation*}
-    P(X|E=e) = \alpha P(X,E=e) = \alpha \sum_{y} P(X,E=e, Y=y)
-\end{equation*}
+allora posso sfruttare la seguente equazione, ovvero l'\textbf{algoritmo di
+    enumerazione}:
+\begin{equation}
+    P(X|E = e) = \alpha P(X,E = e) = \alpha \sum_{y} P(X,E = e, Y = y)
+\end{equation}
 dove $\alpha$ mi rappresenta un parametro di normalizzazione, mentre $\sum_{y}
     P(X,E = e, Y = y)$ rappresenta la al variare delle variabili nascoste.
 
@@ -443,15 +444,15 @@ Si parla di enumerazione perché calcoliamo tutte le possibili combinazioni di v
 delle variabili che non fanno parte dell'evidenza.
 \begin{nota}
     Si aggiunge la costante di normalizzazione, ovvero:
-    \begin{equation*}
-        \alpha = \frac{1}{\prod_{x\in X}^{max}P(X = x)}
-    \end{equation*}
+    \begin{equation}
+        \alpha = \frac{1}{\sum_{x\in X}P(X = x)}
+    \end{equation}
 \end{nota}
 Inoltre, possiamo sfruttare la regola di fattorizzazione per calcolare la probabilità
 $P(X,E=e,Y=y)$, ovvero:
-\begin{equation*}
+\begin{equation}
     P(X,E=e,Y=y) = \prod_{K} P(K=k | parents(K))
-\end{equation*}
+\end{equation}
 
 In generale, quando si effettua l'inferenza in una rete Bayesiana, si calcola il
 valore della variabile di query per tutti i suoi possibili assegnamenti:
@@ -467,8 +468,8 @@ Possiamo però migliorare le tempistiche attraverso delle semplificazioni:
           delle moltiplicazioni.
     \item Dal momento che calcoliamo tutte le combinazioni dei valori delle
           variabili significa che alcuni valori vengono calcolati più volte.
-          Quindi cambieremo approccio e useremo l'algoritmo delle eliminazione
-          delle variabili.
+          Quindi cambieremo approccio e useremo l'\textbf{algoritmo delle
+              eliminazione delle variabili}.
 \end{itemize}
 
 L'algoritmo si basa sul principio di risolvere il calcolo delle sommatorie in
@@ -485,27 +486,27 @@ In questo modo non si controllano le probabilità di tutte le combinazioni di va
 (i famosi $2^n$) ma si controllano le probabilità di una successione finita di
 numeri casuali, non entrando nella complessità esponenziale.
 \section{Generazione di numeri pseudocasuali}
-\begin{definizione} [\textbf{Sequenza di numeri casuale}]
-    Una \textbf{sequenza di numeri casuale} è una sequenza di realizzazioni di
+\begin{definizione} [\textbf{Sequenza di numeri casuali}]
+    Una \textbf{sequenza di numeri casuali} è una sequenza di realizzazioni di
     variabili aleatorie indipendenti e identicamente distribuite.
 \end{definizione}
 \begin{definizione} [\textbf{Sequenza di numeri pseudocasuali}]
     Una \textbf{sequenza di numeri pseudocasuali} è una sequenza di numeri che
     sembrano impredicibili da cui non si riesce ad estrarre alcuna regolarità.
 \end{definizione}
-Quindi i numeri casuali non sono regolati da una particolare regola, al contrario
-i numeri pseudocasuali hanno delle regolarità e quindi ripetono un pattern.
+Quindi i numeri casuali non sono regolati da una particolare regola, al contrario,
+i numeri pseudocasuali hanno delle regolarità e si ripetono con un pattern.
 \begin{nota}
     I metodi di generazione di numeri pseudocasuali implementati nei computer
     sono tutti basati sull'aritmetica.
 \end{nota}
-Le proprietà statistiche dei numeri pseudocasuali sono le seguenti:
+I numeri pseudocasuali devono soddisfare alcune proprietà:
 \begin{itemize}
     \item \textbf{Indipendenza statistica}: tutti i numeri della sequenza devono
           essere indipendenti tra di loro.
     \item \textbf{Uniformità della distribuzione}: tutti i numeri della sequenza
           devono essere estratti dalla stessa distribuzione.
-    \item \textbf{Riproducibilità della sequenza di valori}
+    \item \textbf{Riproducibilità della sequenza di valori}.
     \item \textbf{Non ripetitività su un prefissato periodo}: la sequenza non si
           deve ripetere in un dato periodo.
 \end{itemize}
@@ -518,50 +519,57 @@ Una routine di generazioni di numeri pseudocasuali deve:
     \item generare numeri con proprietà statistiche simili a quelle ideali
 \end{itemize}
 \subsection{Metodo Naive}
-Un primo metodo di generare numeri casuali è attraverso l'utilizzo di una cifra
-di $10$ numeri, si eleva al quadrato e si prendono le $10$ cifre centrali.
-
-La sequenza non è casuale perché ogni numero è ottenibile da quello precedente,
-inoltre si hanno problemi a causa dell'operazione di elevazione.
+Un primo metodo per generare numeri casuali è attraverso l'utilizzo di una sequenza
+di numeri con $10$ cifre. Il procedimento è il seguente:
+\begin{itemize}
+    \item Si parte da un numero.
+    \item Lo si eleva al quadrato.
+    \item Si prendono le $10$ cifre centrali.
+    \item Si ripete il procedimento.
+\end{itemize}
+La sequenza ottenuta \textbf{non è casuale}, perché ogni numero è ottenibile da
+quello precedente. Inoltre, si hanno problemi a causa dell'operazione di elevamento
+al quadrato, infatti si ha un'esplosione dei numeri.
 \begin{esempio}
     Ecco un esempio di un problema su un numero a $4$ cifre.
     \begin{equation*}
         \begin{array}[pos]{cc}
-            6100**2 & = 37\underline{2100}00 \\
-            2100**2 & = 4\underline{4100}00  \\
-            4100**2 & = 16\underline{8100}00 \\
+            (6100)^2 & = 37\underline{2100}00 \\
+            (2100)^2 & = 4\underline{4100}00  \\
+            (4100)^2 & = 16\underline{8100}00 \\
             \vdots
         \end{array}
     \end{equation*}
 \end{esempio}
-\subsection{Moltiplicative Congruential Method}
-Sia $x_0$ il seed della sequenza allora un generico numero pseudocasuale può essere
-generato da quello precedente nel seguente modo:
+\subsection{Moltiplicative Congruential Method (MCM)}
+Sia $x_0$ il valore iniziale, o anche detto \textbf{seed}, della sequenza. Allora
+un generico numero pseudocasuale può essere ottenuto da quello precedente nel
+seguente modo:
 \begin{equation}
-    x_n = ax_{n-1} \mod M \quad 0 \leq x_n \leq M
+    x_n = a \cdot x_{n-1} \mod M \quad 0 \leq x_n \leq M
 \end{equation}
 Con $a, M \in \mathbb{N}^+$.
 
 Il problema di questo metodo è che genera sempre dei numeri in modo ciclico sulla
-base del valore di $M$. Si può risolvere facilmente scegliendo $M$ molto grande
-e primo.
-\subsection{Linear Moltiplicative Congruential Method}
-Una versione di quello precedente è la versione linear, ovvero aggiungere
-un bias $c$, in modo tale da personalizzare la sequenza. In formule:
+base del valore di $M$. Questo problema si può risolvere scegliendo opportunamente
+il valore di $M$, solitamente si sceglie un valore molto grande e primo.
+\subsection{Linear Moltiplicative Congruential Method (LCM)}
+Questo metodo è una versione raffinata di quello precedente. In particolare, si
+aggiunge un bias $c$, in modo tale da personalizzare la sequenza. In formule:
 \begin{equation}
-    x_n = (ax_{n-1} + c) \mod M
+    x_n = (a \cdot x_{n-1} + c) \mod M
 \end{equation}
 dove $a,c,M \in \mathbb{N}^+$, inoltre $M > x_0, c, a$.
 
-In ogni caso abbiamo sempre la periodicità quindi $M$ si cerca di scegliere $M$
-molto grande.
+In ogni caso, a causa dell'operatore $\mod$, abbiamo sempre una periodicità dovuta
+a $M$, quindi si cerca di scegliere tale valore in modo tale che sia grande e primo.
 % TODO: chiedi al prof
+\subsection{Generazione di una distribuzione generica}
+Vogliamo avere degli approcci per generare casualmente dei numeri che rispettino
+una distribuzione generica.
 
-\subsection{Generazione di una sequenza di numeri pseudocasuali derivanti da una
-    distribuzione generica}
-Vogliamo avere degli approcci per generare randomicamente dei numeri da una
-distribuzione generica. Si utilizzano diversi metodi che a partire da un numero
-random estratto in modo uniforme tra $0$ e $1$, generano numeri che rispettano
+Per ottenere questo risultato, si utilizzano diversi metodi che a partire da un
+numero random, estratto in modo uniforme tra $0$ e $1$, generano numeri che rispettano
 una particolare distribuzione. Questi metodi sono:
 \begin{itemize}
     \item \textbf{Trasformazione inversa}
@@ -578,9 +586,8 @@ la \textbf{funzione di probabilità cumulativa} ($F(X = x)$), quest'ultima funzi
     \item monotona
     \item crescente
     \item limitata, compresa tra $[0,1]$
-    \item definita nel seguente modo $F(X=x) =P(X \leq x)$
+    \item definita nel seguente modo $F(X=x) =P(X \leq x) = \int_{-\infty}^X f_X(\tau) d\tau$
 \end{itemize}
-
 La generazione si effettua in questo modo:
 \begin{itemize}
     \item Si seleziona la distribuzione che desideriamo per la variabile $X$,
@@ -589,7 +596,10 @@ La generazione si effettua in questo modo:
     \item Si ottiene il numero randomico derivante dalla distribuzione di $X$
           nel seguente modo $x = F^{-1}(X=u)$.
 \end{itemize}
-Questo procedimento vale sia per Variabili discrete, sia per variabili continue.
+Questo procedimento vale sia per variabili continue, sia per variabili discrete,
+in questo caso la funzione di probabilità cumulativa è definita sostituendo una
+sommatoria all'integrale.
+
 Questo approccio coincide col campionamento della variabile $X$.
 \begin{esempio}
     Sia $X$ la nostra variabile con $3$ simboli.
@@ -609,11 +619,24 @@ spesso è complesso.
 Si può utilizzare per generare numeri $x$ derivanti da distribuzioni $X$ limitate
 da intervalli finiti $[a,b]$.
 
-Scegliendo una distribuzione $f_X$ per $X$ tale che $X$ sia definita solo in $[a,b]$
-e quindi $f_X : [a,b] \rightarrow [0,c]$.
-
-Il metodo si basa sul generare coppie di numeri $\mu_i,\mu_j$ estratti da
-distribuzioni $U[0-1]$, allora genereremo due valori.
+Scegliendo una distribuzione $f_X$ per a variabile aleatoria $X$ tale che sia
+definita solo in $[a,b]$ e quindi:
+\begin{equation}
+    f_X : [a,b] \rightarrow [0,c]
+\end{equation}
+\begin{osservazione}
+    In pratica la funzione $f_X$ è tutta contenuta all'interno del rettangolo
+    $[a,b] \times [0,c]$.
+\end{osservazione}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]{./img/Reti/acceptancerejection.png}
+    \caption{Acceptance rejection}
+    \label{fig:acceptance-rejection}
+\end{figure}
+Il metodo si basa sul generare coppie di numeri $\mu_i,\mu_j$ estratti da due
+sequenze pseudocasuali estratte da distribuzioni $U[0, 1]$. Da queste, genereremo
+due sequenze di numeri utilizzando:
 \begin{equation}
     \begin{cases}
         x = a + (b-a)\mu_i \\
