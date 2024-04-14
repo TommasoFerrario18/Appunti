@@ -10,15 +10,16 @@ non è una cosa banale in quanto:
       \item Ci serve un contesto per rappresentare il testo in analisi.
       \item Ci può essere del rumore nei dati (dati errati o non fedeli).
       \item Può essere presente dell'ambiguità nelle frasi, per esempio abbiamo
-            modi di dire. Questo viene risolto in diversi modo, ad esempio
+            modi di dire. Questo viene risolto in diversi modi, ad esempio
             effettuando l'analisi sintattici, part-of-speech tagging, etc.
-      \item ambiguità sintattica part-tree-disambiguation
+      \item Ambiguità sintattica, la quale viene risolta attraverso part-tree-disambiguation
 \end{itemize}
 I problemi legati all'ambiguità sono molto importanti in questo campo, e sono
 studiati in modo approfondito. Per la loro risoluzione esistono diverse tecniche
 che sono state sviluppate nel tempo e implementate in librerie.
-Alcune di queste forniscono sistemi di disambiguità che si basano sulla costruzione
-di diversi alberi di parsing e restituiscono l'albero della frase più probabile.
+Alcune di queste, forniscono sistemi per risolvere le ambiguità nelle frasi, i
+quali si basano sulla costruzione di diversi alberi di parsing e restituiscono
+l'albero della frase più probabile.
 
 Tra le varie tipologie di ambiguità che possiamo incontrare distinguiamo due
 tipologie:
@@ -27,7 +28,8 @@ tipologie:
             Questo viene studiato attraverso la \textbf{sentiment analysis}.
       \item Ambiguità semantica: in una frase sono presenti parole che possono
             avere più significati. Questo viene studiato attraverso la
-            \textbf{named-entity recognition} e in seguito il \textbf{named-entity linking}.
+            \textbf{named-entity recognition} e in seguito il \textbf{named-entity
+                  linking}.
 \end{itemize}
 \section{Sentiment analysis}
 \begin{definizione}[\textbf{Text Analytics}]
@@ -53,7 +55,7 @@ Un'altra distinzione che possiamo fare è tra:
       \item \textbf{Esplicito}: il testo esprime chiaramente un opinione.
       \item \textbf{Implicito}: il testo esprime un opinione in modo indiretto.
 \end{itemize}
-Un altro problema di riconoscere il sentiment analysis è capire se nella frase è
+Un altro problema di riconoscere il sentiment è capire se nella frase è
 presente dell'ironia o del sarcasmo.
 \begin{definizione}
       Le emozioni sono un fenomeno psicologico che viene azionato da stimoli
@@ -70,7 +72,7 @@ presente dell'ironia o del sarcasmo.
       graduali.
       \begin{figure}[!ht]
             \centering
-            \includegraphics[scale=0.5]{./img/nlp/emozioni.png}
+            \includegraphics[width=0.5\textwidth]{./img/nlp/emozioni.png}
             \caption{Classificazione delle emozioni}
             \label{fig:emozioni}
       \end{figure}
@@ -125,7 +127,7 @@ una parola e cerca di prevedere le parole che la circondano.
       \item \textbf{CBOW}: cerca di predire la parola sulla base dell'intorno
             delle parole vicine.
 \end{itemize}
-Questi permettono di avere parole con lo stesso significato o simili vicine nello 
+Questi permettono di avere parole con lo stesso significato o simili vicine nello
 spazio vettoriale.
 
 Una volta risolto il problema della rappresentazione si può passare alla fase

@@ -440,21 +440,30 @@ Ci interessa l'identificazione delle community per:
 \end{esempio}
 Non esiste una definizione unica di community, ma esistono diversi criteri per
 identificarle. Ad esempio, se consideriamo la figura \ref{fig:community}, possiamo
-identificare 3 community, ovvero quelle rappresentate dalle componenti connesse,
-oppure 9 se le consideriamo come insiemi di nodi vicini tra loro, insiemi densi
-di nodi.
+riconoscere in modo diverso le community in base al criterio che utilizziamo.
+In questo caso, possiamo identificare:
+\begin{itemize}
+    \item 3 community quelle rappresentate dalle componenti connesse.
+    \item 9 community se le consideriamo come insiemi di nodi vicini tra loro,
+          insiemi densi di nodi.
+\end{itemize}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{./img/net/community.png}
+    \includegraphics[width=0.3\textwidth]{./img/net/community.png}
     \caption{Esempio di community.}
     \label{fig:community}
 \end{figure}
 
-In una rete, le community che vengono identificate possono essere disgiunte,
-oppure possono sovrapporsi (overlap).
+Una volta identificate le community, possiamo studiare le relazioni tra di loro.
+Una prima osservazione può essere fatta sul fatto che le community possono
+essere:
+\begin{itemize}
+    \item \textbf{Disgiunte}: non condividono nessun nodo.
+    \item \textbf{Sovrapposte}: condividono alcuni nodi, anche detto \textbf{overlap}.
+\end{itemize}
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{./img/net/overlap.png}
+    \includegraphics[width=0.3\textwidth]{./img/net/overlap.png}
     \caption{Esempio di community che si sovrappongono.}
     \label{fig:overlap}
 \end{figure}
@@ -575,7 +584,7 @@ degli algoritmi di clustering, come ad esempio il \textbf{K-means}.
 \paragraph{Spectral clustering}
 Un altro approccio per identificare le community è quello di utilizzare lo
 \textbf{spectral clustering}. Questo approccio rappresenta la similarità tra due
-grafi utilizzando le matrici e gli autovalori e autovettori. Questi ultimi
+grafi utilizzando le matrici, gli autovalori e gli autovettori. Questi ultimi
 rappresentano le informazioni globali sulla struttura del grafo.
 
 Lo scopo di questo approccio è quello di portare i dati in uno spazio di dimensione
@@ -620,6 +629,18 @@ La modularity può essere calcolata come segue:
 \begin{equation}
     Q = \frac{1}{2m} \sum_{i, j} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
 \end{equation}
+dove:
+\begin{itemize}
+    \item $m$ è il numero di archi del grafo.
+    \item $A_{ij}$ è l'elemento $i, j$ della matrice di adiacenza.
+    \item $d_i$ è il grado del nodo $i$.
+    \item $d_j$ è il grado del nodo $j$.
+    \item $c_i$ è la community a cui appartiene il nodo $i$.
+    \item $c_j$ è la community a cui appartiene il nodo $j$.
+    \item $\delta(c_i, c_j)$ è una funzione che restituisce $1$ se i nodi $i$ e
+          $j$ appartengono alla stessa community, altrimenti restituisce $0$.
+\end{itemize}
+
 Più è grande la differenza tra $A_{ij} - \frac{d_i \cdot d_j}{2m}$, più forti
 sono le connessioni tra i nodi. Al contrario, se la differenza è piccola,
 allora le connessioni tra i nodi sono casuali.
@@ -636,6 +657,12 @@ modularità, ovvero la matrice definita come segue:
     La limitazione di tutti questi approcci è che l'utente deve specificare il
     numero di community che si vogliono identificare.
 \end{nota}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/net/modularity.png}
+    \caption{Esempio di modularity.}
+    \label{fig:modularity}
+\end{figure}
 \subsubsection{Hierarchy-centric}
 L'obiettivo di questa categoria è quello di costruire una struttura gerarchica
 delle community basata sulla topologia della rete.
@@ -674,12 +701,12 @@ la struttura della rete cambia.
 \section{Social media Analysis}
 In questa sezione, dobbiamo sapere sapere le definizioni di \textbf{hub} e \textbf{spoke}.
 \begin{definizione}[\textbf{Hub}]
-    Un hub è un nodo con un grado molto alto, ovvero un nodo che è connesso a molti
-    altri nodi.
+    Un \textbf{hub} è un nodo con un grado molto alto, ovvero un nodo che è 
+    connesso a molti altri nodi.
 \end{definizione}
 \begin{definizione}[\textbf{Spoke}]
-    Un spoke è un nodo con un grado molto basso, ovvero un nodo che è connesso a pochi
-    altri nodi.
+    Un \textbf{spoke} è un nodo con un grado molto basso, ovvero un nodo che è 
+    connesso a pochi altri nodi.
 \end{definizione}
 Reti che rappresentano domini diversi presentano delle strutture diverse nei
 collegamenti tra hub-hub e hub-spoke.
