@@ -1542,7 +1542,7 @@ Quindi il tiling valido rispetto a $T$ è invariante rispetto alle translazioni,
 perché il tiling rimane valido quando traslo il piano.
 
 \begin{definizione} [\textbf{Tiling problem}]
-    Il \textbf{tiling problem} è il problema di decisione che determina se dato un 
+    Il \textbf{tiling problem} (domino problem) è il problema di decisione che determina se dato un 
     tile set finito ammette un tiling valido sul piano.
 \end{definizione}
 
@@ -1608,8 +1608,228 @@ e unguale salti per ogni configurazione.
     \end{proof}
 \end{teorema}
 
-Si più dimostrare l'indecidibilità in 1D usando il NW-deterministic tiling.
+\begin{nota}
+    Con un CA 2D si può simulare l'evoluzione dinamica di un Tileset
+\end{nota}
+
+Si può dimostrare l'indecidibilità in 1D si usano i NW-deterministic, coincide 
+con una diagonale del tiling 2D  
 
 \begin{definizione} [\textbf{NW-deterministic tiling}]
-    
+    Un Tileset $T$ è \textbf{NW-deterministic tiling} se nessuna coppia di tile
+    hanno gli stessi identici colori sugli edge superiore e a sinistra.
 \end{definizione}
+
+Quindi in un tiling valido, un particolare tile è univocamente determinato 
+dai tile a sinistra e sopra, perché esisterà un unico tile da inserire.
+
+Quindi nel 2D un NW-deterministic tiling visto in diagonale determina direttamente 
+la diagonale sottostante. Una diagonale può essere interpretata come una configurazione 
+bi-infinita di un CA 1D. 
+
+\begin{nota}
+    Un \textbf{NW-deterministic tiling valido} coincide con il diagramma spazio
+    tempo di un CA. 
+\end{nota}
+
+\begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-1D}]
+    Un CA 1D è nilpotente sse  $T$ è \textbf{NW-deterministic tiling set} non ammette tiling
+    valido
+    \begin{proof}
+        Da un NW-deterministic tiling set $T$ costruiamo un CA 1D:
+        \begin{itemize}
+            \item $S= T\cup \{q\}$
+            \item $r=\frac{1}{2}$ ovvero si considera la cella da modificare e 
+            la sua successiva, quindi il tile attuale e il tile NE.
+            \item $f:S^2\rightarrow S$ è la regola locale che prende due tile 
+            e ne restituisce un altro.
+            $$f(A,B) = \begin{cases}
+                C & \exists ! C \text{ per definizione}\\
+                q &  A=q\lor B=q\lor\text{ se non esiste, quando non ammette tiling}
+            \end{cases}$$
+
+        \end{itemize}
+        Dimsotriamo le singole implicazioni:
+        \begin{itemize}
+            \item $\implies$: Se $T$ ammette tiling valido allora $q$ non compare 
+            mai perché esiste sempre esattamente un $C$, quindi significa che $CA$
+            non è nilpotente
+            \item $\impliedby$: Ci si basa sul principio di compattezza del Tiling 
+            negato. $T$ non ammette tiling valido allora tutti i quadrati di dimensione 
+            $n\times n$ non sono validi per qualche $n$.
+            
+            Per ipotesi sappiamo che $T$ non è valido, questo significa che 
+            per il principio di compattezza, una qualsiasi configurazione contiene 
+            almento un $q$, quindi facendo evolvere l'automa otterremo prima o poi 
+            la configurazione quiesciente.
+        \end{itemize}    
+    \end{proof}
+\end{teorema}
+
+Tutto quello che abbiamo detto vale anche per $NE, SW, SE$. Un tile set 
+è $4$-way deterministic se è deterministico in ogni direzione.
+
+\begin{nota}
+    Possiamo costruire tileset aperiodico.
+\end{nota}
+
+\begin{teorema}
+    Il tiling problem è indecidibile in tutte e $4$ direzioni.
+\end{teorema}
+
+\subsection{Snakes}
+
+\begin{definizione} [\textbf{Snake} (directed tiles)]
+    \textbf{Snake} è un tileset con l'aggiunta di frecce verso le 4 direzioni (N,W,E,S).
+\end{definizione}
+
+Dato un generico tiling di Snake (valido o no), a partire da una qualsiasi posizione
+si possono generare dei cammini infiniti dati dalle freccie, questi possono 
+essere:
+\begin{itemize}
+    \item infiniti senza loop
+    \item infiniti con loop
+\end{itemize} 
+
+Dato un generico tiling di \textbf{Snake} (valido o no), a partire da una qualsiasi posizione
+si possono generare dei cammini infiniti dati dalle freccie, sui cammini possono
+accadere le seguenti cose:
+\begin{enumerate}
+    \item ci può essere un tiling error tra due tiles entrambe sul percorso
+    \item il percorso è un \textbf{plane-filling path}, ovvero $\forall n\in \mathbb{N}^+$
+    esistono $n\times n$ quadrati incui tutte le loro posizioni vengono visitate 
+    dal cammino.
+\end{enumerate}
+
+\begin{nota}
+    Un percorso che forza gli \textbf{Snake} ad ammettere tiling valido è il \textbf{
+        plane-filling Hillbert curve}
+\end{nota}
+
+\begin{esempio}
+    Un esempio di Snakes corrisponde ad un CA inietivo sulle configurazioni periodiche
+    ma non iniettivo su tutte le configurazioni.
+\end{esempio}
+
+Sia $G_p$ la restrizione della regola globale $G$ di un CA 1D alle configurazioni 
+periodiche allora 
+si sa che
+$$G \text{ iniettiva} \iff G_p \text{ iniettiva}$$
+$$G \text{ suriettiva} \iff G_p \text{ suriettiva}$$
+
+Nel caso bidimensionale si può solo 
+$$G \text{ iniettiva} \implies G_p \text{ iniettiva}$$
+$$G \text{ suriettiva} \impliedby G_p \text{ suriettiva}$$
+
+Infatti gli Snake permettono di dimostrare che 
+$$G \text{ iniettiva} \not\impliedby G_p \text{ iniettiva}$$
+
+Gli Snake sono utili anche per provare l'indecidibilità che CA 2D sia reversibile.
+La dimostrazione si basa sulla riduzione del tiling problem all'utilizzo degli 
+Snake.
+
+\begin{teorema}
+    Il problema di determinare se CA 2D è reversibile (e quindi anche iniettivo)
+    è indecidibile.
+    \begin{proof}
+        Dato un qualsiasi $T$ tileset, costruiamo un CA 2D (Snake XOR) nel seguente modo:
+        \begin{itemize}
+            \item alfabeto $S = T\times Snakes\times \{0,1\}$. Ogni cella è composta 
+            da un tile di $T$, uno Snake tile e un bit, dove solo $T$ può variare e 
+            $T$ e lo Snake hanno gli stessi colori.
+            \item regola locale:
+            \begin{itemize}
+                \item tile error: se c'è un tile error la cella rimane invariata
+                \item tile valido: la cella è attiva quindi il bit verrà aggiornato 
+                calcolando lo XOR tra se stesso e il bit della cella puntata dalla 
+                freccia dello Snake.
+            \end{itemize}
+        \end{itemize}
+
+        Possiamo riportare il problema all'automa CA è reversibile sse il tile 
+        set $T$ non ammette tile valido. 
+
+        Dimostriamo le implicazioni:
+        \begin{itemize}
+            \item $\implies$: dimostriamo che $T$ ammette tile valido allora 
+            CA è reversibile.
+
+            Se $T$ ammette tile valido costruiamo $2$ configurazioni $c', c''$
+            tali che $G(c') = G(c'')$. Lo Snake e $T$ hanno lo stesso tiling valido
+            e $c'\ne c''$, per esempio $c'$ è composto da soli $0$ mentre $c''$ 
+            è composto da soli $1$.
+
+            Per entrambe le configurazioni le celle sono attive, perché 
+            hanno lo stesso tiling corretto, quindi significa che si devono aggiornare.
+            $G(c') = c'$ perché ha soli $0$, mentre $G(c'') = c'$ perché è composta 
+            da soli $1$ che in XOR tra di loro ritornano sempre $0$. Quindi CA non 
+            è iniettivo.
+            \item $\impliedby$: Dimostriamo che da CA non sia iniettivo si riesce 
+            a dimostrare che ammette tiling valido.
+                        
+            supponiamo che CA non sia iniettivo, Sia $c$ e $d$
+            due diffenti configurazioni con la stessa immagine. Questi 
+            avranno $T$ e Snake identici e validi, quindi ahnno bit $0$ e $1$ differenti
+            alla posizione $p_1\in \mathbb{Z}$.
+
+            Dal momento che $c$ e $d$ hanno lo stesso successore:
+            \begin{itemize}
+                \item le celle in posizione $p_1$ devono essere attive perché
+                Snakes e $T$ sono validi alla posizione $p_1$
+                \item i bit nella posizione successiva $p_2$ puntata dallo Snake
+                sono differenti in $c$ e $d$.
+            \end{itemize}
+            Possiamo continuare ricorsivamente con le stesse motivazioni.
+            Avremo quindi una successione di $p_1,p_2,p_3\dots$ che seguono le 
+            frecce. Non c'è nessun tiling error per tutto il percorso, quindi 
+            è un \textbf{plane-filling path} di tiles validi quindi $T$ deve 
+            ammettere tiling valido su tutto il piano
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+
+Il tile è usato per principalmente per studiare problemi di autoassemblaggio di 
+cellule (modello Winfree). In sostanza si aggiunge un tile alla volta al piano in modo che rimanga 
+valido. Il piano piano continua a crescere irregolarmente fino a quando non possiamo 
+più aggiungere tile, questo corrisponde all'autoassemblaggio biologico.
+
+La regola di match in questo problema può essere di due tipi:
+\begin{itemize}
+    \item \textbf{strong matching rules}: ogni nuovo tile deve metchare con i colori 
+    dei tile di tutti i vicini assemblati precedentemente
+    \item \textbf{weak matching rules}: ogni nuovo tile deve metchare con i colori 
+    dei tile di almeno un solo vicino assemblato precedentemente
+\end{itemize}
+
+\begin{definizione} [\textbf{Terminal assembly}]
+    Un pattern è \textbf{terminal assembly} se non ha più tile che si possono aggiungere
+\end{definizione}
+\begin{definizione} [\textbf{Unbounded assembly}]
+    Un tile set ammette un \textbf{unbounded assembly} se è un infinita sequenza 
+    di tile aggiunti senza poter arrivare ad un terminal assembly possibile
+\end{definizione}
+
+\begin{teorema}
+    Il problema di riconoscere se un tile ammette unbounded assembly è un problema decidibile.
+
+    Questo problema coincide col cercare se esiste uno Snake che lo rappresenta.
+\end{teorema}
+\section{Subshift}
+
+Modelli che permettono di codificare sequenze bi-infinite di caratteri escludendo 
+delle parole finite (codifica con parole proibite). Usati per modellare il salvataggio
+dei dati su disco fisso.
+
+\begin{definizione} [\textbf{Sottostringa di una stringa bi-infinita}]
+    Sia  $x\in A^\mathbb{Z}$ e una parola $w\in A^+$. Diremo che $w$ è sottostringa (finita) 
+    di $x$ sse $\exists i,j\in \mathbb{Z}$ con $i\le j$ tale che $w=x_{[i,j]}$
+\end{definizione}
+
+\begin{definizione} [\textbf{Subshift}]
+    Sia $X\subseteq A^\mathbb{Z}$ è un subshift sse $\exists \mathcal{F}\subseteq A^\ast$
+    tale che $X= X_\mathcal{F}$
+\end{definizione}
+
+$X$ è generato da $\mathcal{F}$ e sarà composto da parole che non hanno come 
+sottostringhe parole di $\mathcal{F}$. Spesso saremo interessati a cercare 
+di rappresentare finitamente $X_\mathcal{F}$.
