@@ -1,0 +1,373 @@
+\chapter{Autovalori e autovalori}
+\begin{definizione} [\textbf{Autovalore e autovettore}]
+    Data una matrice $A \in \mathbb{R}^{n\times n}$ un \textbf{autovalore} di una
+    matrice e l'\textbf{autovettore} associato ad esso, sono una coppia $(\lambda,
+        \vec{v}_\lambda)\in \mathbb{C}\times\mathbb{C}^{n}$ tale che vale la
+    seguente identità:
+    \begin{equation*}
+        A\vec{v}_\lambda = \lambda \vec{v}_\lambda
+    \end{equation*}
+\end{definizione}
+In generale una matrice A di dimensione n ha n autovalori/autovettori. Trovare
+lo \textbf{spettro}, ossia tutti gli n autovalori/autovettori, è una procedura
+onerosa in termini di operazioni macchina.
+\section{Localizzazione autovalori}
+Dato che gli autovalori $\lambda$ di una matrice $A$ sono numeri complessi, dovremmo
+lavorare sul piano complesso e non semplicemente sulla retta reale.
+
+Una prima stima sulla posizione degli autovalori è fornita dalla norma della
+matrice $A$.Infatti vale il seguente teorema.
+\begin{teorema}
+    Sia $\|\cdot\|$ una norma di matrici e sia $A$ una matrice quadrata, allora
+    sappiamo che:
+    \begin{equation*}
+        |\lambda_{\max}| \leq \|A\|
+    \end{equation*}
+\end{teorema}
+Possiamo studiare questo teorema considerando che la norma di una matrice è
+definita come:
+\begin{equation*}
+    \|A\| = \max_{\vec{x}_\lambda \in \mathbb{R}^n} \frac{\|A\vec{x}_\lambda\|}{\|\vec{x}_\lambda\|}
+\end{equation*}
+Dato che vogliamo verificare la seguente identità:
+\begin{equation*}
+    A\vec{v}_\lambda = \lambda \vec{v}_\lambda
+\end{equation*}
+di sicuro, vogliamo che la norma di $A \vec{v}_\lambda$ e $\lambda \vec{v}_\lambda$
+siano uguali, ovvero:
+\begin{equation*}
+    \|A\vec{v}_\lambda\| = \|\lambda \vec{v}_\lambda\|
+\end{equation*}
+essendo $\lambda$ uno scalare possiamo scrivere:
+\begin{equation*}
+    \|A\vec{v}_\lambda\| = |\lambda| \|\vec{v}_\lambda\|
+\end{equation*}
+A questo punto, se dividiamo il termine a sinistra per $\|\vec{v}_\lambda\|$ otteniamo:
+\begin{equation*}
+    \|\vec{v}_\lambda\| \frac{\|A\vec{v}_\lambda\|}{\|\vec{v}_\lambda\|} = |\lambda| \|\vec{v}_\lambda\|
+    \leq \left(\max_{\vec{x}_\lambda \in \mathbb{R}^n} \frac{\|A\vec{x}_\lambda\|}{\|\vec{x}_\lambda\|}\right) \cdot \|\vec{v}_\lambda\|
+\end{equation*}
+da cui otteniamo attraverso delle semplificazioni:
+\begin{equation*}
+    |\lambda| \leq \|A\|
+\end{equation*}
+Il problema di questa caratterizzazione è che non è facilmente computabile per
+$A$ molto grandi.
+
+\begin{definizione} [\textbf{Sfera di Greshgorin}]
+    Presa una matrice $A\in \mathbb{R}^{n\times n}$, la \textbf{sfera di Gershgorin} $R_i$
+    associata all'$i$-esima riga è un cerchio nel piano complesso che ha centro
+    in $a_{ii}$ e raggio $r$.
+    $$r = \sqrt{\sum_{i\ne j}|a_{ij}|}$$
+    Oppure la sfera si può definire così $$R_i:=\{z\in \mathbb{C}|
+        |z-A_{ii}| \leq \sum_{l=1, l\neq j}^{n} |A_{il}|\}$$
+\end{definizione}
+
+La sfera di Greshgorin contiene tutti i numeri complessi presenti nel raggio.
+
+\begin{teorema} [\textbf{Greshgorin}]
+    Definiamo $\sigma(A):=\{\lambda | \lambda\text{ è autovalore di }A\}$, esso
+    rappresenta lo spettro della matrice. Inoltre, definiamo $R_j:=\{z\in \mathbb{C}|
+        |z-A_{jj}| \leq \sum_{l=1, l\neq j}^{n} |A_{jl}|\}$.
+    Allora:
+    \begin{equation*}
+        \sigma(A) \subseteq \bigcup_{j=1}^{n} R_j
+    \end{equation*}
+    \begin{proof}
+        Sia $\lambda = A_{jj}$ per qualche $j = 1 \dots n$ allora $\lambda$ è
+        all'interno della sfera.
+
+        Quindi, senza perdere generalità, sia $\lambda \neq A_{jj}, \forall j= 1 \dots n$.
+        Sia $\vec{v}_\lambda$ il vettore associato a $\lambda$, conosco che
+        $A \vec{v}_\lambda = \lambda \vec{v}_\lambda \implies (A - \lambda Id)
+            \vec{v}_\lambda = \vec{0}$. A questo punto possiamo spezzare la matrice
+        $A$ nel seguente modo: $A = D + E$ dove $D = diag(A)$ mentre $E = A - diag(A)$.
+        Sappiamo che $D - \lambda Id$ è una matrice diagonale ed invertibile
+        perché stiamo assumendo che $\lambda \neq A_{jj}, \forall j = 1 \dots n$ (determinante non nullo).
+        Quindi possiamo scrivere:
+        \begin{equation*}
+            (A - \lambda Id)\vec{v}_\lambda = \vec{0} \implies (D + E - \lambda
+            Id)\vec{v}_\lambda = \vec{0} \implies (D - \lambda Id)\vec{v}_\lambda
+            = - E\vec{v}_\lambda \implies \vec{v}_\lambda = -(D - \lambda Id)^{-1}
+            E\vec{v}_\lambda
+        \end{equation*}
+        Quindi possiamo passare alle norme:
+        \begin{equation*}
+            \|\vec{v}_\lambda\| = \|-(D - \lambda Id)^{-1}E\vec{v}_\lambda\|
+        \end{equation*}
+        Per ogni norma possiamo dire che:
+        \begin{equation*}
+            \|\vec{v}_\lambda\| = \|(D - \lambda Id)^{-1}E\vec{v}_\lambda\| \leq
+            \|(D - \lambda Id)^{-1}E\| \|\vec{v}_\lambda\|
+        \end{equation*}
+        Facciamo una digressione, scelgo la norma $\infty$, allora:
+        \begin{equation*}
+            \|M\vec{x}\|_\infty = \max_{j = 1}^n \sum_{l = 1}^{n}|M_{jl}x_j| \leq
+            \max_{j = 1}^n\sum_{l = 1}^{n}|M_{jl}||x_j|\leq \max_{j = 1}^n
+            \sum_{l = 1}^{n}|M_{jl}|(\max_{j = 1}^n|x_j|)\leq \|\vec{x}\|_\infty
+            \max_{j = 1}^n\sum_{l = 1}^{n}|M_{jl}|
+        \end{equation*}
+
+        Tornando alla dimostrazione:
+        \begin{equation*}
+            \begin{aligned}
+                1 \leq \|(D - \lambda Id)^{-1}E\|_\infty \implies 1 \leq \max_{j = 1}^n
+                \sum_{l = 1,j \neq l}^{n} \frac{|A_{jl}|}{|A_{jj} - \lambda|} =
+                \sum_{l = 1,l \neq k}^{n} \frac{|A_{kl}|}{|A_{kk} - \lambda|},
+                \text{ per qualche }k = 1 \dots n \\ \implies |A_{kk} - \lambda| \leq
+                \sum_{l = 1,l \neq k}^{n} |A_{kl}| \implies \lambda \in R_k \implies
+                \lambda \in \bigcup_{j = 1}^n R_j, \forall \lambda \implies
+                \sigma(A) \subseteq \bigcup_{j = 1}^n R_j
+            \end{aligned}
+        \end{equation*}
+    \end{proof}
+\end{teorema}
+Questo mi permette di identificare l'intervallo in cui sono inclusi tutti gli
+autovalori. Quindi se l'intervallo non contiene lo $0$ allora tutti gli autovalori
+sono $\neq 0$ e quindi il determinante $\ne 0$, quindi la matrice è invertibile.
+\begin{nota}
+    $R_j$ è l'insieme dei numeri complessi che distano $\le$ la somma delle entrate
+    alla riga $j$ esclusa l'entrata $A_{jj}$. Vengono chiamata \textbf{cerchi Greshgorin}.
+\end{nota}
+\section{Metodo delle potenze}
+Algoritmo per calcolare l'autovalore della matrice $A$ di modulo massimo e
+l'autovettore associato.
+
+Data $A\in \mathbb{R}^{n\times n}$, $\{\lambda_j\}^n_{j = 1}$ autovalori tali che:
+\begin{equation*}
+    |\lambda_1|> |\lambda_2| \geq \dots \geq |\lambda_N|
+\end{equation*}
+Il problema di questo metodo è che si assume che $|\lambda_1|> |\lambda_2|$,
+se fosse $|\lambda_1| = |\lambda_2|$ allora non si avrebbe la convergenza.
+
+Dato $\vec{q}^{(0)}\in \mathbb{R}^n$ generico tale che $\|\vec{q}^{(0)}\|_2=1$.
+A questo punto si itera il seguente algoritmo:
+\begin{equation*}
+    \vec{q}^{(k+1)} = \frac{A\vec{q}^{(k)}}{\|A\vec{q}^{(k)}\|_2}
+\end{equation*}
+per ottenere l'autovalore $\lambda_1$ possiamo calcolare l'autovalore massimo come:
+\begin{equation*}
+    \lambda_1^{(k + 1)} = q^{(k+1)T}Aq^{(k+1)}
+\end{equation*}
+\begin{nota}
+    Se $A$ è diagonalizzabile con autovettori $\{\vec{v}_{\lambda_j}\}$,
+    allora gli autovettori sono una base di $\mathbb{R}^n$.
+\end{nota}
+Con il metodo delle potenze possiamo scrivere:
+\begin{equation}
+    \vec{q}^{(0)} = \sum_{j = 1}^{N} \alpha_j \vec{x}_j
+\end{equation}
+di conseguenza:
+\begin{equation}
+    A^k \vec{q}^{(0)} = \sum_{j = 1}^{N} \alpha_j A^k \vec{x}_j = \sum_{j = 1}^{N}
+    \alpha_j \lambda_j^k \vec{x}_j = (\alpha_1 \lambda_1^k)[\vec{x}_1] + \sum_{j = 2}^{N}
+    \frac{\alpha_j}{\alpha_1} \left(\frac{\lambda_j}{\lambda_1}\right)^k \vec{x}_j
+\end{equation}
+dato che $\left|\frac{\lambda_j}{\lambda_1}\right| < 1$ implica
+$\left|\frac{\lambda_j}{\lambda_1}\right|^k < 1$ questo vale per ogni $j = 2,
+    \ldots, N$ e per ogni $k \in \mathbb{N}$. In altre parole, moltiplicare un
+qualunque vettore per la matrice $A$ ricorsivamente, porta ad una convergenza
+verso l'autovettore corrispondente all'autovalore dominante.
+
+Inoltre, abbiamo che:
+\begin{equation}
+    \begin{aligned}
+        \vec{q}^{(k)} = \frac{\vec{z}^{(k)}}{\|\vec{z}^{(k)}\|} = \frac{A^k
+            \vec{q}^{(k - 1)}}{\|A^k \vec{q}^{(k - 1)}\|} = \frac{A^k \frac{
+                \vec{z}^{(k - 1)}}{\|\vec{z}^{(k - 1)}\|}}{\|A^k \frac{\vec{z}^{(k
+                    - 1)}}{\|\vec{z}^{(k - 1)}\|}\|}
+        = \frac{A^k \vec{z}^{(k - 1)}}{\|A^k \vec{z}^{(k - 1)}\|} = \ldots \\
+        = \frac{A^k \vec{q}^{(0)}}{\|A^k \vec{q}^{(0)}\|}
+        = \frac{\alpha_1 \lambda_1^k [\vec{x}_1 + \vec{y}^{(k)}]}{\|\alpha_1
+        \lambda_1^k [\vec{x}_1 + \vec{y}^{(k)}]\|}
+        = \text{sign}(\alpha_1\lambda_1^k) \frac{[\vec{x}_1 + \vec{y}^{(k)}]}{\|
+        [\vec{x}_1 + \vec{y}^{(k)}]\|}
+    \end{aligned}
+\end{equation}
+dove $\vec{y}^{(k)} = \sum_{j = 2}^{N} \frac{\alpha_j}{\alpha_1} \left(\frac{
+        \lambda_j}{\lambda_1}\right)^k \vec{x}_j$.
+
+Da questo, possiamo dire che per $k \to \infty$ il vettore $\vec{q}^{(k)}$ converge
+all'autovettore corrispondente:
+\begin{equation}
+    \lim_{k \to \infty} \vec{q}^{(k)} = \text{sign}(\alpha_1\lambda_1^k) \frac{\vec{x}_1}{\|\vec{x}_1\|}
+\end{equation}
+Possiamo concludere dicendo che:
+\begin{equation}
+    \gamma^{(k)} = \vec{q}^{(k)T} A \vec{q}^{(k)} \stackrel{k \to \infty}{\to} \frac{1}{\|\vec{x}_1\|} \vec{x}_1^T A \vec{x}_1 = \lambda_1
+\end{equation}
+\begin{nota}
+    Possiamo usare il metodo delle potenze anche per calcolare l'autovalore di modulo minimo.
+    Infatti, possiamo scrivere:
+    \begin{equation}
+        |\lambda_N|^{-1} > |\lambda_{N - 1}|^{-1} > \ldots > |\lambda_1|^{-1}
+    \end{equation}
+\end{nota}
+\section{PageRank}
+L'algoritmo di PageRank è basato su una particolare ricerca degli autovalori,
+nella quale il caso più semplice può essere risolto usando il metodo delle potenze.
+
+Introduciamo la \textbf{vicinity matrix}, ovvero la matrice di adiacenza di
+un grafo, $H \in \mathbb{R}^{n\times n}$ definita come:
+\begin{equation}
+    H_{ij} = \begin{cases}
+        1 & i\rightarrow j    \\
+        0 & \text{altrimenti}
+    \end{cases}
+\end{equation}
+Introduco il vettore $\vec{w} \in \mathbb{R}^n$ tale che nell'elemento $w_j$ è
+contenuto il valore della pagina $j$-esima. Questo vettore rappresenta le incognite.
+
+Sia $\vec{d}_i \in \mathbb{R}^n$ il vettore che rappresenta il numero di archi
+uscenti nel nodo $i$, ovvero:
+\begin{equation}
+    \vec{d}_i = \sum_{l = 1}^n H_{il}
+\end{equation}
+\begin{nota}
+    Il vettore $\vec{d}_i$ può essere calcolato come segue:
+    \begin{equation}
+        \vec{d} = H \vec{e}
+    \end{equation}
+    dove:
+    \begin{equation}
+        e = \left[\begin{array}{c}
+                1      \\
+                \vdots \\
+                1
+            \end{array} \right]
+    \end{equation}
+\end{nota}
+L'algoritmo di Brin-Page base è definito come:
+\begin{equation}
+    \vec{w}_j = \sum_{i = 1}^n \frac{H_{ij}}{\vec{d}_i} \vec{w}_i
+\end{equation}
+Il valore della pagina $j$ è la somma dei link entranti, ognuno pesato per il
+valore della pagina a cui è associato, diviso il numero di link uscenti di $i$.
+
+Possiamo ora costruire la matrice $D$ come $D = diag(d)$. Essendo la matrice
+appena definita una matrice diagonale risulta facile calcolare l'inversa. Sia $M$
+una matrice definita come $M= D^{-1}H$ quindi possiamo dire:
+\begin{equation}
+    w_j = \sum_{i=1}^n w_i \frac{H_{ij}}{d_i} \iff w^t M = w \iff M^t w=w
+\end{equation}
+Quindi, abbiamo ricondotto il problema a un problema di autovalori e autovettori,
+con autovalore fissato $\lambda = 1$.
+
+Questa prima variante presenta dei problemi, in particolare:
+\begin{itemize}
+    \item Se un nodo non ha archi uscenti, ovvero $d_i = 0$, significa che una
+          pagina che viene citata ma non cita nessun'altra abbiamo un problema nel
+          calcolo della matrice inversa. Queste pagine vengono chiamate \textbf{dangling
+              nodes}.
+    \item In generale non è detto che esista l'autovalore $1$ per la matrice $M$,
+          inoltre se non ha $1$, posso trovare degli autovalori.
+    \item Se esiste la soluzione è unica?
+    \item $\vec{w}$ ha entrate solo positive? (devono essere positivi i punteggi)
+    \item Come si calcola $\vec{w}$?
+\end{itemize}
+Introduciamo una prima variante che si occupa di risolvere la prima problematica.
+Ogni dangling node viene considerato come se avesse un arco uscente verso tutti
+gli altri nodi, ovvero:
+\begin{equation*}
+    H_{ij} = \left[0, 0, \dots, 0\right] \rightarrow \hat{H}_{ij} = \left[1, 1,
+        \dots, 1\right], \forall j
+\end{equation*}
+Nella pratica, questa operazione viene fatta utilizzando un vettore $\vec{u} \in
+    \mathbb{R}^n$ definito come:
+\begin{equation}
+    \vec{u}_j = \begin{cases}
+        1 & \text{se il nodo j-esimo è un nodo pozzo} \\
+        0 & \text{altrimenti}
+    \end{cases}
+\end{equation}
+Quindi la matrice $H$ viene modificata come segue:
+\begin{equation}
+    \hat{H} = H + \vec{u} \vec{e}^T
+\end{equation}
+di conseguenza si modificano anche il vettore $\vec{d}$ e la matrice $M$:
+\begin{equation}
+    \hat{M} = \hat{D}^{-1} \hat{H} \quad \text{con} \quad \hat{D} = \text{diag}(\hat{H} \vec{e})
+\end{equation}
+\begin{nota}
+    Ho sostituito tutte le entry di $H$ con $1$ quindi $D$ è sicuramente
+    invertibile.
+\end{nota}
+Per quanto riguarda le problematiche 2, 3 e 4 possiamo usare il seguente teorema:
+\begin{teorema} [\textbf{Frobenius-Perron}]
+    Sia $A\in \mathbb{R}^{n\times n}$ con entrate non negative. Allora $\exists \lambda>0$
+    autovalore, il cui autovettore associato $v_\lambda$ ha entrate non negative.
+
+    Inoltre, se $A$ ha entrate positive oppure $A$ è irriducibile, allora $\exists
+        !$ autovalore di modulo massimo $\lambda$, tale che $v_{\lambda}$ ha
+    entrate tutte positive.
+\end{teorema}
+\begin{definizione}[\textbf{Irriducibilità di una matrice}]
+    La matrice $A$ è irriducibile se il grafo associato alla matrice di adiacenza
+    è fortemente connesso.
+\end{definizione}
+Il problema è che non abbiamo la certezza di avere un vicinity graph sia fortemente
+connesso.
+
+Nell'algoritmo visto fino a questo momento, non sono rispettate le ipotesi del
+teorema di Frobenius-Perron. Di conseguenza, possiamo scrivere la matrice $\hat{M}$
+come segue:
+\begin{equation}
+    A = \gamma M + (1 - \gamma) \vec{e} \vec{v}^T \quad \text{con} \quad \gamma \in (0, 1)
+\end{equation}
+dove $\vec{v} = (v_1, \ldots, v_n)$ è un vettore tale che per ogni $i$ in $\{1,
+    \ldots, n\}$:
+\begin{equation}
+    v_j > 0 \quad \sum_{j = 1}^n v_j = 1
+\end{equation}
+\begin{osservazione}\label{oss:1}
+    La matrice $A$ ha entrate positive perché $\hat{M}$ ha entrate non negative e
+    $\vec{e} \cdot \vec{v}$ ha entrate positive.
+\end{osservazione}
+\begin{osservazione}
+    Se $\gamma = 0$ allora mi dice che le pagine sono tutte uguali perché $w_j = 1$
+
+    Se $\gamma = 1$ allora si ritorna al metodo iniziale che non rispetta il teorema.
+\end{osservazione}
+Il prodotto tra i vettori $\vec{e}$ $\vec{v}$ rappresenta un bias che permette
+di personalizzare l'algoritmo di PageRank.
+
+La conseguenza dell'osservazione \ref{oss:1} mi permette di applicare il teorema
+di Frobenius-Perron, quindi possiamo dire che esiste ed è unico l'autovalore di
+modulo massimo.
+
+L'obiettivo finale è dimostrare che $1$ è l'autovalore di modulo massimo.
+\begin{proof}
+    Per fare ciò, dobbiamo ricordarci che:
+    \begin{equation}
+        \| \vec{x} \|_1 = \sum_{i = 1}^n |x_i|
+    \end{equation}
+    e che:
+    \begin{equation}
+        \| A \vec{x} \|_1 = \sum_{i = 1}^n \left| \sum_{j = 1}^n A_{ij} x_j \right| =
+        \sum_{i = 1}^n \left(|x_j| \sum_{j = 1}^n |A_{ij}|\right) \leq
+        \sum_{i = 1}^n \left(|x_j| \max_{i = 1}^n \sum_{j = 1}^n |A_{ij}|\right) =
+        \max_{i = 1}^n \sum_{j = 1}^n |A_{ij}| \| \vec{x} \|_1
+    \end{equation}
+    Quindi
+    \begin{equation}
+        \|A\|_1 \leq \max_{i = 1}^n \sum_{j = 1}^n |A_{ij}|
+    \end{equation}
+    In precedenza, abbiamo visto che:
+    \begin{equation*}
+        |\lambda| \leq \|A\|_1 \quad \forall \lambda
+    \end{equation*}
+    Sia $\lambda_{max}$ l'autovalore di modulo massimo di $A$, allora:
+    \begin{equation}
+        |\lambda_{max}| \leq \|A\|_1 \leq \|\gamma M + (1 - \gamma) \vec{e} \vec{v}\|
+        \leq \gamma \|M\|_1 + (1 - \gamma) \|\vec{e} \vec{v}\|_1 = 1
+    \end{equation}
+    di conseguenza $\lambda_{max} \leq 1$. Inoltre, $1$ è l'autovalore di costruzione
+    del problema, quindi $\lambda_{max} = 1$.
+\end{proof}
+Quindi abbiamo visto che:
+\begin{itemize}
+    \item $\|\lambda_{max} | \leq 1$
+    \item $\lambda = 1$ è autovalore per costruzione.
+    \item Il teorema implica esiste un unico autovalore di modulo massimo.
+\end{itemize}
+

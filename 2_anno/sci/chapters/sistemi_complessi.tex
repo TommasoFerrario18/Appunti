@@ -18,6 +18,7 @@ nelle simulazioni, un sesempio sono:
 \end{itemize}
 
 Si studieranno le proprietà dei fenomeni reali utilizzando i modelli e si mapperanno
+Si studieranno le proprietà dei fenomeni reali utilizzando i modelli e si mapperanno
 le domande sulle proprietà dei modelli, in questo modo si potrà rispondere alle
 domande analizzando le proprietà dei modelli.
 
@@ -77,6 +78,7 @@ Per questo gli automi cellulari sono un paradigma di calcolo:
 \begin{definizione}[\textbf{spazio delle configurazioni}]
     Lo \textbf{spazio delle configurazioni} è
     $$A^\mathbb{Z}= \left\{x|x:\mathbb{Z}\rightarrow A\right\}$$
+    Coincide con l'insieme di tutte le sequenze \textbf{bi-infinite} sull'alfabeto
     Coincide con l'insieme di tutte le sequenze \textbf{bi-infinite} sull'alfabeto
     $A$
 \end{definizione}
@@ -161,11 +163,13 @@ l'offset dall'indice $0$.
 \begin{nota} [Proprietà $2$ della distanza]
     $(A^\mathbb{Z}, d)$ è un \textbf{spazio metrico compatto} cioè ogni successione
     di elementi di $A^\mathbb{Z}$ ammette una sottosuccessione convergente in $A^\mathbb{Z}$.
+    di elementi di $A^\mathbb{Z}$ ammette una sottosuccessione convergente in $A^\mathbb{Z}$.
 \end{nota}
 \begin{definizione} [ \textbf{Automa cellulare 1D} ]
     Un \textbf{Automa cellulare 1D}  è una tripla $\langle A, r, f\rangle$
     dove:
     \begin{itemize}
+        \item $A$: insieme finito di caratteri, corrisponde all'alfabeto dell'automa e
         \item $A$: insieme finito di caratteri, corrisponde all'alfabeto dell'automa e
               quindi agli stati degli automi interni.
         \item $r\in \mathbb{N}$: raggio degli automi interni, specifica il raggio
@@ -245,9 +249,12 @@ Più precisamente per rappresentare un CA  $\langle A, r, f\rangle$ ci sono 3 mo
 La rappresentazione a grafo è quella più riusabile perché se dovessimo cambiare
 la regola locale allora basta solo aggiornare l'etichette degli archi. In aggiunta
 data una regola locale generica $f$, possiamo riscriverla nel segunete modo.
+data una regola locale generica $f$, possiamo riscriverla nel segunete modo.
 \begin{equation}
     f: A\times A^{2r} \rightarrow A \equiv \delta: Q\times \Sigma \rightarrow Q
+    f: A\times A^{2r} \rightarrow A \equiv \delta: Q\times \Sigma \rightarrow Q
 \end{equation}
+Con $Q= A$ e $\Sigma = A^{2r} $, così è possibile sottolineare la funzione di transizione
 Con $Q= A$ e $\Sigma = A^{2r} $, così è possibile sottolineare la funzione di transizione
 di ogni automa nel CA.
 \subsection{ Mappa di Shift e teorema di Hedlund}
@@ -259,12 +266,14 @@ di ogni automa nel CA.
         \centering
         \begin{tabular}{ccccccccc}
             $x$         & $=$ & $($ & $\dots$ & $x_{i-1}$ & $x_i$     & $x_{i+1}$ & $\dots$ & $)$ \\
+            $x$         & $=$ & $($ & $\dots$ & $x_{i-1}$ & $x_i$     & $x_{i+1}$ & $\dots$ & $)$ \\
             $\sigma(x)$ & $=$ & $($ & $\dots$ & $x_{i}$   & $x_{i+1}$ & $x_{i+2}$ & $\dots$ & $)$
         \end{tabular}
     \end{table}
 \end{definizione}
 
 \begin{nota}
+    La mappa di shift è la regola globale del CA $\langle A,r=1,f\rangle$ dove
     La mappa di shift è la regola globale del CA $\langle A,r=1,f\rangle$ dove
     $f:A^3\rightarrow A$ è definita come $f(a,b,c) = c$. Con $|A|=2$ allora $f\equiv 170$
 
@@ -295,6 +304,19 @@ di ogni automa nel CA.
                   Tutto viene spiegato dal fatto che se non fossero uguali le sottosequenze
                   di $x$ e $y$ allora non possono essere uguali le sottosequenze di $F(x), F(y)$.
                   Abbiamo dimostrato la continuità.
+                  $$\forall x \in A^\mathbb{Z}, \forall \epsilon > 0 \exists \delta> 0 \text{ t.c } \forall y \in A^\mathbb{Z}: d(y, x) < \delta \implies d(F(y), F(x))< \epsilon$$
+                  Bene, scegliamo arbitrariamente $x\in  A^\mathbb{Z}$ e $\epsilon >0$.
+                  Sia $n\in \mathbb{N}$ tale che $\frac{1}{2^n} < \epsilon $, facciamo vedere
+                  che $\exists \delta>0$ tale che
+                  $$\forall y\in A^\mathbb{Z}, d(y,x) < \delta \implies d(F(y), F(x))< \frac{1}{2^n}$$
+                  con $\delta=\frac{1}{2^{n+r}}$ è vera. Perché per la prima proprietà
+                  della distanza e per la sua definizione (vedi nota \ref{prop:dist}) abbiamo che $d(F(y),F(x)) < \frac{1}{2^{n}}$
+                  quindi significa che $F(x)_{[-n,n]} = F(y)_{[-n,n]}$ quindi per
+                  $\delta=\frac{1}{2^{n+r}}$ è vero che $d(y,x) < \frac{1}{2^{n+r}}$
+                  che significa sempre per la stessa proprietà che $x_{[-n-r,n+r]} = y_{[-n-r,n+r]}$.
+                  Tutto viene spiegato dal fatto che se non fossero uguali le sottosequenze
+                  di $x$ e $y$ allora non possono essere uguali le sottosequenze di $F(x), F(y)$.
+                  Abbiamo dimostrato la continuità.
 
                   Successivamente dimostriamo $F\circ \sigma = \sigma \circ F\implies F(\sigma(x)) = \sigma(F(x)), \forall x \in A^\mathbb{Z}$.
                   l'uguaglianza precedente può essere riscritta come $\forall x \in A^\mathbb{Z}, \forall i \in \mathbb{Z}, (F(\sigma(x)))_i =(\sigma(F(x)))_i$.
@@ -303,7 +325,26 @@ di ogni automa nel CA.
                   Inoltre
                   $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x_{[i+1-r,i+1+r]})$$
                   Abbiamo dimostrato che commutano.
+                  Successivamente dimostriamo $F\circ \sigma = \sigma \circ F\implies F(\sigma(x)) = \sigma(F(x)), \forall x \in A^\mathbb{Z}$.
+                  l'uguaglianza precedente può essere riscritta come $\forall x \in A^\mathbb{Z}, \forall i \in \mathbb{Z}, (F(\sigma(x)))_i =(\sigma(F(x)))_i$.
+                  Possiamo notare che
+                  $$(F(\sigma(x)))_i = f(\sigma(x)_{[i-r,i+r]})=f(x_{[i-r+1,i+r+1]})$$
+                  Inoltre
+                  $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x_{[i+1-r,i+1+r]})$$
+                  Abbiamo dimostrato che commutano.
             \item $\impliedby$: dobbiamo dimostrare che esiste la tripla che definisce il CA.
+                  Per prima cosa conosciamo l'alfabeto che è $A$ ricavato da $F$. Successivamente
+                  datto che $F$ è continua e $A^\mathbb{Z}$ è compatto allora $F$ è \textbf{uniformemente
+                      continua}, ossia $\forall\epsilon >0,\exists \delta > 0 \text{ t.c. } \forall x,y \in A^\mathbb{Z}$
+                  abbiamo $d(y,x)<\delta \implies d(F(y), F(x)) < \epsilon$. Scegliamo $\epsilon = 1\implies \frac{1}{2^0}\implies n=0\implies F(y)_0= F(x)_0$
+                  sicuramente sappiamo che $\exists \delta >0$ tale che $$\forall x,y \in A^\mathbb{Z} d(y,x)<\delta \implies d(F(y), F(x)) < 1$$
+                  Ovvero $$\forall x,y \in A^\mathbb{Z} d(y,x)<\delta \implies F(y)_0= F(x)_0$$
+                  Sia $r\in \mathbb{N}$ il più piccolo numero t.c. $\frac{1}{2^r}<\delta$.
+                  Allora $\forall x,y \in A^\mathbb{Z}$
+                  $$d(y,x)<\frac{1}{2^r} \implies F(y)_0= F(x)_0$$
+                  Ovvero $\forall x,y \in A^\mathbb{Z}$
+                  $$y_{[-r,r]} =x_{[-r,r]}\implies F(y)_0= F(x)_0$$
+                  Quindi abbiamo trovato $r$.
                   Per prima cosa conosciamo l'alfabeto che è $A$ ricavato da $F$. Successivamente
                   datto che $F$ è continua e $A^\mathbb{Z}$ è compatto allora $F$ è \textbf{uniformemente
                       continua}, ossia $\forall\epsilon >0,\exists \delta > 0 \text{ t.c. } \forall x,y \in A^\mathbb{Z}$
@@ -332,6 +373,21 @@ di ogni automa nel CA.
                   già dimostrato che è vero per $i=0$ ovvero che $F(x)_0 = f(x_{[-r,r]})$
                   in generale 
                   $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]})$$
+                  Facciamo vedere che $F$ sia la regola globale, ovvero determiniamo $f$, cioè
+                  $\forall x\in A^\mathbb{Z},\forall i\in\mathbb{Z}$
+                  $$F(x)_i = f(x_{[i-r,i+r]})$$
+                  Sia $f: A^{2r+1}\rightarrow A$ definita come $\forall u \in A^{2r+1}$
+                  $$f(u) = F(z)_0$$ dove $z$ è una qualunque configurazione di
+                  $A^\mathbb{Z}$ tale che $z_{[-r,r]} = u$. Bisogna però controllare che
+                  la definizione sia ben posta per ogni valore $z$. Lo è dal momento che
+                  $\forall z',z''\in A^\mathbb{Z}: z'_{[-r,r]} =  z''_{[-r,r]}\implies F(z')_0 = F(z'')_0$.
+                  Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$ ovvero $\forall i \in \mathbb{Z}$
+                  $$F(x)_i = f(x_{[i-r,i+r]})$$
+                  Questo è vero perché discende dalla definizione di $f$ con $z = x$.
+                  Ora mostriamo che sia vera $\forall x\in A^\mathbb{Z}$. Abbiamo
+                  già dimostrato che è vero per $i=0$ ovvero che $F(x)_0 = f(x_{[-r,r]})$
+                  in generale 
+                  $$F(x)_i = (\sigma^i(F(x)))_0=(F(\sigma^i(x)))_0=f(\sigma^i(x)_{[-r,r]}) = f(x_{[i-r,i+r]})$$
         \end{itemize}
     \end{proof}
 \end{teorema}
@@ -342,7 +398,15 @@ di ogni automa nel CA.
     è più puntuale ed è per questo che si chiama uniforme.
 \end{nota}
 
+\begin{nota}
+    La continuità uniforme differisce dalla continuità perché $\delta$ dipende 
+    solo da $\epsilon$ e non anche da $x$. Quindi questa definizione di continuità non 
+    è più puntuale ed è per questo che si chiama uniforme.
+\end{nota}
+
 \begin{definizione}
+    Un elemento $x\in A^\mathbb{Z}$ è detto \textbf{configurazione spazialmente
+        periodica} sse $\exists k>0 $ t.c. $\sigma^k(x) = x$, o equivalentemente, sse
     Un elemento $x\in A^\mathbb{Z}$ è detto \textbf{configurazione spazialmente
         periodica} sse $\exists k>0 $ t.c. $\sigma^k(x) = x$, o equivalentemente, sse
     $\exists u\in A^k$ con $k>0, x = ^\infty u ^\infty$. Cioè $x$ è una ripetizione
@@ -392,11 +456,53 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
                     $$ (F^{-1} \circ F)\circ \sigma \circ F^{-1}= F^{-1}\circ \sigma \circ (F \circ F^{-1})$$
                     $$ \sigma \circ F^{-1}= F^{-1}\circ \sigma$$
           \end{itemize}
+          è  \textbf{spazialmente periodica}
+          \begin{proof}
+              Se $x\in A^\mathbb{Z}$  è spazialmente periodica $\implies\exists k>0$ t.c.
+              $\sigma^k(x)=x \implies F(\sigma^k(x)) = F(x)\implies \sigma^k(F(x))=F(x)$.
+              Si noti che se $x$ è la ripetizione di una parola di lunghezza $k>0$ allora
+              anche $F(x)$ è la ripetizione di una parola di lunghezza $k$. Perciò dopo
+              un numero finito di applicazioni consecutive di $F$ (al più $k$), si riuscirà
+              a riottenere la stringa già ottenuta dalle applicazioni precedenti dal momento
+              che si effettua una permutazione di una stringa di lungheza $k$. Infatti l'\textbf{evoluzione
+                  periodica} poiché $A^k$ è un insieme finito.
+          \end{proof}
+    \item Dato un $CA = <A,r,f>$ con regola globale $F$, è possibile definire un  $CA '= <A,2r,f'>$
+          con regola globale $F'$ tale che $F'=F^2$ con $f'$ definita in questo modo.
+          $$f':A^{4r+1}\rightarrow A$$
+          Dove $\forall u=u_1\cdots u_{4r+1}\in A^{4r+1}$
+          $$f'(u) = f'(f(u_1\cdots u_{2r+1})f(u_{2}\cdots u_{2r+2})\cdots f(u_{2r+1}\cdots u_{4r+1}))$$
+          Per dimostrare che $F^2$ sia una regola globale possiamo utilizzare il teorema di
+          hedlund:
+          \begin{itemize}
+              \item \textbf{continuità}: si perché $F^2$ è una composizione di funzioni $F$ 
+              che sono continua
+              \item \textbf{commutatività}: $F^2\circ \sigma = F\circ (F\circ \sigma ) = F\circ (\sigma\circ F  ) = \sigma\circ (F\circ F  )  = \sigma \circ F^2$
+          \end{itemize}
+          Quindi è una regola globale.
+    \item Siano $F$ e $G$ due regole globali di due $CA$ differenti sullo stesso
+          alfabeto $A$. $F\circ G$ è una regola globale di un CA? Possiamo dimostrarlo con
+          il teorema:
+          \begin{itemize}
+              \item \textbf{continuità}: si perché è una composizione di funzioni continue
+              \item \textbf{commutatività}: $F\circ (G\circ \sigma) = F\circ (\sigma\circ G) = (F\circ \sigma)\circ G =(\sigma\circ F)\circ G = \sigma\circ (F\circ G)$
+          \end{itemize}
+    \item Sia $F$ la regola globale per CA, supponiamo che $F$ sia invertibile,
+          allora $F^{-1}$ è una regola globale per CA? Dimostriamolo:
+          \begin{itemize}
+              \item \textbf{continuità}: si perché $A^\mathbb{Z}$ è compatto
+              \item \textbf{commutatività}: $$F\circ \sigma = \sigma \circ F $$
+                    $$ F^{-1} \circ F\circ \sigma \circ F^{-1}= F^{-1}\circ \sigma \circ F \circ F^{-1}$$
+                    $$ (F^{-1} \circ F)\circ \sigma \circ F^{-1}= F^{-1}\circ \sigma \circ (F \circ F^{-1})$$
+                    $$ \sigma \circ F^{-1}= F^{-1}\circ \sigma$$
+          \end{itemize}
 \end{itemize}
 
 \subsection{Iniettività e suriettività degli automi cellulari}
 
 \begin{definizione} [\textbf{Estensione della regola locale}]
+    L'\textbf{estensione della regola locale} per parole di lunghezza maggiore di
+    $2r+1$. coincide con la regola globale ma
     L'\textbf{estensione della regola locale} per parole di lunghezza maggiore di
     $2r+1$. coincide con la regola globale ma
     applicata ad una stringa finita. Formalmente, $f^\ast: A^\ast\rightarrow A^\ast$
@@ -405,22 +511,28 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
         f^\ast(u) = \begin{cases}
             \epsilon                                                             & |u| < 2r+1 \\
             f(u_1\dots u_{2r+1})f(u_2\dots u_{2r+2})\dots f(u_{n-2r}\dots u_{n}) & altrimenti
+            \epsilon                                                             & |u| < 2r+1 \\
+            f(u_1\dots u_{2r+1})f(u_2\dots u_{2r+2})\dots f(u_{n-2r}\dots u_{n}) & altrimenti
         \end{cases}
+    \end{equation*}
     \end{equation*}
 \end{definizione}
 
 \begin{nota}
+    Se $A^\ast\equiv A^\mathbb{Z}\implies F \equiv f^\ast$.
     Se $A^\ast\equiv A^\mathbb{Z}\implies F \equiv f^\ast$.
 \end{nota}
 
 \begin{nota}
     Per la suriettività di $F$ sarà importante conoscere se $f$ è bilanciata ovvero
     se $|f^{-1}(0)| =|f^{-1}(1)|$, dove $  f^{-1}(y)$ coincide con l'insieme delle
+    se $|f^{-1}(0)| =|f^{-1}(1)|$, dove $  f^{-1}(y)$ coincide con l'insieme delle
     preimmagini di $y$.
 \end{nota}
 
 \begin{nota}
     Sia un CA $\langle A,r,f\rangle$ e $G$ il suo grafo di De Bruijn associato.
+    I cammini bi-infiniti sui vertici di $G$ sono in corrispondenza biunivoca
     I cammini bi-infiniti sui vertici di $G$ sono in corrispondenza biunivoca
     con gli elementi di $A^\mathbb{Z}$. Inoltre, $\forall x\in A^\mathbb{Z}$ ($ \forall u\in A^\ast$)
     $F(x)$ ($f^\ast(u)$) è dato dalle etichette degli archi del cammino sui vertici
@@ -432,10 +544,12 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
 
 Questo è vero perché due nodi consecutivi in un cammino corrispondono ad un elemento
 del dominio di $f$, mentre l'etichetta dell'arco corrisponde all'immagine dell'elemento
+del dominio di $f$, mentre l'etichetta dell'arco corrisponde all'immagine dell'elemento
 stesso.
 
 \begin{nota}
     Il grafo di De Bruijn $G$ di un CA $\langle A,r,f\rangle$ può essere considerato
+    come un \textbf{automa a stati finiti non deterministico} in cui tutti i nodi sono sia stati iniziali, sia
     come un \textbf{automa a stati finiti non deterministico} in cui tutti i nodi sono sia stati iniziali, sia
     stati finali. Questi particolari automi sono chiamati \textbf{automi di Fisher}
 \end{nota}
@@ -446,9 +560,12 @@ cellulare, sia bi-infinite, sia parziali.
 
 Da notare che dal grafo di De Bruijn otteniamo degli automi non deterministici,
 per la teoria degli automi possiamo facilmente ricavare l'automa deterministico,
+Da notare che dal grafo di De Bruijn otteniamo degli automi non deterministici,
+per la teoria degli automi possiamo facilmente ricavare l'automa deterministico,
 calcolando l'insieme potenza degli stati.
 
 \begin{definizione} [\textbf{Suriettività}]
+    La definizione di \textbf{suriettività} di un automa cellulare è quando la sua
     La definizione di \textbf{suriettività} di un automa cellulare è quando la sua
     \textbf{regola globale} è \textbf{suriettiva} ovvero:
     \begin{itemize}
@@ -464,6 +581,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
 \begin{nota}
     Il significato di $f^{\ast}$ bilanciato significa che $\forall n\in \mathbb{N}, n>0$
     ogni parola di $u\in A^n$ ha lo stesso numero di preimmagini. Questo significa
+    chiedere che ogni parola del dominio di $f^{\ast}$ ($|A|^{n+2r}$) abbia lo stesso
     chiedere che ogni parola del dominio di $f^{\ast}$ ($|A|^{n+2r}$) abbia lo stesso
     numero di immagini ($|A|^n$). Questo significa che il numero di preimmagini
     sarà
@@ -488,7 +606,14 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
         \begin{itemize}
             \item $\ref{cond:1}\implies \ref{cond:2}$: la dimostrazione si basa
                   sul dimostrare $\lnot \ref{cond:2}\implies \lnot \ref{cond:1}$.
+            \item $\ref{cond:1}\implies \ref{cond:2}$: la dimostrazione si basa
+                  sul dimostrare $\lnot \ref{cond:2}\implies \lnot \ref{cond:1}$.
 
+                  Ipotizziamo per assurdo che $\exists u\in A^n$ t.c. $|f^{\ast^{-1}}(u)|\ne |A|^{2r}$.
+                  Senza perdere di generalità assumiamo che $|f^{\ast^{-1}}(u)|< |A|^{2r}$,
+                  non perdiamo generalità perché se prendessimo $u$ tale che $|f^{\ast^{-1}}(u)|> |A|^{2r}$
+                  allora esisterà un'altra stringa $u'$ tale che $|f^{\ast^{-1}}(u')|< |A|^{2r}$,
+                  in caso avremmo preso quella.
                   Ipotizziamo per assurdo che $\exists u\in A^n$ t.c. $|f^{\ast^{-1}}(u)|\ne |A|^{2r}$.
                   Senza perdere di generalità assumiamo che $|f^{\ast^{-1}}(u)|< |A|^{2r}$,
                   non perdiamo generalità perché se prendessimo $u$ tale che $|f^{\ast^{-1}}(u)|> |A|^{2r}$
@@ -502,6 +627,22 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
                             di $u$. Quindi $|V| = s^k$
                       \item $W$: contenente parole del tipo $w=(uA^{2r})^{k-1}u$. Quindi $|W| = |A|^{(k-1)2r}$
                   \end{itemize}
+                  Sia $s = |f^{\ast^{-1}}(u)|$, sia $k>1$ un numero arbitrario allora costruiamo
+                  i seguenti insiemi di parole:
+                  \begin{itemize}
+                      \item $V$: sarà la giustapposizione di $k$ preimmagini qualunque
+                            di $u$. Quindi $|V| = s^k$
+                      \item $W$: contenente parole del tipo $w=(uA^{2r})^{k-1}u$. Quindi $|W| = |A|^{(k-1)2r}$
+                  \end{itemize}
+
+                  Per costruzione sappiamo che $\forall v\in V, f^{\ast}(v)\in W$, ma $\exists
+                      w'\in W\text{ t.c. } f^{\ast^{-1}} (w')= \emptyset$? (si sta controllando se non è suriettiva)
+
+                  Sicuramente $w'$ esiste se $|V|<|W|$, ovvero  $s^k<(|A|^{2r})^{(k-1)}$.
+                  Sapendo che $s^k < |A|^{2r}$ allora $\exists k$ tale che  $|V|<|W|$.
+                  Quindi $\exists w \in W: f^{\ast^{-1}} (w) =\emptyset$, perciò
+                  $\exists y \in A^{\mathbb{Z}}: F^{-1}(y) = \emptyset$, basta scegliere
+                  $y$ che contiene $w$. Concludiamo che $F$ non è surettiva.
 
                   Per costruzione sappiamo che $\forall v\in V, f^{\ast}(v)\in W$, ma $\exists
                       w'\in W\text{ t.c. } f^{\ast^{-1}} (w')= \emptyset$? (si sta controllando se non è suriettiva)
@@ -523,18 +664,43 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
                   t.c $f^\ast(u) = v$. Per definizione di $G$, siccome $u$ corrisponde
                   ad un cammino finito sui vertici di $G$, $f^\ast(u)=v$ si ottiene dalle etichette
                   degli archi di quel cammino.
+                  e allo stesso tempo $ A^\ast \subseteq\mathcal{L}$. La prima deriva
+                  dalla definizione di $\mathcal{L}$, quindi ci basta dimostrare
+                  $A^\ast \subseteq\mathcal{L}$. Scegliamo arbitrariamente $v\in  A^\ast$,
+                  mostriamo che $v\in \mathcal{L}$, ossia che $v$ si ottiene dalla concatenazione
+                  delle etichette degli archi di un cammino sui vertici di $v$.
+
+                  Siccome $|f^{\ast^{-1}}(v)| = |A|^{2r}$, in particolare $\exists u \in A^\ast$
+                  t.c $f^\ast(u) = v$. Per definizione di $G$, siccome $u$ corrisponde
+                  ad un cammino finito sui vertici di $G$, $f^\ast(u)=v$ si ottiene dalle etichette
+                  degli archi di quel cammino.
             \item $\ref{cond:3}\implies \ref{cond:1}$: scelto arbitrariamente $y\in A^\mathbb{Z}$,
                   occorre mostrare che $\exists x\in A^\mathbb{Z} \text{ t.c. } F(x) =y$.
+                  occorre mostrare che $\exists x\in A^\mathbb{Z} \text{ t.c. } F(x) =y$.
 
+                  Sia $y\in A^\mathbb{Z}$ scelto arbitrariamente. $\forall n\in \mathbb{N}$
+                  sia $v^{(n)} = y_{[-n,n]}\in A^{2n+1}$.
                   Sia $y\in A^\mathbb{Z}$ scelto arbitrariamente. $\forall n\in \mathbb{N}$
                   sia $v^{(n)} = y_{[-n,n]}\in A^{2n+1}$.
 
                   Per ipotesi sappiamo $\exists u^{(n)}\in f^{\ast^{-1}}(v^{(n)})\subseteq A^{2n+2r+1}$.
                   Quindi $f^{\ast^{-1}}(v^{(n)}) = u^{(n)}$.
+                  Per ipotesi sappiamo $\exists u^{(n)}\in f^{\ast^{-1}}(v^{(n)})\subseteq A^{2n+2r+1}$.
+                  Quindi $f^{\ast^{-1}}(v^{(n)}) = u^{(n)}$.
 
                   Sia $x^{(n)}\in A^\mathbb{Z}$ una qualunque configurazione tale che
                   $$x^{(n)}_{[-n-r,n+r]} = u^{(n)}$$
+                  Sia $x^{(n)}\in A^\mathbb{Z}$ una qualunque configurazione tale che
+                  $$x^{(n)}_{[-n-r,n+r]} = u^{(n)}$$
 
+                  Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_{[-n,n]}$,
+                  
+                  ossia che $d(F(x^{(n)})_{[-n,n]},y_{[-n,n]})< \frac{1}{2^n}$.
+
+                  Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione
+                  $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{Z}}$).
+                  Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$,
+                  quindi $\exists x \in A^\mathbb{Z}$ t.c. $y = F(x)$
                   Non è detto che $F(x^{(n)})=y$, vale sicuramente che $\forall n \in \mathbb{N},F(x^{(n)})_{[-n,n]}=y_{[-n,n]}$,
                   
                   ossia che $d(F(x^{(n)})_{[-n,n]},y_{[-n,n]})< \frac{1}{2^n}$.
@@ -559,18 +725,28 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
             \item Controllo se il linguaggio accettato dall'automa minimizzato $\mathcal{L}$ sia
                   uguale a $A^\ast$. Per farlo controllo che da ogni stato posso leggere
                   tutti i caratteri di $A$.
+            \item Controllo se il linguaggio accettato dall'automa minimizzato $\mathcal{L}$ sia
+                  uguale a $A^\ast$. Per farlo controllo che da ogni stato posso leggere
+                  tutti i caratteri di $A$.
         \end{itemize}
     \end{proof}
 \end{teorema}
 \begin{nota}
     Per controllare se $\mathcal{L} = A^\ast$ occorre costruire l'automa deterministico
     che risconosce $ \mathcal{L}$. Tale automa ha $\mathcal{P}(V)$ come insieme di
+    Per controllare se $\mathcal{L} = A^\ast$ occorre costruire l'automa deterministico
+    che risconosce $ \mathcal{L}$. Tale automa ha $\mathcal{P}(V)$ come insieme di
     vertici e quindi significa che la complessità dell'algoritmo decibile è maggiore
+    di $|\mathcal{P}(V)| = 2^{|A|^{2r}}$. Con questo approccio non possiamo ridurre
     di $|\mathcal{P}(V)| = 2^{|A|^{2r}}$. Con questo approccio non possiamo ridurre
     la complessità perché è vincolata dai nodi del grafo di De Bruijn.
 \end{nota}
 
 \begin{nota}
+    La suriettività è semi-decidibile da dimostrare utilizzando la condizione \ref{cond:2}
+    del teorema \ref{th:suriettività_CA} perché dobbiamo controllare $\forall u \in A^+$ (semi-decidibile),
+    questo significa che questa condizione è più utile per dimostrare la \textbf{non
+        suriettività}, dal momento che ce ne basta una sola (semidecidibile).
     La suriettività è semi-decidibile da dimostrare utilizzando la condizione \ref{cond:2}
     del teorema \ref{th:suriettività_CA} perché dobbiamo controllare $\forall u \in A^+$ (semi-decidibile),
     questo significa che questa condizione è più utile per dimostrare la \textbf{non
@@ -584,6 +760,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
         \centering
         \begin{tabular}{ccccccccc}
             $x$ & $=$ & $($ & $\dots$ & $qqqqq$ & $u$ & $qqqqq$ & $\dots$ & $)$ \\
+            $x$ & $=$ & $($ & $\dots$ & $qqqqq$ & $u$ & $qqqqq$ & $\dots$ & $)$ \\
         \end{tabular}
     \end{table}
     per qualsiasi $u\in A^\ast$
@@ -594,6 +771,9 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
     \begin{itemize}
         \item $\mathcal{F}$: l'insieme delle \textbf{configurazioni $q$-finite}
         \item $\mathcal{SP}$: l'insieme delle \textbf{configurazioni spazialmente periodiche}
+              \begin{equation*}
+                  \mathcal{SP}= \{x\in A^\mathbb{Z} | \exists k \in \mathbb{N}, k>0 \text{ t.c. }\sigma^k(x)=x\}
+              \end{equation*}
               \begin{equation*}
                   \mathcal{SP}= \{x\in A^\mathbb{Z} | \exists k \in \mathbb{N}, k>0 \text{ t.c. }\sigma^k(x)=x\}
               \end{equation*}
@@ -621,12 +801,16 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
         \item $F$ è \textbf{iniettiva}
         \item $\exists m \le |A|^{4r} \textbf{ t.c. } \forall x, y \in A^\mathbb{Z} F(x)_{[-m,m]}=F(y)_{[-m,m]} \implies x_0=y_0$
               (caso bi-infinito)
+        \item $\exists m \le |A|^{4r} \textbf{ t.c. } \forall x, y \in A^\mathbb{Z} F(x)_{[-m,m]}=F(y)_{[-m,m]} \implies x_0=y_0$
+              (caso bi-infinito)
         \item \label{cond:th_ini_3}$\exists m \le |A|^{4r} \textbf{ t.c. } \forall u,v \in A^{2m+2r+1} f(u)= f(v) \implies u_{m+r+1} = v_{m+r+1}$
+              (caso finito)
               (caso finito)
     \end{enumerate}
 \end{teorema}
 \begin{teorema}
     L'iniettività è una proprietà decidibile per gli CA unidimensionali
+
 
 \end{teorema}
 La proprietà \ref{cond:th_ini_3} del teorema \ref{th:iniettiva} è decidibile perché
@@ -654,9 +838,11 @@ Quindi per gli CA le seguenti proprità sono equivalenti:
 
 \begin{teorema}
     $F$ è iniettiva $\iff$ $F_{\mathcal{SP}}$ è iniettiva
+    $F$ è iniettiva $\iff$ $F_{\mathcal{SP}}$ è iniettiva
 \end{teorema}
 
 \begin{teorema}
+    $F$ non è suriettiva $\iff$ $\exists$ un \textbf{diamente}, cioè se
     $F$ non è suriettiva $\iff$ $\exists$ un \textbf{diamente}, cioè se
     $\exists w \in A^{2r}, \exists u,v \in A^+, u\ne v$ con $|u|=|v|$ t.c. $f(wuw)=f(wvw)$
     \begin{proof}
@@ -674,6 +860,9 @@ Quindi per gli CA le seguenti proprità sono equivalenti:
 Sapendo che un cammino sul De Bruijn corrisponde all'immagine della configurazione
 parziale o bi-infinita dell'automa, il cammino sul grafo prodotto corrisponde
 a $2$ configurazioni dell'automa che condividono la stessa immagine. Quindi
+Sapendo che un cammino sul De Bruijn corrisponde all'immagine della configurazione
+parziale o bi-infinita dell'automa, il cammino sul grafo prodotto corrisponde
+a $2$ configurazioni dell'automa che condividono la stessa immagine. Quindi
 formalmente un cammino bi-infinito sul grafo prodotto corrisponde ad una coppia
 $(x',x'')\in A^\mathbb{Z} \times A^\mathbb{Z} $ tale che $F(x')=F(x'')$.
 
@@ -684,6 +873,7 @@ $(x',x'')\in A^\mathbb{Z} \times A^\mathbb{Z} $ tale che $F(x')=F(x'')$.
 \end{definizione}
 La diagonale corrisponde ad un isomorfismo del grafo di De Bruijn e un cammino
 bi-infinito sulla diagonale corrisponde ad un cammino bi-infinito sul grafo di De
+Bruijn (vedi figura \ref{fig:automa_prodotto}).
 Bruijn (vedi figura \ref{fig:automa_prodotto}).
 
 \begin{figure}[!h]
@@ -699,10 +889,21 @@ Bruijn (vedi figura \ref{fig:automa_prodotto}).
         \item \label{cond:non_iniettiva_1} il suo grafo prodotto ha un ciclo che contiene un nodo fuori $\Delta$
         \item \label{cond:non_iniettiva_2}il suo grafo prodotto ha un ciclo che contiene un nodo in $\Delta$ e
               un nodo fuori $\Delta$
+              un nodo fuori $\Delta$
     \end{enumerate}
     \begin{proof}
         Dimostriamo i singoli punti:
         \begin{itemize}
+            \item condizione \ref{cond:non_iniettiva_1}: se CA non è iniettivo
+                  allora non è iniettivo sulle spazialmente periodiche. Quindi esisteranno
+                  due configurazioni $c,e, c\ne e$ spazialmente periodiche tali che $F(c) = F(e)$,
+                  quindi esisterà un camino sul grafo prodotto composto dai vertici che
+                  rappresentano $c$ ed $e$. Il precedente cammino sarà composto da un ciclo
+                  contenente nodi fuori dalla diagonale dal momento che $c\ne e$ per la
+                  definizione di diagonale. Viceversa, dato un ciclo sul grafo prodotto contenente nodi
+                  fuori dalla diagonale, allo questo significa che rappresenta due
+                  configurazioni differenti aventi la stessa immagine, quindi CA non è
+                  iniettivo.
             \item condizione \ref{cond:non_iniettiva_1}: se CA non è iniettivo
                   allora non è iniettivo sulle spazialmente periodiche. Quindi esisteranno
                   due configurazioni $c,e, c\ne e$ spazialmente periodiche tali che $F(c) = F(e)$,
@@ -723,12 +924,23 @@ Bruijn (vedi figura \ref{fig:automa_prodotto}).
                   sia fuori; quindi non è iniettivo. Viceversa, dato un ciclo composto da nodi nella diagonale
                   e fuori dalla diagonale, allora si ha un diamente, quindi CA non è suriettivo.
 
+                  Se CA non è suriettivo allora significa che non è iniettivo sulle
+                  configurazioni $q$-finite. Quindi esistono $c,e$ con $c\ne e $ configurazioni
+                  $q$-finite tali che $F(c) =F(e)$. Il cammino corrispondente sul
+                  grafo prodotto sarà composto da un ciclo all'interno di $\Delta$
+                  seguito da un ciclo che esce da $\Delta$ per poi ritornare in $\Delta$.
+                  Questo significa che il ciclo è composto da nodi sia nella diagonale,
+                  sia fuori; quindi non è iniettivo. Viceversa, dato un ciclo composto da nodi nella diagonale
+                  e fuori dalla diagonale, allora si ha un diamente, quindi CA non è suriettivo.
+
         \end{itemize}
     \end{proof}
 \end{teorema}
 Il grafo prodotto può essere ridotto rimuovendo alcune informazioni (figura \ref{fig:automa_prodotto_ridotto}):
 \begin{itemize}
     \item tutti i nodi $v',v'' \in V\times V$ tali che $v'= (u,u'), v''=(u',u)$
+          allora rappresentano le stesse configurazioni specchiate, quindi possono essere
+          accorpati
           allora rappresentano le stesse configurazioni specchiate, quindi possono essere
           accorpati
     \item la diagonale può essere ridotta ad un unico nodo
@@ -744,8 +956,14 @@ Il grafo prodotto può essere ridotto rimuovendo alcune informazioni (figura \re
 Per scoprire se in un grafo ci sono dei cicli basta effettuare una DFS che ha una
 complessità di $\mathcal{O}(|V|+|E|)$ e sapendo che $|V|= |V|^2$ dell'automa di
 De Bruijn allora abbiamo un algoritmo polinomiale che ci permette di decidere
+Per scoprire se in un grafo ci sono dei cicli basta effettuare una DFS che ha una
+complessità di $\mathcal{O}(|V|+|E|)$ e sapendo che $|V|= |V|^2$ dell'automa di
+De Bruijn allora abbiamo un algoritmo polinomiale che ci permette di decidere
 se il CA è suriettivo o iniettivo oppure no.
 
+\subsection{Stabilità, instabilità e caos degli automi cellulari}
+La notazione che verrà introdotto è valida per un qualsiasi \textbf{sistema dinamico a tempo
+    discreto} (DTDS), ovvero per ogni $(X,F)$ dove $(X,d)$ è uno spazio metrico e
 \subsection{Stabilità, instabilità e caos degli automi cellulari}
 La notazione che verrà introdotto è valida per un qualsiasi \textbf{sistema dinamico a tempo
     discreto} (DTDS), ovvero per ogni $(X,F)$ dove $(X,d)$ è uno spazio metrico e
@@ -754,16 +972,25 @@ $F$ è la regola globale e $d$ è la distanza di Tychonoff.
 
 \begin{definizione} [\textbf{Punto di stabilità (equicontinuo, Lyapunov stable)}]
     % TODO: controllare not equal se va solo nelle definizioni di instabilità o anche in quelle di stabilità
+    % TODO: controllare not equal se va solo nelle definizioni di instabilità o anche in quelle di stabilità
     $x\in X$ è un \textbf{punto stabile} (equicontinuo, Lyapunov stable) sse
+    $$\forall \epsilon > 0,\exists \delta > 0, \forall y\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+
+    Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
     $$\forall \epsilon > 0,\exists \delta > 0, \forall y\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 
     Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
     la definizione in questo modo, $x\in X$ è un \textbf{punto stabile} sse
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
     Equivale a dire:
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
 
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
+
 \end{definizione}
+Questa coincide con la definizione di continuità con l'aggiunta del controllo che
+sia continua anche sulle successive applicazioni, quindi per i successivi passi
 Questa coincide con la definizione di continuità con l'aggiunta del controllo che
 sia continua anche sulle successive applicazioni, quindi per i successivi passi
 temporali.
@@ -774,10 +1001,13 @@ temporali.
     $$\exists \epsilon > 0,\forall \delta > 0, \exists y\in X,x \ne y, d(y,x) < \delta \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \epsilon$$
 
     Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
+
+    Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
     la definizione in questo modo,
     $$\exists n\in \mathbb{N} ,\forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, d(y,x) < \frac{1}{2^m} \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \frac{1}{2^n}$$
     Equivale a dire:
     $$\exists n\in \mathbb{N} ,\forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+
 
 \end{definizione}
 
@@ -787,7 +1017,9 @@ temporali.
 
 \begin{definizione} [\textbf{Sistema equicontinuo (equicontinuità)}]
     $(X,F)$ è \textbf{equicontinuo} dove la definizione di stabilità di un punto cambia
+    $(X,F)$ è \textbf{equicontinuo} dove la definizione di stabilità di un punto cambia
     perché $\epsilon$ non dipende per un particolare punto $x\in X$ ovvero
+    $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
     $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 \end{definizione}
 
@@ -795,7 +1027,9 @@ temporali.
     L'equicontinuità è più stringente rispetto alla stabilità globale. Quando $X=A^\mathbb{Z}$
     si hanno due definizioni equivalenti e possono essere riscritte come
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
 \end{nota}
+\begin{definizione} [\textbf{Sistema instabile (instabilità globale)}]
 \begin{definizione} [\textbf{Sistema instabile (instabilità globale)}]
     $(X,F)$ è \textbf{instabile} se $\forall x \in X$, $x$ è un \textbf{punto instabile}
 \end{definizione}
@@ -806,8 +1040,10 @@ temporali.
     In $A^\mathbb{Z}$
     $$\exists n\in \mathbb{N} ,\forall x \in A^\mathbb{Z}, \forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
 \end{definizione}
+\end{definizione}
 \begin{nota}
     Un sistema sensibile è un sistema instabile in cui la constante $\epsilon$
+    non dipende da $x\in X$, questa viene chiamata anche costante sensitiva e
     non dipende da $x\in X$, questa viene chiamata anche costante sensitiva e
     è una specifica feature del sistema.
 \end{nota}
@@ -1332,6 +1568,7 @@ Quindi le condizioni di $|X|=\infty$ e di sensibilità sono superflue.
 \begin{teorema}
     Se un CA $(A^\mathbb{Z},F)$ con una regola locale LM/RM è caotico.
 \end{teorema}
+
 Ecco la classificazione finale degli automi cellulari (figura \ref{fig:classificazione_ca}).
 
 \begin{figure}[!hb]
@@ -1340,14 +1577,495 @@ Ecco la classificazione finale degli automi cellulari (figura \ref{fig:classific
     \caption{Classificazione automi cellulari}
     \label{fig:classificazione_ca}
 \end{figure}
+
 \begin{nota}
     Tutti i CA caotici studiati sono suriettivi ma non è detto che suriettività 
     implica caotico.
 \end{nota}
 
 \begin{nota}
-    Esistono CA non permutive che sono transitivi ed espansivi.
+    Esistono CA non permutivi che sono transitivi ed espansivi.
 
     Preso un qualunque L-permutive CA $F$ e un CA iniettivo $G$ che non è ne L ne R-permutive.
     Allora $G^{-1}\odot F\odot G$ è un CA che non è permutivo ma transitivo.
 \end{nota}
+
+In generale tutte le proprietà basate su un colpo di $F$ sono decidibili, mentre 
+tutte le proprietà basate su $F^t$ sono indecidibili. L'unica proprietà basata 
+su $F^t$ di cui non è stata dimostrata la sua indecidibilità è l'\textbf{espansivo},
+ovvero non esiste un algoritmo che mi dica subito un CA è espansivo o no. In ogni 
+caso si può credere che sia indecidibile.
+
+\subsection{Automi cellulari lineari}
+Definiamo $A= \mathbb{Z}_s = \{0,1,\dots, s-1\} =\mathbb{Z}/s\mathbb{Z}$ come 
+l'insieme delle classi di equivalenza della relazione di equivalenza modulo $s$.
+Sulla relazione di equivalenza si definisce un anello commutativo $\langle \mathbb{Z}_s,
++, \cdot \rangle$.
+
+\begin{definizione} [\textbf{Regola locale lineare}]
+    Sia $f:\mathbb{Z}_s^{2r+1}\rightarrow \mathbb{Z}_s$ è una \textbf{regola locale lineare} se  $\exists \lambda_{-r},
+    \dots,\lambda_0,\dots,\lambda_r\in \mathbb{Z}_s$ tale che 
+    \begin{equation*}
+    \forall (x_{-r},\dots, x_r)\in \mathbb{Z}_s^{2r+1}, f(x_{-r},\dots, x_r) = \left(\sum_{i=-r}^{r}\lambda_ix_i\right)\mod s
+    \end{equation*}
+\end{definizione}
+
+\begin{definizione} [\textbf{Automa cellulare lineare}]
+    Un CA $F$ è lineare se è definito da una \textbf{regola locale lineare}.
+\end{definizione}
+
+Gli automi cellulari lineari sono utili perché su qualsiasi dimensione le proprietà
+sono tutte decidibili, dal momento che ciascuna è caratterizzabile usando i divisori.
+
+Ovviamente se $f$ è lineare allora $F$ è additiva e gli LCA sono utili per rappresentare 
+sistemi che rispettano il principio di sovrapposizione, proprio come la maggior parte 
+dei fenomeni reali.
+
+\begin{teorema}
+    Sia $(\mathbb{Z}_s^\mathbb{Z}, F)$ un LCA definito da una regola locale con i 
+    seguenti coefficienti: $\lambda_{-r}, \dots,\lambda_0,\dots,\lambda_r$.
+
+    Sia $\mathcal{P}$ che denota l'insieme dei fattori primi di $s$, denotiamo $a|b$
+    il fatto che $a$ divide $b$, allora:
+    \begin{itemize}
+        \item $F$ è \textbf{suriettiva} $\iff\text{ MCD }(s,\lambda_{-r}, \dots,\lambda_0,\dots,\lambda_r) = 1$
+        \item $F$ è \textbf{iniettiva} $\iff \forall p\in \mathcal{P}, \exists !\lambda_i: p\not |\lambda_i$
+        \item $F$ è \textbf{transitivo} $\iff\text{ MCD }(s,\lambda_{-r}, \dots,\lambda_{-1},\lambda_{1},\dots,\lambda_r) = 1$
+        \item $F$ è \textbf{sensibile alle condizioni iniziali} $\iff \exists  p\in \mathcal{P}: p\not |\text{ MCD }(\lambda_{-r}, \dots,\lambda_{-1},\lambda_{1},\dots,\lambda_r) $
+        \item $F$ è \textbf{espansivo} $\iff \text{ MCD }(\lambda_{-r}, \dots,\lambda_{-1})=\text{ MCD }(\lambda_{1},\dots,\lambda_r)=1 $
+        \item $F$ è \textbf{suriettiva} $\iff F$ ha DPO
+        \item $F$ è \textbf{equiconinua} $\iff F$ è \textbf{almeno equiconinua} $\iff F$ non è \textbf{sensibile alle condizioni iniziali}
+        \item $F$ è \textbf{caotica} $\iff F$ è \textbf{transitiva}
+    \end{itemize}
+\end{teorema}
+
+\begin{teorema}
+    Ciascuna proprietà è decidibile nei LCA.
+\end{teorema}
+
+\subsection{Automi cellulari $d$-D}
+Dato un insieme di stati finito $S$.
+
+\begin{definizione}[\textbf{Configurazioni}]
+    Le \textbf{configurazioni} del CA sono elementi di $S^{\mathbb{Z}^d}$, ovvero
+    funzioni che assegnano uno stato ad una particolare posizione $\mathbb{Z}^d\rightarrow S$.
+\end{definizione}
+
+Abbiamo che la singola cella non è nient'altro che un vettore nello spazio di dimensione 
+$d$ che assume degli stati nell'insieme $S$.
+
+\begin{definizione}[\textbf{Vettore di vicinanza}]
+    Il \textbf{vettore di vicinanza} è un vettore di $n$ diversi vettori di $\mathbb{Z}^d$
+    che specificano il relativo offsets di tutti gli elementi che specifica il 
+    vicinato.
+    $$N=\left(\underline{x_1},\underline{x_2},\dots,\underline{x_n}\right)$$
+\end{definizione}
+
+La cella vicina ad una cella $\underline{x }\in \mathbb{Z}^d$ è una qualsiasi cella $\underline{x}+\underline{x_i}$ 
+con $\underline{x_i} \in N$.
+
+\begin{esempio}
+    Un esempio di vicinato in 2D per le due classiche regole di vicinato sono 
+    le seguenti:
+    \begin{itemize}
+        \item \textbf{Von Neumann}: Il vicinato sono le celle che condividono un 
+        lato
+        $$N=\left(\left(0,0\right),\left(\pm 1,0\right), \left(0,\pm 1\right)\right)$$
+        \item \textbf{Moore}: Il vicinato sono le celle che condividono un 
+        lato e un vertice
+        $$N=\{-1,0,1\}^2$$
+    \end{itemize}
+\end{esempio}
+
+\begin{definizione}[\textbf{Regola locale}]
+    La \textbf{regola locale} è una funzione 
+    $$f:S^n\rightarrow S$$
+    dove $n$ è la dimensione del vicinato $N$ ($n=|N|$) e il nuovo stato sarà
+    $$f(a_1,\dots,a_n)$$
+\end{definizione}
+
+\begin{definizione}[\textbf{Regola globale}]
+    La regola locale determina la dinamica globale del CA. Data una generica 
+    configurazione $c$, diventa la nuova configurazione $e$ nel seguente modo:
+    $$e(\underline{x}) = f(c(\underline{x}+ \underline{x}_1),c(\underline{x}+ \underline{x}_2),\dots, c(\underline{x}+ \underline{x}_n)), \forall \underline{x}\in \mathbb{Z}^d, \forall \underline{x}_i\in N$$
+    Il passaggio dalla configurazione $c$ nella configurazione $e$ è scrivibile 
+    formalmente nell'applicazione della \textbf{regola globale}
+    $$G:S^{\mathbb{Z}^d}\rightarrow S^{\mathbb{Z}^d} $$
+    tale che $G(c) = e$.
+\end{definizione}
+
+La generalizzazione della mappa shift al caso $d$-dimensionale non è altro che una 
+traslazione $\tau$ determinata dal vettore $\underline{r}\in  \mathbb{Z}^d$, è
+la trasformazione
+$$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow \rightarrow S^{\mathbb{Z}^d}$$
+tale che 
+$$e =\tau_{\underline{r}}(c) \iff e(\underline{x}) =  c(\underline{x}+\underline{r}), \forall \underline{x},\underline{r}\in \mathbb{Z}^d$$
+
+Un generico vettore $\underline{r}$ associato alla traslazione è un vettore 
+unitario.
+
+\begin{teorema} [\textbf{Hedlund}] 
+    Sia $G:A^\mathbb{Z}\rightarrow A^\mathbb{Z}$ una qualunque funzione.
+    $G$ è la regola globale di un CA \textbf{sse} entrambe le seguenti affermazioni
+    sono vere:
+    \begin{itemize}
+        \item $G$ continua
+        \item $G$ con tutte le traslazioni
+    \end{itemize}
+\end{teorema}
+
+\begin{definizione} [\textbf{CA iniettivi, suriettivi e biettivi}]
+    Un CA è chiamato:
+    \begin{itemize}
+        \item \textbf{iniettivo} se $G$ è inivettiva
+        \item \textbf{suriettivo} se $G$ è suriettiva
+        \item \textbf{biettivo} se $G$ è sia iniettiva, sia suriettiva
+    \end{itemize}
+
+\end{definizione}
+
+
+\begin{definizione} [\textbf{CA reversivile}]
+    Un CA è chiamato \textbf{reversibile} se esiste un altro CA con una funzione 
+    globale $F$ che è l'inversa di un automa dato con funzione $G$, ovvero
+    $$ G\odot F= F\odot G = Id$$
+    Quindi $F$ e $G$ sono RCA e vengono chiamati \textbf{automi inversi}.
+\end{definizione}
+
+\begin{teorema}
+    Un CA $G$ è reversibile sse è biettivo
+\end{teorema}
+\begin{teorema}
+    Un CA $G$ è reversibile sse è biettivo
+\end{teorema}
+
+\begin{definizione} [\textbf{Regola locale bilanciata}]
+    Una \textbf{regola locale bilanciata} è una regola $f$ di un generico automa 
+    tale che 
+    $$|f^{-1}(a)| = | S | ^{n-1}, \forall a \in S$$
+    Dove $S$ è l'insieme degli stati ($\mathbb{Z}^d$) e $n$ è la dimensione del 
+    vicinato ($n=|N|$)
+\end{definizione}
+
+Ci sono poi le stesse proprietà del caso $1$-D.
+
+Per dimostrare l'indecidibilità delle proprietà si utilizza il tileset.
+\subsection{Tiling problem }
+Dato un insieme $C$ di colori.
+
+\begin{definizione} [\textbf{Wang tile}]
+    Una \textbf{Wang tile} è un quadrato di lato $1$ con i lati colorati. 
+    I lati non devono essere di un solo colore.
+\end{definizione}
+
+\begin{definizione} [\textbf{Tile set}]
+    Un  \textbf{tile set} $T$ è una collezione finita di \textbf{wang tile}
+\end{definizione}
+
+\begin{definizione} [\textbf{Tiling valido}]
+    Un  \textbf{tiling valido} è una funzione 
+    $$c: \mathbb{Z}^2\rightarrow T$$
+    che assegna ad ogni posizione del piano un tile in modo tale che questo abbia
+    i tile vicini con i lati in condivisione dello stesso colore.
+\end{definizione}
+
+Data una generica configurazione $c\in T^{\mathbb{Z}^2}$, ovvero una particolare 
+tile di un piano, esso è valido per un $M\subseteq \mathbb{Z}^2, |M|<\infty$ (un sottorettangolo finito
+del piano) se il tiling è valido ristretto alla regione $M$. Quando $M=\mathbb{Z}^2$ 
+allora il tiling è valido su tutto il piano.
+
+Quindi il tiling valido rispetto a $T$ è invariante rispetto alle translazioni,
+perché il tiling rimane valido quando traslo il piano.
+
+\begin{definizione} [\textbf{Tiling problem}]
+    Il \textbf{tiling problem} (domino problem) è il problema di decisione che determina se dato un 
+    tile set finito ammette un tiling valido sul piano.
+\end{definizione}
+
+\begin{teorema}
+    Il problema del tiling è indecidibile
+\end{teorema}
+
+
+\begin{definizione} [\textbf{Principio di compattezza del tiling} (compattezza degli insiemi)]
+    Se $T$ ammette un tiling valido all'interno di un quadrato di arbitraria
+    dimensione, allora ammette un tiling valido su tutto il piano.
+
+    $\forall n, \exists$ un quadrato $n\times n$ nel quale $T$ ammette un tiling 
+    finito valido $\implies$ $T$ ammette un tiling valido su tutto il piano $\mathbb{Z}^2$
+
+\end{definizione}
+\begin{nota} 
+    La negazione del principio è la seguente. Se $T$ non ammette un tiling valido 
+    su tutto il piano $\mathbb{Z}^2$ $\implies$ $\exists n, \forall$ quadrato $n\times n$ $T$
+    contiene un errore di tiling
+\end{nota}
+
+Il tiling problem è utile per dimostrare l'indecidibilità di alcune proprietà, come 
+la nilpotenza.
+
+\begin{definizione} [\textbf{Nilpotenza di CA}]
+    Un CA è chiamato \textbf{Nilpotente} se tutte le configurazioni evolvono
+    in una configurazione \textbf{quiesciente} (si entra in una configurazione 
+    dalla quale non si esce più)
+\end{definizione}
+
+Ovviamente per un CA nilpotente, deve diventare quiesciente in un numero finito
+e unguale salti per ogni configurazione. 
+
+\begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-2D}]
+    Il problema di identificare se un CA-2D è nilpotente è indecidibile. 
+    \begin{proof}
+        Per un dato tile set $T$, l'obiettivo è di costruire un CA 2-D che è
+        nilpotente sse non ammette tiling.
+
+        La costruzione del CA è la seguente:
+        \begin{itemize}
+            \item stati: $S=T\cup \{q\}$ dove $q\not\in T$
+            \item vicinanza di Von Neumann
+            \item regola locale: lascia tutto invariato se tutti gli stati nel 
+            vicinato sono tile e il vincolo del colore dei lati è soddisfatto, in 
+            tutti gli altri casi il nuovo stato è $q$.
+        \end{itemize}
+        Dimostrimao i singoli punti:
+        \begin{itemize}
+            \item $\implies$:
+            Quindi se $CA$ ammette il tile corretto $c$ allora $c$ è un punto fisso 
+            non quiesciente (perché se fosse quiesciente allora sarebbe composto 
+            da una sola piastrella o simbolo e questo è impossibile per la definizione 
+            di tiling). 
+            \item $\impliedby$: si sfrutta la negazione del principio di compattezza.
+            Se esiste un quadrato di dimensione $n\times n$ per cui non è valido 
+            il tiling finito, ovvero il quadrato contiene almento un simbolo $q$.
+            Allora $T$ non ammette tiling valido su tutto il piano. Questo è vero
+            perché $q$ si propaga e in al più $2n$ passi tutte le celle diventano 
+            $q$. Quindi CA diventa nilpotente.
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+
+\begin{nota}
+    Con un CA 2D si può simulare l'evoluzione dinamica di un Tileset
+\end{nota}
+
+Si può dimostrare l'indecidibilità in 1D si usano i NW-deterministic, coincide 
+con una diagonale del tiling 2D  
+
+\begin{definizione} [\textbf{NW-deterministic tiling}]
+    Un Tileset $T$ è \textbf{NW-deterministic tiling} se nessuna coppia di tile
+    hanno gli stessi identici colori sugli edge superiore e a sinistra.
+\end{definizione}
+
+Quindi in un tiling valido, un particolare tile è univocamente determinato 
+dai tile a sinistra e sopra, perché esisterà un unico tile da inserire.
+
+Quindi nel 2D un NW-deterministic tiling visto in diagonale determina direttamente 
+la diagonale sottostante. Una diagonale può essere interpretata come una configurazione 
+bi-infinita di un CA 1D. 
+
+\begin{nota}
+    Un \textbf{NW-deterministic tiling valido} coincide con il diagramma spazio
+    tempo di un CA. 
+\end{nota}
+
+\begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-1D}]
+    Un CA 1D è nilpotente sse  $T$ è \textbf{NW-deterministic tiling set} non ammette tiling
+    valido
+    \begin{proof}
+        Da un NW-deterministic tiling set $T$ costruiamo un CA 1D:
+        \begin{itemize}
+            \item $S= T\cup \{q\}$
+            \item $r=\frac{1}{2}$ ovvero si considera la cella da modificare e 
+            la sua successiva, quindi il tile attuale e il tile NE.
+            \item $f:S^2\rightarrow S$ è la regola locale che prende due tile 
+            e ne restituisce un altro.
+            $$f(A,B) = \begin{cases}
+                C & \exists ! C \text{ per definizione}\\
+                q &  A=q\lor B=q\lor\text{ se non esiste, quando non ammette tiling}
+            \end{cases}$$
+
+        \end{itemize}
+        Dimsotriamo le singole implicazioni:
+        \begin{itemize}
+            \item $\implies$: Se $T$ ammette tiling valido allora $q$ non compare 
+            mai perché esiste sempre esattamente un $C$, quindi significa che $CA$
+            non è nilpotente
+            \item $\impliedby$: Ci si basa sul principio di compattezza del Tiling 
+            negato. $T$ non ammette tiling valido allora tutti i quadrati di dimensione 
+            $n\times n$ non sono validi per qualche $n$.
+            
+            Per ipotesi sappiamo che $T$ non è valido, questo significa che 
+            per il principio di compattezza, una qualsiasi configurazione contiene 
+            almento un $q$, quindi facendo evolvere l'automa otterremo prima o poi 
+            la configurazione quiesciente.
+        \end{itemize}    
+    \end{proof}
+\end{teorema}
+
+Tutto quello che abbiamo detto vale anche per $NE, SW, SE$. Un tile set 
+è $4$-way deterministic se è deterministico in ogni direzione.
+
+\begin{nota}
+    Possiamo costruire tileset aperiodico.
+\end{nota}
+
+\begin{teorema}
+    Il tiling problem è indecidibile in tutte e $4$ direzioni.
+\end{teorema}
+
+\subsection{Snakes}
+
+\begin{definizione} [\textbf{Snake} (directed tiles)]
+    \textbf{Snake} è un tileset con l'aggiunta di frecce verso le 4 direzioni (N,W,E,S).
+\end{definizione}
+
+Dato un generico tiling di Snake (valido o no), a partire da una qualsiasi posizione
+si possono generare dei cammini infiniti dati dalle freccie, questi possono 
+essere:
+\begin{itemize}
+    \item infiniti senza loop
+    \item infiniti con loop
+\end{itemize} 
+
+Dato un generico tiling di \textbf{Snake} (valido o no), a partire da una qualsiasi posizione
+si possono generare dei cammini infiniti dati dalle freccie, sui cammini possono
+accadere le seguenti cose:
+\begin{enumerate}
+    \item ci può essere un tiling error tra due tiles entrambe sul percorso
+    \item il percorso è un \textbf{plane-filling path}, ovvero $\forall n\in \mathbb{N}^+$
+    esistono $n\times n$ quadrati incui tutte le loro posizioni vengono visitate 
+    dal cammino.
+\end{enumerate}
+
+\begin{nota}
+    Un percorso che forza gli \textbf{Snake} ad ammettere tiling valido è il \textbf{
+        plane-filling Hillbert curve}
+\end{nota}
+
+\begin{esempio}
+    Un esempio di Snakes corrisponde ad un CA inietivo sulle configurazioni periodiche
+    ma non iniettivo su tutte le configurazioni.
+\end{esempio}
+
+Sia $G_p$ la restrizione della regola globale $G$ di un CA 1D alle configurazioni 
+periodiche allora 
+si sa che
+$$G \text{ iniettiva} \iff G_p \text{ iniettiva}$$
+$$G \text{ suriettiva} \iff G_p \text{ suriettiva}$$
+
+Nel caso bidimensionale si può solo 
+$$G \text{ iniettiva} \implies G_p \text{ iniettiva}$$
+$$G \text{ suriettiva} \impliedby G_p \text{ suriettiva}$$
+
+Infatti gli Snake permettono di dimostrare che 
+$$G \text{ iniettiva} \not\impliedby G_p \text{ iniettiva}$$
+
+Gli Snake sono utili anche per provare l'indecidibilità che CA 2D sia reversibile.
+La dimostrazione si basa sulla riduzione del tiling problem all'utilizzo degli 
+Snake.
+
+\begin{teorema}
+    Il problema di determinare se CA 2D è reversibile (e quindi anche iniettivo)
+    è indecidibile.
+    \begin{proof}
+        Dato un qualsiasi $T$ tileset, costruiamo un CA 2D (Snake XOR) nel seguente modo:
+        \begin{itemize}
+            \item alfabeto $S = T\times Snakes\times \{0,1\}$. Ogni cella è composta 
+            da un tile di $T$, uno Snake tile e un bit, dove solo $T$ può variare e 
+            $T$ e lo Snake hanno gli stessi colori.
+            \item regola locale:
+            \begin{itemize}
+                \item tile error: se c'è un tile error la cella rimane invariata
+                \item tile valido: la cella è attiva quindi il bit verrà aggiornato 
+                calcolando lo XOR tra se stesso e il bit della cella puntata dalla 
+                freccia dello Snake.
+            \end{itemize}
+        \end{itemize}
+
+        Possiamo riportare il problema all'automa CA è reversibile sse il tile 
+        set $T$ non ammette tile valido. 
+
+        Dimostriamo le implicazioni:
+        \begin{itemize}
+            \item $\implies$: dimostriamo che $T$ ammette tile valido allora 
+            CA è reversibile.
+
+            Se $T$ ammette tile valido costruiamo $2$ configurazioni $c', c''$
+            tali che $G(c') = G(c'')$. Lo Snake e $T$ hanno lo stesso tiling valido
+            e $c'\ne c''$, per esempio $c'$ è composto da soli $0$ mentre $c''$ 
+            è composto da soli $1$.
+
+            Per entrambe le configurazioni le celle sono attive, perché 
+            hanno lo stesso tiling corretto, quindi significa che si devono aggiornare.
+            $G(c') = c'$ perché ha soli $0$, mentre $G(c'') = c'$ perché è composta 
+            da soli $1$ che in XOR tra di loro ritornano sempre $0$. Quindi CA non 
+            è iniettivo.
+            \item $\impliedby$: Dimostriamo che da CA non sia iniettivo si riesce 
+            a dimostrare che ammette tiling valido.
+                        
+            supponiamo che CA non sia iniettivo, Sia $c$ e $d$
+            due diffenti configurazioni con la stessa immagine. Questi 
+            avranno $T$ e Snake identici e validi, quindi ahnno bit $0$ e $1$ differenti
+            alla posizione $p_1\in \mathbb{Z}$.
+
+            Dal momento che $c$ e $d$ hanno lo stesso successore:
+            \begin{itemize}
+                \item le celle in posizione $p_1$ devono essere attive perché
+                Snakes e $T$ sono validi alla posizione $p_1$
+                \item i bit nella posizione successiva $p_2$ puntata dallo Snake
+                sono differenti in $c$ e $d$.
+            \end{itemize}
+            Possiamo continuare ricorsivamente con le stesse motivazioni.
+            Avremo quindi una successione di $p_1,p_2,p_3\dots$ che seguono le 
+            frecce. Non c'è nessun tiling error per tutto il percorso, quindi 
+            è un \textbf{plane-filling path} di tiles validi quindi $T$ deve 
+            ammettere tiling valido su tutto il piano
+        \end{itemize}
+    \end{proof}
+\end{teorema}
+
+Il tile è usato per principalmente per studiare problemi di autoassemblaggio di 
+cellule (modello Winfree). In sostanza si aggiunge un tile alla volta al piano in modo che rimanga 
+valido. Il piano piano continua a crescere irregolarmente fino a quando non possiamo 
+più aggiungere tile, questo corrisponde all'autoassemblaggio biologico.
+
+La regola di match in questo problema può essere di due tipi:
+\begin{itemize}
+    \item \textbf{strong matching rules}: ogni nuovo tile deve metchare con i colori 
+    dei tile di tutti i vicini assemblati precedentemente
+    \item \textbf{weak matching rules}: ogni nuovo tile deve metchare con i colori 
+    dei tile di almeno un solo vicino assemblato precedentemente
+\end{itemize}
+
+\begin{definizione} [\textbf{Terminal assembly}]
+    Un pattern è \textbf{terminal assembly} se non ha più tile che si possono aggiungere
+\end{definizione}
+\begin{definizione} [\textbf{Unbounded assembly}]
+    Un tile set ammette un \textbf{unbounded assembly} se è un infinita sequenza 
+    di tile aggiunti senza poter arrivare ad un terminal assembly possibile
+\end{definizione}
+
+\begin{teorema}
+    Il problema di riconoscere se un tile ammette unbounded assembly è un problema decidibile.
+
+    Questo problema coincide col cercare se esiste uno Snake che lo rappresenta.
+\end{teorema}
+\section{Subshift}
+
+Modelli che permettono di codificare sequenze bi-infinite di caratteri escludendo 
+delle parole finite (codifica con parole proibite). Usati per modellare il salvataggio
+dei dati su disco fisso.
+
+\begin{definizione} [\textbf{Sottostringa di una stringa bi-infinita}]
+    Sia  $x\in A^\mathbb{Z}$ e una parola $w\in A^+$. Diremo che $w$ è sottostringa (finita) 
+    di $x$ sse $\exists i,j\in \mathbb{Z}$ con $i\le j$ tale che $w=x_{[i,j]}$
+\end{definizione}
+
+\begin{definizione} [\textbf{Subshift}]
+    Sia $X\subseteq A^\mathbb{Z}$ è un subshift sse $\exists \mathcal{F}\subseteq A^\ast$
+    tale che $X= X_\mathcal{F}$
+\end{definizione}
+
+$X$ è generato da $\mathcal{F}$ e sarà composto da parole che non hanno come 
+sottostringhe parole di $\mathcal{F}$. Spesso saremo interessati a cercare 
+di rappresentare finitamente $X_\mathcal{F}$.
