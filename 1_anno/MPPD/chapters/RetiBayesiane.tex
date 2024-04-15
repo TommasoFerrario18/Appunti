@@ -64,7 +64,6 @@ discendenti dati i suoi genitori.
 
 Nella definizione della struttura della rete è importante che il grafo orientato
 non contenga cicli, ovvero che la rete Bayesiane sia un DAG (\textit{Directed Acyclic
-non contenga cicli, ovvero che la rete Bayesiane sia un DAG (\textit{Directed Acyclic
     Graph}). Questo perché non è possibile che una variabile sia causa di se stessa.
 \subsection{Componente Quantitativa}
 Consideriamo ora la componente quantitativa di una rete Bayesiane, ovvero le
@@ -345,16 +344,6 @@ Se al termine di questo processo si hanno:
     \item \textbf{Variabili connesse}: non è garantito che le variabili siano
           indipendenti.
 \end{itemize}
-\begin{esempio}
-    Vediamo ora un esempio del processo di moralizzazione. Vogliamo verificare
-    se $A$ e $B$ sono condizionalmente indipendenti dati $D$ e $F$.
-    \begin{figure}[!ht]
-        \centering
-        \includegraphics[width=1\textwidth]{./img/Reti/Moralizzazione.png}
-        \caption{Esempio di moralizzazione}
-        \label{fig:moralizzazione}
-    \end{figure}
-\end{esempio}
 \begin{esempio}
     Vediamo ora un esempio del processo di moralizzazione. Vogliamo verificare
     se $A$ e $B$ sono condizionalmente indipendenti dati $D$ e $F$.
