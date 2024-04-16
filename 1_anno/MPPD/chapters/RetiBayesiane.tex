@@ -6,9 +6,6 @@ per rappresentare le relazioni di dipendenza tra le variabili e per effettuare
 inferenze su di esse. Le dipendenze espresse graficamente dalle reti Bayesiane
 sono solo assunzioni sul dominio, dal momento che vengono stimate usando algoritmi
 o usando l'esperienza delle persone afferenti al dominio.
-inferenze su di esse. Le dipendenze espresse graficamente dalle reti Bayesiane
-sono solo assunzioni sul dominio, dal momento che vengono stimate usando algoritmi
-o usando l'esperienza delle persone afferenti al dominio.
 
 Usando l'indipendenza e l'indipendenza condizionata il modello causale è molto
 più compatto, il numero di parametri utilizzato si riduce.
@@ -22,8 +19,6 @@ più compatto, il numero di parametri utilizzato si riduce.
 \begin{nota}
     Le variabili rappresentate dai nodi possono essere continue o discrete.
 \end{nota}
-Di norma diremo che se esiste l'arco $(x,y)\in E$ allora $x$ causa $y$, in altri
-termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
 Di norma diremo che se esiste l'arco $(x,y)\in E$ allora $x$ causa $y$, in altri
 termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
 \begin{center}
@@ -45,19 +40,12 @@ termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
 La topologia della rete, ovvero la sua struttura, e le probabilità condizionate
 dei nodi dati i loro genitori sono sufficienti a specificare la \textbf{distribuzione
     congiunta} di tutte le variabili rappresentate dalla rete.
-dei nodi dati i loro genitori sono sufficienti a specificare la \textbf{distribuzione
-    congiunta} di tutte le variabili rappresentate dalla rete.
 
 La componente quantitativa contenuta in ogni nodo è costituita da un insieme di
 \textbf{tabelle di probabilità condizionate} (CPT), queste tabelle rappresentano
 l'impatto dei genitori sulla variabile stessa.
-\textbf{tabelle di probabilità condizionate} (CPT), queste tabelle rappresentano
-l'impatto dei genitori sulla variabile stessa.
 
 Le CPT dicono quant'è la probabilità di assumere un valore per una variabile di
-un nodo, condizionata al valore delle variabili dei genitori. L'\textbf{assunzione}
-delle reti è che ogni nodo è \textbf{condizionalmente indipendente} dai suoi non
-discendenti dati i suoi genitori.
 un nodo, condizionata al valore delle variabili dei genitori. L'\textbf{assunzione}
 delle reti è che ogni nodo è \textbf{condizionalmente indipendente} dai suoi non
 discendenti dati i suoi genitori.
@@ -66,8 +54,6 @@ Nella definizione della struttura della rete è importante che il grafo orientat
 non contenga cicli, ovvero che la rete Bayesiane sia un DAG (\textit{Directed Acyclic
     Graph}). Questo perché non è possibile che una variabile sia causa di se stessa.
 \subsection{Componente Quantitativa}
-Consideriamo ora la componente quantitativa di una rete Bayesiane, ovvero le
-\textbf{Conditional Probability Tables} (CPT). Di queste tabelle possiamo dire che:
 Consideriamo ora la componente quantitativa di una rete Bayesiane, ovvero le
 \textbf{Conditional Probability Tables} (CPT). Di queste tabelle possiamo dire che:
 \begin{itemize}
@@ -81,20 +67,8 @@ Consideriamo ora la componente quantitativa di una rete Bayesiane, ovvero le
     \item Una variabile senza genitori ha una CPT con una sola riga che contiene
           i valori di probabilità a priori per ogni possibile valore che la
           variabile può assumere.
-    \item Ogni nodo ha associata una tabella (CPT).
-    \item La CPT descrive la probabilità condizionata della variabile dato un
-          particolare assegnamento dei valori delle variabili genitore.
-    \item La somma di ogni riga della tabella deve essere uguale a $1$.
-    \item La CPT di una variabile booleana con $k$ variabili genitori anche essi
-          booleani, contiene $2^k$ valori di probabilità che possono essere
-          specificati indipendentemente.
-    \item Una variabile senza genitori ha una CPT con una sola riga che contiene
-          i valori di probabilità a priori per ogni possibile valore che la
-          variabile può assumere.
 \end{itemize}
 \begin{nota}
-    Nel caso specifico di variabili booleane, se specifico solo il valore nel
-    caso vero nella CPT posso ricavare il valore del caso falso utilizzando:
     Nel caso specifico di variabili booleane, se specifico solo il valore nel
     caso vero nella CPT posso ricavare il valore del caso falso utilizzando:
     \begin{equation*}
@@ -119,8 +93,6 @@ La semantica delle reti Bayesiane può essere presentata e compresa in base a:
           Rete Bayesiane.
 \end{itemize}
 La costruzione delle reti è un processo incrementale che può essere effettuato
-utilizzando le informazioni a priori del dominio se si hanno conoscenze
-approfondite di esso, oppure tramite algoritmi di apprendimento.
 utilizzando le informazioni a priori del dominio se si hanno conoscenze
 approfondite di esso, oppure tramite algoritmi di apprendimento.
 \subsection{Semantica numerica}
@@ -165,8 +137,6 @@ delle opportune componenti delle CPT dei nodi della rete.
 La formula di fattorizzazione implica relazioni di \textbf{indipendenza condizionale}
 che possono essere sfruttate per determinare la componente \textbf{topologica}
 della rete.
-che possono essere sfruttate per determinare la componente \textbf{topologica}
-della rete.
 
 La regola della probabilità congiunta la possiamo scrivere come:
 \begin{equation*}
@@ -207,12 +177,10 @@ genitori, dei figli e dei genitori dei figli.
 
 Una possibile procedura per la costruzione incrementale della componente topologica
 di una rete Bayesiane è la seguente:
-di una rete Bayesiane è la seguente:
 \begin{itemize}
     \item Scegliere un insieme di variabili $\{x_1, \dots, x_n\}$ che rappresentano
           le variabili del dominio.
     \item Scegliere un ordinamento topologico per le variabili.
-    \item Inizializzare il numero dei nodi aggiunti alla rete a $i = 1$.
     \item Inizializzare il numero dei nodi aggiunti alla rete a $i = 1$.
     \item Selezionare la variabile $X_i$ e aggiungere il nodo corrispondente alla
           rete.
@@ -238,7 +206,6 @@ caratterizzati da un numero molto elevato di variabili.
 La compattezza delle Reti Bayesiane è un esempio della proprietà dei sistemi
 strutturati localmente o sparsi. In ogni sistema strutturato localmente ogni
 sotto-componente interagisce solo con un numero limitato di altre componenti,
-sotto-componente interagisce solo con un numero limitato di altre componenti,
 indipendentemente dal numero totale di componenti del sistema.
 
 La strutturazione locale è di norma associata ad un fattore di crescita della
@@ -256,11 +223,9 @@ Esiste un metodo per scoprire se in una rete Bayesiana due variabili sono
 condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separazione}.
 \begin{definizione}[\textbf{D-separazione}]
     Due nodi $X$ e $Z$ sono \textbf{D-separati} da un insieme $E$ di variabili con
-    evidenza se e solo se ogni cammino non orientato da $X$ a $Z$ è \textbf{bloccato}
+    evidenza se e solo se ogni cammino non orientato da $X$ a $Z$ è \textbf{bloccato}.
 \end{definizione}
 \begin{definizione}[\textbf{cammino bloccato}]
-    Un cammino è \textbf{bloccato} se e solo se vale almeno una delle seguenti
-    condizioni:
     Un cammino è \textbf{bloccato} se e solo se vale almeno una delle seguenti
     condizioni:
     \begin{itemize}
@@ -295,17 +260,12 @@ La d-separazione può essere calcolata in tempo lineare. Quindi abbiamo a
 disposizione un algoritmo efficiente per inferire automaticamente se apprendere
 il valore di una variabile può fornirci delle informazioni aggiuntive su altre
 variabili, date le informazioni a disposizione.
-La d-separazione può essere calcolata in tempo lineare. Quindi abbiamo a
-disposizione un algoritmo efficiente per inferire automaticamente se apprendere
-il valore di una variabile può fornirci delle informazioni aggiuntive su altre
-variabili, date le informazioni a disposizione.
 \begin{teorema} [\textbf{Verma \& Pearl}]
     Se in una rete Bayesiana un insieme di variabili $E$ di evidenza D-separa
     $X$ e $Z$, allora $X$ e $Z$ sono indipendenti.
 \end{teorema}
 \begin{definizione}[\textbf{d-connessione}]
-    Due variabili sono \textbf{d-connesse} se e solo se non sono d-separate
-    Due variabili sono \textbf{d-connesse} se e solo se non sono d-separate
+    Due variabili sono \textbf{d-connesse} se e solo se non sono d-separate.
 \end{definizione}
 Per testare se le variabili sono condizionalmente indipendenti si può usare il
 Per testare se le variabili sono condizionalmente indipendenti si può usare il
@@ -322,23 +282,7 @@ Per testare se le variabili sono condizionalmente indipendenti si può usare il
           facenti parte dell'evidenza e tutte le connessioni.
 \end{enumerate}
 Se al termine di questo processo si hanno:
-\begin{enumerate}
-    \item \textbf{Disegnare grafo ancestrale}: rete composta delle variabili
-          citate e tutti i loro predecessori.
-    \item \textbf{Moralizzare il grafo}: per ogni coppia di variabili che hanno
-          un figlio in comune, si traccia un arco non orientato tra di loro, in
-          caso di più genitori si collegano le coppie a due a due.
-    \item \textbf{Disorientiamo il grafo}: sostituzione degli archi orientati
-          con archi non orientati
-    \item \textbf{Eliminiamo i given e gli archi incidenti}: eliminare i nodi
-          facenti parte dell'evidenza e tutte le connessioni.
-\end{enumerate}
-Se al termine di questo processo si hanno:
 \begin{itemize}
-    \item \textbf{Variabili disconnesse}: è garantito che le variabili sono
-          indipendenti
-    \item \textbf{Variabili connesse}: non è garantito che le variabili siano
-          indipendenti.
     \item \textbf{Variabili disconnesse}: è garantito che le variabili sono
           indipendenti
     \item \textbf{Variabili connesse}: non è garantito che le variabili siano
@@ -368,14 +312,11 @@ con le distribuzioni canoniche.
     Un \textbf{nodo deterministico} è caratterizzato dal fatto che il valore che
     esso assume è completamente determinato tramite il valore assunto dai suoi
     genitori. Non c'è incertezza.
-    Un \textbf{nodo deterministico} è caratterizzato dal fatto che il valore che
-    esso assume è completamente determinato tramite il valore assunto dai suoi
-    genitori. Non c'è incertezza.
 \end{definizione}
 Le relazioni tra genitori e figli possono essere di diversi tipi:
 \begin{itemize}
     \item \textbf{Logiche}: come ad esempio l'\texttt{OR} tra le variabili dei genitori.
-    \item \textbf{numeriche}: come ad esempio il \texttt{minimo} valore delle
+    \item \textbf{Numeriche}: come ad esempio il \texttt{minimo} valore delle
           variabili dei genitori.
 \end{itemize}
 Un importante pattern è l'\textbf{indipendenza di uno specifico contesto} ovvero
@@ -498,7 +439,7 @@ allora posso sfruttare la seguente equazione, ovvero l'\textbf{algoritmo di
     P(X|E = e) = \alpha P(X,E = e) = \alpha \sum_{y} P(X,E = e, Y = y)
 \end{equation}
 dove $\alpha$ mi rappresenta un parametro di normalizzazione, mentre $\sum_{y}
-    P(X,E = e, Y = y)$ rappresenta la al variare delle variabili nascoste.
+    P(X,E = e, Y = y)$ rappresenta la probabilità al variare delle variabili nascoste.
 
 Si parla di enumerazione perché calcoliamo tutte le possibili combinazioni di valori
 delle variabili che non fanno parte dell'evidenza.
@@ -578,7 +519,8 @@ Una routine di generazioni di numeri pseudocasuali deve:
     \item essere replicabile
     \item generare numeri con proprietà statistiche simili a quelle ideali
 \end{itemize}
-\subsection{Metodo Naive}
+\subsection{Generazione di numeri pseudocasuale}
+\subsubsection{Metodo Naive}
 Un primo metodo per generare numeri casuali è attraverso l'utilizzo di una sequenza
 di numeri con $10$ cifre. Il procedimento è il seguente:
 \begin{itemize}
@@ -601,7 +543,7 @@ al quadrato, infatti si ha un'esplosione dei numeri.
         \end{array}
     \end{equation*}
 \end{esempio}
-\subsection{Moltiplicative Congruential Method (MCM)}
+\subsubsection{Moltiplicative Congruential Method (MCM)}
 Sia $x_0$ il valore iniziale, o anche detto \textbf{seed}, della sequenza. Allora
 un generico numero pseudocasuale può essere ottenuto da quello precedente nel
 seguente modo:
@@ -613,7 +555,7 @@ Con $a, M \in \mathbb{N}^+$.
 Il problema di questo metodo è che genera sempre dei numeri in modo ciclico sulla
 base del valore di $M$. Questo problema si può risolvere scegliendo opportunamente
 il valore di $M$, solitamente si sceglie un valore molto grande e primo.
-\subsection{Linear Moltiplicative Congruential Method (LCM)}
+\subsubsection{Linear Moltiplicative Congruential Method (LCM)}
 Questo metodo è una versione raffinata di quello precedente. In particolare, si
 aggiunge un bias $c$, in modo tale da personalizzare la sequenza. In formule:
 \begin{equation}
