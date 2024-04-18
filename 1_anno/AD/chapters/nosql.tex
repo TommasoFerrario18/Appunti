@@ -1,10 +1,6 @@
 \chapter{NoSQL}
 \begin{nota}
-      In quest capitolo non si vuole sostenere che i database NoSQL siano
-      migliori di quelli relazionali. I database NoSQL sono un'alternativa
-      ai database relazionali e non sempre sono la scelta migliore. Per ogni
-      applicazione è necessario valutare quale sia la scelta migliore.
-      In quest capitolo non si vuole sostenere che i database NoSQL siano
+      In questo capitolo non si vuole sostenere che i database NoSQL siano
       migliori di quelli relazionali. I database NoSQL sono un'alternativa
       ai database relazionali e non sempre sono la scelta migliore. Per ogni
       applicazione è necessario valutare quale sia la scelta migliore.
@@ -20,11 +16,6 @@ alle crypto che vengono forniti da un API. Con le conoscenze conseguite fino a
 questo momento, salveremo tutto su una tabella di un DBMS relazionale dove si
 hanno 5 colonne:
 \begin{itemize}
-      \item id
-      \item Simbolo
-      \item Prezzo\_USD
-      \item Prezzo\_EUR
-      \item Data
       \item id
       \item Simbolo
       \item Prezzo\_USD
@@ -66,14 +57,6 @@ limiti nella gestione dei dati:
             viene usato (Programmazione a oggetti). Questo obbliga a utilizzare
             un ORM per mappare i dati del database relazionale con gli oggetti
             del linguaggio di programmazione.
-      \item Si ha uno svantaggio nel salvare di dati poco omogenei, questo è dovuto
-            principalmente alla rigidità dello schema dei modelli relazionali, in
-            quanto prima di poter inserire i dati, è necessario definire la loro
-            struttura.
-      \item Si ha uno svantaggio in relazione al paradigma di programmazione che
-            viene usato (Programmazione a oggetti). Questo obbliga a utilizzare
-            un ORM per mappare i dati del database relazionale con gli oggetti
-            del linguaggio di programmazione.
 \end{itemize}
 Inoltre, essendo le risposte delle API solitamente in formato JSON, si ha un
 ulteriore svantaggio in quanto si deve fare un parsing della risposta per
@@ -98,15 +81,6 @@ elenchiamo alcuni motivi per cui utilizzare i database relazionali:
             sviluppo.
       \item Sono valide le proprietà ACID, molto utili in contesti in cui si
             hanno transazioni.
-      \item SQL è semplice.
-      \item Molto rigido
-      \item Vincoli nel database allora le app possono non fare i controlli
-      \item ipotesi di mondo chiuso: tutto quello che serve è nel database, se non
-            lo so devo inserire il valore \texttt{null}.
-      \item Tecnologia stabile e funzionante che alle spalle anni di ricerca e
-            sviluppo.
-      \item Sono valide le proprietà ACID, molto utili in contesti in cui si
-            hanno transazioni.
 \end{itemize}
 È corretto presentare anche gli svantaggi dei database relazionali:
 \begin{itemize}
@@ -120,19 +94,8 @@ elenchiamo alcuni motivi per cui utilizzare i database relazionali:
       \item Non è compatibile con i linguaggi di programmazione ad oggetti.
       \item Presenta delle difficoltà nella gestione dei self-join.
       \item È difficilmente scalabile.
-      \item Modificare una tabella nella quale sono già presenti dei valori è molto
-            complicato.
-      \item Assunzione mondo chiuso: può risultare troppo pesante in determinate
-            situazioni.
-      \item Il concetto di minimizzare le ripetizioni dei valori implica la necessità
-            di effettuare molte join per ottenere l'informazione desiderata.
-      \item Si ha un mapping un attributo ha un valore.
-      \item Non è compatibile con i linguaggi di programmazione ad oggetti.
-      \item Presenta delle difficoltà nella gestione dei self-join.
-      \item È difficilmente scalabile.
 \end{itemize}
 \begin{nota}
-      Il termine NoSQL significa \textit{Not Only SQL}.
       Il termine NoSQL significa \textit{Not Only SQL}.
 \end{nota}
 Una caratteristica comune dei database NoSQL è che sono \textbf{schema-free} o
@@ -140,10 +103,6 @@ Una caratteristica comune dei database NoSQL è che sono \textbf{schema-free} o
 prima di poter inserire i dati. L'inserimento dei dati implica per quel dato lo
 schema associato, il successivo inserimento di un dato può avere uno schema diverso.
 
-% Presa da internet la definizione
-Oltre a ciò, per questi database vale il \textbf{teorema CAP}, il quale afferma
-che è impossibile per un sistema distribuito garantire contemporaneamente le
-seguenti tre proprietà:
 Oltre a ciò, per questi database vale il \textbf{teorema CAP}, il quale afferma
 che è impossibile per un sistema distribuito garantire contemporaneamente le
 seguenti tre proprietà:
@@ -154,15 +113,7 @@ seguenti tre proprietà:
             presenza di guasti.
       \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
             se alcune parti del sistema non sono disponibili.
-      \item \textbf{Consistency}: tutti i nodi vedono gli stessi dati allo stesso
-            tempo.
-      \item \textbf{Availability}: ogni richiesta riceve una risposta, anche in
-            presenza di guasti.
-      \item \textbf{Partition tolerance}: il sistema continua a funzionare anche
-            se alcune parti del sistema non sono disponibili.
 \end{itemize}
-Mentre nei database relazionali avevamo le transazioni \textbf{ACID}, nei database
-NoSQL abbiamo le transazioni \textbf{BASE}, che stanno per:
 Mentre nei database relazionali avevamo le transazioni \textbf{ACID}, nei database
 NoSQL abbiamo le transazioni \textbf{BASE}, che stanno per:
 \begin{itemize}
@@ -171,15 +122,7 @@ NoSQL abbiamo le transazioni \textbf{BASE}, che stanno per:
             input.
       \item \textbf{Eventual consistency}: il sistema diventerà consistente in un
             certo momento.
-      \item \textbf{Basically Available}: il sistema è sempre disponibile.
-      \item \textbf{Soft state}: lo stato del sistema può cambiare anche senza
-            input.
-      \item \textbf{Eventual consistency}: il sistema diventerà consistente in un
-            certo momento.
 \end{itemize}
-
-Inoltre, a differenza dei database relazionali, i database NoSQL si basano su
-un'assunzione di mondo aperto, ovvero viene inserito solo quello che conosco se
 Inoltre, a differenza dei database relazionali, i database NoSQL si basano su
 un'assunzione di mondo aperto, ovvero viene inserito solo quello che conosco se
 mi mancano delle informazioni non le metto.
@@ -190,22 +133,13 @@ per l'applicazione, il contrario di come si faceva una volta: progettazione gene
 Esistono diverse tipologie di database NoSQL, ognuna con le proprie caratteristiche
 e i propri casi d'uso. Possiamo dire che più è semplice il modello, più è facile
 scalarlo. Nella figura \ref{fig:tipi_nosql} possiamo osservare come si posizionano i
-scalarlo. Nella figura \ref{fig:tipi_nosql} possiamo osservare come si posizionano i
 database NoSQL rispetto alla dimensione e complessità del modello.
 \begin{figure}[!ht]
       \centering
       \includegraphics[scale=0.5]{./img/nosql/tipi_nosql.png}
       \caption{Tipi di database NoSQL}
       \label{fig:tipi_nosql}
-      \centering
-      \includegraphics[scale=0.5]{./img/nosql/tipi_nosql.png}
-      \caption{Tipi di database NoSQL}
-      \label{fig:tipi_nosql}
 \end{figure}
-
-Rispetto questa rappresentazione possiamo posizionare il modello relazionale tra
-il modello column-based e il modello document-based.
-
 
 Rispetto questa rappresentazione possiamo posizionare il modello relazionale tra
 il modello column-based e il modello document-based.
@@ -218,78 +152,20 @@ In questo corso vedremo i seguenti tipi di database NoSQL:
       \item \textbf{Wide-column}: i dati sono memorizzati in colonne, simile ai
             database relazionali.
       \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
-      \item \textbf{Document-based}: i dati sono memorizzati in documenti, che
-            possono essere in formato JSON, XML, BSON, YAML, etc.
-      \item \textbf{Key-value}: i dati sono memorizzati in coppie chiave-valore.
-      \item \textbf{Wide-column}: i dati sono memorizzati in colonne, simile ai
-            database relazionali.
-      \item \textbf{Graph-based}: i dati sono memorizzati in nodi e archi.
 \end{itemize}
 Una caratteristica che accomuna queste tipologie di database è legata al problema
 di mettere insieme i dati. Ad esempio, i database relazionali usano le operazioni
 di join, mentre i database document-based usano un unico documento.
-Una caratteristica che accomuna queste tipologie di database è legata al problema
-di mettere insieme i dati. Ad esempio, i database relazionali usano le operazioni
-di join, mentre i database document-based usano un unico documento.
 \subsection{Key value}
-I database \textbf{key-value} sono i più semplici tra i database NoSQL. In questi
 I database \textbf{key-value} sono i più semplici tra i database NoSQL. In questi
 database, i dati sono memorizzati come tabelle di hash dove la chiave punta a un
 particolare valore. Si utilizzano le tabelle di hash per massimizzare le prestazioni
 di lettura e scrittura.
 \subsection{Wide column}
 I database \textbf{wide-column} sono simili ai database relazionali, ma invece di
-I database \textbf{wide-column} sono simili ai database relazionali, ma invece di
 memorizzare i dati in righe, i dati sono memorizzati in colonne. Questo permette
 di avere una maggiore flessibilità rispetto ai database relazionali. La chiave
 punta a un insieme di colonne che può essere diverso per ogni riga.
-
-\paragraph{HBASE}
-HBase è un database wide-column che è stato ispirato da Google BigTable. In HBase
-si ha una chiave che punta ad un insieme di valori che possono avere tipi differenti.
-
-In questa struttura, possiamo definire delle \textbf{column family}, le quali
-contengono più attributi che condividono delle informazioni. Il \textbf{qualifier} è
-il nome dell'attributo all'interno di una column family. Ogni riga ha anche
-un campo relativo al timestamp in cui è stata modificata.
-
-L'utilizzo di timestamp fornisce un modo diverso per gestire le transazioni,
-anche quelle distribuite, senza l'uso di lock. Questo metodo associa a ogni
-transazione un timestamp, in modo che se due transazioni si sovrappongono,
-possono essere risolte in base a tale valore.
-
-In questa implementazione è possibile realizzare facilmente relazioni di tipo 1-n
-nella stessa riga.
-\paragraph{Cassandra}
-Cassandra è un database wide-column che è stato realizzato da Facebook per gestire
-la comunicazione con le mail.
-
-Questo database si differenzia da HBase per il fatto si ha uno spazio delle chiavi,
-il quale può essere visto come una tabella nel modello relazionale. Questo spazio
-è suddiviso in column family, le quali sono differenti da quelle di HBase in quanto
-la stessa chiave primaria può essere usata in più column family.
-
-I valori che si trovano all'interno di una column family possono essere di tipo
-diverso, inoltre, ogni riga ha un timestamp associato.
-
-Quindi una column family equivale ad una \textit{tabella}, e si utilizza la chiave
-primaria della riga per accedere ad un particolare dato di essa.
-
-L'accesso viene effettuato specificando i seguenti campi:
-\begin{itemize}
-      \item \texttt{column family}
-      \item \texttt{row key}
-      \item \texttt{column name}
-\end{itemize}
-Per semplificare il passaggio da database relazionali a Cassandra, il query
-language di Cassandra (CQL) è molto simile a SQL. Attraverso questo meccanismo
-è possibile sviluppare un applicazione che è in grado di utilizzare sia database
-relazionali che Cassandra senza apportare molte modifiche.
-
-Un vantaggio dell'utilizzo di questo database è legato al fatto che ogni riga è
-indipendente dalle altre. Quindi, in un contesto distribuito, è possibile frammentare
-come si vuole il database senza dover fare join.
-
 \paragraph{HBASE}
 HBase è un database wide-column che è stato ispirato da Google BigTable. In HBase
 si ha una chiave che punta ad un insieme di valori che possono avere tipi differenti.
@@ -401,7 +277,7 @@ Mongo permette di creare degli indici per velocizzare le operazioni.
       \end{center}
 \end{esempio}
 Nelle interrogazioni, tutte le clausole sono specificate in \texttt{AND}, se si
-vuole specificare in \texttt{OR} è necessario utilizzare il comando \$$or$ seguito
+vuole specificare in \texttt{OR} è necessario utilizzare il comando $\$or$ seguito
       da una lista di oggetti JSON.
 
       Nelle versioni successive è stato definito il concetto di \textbf{aggregation} e

@@ -82,63 +82,130 @@ come ho costruito il dataset di training e validation. Questo consiste nel saper
 quali sono i dati utilizzati, da dove vengono, come ho costruito il dataset. In
 questo modo si risolvono eventuali problemi dovuti a risultati sballati per dati
 che sono stati iniettati nel dataset.
-
 \section{Data Understanding}
-Una volta acquisiti i dati dobbiamo interpretarli, quindi dobbiamo fare \textbf{Data 
-exploration}. Per prima cosa bisogna identificare quali feature sono distribuite 
-discreti e quali continui. Controllare quanti valori nulli hanno le feature, 
-studi di correlazioni.
+Una volta acquisiti i dati, il primo passo consiste nella loro interpretazione,
+quindi di passa per una fase di \textbf{data exploration}.
 
-L'esplorazione dei dati può essere effettuata con dei \textbf{sanity checks} ovvero dei 
-controlli sull'integrità dei dati. Per esempio la latitudine è un dato che deve 
-essere compreso nel range $[-90,90]$. Tra i sanity checks si controlla il bilanciamento 
-delle features, ex: una feature che può assumere i valori CALDO e FREDDO, se 
-il $90\%$ degli esempi è CALDO allora non è significativa la feature. In aggiunta,
-risulta fondamentale controllare anche la cardinalità dei valori.
-I \textbf{sanity checks} possono essere effettuati visualizzando i dati, effettuando 
-query SQL o attravarso un script.
+Queste operazioni vengono solitamente svolte sui dati di training e di Serving
+in modo da capire se i dati sono consistenti e se sono stati raccolti in modo
+corretto, questo prende il nome di \textbf{sanity checks}.
 
-Per gestire le inconsistenze scoperte dai sanity checks posso:
+I dati che vengono raccolti sono solitamente rappresentati sotto forma tabellare,
+e possono essere:
 \begin{itemize}
-    \item eliminare l'esempio (solo quando sono pochi)
-    \item tentare di correggerlo con metodi di imputazione, bisogna però stare 
-    attenti perché non sempre si può fare, per esempio se tutti i dati della feature
-    di tutti gli esempi sono errati allora non posso correggerlo.
+    \item \textbf{Discreti}: valori che possono essere rappresentati da un insieme
+          finito o numerabile di valori. Possiamo inoltre avere anche due sotto
+          categorie:
+          \begin{itemize}
+              \item \textbf{Categorici}: valori che rappresentano delle categorie.
+              \item \textbf{Count}: valori che rappresentano il numero di
+                    occorrenze di un certo evento.
+          \end{itemize}
+    \item \textbf{Continui}: valori che possono essere rappresentati da un insieme
+          non numerabile di valori.
+\end{itemize}
+L'esplorazione dei dati avviene attraverso dei \textbf{sanity checks}, ovvero dei
+controlli che vengono svolti per studiare l'integrità dei dati. Un esempio di sanity
+check può essere il controllo della latitudine e longitudine di un punto, questi
+valori devono essere compresi in un certo range.
+
+Un ulteriore controllo viene fatto sul bilanciamento delle features, in particolare,
+per quelle categoriche si controlla se la distribuzione degli esempi per ogni
+categoria è bilanciata. In caso contrario, la feature potrebbe non essere significativa
+oppure si potrebbe avere un bias nei dati.
+
+Un altro controllo che viene fatto è il controllo della cardinalità delle features.
+Ad esempio, una persona non può avere associata più di una data di nascita.
+
+Tutti questi controlli possono essere essere effettuati attraverso diverse modalità:
+\begin{itemize}
+    \item \textbf{Visualizzazione}: attraverso grafici e tabelle.
+    \item \textbf{Query SQL}: attraverso query che permettono di estrarre
+          informazioni dai dati.
+    \item \textbf{Script}: attraverso script che permettono di estrarre
+          informazioni dai dati.
 \end{itemize}
 
-Quindi nella data exploration possiamo effettuare:
+Per gestire le inconsistenze scoperte dai sanity checks si possono adottare diverse
+strategie:
 \begin{itemize}
-    \item analisi univariata: identificare le feature discrete e continue,
-    costruire boxplots e istogrammi per identificare outliers. Si studia la dispersione 
-    dei dati, si costruiscono i boxplot, qq-plot.
-    \item analisi bivariata: analisi tra coppie di variabili per studiare le correlazioni.
-    Si costruiscono scatterplot tra target e una qualiasi variabile (correlazione 
-    target variabili), swarmplot
+    \item Eliminare l'esempio, questa strategia può essere adottata solamente
+          nel caso in cui il numero di esempi eliminati non sia troppo elevato.
+    \item Correggere l'errore con metodi di imputazione, bisogna però stare
+          attenti perché non sempre si può fare. Per esempio, se i dati
+          rappresentati da una feature sono vincolati da qualche normativa,
+          non posso correggere l'errore con un metodo di imputazione.
 \end{itemize}
+Riassumendo, la fase di data exploration è composta dai seguenti passi:
+\begin{itemize}
+    \item \textbf{Identificazione delle variabili}: quali sono le variabili che ho
+          a disposizione e che ruolo hanno.
+    \item \textbf{Analisi univariata}: analisi delle variabili una alla volta.
+          Voglio capire se la variabile in analisi è continua o discreta,
+          studiare la sua distribuzione e capire se ci sono degli outlier. Questo
+          può essere fatto attraverso l'utilizzo di box plot e istogrammi.
+    \item \textbf{Analisi bivariata}: analisi tra coppie di variabili. Voglio
+          capire come le variabili interagiscono tra di loro. Questo può essere
+          fatto attraverso l'utilizzo di scatter plot.
+    \item Capire se ci sono valori mancanti e come gestirli.
+    \item identificare e gestire i valori anomali (outlier).
+\end{itemize}
+\begin{definizione}
+    L'\textbf{Exploratory Data Analysis} (EDA) è una tecnica statistica che permette
+    di esplorare i dati e di estrarre informazioni utili per la costruzione di un
+    modello.
+\end{definizione}
 
-è opportuno visulizzare solo informazioni utili basati sulla std.
+Tra le varie tecniche di analisi dei dati abbiamo:
+\begin{itemize}
+    \item \textbf{Measure of dispersion}: permette di capire quanto i dati sono
+          distanti tra di loro. Questo può essere fatto attraverso l'utilizzo
+          di varianza e deviazione standard e altre misure statistiche.
+    \item \textbf{Box plot}: permette di visualizzare la distribuzione dei dati
+          attraverso quartili.
+    \item \textbf{QQ plot}: permette di confrontare la distribuzione dei dati
+          con una distribuzione normale.
+    \item \textbf{Scatter plot}: permette di visualizzare la relazione tra due
+          variabili.
+    \item \textbf{Swarm plot}: permette di visualizzare la distribuzione dei dati
+          in base a una variabile categorica.
+\end{itemize}
+Le visualizzazioni sono spesso guidate dai dati, quando si fanno delle analisi
+la comprensione di cosa si sta analizzando è fondamentale.
 
-Analisi delle features per rilevare baias.
+Queste analisi sono fondamentali per capire se i dati sono soggetti a dei bias.
 
-Data lifecycle analysis analizzare se il dato prodotto è sbagliato già dalla 
-sua creazione.
+È importante effettuare tutte queste analisi durante tutto il data lifecycle,
+questo perché mi aiuta ad individuare eventuali problemi e a correggerli.
 
-In aggiunta dobbiamo determinare se il modello è fair
-
+Le metodologie descritte in questo capitolo non rappresentano un processo che deve
+essere seguito alla lettera, ma sono delle linee guida che possono essere adattate
+in base al contesto. Ogni dominio applicativo richiede delle analisi specifiche.
+In aggiunta, quando addestriamo un modello di machine learning dobbiamo capire se
+il suo comportamento è \textbf{fair}, ovvero se il modello non è influenzato da
+bias.
 \section{Data validation}
-Controllare che la distribuzione dei dati non sia cambiata durante il tempo. Ovvero 
-che non variano i valori delle variabili, in questo modo se si modifica un dato 
-allora dobbiamo accorgercene per poter modificare il modello di conseguenza.
+Nella fase di sviluppo e mantenimento di un modello dobbiamo sempre controllare
+che la distribuzione dei dati non sia cambiata durante il tempo.
+Ovvero, che i valori su cui vogliamo effettuare delle previsioni abbiano la stessa
+struttura dei dati di training.
 
-Le modifiche possono essere di questo tipo:
+Questa analisi è molto importante perché se si modifica un dato allora dobbiamo
+accorgercene e modificare il modello di conseguenza.
+
+Un esempio di cambiamento può essere il seguente:
 \begin{itemize}
-    \item stringhe che passano da Upper a lower.
-    \item variabili che cambiano di semantica, ex: numero di giorni che diventa 
-    numero di ore. 
-    \item scompare un attributo, diventa null.
+    \item Abbiamo una feature di tipo string che passa da Upper case a lower case.
+    \item Le variabili che cambiano di semantica. Ad esempio il numero di giorni
+          che diventa numero di ore.
+    \item Scompare un attributo, diventa null.
 \end{itemize}
-Importante è avere un sistema di anomalia, sistemi di controllo che verificano che 
-i dati non vengono cambianti, se venissero cambiati allora dobbiamo produrre un alert.
-Un semplice alert può essere controllare che i dati delle feature siano già stati
-visti. In aggiunta si deve avere un playbook per gestire chi deve accorgersi degli 
-alert e chi deve risolverli. 
+Risulta quindi fondamentale avere un sistema di riconoscimento delle anomalie
+nei dati. Questo sistema deve essere in grado di riconoscere quando i dati cambiano
+e deve essere in grado di produrre un \textbf{alert}. 
+
+Solitamente, in relazione con gli alert si costruisce un \textbf{playbook} che
+specifica chi deve essere avvisato e come risolvere il problema.
+
+In questo modo, quando si riceve un alert si sa già come risolverlo, seguendo 
+le specifiche descritte nel playbook.

@@ -486,6 +486,95 @@ numeri casuali.
 In questo modo non si controllano le probabilità di tutte le combinazioni di valori
 (i famosi $2^n$) ma si controllano le probabilità di una successione finita di
 numeri casuali, non entrando nella complessità esponenziale.
+Per valutare la complessità di un algoritmo di inferenza è importante considerare
+la struttura della rete. Possiamo avere una rete con una struttura:
+\begin{itemize}
+    \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha al
+          massimo un cammino non orientato tra due nodi.
+    \item \textbf{Rete Multiplamente connessa}: dove si hanno più cammini non
+          orientati tra due nodi.
+\end{itemize}
+
+Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
+variabili. Questo algoritmo, permette nel caso di una rete Polytree, di computare
+la probabilità a posteriori per tutte le variabili richiede di effettuare $\mathcal{O}(n)$
+query ognuna delle quali ha una complessità di $\mathcal{O}(n)$. Quindi l'algoritmo
+ha una complessità di $\mathcal{O}(n^2)$.
+
+L'impiego di un algoritmo appartenente alla classe degli \textbf{algoritmi di
+    clustering} (join tree algorithms) consente di ridurre la complessità a $\mathcal{O}(n)$.
+
+Il principio sul quale si basano questi algoritmi è rappresentato dal fatto di
+unire i nodi di una rete formando clusters di variabili. Queste operazioni vengono
+fatte per trasformare la rete in un Polytree nel quale applicare un algoritmo di
+inferenza efficiente.
+
+Resta comunque il problema che il problema di inferenza esatta è NP-Hard. Per
+questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
+\textbf{Monte Carlo}. L'accuratezza di questi metodi dipende dal numero di campionamenti
+generati.
+\subsubsection{Direct Sampling}
+Questo metodo consiste nel campionare direttamente le variabili della rete ignorando
+le evidenze. Il funzionamento di questo algoritmo si basa sull'ordinamento
+topologico delle variabili della rete.
+
+Nel dettaglio, il suo funzionamento è il seguente:
+\begin{itemize}
+    \item Si ordinano le variabili della rete in modo tale che ogni variabile
+          sia preceduta dai suoi genitori.
+    \item Partendo dalla prima variabile si genera un campione casuale sulla base
+          della distribuzione espressa dalla CPT.
+    \item Si prosegue con la generazione delle altre variabili tenendo in
+          considerazione i valori delle variabili precedenti che sono già stati
+          estratti.
+    \item Si ripete questo procedimento per generare un numero finito di campioni.
+\end{itemize}
+Questo algoritmo genera campioni della distribuzione di probabilità congiunta a
+priori per il modello di rete bayesiana specificata.
+
+In ogni algoritmo di campionamento le risposte vengono computate tramite conteggio
+dei campioni generati.
+
+Questo metodo mi permette di generare campioni senza considerare le evidenze. Nel
+caso in cui si voglia considerare le evidenze, si utilizza il metodo di \textbf{Rejection
+    Sampling}.
+
+Questo algoritmo genera campioni della probabilità congiunta e successivamente
+rifiuta i campioni che non soddisfano le evidenze. La stima viene fatta sui
+campioni non rigettati.
+
+Purtroppo, l'algoritmo di Rejection Sampling rifiuta troppi campioni ed il tasso
+di rigetto cresce esponenzialmente con il numero di variabili per le quali è
+disponibile evidenza.
+
+Questa particolarità rende sostanzialmente inutilizzabile l'algoritmo in questione
+nel caso di modelli reali di Reti Bayesiane.
+\subsubsection{Likelihood Weighting}
+Questo algoritmo evita di generare campioni che dovranno essere successivamente
+rigettati. Per fare questo fissa il valore dei nodi per i quali è disponibile
+l'evidenza e genera i valori dei nodi rimanenti.
+
+Inoltre, questo algoritmo pesa in modo differente i vari eventi, il peso di ogni
+evento rappresenta la likelihood che l'evento associa all'evidenza.
+
+Intuitivamente gli eventi per i quali l'evidenza disponibile è inverosimile devono
+pesare in misura minore nel processo di stima delle probabilità a posteriori.
+\subsubsection{Markov Chain Monte Carlo (MCMC)}
+Differentemente dagli algoritmi precedenti, i quali generano ogni evento partendo
+da zero, l'algoritmo \textbf{Markov Chain Monte Carlo} genera ogni evento tramite
+modifiche casuali di un evento che lo precede nell'esecuzione.
+
+È utile pensare che il modello di rete bayesiana si trovi in un determinato
+\textbf{stato corrente}, il quale è identificato tramite l'assegnamento di un
+valore ad ogni nodo della rete.
+
+Lo stato prossimo viene ottenuto tramite campionamento di una delle variabili
+senza evidenza $X_i$, condizionalmente ai valori correntemente assunti dalle
+variabili che costituiscono il Markov Blanket della variabile (nodo) $X_i$.
+
+% ! Lo deve ancora finire siamo arrivati qui
+
+
 \section{Generazione di numeri pseudocasuali}
 \begin{definizione} [\textbf{Sequenza di numeri casuali}]
     Una \textbf{sequenza di numeri casuali} è una sequenza di realizzazioni di
