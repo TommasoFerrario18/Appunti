@@ -63,8 +63,6 @@ grafo è orientato dobbiamo distinguere tra grado uscente e grado entrante.
     \end{itemize}
     dove $E$ rappresenta il numero di archi del grafo e $n$ rappresenta il
     numero di nodi.
-    dove $E$ rappresenta il numero di archi del grafo e $n$ rappresenta il
-    numero di nodi.
 \end{nota}
 Una misura più rappresentativa della media dei gradi dei nodi è la \textbf{distribuzione
     dei gradi}. Possiamo definire $p(k)$ come la probabilità che un nodo abbia
@@ -92,7 +90,6 @@ valori di $p(k)$.
 \end{nota}
 Il valore della distribuzione mi permette di rappresentare molti fenomeni dalla
 robustezza della rete, alle sue vulnerabilità.
-robustezza della rete, alle sue vulnerabilità.
 \subsection{Cammino e distanza}
 \begin{definizione}[\textbf{Cammino}]
     Un \textbf{cammino} è una sequenza di nodi in cui ciascun nodo è adiacente
@@ -116,7 +113,6 @@ l'algoritmo BFS (Breadth First Search).
     \end{equation}
 \end{definizione}
 Mentre, nei grafi non orientati, la lunghezza media dei cammini può essere calcolata
-Mentre, nei grafi non orientati, la lunghezza media dei cammini può essere calcolata
 come segue:
 \begin{equation}
     \langle d \rangle = \frac{1}{E_{max}} \sum_{i \neq j} d_{ij}
@@ -129,7 +125,6 @@ il numero massimo di archi presenti nel grafo.
     vicini tra loro. In particolare, il coefficiente di clustering di un nodo è una
     misura della probabilità che i vicini di un nodo siano collegati tra loro.
     Dato un nodo $i$ con grado $k_i$, il coefficiente di clustering locale è
-    definito come segue (grafo non orientato):
     definito come segue (grafo non orientato):
     \begin{equation}
         C_i = \frac{2E_i}{k_i(k_i - 1)}
@@ -261,7 +256,6 @@ espresso nel caso di un grafo non orientato come segue:
 \end{equation}
 mentre nel caso di un grafo orientato come segue:
 \begin{equation}
-    C_B(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
     C_B(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
 \end{equation}
 \subsection{Closeness}
