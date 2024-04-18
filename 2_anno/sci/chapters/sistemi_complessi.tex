@@ -2047,6 +2047,26 @@ La regola di match in questo problema può essere di due tipi:
 
     Questo problema coincide col cercare se esiste uno Snake che lo rappresenta.
 \end{teorema}
+
+Posiamo simulare una macchina di turing con un tiles set e il problema del tiling.
+Definiamo un tile set composto da:
+\begin{itemize}
+    \item action tile
+    \item merging tile 
+\end{itemize}
+Si rappresenta l'esecuzione della macchina mediante il nastro, ad ogni cella viene 
+associata una piastrella. Ad ogni scatto della funzione utilizzeremo 
+una piastrella action per la cella dalla quale abbiamo letto il carattere e metteremo
+nella cella dove si sposterà la testina, una piastrella di merging. In questo modo 
+una MT non si arresta per ogni input sse posso costruire un tile set valido.
+
+\begin{nota}
+    Le piastrelle non avranno i colori ma delle frecce entranti, uscenti o nessuna 
+    freccia. Le frecce entranti rappresentano $qa$ lo stato attuale $q$ e il carattere 
+    letto $a$. Le frecce uscenti $a'$ o $q'$ rappresentano rispettivamente il nuovo 
+    carattere da scrivere e il nuovo stato.
+\end{nota}
+
 \section{Subshift}
 
 Modelli che permettono di codificare sequenze bi-infinite di caratteri escludendo 
@@ -2066,3 +2086,150 @@ dei dati su disco fisso.
 $X$ è generato da $\mathcal{F}$ e sarà composto da parole che non hanno come 
 sottostringhe parole di $\mathcal{F}$. Spesso saremo interessati a cercare 
 di rappresentare finitamente $X_\mathcal{F}$.
+
+\begin{esempio}
+    $X =  A^\mathbb{Z}$ è un subshift perché $\mathcal{F} = \emptyset$.
+\end{esempio}
+
+Sia $X\subseteq A^\mathbb{Z}$, non per forza un subshift
+\begin{definizione} [\textbf{linguaggio di $X$}]
+    Il \textbf{linguaggio di} $X$ è
+    $$\mathcal{B}(X) = \bigcup_{n\in \mathbb{N}} \mathcal{B}_n(x)= \{w\in A^\ast| \exists x\in X, w\prec x\}$$
+    Dove $\mathcal{B}_n(x) = \{w\in A^n| \exists x\in X, w\prec x\}$
+\end{definizione}
+
+\begin{definizione} [\textbf{Linguaggio fattoriale}]
+    Il linguaggio $\mathcal{L}\subseteq A^\ast$ è \textbf{fattoriale} se $\forall
+    u\in \mathcal{L}$, $w\prec u\implies w\in \mathcal{L}$
+
+\end{definizione}
+
+
+\begin{definizione} [\textbf{Linguaggio espandibile}]
+    Il linguaggio $\mathcal{L}\subseteq A^\ast$ è \textbf{espandibile} se $\forall
+    u\in \mathcal{L}$, $\exists v,w\in \mathcal{L}$ tale che $vuw\in \mathcal{L}$.
+\end{definizione}
+
+\begin{teorema}
+    Sia $X\in A^\mathbb{Z}$, $X$ è un \textbf{subshift} sse $\mathcal{B}(X)$ è 
+    \textbf{fattoriale} e \textbf{espandibile}
+\end{teorema}
+
+\subsection{Subshift di tipo finito}
+\begin{definizione} [\textbf{Subshift di tipo finito (SFT)}]
+    Sia $X$ un subshift, $X$ è SFT se $\exists \mathcal{F}\subseteq A^\ast$ con
+    $|\mathcal{F}|<\infty$ tale che $X= X_\mathcal{F}$
+\end{definizione}
+
+\begin{esempio}[\textbf{Golden Mean Shift}]
+    $X=X_\mathcal{F}$ con $\mathcal{F} = \{11\}$ e $|\mathcal{F}|<\infty$, $X$ è
+    SFT.
+\end{esempio}
+
+Per definire un subshift come $SFT$ allora basta che esista un insieme generatore
+finito.
+\begin{definizione}
+    $X$ è un SFT di memoria $M$ se  $\mathcal{F}\subseteq A^{M+1}$ tale che $X=X_\mathcal{F}$.
+\end{definizione}
+
+\begin{esempio}[\textbf{Golden Mean Shift}]
+    $X=X_\mathcal{F}$ con $\mathcal{F} = \{11\}\subseteq A^{1+1}$ è
+    SFT di memoria $1$.
+\end{esempio}
+
+\begin{nota}
+    se $X$ è memoria $M$ allora sarà anche a memoria $M+1,M+2,M+k,\dots$. Infatti 
+    basta prendere la parola più lunga in $\mathcal{F}$ e completare le altre 
+    con qualsiasi sinbolo di $A$.
+\end{nota}
+
+\begin{teorema}
+    Sia $X$ un subshift di memoria $M$ e $x\in A^{\mathbb{Z}}$.
+    $$x\in X\iff \forall i, x_{[i,i+M]}\in \mathcal{B}_{M+1}(X)$$
+\end{teorema}
+Si dice di memoria $M$ perché quando controllo se una parola appartiene al subshift
+controllo a gruppi della sua lunghezza inserendo un simbolo in coda e rimuovendo un 
+simbolo in testa.
+
+\begin{definizione} [\textbf{Rappresentazione a blocchi di} $X$] 
+    Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è 
+    $$X^{[N]} = \mathcal{B}_N (X)$$
+\end{definizione}
+
+\begin{teorema}
+    $X^{[N]} $ è un subshift
+\end{teorema}
+
+\begin{esempio}
+    Sia $\mathcal{F}=\{11\}$, $X = X_\mathcal{F}$ e sia $N=2$ allora 
+    $$x=(\dots, 0,1,0,0,0,1,\dots)$$
+    $$\mathcal{B}_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
+
+    In generale $\mathcal{B}_N(x)_i = x_{[i, i+N-1]}$
+\end{esempio}
+
+\begin{definizione} [\textbf{Grafo di in SFT}]
+    Il grafo di un SFT $X$ di memoria $M$ ($\exists \mathcal{F}\subseteq A^{M+1}, X= X_\mathcal{F}$) 
+    è $G=(V,E)$ tale che:
+    \begin{itemize}
+        \item $V = \mathcal{B}_M(X)\subseteq A^M$
+        \item $E = \{(u,v)\in V\times V | u = u_1\dots u_M, v= v_1\dots v_M,u_2\dots u_M = v_1\dots v_{M-1}\land uv_M= u_1v \not \in \mathcal{F}\}$ 
+    \end{itemize}
+\end{definizione}
+
+La costruzione per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
+\begin{itemize}
+    \item Calcolo $\mathcal{B}_M(X)$ con $M$ che sono i vertici
+    \item disegno un arco tra due nodi solo se $u_1v=uv_M \not \in \mathcal{F}$
+    \item controllo tutti i cammini biinfiniti e controllo che tutti gli archi 
+    fanno parte dei cammini. Se non fanno parte allora si cancellano gli archi e i
+    nodi isolati.
+\end{itemize}
+
+Il grafo è un sottografo del De Bruijn.
+
+Dato un generico grafo $G=(V,E)$ possiamo ottenere un subshift $X_G$ che è SFT.
+$$X_G=\{x\in E^\mathbb{Z}|\forall i\in\mathbb{Z}, t(x_i) = i(x_{i+1}) \}\equiv X^{[M+1]}$$
+dove:
+\begin{itemize}
+    \item $t(\alpha)$ è il vertice terminale dell'arco $\alpha$
+    \item $i(\alpha)$ è il vertice iniziale dell'arco $\alpha$
+\end{itemize}
+
+$x \in X_G$ è un cammino sugli archi di $G$ composto dal nome dei singoli archi attraversati ($A= E$).
+Per definizione $x\in \mathcal{B}_M(y), \forall y\in X$.
+
+\begin{teorema}
+    $X_G$ è un SFT.
+\end{teorema}
+
+Ora consideriamo il grafo $\mathcal{G}=(V,E,l)$ con $l:E\to A$ un grafo etichettato 
+tale che $G=(V,E)$.
+\begin{definizione}
+    $l_\infty:E^\mathbb{Z}\to A^\mathbb{Z}$ tale che 
+    $$\forall x\in E^\mathbb{Z}, \forall i \in \mathbb{Z}, l_\infty(x)_i = l(x_i)$$
+\end{definizione}
+\begin{nota}
+    $l_\infty$ è l'estensione alle stringhe biinfinite di $l$.
+\end{nota}
+
+\begin{definizione}
+    $X_\mathcal{G}= \{y\in A^\mathbb{Z}|\exists x\in E^\mathbb{Z} : \forall i \mathbb{Z}, t(x_i) = i(x_{i+1})\land y_i=l(x_i)\}=l_\infty(X_G)$
+\end{definizione}
+
+\begin{osservazione}
+    $y\in X_\mathcal{G}$ sse cammino biinfinito sulle etichette degli archi di $\mathcal{G}$
+\end{osservazione}
+\begin{nota}
+    $X_\mathcal{G}$ è un subshift
+    \begin{proof}
+        $X_\mathcal{G} = X_\mathcal{F}$ con $\mathcal{F}=\mathcal{B}(X_\mathcal{G})^C$
+        dove il complemento è rispetto ad $A^\ast$
+    \end{proof}
+\end{nota}
+
+\begin{definizione}
+    $X$ è \textbf{Sofico} sse $\exists \mathcal{G}$ tale che $X= X_\mathcal{G}$
+\end{definizione}
+
+Quindi SFT $\subseteq$ sofici.

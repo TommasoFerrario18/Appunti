@@ -1,0 +1,137 @@
+\chapter{Serie di Furier}
+
+\section{Serie di Forier nel continuo}
+Si basano sulle funzioni perioche. 
+
+\begin{definizione} [\textbf{Funzione periodica}]
+    Una \textbf{funzione periodica} $f:\mathbb{R}\to \mathbb{R}$ se 
+    $\forall x\in \mathbb{R}, \exists t \in \mathbb{R}$ tale che $f(x+nt) = f(x),
+    \forall n\in \mathbb{Z}$ 
+\end{definizione}
+
+\begin{nota}
+    Se una funzione periodica di periodo $p$ è notata in un generico intervallo
+    di ampiezza $p$ allora è nota ovunque.
+\end{nota}
+
+\begin{nota}
+    L'integrale su un intervallo di ampiezza $p$ di una funzione periodica di periodo 
+    $p$ non dipende da dagli estremi di integrazione.
+    \begin{equation*}
+        \int_{a}^{a+p}f(t)dt =  \int_{b}^{b+p}f(t)dt, \forall a,b
+    \end{equation*}
+    \begin{proof}
+        Significa validare la seguente equazione
+        \begin{equation*}            
+            \int_{a}^{a+p}f(t)dt =  \int_{0}^{p}f(t)dt
+        \end{equation*}
+
+        Per le proprietà degli integrali sappiamo che 
+        \begin{equation*}            
+            \int_{a}^{a+p}f(t)dt =  \int_{a}^{p}f(t)dt + \int_{p}^{a+p}f(t)dt = 
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{p}^{a+p}f(t)dt
+        \end{equation*}
+        Dal metodo di sostituzione $s = t-p$ allora $t= p \iff s=0$ e $t=p+a 
+        \iff s=a$ e i differenziali saranno $ ds = dt$ perché $\frac{\partial s}{\partial s} = 1$
+        $\frac{\partial t-p}{\partial t} = 1$.
+
+        Quindi gli integrali diventano 
+        \begin{equation*}
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{p}^{a+p}f(t)dt = 
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{0}^{a}f(s)ds = 
+        \end{equation*}
+
+        Ma essendo $f$ periodica, sapendo che $s=t+p$ e $p$ è il periodo allora 
+        $f(s) = f(t)$, quindi $\int_{0}^{a}f(s)ds = \int_{0}^{a}f(t)dt$, perciò
+        
+        \begin{equation*}
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{0}^{a}f(s)ds = 
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{0}^{a}f(t)dt = 
+            -\int_{0}^{a}f(t)dt + \int_{0}^{a}f(t)dt +\int_{0}^{p}f(t)dt+  = \int_{0}^{p}f(t)dt 
+        \end{equation*}
+    \end{proof}
+\end{nota}
+
+\begin{nota}
+    Un qualsiasi integrale può essere approssimato nel seguente modo
+
+    \begin{equation*}
+        \int_{0}^{p}f(t)dt \approx \sum_{i=1}^{x_n}\omega_1 f(t_1) 
+    \end{equation*}
+\end{nota}
+
+Il nostro obiettivo è quello di riportare tutte le funzioni periodiche di periodo $t$
+variabile ad un periodo $p$ costante. Possiamo moltiplicare i valori di input della 
+funzione per $\frac{t}{p}$ (deriva dalla fisica). Se $p<t$ allora stiamo accorciando 
+la funzione, se $p>t$ stiamo allungando la funzione.
+
+\begin{proof}
+    Per dimostrarlo possiamo prendere una funzione periodica generica $f$ di periodo $t$
+    e posso testare che $f'(x) = f(\frac{t}{p}x)$ sia periodica di periodo $p$, 
+    ovvero che $f'(x+np) = f'(x) \iff f(\frac{t}{p}x + np) = f(\frac{t}{p}x)$.
+
+    $f'(x+np) = f(\frac{t}{p}(x + np))= f(\frac{tx}{p} + \frac{tnp}{p}) = f(\frac{tx}{p} + nt)
+    =f(\frac{tx}{p}) =f'(x)$ perché $f$ è periodica di periodo $t$.
+\end{proof}
+
+Utilizzeremo per lo più le seguenti funzioni $\sin (\frac{2\pi k}{p}t)$ e $\sin (\frac{2\pi k}{p}t)$.
+\begin{nota}
+    Per ogni $k \ge 1$ vale
+    \begin{equation*}
+        \int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt =  
+        \int_{0}^{p}\cos \left(\frac{2\pi k}{p}t\right) dt = 0
+    \end{equation*}
+    \begin{proof}
+        Possiamo risolvere i singoli integrali, per esempio con la sostituzione 
+        introduciamo la variabile $s= \frac{2\pi k}{p}t$ quindi $\frac{p}{2\pi k}ds =dt$
+        allora 
+        $$\int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt = 
+        \int_{0}^{2k\pi}\sin \left(s\right)\frac{p}{2\pi k}ds = \frac{p}{2\pi k} \int_{0}^{2k\pi}\sin \left(s\right)ds =\frac{p}{2\pi k} \left[-cos(s)\right]_0^{2k\pi} = 0 $$
+        La stessa roba si replica nel coseno. 
+    \end{proof}
+\end{nota}
+
+\begin{nota}
+    Presa una qualsiasi coppia $l,k>0$ vale 
+    \begin{equation*}
+        \int_{0}^{p}\sin\left(\frac{2\pi l}{p}t\right)\cdot \cos\left(\frac{2\pi k}{p}t\right) dt = 0
+    \end{equation*}
+    \begin{proof}
+        Risolviamolo con la sostituzione $s= \frac{2\pi t}{p}$ quindi $ds = \frac{p}{2\pi}dt$.
+        $$\int_{0}^{p}\sin\left(\frac{2\pi l}{p}t\right)\cdot \cos\left(\frac{2\pi k}{p}t\right) dt = 
+        \int_{0}^{2\pi}\sin\left(ls\right)\cdot \cos\left(ks\right)\frac{p}{2\pi} ds =
+        \frac{p}{2\pi}\int_{0}^{2\pi}\sin\left(ls\right)\cdot \cos\left(ks\right) ds$$
+        Utilizzando la relazione $\frac{1}{2}\left(\sin(\alpha +\beta) \sin(\alpha-\beta)\right) = \sin\left(\alpha\right)\cos\left(\beta\right)$ 
+        possiamo dire:
+        $$\frac{p}{2\pi}\int_{0}^{2\pi}\sin\left(ls\right)\cdot \cos\left(ks\right) ds = 
+        \frac{p}{2\pi}\frac{1}{2}\int_{0}^{2\pi}\sin\left((l+k)s\right)+ \sin\left((l-k)s\right) ds=$$
+        $$
+        =\frac{p}{4\pi}\left(\int_{0}^{2\pi}\sin\left((l+k)s\right)ds + \int_{0}^{2\pi}\sin\left((l-k)s\right) ds\right)=0
+        $$
+        Si annullano perché coincide con l'integrale della nota precedente.
+    \end{proof}
+\end{nota}
+\begin{nota}
+    PResa $l,k>0$ vale
+    \begin{equation*}
+        \int_{0}^{p}\cos\left(\frac{2\pi l}{p}t\right)\cdot \cos\left(\frac{2\pi k}{p}t\right) dt = \begin{cases}
+            \frac{p}{2} & k=l\\
+            0 & k\ne l\\
+        \end{cases}
+    \end{equation*}
+    l'integrale tra il prodotto dei coseni con frequenza diversa allora il risultato 
+    è nullo.
+    \begin{proof}
+        Per dimostralo usiamo sempre la sostituzione $s=\frac{2\pi}{p}dt$ e $\frac{p}{2\pi}ds = dt$.
+        Come prima si ottiene la stessa roba di Prima
+        $$\frac{p}{2\pi}\int_{0}^{2\pi} \cos(ks) \cdot \cos(ls) ds$$
+        Utilizziamo $\frac{1}{2}\cos(\alpha + \beta) +\cos(\alpha - \beta) = \cos(\alpha) \cos(\beta)$ allora 
+        otteniamo
+        $$\frac{p}{2\pi}\int_{0}^{2\pi} \cos(ks) \cdot \cos(ls) ds = 
+        =\frac{p}{2\pi}\int_{0}^{2\pi} \frac{1}{2}\cos((k+l)s) +\cos((k-l)s) ds = 
+        =\frac{p}{4\pi}\int_{0}^{2\pi}\cos((k+l)s) +\cos((k-l)s) ds$$
+        Per il caso $k\ne l$ allora otteniamo l'integrale della prima nota quindi $0$.
+        Se $k=l$ allora $\int_{0}^{2\pi} \cos(2k s) ds = 0$ mentre $\int_{0}^{2\pi}cos(0s)ds = s|_{0}^{2\pi} = 2\pi$
+    \end{proof}
+\end{nota}
+Per il caso $\sin \cdot \sin$ è uguale.
