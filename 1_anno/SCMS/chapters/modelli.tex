@@ -220,3 +220,89 @@ Se volessimo modellare le scale allora è come se le celle rallentano la velocit
 dell'individuo.
 
 Successivamente si prende il modello e si compara con quanto osservato.
+
+\section{Modellazione Crowd Management}
+
+Questo modello permette di dividere gli agenti in due livelli:
+\begin{itemize}
+    \item livello operazionale: si occupa di effettuare attività molto semplici 
+    tra agenti, come la camminata, interazione tra gli altri e attività da eseguire
+    \item livello tattico: si occupa di definire la scelta della strada da intraprendere 
+    e/o scegliere ad una strategia.
+\end{itemize}
+
+Questi agenti avranno la componente di base di conoscienza. Quindi si avrà un
+entre centrale che fornisce le informazioni su dove sono gli obiettivi e a livello
+di agente si avrà un algoritmo che sceglie quale target seguire. Si definiscono 
+quindi delle annotazioni sull'ambiente che permettono all'algoritmo di definire 
+i comportamenti. 
+
+Ogni agente ha una serie di gradienti che indirizzano verso dei punti specifici,
+ex: punti di passaggio, oggenti nella stanze, etc...
+
+Ogni agente quindi ha una base di conoscienza relazionale che aggiorna durante la sua simulazione,
+quando supera un marker di confine, visiona il gradiente associato alla regione 
+e in questo modo aggiorna la sua base di conoscienza aggiungendo le informazioni 
+del nuovo gradiente alla sua mappa relazionale.
+
+L'ambiente ha l'insieme di tutti i gradienti che specificano la direzione verso 
+le stanze adiacenti da qualsiasi stanza e fornisce la struttura relazionale (mappa,
+grafo che specifica le regioni e gli archi che specificano i passaggi) tra 
+gli agenti in merito a come sono collegate le stanze.
+
+I ciclo di vita dell'agente corrisponde a:
+\begin{itemize}
+    \item si basa sulla costruzione del piano: avviene quando l'agente nasce nell'ambiente 
+    o quando non vale più quello precedente. Ogni agente  ha l'obiettivo di raggiungere 
+    una stanza. Per prima cosa si deve localizzare nella mappa relazionale, chiede 
+    all'ambiente il gradiente della stanza, successivamente calcola le stanze da 
+    attraversare e segue il gradiente per raggiungere la stanza adiacente scelta.
+    Quando arriva al marker che segnala il confine, l'agente riceve dall'ambiente 
+    i nuovi gradienti della nuova stanza e ripete il percorso.
+    \item aggiornamento
+    \item attuazione
+\end{itemize}
+
+Il primo limite della cognitive map è il fatto che non si hanno delle metriche 
+che specificano le distanze tra le stanze e non è semplice specificare delle metriche.
+Possiamo definire degli alberi di percorso che sono composti dai nodi che specificano
+i passaggi mentre gli archi specificano le regioni. Per costruire l'albero posso 
+partire dall'obiettivo e calcolare tutte le opzioni per ritornare alla partenza. 
+In questo modo posso calcolare le distanze metriche (numero di celle 
+attraversate che possono essere trasformate in misuere di flusso, ovvero tempo 
+di percorrenza). Il probema è che si vuole modellare anche la congestione, 
+per fare ciò si utilizzano anche dei layer dinamici, il percorso più corto specifica 
+il layer statico, mentre possiamo definire un layer dinamico che misura la congestione.
+La misura può essere fatta contando, ogni $n$ iterazioni, quanti agenti sono rimasti 
+fermi. In questo modo si pesa il percorso per il grado di congestione. Successivamente 
+l'agente deve fare una scelta deterministica, ovvero il percorso più veloce.
+Possiamo annotare sempre le aree per dare dei requisiti agli agenti per praticare 
+il percorso, si ha un agente selettivo (perché seglie un'altra strada). 
+
+Si può permettere agli agenti di rivalutare il proprio piano ogni qual volta raggiunge
+un passaggio, questo perché quando raggiunge un passaggio l'agente ottiene le informazioni
+di congestione della regione successiva, perciò risulta sensato ripianificare 
+il percorso. La ripianificazione del piano può avvenire con un timer, non solo 
+attraverso l'attraversamento dei passaggi tra regioni.
+
+\begin{nota}
+    Se gli agenti non avessero il piano tattico, significa che non ripianificano
+    i percorsi.
+\end{nota}
+
+Per via che le persone sono influenzate dagli altri allora il modello non rispecchia
+la realtà. Ha più senso effettuare una scelta non deterministica tra i percorsi 
+da prendere influenzata dai tempi di percorrenza (a flusso libero), più precisamente 
+si cerca di dare maggior probabilità alla via migliore senza azzerare le altre possibilità.
+Per influenzare le scelte in base all'afflusso delle persone si misura la congestione 
+in base al numero di persone e le dimensioni dei passaggi.
+Per influenzare le scelte in base ai vicini, si introduce un area di influenza 
+in cui se uno cambia piano allora fa scattare il cambio del piano anche ai vicini.
+
+I limiti di questo modello sono:
+\begin{itemize}
+    \item agenti hanno una mappa dell'ambiente
+    \item da questo modello si ottengono dei risultati a livello complessivo e non 
+    a livello di agente.
+    \item non si conoscono i modi con coi realmente gli agenti esplorano l'ambiente.
+\end{itemize}
