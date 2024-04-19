@@ -305,4 +305,27 @@ I limiti di questo modello sono:
     \item da questo modello si ottengono dei risultati a livello complessivo e non 
     a livello di agente.
     \item non si conoscono i modi con coi realmente gli agenti esplorano l'ambiente.
-\end{itemize}
+\end{itemize}   
+
+\section{Valutazione dei modelli di simulazione}
+La differenza tra sviluppare un gioco e fare una simulazione è il fatto che 
+nella simulazione si hanno dei reali sistemi che si vogliono simulare, si ottengono
+i dati e successivamente si analizzano, questi passi non vengono svolti per un gioco.
+Lo scopo di simulare è per utilizzare il modello per spiegare e/o predire ragionamenti.
+
+Per valutare un modello si crea un modello naive semplice che effettua una prima 
+valutazione sulla bontà, questo permette già di effettuare una prima valutazione 
+evitando di implementare anche le specificità. Se passa la valutazione si 
+effettua un'analisi di sentitività sui paramentri del modello, ovvero si controlla quali paramentri
+sono signficativi e quali possono essere i range utili per ciascun paramentro.
+Se i parametri non sono sensibili allora possono essere anche rimossi dal modello.
+Successivamente si effettua una calibrazione dei parametri per renderlo il più federe 
+possibile alla realtà. Successivamente si può effettuare una validazione statistica 
+ed infine si effettua il deploy.
+
+Raccogliere dati empirici per poi confrontarli con il simulatore è sempre un problema,
+infatti si possono introdurre dei bias nelle misurazioni, ex: utilizzare un gruppo 
+di persone omogeno al posto di un gruppo eterogeneo.
+
+Ricorda che i dati si ricavano dagli agenti ma le validazioni si effettuano sul
+livello macroscopico.
