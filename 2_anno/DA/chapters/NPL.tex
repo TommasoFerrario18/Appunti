@@ -146,109 +146,184 @@ di classificazione. Questa può essere fatta in diversi modi:
       possono essere positive o negative in base al contesto.
 \end{nota}
 
-\section{Name entity recognition}
-(disambiguazione dal punto di vista morfosintattico)
-Uno dei tanti problemi è la disambiguità dei nomi di entità, quindi capire a che cosa 
-si riferisce un entità, ovvero disambiguità delle entità che si trovano nei messaggi.
-Per fare ciò si devono riconoscere i token delle entità e si deve capire a cosa si 
-riferiscono.
+\section{Semantic Ambiguity}
+ (disambiguazione dal punto di vista morfosintattico)
+Uno dei tanti problemi che si riscontrano nell'analisi del linguaggio naturale
+è l'ambiguità delle parole. Questo è molto importante, in quanto per comprendere
+un testo bisogna capire a che cosa ogni token si riferisce.
 
-I problemi nel riconoscere i token sono:
+I problemi che si possono riscontrare nel riconoscimento dei token sono riportati
+di seguito:
+\begin{enumerate}
+      \item Il linguaggio con cui è scritto il testo è \textbf{rumoroso}, ovvero
+            sono presenti errori ortografici, ambiguità e polisemia (a una parola
+            posso associare più significati).
+      \item \textbf{Out of vocabulary} (OOV): quando il modello non ha mai
+            incontrato delle parole che gli vengono fornite come input. Ad esempio,
+            se in fase di training il modello ha appreso la frase ``The Big Bang
+            Theory'', mentre in fase di test gli viene fornita la frase ``TBBT'',
+            il modello non riconoscerà la parola.
+      \item \textbf{Out of Knowledge base}: quando il modello non ha una
+            rappresentazione dell'entità nella base di conoscenza. Ad esempio,
+            il nome di un nuovo prodotto.
+\end{enumerate}
+\subsection{Name entity recognition}
+\begin{definizione}[\textbf{Named Entity Recognition}]
+      La \textbf{Named Entity Recognition} (NER) è una tecnica che permette di
+      identificare le entità all'interno di un testo e classificarle in categorie
+      predefinite.
+\end{definizione}
+\begin{definizione}[\textbf{Surface Form}]
+      La \textbf{Surface Form} è la rappresentazione di un'entità indipendente
+      dalla semantica nella frase.
+\end{definizione}
+Per svolgere questo task si utilizzano dei modelli neurali i quali escono dalla
+classica idea di machine learning, in quanto l'output non è più un singolo valore
+ma una sequenza di valori. Questo problema viene risolto con i modelli \textbf{sequence
+      prediction}.
+
+Nel nostro caso si ha una sequenza di osservazioni e si impara per prevedere la
+sequenza ottimale di etichette che devono essere associate alle osservazioni.
+In questo modo si considera nella predizione il contesto delle osservazioni
+facenti parte della sequenza, quindi non si effettua il training sulle singole parole.
+\subsubsection{Conditional Random Fields}
+Il modello che viene utilizzato per risolvere il problema di NER è il \textbf{Conditional
+      Random Fields} (CRF). Questo modello è un modello grafico probabilistico che
+massimizza la probabilità condizionata delle etichette della sequenza di input.
+
+Questo modello può essere come un grafo dove si hanno dei nodi che rappresentano
+le osservazioni e degli archi che rappresentano le dipendenze tra le etichette.
+
+Le parole sono connesse solamente alle etichette, mentre è presente una relazione
+temporale tra le etichette. Questo modello è un modello di Markov del primo ordine,
+in quanto si considera solamente la parola precedente.
+
+Vediamo ora un esempio di struttura di un CRF:
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/nlp/crf.png}
+      \caption{Struttura di un CRF}
+      \label{fig:crf}
+\end{figure}
+
+In fase di training si impara $P(y|x)$, dove $y$ è il vettore delle etichette
+mentre $x$ è il vettore delle parole.
+\begin{equation}
+      P(y|x) = \frac{1}{Z_x} \prod_t \phi(y_t,y_{t-1},x ,t)
+\end{equation}
+dove $\frac{1}{Z_x}$ rappresenta una costante di normalizzazione, mentre la
+funzione $\phi(y_t,y_{t-1},x ,t)$ può essere scritta come:
+\begin{equation}
+      \phi(y_t,y_{t-1},x ,t) = \exp (\sum_k\lambda_k f_k(y_t,y_{t-1},x,t))
+\end{equation}
+dove $f_k(y_t,y_{t-1},x,t)$ sono delle \textbf{feature function}, ovvero delle
+funzioni predeterminate che valutano diverse proprietà in base all'osservazione e
+all'etichetta precedente al tempo $t$.È impor tante che queste funzioni abbiano
+almeno due stati di uscita, possiamo considerare le feature function come degli
+\textbf{if}.
+
+Le feature function possono essere di due tipologie:
 \begin{itemize}
-      \item linguaggio rumoroso, ambiguità e polisemia
-      \item out of vocabulary quando il modello non ha mai incontrato delle parole 
-      che sta analizzando. Se io ho dato in fase di training The Big Bang Theory
-      ma incontra TBBT, allora non lo riconosce.
-      \item Out of Knowledge base quando il modello non ha una rappresentazione dell'entità nella 
-      base di conoscienza.
+      \item \textbf{State} $f_i(y_t, x) \in \mathbb{R}$: valutano lo stato in
+            cui ci si trova in quel tempo. Nello specifico valutano la relazione
+            che c'è tra la parola $x_t$ e la sua etichetta $y_t$.
+      \item \textbf{Transition} $g_i(y_t, y_{t - 1}, x) \in \mathbb{R}$: modellano
+            la dinamica dell'etichettatura. Misurano la relazione tra l'etichetta
+            della parola al tempo $t$ e l'etichetta della parola al tempo $t - 1$.
+            Le definisco a runtime perché si applicano alle etichette.
 \end{itemize}
 
+Quanto ottenuto è un modello log-lineare, quindi, possiamo riscrivere il calcolo
+della probabilità condizionata come:
+\begin{equation}
+      P(y|x) = \frac{\exp \sum_{t = 1}^T\left( \sum_i \lambda_i f_i(y_t,x) +
+      \sum_j \mu_j g_j(y_t,y_{t-1},x) \right)}{Z_x}
+\end{equation}
+Dato che le funzioni sono note, dobbiamo imparare i parametri $\lambda_i, \mu_j$,
+per fare questo, si massimizza la \textbf{log-likelihood} del modello rispetto
+alle osservazioni, ovvero:
+\begin{equation}
+      L_{\lambda,\mu} = \sum_{t} \log P(y_t|x_t, \lambda, \mu) = \sum_k \left[
+            (\lambda, \mu) \cdot F(y_k, x_k) - \log Z_{\lambda, \mu}(x_k) \right]
+\end{equation}
+L'inferenza consiste nel determinare la migliore sequenza di etichette data una
+sequenza di osservazioni.
 
-L'entità vengono rappresentate come surface form, ovvero la loro rappresentazioen 
-indipendente dalla semantica nella frase. Riconoscere un'entità si occupa di 
-ricercare degli insiemi di token che poi vengono segmentati per in classi o etichette.
-Ex: luoghi\dots.
-Ora si usano modelli neurali che si basano su modelli di sequence prediction.
-Ovvero si ha una sequenza di osservazioni e si impara per prevedere la sequenza 
-ottimale di etichette. In questo modo si considera nella predizione il contesto 
-delle osservazioni facenti parte della sequenza, quindi non si effettua il traning 
-sulle singole parole.
-
-Ora si utilizzano i Conditional Random Fields. Sono modelli grafici probabilistici 
-che massimizzano la probabilitùà condizionata di etichette della sequenza di input.
-Le osservazioni sono le parole, mentre gli stati nascosti sono le etichette.
-Il modello associa una dipendeza tra la classe e la sua parola di input, inoltre 
-si ha una dipendenza temporale solo con la parola precedente. (catene markoviane del 
-primo ordine).
-
-In fase di trainig si impara $P(y|x)$, $y$ vettore delle etichette dato $x$ vettore 
-delle parole.
-
-$$P(y|x) = \frac{1}{Z_x} \prod_t \phi(y_t,y_{t-1},x ,t)$$
-
-dove $ \frac{1}{Z_x}$ costante di normalizzazione e $\phi(y_t,y_{t-1},x ,t) = \exp (\sum_k\lambda_k f_k(y_t,y_{t-1},x,t))$.
-$f_k(y_t,y_{t-1},x,t)$ sono delle feature con function (predeterminate, a  valori reali e almento a 2 stati di uscita), 
-valutano diverse proprietà in base all'osservazione, l'etichetta e l'etichetta precedente al tempo $t$.
-Sono come degli if che valutano le caratteristiche del testo e le associano alle etichette 
-sia della parola pattuale sia di quella precedente. Le feature function possono essere di tipo:
-\begin{itemize}
-      \item \textbf{state} $f_i$: valutano lo stato in cui ci si trova in quel tempo.
-      Misurano la relazione $x_t$ e $y_t$
-      \item \textbf{transizioni} $g_i$: modellano la dinamica dell'etichettatura.
-      Misurano la relazione tra le label della parola attuale e quelle adiacenti. 
-      Le definisco a runtime perché si applicano alle etichette.
-\end{itemize} 
-
-Il modello è un modello logaritmico lineare, quindi la composizione delle feature 
-si effettua attraverso una somma, rimuovendo la produttoria. Dobbiamo imparare 
-le $\lambda_i, \mu_j$, per fare ciò si massimizza la verosimiglianza del modello 
-rispetto alle osservazioni.
-
-L'inferenza consiste nel determinare la migliore sequenza di etichette data una 
-sequenza di osservazioni. La rete del modello è una feed forward e sugli archi ci 
-sono i pesi delle features function.
+Il processo di inferenza avviene tramite l'algoritmo di \textbf{Viterbi}, il quale
+trova la sequenza di etichette che massimizza la probabilità condizionata. Si ha
+una struttura simile a una rete neurale, dove ogni layer è composto da tanti nodi
+quante le etichette possibili. La rete e fully connected e ogni arco ha un peso
+associato, determinato dalla feature function.
 
 La valutazione del modello si effettua in due metodologie:
 \begin{itemize}
-      \item exact match: considero corretta la predizione se l'entità viene riconosciuta 
-      correttamente. Utile se devo fare sentiment analisis. 
-      \item partial match: considero corretta la predizione se l'entità viene riconosciuta 
-      parzialmente. Utile se devo fare retrival del db.
+      \item \textbf{Exact Match}: considero corretta la predizione se tutta l'entità
+            viene riconosciuta correttamente. Utile se devo fare sentiment analysis.
+      \item \textbf{Partial Match}: considero corretta la predizione se l'entità
+            viene riconosciuta parzialmente. Utile se devo fare retrival del db.
 \end{itemize}
+\subsection{Named Entity Linking}
+Una volta riconosciuta l'entità spesso si effettua \textbf{named-entity linking},
+ovvero partendo dalla surface form si cerca di associare l'entità ad una risorsa
+presente nella base di conoscenza.
 
-Una volta riconosciuta l'entità spesso si effettua named-entity linking.
-Ovvero utilizziamo l'etichetta per cercare l'informazione nelle basi di conoscienza,
-l'etichetta diventa un criterio di selezioni o una probabilità a priori.
+Questo task viene svolto nel seguente modo:
+\begin{enumerate}
+      \item Si cerca nella base di conoscenza il token usando la sua surface form.
+      \item Si prendono i primi $k$ risultati e si calcola la similarità tra
+            la surface form e il risultato. Questo può essere fatto tramite
+            diverse metriche e considerando diversi attributi.
+      \item Si restituisce l'entità con la similarità maggiore.
+\end{enumerate}
 
-\section{Word sense disambiguation}
-Si cerca di comprendere il significato della parola accettato comunemente. è un 
-task importante perché permette di disambiguare dal punto di vista del senso.
+Un esempio di pipeline per il name entity linking è riportato di seguito:
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/nlp/nel.png}
+      \caption{Pipeline per il Named Entity Linking}
+      \label{fig:nel}
+\end{figure}
+\subsection{Word sense disambiguation}
+Si cerca di comprendere il significato della parola che è accettato comunemente.
+Questo ci permette di disambiguare il significato della parola dal punto di
+vista del senso. Dobbiamo però considerare che il significato della parola può
+dipendere da quello che la circonda.
 
-Il problema è che il significato può essere dedotto da quelle adiacenti.
-
-Gli approcci sono:
+Gli approcci che possono essere utilizzati per risolvere questo problema sono:
 \begin{itemize}
-      \item basati su basi di conoscienza: si usano risorse lessicali come 
-      dizionari e tesauri
-      \item supervisionati
-      \item non supervisionati
+      \item \textbf{Knowledge-based Disambiguation}: sono sistemi basati su basi
+            di conoscenza, come dizionari e tesauri.
+      \item \textbf{Supervised Disambiguation}: sono sistemi che richiedono dati
+            etichettati per funzionare.
+      \item \textbf{Unsupervised Disambiguation}: sono sistemi che non richiedono
+            dati etichettati per funzionare.
 \end{itemize}
+\subsubsection{Knowledge-based Disambiguation}
+Nei metodi basati su basi di conoscenza, la disambiguazione della parola si
+effettua tramite un dizionario machine readable e dati raw. Non servono quindi
+dei dati etichettati e si lavora su parole appartenenti alle open class.
 
-Nei metodi basati su basi di conoscienza, la disambiguazione della parola si effettua 
-tramite un dizionario machine readable e dati raw. Non servono dati etichettati e 
-si lavora su parole appartenenti alle open class. Nei dizionari si possono trovare 
-significati, definizioni ed esempi utili per disambiguare.
+Nei dizionari si possono trovare molte informazioni utili per la disambiguazione,
+possiamo trovare i sinonimi, le definizioni, le relazioni tra le parole, etc.
 
-Un primo algoritmo è Lesk algorithm, definisce il senso delle parole nel contesto
-confrontando le definizioni si sovrapposizioni. In sostanza:
+Un primo algoritmo è \textbf{Lesk algorithm}, definisce il senso delle parole
+nel contesto confrontando le definizioni si sovrapposizioni. Il funzionamento di
+questo algoritmo è il seguente:
 \begin{itemize}
-      \item prende tutti i significati di tutte le parole da disambiguare
-      \item determina gli overlap tra tutte le coppie di parole da disambiguare
-      \item seleziona il significato in base al massimo numero di overlap.
+      \item Prende dai machine readable dictionary le definizioni di tutte le
+            parole che si vogliono disambiguare.
+      \item Determina gli overlap tra tutte le coppie di parole da disambiguare.
+      \item Seleziona il significato in base al massimo numero di overlap.
 \end{itemize}
-Algoritmo naive molto pesante.
+Questo algoritmo è molto pesante dal punto di vista computazionale in quanto
+si devono calcolare tutte le combinazioni di parole.
 
-è stato introdotto Simplified Lesk che misura l'overlap del significato di una 
-parola e tutte quelle del contesto da disambiguare. Quindi non si hanno più combinazioni 
-ma si confronta i significati di una sola parola alla volta rispetto a tutte le
-altre.
+Per questo motivo, è stata introdotta una variante detta \textbf{Simplified Lesk}
+il quale funziona nel seguente modo:
+\begin{itemize}
+      \item Prende dai machine readable dictionary le definizioni della parola
+            che si vuole disambiguare.
+      \item Calcola l'overlap tra la parola da disambiguare e tutte le altre
+            della frase.
+      \item Seleziona il significato con il massimo overlap.
+\end{itemize}
