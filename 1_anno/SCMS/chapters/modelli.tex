@@ -337,26 +337,45 @@ I limiti che si riscontrano con questo modello sono:
     \item Si ottengono dei risultati a livello complessivo e non a livello di agente.
     \item Non si conoscono i modi con coi realmente gli agenti esplorano l'ambiente.
 \end{itemize}
-
 \section{Valutazione dei modelli di simulazione}
-La differenza tra sviluppare un gioco e fare una simulazione è il fatto che
-nella simulazione si hanno dei reali sistemi che si vogliono simulare, si ottengono
-i dati e successivamente si analizzano, questi passi non vengono svolti per un gioco.
-Lo scopo di simulare è per utilizzare il modello per spiegare e/o predire ragionamenti.
+Una volta ottenuto il modello ed effettuate le simulazioni si utilizzano i dati
+ottenuti per confrontarli con quelli del sistema reale. Infatti, la differenza
+tra sviluppare un gioco e fare una simulazione è composta proprio da questi
+ultimi passaggi. Lo scopo delle simulazioni è appunto quello di provare a spiegare
+e/o predire dei comportamenti.
 
-Per valutare un modello si crea un modello naive semplice che effettua una prima
-valutazione sulla bontà, questo permette già di effettuare una prima valutazione
-evitando di implementare anche le specificità. Se passa la valutazione si
-effettua un'analisi di sentitività sui paramentri del modello, ovvero si controlla quali paramentri
-sono signficativi e quali possono essere i range utili per ciascun paramentro.
-Se i parametri non sono sensibili allora possono essere anche rimossi dal modello.
-Successivamente si effettua una calibrazione dei parametri per renderlo il più federe
-possibile alla realtà. Successivamente si può effettuare una validazione statistica
-ed infine si effettua il deploy.
+Non esiste una procedera standard per valutare un modello, ma si possono seguire
+delle linee guida come quelle riportate nella figura \ref{fig:valutazione_modello}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/modelli/valutazione_modello.png}
+    \caption{Procedura per valutare un modello.}
+    \label{fig:valutazione_modello}
+\end{figure}
 
-Raccogliere dati empirici per poi confrontarli con il simulatore è sempre un problema,
-infatti si possono introdurre dei bias nelle misurazioni, ex: utilizzare un gruppo
-di persone omogeno al posto di un gruppo eterogeneo.
+Questo procedimento è caratterizzato dalle seguenti fasi:
+\begin{itemize}
+    \item \textbf{Face Validation}: si crea un modello naive che effettua una prima
+          valutazione sulla bontà del modello, si controlla a un livello macroscopico
+          se il modello si comporta come ci si aspetta.
+    \item \textbf{Analisi di sensibilità}: si controllano i parametri del modello,
+          e si effettua uno studio per capire quali parametri sono significativi
+          e quali possono essere rimossi. Si cerca inoltre di capire quali sono
+          i range in cui ogni parametro può variare.
+    \item \textbf{Calibrazione dei parametri}: si cerca di calibrare i parametri
+          del modello per renderlo il più fedele possibile alla realtà.
+    \item \textbf{Validazione statistica}: si effettua una validazione statistica del
+          modello.
+    \item \textbf{Deploy}: si effettua il deploy del modello.
+\end{itemize}
 
-Ricorda che i dati si ricavano dagli agenti ma le validazioni si effettuano sul
-livello macroscopico.
+Un modo per valutare il modello è quello di confrontare i dati ottenuti con quelli
+della realtà. Il problema di questo approccio è dovuto al fatto che raccogliere
+dati empirici, per poi confrontarli con il simulatore è sempre un problema,
+infatti si possono introdurre dei bias nelle misurazioni.
+
+Un esempio di bias che può essere introdotto nello studio delle folle è quello
+di utilizzare un gruppo di persone omogeneo al posto di un gruppo eterogeneo.
+
+Mentre la modellazione può essere fatta a livello di agente, la validazione 
+deve essere fatta a livello macroscopico o mesoscopico.
