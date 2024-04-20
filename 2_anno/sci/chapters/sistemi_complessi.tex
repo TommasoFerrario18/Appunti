@@ -2094,8 +2094,8 @@ di rappresentare finitamente $X_\mathcal{F}$.
 Sia $X\subseteq A^\mathbb{Z}$, non per forza un subshift
 \begin{definizione} [\textbf{linguaggio di $X$}]
     Il \textbf{linguaggio di} $X$ è
-    $$\mathcal{B}(X) = \bigcup_{n\in \mathbb{N}} \mathcal{B}_n(x)= \{w\in A^\ast| \exists x\in X, w\prec x\}$$
-    Dove $\mathcal{B}_n(x) = \{w\in A^n| \exists x\in X, w\prec x\}$
+    $$\mathcal{B}(X) = \bigcup_{n\in \mathbb{N}} \mathcal{B}_n(X)= \{w\in A^\ast| \exists x\in X, w\prec x\}$$
+    Dove $\mathcal{B}_n(X) = \{w\in A^n| \exists x\in X, w\prec x\}$
 \end{definizione}
 
 \begin{definizione} [\textbf{Linguaggio fattoriale}]
@@ -2111,7 +2111,7 @@ Sia $X\subseteq A^\mathbb{Z}$, non per forza un subshift
 \end{definizione}
 
 \begin{teorema}
-    Sia $X\in A^\mathbb{Z}$, $X$ è un \textbf{subshift} sse $\mathcal{B}(X)$ è 
+    Sia $X\subseteq A^\mathbb{Z}$, $X$ è un \textbf{subshift} sse $\mathcal{B}(X)$ è 
     \textbf{fattoriale} e \textbf{espandibile}
 \end{teorema}
 
@@ -2200,8 +2200,16 @@ $x \in X_G$ è un cammino sugli archi di $G$ composto dal nome dei singoli archi
 Per definizione $x\in \mathcal{B}_M(y), \forall y\in X$.
 
 \begin{teorema}
-    $X_G$ è un SFT.
+    $X_G$ è un SFT di memoria $M=1$.
+    \begin{proof}
+        Sia $\mathcal{F}= \{\alpha\beta|t(\alpha) \ne i(\beta)\}\subseteq E^2$ allora 
+        si ha che $X_G= X_\mathcal{F}$ e allora $X_G$ è un SFT, inoltre è di memoria 
+        $M=1$  perché $\mathcal{F}\subseteq A^{M+1}$.
+    \end{proof}
 \end{teorema}
+In generale ho $X$ costruisco $G$ e poi ottengo $X_G = X^{[M+1]}$ che contiene gli 
+archi. Al contrario se prendo tutti i cammini sui vertici allora ottengo lo stesso
+subshift ma nella rappresentazione a blocchi $X^{[M]}$
 
 Ora consideriamo il grafo $\mathcal{G}=(V,E,l)$ con $l:E\to A$ un grafo etichettato 
 tale che $G=(V,E)$.
@@ -2212,9 +2220,14 @@ tale che $G=(V,E)$.
 \begin{nota}
     $l_\infty$ è l'estensione alle stringhe biinfinite di $l$.
 \end{nota}
+\begin{nota}
+    $y\in X_\mathcal{G}$ sse cammino bi-infinit sulle etichette degli archi di $\mathcal{G}$
+\end{nota}
 
 \begin{definizione}
-    $X_\mathcal{G}= \{y\in A^\mathbb{Z}|\exists x\in E^\mathbb{Z} : \forall i \mathbb{Z}, t(x_i) = i(x_{i+1})\land y_i=l(x_i)\}=l_\infty(X_G)$
+    $X_\mathcal{G}= \{y\in A^\mathbb{Z}|\exists x\in E^\mathbb{Z} : \forall i \mathbb{Z}, t(x_i) = i(x_{i+1})\land y_i=l(x_i)\}=l_\infty(X_G)$.
+    In sostanza sono i cammini di $X_G$ ma sostituendo gli archi con le etichette.
+    
 \end{definizione}
 
 \begin{osservazione}
@@ -2228,8 +2241,114 @@ tale che $G=(V,E)$.
     \end{proof}
 \end{nota}
 
+
 \begin{definizione}
     $X$ è \textbf{Sofico} sse $\exists \mathcal{G}$ tale che $X= X_\mathcal{G}$
 \end{definizione}
 
-Quindi SFT $\subseteq$ sofici.
+I sofici hanno una rappresentazione finita perché $X_\mathcal{G}$ è una rappresentazione 
+finita. 
+
+\begin{definizione}
+    $\mathcal{G}$ si dice right resolving se $\mathcal{G}$ è il
+    grafo di un automa a stati finiti deterministico.     
+\end{definizione}
+
+Se il grafo non è deterministico possono trasformarlo. Quindi SFT $\subseteq$ sofici.
+
+Da un $X$ possiamo costruire un $G$ allora possiamo ottenere $\mathcal{G}$ usando solo
+come etichette il primo simbolo del vertice. Se guardiamo i camminmi biinfiniti sulle
+etichette allora ottengo il subshift che è la rappre4sentazione a blocchi di $1$.  
+
+\subsection{Entropia}
+Sia $X$ un subshift, come possiamo sapere quanto cresce $|\mathcal{B}_n(X)|$, tasso
+di crescita si può misurare, infatti se $X=A^\mathbb{Z}$ allora $|\mathcal{B}_n(X)|=|A^n|= 2^{\log_2|A|n}$.
+Se $A$ è un alfabeto binario. La componente che ci interessa è $\log_2 |A|$ perché
+è quello che varia tra subshift, quindi per un subshift $X$ qualunque su alfabeto binario
+allora posso dire che $|\mathcal{B}_n(X)| \sim 2^{cn}$ quindi $c\sim \frac{\log_2|\mathcal{B}_n(X)|}{n}$.
+
+\begin{definizione}
+    L'\textbf{entropia} di un subshift $X$ è 
+    $$h(X) = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n}$$
+\end{definizione}
+Questo limite esiste.
+
+\begin{nota}
+    $h(X)\le \log_2|A|$ infatti
+    $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^N \iff
+    \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$
+    Inoltre $h(A^\mathbb{Z}) = \lim_{n\to \infty}\frac{\log_2|A^n|}{n} =  \lim_{n\to \infty}\log_2|A| = \log_2|A|$.
+    Quindi l'entropia massima è $\log_2|A|$.
+\end{nota}
+
+\begin{esempio}
+    Sia $X=X_\mathcal{F}$ con $\mathcal{F} = |{11}|$ con $M=1$, vogliamo calcolare 
+    $h(X)$.
+
+    Costruiamo $G$, otteniamo la matrice delle adiacenze $A=\left[\begin{array}{cc}
+        1&1\\
+        1&0
+    \end{array}\right]$.
+    Sappiamo che $X_G = X^{[2]}$ mentre $\hat{X}_G = X^{[1]} =X$ (cammini sui vertici).
+    Inoltre $\mathcal{B}_n(X^{[M]})$ è in corrispondenza biunivoca con $\mathcal{B}_{n-1}(X^{[M+1]})$,
+    allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
+\end{esempio}
+Ogni elemento di $\mathcal{B}_{m}(X_G)$ corrisponde ad una parola di lunghezza 
+$m$ che si ottiene come cammino di lunghezza $m$ sugli archi, quin di 
+$|\mathcal{B}_{m}(X_G)|$ è il numero di cammini di lunghezza $m$ tra coppie qualunque
+di vertici di $G$.
+$$|\mathcal{B}_{m}(X_G)| = \sum_{i\in V}\sum_{j\in V} a_{ij}^{(m)}$$
+Dove $a_{ij}^{(m)}$ è un elemento di $A^m$.
+
+Risulta quindi utile trovare un modo per calcolare velocemente $A^m$, questo può
+essere fatto con la diagonalizzazione, infatti se tendiamo di diagonalizzare $A$ ($A=PDP^{-1}$),
+possiamo calcolare $A^m=PD^{m}P^{-1}$ dove $D$ è la matrice diagonale degli autovalori
+e $P$ è la matrice degli autovettori associati agli autovalori. Essendo diagonale 
+$D^m$ coincide con l'elevazione a potenza degli autovalori.
+
+Per diagonalizzare $A$ dobbbiamo:
+\begin{itemize}
+    \item calcolare gli autovalori ottenendo il polinomio caratteristico $det(A-\lambda Id) =0$.
+    \item calcolo gli autovettori
+    \item risolvo il prodotto tra matrici
+\end{itemize}
+
+\begin{teorema}
+    Se $\mathcal{G}= (G,l)$ è right resolving allora $h(\mathcal{G}) = h(H_G)$
+\end{teorema}
+
+\begin{definizione}
+    Sia $A\ge 0$ (ogni entry $\ge 0$) è irriducibile sse $\forall i,j,\exists n$ 
+    tale che $(A^n)_{ij}>0$.
+\end{definizione}
+\begin{teorema}
+    Sia $G$ un grafo e $A$ la sua matrice di adiacenza allora $G$ è fortemente 
+    connesso $\iff$ $A$ è irriducibile.
+\end{teorema}
+\begin{teorema}
+    Sia $A\ne 0$ matrice irriducibile allira:
+    \begin{itemize}
+        \item $\exists v_A>0$ autovettore con corrispondente autovalore $\lambda_A>0$
+        semplice (molteplicità algebrica $1$, è una sola radice)
+        \item $\forall \mu $ autovalore di $A$ allora $|\mu| \le\lambda_A$
+        \item $\forall v'>0$ autovettore di $A$, $v'$ è multiplo positivo di $v_A$
+    \end{itemize}
+    Quindi $\lambda_A$ è l'autovalore $>0$ di modulo massimo tra tutti gli autovalori 
+    di $A$
+\end{teorema}
+\begin{teorema}
+    $G$ grafo e $A$ sua matrice di adiacenza allora:
+    \begin{itemize}
+        \item $G$ è fortemente connesso $\implies h(X_G) = \log\lambda_A$
+        \item $X$ SFT con grafo associato $G$ fortemente connesso $\implies h(X) = \log\lambda_A$
+        \item $X$ sofico tale che $X=X_\mathcal{G}$ con $\mathcal{G} = (G,l)$ right 
+        resolvingo e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
+    \end{itemize}
+\end{teorema}
+Per calcolare l'entropia di un subshift che è:
+\begin{itemize}
+    \item SFT con grafo $G$ fortemente connesso
+    \item un sofico $X$ con $X=X_\mathcal{G}$ tale che è right resolving e $G$ fortemente
+    connesso
+\end{itemize}
+è sufficiente calcolare l'autovalore di modulo massimo $\lambda_A>0$ allora $h(X)=\log_2\lambda_A$

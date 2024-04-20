@@ -262,16 +262,16 @@ alla sua mappa relazionale.
 I ciclo di vita dell'agente corrisponde a:
 \begin{enumerate}
     \item \textbf{Costruzione del piano}: avviene quando l'agente nasce nell'ambiente
-          o quando non vale più quello precedente. Ogni agente ha l'obiettivo di 
-          raggiungere una regione. 
-          
+          o quando non vale più quello precedente. Ogni agente ha l'obiettivo di
+          raggiungere una regione.
+
           Questa fase è composta da:
           \begin{itemize}
-            \item Localizzazione dell'agente nella mappa relazionale.
-            \item Chiede la mappa relazionale all'ambiente.
-            \item Richiesta del gradiente della stanza.
-            \item Capisce quali stanze attraversare.
-            \item Segue il gradiente per raggiungere la stanza adiacente.
+              \item Localizzazione dell'agente nella mappa relazionale.
+              \item Chiede la mappa relazionale all'ambiente.
+              \item Richiesta del gradiente della stanza.
+              \item Capisce quali stanze attraversare.
+              \item Segue il gradiente per raggiungere la stanza adiacente.
           \end{itemize}
           Quando arriva al marker che segnala il confine, l'agente riceve dall'ambiente
           i nuovi gradienti della nuova stanza e ripete il percorso.
@@ -279,50 +279,50 @@ I ciclo di vita dell'agente corrisponde a:
     \item \textbf{Attuazione del piano}
 \end{enumerate}
 
-Il primo limite della \textbf{cognitive map} è il fatto che non si hanno delle 
+Il primo limite della \textbf{cognitive map} è il fatto che non si hanno delle
 metriche che specificano le distanze tra le regioni e non è semplice specificarle.
 
-Per risolvere questo problema possiamo definire degli alberi di percorso 
+Per risolvere questo problema possiamo definire degli alberi di percorso
 (\textbf{path tree}) i quali sono costruiti nel seguente modo:
 \begin{itemize}
     \item I nodi rappresentano i passaggi.
     \item Gli archi rappresentano le regioni.
 \end{itemize}
 
-Per costruire l'albero posso partire dall'obiettivo e calcolare tutte le opzioni 
-per ritornare alla partenza. In questo modo, posso calcolare le distanze metriche 
-numero di celle attraversate che possono essere trasformate in misure di flusso, 
-ovvero tempo di percorrenza. 
+Per costruire l'albero posso partire dall'obiettivo e calcolare tutte le opzioni
+per ritornare alla partenza. In questo modo, posso calcolare le distanze metriche
+numero di celle attraversate che possono essere trasformate in misure di flusso,
+ovvero tempo di percorrenza.
 
-Il problema è che si vuole modellare anche la congestione dei passaggi, per fare 
+Il problema è che si vuole modellare anche la congestione dei passaggi, per fare
 ciò si utilizzano anche dei layer dinamici, il percorso più corto specifica
 il layer statico, mentre possiamo definire un layer dinamico che misura la congestione.
 
-La misura di congestione può essere fatta contando, ogni $n$ iterazioni, quanti 
-agenti sono rimasti fermi. In questo modo si pesa il percorso per il grado di 
-congestione. 
+La misura di congestione può essere fatta contando, ogni $n$ iterazioni, quanti
+agenti sono rimasti fermi. In questo modo si pesa il percorso per il grado di
+congestione.
 
-Successivamente l'agente deve fare una scelta deterministica, ovvero scegliere 
+Successivamente l'agente deve fare una scelta deterministica, ovvero scegliere
 il percorso più veloce basandosi su diversi fattori.
 
 Possiamo annotare sempre le aree con dei requisiti che gli agenti devono soddisfare
-per poter transitare in quella regione, si ha quindi un agente selettivo in 
+per poter transitare in quella regione, si ha quindi un agente selettivo in
 quanto perché sceglie un'altra strada.
 
-Si può permettere agli agenti di rivalutare il proprio piano ogni qual volta 
-si raggiunge un passaggio, questo perché quando al raggiungimento di tale zona 
-l'agente ottiene le informazioni di congestione della regione successiva, perciò 
-risulta sensato pianificare nuovamente il percorso. Questa operazione può essere 
-regolata con un timer e non solo attraverso il raggiungimento dei passaggi tra 
+Si può permettere agli agenti di rivalutare il proprio piano ogni qual volta
+si raggiunge un passaggio, questo perché quando al raggiungimento di tale zona
+l'agente ottiene le informazioni di congestione della regione successiva, perciò
+risulta sensato pianificare nuovamente il percorso. Questa operazione può essere
+regolata con un timer e non solo attraverso il raggiungimento dei passaggi tra
 regioni.
 \begin{nota}
-    Se gli agenti non avessero il piano tattico, significa che non pianificano 
+    Se gli agenti non avessero il piano tattico, significa che non pianificano
     nuovamente i percorsi.
 \end{nota}
-Il modello non rispecchia la realtà, in quanto non si considera il fatto che le 
-persone si influenzano a vicenda. Ha quindi senso effettuare una scelta non 
-deterministica tra i percorsi da prendere influenzata dai tempi di percorrenza a 
-flusso libero. Più precisamente si cerca di dare maggior probabilità alla via 
+Il modello non rispecchia la realtà, in quanto non si considera il fatto che le
+persone si influenzano a vicenda. Ha quindi senso effettuare una scelta non
+deterministica tra i percorsi da prendere influenzata dai tempi di percorrenza a
+flusso libero. Più precisamente si cerca di dare maggior probabilità alla via
 migliore senza azzerare le altre possibilità.
 
 Per influenzare le scelte in base all'afflusso delle persone si misura la congestione
@@ -337,3 +337,26 @@ I limiti che si riscontrano con questo modello sono:
     \item Si ottengono dei risultati a livello complessivo e non a livello di agente.
     \item Non si conoscono i modi con coi realmente gli agenti esplorano l'ambiente.
 \end{itemize}
+
+\section{Valutazione dei modelli di simulazione}
+La differenza tra sviluppare un gioco e fare una simulazione è il fatto che
+nella simulazione si hanno dei reali sistemi che si vogliono simulare, si ottengono
+i dati e successivamente si analizzano, questi passi non vengono svolti per un gioco.
+Lo scopo di simulare è per utilizzare il modello per spiegare e/o predire ragionamenti.
+
+Per valutare un modello si crea un modello naive semplice che effettua una prima
+valutazione sulla bontà, questo permette già di effettuare una prima valutazione
+evitando di implementare anche le specificità. Se passa la valutazione si
+effettua un'analisi di sentitività sui paramentri del modello, ovvero si controlla quali paramentri
+sono signficativi e quali possono essere i range utili per ciascun paramentro.
+Se i parametri non sono sensibili allora possono essere anche rimossi dal modello.
+Successivamente si effettua una calibrazione dei parametri per renderlo il più federe
+possibile alla realtà. Successivamente si può effettuare una validazione statistica
+ed infine si effettua il deploy.
+
+Raccogliere dati empirici per poi confrontarli con il simulatore è sempre un problema,
+infatti si possono introdurre dei bias nelle misurazioni, ex: utilizzare un gruppo
+di persone omogeno al posto di un gruppo eterogeneo.
+
+Ricorda che i dati si ricavano dagli agenti ma le validazioni si effettuano sul
+livello macroscopico.

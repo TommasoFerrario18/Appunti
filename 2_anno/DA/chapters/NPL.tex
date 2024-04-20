@@ -145,3 +145,110 @@ di classificazione. Questa può essere fatta in diversi modi:
       Nel primo caso risulta importate scegliere bene il lessico, perché le parole
       possono essere positive o negative in base al contesto.
 \end{nota}
+
+\section{Name entity recognition}
+(disambiguazione dal punto di vista morfosintattico)
+Uno dei tanti problemi è la disambiguità dei nomi di entità, quindi capire a che cosa 
+si riferisce un entità, ovvero disambiguità delle entità che si trovano nei messaggi.
+Per fare ciò si devono riconoscere i token delle entità e si deve capire a cosa si 
+riferiscono.
+
+I problemi nel riconoscere i token sono:
+\begin{itemize}
+      \item linguaggio rumoroso, ambiguità e polisemia
+      \item out of vocabulary quando il modello non ha mai incontrato delle parole 
+      che sta analizzando. Se io ho dato in fase di training The Big Bang Theory
+      ma incontra TBBT, allora non lo riconosce.
+      \item Out of Knowledge base quando il modello non ha una rappresentazione dell'entità nella 
+      base di conoscienza.
+\end{itemize}
+
+
+L'entità vengono rappresentate come surface form, ovvero la loro rappresentazioen 
+indipendente dalla semantica nella frase. Riconoscere un'entità si occupa di 
+ricercare degli insiemi di token che poi vengono segmentati per in classi o etichette.
+Ex: luoghi\dots.
+Ora si usano modelli neurali che si basano su modelli di sequence prediction.
+Ovvero si ha una sequenza di osservazioni e si impara per prevedere la sequenza 
+ottimale di etichette. In questo modo si considera nella predizione il contesto 
+delle osservazioni facenti parte della sequenza, quindi non si effettua il traning 
+sulle singole parole.
+
+Ora si utilizzano i Conditional Random Fields. Sono modelli grafici probabilistici 
+che massimizzano la probabilitùà condizionata di etichette della sequenza di input.
+Le osservazioni sono le parole, mentre gli stati nascosti sono le etichette.
+Il modello associa una dipendeza tra la classe e la sua parola di input, inoltre 
+si ha una dipendenza temporale solo con la parola precedente. (catene markoviane del 
+primo ordine).
+
+In fase di trainig si impara $P(y|x)$, $y$ vettore delle etichette dato $x$ vettore 
+delle parole.
+
+$$P(y|x) = \frac{1}{Z_x} \prod_t \phi(y_t,y_{t-1},x ,t)$$
+
+dove $ \frac{1}{Z_x}$ costante di normalizzazione e $\phi(y_t,y_{t-1},x ,t) = \exp (\sum_k\lambda_k f_k(y_t,y_{t-1},x,t))$.
+$f_k(y_t,y_{t-1},x,t)$ sono delle feature con function (predeterminate, a  valori reali e almento a 2 stati di uscita), 
+valutano diverse proprietà in base all'osservazione, l'etichetta e l'etichetta precedente al tempo $t$.
+Sono come degli if che valutano le caratteristiche del testo e le associano alle etichette 
+sia della parola pattuale sia di quella precedente. Le feature function possono essere di tipo:
+\begin{itemize}
+      \item \textbf{state} $f_i$: valutano lo stato in cui ci si trova in quel tempo.
+      Misurano la relazione $x_t$ e $y_t$
+      \item \textbf{transizioni} $g_i$: modellano la dinamica dell'etichettatura.
+      Misurano la relazione tra le label della parola attuale e quelle adiacenti. 
+      Le definisco a runtime perché si applicano alle etichette.
+\end{itemize} 
+
+Il modello è un modello logaritmico lineare, quindi la composizione delle feature 
+si effettua attraverso una somma, rimuovendo la produttoria. Dobbiamo imparare 
+le $\lambda_i, \mu_j$, per fare ciò si massimizza la verosimiglianza del modello 
+rispetto alle osservazioni.
+
+L'inferenza consiste nel determinare la migliore sequenza di etichette data una 
+sequenza di osservazioni. La rete del modello è una feed forward e sugli archi ci 
+sono i pesi delle features function.
+
+La valutazione del modello si effettua in due metodologie:
+\begin{itemize}
+      \item exact match: considero corretta la predizione se l'entità viene riconosciuta 
+      correttamente. Utile se devo fare sentiment analisis. 
+      \item partial match: considero corretta la predizione se l'entità viene riconosciuta 
+      parzialmente. Utile se devo fare retrival del db.
+\end{itemize}
+
+Una volta riconosciuta l'entità spesso si effettua named-entity linking.
+Ovvero utilizziamo l'etichetta per cercare l'informazione nelle basi di conoscienza,
+l'etichetta diventa un criterio di selezioni o una probabilità a priori.
+
+\section{Word sense disambiguation}
+Si cerca di comprendere il significato della parola accettato comunemente. è un 
+task importante perché permette di disambiguare dal punto di vista del senso.
+
+Il problema è che il significato può essere dedotto da quelle adiacenti.
+
+Gli approcci sono:
+\begin{itemize}
+      \item basati su basi di conoscienza: si usano risorse lessicali come 
+      dizionari e tesauri
+      \item supervisionati
+      \item non supervisionati
+\end{itemize}
+
+Nei metodi basati su basi di conoscienza, la disambiguazione della parola si effettua 
+tramite un dizionario machine readable e dati raw. Non servono dati etichettati e 
+si lavora su parole appartenenti alle open class. Nei dizionari si possono trovare 
+significati, definizioni ed esempi utili per disambiguare.
+
+Un primo algoritmo è Lesk algorithm, definisce il senso delle parole nel contesto
+confrontando le definizioni si sovrapposizioni. In sostanza:
+\begin{itemize}
+      \item prende tutti i significati di tutte le parole da disambiguare
+      \item determina gli overlap tra tutte le coppie di parole da disambiguare
+      \item seleziona il significato in base al massimo numero di overlap.
+\end{itemize}
+Algoritmo naive molto pesante.
+
+è stato introdotto Simplified Lesk che misura l'overlap del significato di una 
+parola e tutte quelle del contesto da disambiguare. Quindi non si hanno più combinazioni 
+ma si confronta i significati di una sola parola alla volta rispetto a tutte le
+altre.
