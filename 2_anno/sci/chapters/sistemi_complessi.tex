@@ -2352,3 +2352,105 @@ Per calcolare l'entropia di un subshift che è:
     connesso
 \end{itemize}
 è sufficiente calcolare l'autovalore di modulo massimo $\lambda_A>0$ allora $h(X)=\log_2\lambda_A$
+
+\section{Codici}
+\begin{definizione} [\textbf{Road-coloring}]
+    Il \textbf{road-coloring} di un grafo $G=(V,E)$ è $l:E\to A$ tale che $\forall
+    i\in V$ $|\{(i,j)\in E|j\in V\}| = |A|$ ovvero si ha una corrispondenza biunivoca tra $\{(i,j)\in E|j\in V\}$ e $A$
+\end{definizione}
+\begin{nota}
+    $\forall w \in A^\ast$ e $\forall i\in V$ c'è un unico cammino. 
+\end{nota}
+\begin{definizione}
+    $G = (V,E,l)$ con $l:E\to A$ è \textbf{right closing} con ritardo $D$ se $\forall \pi,\pi'$
+    $\pi = e_1\dots e_De_{D+1},\pi' = e_1'\dots e_D'e_{D+1}'$ che partono dallo 
+    stesso vertice $l(\pi)=l(\pi')\implies e_1=e_1'$
+\end{definizione}
+significa che dati due cammini sugli archi, è rightclosing se gli archi hanno la 
+stessa mappatura allora hanno il primo arco uguale e poi hanno un fork con $D$ 
+archi separati ma sempre con la stessa mappatura.
+\begin{nota}
+    Se $G = (V,E,l)$  è un grafo con $l:E\to A$ rightclosing allora $\forall I\in V,
+    \forall e,e'\in E^\mathbb{N}$ commini mono-infiniti uscenti da $I$, $l_\infty(e) = l_\infty(e') \implies e=e'$
+\end{nota}
+Se noi restringiamo $l_\infty$ al vertice $I\in V$ (funzione ristretta ai soli 
+cammini mono-infiniti che partono da $I$) allora la funzione è iniettiva.
+
+\begin{definizione}
+    Un \textbf{codice a stati finiti} è una tripla $(G,I,O)$ tale che:
+    \begin{itemize}
+        \item $G$ è un grafo
+        \item $I$ è il road coloring di $G$ (input labeling)
+        \item $O$ è il right closing di $G$ (output labeling)
+    \end{itemize}
+\end{definizione}
+
+\begin{definizione}
+    Un \textbf{codice a stati finiti} è anche una coppia $(X,n)$ con $X$ subshift in cui:
+    \begin{itemize}
+        \item $G$ associato a $X$ ha outdegree costante pari a $n$ 
+        \item $X$ contiene $O_\infty(X_G)=|{y | \exists x\in X_G:\forall i,y_i=O(x_i)}$ ($O_\infty(X_G)$ è sofico)
+    \end{itemize}
+\end{definizione}
+Si può usare un codice a stati finioti $(X,n)$ per trasformare sequenze di $A^\mathbb{N}$
+con $|A|=n$ in sequenze di $X$.
+
+\begin{esempio}
+    \begin{figure}
+        \centering
+        \includegraphics [width=0.5\textwidth]{img/sistemi_complessi/codici.png}
+    \end{figure}
+\end{esempio}
+
+\begin{teorema}
+    Sia $X$ un subshift sofico e $n\ge 1$. Esiste un codice a stati finiti 
+    $$(X,n)\iff h(X)\ge \log_2 n$$
+    Dove $n=|A|$
+\end{teorema}
+Il problema è che con alfabeti binari non si riuscirà mai ad avere $h(X) \ge \log_2 2$,
+perché per definizione  si avrà sempre $h(X)< \log_2 2$. Per risolvere questo 
+problema si può dividere l'input in blocchi di lunghezza $p$ e dividere l'output
+in blocchi di lunghezza $q$, questa rappresentazione non è quella a blocchi perché
+in questo caso i blocchi sono tutti disgiunti.
+
+\begin{definizione} [\textbf{Power Shift}]
+    Dato $N\ge 1$ allora 
+    $$\gamma _N: A^{\mathbb{Z}} \to A^{N^{\mathbb{Z}}} $$
+    o corrispondentemente $\gamma _N: A^{\mathbb{N}} \to A^{N^{\mathbb{N}}} $.
+
+    $$\forall x \in A^{\mathbb{Z}}, \forall i \in \mathbb{Z} \gamma_N(x)_i = x_{[iN,iN+i-1]}$$
+    o corrispondentemente $\forall x \in A^{\mathbb{N}}, \forall i \in \mathbb{N} \gamma_N(x)_i = x_{[iN,iN+i-1]}$
+\end{definizione}
+
+\begin{nota}
+    $\gamma_N$ è applicabile non cecessariamente agli elementi dell'intero $A^\mathbb{Z}$ ($A^\mathbb{N}$),
+    ma anche ad elementi di un subshift.
+\end{nota}
+
+Quindi dato un subshift $X\subseteq A^{\mathbb{Z}}$ ($A^{\mathbb{N}}$), si può
+considerare $\gamma_N(X)$ che si indica con $X^N$ è chiamato Power shift di $X$
+
+\begin{teorema}
+    Se $X\subseteq A^\mathbb{Z }$ ($A^\mathbb{N}$) è un subshift allora 
+    $$X^N= \gamma_N(X)=\{\gamma_N(x)|x\in X\}\subseteq (A^N)^\mathbb{Z} ((A^N)^\mathbb{N})$$
+    $X^N$ è un subshift. Inoltre $h(X^N)=N\cdot h(X)$
+\end{teorema}
+
+Quindi tornando al problema di codificare l'alfabeto binario, possiamo codificare 
+blocchi $\{0,1\}^\mathbb{N}$ in sequenze di un subshift buono $X$ ma avremo sequenze 
+$\gamma_p(\{0,1\}^\mathbb{Z})$ da codificare in sequenze di $\gamma_q(X=X^q)$
+con $p,q$ da determinare.
+
+Il problema è trovare quanto devono valre $p,q$ affinché esista un codifice a stati 
+finiti $(\gamma_q(X),n)$ dove stavolta $n=2^p$ in quanto le sequenze da codificare 
+appartengono a $\gamma_p(\{0,1\}^\mathbb{N}) = (\{0,1\}^p)^\mathbb{N}$, cioè 
+che appartengono al full shift sull'alfabeto $\{0,1\}^p$ anziché al full Shift
+sull'alfabeto $\{0,1\}$.
+
+Pertanto $n=|\{0,1\}^p| = 2^p$. Affinche esista un codice a stati finiti 
+$(\gamma_q(X), n =2^p )$ che codifichi sequenze da $(\{0,1\}^p)^\mathbb{N}$ in 
+$X^q=\gamma_q(X)$ occorre che $h(X^q)\ge \log_2n$ ossia che $q\cdot h(X)\ge \log_2 (2^p)$
+cioè che $h(X)\ge \frac{p}{q}$.
+
+In definitiva basta segliere $p$ e $q$ in modo tale che valga 
+$$h(X)\ge \frac{p}{q}$$
