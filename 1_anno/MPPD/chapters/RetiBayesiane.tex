@@ -487,7 +487,7 @@ In questo modo non si controllano le probabilità di tutte le combinazioni di va
 (i famosi $2^n$) ma si controllano le probabilità di una successione finita di
 numeri casuali, non entrando nella complessità esponenziale.
 Per valutare la complessità di un algoritmo di inferenza è importante considerare
-la struttura della rete. Possiamo avere una rete con una struttura:
+la struttura della rete. Possiamo avere una rete con una struttura (vedi figura \ref{fig:struttura_reti}):
 \begin{itemize}
     \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha al
           massimo un cammino non orientato tra due nodi.
@@ -495,8 +495,15 @@ la struttura della rete. Possiamo avere una rete con una struttura:
           orientati tra due nodi.
 \end{itemize}
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/Reti/struttura_reti_bayesiane.png}
+    \caption{Esempio di struttura delle reti bayesiane}
+    \label{fig:struttura_reti}
+\end{figure}
+
 Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
-variabili. Questo algoritmo, permette nel caso di una rete Polytree, di computare
+variabili. Per calcolare l'inferenza approssimata l' Questo algoritmo, permette nel caso di una rete Polytree, di computare
 la probabilità a posteriori per tutte le variabili richiede di effettuare $\mathcal{O}(n)$
 query ognuna delle quali ha una complessità di $\mathcal{O}(n)$. Quindi l'algoritmo
 ha una complessità di $\mathcal{O}(n^2)$.
@@ -559,20 +566,42 @@ evento rappresenta la likelihood che l'evento associa all'evidenza.
 
 Intuitivamente gli eventi per i quali l'evidenza disponibile è inverosimile devono
 pesare in misura minore nel processo di stima delle probabilità a posteriori.
+
+Campionare significa generare una serie di campioni
+$$s_i = \left[V_1=v_1, V_2= v_2, \dots, V_n=v_n\right]$$ 
+Dove $V_join$ sono tutte le variabili, dove se hanno l'evidenza allora si vincola il 
+valore e si utilizza il loro valore per campionare le singole variabili attraverso 
+la distribuzione data dalle variabili date precedentemente rispetto all'ordine topologico.
+Per ogni campione ottengo anche un peso $\omega_i$ che inizialmente è inizializzato 
+a $1$, poi durante il campionamento si aggiorna $\omega_i = \omega_i\cdot P(E=e | Parents(E))$
+dove $E$ è una delle variabili di evidenza e $P(E=e | Parents(E))$ si legge dalla 
+CPT seguendo i valori delle variabili genitore precedentemente campionato.
+
+Per una query la probabilità si calcola 
+$$ P(G=V| N=V,B=V)=\frac{\sum_{s_i, G=V} \omega_i}{\sum_{s_i} \omega_i}$$
+
 \subsubsection{Markov Chain Monte Carlo (MCMC)}
 Differentemente dagli algoritmi precedenti, i quali generano ogni evento partendo
-da zero, l'algoritmo \textbf{Markov Chain Monte Carlo} genera ogni evento tramite
-modifiche casuali di un evento che lo precede nell'esecuzione.
+da zero (si dimentica il campione precedente), l'algoritmo \textbf{Markov Chain Monte Carlo} 
+genera ogni evento tramite modifiche casuali di un evento che lo precede nell'esecuzione.
 
 È utile pensare che il modello di rete bayesiana si trovi in un determinato
 \textbf{stato corrente}, il quale è identificato tramite l'assegnamento di un
 valore ad ogni nodo della rete.
 
 Lo stato prossimo viene ottenuto tramite campionamento di una delle variabili
-senza evidenza $X_i$, condizionalmente ai valori correntemente assunti dalle
+senza evidenza $X_i$, si sceglie casualmente la variabile da modificare, 
+condizionalmente ai valori correntemente assunti dalle
 variabili che costituiscono il Markov Blanket della variabile (nodo) $X_i$.
 
-% ! Lo deve ancora finire siamo arrivati qui
+Per generare lo stato successivo, parto dallo stato corrente, per ogni $X_i \not \in E$
+(non nell'evidenza) cambio il suo valore estraendo un campione di $X_i$ secondo 
+la distribuzione $P(X_i | MarkovBlanket(X_i))$. Alla fine avrò generato casualmente 
+un nuovo campione. 
+
+Il calcolo di $P(X_i | MarkovBlanket(X_i))$ si effettua in questo modo:
+$$P(X_i | MarkovBlanket(X_i)) = \alpha \cdot P(X_i | parents(X_i)) \cdot \prod_{Y_i\in children(X_i)} P(Y_i| parents(Y_i))$$
+
 
 
 \section{Generazione di numeri pseudocasuali}
