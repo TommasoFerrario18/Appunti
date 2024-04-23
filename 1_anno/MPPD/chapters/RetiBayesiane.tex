@@ -9,8 +9,8 @@ o usando l'esperienza delle persone afferenti al dominio.
 
 Usando l'indipendenza e l'indipendenza condizionata il modello causale è molto
 più compatto, il numero di parametri utilizzato si riduce.
-\begin{definizione}[\textbf{Rete Bayesiana}]
-    Una \textbf{rete Bayesiana} è un \textbf{grafo orientato aciclico} in cui i
+\begin{definizione}[\textbf{rete bayesiana}]
+    Una \textbf{rete bayesiana} è un \textbf{grafo orientato aciclico} in cui i
     nodi sono annotati con una \textbf{informazione quantitativa}, ovvero la
     tabella di probabilità condizionata (CPT), e gli archi definiscono la
     \textbf{dipendenza e indipendenza condizionale} tra le variabili rappresentate
@@ -51,10 +51,10 @@ delle reti è che ogni nodo è \textbf{condizionalmente indipendente} dai suoi n
 discendenti dati i suoi genitori.
 
 Nella definizione della struttura della rete è importante che il grafo orientato
-non contenga cicli, ovvero che la rete Bayesiane sia un DAG (\textit{Directed Acyclic
+non contenga cicli, ovvero che la rete bayesiane sia un DAG (\textit{Directed Acyclic
     Graph}). Questo perché non è possibile che una variabile sia causa di se stessa.
 \subsection{Componente Quantitativa}
-Consideriamo ora la componente quantitativa di una rete Bayesiane, ovvero le
+Consideriamo ora la componente quantitativa di una rete bayesiane, ovvero le
 \textbf{Conditional Probability Tables} (CPT). Di queste tabelle possiamo dire che:
 \begin{itemize}
     \item Ogni nodo ha associata una tabella (CPT).
@@ -90,7 +90,7 @@ La semantica delle reti Bayesiane può essere presentata e compresa in base a:
     \item \textbf{Semantica topologica}: la rete codifica un insieme di
           \textbf{relazioni di indipendenza condizionale}. Questa risulta
           importante per comprendere come sia possibile costruire un modello di
-          Rete Bayesiane.
+          rete bayesiane.
 \end{itemize}
 La costruzione delle reti è un processo incrementale che può essere effettuato
 utilizzando le informazioni a priori del dominio se si hanno conoscenze
@@ -160,9 +160,9 @@ considerare la probabilità di $V_i$ condizionata da tutti gli altri nodi della
 rete, può essere vista come la probabilità di $V_i$ condizionata solamente dai
 suoi genitori. Questo ci permette di effettuare una semplificazione molto utile.
 
-Una rete Bayesiane rappresenta correttamente un dominio solo a condizione che ogni
+Una rete bayesiane rappresenta correttamente un dominio solo a condizione che ogni
 nodo risulti \textbf{condizionalmente indipendente} dai suoi non discendenti
-dati i suoi genitori. Pertanto, per costruire una Rete Bayesiana che abbia la
+dati i suoi genitori. Pertanto, per costruire una rete bayesiana che abbia la
 corretta struttura del dominio da modellare è necessario scegliere, per ogni nodo,
 i nodi genitore in modo che tale proprietà risulti verificata. In aggiunta un nodo
 è \textbf{condizionalmente indipendente} da tutti i nodi restanti della rete data
@@ -176,7 +176,7 @@ genitori, dei figli e dei genitori dei figli.
 \end{figure}
 
 Una possibile procedura per la costruzione incrementale della componente topologica
-di una rete Bayesiane è la seguente:
+di una rete bayesiane è la seguente:
 \begin{itemize}
     \item Scegliere un insieme di variabili $\{x_1, \dots, x_n\}$ che rappresentano
           le variabili del dominio.
@@ -198,34 +198,36 @@ rappresentazione del dominio. La scelta delle relazioni di dipendenza condiziona
 impatta notevolmente sulla quantità di parametri che devono essere specificati
 per la rete.
 
-Oltre a costituire una rappresentazione completa e non ridondante di un dominio
-una Rete Bayesiane è spesso molto più compatta dell'intera distribuzione di
+Oltre a costituire una rappresentazione completa e non ridondante di un dominio,
+una rete bayesiane è spesso molto più compatta dell'intera distribuzione di
 probabilità congiunta. Questo rende possibile il trattamento di domini
 caratterizzati da un numero molto elevato di variabili.
 
-La compattezza delle Reti Bayesiane è un esempio della proprietà dei sistemi
+La compattezza delle reti Bayesiane è un esempio della proprietà dei sistemi
 strutturati localmente o sparsi. In ogni sistema strutturato localmente ogni
 sotto-componente interagisce solo con un numero limitato di altre componenti,
 indipendentemente dal numero totale di componenti del sistema.
 
 La strutturazione locale è di norma associata ad un fattore di crescita della
-complessità lineare e non esponenziale. Nel caso di una Rete Bayesiana è
+complessità lineare e non esponenziale. Nel caso di una rete bayesiana è
 ragionevole ipotizzare che ogni variabile sia direttamente influenzata da al
 massimo $k$ variabili.
-
-Nel caso in cui si consideri una Rete Bayesiane costituita da $n$ variabili
-Booleane avremo che la quantità di informazione necessaria per specificare una
-qualsiasi CPT è limitata superiormente da $2^k$ numeri per cui la rete completa
-richiede di specificare al più $n \cdot 2^k$ numeri. Mentre specificare l'intera
-distribuzione congiunta di probabilità richiede $2^n$ numeri.
+\begin{esempio}
+    Nel caso in cui si consideri una rete bayesiane costituita da $n$ variabili
+    Booleane avremo che la quantità di informazione necessaria per specificare
+    una qualsiasi CPT è limitata superiormente da $2^k$ numeri per cui la rete
+    completa richiede di specificare al più $n \cdot 2^k$ numeri. Mentre
+    specificare l'intera distribuzione congiunta di probabilità richiede $2^n$
+    numeri.
+\end{esempio}
 \subsection{Indipendenza condizionata}
-Esiste un metodo per scoprire se in una rete Bayesiana due variabili sono
+Esiste un metodo per scoprire se in una rete bayesiana due variabili sono
 condizionalmente indipendenti. Questo metodo prende il nome di \textbf{D-separazione}.
 \begin{definizione}[\textbf{D-separazione}]
     Due nodi $X$ e $Z$ sono \textbf{D-separati} da un insieme $E$ di variabili con
     evidenza se e solo se ogni cammino non orientato da $X$ a $Z$ è \textbf{bloccato}.
 \end{definizione}
-\begin{definizione}[\textbf{cammino bloccato}]
+\begin{definizione}[\textbf{Cammino bloccato}]
     Un cammino è \textbf{bloccato} se e solo se vale almeno una delle seguenti
     condizioni:
     \begin{itemize}
@@ -261,13 +263,12 @@ disposizione un algoritmo efficiente per inferire automaticamente se apprendere
 il valore di una variabile può fornirci delle informazioni aggiuntive su altre
 variabili, date le informazioni a disposizione.
 \begin{teorema} [\textbf{Verma \& Pearl}]
-    Se in una rete Bayesiana un insieme di variabili $E$ di evidenza D-separa
+    Se in una rete bayesiana un insieme di variabili $E$ di evidenza D-separa
     $X$ e $Z$, allora $X$ e $Z$ sono indipendenti.
 \end{teorema}
-\begin{definizione}[\textbf{d-connessione}]
+\begin{definizione}[\textbf{D-connessione}]
     Due variabili sono \textbf{d-connesse} se e solo se non sono d-separate.
 \end{definizione}
-Per testare se le variabili sono condizionalmente indipendenti si può usare il
 Per testare se le variabili sono condizionalmente indipendenti si può usare il
 \textbf{processo di moralizzazione}:
 \begin{enumerate}
@@ -284,7 +285,7 @@ Per testare se le variabili sono condizionalmente indipendenti si può usare il
 Se al termine di questo processo si hanno:
 \begin{itemize}
     \item \textbf{Variabili disconnesse}: è garantito che le variabili sono
-          indipendenti
+          indipendenti.
     \item \textbf{Variabili connesse}: non è garantito che le variabili siano
           indipendenti.
 \end{itemize}
@@ -298,12 +299,14 @@ Se al termine di questo processo si hanno:
         \label{fig:moralizzazione}
     \end{figure}
 \end{esempio}
-\subsection{Distribuzioni condizionali}
+\subsection{Rappresentazione efficiente delle distribuzioni condizionali}
 Per ridurre il numero di parametri nelle CPT possiamo utilizzare le \textbf{distribuzioni
     canoniche} per rappresentare dei pattern standard tra i parametri come per
 i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo
-quando si possono notare dei pattern particolari, ex: and tra genitori, or tra
-genitori, somma dei genitori$\dots$
+quando si possono notare dei pattern particolari, come ad esempio è possibile
+osservare una relazione di \texttt{AND} logico tra i genitori, oppure una relazione
+di \texttt{OR} logico tra i genitori, ma anche relazioni numeriche, come ad esempio
+la somma e così via.
 
 Una volta identificato il pattern, questo ci permette di specificare un numero
 limitato di parametri per compilare la CPT, dal momento che alcuni si derivano
@@ -315,7 +318,8 @@ con le distribuzioni canoniche.
 \end{definizione}
 Le relazioni tra genitori e figli possono essere di diversi tipi:
 \begin{itemize}
-    \item \textbf{Logiche}: come ad esempio l'\texttt{OR} tra le variabili dei genitori.
+    \item \textbf{Logiche}: come ad esempio l'\texttt{OR} tra le variabili dei
+          genitori.
     \item \textbf{Numeriche}: come ad esempio il \texttt{minimo} valore delle
           variabili dei genitori.
 \end{itemize}
@@ -351,11 +355,11 @@ Una soluzione alternativa è rappresentare le variabili con delle \textbf{funzio
 norma contenuto di parametri. Un esempio è la funzione di densità di probabilità
 della distribuzione normale, la quale viene completamente specificata tramite
 la media e la deviazione standard.
-\begin{definizione}[\textbf{Rete Bayesiana Ibrida}]
+\begin{definizione}[\textbf{Rete bayesiana Ibrida}]
     Una rete che contiene nodi discreti e continui prende il nome di \textbf{Rete
         Bayesiane Ibrida}
 \end{definizione}
-Per specificare una Rete Bayesiana Ibrida dobbiamo definire due nuovi tipi di
+Per specificare una rete bayesiana Ibrida dobbiamo definire due nuovi tipi di
 distribuzione:
 \begin{itemize}
     \item La distribuzione condizionale di una variabile continua dati i genitori
@@ -393,37 +397,39 @@ Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
 \begin{itemize}
     \item \textbf{Diagnostica}: si passa dagli effetti alle cause, l'evidenza è
           nei discendenti e l'informazione sale dai figli ai genitori.
-          \begin{figure}[!ht]
-              \centering
-              \includegraphics[width=0.08\textwidth]{./img/Reti/Diagnostica.png}
-              \caption{Inferenza diagnostica}
-              \label{fig:diagnostica}
-          \end{figure}
     \item \textbf{Causale}: si passa dalle cause agli effetti, l'evidenza è
           nei genitori e l'informazione scende dai genitori ai figli.
-          \begin{figure}[!ht]
-              \centering
-              \includegraphics[width=0.08\textwidth]{./img/Reti/Causale.png}
-              \caption{Inferenza causale}
-              \label{fig:causale}
-          \end{figure}
     \item \textbf{Intercausale}: si passa l'informazione tra le cause comuni
           a un effetto.
-          \begin{figure}[!ht]
-              \centering
-              \includegraphics[width=0.2\textwidth]{./img/Reti/Intercausale.png}
-              \caption{Inferenza intercausale}
-              \label{fig:intercausale}
-          \end{figure}
     \item \textbf{Mista}: combinazione di due o più delle tipologie di inferenza
           presentate in precedenza.
-          \begin{figure}[!ht]
-              \centering
-              \includegraphics[width=0.08\textwidth]{./img/Reti/Mista.png}
-              \caption{Inferenza mista}
-              \label{fig:mista}
-          \end{figure}
 \end{itemize}
+\begin{figure}[!ht]
+    \centering
+    \begin{subfigure}[b]{0.14\textwidth}
+        \includegraphics[width=\textwidth]{./img/Reti/Diagnostica.png}
+        \caption{Diagnostica}
+        \label{fig:diagnostica}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.14\textwidth}
+        \includegraphics[width=\textwidth]{./img/Reti/Causale.png}
+        \caption{Causale}
+        \label{fig:causale}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.26\textwidth}
+        \includegraphics[width=\textwidth]{./img/Reti/Intercausale.png}
+        \caption{Inntercausale}
+        \label{fig:intercausale}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.14\textwidth}
+        \includegraphics[width=\textwidth]{./img/Reti/Mista.png}
+        \caption{Mista}
+        \label{fig:mista}
+    \end{subfigure}
+\end{figure}
 Conoscere l'evidenza di una variabile può influenzare la probabilità di altri nodi
 nella rete. Quindi, quando si osserva un evento, si aggiornano le distribuzioni
 di probabilità di tutti i nodi della rete. Una volta effettuato questa operazione,
@@ -455,7 +461,7 @@ $P(X,E=e,Y=y)$, ovvero:
     P(X,E=e,Y=y) = \prod_{K} P(K=k | parents(K))
 \end{equation}
 
-In generale, quando si effettua l'inferenza in una rete Bayesiana, si calcola il
+In generale, quando si effettua l'inferenza in una rete bayesiana, si calcola il
 valore della variabile di query per tutti i suoi possibili assegnamenti:
 \begin{equation*}
     P(X|E=e) = \langle P(X = x'|E = e), P(X = x''|E = e),\dots \rangle
@@ -571,15 +577,15 @@ Campionare significa generare una serie di campioni:
 \begin{equation*}
     s_i = \left[V_1=v_1, V_2= v_2, \dots, V_n=v_n\right]
 \end{equation*}
-dove $V_j$ sono tutte le variabili. Quando si esegue il processo di campionamento, 
+dove $V_j$ sono tutte le variabili. Quando si esegue il processo di campionamento,
 se le variabili hanno evidenza, allora il loro valore nel campione è definito da essa.
 Nel caso in cui non ci sia evidenza, allora si campiona la variabile secondo la
 distribuzione data dalla CPT considerando le eventuali evidenze.
 
-Questo rende importante rispettare l'ordinamento topologico quando si applica 
+Questo rende importante rispettare l'ordinamento topologico quando si applica
 l'algoritmo di Likelihood Weighting.
 
-Per ogni campione si ottiene un peso $\omega_i$, inizialmente posto a $1$, il 
+Per ogni campione si ottiene un peso $\omega_i$, inizialmente posto a $1$, il
 quale viene aggiornato durante il campionamento sfruttando le probabilità dell'evidenza.
 \begin{equation*}
     \omega_i = \omega_i \cdot P(E = e | Parents(E))
@@ -593,7 +599,7 @@ A questo punto per eseguire le query si calcola la probabilità valutando i pesi
 \end{equation*}
 \subsubsection{Markov Chain Monte Carlo (MCMC)}
 Differentemente dagli algoritmi precedenti, i quali generano ogni evento partendo
-da zero (si dimentica il campione precedente), l'algoritmo \textbf{Markov Chain Monte Carlo} 
+da zero (si dimentica il campione precedente), l'algoritmo \textbf{Markov Chain Monte Carlo}
 genera ogni evento tramite modifiche casuali di un evento che lo precede nell'esecuzione.
 
 È utile pensare che il modello di rete bayesiana si trovi in un determinato
@@ -601,17 +607,17 @@ genera ogni evento tramite modifiche casuali di un evento che lo precede nell'es
 valore ad ogni nodo della rete.
 
 Lo stato prossimo viene ottenuto tramite campionamento di una delle variabili
-senza evidenza $X_i$, si sceglie casualmente la variabile da campionare e si 
+senza evidenza $X_i$, si sceglie casualmente la variabile da campionare e si
 cambia il suo valore secondo la distribuzione condizionale della sua Markov Blanket.
 
 Per generare lo stato successivo, parto dallo stato corrente, per ogni $X_i \not \in E$
-(non nell'evidenza) cambio il suo valore estraendo un campione di $X_i$ secondo 
-la distribuzione $P(X_i | MarkovBlanket(X_i))$. Alla fine avrò generato casualmente 
+(non nell'evidenza) cambio il suo valore estraendo un campione di $X_i$ secondo
+la distribuzione $P(X_i | MarkovBlanket(X_i))$. Alla fine avrò generato casualmente
 un nuovo campione.
 
 Il calcolo di $P(X_i | MarkovBlanket(X_i))$ si effettua in questo modo:
 \begin{equation}
-    P(X_i | MarkovBlanket(X_i)) = \alpha \cdot P(X_i | parents(X_i)) \cdot 
+    P(X_i | MarkovBlanket(X_i)) = \alpha \cdot P(X_i | parents(X_i)) \cdot
     \prod_{Y_i\in children(X_i)} P(Y_i| parents(Y_i))
 \end{equation}
 \section{Generazione di numeri pseudocasuali}
