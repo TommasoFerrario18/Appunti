@@ -1,40 +1,40 @@
 \chapter{MLops}
 Una tipica pipeline per un progetto di machine learning è composta da diverse fasi:
 \begin{itemize}
-    \item Comprensione del problema
-    \item Raccolta dei dati
-    \item Comprensione dei dati
-    \item Preparazione dei dati
-    \item Modellazione
-    \item Valutazione
-    \item Deployment
+      \item Comprensione del problema
+      \item Raccolta dei dati
+      \item Comprensione dei dati
+      \item Preparazione dei dati
+      \item Modellazione
+      \item Valutazione
+      \item Deployment
 \end{itemize}
 \begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{./img/MLops/CRISP-DM.png}
-    \caption{ML Pipeline}
-    \label{fig:ml_pipeline}
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/MLops/CRISP-DM.png}
+      \caption{ML Pipeline}
+      \label{fig:ml_pipeline}
 \end{figure}
 In questa parte del corso ci occuperemo della parte di gestione dei dati, nello
 specifico analizzeremo la parte di \textbf{Data Understanding} e \textbf{Data
-    Preparation}.
+      Preparation}.
 
 Avere i dati corretti è una parte fondamentale per la creazione di un modello di
 che sia in grado di ottenere dei risultati corretti.
 \begin{center}
-    \textit{Garbage in, garbage out}
+      \textit{Garbage in, garbage out}
 \end{center}
 I dati di training e testing devono derivare dai dati reali che verranno raccolti
 in fase di production.
 \section{Pipeline}
 Una volta ottenuti i dati reali dovremo separarli in:
 \begin{itemize}
-    \item \textbf{Training data}: vengono utilizzati per addestrare e valutare
-          il modello, sono quindi di dimensioni elevate e vengono raccolti
-          attraverso diverse fonti. Spesso caratterizzati da un elevato throughput.
-    \item \textbf{Serving data}: raccolti e utilizzati per fare previsioni in
-          fase di production. Questa tipologia di dati è spesso caratterizzata
-          da una bassa latenza.
+      \item \textbf{Training data}: vengono utilizzati per addestrare e valutare
+            il modello, sono quindi di dimensioni elevate e vengono raccolti
+            attraverso diverse fonti. Spesso caratterizzati da un elevato throughput.
+      \item \textbf{Serving data}: raccolti e utilizzati per fare previsioni in
+            fase di production. Questa tipologia di dati è spesso caratterizzata
+            da una bassa latenza.
 \end{itemize}
 Entrambi questi tipi di dati devono passare attraverso una fase di preparazione.
 In questa fase si vogliono stabilire quali sono le informazioni principali,
@@ -57,9 +57,9 @@ dai dati raccolti in produzione.
 In questo modo possiamo segnalare quando le distribuzioni cambiano e nel caso devo
 adottare delle soluzioni:
 \begin{itemize}
-    \item Riaddestrare il modello.
-    \item Avvisare l'utente che qualcosa sta cambiando.
-    \item Non fare niente.
+      \item Riaddestrare il modello.
+      \item Avvisare l'utente che qualcosa sta cambiando.
+      \item Non fare niente.
 \end{itemize}
 Può capitare nel tempo i le feature cambino il tipo (ad esempio si passa da int
 a float), quindi, nella fase di validation, bisogna correggerli per renderli
@@ -67,10 +67,10 @@ compatibili col modello.
 
 Per effettuare tutti i passi della pipeline servono diverse figure lavorative:
 \begin{itemize}
-    \item \textbf{Machine Learning Expert}
-    \item \textbf{Software Engineer}
-    \item \textbf{Site Reliability Engineer}: esperto che si occupa di gestire
-          tutta la pipeline e di risolvere eventuali problemi.
+      \item \textbf{Machine Learning Expert}
+      \item \textbf{Software Engineer}
+      \item \textbf{Site Reliability Engineer}: esperto che si occupa di gestire
+            tutta la pipeline e di risolvere eventuali problemi.
 \end{itemize}
 \section{Data Acquisition}
 Una delle fasi più importanti è \textbf{Data Acquisition}. In questa fase possiamo
@@ -93,16 +93,16 @@ corretto, questo prende il nome di \textbf{sanity checks}.
 I dati che vengono raccolti sono solitamente rappresentati sotto forma tabellare,
 e possono essere:
 \begin{itemize}
-    \item \textbf{Discreti}: valori che possono essere rappresentati da un insieme
-          finito o numerabile di valori. Possiamo inoltre avere anche due sotto
-          categorie:
-          \begin{itemize}
-              \item \textbf{Categorici}: valori che rappresentano delle categorie.
-              \item \textbf{Count}: valori che rappresentano il numero di
-                    occorrenze di un certo evento.
-          \end{itemize}
-    \item \textbf{Continui}: valori che possono essere rappresentati da un insieme
-          non numerabile di valori.
+      \item \textbf{Discreti}: valori che possono essere rappresentati da un insieme
+            finito o numerabile di valori. Possiamo inoltre avere anche due sotto
+            categorie:
+            \begin{itemize}
+                  \item \textbf{Categorici}: valori che rappresentano delle categorie.
+                  \item \textbf{Count}: valori che rappresentano il numero di
+                        occorrenze di un certo evento.
+            \end{itemize}
+      \item \textbf{Continui}: valori che possono essere rappresentati da un insieme
+            non numerabile di valori.
 \end{itemize}
 L'esplorazione dei dati avviene attraverso dei \textbf{sanity checks}, ovvero dei
 controlli che vengono svolti per studiare l'integrità dei dati. Un esempio di sanity
@@ -119,56 +119,56 @@ Ad esempio, una persona non può avere associata più di una data di nascita.
 
 Tutti questi controlli possono essere essere effettuati attraverso diverse modalità:
 \begin{itemize}
-    \item \textbf{Visualizzazione}: attraverso grafici e tabelle.
-    \item \textbf{Query SQL}: attraverso query che permettono di estrarre
-          informazioni dai dati.
-    \item \textbf{Script}: attraverso script che permettono di estrarre
-          informazioni dai dati.
+      \item \textbf{Visualizzazione}: attraverso grafici e tabelle.
+      \item \textbf{Query SQL}: attraverso query che permettono di estrarre
+            informazioni dai dati.
+      \item \textbf{Script}: attraverso script che permettono di estrarre
+            informazioni dai dati.
 \end{itemize}
 
 Per gestire le inconsistenze scoperte dai sanity checks si possono adottare diverse
 strategie:
 \begin{itemize}
-    \item Eliminare l'esempio, questa strategia può essere adottata solamente
-          nel caso in cui il numero di esempi eliminati non sia troppo elevato.
-    \item Correggere l'errore con metodi di imputazione, bisogna però stare
-          attenti perché non sempre si può fare. Per esempio, se i dati
-          rappresentati da una feature sono vincolati da qualche normativa,
-          non posso correggere l'errore con un metodo di imputazione.
+      \item Eliminare l'esempio, questa strategia può essere adottata solamente
+            nel caso in cui il numero di esempi eliminati non sia troppo elevato.
+      \item Correggere l'errore con metodi di imputazione, bisogna però stare
+            attenti perché non sempre si può fare. Per esempio, se i dati
+            rappresentati da una feature sono vincolati da qualche normativa,
+            non posso correggere l'errore con un metodo di imputazione.
 \end{itemize}
 Riassumendo, la fase di data exploration è composta dai seguenti passi:
 \begin{itemize}
-    \item \textbf{Identificazione delle variabili}: quali sono le variabili che ho
-          a disposizione e che ruolo hanno.
-    \item \textbf{Analisi univariata}: analisi delle variabili una alla volta.
-          Voglio capire se la variabile in analisi è continua o discreta,
-          studiare la sua distribuzione e capire se ci sono degli outlier. Questo
-          può essere fatto attraverso l'utilizzo di box plot e istogrammi.
-    \item \textbf{Analisi bivariata}: analisi tra coppie di variabili. Voglio
-          capire come le variabili interagiscono tra di loro. Questo può essere
-          fatto attraverso l'utilizzo di scatter plot.
-    \item Capire se ci sono valori mancanti e come gestirli.
-    \item identificare e gestire i valori anomali (outlier).
+      \item \textbf{Identificazione delle variabili}: quali sono le variabili che ho
+            a disposizione e che ruolo hanno.
+      \item \textbf{Analisi univariata}: analisi delle variabili una alla volta.
+            Voglio capire se la variabile in analisi è continua o discreta,
+            studiare la sua distribuzione e capire se ci sono degli outlier. Questo
+            può essere fatto attraverso l'utilizzo di box plot e istogrammi.
+      \item \textbf{Analisi bivariata}: analisi tra coppie di variabili. Voglio
+            capire come le variabili interagiscono tra di loro. Questo può essere
+            fatto attraverso l'utilizzo di scatter plot.
+      \item Capire se ci sono valori mancanti e come gestirli.
+      \item identificare e gestire i valori anomali (outlier).
 \end{itemize}
 \begin{definizione}
-    L'\textbf{Exploratory Data Analysis} (EDA) è una tecnica statistica che permette
-    di esplorare i dati e di estrarre informazioni utili per la costruzione di un
-    modello.
+      L'\textbf{Exploratory Data Analysis} (EDA) è una tecnica statistica che permette
+      di esplorare i dati e di estrarre informazioni utili per la costruzione di un
+      modello.
 \end{definizione}
 
 Tra le varie tecniche di analisi dei dati abbiamo:
 \begin{itemize}
-    \item \textbf{Measure of dispersion}: permette di capire quanto i dati sono
-          distanti tra di loro. Questo può essere fatto attraverso l'utilizzo
-          di varianza e deviazione standard e altre misure statistiche.
-    \item \textbf{Box plot}: permette di visualizzare la distribuzione dei dati
-          attraverso quartili.
-    \item \textbf{QQ plot}: permette di confrontare la distribuzione dei dati
-          con una distribuzione normale.
-    \item \textbf{Scatter plot}: permette di visualizzare la relazione tra due
-          variabili.
-    \item \textbf{Swarm plot}: permette di visualizzare la distribuzione dei dati
-          in base a una variabile categorica.
+      \item \textbf{Measure of dispersion}: permette di capire quanto i dati sono
+            distanti tra di loro. Questo può essere fatto attraverso l'utilizzo
+            di varianza e deviazione standard e altre misure statistiche.
+      \item \textbf{Box plot}: permette di visualizzare la distribuzione dei dati
+            attraverso quartili.
+      \item \textbf{QQ plot}: permette di confrontare la distribuzione dei dati
+            con una distribuzione normale.
+      \item \textbf{Scatter plot}: permette di visualizzare la relazione tra due
+            variabili.
+      \item \textbf{Swarm plot}: permette di visualizzare la distribuzione dei dati
+            in base a una variabile categorica.
 \end{itemize}
 Le visualizzazioni sono spesso guidate dai dati, quando si fanno delle analisi
 la comprensione di cosa si sta analizzando è fondamentale.
@@ -195,99 +195,146 @@ accorgercene e modificare il modello di conseguenza.
 
 Un esempio di cambiamento può essere il seguente:
 \begin{itemize}
-    \item Abbiamo una feature di tipo string che passa da Upper case a lower case.
-    \item Le variabili che cambiano di semantica. Ad esempio il numero di giorni
-          che diventa numero di ore.
-    \item Scompare un attributo, diventa null.
+      \item Abbiamo una feature di tipo string che passa da Upper case a lower case.
+      \item Le variabili che cambiano di semantica. Ad esempio il numero di giorni
+            che diventa numero di ore.
+      \item Scompare un attributo, diventa null.
 \end{itemize}
 Risulta quindi fondamentale avere un sistema di riconoscimento delle anomalie
 nei dati. Questo sistema deve essere in grado di riconoscere quando i dati cambiano
-e deve essere in grado di produrre un \textbf{alert}. 
+e deve essere in grado di produrre un \textbf{alert}.
 
 Solitamente, in relazione con gli alert si costruisce un \textbf{playbook} che
 specifica chi deve essere avvisato e come risolvere il problema.
 
-In questo modo, quando si riceve un alert si sa già come risolverlo, seguendo 
+In questo modo, quando si riceve un alert si sa già come risolverlo, seguendo
 le specifiche descritte nel playbook.
 
 \section{Data Integration}
-Per integrazione dei dati si intende quando abbiamo $2$ dataset e vogliamo integrarli 
-in uno solo. Quindi ho 2 sorgenti informative con una grande sofrapposizione tra di loro 
-e io le voglio unire quindi mi ritroverò a fare una Join.
+Con il termine \textbf{data integration} si intende la fase in cui si uniscono
+diverse sorgenti di dati in un'unica sorgente. Solitamente, questa fase viene
+fatta quando le sorgenti dati presentano una grande sovrapposizione tra di loro.
+Posso quindi realizzare questa fase attraverso una \textbf{join}.
 
-Per effettuare data integration bisogna prima identificare lo schema di entrambe 
-le sorgenti, successivamente bisogna trovare gli attributi che sono in comune 
-tra le due sorgenti in modo da poterli utilizzare per effettuare il join tra le sorgenti.
+Per effettuare questa operazione bisogna per prima cosa identificare lo schema
+delle sorgenti che si vogliono unire. Fatto ciò, bisogna trovare gli attributi
+che sono in comune tra le sorgenti in modo da poterli utilizzare per effettuare
+il join.
 
 Questa fase può essere più complicata perché potremmo dover effettuare l'integrazioni
-tra modelli di dati differenti. Non solo potremmo avere delle etereogeneità a livello 
-di nomi e anche di tipo (voti all'estero sono da $1-30$ oppure $A-F$). Possiamo avere 
-problemi come rappresentazioni di entità in una sorgente mentre nell'altra può 
-essere modellata come attributo.
+tra modelli di dati differenti. Non solo, potremmo avere delle eterogeneità a livello
+di nomi e anche di tipo, un esempio è il sistema di valutazione universitario
+che può essere espresso in modi diversi: $0-30$, $A-F$. Possiamo avere problemi
+come rappresentazioni di entità in una sorgente mentre nell'altra può essere
+modellata come attributo.
 
 Un generico modo per risolvere questi problemi:
 \begin{itemize}
-      \item definizione dello schema finale, si definiscono anche le regole di mappatura
-      degli schemi delle sorgenti nello schema finale
-      \item schema matching si definiscono delle regole di investigazione su come 
-      effettuare il matchin (capire se ci si basa solo sul nome dell'attributo o 
-      anche sul valore dell'attributo) (si specificano regole di investigazione)
-      \item schema integration si effettua direttamente l'intgrazione 
+      \item Definizione dello schema finale: si definiscono anche le regole di
+            mappatura degli schemi delle sorgenti nello schema finale.
+      \item Schema matching: si definiscono delle regole di investigazione su come
+            effettuare il matching. In questa fase si vuole capire se ci si basa
+            solo sul nome dell'attributo oppure anche sul valore di esso. Inoltre,
+            si specificano regole di investigazione.
+      \item Schema integration: si effettua direttamente l'integrazione dei dati.
 \end{itemize}
-
-Le metodologie per effettuare le integrazioni sono differenti, per esempio possiamo 
+Vediamo ora nello specifico il processo di integrazione, analizzando cosa ogni
+fase comporta:
+\begin{enumerate}
+      \item \textbf{Schema Integration}: in questa fase si prendono in input $n$
+            schemi di partenza e si vogliono omogeneizzare in modo da poter fare
+            il join. Per questa fase solitamente si utilizzando metodi di \textbf{
+                  model transformation} e \textbf{reverse engineering}.
+      \item \textbf{Correspondences Investigation}: in questa fase si vogliono
+            capire le corrispondenze tra gli schemi. Questo può essere fatto
+            attraverso l'utilizzo di tecniche di per la scoperta di corrispondenze.
+            In output si ottengono le corrispondenze tra gli schemi.
+      \item \textbf{Schema integration and mapping}: in questa fase si vogliono
+            integrare gli schemi e mapparli in modo da poter fare il join. Per
+            fare questo si utilizzano le informazioni recuperate nella fase
+            precedente. In output si ottiene lo schema integrato.
+\end{enumerate}
+Le metodologie per effettuare le integrazioni sono differenti, per esempio possiamo
 avere due metodi:
 \begin{itemize}
-      \item binario: si considerano le sorgenti a due a due ricorsivamente
-      \item n-ario: si uniscono più scorgenti alla volta.
+      \item \textbf{Binario}: si considerano le sorgenti due a due ricorsivamente.
+      \item \textbf{n-ario}: si uniscono più scorgenti alla volta.
 \end{itemize}
+
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/MLops/data_integration.png}
+      \caption{Data Integration}
+      \label{fig:data_integration}
+\end{figure}
 
 Uno dei problemi che si possono avere è una frammentazione differente tra le
 sorgenti.
 
 Possiamo avere duplicati oppure possiamo avere conflitti tra istanze:
 \begin{itemize}
-      \item conflitto di chiave: due record uguali che hanno chiavi differenti.
-      Per risolvere questi problemi o sfruttiamo le conoscienze del dominio.
-      \item conflitto di attributi: devo decidere a priori se considerare il valore 
-      di una tabella o l'altra in base alla conoscenza del dominio, perché magari 
-      è più corretto rispetto all'altra. 
+      \item \textbf{Conflitto di chiave}: due record uguali che hanno chiavi
+            differenti. Per risolvere questi problemi o sfruttiamo le conoscenze
+            del dominio.
+      \item \textbf{Conflitto di attributi}: devo decidere a priori se considerare
+            il valore di una tabella o l'altra in base alla conoscenza del dominio,
+            perché magari è più corretto rispetto all'altra.
 \end{itemize}
-Ricorda che nessuna scelta è sbagliata, il problema è che bisogna documentarla e 
-rimanere coerenti. A Design time si sceglie la politica mentre a run time si esegue.
-Per entrambi i conflitti possiamo usare delle funzioni di risoluzione dei conflitti.
+\begin{nota}
+      Nessuna metodologia è sbagliata, l'importante è documentare le scelte fatte
+      e restare coerenti.
+\end{nota}
+Le tecniche per risolvere i conflitti a livello di istanza si differenziano in
+\textbf{design time} e \textbf{run time}. In entrambi i casi il conflitto si
+verifica a \textit{query time}, ma a design time si sceglie la politica mentre a
+run time si esegue. In entrambi i casi, possiamo usare delle funzioni di
+risoluzione dei conflitti.
 
-Successivamente una volta integrato dobbiamo occuparci di rimuovere i duplicati,
-prima dobbiamo riconoscerli, ci possono essere duplicati non palesi dovuti da errori 
-di scrittura. Perciò spesso si sfrutta la conoscienza del dominio. Per rimuovere i 
-dublicati alla fine si fondono due righe.
+Una volta integrate le sorgenti, dobbiamo occuparci della rimozione dei duplicati.
+Per farlo, la prima operazione consiste nel riconoscerli, questo perché ci possono
+essere valori duplicati che non sono subito riconoscibili a causa di errori.
+Per svolgere questa operazione, spesso si sfrutta la conoscenza del dominio.
+
+Può capitare che la fase di rimozione dei duplicati porti alla necessità di
+fondere due righe. Questo perché potremmo avere due righe che rappresentano la
+stessa entità ma che hanno valori diversi. In questo caso, si fondono le righe
+in modo da ottenere una sola riga contenete i valori corretti.
 
 Per confrontare le righe ci possono essere diversi metodi:
 \begin{itemize}
-      \item probabilistici: si normalizzano i formati degli attributi (si portano a 
-      formati standard), si suffividono i record in blocchi (confronto i record 
-      per blocchi, questo mi permette di ordinare il blocco per qualche attributo
-      molto discriminante), si confrontano mediante delle funzioeni, si confrontano 
-      i più vicini nella realtà (questo può essere risolto in ML, tramite un classificatore 
-      o un clustering)\dots
-      \item 
+      \item \textbf{Empirical}: si confrontano i valori delle righe e si decide
+            se sono uguali o meno in base a delle regole. Per le stringhe ad
+            esempio, si possono confrontare le lettere che le compongono.
+      \item \textbf{Probabilistici}: si normalizzano i formati degli attributi,
+            ovvero si portano a un formato standard, a questo punto si suddividono
+            i record in blocchi e si confrontano, questo mi permette di ordinare
+            il blocco per qualche attributo molto discriminante. Il confronto viene
+            fatto mediante delle funzioni, spesso si confrontano i più vicini
+            nella realtà.
+      \item \textbf{Knowledge-based}: si utilizza la conoscenza del dominio per
+            confrontare i record.
+      \item \textbf{Machine Learning}: si utilizzano modelli di machine learning
+            per confrontare i record.
+      \item \textbf{Mixed}: si utilizzando metodi Probabilistici e Knowledge-based
+            insieme.
 \end{itemize}
-
-
-
 \section{Data Enrichment}
-Significa avere una sorgente di dati e voglio arricchirla con alcuni dati presenti 
-in una seconda sorgente. Nel data integration  avremo che una riga metcha con una 
-sola riga nella seconda sorgente. In questo caso possono avere che una riga metcha 
-con più righe della seconda tabella.
+Il \textbf{data enrichment} è una fase in cui si vogliono arricchire i dati con
+nuove informazioni presenti in altre sorgenti. Nel fase di data integration
+avremo che una riga può essere associata con una sola riga nella seconda sorgente.
+In questo caso possono avere che una riga è associata con più righe della seconda
+tabella.
 
 \section{Feature engineering}
-Insieme di operazioni per aggiungere nuove feature o rimuovere righe, modificarle 
-etc. Si dividono
-in:
+Il \textbf{feature engineering} è un insieme di operazioni per aggiungere nuove
+feature o rimuovere righe, modificarle etc.
+
+Queste operazioni si dividono in:
 \begin{itemize}
-      \item target transformation: trasformiamo un'etichetta da $0-1$ a etichetta o viceversa.
-      In base a come cambiamo il target otteniamo risultati differenti.
-      \item feature enconding: trasformare un attributo in più attributi (spesso usato per i categorici)
-      \item feature extraction: estrazione di feature dai dati raw.
+      \item \textbf{Target transformation}: trasformiamo un'etichetta da $0-1$ a
+            etichetta o viceversa. In base a come cambiamo il target otteniamo
+            risultati differenti.
+      \item \textbf{Feature enconding}: trasformare un attributo in più attributi.
+            Questo viene spesso usato per i categorici, ad esempio one hot encoding.
+      \item \textbf{Feature extraction}: estrazione di feature dai dati raw.
 \end{itemize}
