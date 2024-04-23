@@ -446,7 +446,7 @@ delle variabili che non fanno parte dell'evidenza.
 \begin{nota}
     Si aggiunge la costante di normalizzazione, ovvero:
     \begin{equation}
-        \alpha = \frac{1}{\sum_{x\in X}P(X = x)}
+        \alpha = \frac{1}{\sum_{x\in X}\sum_{y\in Y}P(X = x, E=e,Y=y)}
     \end{equation}
 \end{nota}
 Inoltre, possiamo sfruttare la regola di fattorizzazione per calcolare la probabilità
@@ -458,7 +458,7 @@ $P(X,E=e,Y=y)$, ovvero:
 In generale, quando si effettua l'inferenza in una rete Bayesiana, si calcola il
 valore della variabile di query per tutti i suoi possibili assegnamenti:
 \begin{equation*}
-    P(X=x|E=e) = \langle P(X = x'|E = e), P(X = x''|E = e),\dots \rangle
+    P(X|E=e) = \langle P(X = x'|E = e), P(X = x''|E = e),\dots \rangle
 \end{equation*}
 
 Il processo di inferenza per $n$ variabili booleane è pari a $\mathcal{O}(n2^n)$.
@@ -571,7 +571,7 @@ Campionare significa generare una serie di campioni:
 \begin{equation*}
     s_i = \left[V_1=v_1, V_2= v_2, \dots, V_n=v_n\right]
 \end{equation*}
-dove $V_j$ sono tutte le variabili. Quando si eseque il processo di campionamento, 
+dove $V_j$ sono tutte le variabili. Quando si esegue il processo di campionamento, 
 se le variabili hanno evidenza, allora il loro valore nel campione è definito da essa.
 Nel caso in cui non ci sia evidenza, allora si campiona la variabile secondo la
 distribuzione data dalla CPT considerando le eventuali evidenze.
@@ -582,7 +582,7 @@ l'algoritmo di Likelihood Weighting.
 Per ogni campione si ottiene un peso $\omega_i$, inizialmente posto a $1$, il 
 quale viene aggiornato durante il campionamento sfruttando le probabilità dell'evidenza.
 \begin{equation*}
-    \omega_i = \omega_i \cdot P(E = e | Parents(E)
+    \omega_i = \omega_i \cdot P(E = e | Parents(E))
 \end{equation*}
 dove $E$ è una delle variabili di evidenza e $P(E=e | Parents(E))$ rappresenta la
 probabilità di $E$ dato il valore dei genitori di $E$.
