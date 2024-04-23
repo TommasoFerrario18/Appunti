@@ -181,106 +181,158 @@ modificando solamente la seguente relazione:
     \frac{1}{2} (\cos(\alpha - \beta) - \cos(\alpha + \beta)) = \sin(\alpha)\sin(\beta)
 \end{equation*}
 
-La stessa dimostrazione si può effettuare per 
-$$\int_{0}^{p}\sin (\frac{2\pi}{p}kt)\sin (\frac{2\pi}{p}lt)dt=\begin{cases}
-    \frac{p}{2}&l=k\\
-    0&altrimenti
-\end{cases}$$
+La stessa dimostrazione si può effettuare per il caso $\sin \cdot \sin$
+\begin{equation}
+    \int_{0}^{p}\sin \left(\frac{2\pi}{p} kt\right) \sin \left(\frac{2\pi}{p} lt
+    \right) dt = \begin{cases}
+        \frac{p}{2} & l = k      \\
+        0           & altrimenti
+    \end{cases}
+\end{equation}
 
-L'idea alla basa della serie di Fourier è quella di scrivere una generica funzione 
+L'idea alla basa della serie di Fourier è quella di scrivere una generica funzione
 periodica $f:\mathbb{R}\to \mathbb{R}$ di periodo $p$ in una combinazione di $\sin$
 e $\cos$.
-
 \begin{definizione}[\textbf{Serie di Fourier}]
     Sia $f:\mathbb{R}\to \mathbb{R}$ una funzione periodica di periodo $p$.
-    $$f(t) = a_0 + \sum_{k=1}^{\infty}\left[a_k\cos (\frac{2\pi}{p}kt) +\beta_k\sin(\frac{2\pi}{p}kt)\right]$$
+    \begin{equation}
+        f(t) = a_0 + \sum_{k=1}^{\infty} \left[a_k \cos (\frac{2\pi}{p}kt) +
+            \beta_k \sin(\frac{2\pi}{p} kt)\right]
+    \end{equation}
 \end{definizione}
 
-L'uguaglianza precedente è lecita perché specifica che una funzione periodica di 
-periodo $p$ può essere riscritta come combinazioni lineari di funzioni periodiche 
-sempre di periodo $p$. Importante è anche la limitazione della sommatoria a $\infty$
-perché significa una funzione è combinazione lineare di \textbf{tutte} le funzioni 
-periodiche.
+L'uguaglianza precedente è lecita perché specifica che una funzione periodica di
+periodo $p$ può essere riscritta come combinazioni lineari di funzioni periodiche,
+anche esse di periodo $p$. Importante è anche la limitazione della sommatoria a
+$\infty$ perché significa una funzione è combinazione lineare di \textbf{tutte}
+le funzioni periodiche.
 
-All'atto pratico la sommatoria infinita è impossibile da calcolare, quindi si approssima 
-la funzione ad un $N$ molto grande.
+All'atto pratico la sommatoria infinita è impossibile da calcolare, quindi si
+approssima la funzione ad un $N$ molto grande.
 
-In aggiunta si può notare che i coefficienti $a_0, a_1, \dots$ partono da $0$ mentre 
-$b_1,b_2,\dots$ partono da $1$. Questo è dato dal fatto che quando $k=0$ si ha 
-$$a_0\cos (\frac{2\pi}{p}0t) +\beta_0\sin(\frac{2\pi}{p}0t) = a_0\cdot 1 + b_0\cdot 0 = a_0$$ 
-
-Per utilizzare questa approssimazione mediante la serie, dobbiamo calcolare facilmente e
-velocemente i coefficineti $a_i,b_i$.
-
-Calcoliamo per prima cosa $a_0$, per ipotesi sappiamo che la serie di Fourier vale, 
-allora anche gli integrali saranno uguali.
-
+In aggiunta si può notare che i coefficienti $a_0, a_1, \dots$ partono dall'indice
+$0$ mentre $b_1,b_2,\dots$ partono dall'indice $1$. Questo è dato dal fatto che
+quando $k = 0$ si ha:
 \begin{equation*}
-    \int_{0}^{p}f(t) dt=\int_{0}^{p} a_0 + \sum_{k=1}^{\infty}\left[a_k\cos (\frac{2\pi}{p}kt) +\beta_k\sin(\frac{2\pi}{p}kt)\right]dt
+    a_0\cos (\frac{2\pi}{p}0t) +\beta_0\sin(\frac{2\pi}{p}0t) = a_0\cdot 1 + b_0
+    \cdot 0 = a_0
 \end{equation*}
 
-Applicando le proprietà degli integrali si ottiene
+Per utilizzare questa approssimazione mediante la serie, dobbiamo calcolare
+facilmente e velocemente i coefficienti $a_i,b_i$.
 
+Calcoliamo per prima cosa $a_0$, per ipotesi sappiamo che l'uguaglianza che esprime
+la serie di Fourier è valida, allora anche gli integrali delle due parti saranno
+uguali.
 \begin{equation*}
-    \int_{0}^{p}f(t) dt=a_0\int_{0}^{p} 1dt + \sum_{k=1}^{\infty}\left[a_k\int_{0}^{p}\cos (\frac{2\pi}{p}kt)dk +\beta_k\int_{0}^{p}\sin(\frac{2\pi}{p}kt)dt\right]
+    \int_{0}^{p}f(t) dt=\int_{0}^{p} a_0 + \sum_{k=1}^{\infty}\left[a_k\cos
+        (\frac{2\pi}{p}kt) +\beta_k\sin(\frac{2\pi}{p}kt)\right]dt
 \end{equation*}
-
-Grazie alle dimostrazioni effettuate precedentemente dove
-$\int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt =
-\int_{0}^{p}\cos \left(\frac{2\pi k}{p}t\right) dt = 0$.
-Allora tutta la sommatoria si annulla.
-
+Applicando le proprietà degli integrali si ottiene:
 \begin{equation*}
-    \int_{0}^{p}f(t) dt=a_0\int_{0}^{p} 1dt  = a_0p\implies a_0 = \frac{1}{p}\int_{0}^{p}f(t) dt
+    \int_{0}^{p}f(t) dt=a_0\int_{0}^{p} 1dt + \sum_{k=1}^{\infty}\left[a_k
+        \int_{0}^{p}\cos (\frac{2\pi}{p}kt)dk +\beta_k\int_{0}^{p}\sin(
+        \frac{2\pi}{p}kt)dt\right]
 \end{equation*}
-
+Grazie alle dimostrazioni effettuate precedentemente sappiamo che:
+\begin{equation*}
+    \int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt =
+    \int_{0}^{p}\cos \left(\frac{2\pi k}{p}t\right) dt = 0
+\end{equation*}
+di conseguenza abbiamo che gli integrali presenti nella sommatoria si annullano,
+otteniamo quindi:
+\begin{equation*}
+    \int_{0}^{p}f(t) dt = a_0\int_{0}^{p} 1dt  = a_0p\implies a_0 = \frac{1}{p}
+    \int_{0}^{p}f(t) dt
+\end{equation*}
 Questa espressione si può calcolare perché $f$ è sempre nota.
-
 \begin{nota}
     La seguente espressione è chiamata anche media integrale nell'intervallo $[0,p]$.
-    
     \begin{equation*}
         a_0 = \frac{1}{p}\int_{0}^{p}f(t) dt
     \end{equation*}
 \end{nota}
-
-Per calcolare i coefficienti $a_k$ possiamo pensare di innanzitutto passare i coefficienti
-$k$ a $j$ nella sommatoria e se la serie di Fourier vale allora vale anche la seguente uguaglianza.
-
+Per calcolare i coefficienti $a_k$ possiamo moltiplicare entrambe le parti
+dell'uguaglianza per $\cos\left(\frac{2\pi}{p}kt\right)$ e successivamente
+integrare. In questo modo otteniamo:
 \begin{equation*}
-    \int_{0}^{p}f(t)g(t) dt=a_0\int_{0}^{p} g(t)dt + \sum_{j=1}^{\infty}\left[a_j\int_{0}^{p}\cos (\frac{2\pi}{p}jt)g(t)dk +\beta_j\int_{0}^{p}\sin(\frac{2\pi}{p}jt)g(t)dt\right]
+    \begin{aligned}
+        \int_{0}^{p}f(t) \cdot \cos\left(\frac{2\pi}{p}kt\right) dt = \\ a_0\int_{0}^{p}
+        \cos\left(\frac{2\pi}{p}kt\right) dt + \sum_{j=1}^{\infty}\left[a_j\int_{0}^{p}
+            \cos \left(\frac{2\pi}{p}jt\right) \cos\left(\frac{2\pi}{p}kt\right)dk +
+            \beta_j\int_{0}^{p}\sin\left(\frac{2\pi}{p}jt\right)\cos\left(\frac{2\pi}{p}kt\right)dt\right]
+    \end{aligned}
 \end{equation*}
-Dato che vogliamo calcolare $a_k$ allora consideriamo
-
-$$g(t) = \cos (\frac{2\pi}{p}kt)$$
-
-Otteniamo di conseguenza
-
+Sfruttando le proposizioni definite in precedenza possiamo affermare che:
 \begin{equation*}
-    \int_{0}^{p}f(t)\cos (\frac{2\pi}{p}kt) dt=a_0\int_{0}^{p}\cos (\frac{2\pi}{p}kt)dt + \sum_{j=1}^{\infty}\left[a_j\int_{0}^{p}\cos (\frac{2\pi}{p}jt)\cos (\frac{2\pi}{p}kt)dk +\beta_j\int_{0}^{p}\sin(\frac{2\pi}{p}jt)\cos (\frac{2\pi}{p}kt)dt\right]
+    \begin{array}{c}
+        a_0\int_{0}^{p}\cos \left(\frac{2\pi}{p}kt\right)dt = 0 \\
+        \beta_j\int_{0}^{p}\sin\left(\frac{2\pi}{p}jt\right)\cos \left(\frac{2\pi}{p}kt\right)dt=0
+    \end{array}
 \end{equation*}
-
-Sfruttando sempre le equivalenze tra gli integrali del $\sin,\cos$ allora 
-$a_0\int_{0}^{p}\cos (\frac{2\pi}{p}kt)dt = 0$ e $\beta_j\int_{0}^{p}\sin(\frac{2\pi}{p}jt)\cos (\frac{2\pi}{p}kt)dt=0$,
-perciò
-si ottiene
-
+perciò, otteniamo:
 \begin{equation*}
-    \int_{0}^{p}f(t)\cos (\frac{2\pi}{p}kt) dt= \sum_{j=1}^{\infty}\left[a_j\int_{0}^{p}\cos (\frac{2\pi}{p}jt)\cos (\frac{2\pi}{p}kt)dk \right]
+    \int_{0}^{p}f(t)\cos \left(\frac{2\pi}{p}kt\right) dt = \sum_{j=1}^{\infty}
+    \left[a_j\int_{0}^{p}\cos \left(\frac{2\pi}{p}jt\right)\cos \left(
+        \frac{2\pi}{p}kt\right)dk \right]
 \end{equation*}
-
-Fissato $j=k$ allora calcoliamo $a_k$  
+Per le proposizioni che abbiamo in precedenza, sappiamo che l'integrale del prodotto
+di due coseni con frequenza diversa è nullo. Quindi rimane solamente il caso in
+cui le frequenze sono uguali, ovvero $j=k$. Questo cui permette di ottenere:
 \begin{equation*}
-    \int_{0}^{p}f(t)\cos (\frac{2\pi}{p}kt) dt= a_k\int_{0}^{p}\cos (\frac{2\pi}{p}kt)\cos (\frac{2\pi}{p}kt)dk = a_k \frac{p}{2} \iff a_k =\frac{2}{p}  \int_{0}^{p}f(t)\cos (\frac{2\pi}{p}kt) dt
+    \int_{0}^{p}f(t)\cos \left(\frac{2\pi}{p}kt\right) dt = a_k\int_{0}^{p}\cos
+    \left(\frac{2\pi}{p}kt\right)\cos \left(\frac{2\pi}{p}kt\right)dk = a_k \frac{p}{2}
+    \iff a_k =\frac{2}{p}  \int_{0}^{p}f(t)\cos \left(\frac{2\pi}{p}kt\right) dt
 \end{equation*}
-
-Il conto di $a_k$ è indipendente dagli altri valori di $a_j$ (\textbf{non mi sembra, dammi conferma}).
+Il conto di $a_k$ è indipendente dagli altri valori di $a_j$ e quindi può essere
+calcolato indipendentemente dagli altri coefficienti.
 
 Successivamente dobbiamo calcolare i coefficienti $b_k$, la metodologia è la stessa
-degli $a_k$ solo che in questo caso 
-$$g(t) = \sin(\frac{2\pi}{p}kt)$$ 
-
-
+degli $a_k$ solo che in questo caso la funzione per cui moltiplichiamo entrambi
+i membri è:
 \begin{equation*}
-    %\int_{0}^{p}f(t)\sin(\frac{2\pi}{p}kt) dt=a_0\int_{0}^{p} \sin(\frac{2\pi}{p}kt)dt + \sum_{j=1}^{\infty}\left[a_j\int_{0}^{p}\cos (\frac{2\pi}{p}jt)\sin(\frac{2\pi}{p}kt)dk +\b_j \int_{0}^{p}\sin(\frac{2\pi}{p}jt)\sin(\frac{2\pi}{p}kt)dt\right]
+    \sin\left(\frac{2\pi}{p}kt\right)
 \end{equation*}
+\begin{equation*}
+    \begin{array}{l}
+        \int_{0}^{p}f(t)\sin\left(\frac{2\pi}{p}kt\right) dt = \\
+        = a_0 \int_{0}^{p} \sin\left(\frac{2\pi}{p}kt\right) dt + \sum_{j=1}^{\infty}
+        \left[a_j\int_{0}^{p}\cos \left(\frac{2\pi}{p}jt\right)\sin\left(\frac{2\pi}{p}kt\right)dk
+            + \beta_j \int_{0}^{p}\sin\left(\frac{2\pi}{p}jt\right)\sin\left(\frac{2\pi}{p}kt
+            \right)dt\right]
+    \end{array}
+\end{equation*}
+Grazie alle proposizioni definite in precedenza possiamo affermare che:
+\begin{equation*}
+    \begin{array}{c}
+        a_0\int_{0}^{p}\sin \left(\frac{2\pi}{p}kt\right)dt = 0 \\
+        a_j\int_{0}^{p}\cos\left(\frac{2\pi}{p}jt\right)\sin \left(\frac{2\pi}{p}kt\right)dt=0
+    \end{array}
+\end{equation*}
+perciò, otteniamo:
+\begin{equation*}
+    \int_{0}^{p}f(t)\sin \left(\frac{2\pi}{p}kt\right) dt = \sum_{j=1}^{\infty}
+    \left[\beta_j\int_{0}^{p}\sin \left(\frac{2\pi}{p}jt\right)\sin \left(
+        \frac{2\pi}{p}kt\right)dk \right]
+\end{equation*}
+Per le proposizioni che abbiamo in precedenza, sappiamo che l'integrale del prodotto
+di due seni con frequenza diversa è nullo. Quindi rimane solamente il caso in
+cui le frequenze sono uguali, ovvero $j=k$. Questo cui permette di ottenere:
+\begin{equation*}
+    \int_{0}^{p}f(t)\sin \left(\frac{2\pi}{p}kt\right) dt = \beta_k\int_{0}^{p}\sin
+    \left(\frac{2\pi}{p}kt\right)\sin \left(\frac{2\pi}{p}kt\right)dk = \beta_k \frac{p}{2}
+    \iff \beta_k =\frac{2}{p}  \int_{0}^{p}f(t)\sin \left(\frac{2\pi}{p}kt\right) dt
+\end{equation*}
+
+\begin{definizione}[\textbf{Funzione pari}]
+    Una funzione $f:\mathbb{R}\to \mathbb{R}$ si dice \textbf{pari} se:
+    \begin{equation}
+        f(t) = f(-t) \quad \forall t \in \mathbb{R}
+    \end{equation}
+\end{definizione}
+\begin{definizione}[\textbf{Funzione dispari}]
+    Una funzione $f:\mathbb{R}\to \mathbb{R}$ si dice \textbf{dispari} se:
+    \begin{equation}
+        f(t) = -f(-t) \quad \forall t \in \mathbb{R}
+    \end{equation}
+\end{definizione}

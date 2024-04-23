@@ -567,19 +567,30 @@ evento rappresenta la likelihood che l'evento associa all'evidenza.
 Intuitivamente gli eventi per i quali l'evidenza disponibile è inverosimile devono
 pesare in misura minore nel processo di stima delle probabilità a posteriori.
 
-Campionare significa generare una serie di campioni
-$$s_i = \left[V_1=v_1, V_2= v_2, \dots, V_n=v_n\right]$$ 
-Dove $V_join$ sono tutte le variabili, dove se hanno l'evidenza allora si vincola il 
-valore e si utilizza il loro valore per campionare le singole variabili attraverso 
-la distribuzione data dalle variabili date precedentemente rispetto all'ordine topologico.
-Per ogni campione ottengo anche un peso $\omega_i$ che inizialmente è inizializzato 
-a $1$, poi durante il campionamento si aggiorna $\omega_i = \omega_i\cdot P(E=e | Parents(E))$
-dove $E$ è una delle variabili di evidenza e $P(E=e | Parents(E))$ si legge dalla 
-CPT seguendo i valori delle variabili genitore precedentemente campionato.
+Campionare significa generare una serie di campioni:
+\begin{equation*}
+    s_i = \left[V_1=v_1, V_2= v_2, \dots, V_n=v_n\right]
+\end{equation*}
+dove $V_j$ sono tutte le variabili. Quando si eseque il processo di campionamento, 
+se le variabili hanno evidenza, allora il loro valore nel campione è definito da essa.
+Nel caso in cui non ci sia evidenza, allora si campiona la variabile secondo la
+distribuzione data dalla CPT considerando le eventuali evidenze.
 
-Per una query la probabilità si calcola 
-$$ P(G=V| N=V,B=V)=\frac{\sum_{s_i, G=V} \omega_i}{\sum_{s_i} \omega_i}$$
+Questo rende importante rispettare l'ordinamento topologico quando si applica 
+l'algoritmo di Likelihood Weighting.
 
+Per ogni campione si ottiene un peso $\omega_i$, inizialmente posto a $1$, il 
+quale viene aggiornato durante il campionamento sfruttando le probabilità dell'evidenza.
+\begin{equation*}
+    \omega_i = \omega_i \cdot P(E = e | Parents(E)
+\end{equation*}
+dove $E$ è una delle variabili di evidenza e $P(E=e | Parents(E))$ rappresenta la
+probabilità di $E$ dato il valore dei genitori di $E$.
+
+A questo punto per eseguire le query si calcola la probabilità valutando i pesi:
+\begin{equation*}
+    P(X = x | E = e) = \frac{\sum_{s_i, X=x} \omega_i}{\sum_{s_i} \omega_i}
+\end{equation*}
 \subsubsection{Markov Chain Monte Carlo (MCMC)}
 Differentemente dagli algoritmi precedenti, i quali generano ogni evento partendo
 da zero (si dimentica il campione precedente), l'algoritmo \textbf{Markov Chain Monte Carlo} 
@@ -590,20 +601,19 @@ genera ogni evento tramite modifiche casuali di un evento che lo precede nell'es
 valore ad ogni nodo della rete.
 
 Lo stato prossimo viene ottenuto tramite campionamento di una delle variabili
-senza evidenza $X_i$, si sceglie casualmente la variabile da modificare, 
-condizionalmente ai valori correntemente assunti dalle
-variabili che costituiscono il Markov Blanket della variabile (nodo) $X_i$.
+senza evidenza $X_i$, si sceglie casualmente la variabile da campionare e si 
+cambia il suo valore secondo la distribuzione condizionale della sua Markov Blanket.
 
 Per generare lo stato successivo, parto dallo stato corrente, per ogni $X_i \not \in E$
 (non nell'evidenza) cambio il suo valore estraendo un campione di $X_i$ secondo 
 la distribuzione $P(X_i | MarkovBlanket(X_i))$. Alla fine avrò generato casualmente 
-un nuovo campione. 
+un nuovo campione.
 
 Il calcolo di $P(X_i | MarkovBlanket(X_i))$ si effettua in questo modo:
-$$P(X_i | MarkovBlanket(X_i)) = \alpha \cdot P(X_i | parents(X_i)) \cdot \prod_{Y_i\in children(X_i)} P(Y_i| parents(Y_i))$$
-
-
-
+\begin{equation}
+    P(X_i | MarkovBlanket(X_i)) = \alpha \cdot P(X_i | parents(X_i)) \cdot 
+    \prod_{Y_i\in children(X_i)} P(Y_i| parents(Y_i))
+\end{equation}
 \section{Generazione di numeri pseudocasuali}
 \begin{definizione} [\textbf{Sequenza di numeri casuali}]
     Una \textbf{sequenza di numeri casuali} è una sequenza di realizzazioni di
