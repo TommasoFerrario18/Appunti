@@ -209,3 +209,85 @@ specifica chi deve essere avvisato e come risolvere il problema.
 
 In questo modo, quando si riceve un alert si sa già come risolverlo, seguendo 
 le specifiche descritte nel playbook.
+
+\section{Data Integration}
+Per integrazione dei dati si intende quando abbiamo $2$ dataset e vogliamo integrarli 
+in uno solo. Quindi ho 2 sorgenti informative con una grande sofrapposizione tra di loro 
+e io le voglio unire quindi mi ritroverò a fare una Join.
+
+Per effettuare data integration bisogna prima identificare lo schema di entrambe 
+le sorgenti, successivamente bisogna trovare gli attributi che sono in comune 
+tra le due sorgenti in modo da poterli utilizzare per effettuare il join tra le sorgenti.
+
+Questa fase può essere più complicata perché potremmo dover effettuare l'integrazioni
+tra modelli di dati differenti. Non solo potremmo avere delle etereogeneità a livello 
+di nomi e anche di tipo (voti all'estero sono da $1-30$ oppure $A-F$). Possiamo avere 
+problemi come rappresentazioni di entità in una sorgente mentre nell'altra può 
+essere modellata come attributo.
+
+Un generico modo per risolvere questi problemi:
+\begin{itemize}
+      \item definizione dello schema finale, si definiscono anche le regole di mappatura
+      degli schemi delle sorgenti nello schema finale
+      \item schema matching si definiscono delle regole di investigazione su come 
+      effettuare il matchin (capire se ci si basa solo sul nome dell'attributo o 
+      anche sul valore dell'attributo) (si specificano regole di investigazione)
+      \item schema integration si effettua direttamente l'intgrazione 
+\end{itemize}
+
+Le metodologie per effettuare le integrazioni sono differenti, per esempio possiamo 
+avere due metodi:
+\begin{itemize}
+      \item binario: si considerano le sorgenti a due a due ricorsivamente
+      \item n-ario: si uniscono più scorgenti alla volta.
+\end{itemize}
+
+Uno dei problemi che si possono avere è una frammentazione differente tra le
+sorgenti.
+
+Possiamo avere duplicati oppure possiamo avere conflitti tra istanze:
+\begin{itemize}
+      \item conflitto di chiave: due record uguali che hanno chiavi differenti.
+      Per risolvere questi problemi o sfruttiamo le conoscienze del dominio.
+      \item conflitto di attributi: devo decidere a priori se considerare il valore 
+      di una tabella o l'altra in base alla conoscenza del dominio, perché magari 
+      è più corretto rispetto all'altra. 
+\end{itemize}
+Ricorda che nessuna scelta è sbagliata, il problema è che bisogna documentarla e 
+rimanere coerenti. A Design time si sceglie la politica mentre a run time si esegue.
+Per entrambi i conflitti possiamo usare delle funzioni di risoluzione dei conflitti.
+
+Successivamente una volta integrato dobbiamo occuparci di rimuovere i duplicati,
+prima dobbiamo riconoscerli, ci possono essere duplicati non palesi dovuti da errori 
+di scrittura. Perciò spesso si sfrutta la conoscienza del dominio. Per rimuovere i 
+dublicati alla fine si fondono due righe.
+
+Per confrontare le righe ci possono essere diversi metodi:
+\begin{itemize}
+      \item probabilistici: si normalizzano i formati degli attributi (si portano a 
+      formati standard), si suffividono i record in blocchi (confronto i record 
+      per blocchi, questo mi permette di ordinare il blocco per qualche attributo
+      molto discriminante), si confrontano mediante delle funzioeni, si confrontano 
+      i più vicini nella realtà (questo può essere risolto in ML, tramite un classificatore 
+      o un clustering)\dots
+      \item 
+\end{itemize}
+
+
+
+\section{Data Enrichment}
+Significa avere una sorgente di dati e voglio arricchirla con alcuni dati presenti 
+in una seconda sorgente. Nel data integration  avremo che una riga metcha con una 
+sola riga nella seconda sorgente. In questo caso possono avere che una riga metcha 
+con più righe della seconda tabella.
+
+\section{Feature engineering}
+Insieme di operazioni per aggiungere nuove feature o rimuovere righe, modificarle 
+etc. Si dividono
+in:
+\begin{itemize}
+      \item target transformation: trasformiamo un'etichetta da $0-1$ a etichetta o viceversa.
+      In base a come cambiamo il target otteniamo risultati differenti.
+      \item feature enconding: trasformare un attributo in più attributi (spesso usato per i categorici)
+      \item feature extraction: estrazione di feature dai dati raw.
+\end{itemize}
