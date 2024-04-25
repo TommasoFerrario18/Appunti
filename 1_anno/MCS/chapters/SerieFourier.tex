@@ -1,0 +1,486 @@
+\chapter{Serie di Fourier}
+\section{Serie di Fourier nel continuo}
+Le serie di Fourier si basano sulle \textbf{funzioni perioche}, ovvero funzioni che
+si ripetono ad intervalli regolari.
+\begin{definizione}[\textbf{Funzione periodica}]
+    Una funzione $f:\mathbb{R}\to \mathbb{R}$ si dice \textbf{periodica} se
+    $\forall x\in \mathbb{R}, \exists T \in \mathbb{R}$ tale che:
+    \begin{equation}
+        f(x+n \cdot T) = f(x) \quad \forall n \in \mathbb{Z} \text{ e } \forall x \in \mathbb{R}
+    \end{equation}
+\end{definizione}
+\begin{proposizione}
+    Se una funzione periodica di periodo $p$ è notata in un generico intervallo
+    di ampiezza $p$ allora è nota ovunque.
+\end{proposizione}
+Il risultato precedente sarà estremamente utile. Infatti, ci permette di ricondurre
+lo studio/analisi di una funzione periodica di periodo $p$ solamente nell'intervallo
+$[0, p]$.
+\begin{proposizione}
+    L'integrale su un intervallo di ampiezza $p$ di una funzione periodica $f$
+    di periodo $p$ non dipende dagli estremi di integrazione.
+    \begin{equation}
+        \int_{a}^{a + p}f(t)dt = \int_{b}^{b + p}f(t)dt \quad \forall a,b
+    \end{equation}
+    \begin{proof}
+        Significa dimostrare la seguente uguaglianza:
+        \begin{equation*}
+            \int_{a}^{a + p}f(t)dt = \int_{0}^{p}f(t)dt
+        \end{equation*}
+        Per le proprietà degli integrali sappiamo che:
+        \begin{equation*}
+            \int_{a}^{a+p}f(t)dt =  \int_{a}^{p}f(t)dt + \int_{p}^{a+p}f(t)dt =
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{p}^{a+p}f(t)dt
+        \end{equation*}
+        Utilizzando il metodo di sostituzione, introduciamo $s = t - p$, di conseguenza
+        $t= p \iff s=0$ e $t = p + a \iff s = a$. Per concludere la sostituzione
+        dobbiamo aggiornare i differenziali e gli estremi di integrazione.
+        Per i differenziali avremo $ds = dt$ perché $\frac{\partial s}{\partial s} = 1$
+        e $\frac{\partial t-p}{\partial t} = 1$.
+
+        Quindi gli integrali diventano
+        \begin{equation*}
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{p}^{a+p}f(t)dt =
+            \int_{a}^{0}f(t)dt +\int_{0}^{p}f(t)dt+ \int_{0}^{a}f(s)ds =
+        \end{equation*}
+
+        Ma essendo $f$ periodica di periodo $p$, sapendo che $s = t + p$ e $p$ è
+        il periodo allora $f(s) = f(t)$, quindi $\int_{0}^{a}f(s)ds = \int_{0}^{a}f(t)dt$,
+        perciò:
+        \begin{equation*}
+            \begin{aligned}
+                \int_{a}^{0}f(t)dt + \int_{0}^{p}f(t)dt + \int_{0}^{a}f(s)ds =
+                \int_{a}^{0}f(t)dt + \int_{0}^{p}f(t)dt + \int_{0}^{a}f(t)dt = \\
+                -\int_{0}^{a}f(t)dt + \int_{0}^{a}f(t)dt + \int_{0}^{p}f(t)dt =
+                \int_{0}^{p}f(t)dt
+            \end{aligned}
+        \end{equation*}
+    \end{proof}
+\end{proposizione}
+\begin{nota}
+    Nei computer, la rappresentazione di un integrale viene approssimata nel
+    seguente modo:
+    \begin{equation*}
+        \int_{0}^{p}f(t)dt \approx \sum_{i=1}^{x_n}\omega_i f(t_i)
+    \end{equation*}
+\end{nota}
+Il nostro obiettivo è quello di modificare una funzione periodica in modo da
+rendere più gestibile la periodicità. Consideriamo una funzione periodica di
+di periodo $t$ e la vogliamo trasformare in una funzione periodica di un generico
+periodo $p$.
+
+Per ottenere questo risultato possiamo modificare l'argomento della funzione
+periodica nel seguente modo:
+\begin{equation}
+    f(t) = f\left(\frac{t}{p}\right)
+\end{equation}
+Così facendo, se $p < t$ allora stiamo accorciando il periodo della funzione. Al
+contrario, se $p > t$ stiamo allungando il periodo della funzione.
+\begin{proof}
+    Per dimostrarlo possiamo prendere una funzione periodica generica $f$ di
+    periodo $t$ e posso testare che $f(x) = f\left( n \cdot \frac{t}{p} + x\right)$
+    sia periodica di periodo $p$, ovvero che $f(x + np) = f(x) \iff
+        f\left(\frac{t}{p}x + np\right) = f(\frac{t}{p}x)$.
+
+    \begin{equation*}
+        f\left(x + n \cdot p\right) = f\left(\frac{t}{p}\cdot (x + np)\right) =
+        f\left(\frac{tx}{p} + \frac{tnp}{p}\right) = f\left(\frac{tx}{p} + nt\right)
+        = f\left(\frac{tx}{p}\right) = f'(x)
+    \end{equation*}
+    perché $f$ è periodica di periodo $t$.
+\end{proof}
+
+Utilizzeremo per lo più le seguenti funzioni $\sin\left(\frac{2\pi k}{p}t\right)$
+e $\cos \left(\frac{2\pi k}{p}t\right)$. Dove $k$ è un intero positivo che permette
+di alterare la frequenza della funzione.
+\begin{proposizione}\label{prop:integrali_sinusoidi}
+    Per ogni $k \geq 1$ vale il seguente integrale:
+    \begin{equation*}
+        \int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt =
+        \int_{0}^{p}\cos \left(\frac{2\pi k}{p}t\right) dt = 0
+    \end{equation*}
+    \begin{proof}
+        Possiamo risolvere i singoli integrali, per esempio con la sostituzione
+        introduciamo la variabile $s= \frac{2\pi k}{p}t$ quindi $\frac{p}{2\pi k}ds =dt$
+        allora:
+        \begin{equation*}
+            \int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt =
+            \int_{0}^{2k\pi}\sin \left(s\right)\frac{p}{2\pi k}ds =
+            \frac{p}{2\pi k} \int_{0}^{2k\pi}\sin \left(s\right)ds =
+            \frac{p}{2\pi k} \left[-cos(s)\right]_0^{2k\pi} = 0
+        \end{equation*}
+        Lo stesso ragionamento può essere applicato al coseno.
+    \end{proof}
+\end{proposizione}
+\begin{proposizione}
+    Presa una qualsiasi coppia di valori interi $l, k > 0$ vale il seguente integrale:
+    \begin{equation}
+        \int_{0}^{p}\sin\left(\frac{2\pi l}{p}t\right) \cdot \cos\left(\frac{2\pi k}{p}t\right) dt = 0
+    \end{equation}
+    \begin{proof}
+        Risolviamolo con la sostituzione $s= \frac{2\pi t}{p}$ quindi $ds = \frac{p}{2\pi}dt$.
+        \begin{equation*}
+            \int_{0}^{p}\sin\left(\frac{2\pi l}{p}t\right)\cdot \cos\left(\frac{2\pi k}{p}t\right) dt =
+            \int_{0}^{2\pi}\sin\left(ls\right)\cdot \cos\left(ks\right)\frac{p}{2\pi} ds =
+            \frac{p}{2\pi}\int_{0}^{2\pi}\sin\left(ls\right)\cdot \cos\left(ks\right) ds
+        \end{equation*}
+        Utilizzando la relazione $\frac{1}{2}\left(\sin(\alpha +\beta) +
+            \sin(\alpha-\beta)\right) = \sin\left(\alpha\right)\cos\left(\beta\right)$
+        possiamo dire:
+        \begin{equation*}
+            \begin{aligned}
+                \frac{p}{2\pi}\int_{0}^{2\pi}\sin\left(ls\right)\cdot \cos\left(ks\right) ds =
+                \frac{p}{2\pi}\frac{1}{2}\int_{0}^{2\pi}\sin\left((l+k)s\right)+ \sin\left((l-k)s\right) ds= \\
+                =\frac{p}{4\pi}\left(\int_{0}^{2\pi}\sin\left((l+k)s\right)ds + \int_{0}^{2\pi}\sin\left((l-k)s\right) ds\right)=0
+            \end{aligned}
+        \end{equation*}
+        Si annullano perché coincide con l'integrale della nota precedente.
+    \end{proof}
+\end{proposizione}
+\begin{proposizione}
+    Presa una qualsiasi coppia di valori interi $l, k > 0$ vale il seguente integrale:
+    \begin{equation*}
+        \int_{0}^{p}\cos\left(\frac{2\pi l}{p}t\right) \cdot
+        \cos\left(\frac{2\pi k}{p}t\right) dt = \begin{cases}
+            \frac{p}{2} & k=l      \\
+            0           & k \neq l \\
+        \end{cases}
+    \end{equation*}
+    l'integrale tra il prodotto dei coseni con frequenza diversa allora il risultato
+    è nullo.
+    \begin{proof}
+        Per dimostralo usiamo sempre la sostituzione $s=\frac{2\pi}{p}dt$ e $\frac{p}{2\pi}ds = dt$.
+        Sostituendo otteniamo:
+        \begin{equation*}
+            \frac{p}{2\pi}\int_{0}^{2\pi} \cos(ks) \cdot \cos(ls) ds
+        \end{equation*}
+        Utilizzando un procedimento simile a quello di prima, possiamo scrivere:
+        \begin{equation*}
+            \frac{1}{2} (\cos(\alpha + \beta) + \cos(\alpha - \beta)) = \cos(\alpha)\cos(\beta)
+        \end{equation*}
+        Quindi:
+        \begin{equation*}
+            \frac{p}{2\pi}\int_{0}^{2\pi} \cos(ks) \cdot \cos(ls) ds =
+            =\frac{p}{2\pi}\int_{0}^{2\pi} \frac{1}{2}\cos((k+l)s) +\cos((k-l)s) ds =
+            \frac{p}{4\pi}\int_{0}^{2\pi}\cos((k+l)s) +\cos((k-l)s) ds
+        \end{equation*}
+        Per il caso $k \neq l$ allora otteniamo l'integrale della proposizione
+        \ref{prop:integrali_sinusoidi} e quindi è uguale a $0$.
+        Se $k = l$ allora $\int_{0}^{2\pi} \cos(2k s) ds = 0$ mentre
+        $\int_{0}^{2\pi}cos(0s)ds = s|_{0}^{2\pi} = 2\pi$ il quale deve essere
+        moltiplicato per $\frac{p}{4\pi}$ che era il coefficiente davanti all'integrale.
+
+        Quindi se $k=l$ allora l'integrale vale $\frac{p}{2}$.
+    \end{proof}
+\end{proposizione}
+Per il caso $\sin \cdot \sin$ si ottiene un risultato analogo al caso $\cos \cdot \cos$
+modificando solamente la seguente relazione:
+\begin{equation*}
+    \frac{1}{2} (\cos(\alpha + \beta) + \cos(\alpha - \beta)) = \cos(\alpha)\cos(\beta) \to
+    \frac{1}{2} (\cos(\alpha - \beta) - \cos(\alpha + \beta)) = \sin(\alpha)\sin(\beta)
+\end{equation*}
+
+La stessa dimostrazione si può effettuare per il caso $\sin \cdot \sin$
+\begin{equation}
+    \int_{0}^{p}\sin \left(\frac{2\pi}{p} kt\right) \sin \left(\frac{2\pi}{p} lt
+    \right) dt = \begin{cases}
+        \frac{p}{2} & l = k      \\
+        0           & altrimenti
+    \end{cases}
+\end{equation}
+
+L'idea alla basa della serie di Fourier è quella di scrivere una generica funzione
+periodica $f:\mathbb{R}\to \mathbb{R}$ di periodo $p$ in una combinazione di $\sin$
+e $\cos$.
+\begin{definizione}[\textbf{Serie di Fourier}]
+    Sia $f:\mathbb{R}\to \mathbb{R}$ una funzione periodica di periodo $p$.
+    \begin{equation}
+        f(t) = a_0 + \sum_{k=1}^{\infty} \left[a_k \cos (\frac{2\pi}{p}kt) +
+            \beta_k \sin(\frac{2\pi}{p} kt)\right]
+    \end{equation}
+\end{definizione}
+
+L'uguaglianza precedente è lecita perché specifica che una funzione periodica di
+periodo $p$ può essere riscritta come combinazioni lineari di funzioni periodiche,
+anche esse di periodo $p$. Importante è anche la limitazione della sommatoria a
+$\infty$ perché significa una funzione è combinazione lineare di \textbf{tutte}
+le funzioni periodiche.
+
+All'atto pratico la sommatoria infinita è impossibile da calcolare, quindi si
+approssima la funzione ad un $N$ molto grande.
+
+In aggiunta si può notare che i coefficienti $a_0, a_1, \dots$ partono dall'indice
+$0$ mentre $b_1,b_2,\dots$ partono dall'indice $1$. Questo è dato dal fatto che
+quando $k = 0$ si ha:
+\begin{equation*}
+    a_0\cos (\frac{2\pi}{p}0t) +\beta_0\sin(\frac{2\pi}{p}0t) = a_0\cdot 1 + b_0
+    \cdot 0 = a_0
+\end{equation*}
+
+Per utilizzare questa approssimazione mediante la serie, dobbiamo calcolare
+facilmente e velocemente i coefficienti $a_i,b_i$.
+
+Calcoliamo per prima cosa $a_0$, per ipotesi sappiamo che l'uguaglianza che esprime
+la serie di Fourier è valida, allora anche gli integrali delle due parti saranno
+uguali.
+\begin{equation*}
+    \int_{0}^{p}f(t) dt=\int_{0}^{p} a_0 + \sum_{k=1}^{\infty}\left[a_k\cos
+        (\frac{2\pi}{p}kt) +\beta_k\sin(\frac{2\pi}{p}kt)\right]dt
+\end{equation*}
+Applicando le proprietà degli integrali si ottiene:
+\begin{equation*}
+    \int_{0}^{p}f(t) dt=a_0\int_{0}^{p} 1dt + \sum_{k=1}^{\infty}\left[a_k
+        \int_{0}^{p}\cos (\frac{2\pi}{p}kt)dk +\beta_k\int_{0}^{p}\sin(
+        \frac{2\pi}{p}kt)dt\right]
+\end{equation*}
+Grazie alle dimostrazioni effettuate precedentemente sappiamo che:
+\begin{equation*}
+    \int_{0}^{p}\sin \left(\frac{2\pi k}{p}t\right) dt =
+    \int_{0}^{p}\cos \left(\frac{2\pi k}{p}t\right) dt = 0
+\end{equation*}
+di conseguenza abbiamo che gli integrali presenti nella sommatoria si annullano,
+otteniamo quindi:
+\begin{equation*}
+    \int_{0}^{p}f(t) dt = a_0\int_{0}^{p} 1dt  = a_0p\implies a_0 = \frac{1}{p}
+    \int_{0}^{p}f(t) dt
+\end{equation*}
+Questa espressione si può calcolare perché $f$ è sempre nota.
+\begin{nota}
+    La seguente espressione è chiamata anche media integrale nell'intervallo $[0,p]$.
+    \begin{equation*}
+        a_0 = \frac{1}{p}\int_{0}^{p}f(t) dt
+    \end{equation*}
+\end{nota}
+Per calcolare i coefficienti $a_k$ possiamo moltiplicare entrambe le parti
+dell'uguaglianza per $\cos\left(\frac{2\pi}{p}kt\right)$ e successivamente
+integrare. In questo modo otteniamo:
+\begin{equation*}
+    \begin{aligned}
+        \int_{0}^{p}f(t) \cdot \cos\left(\frac{2\pi}{p}kt\right) dt = \\ a_0\int_{0}^{p}
+        \cos\left(\frac{2\pi}{p}kt\right) dt + \sum_{j=1}^{\infty}\left[a_j\int_{0}^{p}
+            \cos \left(\frac{2\pi}{p}jt\right) \cos\left(\frac{2\pi}{p}kt\right)dk +
+            \beta_j\int_{0}^{p}\sin\left(\frac{2\pi}{p}jt\right)\cos\left(\frac{2\pi}{p}kt\right)dt\right]
+    \end{aligned}
+\end{equation*}
+Sfruttando le proposizioni definite in precedenza possiamo affermare che:
+\begin{equation*}
+    \begin{array}{c}
+        a_0\int_{0}^{p}\cos \left(\frac{2\pi}{p}kt\right)dt = 0 \\
+        \beta_j\int_{0}^{p}\sin\left(\frac{2\pi}{p}jt\right)\cos \left(\frac{2\pi}{p}kt\right)dt=0
+    \end{array}
+\end{equation*}
+perciò, otteniamo:
+\begin{equation*}
+    \int_{0}^{p}f(t)\cos \left(\frac{2\pi}{p}kt\right) dt = \sum_{j=1}^{\infty}
+    \left[a_j\int_{0}^{p}\cos \left(\frac{2\pi}{p}jt\right)\cos \left(
+        \frac{2\pi}{p}kt\right)dk \right]
+\end{equation*}
+Per le proposizioni che abbiamo in precedenza, sappiamo che l'integrale del prodotto
+di due coseni con frequenza diversa è nullo. Quindi rimane solamente il caso in
+cui le frequenze sono uguali, ovvero $j=k$. Questo cui permette di ottenere:
+\begin{equation*}
+    \int_{0}^{p}f(t)\cos \left(\frac{2\pi}{p}kt\right) dt = a_k\int_{0}^{p}\cos
+    \left(\frac{2\pi}{p}kt\right)\cos \left(\frac{2\pi}{p}kt\right)dk = a_k \frac{p}{2}
+    \iff a_k =\frac{2}{p}  \int_{0}^{p}f(t)\cos \left(\frac{2\pi}{p}kt\right) dt
+\end{equation*}
+Il conto di $a_k$ è indipendente dagli altri valori di $a_j$ e quindi può essere
+calcolato indipendentemente dagli altri coefficienti.
+
+Successivamente dobbiamo calcolare i coefficienti $b_k$, la metodologia è la stessa
+degli $a_k$ solo che in questo caso la funzione per cui moltiplichiamo entrambi
+i membri è:
+\begin{equation*}
+    \sin\left(\frac{2\pi}{p}kt\right)
+\end{equation*}
+\begin{equation*}
+    \begin{array}{l}
+        \int_{0}^{p}f(t)\sin\left(\frac{2\pi}{p}kt\right) dt = \\
+        = a_0 \int_{0}^{p} \sin\left(\frac{2\pi}{p}kt\right) dt + \sum_{j=1}^{\infty}
+        \left[a_j\int_{0}^{p}\cos \left(\frac{2\pi}{p}jt\right)\sin\left(\frac{2\pi}{p}kt\right)dk
+            + \beta_j \int_{0}^{p}\sin\left(\frac{2\pi}{p}jt\right)\sin\left(\frac{2\pi}{p}kt
+            \right)dt\right]
+    \end{array}
+\end{equation*}
+Grazie alle proposizioni definite in precedenza possiamo affermare che:
+\begin{equation*}
+    \begin{array}{c}
+        a_0\int_{0}^{p}\sin \left(\frac{2\pi}{p}kt\right)dt = 0 \\
+        a_j\int_{0}^{p}\cos\left(\frac{2\pi}{p}jt\right)\sin \left(\frac{2\pi}{p}kt\right)dt=0
+    \end{array}
+\end{equation*}
+perciò, otteniamo:
+\begin{equation*}
+    \int_{0}^{p}f(t)\sin \left(\frac{2\pi}{p}kt\right) dt = \sum_{j=1}^{\infty}
+    \left[\beta_j\int_{0}^{p}\sin \left(\frac{2\pi}{p}jt\right)\sin \left(
+        \frac{2\pi}{p}kt\right)dk \right]
+\end{equation*}
+Per le proposizioni che abbiamo in precedenza, sappiamo che l'integrale del prodotto
+di due seni con frequenza diversa è nullo. Quindi rimane solamente il caso in
+cui le frequenze sono uguali, ovvero $j=k$. Questo cui permette di ottenere:
+\begin{equation*}
+    \int_{0}^{p}f(t)\sin \left(\frac{2\pi}{p}kt\right) dt = \beta_k\int_{0}^{p}\sin
+    \left(\frac{2\pi}{p}kt\right)\sin \left(\frac{2\pi}{p}kt\right)dk = \beta_k \frac{p}{2}
+    \iff \beta_k =\frac{2}{p}  \int_{0}^{p}f(t)\sin \left(\frac{2\pi}{p}kt\right) dt
+\end{equation*}
+
+\begin{definizione}[\textbf{Funzione pari}]
+    Una funzione $f:\mathbb{R}\to \mathbb{R}$ si dice \textbf{pari} se:
+    \begin{equation}
+        f(t) = f(-t) \quad \forall t \in \mathbb{R}
+    \end{equation}
+\end{definizione}
+\begin{definizione}[\textbf{Funzione dispari}]
+    Una funzione $f:\mathbb{R}\to \mathbb{R}$ si dice \textbf{dispari} se:
+    \begin{equation}
+        f(t) = -f(-t) \quad \forall t \in \mathbb{R}
+    \end{equation}
+\end{definizione}
+Sapendo che la funzione $\sin$ è dispari e la funzione $\cos$ è pari, possiamo
+dire che se $f$ è pari allora i coefficienti $\beta_i = 0$ mentre se $f$ è dispari
+allora i coefficienti $a_i = 0$.
+\begin{proposizione}
+    Prese due funzioni $f,g:\mathbb{R}\to \mathbb{R}$ tali per cui $f$ è pari e
+    $g$ è dispari allora $h(x)=f(x)g(x)$ è dispari
+    \begin{proof}
+        Se $f(x)$ è pari se e solo se $f(x) = f(-x),\forall x\in \mathbb{R}$.
+        Se $g(x)$ è dispari se e solo se $g(x) = -g(-x),\forall x\in \mathbb{R}$.
+        Quindi per dimostrare $h(x)$ dispari allora possiamo partire dalla definizione.
+        \begin{equation*}
+            h(x) = f(x)g(x) = f(-x) (-g(-x)) = - f(-x)g(-x) = -h(-x)
+        \end{equation*}
+        Quindi abbiamo dimostrato che $h$ è dispari.
+    \end{proof}
+\end{proposizione}
+Ricorda che la periodicità delle funzioni viene mantenuta.
+\begin{proposizione}
+    Presa una funzione $f:\mathbb{R}\to \mathbb{R}$ dispari e un intervallo simmetrico
+    rispetto all'origine $[-a,a]$ con $a>0$ allora:
+    \begin{equation}
+        \int_{-a}^{a} f(x)dx = 0
+    \end{equation}
+    \begin{proof}
+        Per dimostrare questa proposizione ci basiamo sul fatto che:
+        \begin{equation*}
+            \int_{-a}^{a} f(x)dx = \int_{-a}^{0} f(x)dx + \int_{0}^{a} f(x)dx =
+            -\int_{0}^{-a} f(x) dx+ \int_{0}^{a} f(x)dx
+        \end{equation*}
+        Dato che $f$ è dispari allora $ \int_{0}^{-a} f(x) = \int_{0}^{a} f(x)$
+        e quindi:
+        \begin{equation*}
+            -\int_{0}^{a} f(x) dx + \int_{0}^{a} f(x) dx = 0
+        \end{equation*}
+    \end{proof}
+\end{proposizione}
+Sfruttando i risultati delle due proposizioni appena presentate, possiamo dire che
+se $f$ è una funzione dispari possiamo verificare che $a_k = 0, \, \forall k \ge 0$.
+\begin{equation*}
+    a_k = \int_{0}^{p} f(t) \cos\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} f(t) \cos\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} H(x) dx = 0
+\end{equation*}
+sapendo che $H(x)$ è dispari in quanto sto moltiplicando una funzione pari con una
+funzione dispari. Nel caso specifico di $a_0$ ho che:
+\begin{equation*}
+    a_0 =\frac{1}{p} \int_{0}^{p}f(x)dx = \frac{1}{p} \int_{-\frac{p}{2}}^{\frac{p}{2}}f(x)dx = 0
+\end{equation*}
+In modo analogo si procede nel caso in cui $f$ è pari:
+\begin{equation*}
+    b_k = \int_{0}^{p} f(t) \sin\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} f(t) \sin\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} G(x) dx = 0
+\end{equation*}
+sapendo che $G(x)$ è dispari in quanto sto moltiplicando una funzione pari con una
+funzione dispari.
+\begin{nota}
+    Posso cambiare l'intervallo di integrazione e passare da $[0,p]$ a $[-\frac{p}{2},\frac{p}{2}]$
+    in quanto le funzioni sono periodiche di periodo $p$.
+\end{nota}
+
+Riassumendo, per calcolare la trasformata di Fourier $f(x)$ allora ci serve:
+\begin{itemize}
+    \item Essere certi che $f(x)$ sia periodica.
+    \item Dobbiamo calcolare $\alpha_k$ e $\beta_k$, quindi devono esistere
+          ed essere finiti i seguenti integrali.
+          \begin{equation*}
+              a_k = \frac{2}{p}\int_{0}^{p}f(x)\cos\left(\frac{2\pi k}{p}x\right)
+              dx \quad \beta_k=\frac{2}{p}\int_{0}^{p}f(x)\sin\left(\frac{2\pi k}{p}x\right)dx
+          \end{equation*}
+          dal momento che $\cos$ e $\sin$ sono sempre integrabili allora i vincoli
+          sono solo su $f$.
+\end{itemize}
+\begin{nota}
+    Possiamo rappresentare la trasformata di Fourier per quelle funzioni che hanno
+    un numero finito di discontinuità di tipo salto.
+\end{nota}
+
+La convergenza della serie di Fourier dipende dalla regolarità delle funzioni $f$,
+infatti se ci sono delle discontinuità di tipo salto allora si hanno delle
+convergenze meno precise. Si hanno i fenomeni di \textbf{Gibbs} ovvero si hanno andamenti.
+Per risolvere questo problema possiamo introdurre nella sommatoria delle funzioni
+che avranno gli stessi punti di discontinuità negli stessi valori.
+
+\begin{teorema}[\textbf{Convergenza della serie di Fourier}]
+    Sia $f:\mathbb{R}\to \mathbb{R}$ periodica, assumiamo che $f$ sia $C^1$ (continua
+    nella prima derivata) a tratti allora se $f$ è continua in $t \in \mathbb{R}$
+    la serie $f_N$ converge a $f(t)$, altrimenti se non è continua allora $f_N$
+    converge a:
+    \begin{equation*}
+        \frac{\lim_{x\to t^-}f(x) +\lim_{x\to t^+}f(x)}{2}
+    \end{equation*}
+\end{teorema}
+La serie converge alla media dei due limiti se $f$ non è continua, però prima e
+dopo si ha fenomeni di Gibbs, però più incrementiamo il valore di $N$ maggiore
+sarà la traslazione del movimento verso il punto di discontinuità.
+
+Più precisamente la convergenza della serie dipende da come è fatta $f$:
+\begin{itemize}
+    \item Se $f$ è regolare la serie converge.
+    \item Se $f$ presenta una discontinuità sulla derivata prima, allora nel
+          punto in cui è presente tale discontinuità la convergenza sarà lenta.
+    \item Se $f$ ha un punto di discontinuità di tipo salto, allora la serie
+          converge alla media dei limiti nel punto con la conseguente presenza
+          del fenomeno di GIBBS.
+\end{itemize}
+\subsection{Serie di Fourier per funzioni non periodiche}
+Per ora abbiamo visto solo l'utilizzo della serie di Fourier per il caso di funzioni
+$f$ periodiche di periodo $p$ e analizzandole nell'intervallo $[0,p]$. In realtà
+possiamo generalizzare il ragionamento fatto finora per estendere la serie di Fourier
+a una generica funzione $g(x)$ in un generico intervallo $[a,b]$.
+
+Facendo opportuni cambi di variabili, anziché considerare un generico intervallo
+$[a, b]$, si può sempre pensare che la funzione $f$ sia definita nell'intervallo
+$[0, p]$. Questo può essere fatto utilizzando la seguente trasformazione:
+\begin{equation}
+    x = \frac{b - a}{p} x' + a \quad x' \in [0, p] \implies x \in [a, b]
+\end{equation}
+
+In questo modo si riesce a portare la funzione nell'intervallo canonico definendo:
+\begin{equation*}
+    \stackrel{\sim}{g}(x) = g\left(\frac{b-a}{p}x'+a\right), \quad \forall x' \in [a,b], x \in [0,p]
+\end{equation*}
+Si apre ora la questione di come creare una funzione periodica a partire da questa
+funzione $\stackrel{\sim}{g}(x)$ definita nell'intervallo $[0, p]$. Un primo
+tentativo potrebbe essere quello di periodizzarla per ripetizione. 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/Serie/ripetizione.png}
+    \caption{Periodizzazione della funzione $\stackrel{\sim}{g}(x)$}
+    \label{fig:ripetizione}
+\end{figure}
+
+Agendo in questo modo abbiamo creato delle discontinuità sulla funzione. Di conseguenza
+l'approssimazione data dalle serie di Fourier sarà soggetta al fenomeno di Gibbs.
+
+In realtà $\stackrel{\sim}{g}(x)$ in un modo più intelligente risolvendo eventuali
+discontinuità di salto, ovvero presa $\stackrel{\sim}{g}(x)$, la si porta in $[0,p]$,
+si specchia la funzione rispetto l'asse delle $y$ e poi replichiamo la funzione
+infinite volte, ottenendo una funzione periodica di periodo $2p$.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/Serie/specchio.png}
+    \caption{Periodizzazione della funzione $\stackrel{\sim}{g}(x)$}
+    \label{fig:specchio}
+\end{figure}
+
+Utilizzando quest'ultimo la trasformazione di Fourier si chiamerà \textbf{cosine trasformation},
+perché $\stackrel{\sim}{g}(x)$ sarà pari e quindi avrà solo i coefficienti del coseno.

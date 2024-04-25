@@ -142,8 +142,12 @@ sarà costante.
 
 Questo comportamento può essere modellato usando il \textbf{social force model}
 con una forza aggiuntiva che modella la formazione di gruppi.
-
-% TODO: immagine gruppi (ex: Line-ABreast, V-like, River-like nei gruppi da 3).
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./img/modelli/trepersone.png}
+    \caption{Social force model.}
+    \label{fig:social_force_model}
+\end{figure}
 
 Esistono anche modelli più complessi che non si limitano a gruppi piccoli, in realtà
 la moda dei gruppi è spesso $3$. % ! Non mi ricordo la parte sul fatto che la moda sia 3
@@ -201,10 +205,10 @@ L'aggiornamento degli agenti si può effettuare:
 L'approccio basato sugli automi cellulari porta ad dei limiti, come le traiettorie
 zig-zag, in aggiunta dobbiamo simulare anche la velocità. Questo lo possiamo fare
 in base alla frequenza di aggiornamento, dimensione della cella e ottenere la
-velocità corrispondente nel mondo reale. 
+velocità corrispondente nel mondo reale.
 
-Se abbiamo velocità diverse (eterogenee) possiamo tranquillamente modificare quante 
-volte si muovono per turno, il problema è che ci potrebbe essere il problema di 
+Se abbiamo velocità diverse (eterogenee) possiamo tranquillamente modificare quante
+volte si muovono per turno, il problema è che ci potrebbe essere il problema di
 traiettorie che si intrecciano, quindi conflitti e anticiparli non è così banale.
 
 Un'alternativa è considerare la velocità come numero reale tra $0-1$ al posto che
@@ -213,10 +217,165 @@ il numero di celle.
 C'è anche un meccanismo di Reaction Time.
 
 I limiti del modello è che nello spazio possiamo avere corridoi obliqui e quindi
-compiamo degli errori nel modello e si può stimare l'errore. Questo è dovuto 
+compiamo degli errori nel modello e si può stimare l'errore. Questo è dovuto
 all'utilizzo degli automi cellulari che discretizzano con celle.
 
 Se volessimo modellare le scale allora è come se le celle rallentano la velocità
 dell'individuo.
 
 Successivamente si prende il modello e si compara con quanto osservato.
+\section{Modellazione Crowd Management}
+Fino a questo momento abbiamo modellato gli agenti solamente dal punto di vista
+operazionale, ora si vuole modellare anche un livello tattico.
+
+Questo permette di dividere gli agenti in due livelli:
+\begin{itemize}
+    \item \textbf{Livello operazionale}: si occupa di effettuare attività molto
+          semplici tra agenti, come la camminata, interazione tra gli altri e
+          attività da eseguire.
+    \item \textbf{Livello tattico}: si occupa di definire la scelta della strada
+          da intraprendere e/o scegliere ad una strategia.
+\end{itemize}
+
+Questi agenti avranno una componente aggiuntiva rappresentata dalla base di
+conoscenza. Quindi si avrà un ente centrale che fornisce le informazioni su dove
+sono situati gli obiettivi, mentre a livello di agente, si avrà un algoritmo che
+si occupa di scegliere quale target seguire.
+
+Si definiscono quindi delle annotazioni sull'ambiente che permettono all'algoritmo
+di definire i comportamenti.
+
+Nell'ente centrale, sono contenuti una serie di gradienti che permettono di
+definire la direzione verso la quale si deve andare. Questi gradienti sono
+messi a disposizione degli agenti.
+
+Ogni agente ha una base di conoscenza relazionale, un grafo, che si aggiorna
+durante la sua simulazione. Questo grafo permette di definire le relazioni tra
+le regioni dell'ambiente, nello specifico si ha un arco tra due regioni se
+esiste un passaggio tra di esse.
+
+Quando un agente supera il marker che collega due regioni, gli viene fornito
+dall'ente centrale il gradiente della nuova regione. In questo modo, l'agente
+aggiorna la sua base di conoscenza aggiungendo le informazioni del nuovo gradiente
+alla sua mappa relazionale.
+
+I ciclo di vita dell'agente corrisponde a:
+\begin{enumerate}
+    \item \textbf{Costruzione del piano}: avviene quando l'agente nasce nell'ambiente
+          o quando non vale più quello precedente. Ogni agente ha l'obiettivo di
+          raggiungere una regione.
+
+          Questa fase è composta da:
+          \begin{itemize}
+              \item Localizzazione dell'agente nella mappa relazionale.
+              \item Chiede la mappa relazionale all'ambiente.
+              \item Richiesta del gradiente della stanza.
+              \item Capisce quali stanze attraversare.
+              \item Segue il gradiente per raggiungere la stanza adiacente.
+          \end{itemize}
+          Quando arriva al marker che segnala il confine, l'agente riceve dall'ambiente
+          i nuovi gradienti della nuova stanza e ripete il percorso.
+    \item aggiornamento
+    \item \textbf{Attuazione del piano}
+\end{enumerate}
+
+Il primo limite della \textbf{cognitive map} è il fatto che non si hanno delle
+metriche che specificano le distanze tra le regioni e non è semplice specificarle.
+
+Per risolvere questo problema possiamo definire degli alberi di percorso
+(\textbf{path tree}) i quali sono costruiti nel seguente modo:
+\begin{itemize}
+    \item I nodi rappresentano i passaggi.
+    \item Gli archi rappresentano le regioni.
+\end{itemize}
+
+Per costruire l'albero posso partire dall'obiettivo e calcolare tutte le opzioni
+per ritornare alla partenza. In questo modo, posso calcolare le distanze metriche
+numero di celle attraversate che possono essere trasformate in misure di flusso,
+ovvero tempo di percorrenza.
+
+Il problema è che si vuole modellare anche la congestione dei passaggi, per fare
+ciò si utilizzano anche dei layer dinamici, il percorso più corto specifica
+il layer statico, mentre possiamo definire un layer dinamico che misura la congestione.
+
+La misura di congestione può essere fatta contando, ogni $n$ iterazioni, quanti
+agenti sono rimasti fermi. In questo modo si pesa il percorso per il grado di
+congestione.
+
+Successivamente l'agente deve fare una scelta deterministica, ovvero scegliere
+il percorso più veloce basandosi su diversi fattori.
+
+Possiamo annotare sempre le aree con dei requisiti che gli agenti devono soddisfare
+per poter transitare in quella regione, si ha quindi un agente selettivo in
+quanto perché sceglie un'altra strada.
+
+Si può permettere agli agenti di rivalutare il proprio piano ogni qual volta
+si raggiunge un passaggio, questo perché quando al raggiungimento di tale zona
+l'agente ottiene le informazioni di congestione della regione successiva, perciò
+risulta sensato pianificare nuovamente il percorso. Questa operazione può essere
+regolata con un timer e non solo attraverso il raggiungimento dei passaggi tra
+regioni.
+\begin{nota}
+    Se gli agenti non avessero il piano tattico, significa che non pianificano
+    nuovamente i percorsi.
+\end{nota}
+Il modello non rispecchia la realtà, in quanto non si considera il fatto che le
+persone si influenzano a vicenda. Ha quindi senso effettuare una scelta non
+deterministica tra i percorsi da prendere influenzata dai tempi di percorrenza a
+flusso libero. Più precisamente si cerca di dare maggior probabilità alla via
+migliore senza azzerare le altre possibilità.
+
+Per influenzare le scelte in base all'afflusso delle persone si misura la congestione
+in base al numero di persone e le dimensioni dei passaggi.
+
+Per influenzare le scelte in base ai vicini, si introduce un area di influenza
+in cui se uno cambia piano allora fa scattare il cambio del piano anche ai vicini.
+
+I limiti che si riscontrano con questo modello sono:
+\begin{itemize}
+    \item Agenti hanno una mappa dell'ambiente.
+    \item Si ottengono dei risultati a livello complessivo e non a livello di agente.
+    \item Non si conoscono i modi con coi realmente gli agenti esplorano l'ambiente.
+\end{itemize}
+\section{Valutazione dei modelli di simulazione}
+Una volta ottenuto il modello ed effettuate le simulazioni si utilizzano i dati
+ottenuti per confrontarli con quelli del sistema reale. Infatti, la differenza
+tra sviluppare un gioco e fare una simulazione è composta proprio da questi
+ultimi passaggi. Lo scopo delle simulazioni è appunto quello di provare a spiegare
+e/o predire dei comportamenti.
+
+Non esiste una procedera standard per valutare un modello, ma si possono seguire
+delle linee guida come quelle riportate nella figura \ref{fig:valutazione_modello}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./img/modelli/valutazione_modello.png}
+    \caption{Procedura per valutare un modello.}
+    \label{fig:valutazione_modello}
+\end{figure}
+
+Questo procedimento è caratterizzato dalle seguenti fasi:
+\begin{itemize}
+    \item \textbf{Face Validation}: si crea un modello naive che effettua una prima
+          valutazione sulla bontà del modello, si controlla a un livello macroscopico
+          se il modello si comporta come ci si aspetta.
+    \item \textbf{Analisi di sensibilità}: si controllano i parametri del modello,
+          e si effettua uno studio per capire quali parametri sono significativi
+          e quali possono essere rimossi. Si cerca inoltre di capire quali sono
+          i range in cui ogni parametro può variare.
+    \item \textbf{Calibrazione dei parametri}: si cerca di calibrare i parametri
+          del modello per renderlo il più fedele possibile alla realtà.
+    \item \textbf{Validazione statistica}: si effettua una validazione statistica del
+          modello.
+    \item \textbf{Deploy}: si effettua il deploy del modello.
+\end{itemize}
+
+Un modo per valutare il modello è quello di confrontare i dati ottenuti con quelli
+della realtà. Il problema di questo approccio è dovuto al fatto che raccogliere
+dati empirici, per poi confrontarli con il simulatore è sempre un problema,
+infatti si possono introdurre dei bias nelle misurazioni.
+
+Un esempio di bias che può essere introdotto nello studio delle folle è quello
+di utilizzare un gruppo di persone omogeneo al posto di un gruppo eterogeneo.
+
+Mentre la modellazione può essere fatta a livello di agente, la validazione 
+deve essere fatta a livello macroscopico o mesoscopico.
