@@ -77,7 +77,6 @@ periodica nel seguente modo:
 Così facendo, se $p < t$ allora stiamo accorciando il periodo della funzione. Al
 contrario, se $p > t$ stiamo allungando il periodo della funzione.
 \begin{proof}
-    \textbf{NON SONO CONVINTO SIA GIUSTA QUESTA DIMOSTRAZIONE, VALE PER IL SENO}
     Per dimostrarlo possiamo prendere una funzione periodica generica $f$ di
     periodo $t$ e posso testare che $f(x) = f\left( n \cdot \frac{t}{p} + x\right)$
     sia periodica di periodo $p$, ovvero che $f(x + np) = f(x) \iff
@@ -336,114 +335,152 @@ cui le frequenze sono uguali, ovvero $j=k$. Questo cui permette di ottenere:
         f(t) = -f(-t) \quad \forall t \in \mathbb{R}
     \end{equation}
 \end{definizione}
-
-Sapendo che le funzioni $\sin$ e $\cos$ sono la prima pari e la seconda dispari,
-questo intuitivamente significa che se $f$ è pari allora i coefficienti $a_i= 0$
-mentre se $f$ è dispari allora i coefficienti $\beta_i = 0$. 
-
-
-\begin{nota}
-    Prese due funzioni $f,g:\mathbb{R}\to \mathbb{R}$ tali per cui $f$ è pari e 
+Sapendo che la funzione $\sin$ è dispari e la funzione $\cos$ è pari, possiamo
+dire che se $f$ è pari allora i coefficienti $\beta_i = 0$ mentre se $f$ è dispari
+allora i coefficienti $a_i = 0$.
+\begin{proposizione}
+    Prese due funzioni $f,g:\mathbb{R}\to \mathbb{R}$ tali per cui $f$ è pari e
     $g$ è dispari allora $h(x)=f(x)g(x)$ è dispari
     \begin{proof}
-        Se $f(x)$ è pari sse $f(x) = f(-x),\forall x\in \mathbb{R}$.
-        Se $g(x)$ è dispari sse $g(x) = -g(-x),\forall x\in \mathbb{R}$. Quindi 
-        per dimostrare $h(x)$ dispari allora possiamo partire dalla definizione.
-
-        $$h(x) = f(x)g(x) = f(-x) (-g(-x)) = - f(-x)g(-x) = -h(-x)$$
+        Se $f(x)$ è pari se e solo se $f(x) = f(-x),\forall x\in \mathbb{R}$.
+        Se $g(x)$ è dispari se e solo se $g(x) = -g(-x),\forall x\in \mathbb{R}$.
+        Quindi per dimostrare $h(x)$ dispari allora possiamo partire dalla definizione.
+        \begin{equation*}
+            h(x) = f(x)g(x) = f(-x) (-g(-x)) = - f(-x)g(-x) = -h(-x)
+        \end{equation*}
         Quindi abbiamo dimostrato che $h$ è dispari.
     \end{proof}
+\end{proposizione}
+Ricorda che la periodicità delle funzioni viene mantenuta.
+\begin{proposizione}
+    Presa una funzione $f:\mathbb{R}\to \mathbb{R}$ dispari e un intervallo simmetrico
+    rispetto all'origine $[-a,a]$ con $a>0$ allora:
+    \begin{equation}
+        \int_{-a}^{a} f(x)dx = 0
+    \end{equation}
+    \begin{proof}
+        Per dimostrare questa proposizione ci basiamo sul fatto che:
+        \begin{equation*}
+            \int_{-a}^{a} f(x)dx = \int_{-a}^{0} f(x)dx + \int_{0}^{a} f(x)dx =
+            -\int_{0}^{-a} f(x) dx+ \int_{0}^{a} f(x)dx
+        \end{equation*}
+        Dato che $f$ è dispari allora $ \int_{0}^{-a} f(x) = \int_{0}^{a} f(x)$
+        e quindi:
+        \begin{equation*}
+            -\int_{0}^{a} f(x) dx + \int_{0}^{a} f(x) dx = 0
+        \end{equation*}
+    \end{proof}
+\end{proposizione}
+Sfruttando i risultati delle due proposizioni appena presentate, possiamo dire che
+se $f$ è una funzione dispari possiamo verificare che $a_k = 0, \, \forall k \ge 0$.
+\begin{equation*}
+    a_k = \int_{0}^{p} f(t) \cos\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} f(t) \cos\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} H(x) dx = 0
+\end{equation*}
+sapendo che $H(x)$ è dispari in quanto sto moltiplicando una funzione pari con una
+funzione dispari. Nel caso specifico di $a_0$ ho che:
+\begin{equation*}
+    a_0 =\frac{1}{p} \int_{0}^{p}f(x)dx = \frac{1}{p} \int_{-\frac{p}{2}}^{\frac{p}{2}}f(x)dx = 0
+\end{equation*}
+In modo analogo si procede nel caso in cui $f$ è pari:
+\begin{equation*}
+    b_k = \int_{0}^{p} f(t) \sin\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} f(t) \sin\left(\frac{2 \pi}{p} kt\right) dt =
+    \int_{-\frac{p}{2}}^{\frac{p}{2}} G(x) dx = 0
+\end{equation*}
+sapendo che $G(x)$ è dispari in quanto sto moltiplicando una funzione pari con una
+funzione dispari.
+\begin{nota}
+    Posso cambiare l'intervallo di integrazione e passare da $[0,p]$ a $[-\frac{p}{2},\frac{p}{2}]$
+    in quanto le funzioni sono periodiche di periodo $p$.
 \end{nota}
 
-Ricorda che la periodicità delle funzioni viene mantenuta.
-
-\begin{teorema}
-    Presa una funzione $f:\mathbb{R}\to \mathbb{R}$ dispari e un intervallo simmetrico 
-    rispetto all'origine $[-a,a]$ con $a>0$ allora 
-    $$\int_{-a}^{a} f(x)dx = 0$$
-    \begin{proof}
-        abbiamo:
-        $$\int_{-a}^{a} f(x)dx = \int_{-a}^{0} f(x)dx + \int_{0}^{a} f(x)dx = -\int_{0}^{-a} f(x) dx+ \int_{0}^{a} f(x)dx$$
-        Dato che $f$ è dispari allora $ \int_{0}^{-a} f(x) = \int_{0}^{a} f(x)$ e quindi
-        $$-\int_{0}^{-a} f(x) + \int_{0}^{a} f(x) = 0$$
-    \end{proof}
-\end{teorema}
-
-Sia $f$ pari allora per serie di Fourier $\implies\beta_k= 0, \forall k>0 $.
-Infatti 
-$$b_k = \frac{2}{p} \int_{0}^{p}f(x) \sin (\frac{2\pi k}{p}x)dx =\frac{2}{p} \int_{0}^{p}G(x)dx =\frac{2}{p} \int_{-\frac{p}{2}}^{\frac{p}{2}}G(x)dx = 0$$ 
-Perché $f$ e $\sin$ sono periodiche pari quindi il loro prodotto $G$ è pari e da
-quanto detto all'inizio sugli integrali tra funzioni periodiche e in base a quanto 
-detto sugli integrali in un intervallo simmetrico di $\frac{p}{2}>0$ allora 
-$$\frac{2}{p} \int_{-\frac{p}{2}}^{\frac{p}{2}}G(x)dx = 0$$
-
-Con lo stesso ragionamento si può dire la stessa cosa per il seguente caso,
-sia $f(x)$ dispari $\implies a_k=0,\forall k\ge 0$ allora
-
-$$a_k = \frac{2}{p} \int_{0}^{p}f(x) \cos (\frac{2\pi k}{p}x)dx =\frac{2}{p} \int_{0}^{p}H(x)dx =\frac{2}{p} \int_{-\frac{p}{2}}^{\frac{p}{2}}H(x)dx = 0$$ 
-In questo caso $H$ sarà pari.
-
-Nel caso specifico di $a_0$ ho che 
-$$a_0 =\frac{1}{p} \int_{0}^{p}f(x)dx =   \frac{1}{p} \int_{-\frac{p}{2}}^{\frac{p}{2}}f(x)dx = 0$$
-
-Per calcolare la trasformata di Fourier $f(x)$ allora ci serve:
+Riassumendo, per calcolare la trasformata di Fourier $f(x)$ allora ci serve:
 \begin{itemize}
-    \item essere certi che $f(x)$ sia periodica
-    \item dobbiamo calcolare $a_k,\beta_k$, quindi devono esistere 
-    ed essere finiti i seguenti integrali.
-    $$a_k = \frac{2}{p}\int_{0}^{p}f(x)\cos(\frac{2\pi k}{p}x)dx \quad \beta_k=\frac{2}{p}\int_{0}^{p}f(x)\sin(\frac{2\pi k}{p}x)dx$$
-    dal momento che $\cos$ e $\sin$ sono sempre integrabilili allora 
-    i vincoli sono solo su $f$.
+    \item Essere certi che $f(x)$ sia periodica.
+    \item Dobbiamo calcolare $\alpha_k$ e $\beta_k$, quindi devono esistere
+          ed essere finiti i seguenti integrali.
+          \begin{equation*}
+              a_k = \frac{2}{p}\int_{0}^{p}f(x)\cos\left(\frac{2\pi k}{p}x\right)
+              dx \quad \beta_k=\frac{2}{p}\int_{0}^{p}f(x)\sin\left(\frac{2\pi k}{p}x\right)dx
+          \end{equation*}
+          dal momento che $\cos$ e $\sin$ sono sempre integrabili allora i vincoli
+          sono solo su $f$.
 \end{itemize}
-
 \begin{nota}
-    Possiamo rappresentare la trasformata di Fourier per quelle funzioni che hanno 
+    Possiamo rappresentare la trasformata di Fourier per quelle funzioni che hanno
     un numero finito di discontinuità di tipo salto.
 \end{nota}
 
 La convergenza della serie di Fourier dipende dalla regolarità delle funzioni $f$,
-infatti se ci sono delle discontinuità di tipo salto allora si hanno delle 
-convergenze meno precise. Si hanno i fenomeni di \textbf{GIBBS} ovvero si hanno andamenti.
-Per risolvere questo problema possiamo introdurre nella sommatoria delle funzioni 
+infatti se ci sono delle discontinuità di tipo salto allora si hanno delle
+convergenze meno precise. Si hanno i fenomeni di \textbf{Gibbs} ovvero si hanno andamenti.
+Per risolvere questo problema possiamo introdurre nella sommatoria delle funzioni
 che avranno gli stessi punti di discontinuità negli stessi valori.
 
-\begin{teorema}
-    Sia $f:\mathbb{R}\to \mathbb{R}$ periodica, assumiamo che $f$ sia $C^1$ (continua 
-    nella prima derivata) a tratti allora se $f$ è continua in $t\in \mathbb{R}$ la 
-    serie $f_N$ converge a $f(t)$, altrimenti se non è continua allora $f_N$ converge a 
-    $$\frac{\lim_{x\to t^-}f(x) +\lim_{x\to t^+}f(x)}{2} $$
-    
+\begin{teorema}[\textbf{Convergenza della serie di Fourier}]
+    Sia $f:\mathbb{R}\to \mathbb{R}$ periodica, assumiamo che $f$ sia $C^1$ (continua
+    nella prima derivata) a tratti allora se $f$ è continua in $t \in \mathbb{R}$
+    la serie $f_N$ converge a $f(t)$, altrimenti se non è continua allora $f_N$
+    converge a:
+    \begin{equation*}
+        \frac{\lim_{x\to t^-}f(x) +\lim_{x\to t^+}f(x)}{2}
+    \end{equation*}
 \end{teorema}
-La serie converge alla media dei due limiti se $f$ non è continua, però priam e dopo
-si ha fenomeni di GIBBS, perà più incrementiamo $N$ allora magiore sarà la traslazione
-del movimento verso il punto di discontinuità. 
+La serie converge alla media dei due limiti se $f$ non è continua, però prima e
+dopo si ha fenomeni di Gibbs, però più incrementiamo il valore di $N$ maggiore
+sarà la traslazione del movimento verso il punto di discontinuità.
 
 Più precisamente la convergenza della serie dipende da come è fatta $f$:
 \begin{itemize}
-    \item se $f$ è regolare la serie converge
-    \item se $f$ ha è poco regolare (discontinuità sulla derivata prima) allora nel 
-    punto si ha una convergenza lenta
-    \item se $f$ ha un punto di discontinuità di tipo salto allora la serie converge 
-    alla media dei limiti nel punto con la conseguente presenza del fenomeno di GIBBS.
+    \item Se $f$ è regolare la serie converge.
+    \item Se $f$ presenta una discontinuità sulla derivata prima, allora nel
+          punto in cui è presente tale discontinuità la convergenza sarà lenta.
+    \item Se $f$ ha un punto di discontinuità di tipo salto, allora la serie
+          converge alla media dei limiti nel punto con la conseguente presenza
+          del fenomeno di GIBBS.
 \end{itemize}
+\subsection{Serie di Fourier per funzioni non periodiche}
+Per ora abbiamo visto solo l'utilizzo della serie di Fourier per il caso di funzioni
+$f$ periodiche di periodo $p$ e analizzandole nell'intervallo $[0,p]$. In realtà
+possiamo generalizzare il ragionamento fatto finora per estendere la serie di Fourier
+a una generica funzione $g(x)$ in un generico intervallo $[a,b]$.
 
-Per ora abbiamo visto solo l'utilizzo della serie di Fourier per il caso di funzioni 
-$f$ periodiche di periodo $p$ e analizzandole nell'intervallo $[0,p]$. In realtà 
-possiamo generalizzare a tutte le generiche funzioni $g(x)$ in un qualsiasi intervallo 
-generico $[a,b]$. Per applicare la serie di Fourier possiamo innanzitutto 
-portare $g(x)$ all'intervallo $[0,p]$, si applica la seguente trasformazione
+Facendo opportuni cambi di variabili, anziché considerare un generico intervallo
+$[a, b]$, si può sempre pensare che la funzione $f$ sia definita nell'intervallo
+$[0, p]$. Questo può essere fatto utilizzando la seguente trasformazione:
+\begin{equation}
+    x = \frac{b - a}{p} x' + a \quad x' \in [0, p] \implies x \in [a, b]
+\end{equation}
 
-$$x=\frac{b-a}{p}x' + a, x'\in [0,p] \implies x\in [a,b]$$
+In questo modo si riesce a portare la funzione nell'intervallo canonico definendo:
+\begin{equation*}
+    \stackrel{\sim}{g}(x) = g\left(\frac{b-a}{p}x'+a\right), \quad \forall x' \in [a,b], x \in [0,p]
+\end{equation*}
+Si apre ora la questione di come creare una funzione periodica a partire da questa
+funzione $\stackrel{\sim}{g}(x)$ definita nell'intervallo $[0, p]$. Un primo
+tentativo potrebbe essere quello di periodizzarla per ripetizione. 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/Serie/ripetizione.png}
+    \caption{Periodizzazione della funzione $\stackrel{\sim}{g}(x)$}
+    \label{fig:ripetizione}
+\end{figure}
 
-In questo modo si riesce a portare la funzione nell'intervallo canonico defininendo
-$$\stackrel{\sim}{g}(x) = g(\frac{b-a}{p}x'+a), \forall  x'\in [a,b], x\in [0,p]$$
+Agendo in questo modo abbiamo creato delle discontinuità sulla funzione. Di conseguenza
+l'approssimazione data dalle serie di Fourier sarà soggetta al fenomeno di Gibbs.
 
-Successivamente possiamo vedere $\stackrel{\sim}{g}(x)$ come periodica di periodo 
-$p$ replicando la funzione infinite volte.
-
-In realtà $\stackrel{\sim}{g}(x)$ in un modo più intelligente risolvendo eventuali 
+In realtà $\stackrel{\sim}{g}(x)$ in un modo più intelligente risolvendo eventuali
 discontinuità di salto, ovvero presa $\stackrel{\sim}{g}(x)$, la si porta in $[0,p]$,
-si specchia la funzione rispetto l'asse delle $y$ e poi replichiamo la funzione 
+si specchia la funzione rispetto l'asse delle $y$ e poi replichiamo la funzione
 infinite volte, ottenendo una funzione periodica di periodo $2p$.
-Untilizzando quest'ultimo la trasformazione di Fourier si chiamerà \textbf{cosine trasformation},
-perché $\stackrel{\sim}{g}(x)$ sarà para e quindi avrà solo i coefficienti del coseno.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/Serie/specchio.png}
+    \caption{Periodizzazione della funzione $\stackrel{\sim}{g}(x)$}
+    \label{fig:specchio}
+\end{figure}
+
+Utilizzando quest'ultimo la trasformazione di Fourier si chiamerà \textbf{cosine trasformation},
+perché $\stackrel{\sim}{g}(x)$ sarà pari e quindi avrà solo i coefficienti del coseno.

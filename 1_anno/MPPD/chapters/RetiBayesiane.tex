@@ -493,7 +493,8 @@ In questo modo non si controllano le probabilità di tutte le combinazioni di va
 (i famosi $2^n$) ma si controllano le probabilità di una successione finita di
 numeri casuali, non entrando nella complessità esponenziale.
 Per valutare la complessità di un algoritmo di inferenza è importante considerare
-la struttura della rete. Possiamo avere una rete con una struttura (vedi figura \ref{fig:struttura_reti}):
+la struttura della rete. Possiamo avere una rete con una struttura (vedi figura
+\ref{fig:struttura_reti}):
 \begin{itemize}
     \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha al
           massimo un cammino non orientato tra due nodi.
@@ -509,10 +510,10 @@ la struttura della rete. Possiamo avere una rete con una struttura (vedi figura 
 \end{figure}
 
 Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
-variabili. Per calcolare l'inferenza approssimata l' Questo algoritmo, permette nel caso di una rete Polytree, di computare
-la probabilità a posteriori per tutte le variabili richiede di effettuare $\mathcal{O}(n)$
-query ognuna delle quali ha una complessità di $\mathcal{O}(n)$. Quindi l'algoritmo
-ha una complessità di $\mathcal{O}(n^2)$.
+variabili. Per calcolare l'inferenza approssimata l'algoritmo permette, nel caso
+di una rete Polytree, di computare la probabilità a posteriori per tutte le
+variabili, ovvero $\mathcal{O}(n)$, una query che ha una complessità $\mathcal{O}(n)$.
+Quindi l'algoritmo ha una complessità di $\mathcal{O}(n^2)$.
 
 L'impiego di un algoritmo appartenente alla classe degli \textbf{algoritmi di
     clustering} (join tree algorithms) consente di ridurre la complessità a $\mathcal{O}(n)$.
