@@ -5,7 +5,7 @@ Si studieranno sistemi incerti che possono essere:
     \item incertezza dei mercati
     \item valutare il valore degli oggetti
     \item valutare un rischio
-    \item prendere decisioni
+    \item prendere decisioni, l'incertezza può avere un'accezione positiva
     \item etc$\dots$
 \end{itemize}
 
@@ -35,36 +35,44 @@ Ogni agente ha un'opinione su una proprietà degli oggetti.
 
 L'incertezza può essere dovuta principalemnte da:
 \begin{itemize}
-    \item \textbf{informazioni incomplete}:
+    \item \textbf{informazioni incomplete} dovuto a diverse cause:
     \begin{itemize}
         \item \textbf{valori mancanti}: ex: voglio stabilire se l'auto è gialla ma
         non conosco il colore dell'auto
-        \item \textbf{valori imprecisi}: ex: l'auto ha tra i 10 e 15 anni
-        \item \textbf{proprietà mancanti}: ex: nel caso prendessimo come oggetti i
+        \item \textbf{valori imprecisi}: ex: l'auto ha tra i 10 e 15 anni ma non 
+        conosco l'anno preciso
+        \item \textbf{proprietà mancanti}: conosciamo i sintomi del paziente ma non 
+        ho abbastanza sintomi per determinare l'incertezza. ex: nel caso prendessimo come oggetti i
         pazienti e come proprietà i sintomi, non possiamo sapere se un paziente 
         ha una particolare malattia se ha dei particolari sintomi.
     \end{itemize}
     \item \textbf{randomicità}: non possiamo stabilire la 
     veridicità di un'informazione, ex: domani piove (non è detto)
-    \item \textbf{gradualità}: ex: l'auto è veloce, cosa significa veloce?
+    \item  \textbf{vaghezza}/\textbf{gradualità}: ex: l'auto è veloce, cosa significa veloce?
+    (dipende dal contesto)
     \item \textbf{informazione inaffidabile}: si possono avere informazioni
     contrastanti dovuti da agenti che hanno opinioni diverse, elementi a favore
     o contro ed esempi e controesempi. In aggiunta, si possono avere informazioni
     inaffidabili perché possiamo non avere la conpleta fiducia nei dati a disposizione.
+    \item \textbf{non affidabilità}: non abbiamo completa fiducia nei dati a disposizione.
+    Ex: L'auto di Giulia è rossa o nera, sicuramente non è blu.
 \end{itemize}
 
 Esistono diverse forme di incertezza e generalmente si classificano all'interno
 di una tassonomia. Le classificaizoni si dividino in:
 \begin{itemize}
-    \item \textbf{scope}: il campo che copre quella classificazione
+    \item \textbf{scope}: il campo del sapere che copre quella classificazione
     \item \textbf{criteria}: sorgente dell'incertezza
 \end{itemize}
 
 Una tassonomia ha lo scopo di essere universale per raccogliere tutti i tipi di
 incertezze indipendentemente dal particolare campo. Le tassonomie sono composte
-da alberi i quali hanno sempre come radice \textbf{ignorance}, nessuna classificazione
-appare in tutte le tipologie di tassonomie, ma al massimo in alcune, le tassonomie
-possono essere più specifiche e possono avere delle intersezioni.
+da alberi i quali hanno sempre come radice \textbf{ignorance} (simula la non conoscienza),
+nessuna classificazione appare in tutte le tipologie di tassonomie, ma al massimo in alcune e non 
+nella stessa posizione, le tassonomie possono essere più specifiche e possono avere delle intersezioni.
+
+Non esiste e non esisterà un unico modo per classificare l'incertezza e l'ignoranza, 
+però sono utilili per essere studiati per analizzare le caratteristiche comuni.
 
 Esistono anche tassonomie che sono legate ad un campo, ex: ecologia o ML. Per
 queste tassonomie più piccolo è il dominio e più specifica è la terminologia della
@@ -72,15 +80,24 @@ classificazione. L'ontologia del dominio (semantica) può essere utile per capir
 è e come azionarsi per gestirla. Quando costruiamo una classificazione di dominio
 deve essere chiara tutte le parti di incertezza.
 
-I criteri per la classificazione si basano su:
+Le classificazioni sono utili per identificare l'incertezza per poi capire come 
+gestirla. Le classificazioni generali tornano utili per specificare una prima classificazione 
+specifica dell'incertezza nel mio dominio.
+
+I criteri per definire una classificazione sono i seguenti:
 \begin{itemize}
-    \item \textbf{source}: il criterio principale che dipende dal dominio (incertezza 
+    \item \textbf{source}:  classificano in base alla sorgente (incertezza 
     sui dati e sugli utenti, temporale, spaziale e linguistica$\dots$)
-    \item \textbf{mmanifestazione concrete}: dove puoi vewdere l'effetto dell'incertezza
-    \item \textbf{personalità in cui risiede l'incertezza}: l'agente
+    \item \textbf{manifestazione concrete}: classificano in base a cosa implica l'incertezza
+    \item \textbf{personalità in cui risiede l'incertezza}: classifichiamo in base
+    al punto di vista che vede l'incertezza
 \end{itemize}
 
-Per esprimere l'incertezza, oltre alla probabilità abbiamo:
+Possiamo avere classificazioni a più dimensioni, come matrici, e quindi sono più
+complete e complesse. 
+
+Essendoci diversi tipi di incertezza, si hanno diversi tipi di strumenti per 
+modellare l'incertezza:
 \begin{itemize}
     \item estensione della probabilità:
      \begin{itemize}
@@ -96,3 +113,81 @@ Per esprimere l'incertezza, oltre alla probabilità abbiamo:
         \item Rough Sets
     \end{itemize}
 \end{itemize}
+
+\section{Logica a tre valori di verità}
+Spono logiche che introducono un terzo valore di verità che può assumere diversi 
+significati in base a due caratteristiche:
+\begin{itemize}
+    \item ontologico (riguardano un qualcosa di vero): il valore può essere usato per assegnare sfumature di verità (mezzo vero)
+    oppure si può assegnare un significato indefinito oppure per specificare il 
+    concetto di irrilevante.
+    \item epistemico (riguarda un problema di conoscienza): il valore può essere 
+    usato per assegnare il valore unknown oppure può essere usato per specificare 
+    inconsistenze  oppure per assegnare ad affermazioni che possono essere possibilmente 
+    vere ma si scoprirà sono in futuro.
+\end{itemize}
+
+
+\section{Algebra booleana}
+\begin{definizione}
+    Una relazione d'ordine parziale $R$ è una relazione binaria:
+    \begin{itemize}
+        \item riflessiva
+        \item antisimmetrica
+        \item transitiva
+    \end{itemize}
+\end{definizione}
+
+\begin{esempio}
+    Possiamo definire delle relazioni d'ordine parziale per le funzioni caratteristiche 
+    e una funzione è minore dell'altra se la prima mappa un sottoinsieme della seconda 
+    funzione caratteristica.
+\end{esempio}
+
+Possiamo utilizzare il diagramma di Hasse è un diagramma che permette di rappresentare 
+un insieme parzialmente ordinato senza esprimere la riflessività e transitività.
+
+\begin{definizione}
+    elementi comparabili e non comparabili
+\end{definizione}
+\begin{definizione}
+    elemento minimo e massimo di un insieme parzialemente ordinato POSET non sempre 
+    esistono
+\end{definizione}
+\begin{definizione}
+    LUB, dato $S\subseteq P$ sarà l'elemto più piccolo di tutti quelli più grandi di $S$
+    GLB, dato $S\subseteq P$ sarà l'elemto più grande di tutti quelli più piccoli di $S$
+
+    Gli elementi o esistono e sono unici o non esistono. 
+\end{definizione}
+con due elementi il sup lo indichiamo con $\lor$ mentre inf con $\land$.
+
+\begin{definizione}
+    reticolo
+\end{definizione}
+\begin{definizione}
+    Operazioni su reticoli di inf e sup:
+    \begin{itemize}
+        \item idempotente
+        \item commutativa
+        \item associativa
+        \item assorbimento
+    \end{itemize} 
+\end{definizione}
+
+Possiamo partire da un insieme generico definire ue operazioni che sono commutative associative 
+e assorbimento, con questo operazioni possiamo definire una relazione d'ordine parziale.
+
+esistono reticoli che non sono distributivi e reticoli che sono distributivi.
+
+Reticolo booleano
+
+\begin{esempio}
+    Un reticolo booleano è la famosa tabella di verità dell'and e or, il complemento 
+    è rappresentat dall'operazione complemneto.
+\end{esempio}
+
+Siamo partiti dai POSET, siamo passati ai lattice e poi siamo passati al boolean lattice 
+e l'algebra booleana permette di definire il reticolo booleano.
+
+poi abbiamo un isomorfismo da algebre booleane.
