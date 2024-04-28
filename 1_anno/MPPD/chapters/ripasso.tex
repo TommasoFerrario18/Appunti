@@ -87,7 +87,7 @@ indipendenti allora:
 \begin{definizione}[\textbf{Teorema di Bayes}]
     Il \textbf{teorema di Bayes} è un'importante relazione tra probabilità
     condizionata e probabilità congiunta. Esso afferma che la probabilità di
-    un evento condizionato ad un altro evento può essere calcolata in termini
+    un evento condizionato ad un altro, può essere calcolata in termini
     della probabilità dell'evento condizionante e della probabilità
     condizionata dell'evento di interesse.
     \begin{equation}
@@ -117,9 +117,10 @@ formule:
 La regola di Bayes ci permette di usare questo modello per inferire la
 verosimiglianza della causa nascosta data l'osservazione dell'effetto.
 
-Una semplificazione, che può tornare utile in determinate condizioni, della
-regola di Bayes si può fare se si conosce la $P(E|C)$ per ogni causa $C$. In
-queste condizioni possiamo evitare di conoscere $P(E)$.
+Una semplificazione  della regola di Bayes, che può tornare utile in determinate
+condizioni, si può applicare se si conosce la $P(E|C)$ per ogni causa $C$. In
+queste condizioni, possiamo evitare di conoscere $P(E)$ e stimarla attraverso la
+seguente formula:
 \begin{equation}
     P(C|E) = \frac{P(E|C) \cdot P(C)}{\sum_{i} P(E|C_i) \cdot P(C_i)}
 \end{equation}
@@ -130,8 +131,8 @@ per la sommatoria.
     deve essere scaturito da una delle cause ipotizzate. Se ci sono altre
     cause non considerate, la regola di Bayes non è applicabile.
 \end{nota}
-Il significato del teorema di Bayes può essere espresso come: apprendere
-attraverso l'esperienza.
+Possiamo interpretare la regola di Bayes come un processo di apprendimento,
+nello specifico possiamo dire che si vuole apprendere attraverso l'esperienza.
 
 Posso riassumere nella seguente formula:
 \begin{equation}
@@ -144,14 +145,13 @@ dove:
     \item $P(A|B)$ è la probabilità a posteriori di $A$.
     \item $\alpha$ è un fattore di normalizzazione.
 \end{itemize}
-
 Supponiamo ora di voler calcolare la probabilità della causa date una congiunzione
 di evidenze. Siccome abbiamo più effetti, il modello casuale si complica.
-Ad esempio se abbiamo $N$ effetti booleani che portano a una determinata causa,
+Ad esempio, se abbiamo $N$ effetti booleani che portano a una determinata causa,
 ci saranno $2^N$ diverse combinazioni di evidenze che dobbiamo modellare.
-Questo porta a un notevole aumento della complessità del modello.
-Per ridurre questa complessità, la probabilità congiunta di un insieme di eventi
-può essere espressa come una \textbf{catena di probabilità condizionate}.
+Questo porta a un notevole aumento della complessità del modello. Per ridurre
+tale valore, possiamo esprimere la probabilità congiunta di un insieme di
+eventi come una \textbf{catena di probabilità condizionate}.
 \begin{definizione}[\textbf{Catena di probabilità condizionate}]
     Una \textbf{catena di probabilità condizionate} è una sequenza di probabilità
     condizionate che rappresenta la probabilità congiunta di un insieme di eventi.
@@ -160,23 +160,25 @@ può essere espressa come una \textbf{catena di probabilità condizionate}.
         P(A_3|A_1 \cap A_2) \cdot \ldots \cdot P(A_n|A_1 \cap \ldots \cap A_{n-1})
     \end{equation}
 \end{definizione}
-Questo approccio risulta utile per fare \textbf{inferenza}. Consideriamo un
-insieme di eventi $E_1, E_2, \dots, E_n$ e tutte le possibili combinazioni dei
-loro valori, per semplicità usiamo $\top, \bot$. Inoltre, conosciamo tutti i
-valori $P(E_1, E_2, \dots, E_n)$ e supponiamo che un sottoinsieme di questi
-presenti un valore definito, come ad esempio $E_j = Vero = e$.
-Chiamiamo \textbf{inferenza probabilistica} il processo di calcolo del valore:
+Questo approccio risulta utile per fare \textbf{inferenza}.
+
+Consideriamo un insieme di eventi $E_1, E_2, \dots, E_n$ e tutte le possibili
+combinazioni dei loro valori, per semplicità usiamo $\top, \bot$. Inoltre,
+conosciamo tutti i valori $P(E_1, E_2, \dots, E_n)$ e supponiamo che un
+sottoinsieme di questi presenti un valore definito, come ad esempio $E_j = Vero
+    = e$. Chiamiamo \textbf{inferenza probabilistica} il processo di calcolo del
+valore:
 \begin{equation}
     P(E_i = Vero|E_j=e)
 \end{equation}
 In generale l'inferenza probabilistica non è trattabile usando questo metodo
-perché avendo $N$ eventi binari, dovremmo avere una lista di $2^N$ probabilità 
-congiunte. Si riduce il numero utilizzando metodi approssimativi, qualitativi o 
+perché avendo $N$ eventi binari, dovremmo avere una lista di $2^N$ probabilità
+congiunte. Si riduce il numero utilizzando metodi approssimativi, qualitativi o
 sfruttando l'\textbf{indipendenza condizionata}.
 
-Usando l'indipendenza condizionata allora per alcune variabili non c'è bisogno di
+Sfruttando l'indipendenza condizionata, per alcune variabili, non c'è bisogno di
 utilizzare il teorema di Bayes per calcolare la probabilità condizionata, perché
-quella viene data dalla probabilità della causa.
+può essere ottenuta dalle probabilità delle cause.
 
 Infatti, dati tre eventi $A, B, C$, sapendo che $A$ è indipendente da $C$ allora:
 \begin{equation*}

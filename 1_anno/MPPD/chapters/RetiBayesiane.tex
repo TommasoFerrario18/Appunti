@@ -113,18 +113,15 @@ dove $parents(V_i)$ rappresenta la realizzazione congiunta dei genitori di $V_i$
 Ogni elemento della distribuzione congiunta è rappresentato tramite il prodotto
 delle opportune componenti delle CPT dei nodi della rete.
 \begin{nota}
-    Ricorda che per il teorema di Bayes:
+    Ricordiamo che per il teorema di Bayes:
     \begin{equation*}
         P(V_i = v_i|parents(V_i)) = \frac{P(V_i = v_i,parents(V_i))}{P(parents(V_i))}
         = \alpha P(V_i = v_i,parents(V_i))
     \end{equation*}
-    Quindi la probabilità condizionata viene considerata come la probabilità
+    ovvero la probabilità condizionata viene considerata come la probabilità
     congiunta divisa per la probabilità degli eventi congiunti. Per semplificare
     la probabilità si può solo calcolare la congiunta e successivamente moltiplicarla
-    per il fattore $\alpha$ di normalizzazione.
-
-    Il valore di $\alpha$ per la probabilità $P(V_i=v_i|parents(V_i))$ si trova
-    nel seguente modo:
+    per il fattore $\alpha$ di normalizzazione, il quale viene calcolato come:
     \begin{equation*}
         \alpha = \frac{1}{P(V_i = \lnot v_i, parents(V_i)) + P(V_i = v_i,parents(V_i))}
     \end{equation*}
@@ -164,7 +161,7 @@ Una rete bayesiane rappresenta correttamente un dominio solo a condizione che og
 nodo risulti \textbf{condizionalmente indipendente} dai suoi non discendenti
 dati i suoi genitori. Pertanto, per costruire una rete bayesiana che abbia la
 corretta struttura del dominio da modellare è necessario scegliere, per ogni nodo,
-i nodi genitore in modo che tale proprietà risulti verificata. In aggiunta un nodo
+i genitori in modo che tale proprietà risulti verificata. In aggiunta un nodo
 è \textbf{condizionalmente indipendente} da tutti i nodi restanti della rete data
 la conoscenza dello stato del suo \textbf{Markov Blanket}, ovvero l'insieme dei
 genitori, dei figli e dei genitori dei figli.
@@ -382,16 +379,18 @@ In questa sezione useremo la seguente notazione:
           valori delle variabili di evidenza.
     \item $Y$: insieme di variabili non di evidenza.
 \end{itemize}
-L'insieme complessivo di variabili è rappresentato da:
+L'insieme complessivo di variabili è quindi rappresentato da:
 \begin{equation*}
     V = \{X\} \cup E \cup Y
 \end{equation*}
-Una tipica query della quale bisogna calcolare la posterior è:
+Mentre, una tipica query della quale bisogna calcolare la probabilità a
+posteriori è:
 \begin{equation*}
     P(X|E=e)
 \end{equation*}
 Fino a questo momento, calcolavamo la distribuzione di probabilità di una
-variabile date tutte le altre variabili nella rete.
+variabile date tutte le altre variabili nella rete, come possiamo fare se per
+alcune di esse non abbiamo informazioni?
 
 Nelle reti bayesiane abbiamo diverse tipologia di inferenza:
 \begin{itemize}
@@ -461,7 +460,7 @@ $P(X,E=e,Y=y)$, ovvero:
     P(X,E=e,Y=y) = \prod_{K} P(K=k | parents(K))
 \end{equation}
 
-In generale, quando si effettua l'inferenza in una rete bayesiana, si calcola il
+In generale, quando si effettua inferenza in una rete bayesiana, si calcola il
 valore della variabile di query per tutti i suoi possibili assegnamenti:
 \begin{equation*}
     P(X|E=e) = \langle P(X = x'|E = e), P(X = x''|E = e),\dots \rangle
@@ -485,24 +484,25 @@ tale da calcolarlo senza ripetizione.
 \subsection{Inferenza approssimata}
 Permette di effettuare inferenza in tempi ragionevoli quando si hanno tante
 variabili che non fanno parte dell'evidenza, infatti questo evita di ricadere
-nell'NP-Hard con l'inferenza esatta. L'inferenza approssimata consiste nel
-approssimare queste variabili libere, campionandole attraverso la generazione dei
-numeri casuali.
+nell'NP-Hard come accadeva per quella esatta. L'inferenza approssimata consiste
+nel approssimare queste variabili libere, campionandole attraverso la generazione
+dei numeri pseudo-casuali.
 
-In questo modo non si controllano le probabilità di tutte le combinazioni di valori
-(i famosi $2^n$) ma si controllano le probabilità di una successione finita di
+In questo modo non si controllano le probabilità di tutte le combinazioni di
+valori ($2^n$) ma si controllano le probabilità di una successione finita di
 numeri casuali, non entrando nella complessità esponenziale.
+
 Per valutare la complessità di un algoritmo di inferenza è importante considerare
-la struttura della rete. Possiamo avere una rete con una struttura (vedi figura
-\ref{fig:struttura_reti}):
+la struttura della rete, alcuni esempi di strutture sono riportate in figura
+\ref{fig:struttura_reti}:
 \begin{itemize}
-    \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha al
-          massimo un cammino non orientato tra due nodi.
+    \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha
+          al massimo un cammino non orientato tra due nodi.
     \item \textbf{Rete Multiplamente connessa}: dove si hanno più cammini non
           orientati tra due nodi.
 \end{itemize}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{img/Reti/struttura_reti_bayesiane.png}
     \caption{Esempio di struttura delle reti bayesiane}
@@ -510,9 +510,9 @@ la struttura della rete. Possiamo avere una rete con una struttura (vedi figura
 \end{figure}
 
 Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
-variabili. Per calcolare l'inferenza approssimata l'algoritmo permette, nel caso
+variabili. Per calcolare l'inferenza esatta questo algoritmo permette, nel caso
 di una rete Polytree, di computare la probabilità a posteriori per tutte le
-variabili, ovvero $\mathcal{O}(n)$, una query che ha una complessità $\mathcal{O}(n)$.
+variabili $\mathcal{O}(n)$, attraverso una query avente complessità $\mathcal{O}(n)$.
 Quindi l'algoritmo ha una complessità di $\mathcal{O}(n^2)$.
 
 L'impiego di un algoritmo appartenente alla classe degli \textbf{algoritmi di
@@ -527,13 +527,16 @@ Resta comunque il problema che il problema di inferenza esatta è NP-Hard. Per
 questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
 \textbf{Monte Carlo}. L'accuratezza di questi metodi dipende dal numero di campionamenti
 generati.
+
+In ogni algoritmo di campionamento le risposte vengono computate tramite conteggio
+dei campioni generati.
 \subsubsection{Direct Sampling}
 Questo metodo consiste nel campionare direttamente le variabili della rete ignorando
 le evidenze. Il funzionamento di questo algoritmo si basa sull'ordinamento
 topologico delle variabili della rete.
 
 Nel dettaglio, il suo funzionamento è il seguente:
-\begin{itemize}
+\begin{enumerate}
     \item Si ordinano le variabili della rete in modo tale che ogni variabile
           sia preceduta dai suoi genitori.
     \item Partendo dalla prima variabile si genera un campione casuale sulla base
@@ -542,16 +545,13 @@ Nel dettaglio, il suo funzionamento è il seguente:
           considerazione i valori delle variabili precedenti che sono già stati
           estratti.
     \item Si ripete questo procedimento per generare un numero finito di campioni.
-\end{itemize}
+\end{enumerate}
 Questo algoritmo genera campioni della distribuzione di probabilità congiunta a
 priori per il modello di rete bayesiana specificata.
 
-In ogni algoritmo di campionamento le risposte vengono computate tramite conteggio
-dei campioni generati.
-
-Questo metodo mi permette di generare campioni senza considerare le evidenze. Nel
-caso in cui si voglia considerare le evidenze, si utilizza il metodo di \textbf{Rejection
-    Sampling}.
+Questo metodo mi permette di generare campioni \underline{senza considerare le
+    evidenze}. Nel caso in cui si voglia considerare le evidenze, si utilizza il
+metodo di \textbf{Rejection Sampling}.
 
 Questo algoritmo genera campioni della probabilità congiunta e successivamente
 rifiuta i campioni che non soddisfano le evidenze. La stima viene fatta sui
@@ -559,10 +559,8 @@ campioni non rigettati.
 
 Purtroppo, l'algoritmo di Rejection Sampling rifiuta troppi campioni ed il tasso
 di rigetto cresce esponenzialmente con il numero di variabili per le quali è
-disponibile evidenza.
-
-Questa particolarità rende sostanzialmente inutilizzabile l'algoritmo in questione
-nel caso di modelli reali di Reti Bayesiane.
+disponibile evidenza. Questa particolarità rende sostanzialmente inutilizzabile
+l'algoritmo nel caso di modelli reali di reti bayesiane.
 \subsubsection{Likelihood Weighting}
 Questo algoritmo evita di generare campioni che dovranno essere successivamente
 rigettati. Per fare questo fissa il valore dei nodi per i quali è disponibile
@@ -579,15 +577,16 @@ Campionare significa generare una serie di campioni:
     s_i = \left[V_1=v_1, V_2= v_2, \dots, V_n=v_n\right]
 \end{equation*}
 dove $V_j$ sono tutte le variabili. Quando si esegue il processo di campionamento,
-se le variabili hanno evidenza, allora il loro valore nel campione è definito da essa.
-Nel caso in cui non ci sia evidenza, allora si campiona la variabile secondo la
-distribuzione data dalla CPT considerando le eventuali evidenze.
+se le variabili hanno evidenza, allora il loro valore è definito. Nel caso in
+cui non ci sia evidenza, allora si campiona la variabile secondo la distribuzione
+data dalla CPT, considerando le eventuali dipendenze.
 
 Questo rende importante rispettare l'ordinamento topologico quando si applica
 l'algoritmo di Likelihood Weighting.
 
 Per ogni campione si ottiene un peso $\omega_i$, inizialmente posto a $1$, il
-quale viene aggiornato durante il campionamento sfruttando le probabilità dell'evidenza.
+quale viene aggiornato durante il campionamento sfruttando le probabilità
+dell'evidenza come segue:
 \begin{equation*}
     \omega_i = \omega_i \cdot P(E = e | Parents(E))
 \end{equation*}
@@ -600,21 +599,25 @@ A questo punto per eseguire le query si calcola la probabilità valutando i pesi
 \end{equation*}
 \subsubsection{Markov Chain Monte Carlo (MCMC)}
 Differentemente dagli algoritmi precedenti, i quali generano ogni evento partendo
-da zero (si dimentica il campione precedente), l'algoritmo \textbf{Markov Chain Monte Carlo}
-genera ogni evento tramite modifiche casuali di un evento che lo precede nell'esecuzione.
+da zero, ovvero si dimenticano il campione precedente. L'algoritmo \textbf{Markov
+    Chain Monte Carlo} genera ogni evento tramite modifiche casuali di un evento
+che lo precede nell'esecuzione.
 
 È utile pensare che il modello di rete bayesiana si trovi in un determinato
 \textbf{stato corrente}, il quale è identificato tramite l'assegnamento di un
 valore ad ogni nodo della rete.
 
 Lo stato prossimo viene ottenuto tramite campionamento di una delle variabili
-senza evidenza $X_i$, si sceglie casualmente la variabile da campionare e si
-cambia il suo valore secondo la distribuzione condizionale della sua Markov Blanket.
+senza evidenza $X_i$, la quale viene scelta casualmente e si cambia il suo
+valore secondo la distribuzione condizionale della sua Markov Blanket.
 
-Per generare lo stato successivo, parto dallo stato corrente, per ogni $X_i \not \in E$
-(non nell'evidenza) cambio il suo valore estraendo un campione di $X_i$ secondo
-la distribuzione $P(X_i | MarkovBlanket(X_i))$. Alla fine avrò generato casualmente
-un nuovo campione.
+Per generare lo stato successivo, si parte quindi da quello corrente, per ogni
+$X_i \not \in E$, ovvero che non appartiene all'evidenza, cambio il suo valore
+estraendo un campione di $X_i$ secondo la distribuzione:
+\begin{equation*}
+    P(X_i | MarkovBlanket(X_i))
+\end{equation*}
+Alla fine avrò generato casualmente un nuovo campione.
 
 Il calcolo di $P(X_i | MarkovBlanket(X_i))$ si effettua in questo modo:
 \begin{equation}
@@ -648,22 +651,22 @@ I numeri pseudocasuali devono soddisfare alcune proprietà:
 \end{itemize}
 Una routine di generazioni di numeri pseudocasuali deve:
 \begin{itemize}
-    \item essere veloce
-    \item avere un ciclo periodico sufficientemente lungo
-    \item non presentare larghi gap
-    \item essere replicabile
-    \item generare numeri con proprietà statistiche simili a quelle ideali
+    \item Essere veloce
+    \item Avere un ciclo periodico sufficientemente lungo
+    \item Non presentare larghi gap
+    \item Essere replicabile
+    \item Generare numeri con proprietà statistiche simili a quelle ideali
 \end{itemize}
 \subsection{Generazione di numeri pseudocasuale}
 \subsubsection{Metodo Naive}
 Un primo metodo per generare numeri casuali è attraverso l'utilizzo di una sequenza
 di numeri con $10$ cifre. Il procedimento è il seguente:
-\begin{itemize}
+\begin{enumerate}
     \item Si parte da un numero.
     \item Lo si eleva al quadrato.
     \item Si prendono le $10$ cifre centrali.
     \item Si ripete il procedimento.
-\end{itemize}
+\end{enumerate}
 La sequenza ottenuta \textbf{non è casuale}, perché ogni numero è ottenibile da
 quello precedente. Inoltre, si hanno problemi a causa dell'operazione di elevamento
 al quadrato, infatti si ha un'esplosione dei numeri.
@@ -719,11 +722,10 @@ Vogliamo generare una variabile aleatoria $X = x$ con una certa distribuzione.
 Si parte dalla sua \textbf{funzione di probabilità} ($f_X(x)$) scelta, si ricava
 la \textbf{funzione di probabilità cumulativa} ($F(X = x)$), quest'ultima funzione è:
 \begin{itemize}
-    \item continua
-    \item monotona
-    \item crescente
-    \item limitata, compresa tra $[0,1]$
-    \item definita nel seguente modo $F(X=x) =P(X \leq x) = \int_{-\infty}^X f_X(\tau) d\tau$
+    \item Continua
+    \item Monotona crescente
+    \item Limitata, compresa tra $[0,1]$
+    \item Definita nel seguente modo $F(X=x) =P(X \leq x) = \int_{-\infty}^X f_X(\tau) d\tau$
 \end{itemize}
 La generazione si effettua in questo modo:
 \begin{itemize}
@@ -777,10 +779,25 @@ due sequenze di numeri utilizzando:
 \begin{equation}
     \begin{cases}
         x = a + (b-a)\mu_i \\
-        y = cf_X(x)\mu_j
+        y = c \cdot \mu_j
     \end{cases}
 \end{equation}
 se la coppia $(x_i, y_i)$ cade all'interno dell'area sottesa alla curva della
 funzione $f_X(x)$ allora sarà accettata e verrà utilizzata per generare la sequenza
 di numeri casuali, altrimenti viene rigettata e si ripetono i passi fino a quando
 non troviamo una coppia ammessa.
+
+Vediamo ora come un possibile algoritmo per generare una variabile aleatoria $X$
+con funzione di densità di probabilità $f_X(x)$ su un intervallo $[a,b]$.
+\begin{enumerate}
+    \item Si genera un'istanza di una variabile $R$ distribuita in modo uniforme
+          tra $[a,b]$.
+    \item Si accetta tale valore con probabilità pari a:
+          \begin{equation*}
+              \frac{f_X(R)}{\max f_X(x)}
+          \end{equation*}
+          lo si rifiuta con probabilità:
+          \begin{equation*}
+              1 - \frac{f_X(R)}{\max f_X(x)}
+          \end{equation*}
+\end{enumerate}
