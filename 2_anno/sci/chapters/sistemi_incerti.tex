@@ -54,7 +54,6 @@ L'incertezza può essere dovuta principalemnte da:
     contrastanti dovuti da agenti che hanno opinioni diverse, elementi a favore
     o contro ed esempi e controesempi. In aggiunta, si possono avere informazioni
     inaffidabili perché possiamo non avere la conpleta fiducia nei dati a disposizione.
-    \item \textbf{non affidabilità}: non abbiamo completa fiducia nei dati a disposizione.
     Ex: L'auto di Giulia è rossa o nera, sicuramente non è blu.
 \end{itemize}
 
@@ -148,46 +147,327 @@ Possiamo utilizzare il diagramma di Hasse è un diagramma che permette di rappre
 un insieme parzialmente ordinato senza esprimere la riflessività e transitività.
 
 \begin{definizione}
-    elementi comparabili e non comparabili
+    Dato un poset $ \langle\mathcal{P}, \le \rangle$, due elementi 
+    $a,b\in \mathcal{P}$ si dicono \textbf{comparabili} sse $a\le b$ o $b\le a$. Altrimenti 
+    si diranno \textbf{incomparabili}.
+\end{definizione}
+
+\begin{definizione}
+    Data una relazione di ordine parziale $\le$ su un poset $\mathcal{P}$, se $\forall b,a\in \mathcal{P}$
+    $a\le b$ o $b\le a$ e $b\ne a$ allora $\le$ è una \textbf{relazione di ordine parziale ristretta} e 
+    si segnerà con $<$.
+\end{definizione}
+
+\begin{definizione}
+    Data una relazione di ordine parziale $\le$ su un poset $\mathcal{P}$, se $\forall b,a\in \mathcal{P}$
+    $a\le b$ o $b\le a$ allora $\le$ è una \textbf{relazione di ordine totale} (ovvero quando 
+    tutti gli elementi sono comparabili)
+\end{definizione}
+
+Per rappresentare un poset possiamo utilizzare dei diagrammi di Hasse, ovvero diagrammi 
+che mostrano le relazioni di antisimmetria, riflessività e transitività attraverso 
+un ordine topologico e collegamenti non orientati.
+
+\begin{definizione}
+    Dato un Poset $\mathcal{P}$, definiremo $0\in \mathcal{P}$ il \textbf{minimo}
+    se $\forall p \in \mathcal{P}\implies 0 \le p$ 
 \end{definizione}
 \begin{definizione}
+    Dato un Poset $\mathcal{P}$, definiremo $1\in \mathcal{P}$ il \textbf{massimo}
+    se $\forall p \in \mathcal{P}\implies p\le 1$ 
+\end{definizione}
+
+\begin{definizione}
+    Un poset con un minimo e un massimo è un \textbf{poset limitato} e si scrive 
+    $\langle \mathcal{P},\le , 0, 1\rangle$
+\end{definizione}
+
+\begin{nota}
     elemento minimo e massimo di un insieme parzialemente ordinato POSET non sempre 
     esistono
-\end{definizione}
-\begin{definizione}
-    LUB, dato $S\subseteq P$ sarà l'elemto più piccolo di tutti quelli più grandi di $S$
-    GLB, dato $S\subseteq P$ sarà l'elemto più grande di tutti quelli più piccoli di $S$
-
-    Gli elementi o esistono e sono unici o non esistono. 
-\end{definizione}
-con due elementi il sup lo indichiamo con $\lor$ mentre inf con $\land$.
+\end{nota}
 
 \begin{definizione}
-    reticolo
-\end{definizione}
-\begin{definizione}
-    Operazioni su reticoli di inf e sup:
+    Sia $S\ne \emptyset$ tale che $S\subseteq \mathcal{P}$, definiremo:
     \begin{itemize}
-        \item idempotente
-        \item commutativa
-        \item associativa
-        \item assorbimento
-    \end{itemize} 
+        \item $x\in \mathcal{P}$ \textbf{least upper bound} ($x=\sup(S)$, $x=\lor S$) sse:
+        \begin{itemize}
+            \item $\forall s\in S, s\le x$
+            \item se $c\in \mathcal{P}$ soddisfa $s\le c,\forall s\in S$ allora $x\le c$
+        \end{itemize}
+        Se vale solo la prima condizione allora si dirà \textbf{upper bound} di $S$
+        \item $y\in \mathcal{P}$ \textbf{greatest lower bound} ($y=\inf(S)$, $y=\land S$) sse:
+        \begin{itemize}
+            \item $\forall s\in S, y\le s$
+            \item se $d\in \mathcal{P}$ soddisfa $d\le s,\forall s\in S$ allora $d\le y$
+        \end{itemize}
+        Se vale solo la prima condizione allora si dirà \textbf{lower bound} di $S$
+    \end{itemize}
 \end{definizione}
 
-Possiamo partire da un insieme generico definire ue operazioni che sono commutative associative 
-e assorbimento, con questo operazioni possiamo definire una relazione d'ordine parziale.
+\begin{osservazione}
+    Dato il poset $\langle \mathcal{P},\le\rangle$ allora:
+    \begin{itemize}
+        \item sia $Y\subseteq\mathcal{P}$ allora $\sup (Y)$ e $\inf (Y)$ se esistono
+        sono unici
+        \item sia $Y_1,Y_2\subseteq\mathcal{P}$ tale che $Y_1\le Y_2$ (ovvero tutti 
+        gli elementi di $Y_1$ sono minori di tutti gli elementi di $Y_2$) allora entrambi
+        $\inf(Y_1)$ e $\sup (Y_2)$ esistono, sono unici e $\inf(Y_1)\le \sup(Y_2)$
+        \item sia $x\le y\iff x\land y = x \land x\lor y=y$ 
+    \end{itemize}
+\end{osservazione}
+
+\begin{nota}
+    Dato il poset $\langle \mathcal{P},\le\rangle$ che ha un $\lor \mathcal{P}$ e 
+    un $\land\mathcal{P}$ e quindi è limitato, allora 
+    $$\land\mathcal{P}\le x\le \lor \mathcal{P}, \forall x\in \mathcal{P}$$ 
+\end{nota}
+
+
+\begin{definizione}
+    Un \textbf{reticolo} è un poset $\langle \mathcal{L}, \le \rangle$ tale che 
+    $\forall x,y\in\mathcal{L}$ esiste il $\sup(\{x,y\})$ e $\inf(\{x,y\})$
+\end{definizione}
+nei reticoli il $\inf \equiv \text{meet}$ ($x\land y$) e  $\sup \equiv \text{join}$ ($x\lor y$)
+
+Più precisamente si avrà:
+\begin{itemize}
+    \item $a\land b \le \{a,b\}$ e se $x\le  \{a,b\}\implies x\le a\land b$
+    \item $\{a,b\} \le a\lor b$ e se $\{a,b\}\le x \implies a\lor b \le x$
+\end{itemize}
+\begin{definizione}
+    Un \textbf{reticolo} è \textbf{completo} sse $\inf(S)$ e $\sup(S)$ esistono 
+    sempre $\forall S \ne \emptyset \subseteq\mathcal{L}$
+\end{definizione}
+
+Il $\sup$ e l'$\inf$ nei reticoli possono essere visti come delle operazioni binarie
+dal momento che esistono sempre generando la seguente struttura algebrica $\langle \mathcal{L}, \land,\lor \rangle$:
+$$\land : \mathcal{L} \times \mathcal{L} \to \mathcal{L}, (x,y) \to x\land y :=\inf(\{x,y\})$$
+$$\lor : \mathcal{L} \times \mathcal{L} \to \mathcal{L}, (x,y) \to x\lor y :=\sup(\{x,y\})$$
+
+
+\begin{teorema}
+    Dato il seguente reticolo $\langle \mathcal{L}, \le \rangle$ allora è associata 
+    la struttura algebrica $\langle \mathcal{L}, \lor, \land\rangle$ che contiene le 
+    operazioni di meet e join sul reticolo, allora le operazioni rispettano 
+    le seguenti proprietà $\forall x,y,z\in \mathcal{L}$:
+    \begin{itemize}
+        \item \textbf{idempotenza}:
+        $$x\land x = x \quad x\lor x = x$$ 
+        \item \textbf{commutativa}:
+        $$x\land y = y\land x \quad x\lor y = y\lor x$$ 
+        \item \textbf{associativa}:
+        $$x\land (y \land z) = (x \land y)\land z \quad x\lor (y \lor z) =( x\lor y)\lor z$$ 
+        \item \textbf{assorbimento}:
+        $$x\land (x \lor y) =x\quad x\lor (x \land y) =x$$  
+        \item inoltre:
+        $$x\le y \equiv x=x\land y\quad x\le y \equiv y=x\lor y$$ 
+    \end{itemize} 
+\end{teorema}
+
+Possiamo partire da un insieme generico definire due operazioni che sono commutative associative 
+e assorbimento, con queste operazioni possiamo definire un reticolo.
+
+\begin{teorema}
+    Data la seguente struttura algebrica $\langle \mathcal{L}, \lor, \land\rangle$
+    dove:
+    \begin{itemize}
+        \item $\mathcal{L}\ne \emptyset$
+        \item $\land$ e $\lor$ sono due operazioni su $\mathcal{L}$ commutative, 
+        associative e con l'assorbimento
+    \end{itemize}
+    Se definiamo una relazione binaria $\le\subseteq \mathcal{L}\times \mathcal{L}$
+    tale che 
+    $$x\le y \iff y=x\lor y \equiv x\le y \iff x= x\land y$$
+    allora $\langle \mathcal{L},\le\rangle$ è un reticolo tale che 
+    $$x\lor y = \sup \{x,y\} \quad x\land y = \inf \{x,y\}$$
+\end{teorema}
+
+Quindi a partire da un reticolo poset possiamo formare una struttura algebrica alla quale 
+sarà associato un reticolo che è lo stesso di quello di partenza. 
+
+Al contrario da una struttura algebrica di un reticolo possiamo formare un reticolo 
+il quale sarà effettivamente lo stesso del reticolo poset associato.
 
 esistono reticoli che non sono distributivi e reticoli che sono distributivi.
 
-Reticolo booleano
+\begin{nota}
+    Sia $\langle \mathcal{L}, \lor, \land\rangle$ una struttura algebrica che formula 
+    un reticolo allora:
+    \begin{itemize}
+        \item Se l'elemento neutro dell'operazione $\lor$ esiste (quindi $0$), allora 
+        questo elemento è unico ed è il minimo elemento rispetto alla relazione $\le$.
+        \item Se l'elemento neutro dell'operazione $\land$ esiste (quindi $1$), allora 
+        questo elemento è unico ed è il massimo elemento rispetto alla relazione $\le$.
+    \end{itemize}
+\end{nota}
+
+\begin{teorema}
+    Sia $\langle \mathcal{L}, \le, 0\rangle$ un reticolo limitato inferiormente allora 
+    $\lor$ rispetta le seguenti proprietà:
+    \begin{itemize}
+        \item \textbf{idempotenza}:
+        $$ x\lor x = x$$ 
+        \item \textbf{commutativa}:
+        $$x\lor y = y\lor x$$ 
+        \item \textbf{associativa}:
+        $$x\lor (y \lor z) =( x\lor y)\lor z$$ 
+        \item \textbf{elemento neutro}:
+        $$x\lor 0 =x$$  
+    \end{itemize}
+    Quindi $\langle \mathcal{L}, \lor, 0\rangle$ è un monoide commmutativo. Sotto queste 
+    ipotesi allora possiamo dire che dal monoide commutativo possiamo ottenere un 
+    reticolo dove $0$ è l'elemento minimo.
+\end{teorema}
+
+\begin{definizione}
+    Dati due reticoli $\mathcal{L}_1, \mathcal{L_2}$ sono detti isomorfi se esiste 
+    una mappa biettiva $\phi:\mathcal{L}_1\times \mathcal{L}_2$ tale che 
+    per un arbitrario $x,y\in \mathcal{L}_1$
+    $$\phi(x\land_1 y) = \phi(x)\land_2\phi(y) \quad \phi(x\lor_1 y) = \phi(x)\lor_2\phi(y)$$
+    Se $\phi$ è un isomorfismo di reticoli allora $\phi^{-1}$ è anch'esso un isomorfismo
+    di reticoli. L'isomorfismo tra reticoli preserva anche l'ordinamento quindi è anche 
+    un isomorfismo di poset.
+\end{definizione}
+
+\begin{definizione}
+    Se $\mathcal{L}$ è un reticolo distributivo se le operazioni rispettano la proprietà
+    distributiva:
+    \begin{itemize}
+        \item $\forall x,y,z\in \mathcal{L}, x\lor (y\land z)= (x\lor y) \land (x\lor z)$
+        \item $\forall x,y,z\in \mathcal{L}, x\land (y\lor z)= (x\land y) \lor (x\land z)$
+    \end{itemize}
+\end{definizione}
+
+\begin{teorema}
+    Sia $\langle \mathcal{L}, \land, \lor \rangle$ una struttura algebrica e si ha:
+    \begin{itemize}
+        \item $\mathcal{L}\ne \emptyset$
+        \item $\land$ e $\lor$ sono due operazioni binarie che soddisfano le seguenti 
+        proprietà:
+        \begin{itemize}
+            \item $x=x\land(x\lor y)$
+            \item $x\land (y\lor z) = (z\land x) \lor (y\land x)$
+        \end{itemize}
+    \end{itemize}
+    Allora $\mathcal{L}$ è un reticolo distributivo.
+\end{teorema}
+
+
+\begin{definizione}
+    Se $\mathcal{L}$ è un reticolo limitato, allora identifichiamo $y\in\mathcal{L}$
+    il complemento di $x\in \mathcal{L}$ tale che 
+    $$x\lor y = 1 \quad x\land y = 0$$
+\end{definizione}
+se $x$ è il complemento di $y$ allora $y$ è il complemento di $x$.
+Inoltre $0\lor 1= 1$ e $0\land 1 = 0$.
+
+Nei reticoli distribuiti il complemento di un elemento, se esiste, è unico. Per 
+reticoli non distributivi allora la proprietà non è unica. 
+
+\begin{definizione}
+    Un reticolo booleano è una struttura $\langle \mathcal{B}, \land,\lor, ',0,1\rangle$ 
+    dove:
+    \begin{itemize}
+        \item $\mathcal{B}$ è un insieme contenente due elementi distinti $1,0$.
+        \item $\land$ e $\lor$ sono due operazionin binarie su $\mathcal{B}$ dove 
+        la struttura algebrica $\langle \mathcal{B}, \land,\lor, 0,1\rangle$  è 
+        un reticolo distribuito limitato dagli elementi $0,1$, quidni $\forall x\in \mathcal{B}$
+        $0\le x\le 1$.
+        \item $\forall x \in \mathcal{B}, \exists x'\in \mathcal{B}$ tale che 
+        $x\land x' = 0$ e $x\lor x' = 1$, quindi $x'$ è il complemento.
+    \end{itemize}
+\end{definizione}
+
+Quindi un'algebra booleana è un reticolo distribuito, complementabile e limitato.
+Avremo quindi l'operazione di complemento ovvero $':\mathcal{B}\to \mathcal{B}$
+ tale che restituisce l'elemento complemento che è unico.
 
 \begin{esempio}
     Un reticolo booleano è la famosa tabella di verità dell'and e or, il complemento 
     è rappresentat dall'operazione complemneto.
 \end{esempio}
 
-Siamo partiti dai POSET, siamo passati ai lattice e poi siamo passati al boolean lattice 
-e l'algebra booleana permette di definire il reticolo booleano.
+\begin{definizione}
+    Un'algebra booleana è una struttura $\langle \mathcal{B}, \land,\lor, ',0,1\rangle$ 
+    dove:
+    \begin{itemize}
+        \item $\mathcal{B} = \{0,1\}$
+        \item $\land$ e $\lor$ sono due operazioni binarie su $\mathcal{B}$
+        \item $':\mathcal{B}\to \mathcal{B}$ è l'operazione di complemento
+    \end{itemize}
+    tale che $\forall x,y,z\in \mathcal{B}$ valgono i seguenti assiomi:
+    \begin{itemize}
+        \item $x\lor y = y\lor x \quad x\land y = y\land x $
+        \item $x\land (y\lor z) = (x\land y) \lor (x\land z) \quad x\lor (y\land z) = (x\lor y) \land (x\lor z)$
+        \item $x\lor 0 = x\quad x\land 1 = x$ 
+        \item $x\lor x' = 1\quad x\land x' = 0$ 
+    \end{itemize}
+\end{definizione}
 
-poi abbiamo un isomorfismo da algebre booleane.
+\begin{definizione}
+    Un'algebra booleana può essere definita da una struttura $\langle \mathcal{B}, \land,\lor, ',0,1\rangle$ 
+    tale che $\forall a,b,c\in \mathcal{B}$ valgono i seguenti assiomi:
+    \begin{itemize}
+        \item $a\land b = (a'\lor b')'$
+        \item $a \lor b = b \lor a$
+        \item $a\lor (b\lor c) = (a\lor b)\lor c$ 
+        \item $(a\land b)\lor (a\land b') = a$ 
+    \end{itemize}
+\end{definizione}
+
+\begin{teorema}
+    Ogni algebra booleanda è possibile prova le  seguenti affermazioni:
+    \begin{itemize}
+        \item Proprietà del reticolo:
+        \begin{itemize}
+            \item \textbf{idempotenza}:
+            $$x\land x = x \quad x\lor x = x$$ 
+            \item \textbf{commutativa}:
+            $$x\land y = y\land x \quad x\lor y = y\lor x$$ 
+            \item \textbf{associativa}:
+            $$x\land (y \land z) = (x \land y)\land z \quad x\lor (y \lor z) =( x\lor y)\lor z$$ 
+            \item \textbf{assorbimento}:
+            $$x\land (x \lor y) =x\quad x\lor (x \land y) =x$$  
+        \end{itemize} 
+        \item Proprietà distributive:
+        \begin{itemize}
+            \item $\forall x,y,z\in \mathcal{L}, x\lor (y\land z)= (x\lor y) \land (x\lor z)$
+            \item $\forall x,y,z\in \mathcal{L}, x\land (y\lor z)= (x\land y) \lor (x\land z)$
+        \end{itemize}
+        \item Elementi neutri e unità:
+        \begin{itemize}
+            \item $x\lor 0 = x\quad x\lor 1 = 1$
+            \item $x\land 0 = 0\quad x\land 1 =x$
+        \end{itemize}
+        \item condizioni di ortocomplementazione:
+        \begin{itemize}
+            \item \textbf{involuzione}: $(x')'= x$
+            \item \textbf{leggi di De Morgan}: $(x\land y)' = x'\lor y' \quad (x\lor y)' = x'\land y'$
+            \item $x\lor x' = 1$
+            \item $x\land x' = 0$
+        \end{itemize}
+
+    \end{itemize}
+\end{teorema}
+
+\begin{definizione}
+    Sia $\langle \mathcal{B}, \land,\lor\rangle$ una struttura algebrica dove:
+    \begin{itemize}
+        \item $\mathcal{L}\ne \emptyset$
+        \item $\land$ e $\lor$ sono due operazioni su  $\mathcal{L}$ che soddisfano:
+        \begin{itemize}
+            \item $x= x\land (x\lor y)$
+            \item $x\land (y\lor z) = (z\land x) \lor (y\land x)$
+            \item $x\land(y\lor y') = x\lor(y\land y')$
+        \end{itemize}
+    \end{itemize}
+    allora $\mathcal{L}$ è un reticolo booleano.
+\end{definizione}
+
+
+\begin{definizione}
+    Date due algebre $\mathcal{B}_1$ e $\mathcal{B}_2$ sono isomorfe se esiste un
+    isomorfismo tra reticoli $\phi:\mathcal{B}_1\to \mathcal{B}_2$ che preserva 
+    l'elemento complemento, $\forall x\in \mathcal{B}_1, \phi(x') = \phi(x)'$
+\end{definizione}
