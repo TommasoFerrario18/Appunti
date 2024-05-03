@@ -370,6 +370,11 @@ Il compito primario di ogni sistema inferenziale probabilistico consiste nel
 computare la distribuzione a posteriori, per un determinato insieme di \textbf{variabili
     di query}, quando si è osservato un determinato evento, ovvero un assegnamento
 congiunto di valori per un insieme di \textbf{variabili di evidenza}.
+Le reti bayesiane permettono di effettuare il \textbf{probabilistic reasoningo}, ovvero
+possiamo osservare un assegnamento ad una variabile di evidenza alla volta per 
+vedere come si modificano le distribuzioni delle nostre variabili. Infatti ogni 
+qual volta otteniamo una nuova evidenza, si aggiornano tutte le cpt per aggiornare 
+le distribuzioni.
 
 In questa sezione useremo la seguente notazione:
 \begin{itemize}
@@ -386,7 +391,7 @@ L'insieme complessivo di variabili è quindi rappresentato da:
 Mentre, una tipica query della quale bisogna calcolare la probabilità a
 posteriori è:
 \begin{equation*}
-    P(X|E=e)
+    P(X|E=e) = <P(X=x_1|E=e), P(X=x_2|E=e), \dots, P(X=x_n|E=e)>
 \end{equation*}
 Fino a questo momento, calcolavamo la distribuzione di probabilità di una
 variabile date tutte le altre variabili nella rete, come possiamo fare se per

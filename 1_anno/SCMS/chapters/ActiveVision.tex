@@ -174,3 +174,66 @@ rappresentare un agente che prende decisioni in un ambiente incerto.
 
 L'idea è quella di rappresentare lo stato dell'ambiente come una distribuzione di
 probabilità, la quale viene aggiornata ogni volta che l'agente intraprende un'azione.
+
+
+
+
+In ambienti incerti le azioni dipendono dalle osservazioni sul mondo, il problema è
+che da una sola osservazione possiamo essere in differenti stati, perciò
+risulta più semplice utilizzare maggiori osservazioni perché queste riducono la 
+l'incertezza delle scelte.
+
+Per far sì che il RL converga, bisogna rappresentare il mondo con una rappresentazione 
+Markoviana in modo da far convergere il RL.
+
+Per osservare il mondo abbiamo bisogno di sensori, esistono diversi modi per osservare:
+\begin{itemize}
+    \item visione passiva: utilizzare i sensori passivamente
+    \item visione attiva: controllare attivamente i propri sensori per gestire le
+    oclusioni o i limiti di dei sensori
+\end{itemize}
+
+Il problema nel percepire gli ambineti è molto complesso perché:
+\begin{itemize}
+    \item ambienti non strutturati
+    \item diversi ogetti
+    \item occlusioni
+    \item altri agenti 
+\end{itemize}
+
+La visione attiva permette di migliorare la percezione per ridurre l'incertezza,
+questo può essere facilmente fatto avvicinandosi all'oggetto o spostando il punto di 
+vista. Spesso la visione si cerca di simularla il più vicino possibile all'occhio 
+umano, nel quale abbiamo solo un punto centrale che ha direttamente la visione perfetta,
+in modo da rimuovere il rumore dello sfondo. Per analizzare il contesto si sposta 
+la visione e in questo modo si mappa il mondo.
+
+\begin{nota}
+    La scelta di cosa considerare nel mondo è associato al frame problem.
+\end{nota}
+
+Per capire qual è la zona dell'immagine più interessanti si usano le saliency map 
+che specificano attraverso la probabilità l'interesse del pixel. L'importanza 
+dipende dal colore, intensitò e orientamento. Queste informazioni si calcolano con 
+filtri.
+
+Le saliency map si migliorano andando ad introdurre anche la profondità dell'immagine.
+Il problema degli approcci saliency sono che:
+\begin{itemize}
+    \item non considerano la profondità
+    \item le camere dei robot hanno una visione uniforme che differiscono dalla 
+    visione degli esseri umani
+    \item ignorano il problema e il contesto.
+\end{itemize}
+
+per includere il contesto si è cercato di capire come le persone guardano le immagini 
+quando devono capire il contesto.
+
+Quindi per guidare l'active persection usiamo i vincoli, effettuiamo il focus 
+per guidare l'attenzione e infine in base al task che sta compiendo il robot.
+Il problema è che spesso non conosciamo l'obiettivo e il task, soprattutto nel caso 
+del bambino che deve prendere la mela. Imparare dove guardare si impara durante il 
+learning. Si è notato che se prima si guarda e poi si esegue l'azione di miglioramento  
+
+Per capire come predire le azioni di una persona spesso si deve capire cosa sta 
+facendo l'agente e il contesto.
