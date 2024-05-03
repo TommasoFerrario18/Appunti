@@ -472,3 +472,143 @@ Avremo quindi l'operazione di complemento ovvero $':\mathcal{B}\to \mathcal{B}$
     l'elemento complemento, $\forall x\in \mathcal{B}_1, \phi(x') = \phi(x)'$
 \end{definizione}
 
+\begin{esempio}
+L'esempio classico di algebra booleana è $0, 1$ e gli operatori saranno $\land, \lor,\lnot$.
+In questa algebra si può definire $\implies$.
+\end{esempio}
+\section{Logica booleana}
+
+Come tutte le logiche si definisce prima la \textbf{sintassi}, partendo prima dai 
+possibili simboli:
+\begin{itemize}
+    \item alfabeto: composto dalle variabili proposizionali
+    \item connettivi: le nostre operazioni
+    \item segni ausiliari: parentesi \dots
+\end{itemize}
+
+La sintassi si definisce mediante FbF.
+\begin{definizione}
+    Le FbF sono:
+    \begin{itemize}
+        \item $\forall p\in V$ 
+    \end{itemize}
+\end{definizione}
+
+Definiamo il linguaggio come $\langle \mathcal{A}, \mathcal{F}\rangle$.
+
+Per definire la semantica dobbiamo passare prima da un assegnamento dell'interpretazione 
+di una particolare variabile dell'alfabeto.
+
+\begin{definizione}
+    interpretazione delle variabili
+\end{definizione}
+
+dopo di che si estende la definizioni a tutte le formule FbF.
+
+\begin{definizione}
+    estensione della formula ben formata. Si usano simboli differenti perché uno 
+    ha un significato semantico mentre end or not sono gli operatori dell'algebra 
+    booleana.
+\end{definizione}
+
+Successivamente si defi definire il concetto di soddisfacibilità.
+\begin{definizione}
+    soddisfacibilità
+\end{definizione}
+
+\begin{definizione}
+    soddisfacibile
+\end{definizione}
+\begin{definizione}
+    tautologica
+\end{definizione}
+\begin{definizione}
+    contraddizione
+\end{definizione}
+
+\begin{definizione}
+    sistema deduttivo è una tripla $\langle L, \mathcal{U}, \{r_1,\dots, r_k\}\rangle$
+
+    dove $L$ è il linguaggio, $\mathcal{U}$ è l'insieme di assiomi, mentre $\{r_1,\dots, r_k\}$ sono 
+    le regole di inferenza.
+\end{definizione}
+
+\begin{definizione}
+    deduzione abbiamo il sistema deduttivo, un insieme di proposizioni (premesse)
+    allora se possiamo arrivare utilizzando le regole di inferenza fino ad un'altra 
+    formula allora quella formula l'ho dedotta. 
+\end{definizione}
+soddisfacibilità semantica mentre sintassi è la deduzione.
+
+\begin{definizione}
+    equivalenza logica
+\end{definizione}
+
+\begin{teorema}
+    collegamento semantica e sintassi.
+\end{teorema}
+
+\section{Logiche a più valori di verità}
+\subsection{Logica di Kleene}
+Esistono 2 tipologie di logiche:
+\begin{itemize}
+    \item strong: logica alla base della gestione del valore null in SQL
+    \item weak
+\end{itemize} 
+
+Il terzo valore di verità assume la semantica di \textbf{unknown}.
+
+L'insieme dei valori di verità quindi è $\{F,T,u\}$  quindi $T=\{t\}$, $F=\{f\}$
+mentre $u=\{t,f\}$ dove $t,f$ sono i valori di verità della logica booleana data 
+tutta la conoscienza nota.
+
+Per definire i connettivi possiamo utilizzare le operazioni tra insiemi:
+\begin{itemize}
+    \item $F\sqcap T = \{f\} \sqcap \{t\} = \{f\land t\} = \{f\} = F$ 
+    \item $F\sqcap u = \{f\} \sqcap \{f,t\} = \{f\land t, f\land f\} = \{f, f\} =\{f\}= F$
+    \item $T\sqcap u = \{t\} \sqcap \{f,t\} = \{t\land t, t\land f\} = \{f,t\} = u$
+    \item $T\sqcup u = \{t\} \sqcup \{f,t\} = \{t\lor t, t\lor f\} = \{t,t\}= \{t\}= T$
+    \item $F\sqcup u = \{f\} \sqcup \{f,t\} = \{f\lor t, f\lor f\} = \{f,t\}= u$
+\end{itemize}
+
+tabelle di verità
+
+La negazione dello sconosciuto è sconosciuto, mentre la negazione degli altri due 
+sono gli stessi.
+
+L'implicazione è uguale a quella booleana.
+
+Sui valori booleani otteniamo la tabella della logica booleana, nel caso di sconosciuto
+cambia.
+
+Vale il modus ponens ma non esistono tautologie perché se associamo ad una variabile 
+il valore sconosciuto allora c'è il rischio che esca sconosciuto.
+
+abbiamo associato sempre una struttura algebrica non booleana perché $a\sqcup a' \ne T$.
+Questa è un'algebra di Kleene.
+
+\begin{definizione}
+    reticolo di de Morgan $L, \land, \lor,',0,1$ che è un reticolo limitato $0,1$
+    dove $1=0'$. Dove la $'$ soddisfa solo:
+    \begin{itemize}
+        \item $a=a''$
+        \item $a'\land b' = (a\lor b)'$ leggi di de Morgan
+        \item $a'\lor b' = (a\land b)'$ leggi di de Morgan
+    \end{itemize}
+    (quindi non $b\lor b' = 1$)
+    Se vale la distributività allora si parta di algebra di De Morgan.
+\end{definizione}
+
+\begin{definizione}
+    reticolo/algebra di Kleene è un reticolo/algebra di De Morgan tra le che 
+    $$a\land a' \le b\lor b'$$
+\end{definizione}
+\begin{esempio}
+    esistono reticoli di De Morgan che non sono di Kleene.
+\end{esempio}
+
+ora non esistono più assiomi ma solo le regole di inferenza, ciascuna rappresenta una 
+proprietà della nostra logica (ex: distributività, doppia negazione)
+
+L'inferenza sintattica \dots
+
