@@ -476,139 +476,334 @@ Avremo quindi l'operazione di complemento ovvero $':\mathcal{B}\to \mathcal{B}$
 L'esempio classico di algebra booleana è $0, 1$ e gli operatori saranno $\land, \lor,\lnot$.
 In questa algebra si può definire $\implies$.
 \end{esempio}
-\section{Logica booleana}
 
-Come tutte le logiche si definisce prima la \textbf{sintassi}, partendo prima dai 
-possibili simboli:
+\section{Logica proposizionale booleana}
+Per definire le logiche bisogna definire singolarmente la \textbf{sintassi} e 
+\textbf{semantica}. Successivamente su queste bisogna definire un sistema deduttivo 
+per poter effettuare inferenza nella nostra logica.
+
+In generalem per definire la sintassi sobbiamo definire un \textbf{alfabeto} $\mathcal{A}$
+e un insieme di formule $\mathcal{F}$ su di esso, più precisamente l'alfabeto sarà
+$\mathcal{A} =\{V, L, U\}$ dove:
 \begin{itemize}
-    \item alfabeto: composto dalle variabili proposizionali
-    \item connettivi: le nostre operazioni
-    \item segni ausiliari: parentesi \dots
+    \item $V$ è un insieme infinito di variabili proposizionali
+    \item $L\ne \emptyset$ è un insieme finito di connettivi logici unari e binari
+    \item $U$ è un insieme di simboli ausiliari come le parentesi e la punteggiatura
 \end{itemize}
 
-La sintassi si definisce mediante FbF.
-\begin{definizione}
-    Le FbF sono:
+Per una generica logica booleana possiamo pensare di definire l'alfabeto in questo modo
+$$\mathcal{A} = \{\{p,q,r,s,\dots\}, \{\lnot, \land, \lor, \supset \}, \{(,),\top, \perp\}\}$$
+
+Dall'alfabeto si definisce l'insieme di formule, spesso chiamate FbF perché definite 
+in modo induttivo.
+
+Nel caso generale le formule ben formate $\mathcal{F}$ saranno:
+\begin{itemize}
+    \item $\forall v\in V, v\in \mathcal{F}$
+    \item $p,q\in FbF: \lnot p, p\land q, p\lor q, p \supset q\in \mathcal{F}$
+    \item Nient'altro è una FbF
+\end{itemize}
+
+Definiremo $L= \langle \mathcal{A},\mathcal{F}\rangle$ il linguaggio della logica classica 
+proposizionale booleana.
+
+Per definire una \textbf{semantica} dobbiamo passare prima da una specifica 
+su come interpretare una particolare variabile dell'alfabeto.
+
+Per interpretare le variabili definiremo una mappa $v:V\to \mathcal{T}$ una funzione 
+che associa una variabile ad un possibile valore di verità. L'interpretazione
+verrà esotesa successivamente a tutte le formule $\mathcal{F}$, definendo la mappa 
+$v^\ast:\mathcal{F}\to \mathcal{T}$ nel seguente modo:
+\begin{itemize}
+    \item $v^\ast(p) = v(p), \forall p\in V$
+    \item $v^\ast(\lnot p) = v^\ast(p)', \forall p\in \mathcal{F}$
+    \item $v^\ast(p\land q) = v^\ast(p) \land v^\ast(q), \forall p,q\in \mathcal{F}$
+    \item $v^\ast(p\lor q) = v^\ast(p) \lor v^\ast(q), \forall p,q\in \mathcal{F}$
+    \item $v^\ast(p\supset q) = v^\ast(p) \implies v^\ast(q), \forall p,q\in \mathcal{F}$
+\end{itemize}
+
+Dove $\lnot, \land, \lor, \supset$ coincidono con gli operatori dell'algebra booleana
+$', \land, \lor, \implies$.
+
+\begin{nota}
+    Il valore di verità della formula dipende dal valore di verità delle singole componenti
+    elementari e questa proprietà si chiama \textbf{truth-functionality}.
+\end{nota}
+
+Successivamente si deve definire il concetto di soddisfacibilità.
+
+\begin{definizione} 
+    Se $v$ è la funzione di valutazione per un linguaggio formale $L$, se $p\in \mathcal{F}$
+    e $v(p) = 1$ allora $v$ \textbf{soddisfa} $p$, $v\vDash p$.
+\end{definizione}
+
+Se $v$ non soddisfa $p$ allora $v(p) = 0$ e si scrive $v\not\vDash p$.
+
+Diremo che una formula $p$ è \textbf{soffisfacibile} se $\exists v$ interpretazione 
+tale che $v\vDash p$. Diremo che una formula $p$ è una \textbf{tautologia} se $\forall v$ interpretazioni
+tale che $v\vDash p$. Diremo che una formula $p$ è una \textbf{contraddizione} se $\forall v$ interpretazioni
+tale che $v\not \vDash p$.
+
+\begin{nota}
+    Se la formula $p$ è una tautologia allora si può direttamente scrivere $\vDash p$.
+\end{nota}
+
+\begin{definizione} [\textbf{Sistema deduttivo}]
+    Un \textbf{sistema deduttivo} è una tripla $\langle L, \mathcal{U}, \{r_1,\dots, r_k\}\rangle$+
+    dove:
     \begin{itemize}
-        \item $\forall p\in V$ 
+        \item $L$ è il linguaggio formale
+        \item $\mathcal{U}$ è l'insieme di assiomi (tautologie)
+        \item $\{r_1,\dots, r_k\}$ sono le regole di inferenza.
     \end{itemize}
 \end{definizione}
 
-Definiamo il linguaggio come $\langle \mathcal{A}, \mathcal{F}\rangle$.
+L'insieme di assiomi della logica booleana sono:
+\begin{itemize}
+    \item $p\supset (q \supset p)$
+    \item $(p\supset (q \supset r))\supset ((p\supset q)\supset (p\supset r))$
+    \item $\lnot p \supset(p\supset q)$
+    \item $(p\supset q) \supset((\lnot p\supset q)\supset q)$
+\end{itemize}
 
-Per definire la semantica dobbiamo passare prima da un assegnamento dell'interpretazione 
-di una particolare variabile dell'alfabeto.
+L'unica regola di inferenza sarà il \textbf{modus pones}
+$$\frac{p,p\supset q}{q}$$
 
-\begin{definizione}
-    interpretazione delle variabili
+Ovviamente gli assiomi possono essere scritti anche secondo $\land,\lor$ dal momento 
+che 
+$$p\land q \equiv \lnot(p\supset \lnot q) \qquad p\lor q \equiv (p\supset q )\supset q$$
+
+Inoltre si può utilizzare anche $\iff$ che coincide con
+$$p\iff q \equiv (p\supset q) \land (q\supset p)$$
+
+
+\begin{definizione} [\textbf{Deduzione}]
+    Dato un sistema deduttivo, la \textbf{deduzione} di $q$ a partire da un insieme
+    di proposizioni $A= (p_1,\dots, p_n)$ (premesse) è quando possiamo arrivare 
+    dalle premesse alla formula $q$ utilizzando le regole di inferenza. In qìuesto 
+    caso avremo 
+    $$p_1,\dots p_n \vdash q \equiv A\vdash q$$
 \end{definizione}
 
-dopo di che si estende la definizioni a tutte le formule FbF.
+Il concetto di soddisfacibilità deriva dalla semantica mentre il concetto di 
+deduzione deriva dalla sintassi.
 
 \begin{definizione}
-    estensione della formula ben formata. Si usano simboli differenti perché uno 
-    ha un significato semantico mentre end or not sono gli operatori dell'algebra 
-    booleana.
+    Due formule $p,q$ sono logicamente equivalenti sse $p\vDash q$ e $q\vDash p$
+    e le riscriviamo $p\equiv q$.
+    
+    $$p\equiv q \iff \forall v \begin{cases}
+        v(p)=1 \implies v(q)=1\\
+        v(q)=1 \implies v(p)=1\\
+    \end{cases}$$
 \end{definizione}
-
-Successivamente si defi definire il concetto di soddisfacibilità.
-\begin{definizione}
-    soddisfacibilità
-\end{definizione}
-
-\begin{definizione}
-    soddisfacibile
-\end{definizione}
-\begin{definizione}
-    tautologica
-\end{definizione}
-\begin{definizione}
-    contraddizione
-\end{definizione}
-
-\begin{definizione}
-    sistema deduttivo è una tripla $\langle L, \mathcal{U}, \{r_1,\dots, r_k\}\rangle$
-
-    dove $L$ è il linguaggio, $\mathcal{U}$ è l'insieme di assiomi, mentre $\{r_1,\dots, r_k\}$ sono 
-    le regole di inferenza.
-\end{definizione}
-
-\begin{definizione}
-    deduzione abbiamo il sistema deduttivo, un insieme di proposizioni (premesse)
-    allora se possiamo arrivare utilizzando le regole di inferenza fino ad un'altra 
-    formula allora quella formula l'ho dedotta. 
-\end{definizione}
-soddisfacibilità semantica mentre sintassi è la deduzione.
-
-\begin{definizione}
-    equivalenza logica
-\end{definizione}
-
 \begin{teorema}
-    collegamento semantica e sintassi.
+    La sequenza $\langle \mathcal{F}, \land, \lor, \lnot, 0, 1\rangle$ è una 
+    algebra booleana
 \end{teorema}
 
+\begin{teorema}
+    Sia una formula $p$ è provabile nella logica bolleana, ex: $\vdash p$ sse 
+    $p$ è una tautologia  nella logica, ovvero se $\forall v, v\vDash p$.
+\end{teorema}
+
+
 \section{Logiche a più valori di verità}
+
+Logiche 3 valori di verità spesso assegnano un valore epistemico (sconosciuto) al
+terzo valore di verità. Più spesso si l'interpretazione del terzo è una verità 
+sfumata (mezzo vero), oppure per identificare un valore sconosciuto, oppure per 
+identificare un valore irrilevante.
+
+Il valore epistemico del terzo valore porta ad un problema di vero funzionale,
+dove se $p=u$ ma anche $\lnot p =u$ quindi $p\land \lnot p$ dovrebbe essere falso 
+e $p\lor p$ dovrebbe essere vero ma in realtà sono entrambi $u$.
+
+
+
 \subsection{Logica di Kleene}
-Esistono 2 tipologie di logiche:
+La logica di Kleene viene sviluppata dallo studio delle \textbf{funzioni parziali ricorsive},
+ovvero $f:\mathbb{N}^n\to \mathbb{N}$ che sono definite su un $D\subseteq \mathbb{N}^n$.
+Durante il loro studio Kleene definisce 2 tipologie di logiche:
 \begin{itemize}
-    \item strong: logica alla base della gestione del valore null in SQL
-    \item weak
+    \item \textbf{strong}: logica alla base della gestione del valore null in SQL,
+    il terzo valore di verità assume la semantica di \textbf{unknown}.
+    \item \textbf{weak}
 \end{itemize} 
 
-Il terzo valore di verità assume la semantica di \textbf{unknown}.
-
-L'insieme dei valori di verità quindi è $\{F,T,u\}$  quindi $T=\{t\}$, $F=\{f\}$
+L'insieme dei valori di verità è $\{F,T,u\}$  quindi $T=\{t\}$, $F=\{f\}$
 mentre $u=\{t,f\}$ dove $t,f$ sono i valori di verità della logica booleana data 
 tutta la conoscienza nota.
 
 Per definire i connettivi possiamo utilizzare le operazioni tra insiemi:
 \begin{itemize}
-    \item $F\sqcap T = \{f\} \sqcap \{t\} = \{f\land t\} = \{f\} = F$ 
-    \item $F\sqcap u = \{f\} \sqcap \{f,t\} = \{f\land t, f\land f\} = \{f, f\} =\{f\}= F$
-    \item $T\sqcap u = \{t\} \sqcap \{f,t\} = \{t\land t, t\land f\} = \{f,t\} = u$
-    \item $T\sqcup u = \{t\} \sqcup \{f,t\} = \{t\lor t, t\lor f\} = \{t,t\}= \{t\}= T$
-    \item $F\sqcup u = \{f\} \sqcup \{f,t\} = \{f\lor t, f\lor f\} = \{f,t\}= u$
+    \item intersezione $\sqcap$ ovvero applica l'operatore booleano $\land$ su 
+    tra tutte le coppie di valori di verità
+    \item unione $\sqcup$ ovvero applica l'operatore booleano $\lor$ su 
+    tra tutte le coppie di valori di verità
+    \item negazione $'$ coincide con il complemento degli insiemi di valori di verità.
+    \item implica $\implies$ ovvero coincide con la seguente formulazione 
+    $A \implies B \equiv (\lnot A) \lor B \equiv A' \sqcup B $
 \end{itemize}
 
-tabelle di verità
+\begin{esempio}
+    Ecco un paio di esempi:
+    \begin{itemize}
+        \item $F\sqcap T = \{f\} \sqcap \{t\} = \{f\land t\} = \{f\} = F$ 
+        \item $F\sqcap u = \{f\} \sqcap \{f,t\} = \{f\land t, f\land f\} = \{f, f\} =\{f\}= F$
+        \item $T\sqcap u = \{t\} \sqcap \{f,t\} = \{t\land t, t\land f\} = \{f,t\} = u$
+        \item $T\sqcup u = \{t\} \sqcup \{f,t\} = \{t\lor t, t\lor f\} = \{t,t\}= \{t\}= T$
+        \item $F\sqcup u = \{f\} \sqcup \{f,t\} = \{f\lor t, f\lor f\} = \{f,t\}= u$
+    \end{itemize}
+\end{esempio}
 
-La negazione dello sconosciuto è sconosciuto, mentre la negazione degli altri due 
-sono gli stessi.
+Le tabelle di verità sono le seguenti.
 
-L'implicazione è uguale a quella booleana.
+\begin{table}[b]
+    \centering
+    \begin{subtable}[t]{0.49 \textwidth}
+        \begin{tabular}{c|c|c|c}
+            $\sqcap$ & F & u & T \\
+            \hline
+            F        & F & F & F \\
+            u        & F & u & u \\
+            T        & F & u & T
+        \end{tabular}
+    \end{subtable}
+    \hspace{\fill}
+    \begin{subtable}[t]{0.49 \textwidth}
+        
+        \begin{tabular}{c|c|c|c}
+            $\sqcup$ & F & u & T \\
+            \hline
+            F        & F & u & T \\
+            u        & u & u & T \\
+            T        & T & T & T
+        \end{tabular}
+    \end{subtable}
+    \bigskip
 
-Sui valori booleani otteniamo la tabella della logica booleana, nel caso di sconosciuto
-cambia.
+    \begin{subtable}[t]{0.49 \textwidth}
+        \begin{tabular}{c|c}
+            $'$& \\
+            \hline
+            F  & T \\
+            u  & u \\
+            T  & F 
+        \end{tabular}
+    \end{subtable}
 
-Vale il modus ponens ma non esistono tautologie perché se associamo ad una variabile 
-il valore sconosciuto allora c'è il rischio che esca sconosciuto.
 
-abbiamo associato sempre una struttura algebrica non booleana perché $a\sqcup a' \ne T$.
-Questa è un'algebra di Kleene.
+    \begin{subtable}[t]{0.49 \textwidth}
+        
+        \begin{tabular}{c|c|c|c}
+            $\implies$ & F & u & T \\
+            \hline
+            F        & T & T & T \\
+            u        & u & u & T \\
+            T        & F & u & T
+        \end{tabular}
+    \end{subtable}
+    \bigskip
+    
+\end{table}
 
-\begin{definizione}
-    reticolo di de Morgan $L, \land, \lor,',0,1$ che è un reticolo limitato $0,1$
-    dove $1=0'$. Dove la $'$ soddisfa solo:
+
+Vale il modus ponens ma non esistono tautologie perché se associamo ad ogni variabile 
+della formula il valore sconosciuto allora i connettivi restituiscono sconosciuto.
+
+Alla logica di Kleene possiamo sempre associare una struttura algebrica, prima 
+però dobbiamo introdurre il \textbf{reticolo di de Morgan}.
+
+\begin{definizione}[\textbf{Reticolo di De Morgan}]
+    Il \textbf{reticolo di De Morgan} è $\langle L, \land, \lor,',0,1\rangle$ che è un reticolo limitato $0,1$
+    dove $1=0'$ e l'operatore $'$ soddisfa solo:
     \begin{itemize}
         \item $a=a''$
-        \item $a'\land b' = (a\lor b)'$ leggi di de Morgan
-        \item $a'\lor b' = (a\land b)'$ leggi di de Morgan
+        \item leggi di de Morgan: $a'\land b' = (a\lor b)'\qquad a'\lor b' = (a\land b)'$
     \end{itemize}
-    (quindi non $b\lor b' = 1$)
+    (quindi non $b\lor b' = 1$ che vale per le algebre booleane)
     Se vale la distributività allora si parta di algebra di De Morgan.
 \end{definizione}
 
-\begin{definizione}
-    reticolo/algebra di Kleene è un reticolo/algebra di De Morgan tra le che 
+\begin{nota}
+    Nel reticolo di De Morgan i seguenti punti sono equivalenti:
+    \begin{itemize}
+        \item $a'\land b' = (a\lor b)'$
+        \item $a'\lor b'= (a \land b)'$
+        \item $a\le b \implies b'\le a'$
+        \item $a'\le b' \implies b\le a$
+    \end{itemize}
+\end{nota}
+
+\begin{definizione}[\textbf{Reticolo/algebra di Kleene}]
+    Un \textbf{reticolo/algebra di Kleene} è un reticolo/algebra di De Morgan tale che 
     $$a\land a' \le b\lor b'$$
 \end{definizione}
 \begin{esempio}
     esistono reticoli di De Morgan che non sono di Kleene.
 \end{esempio}
 
-ora non esistono più assiomi ma solo le regole di inferenza, ciascuna rappresenta una 
-proprietà della nostra logica (ex: distributività, doppia negazione)
+Successivamente dobbiamo definire il sistema deduttivo della logica, per la logica 
+di Kleene non esistono più assiomi, ma si hanno solo le regole di inferenza.
+Ciascuna regola rappresenta una proprietà della nostra logica:
+\begin{itemize}
+    \item $\frac{a\land b}{a}, \frac{a\land b}{b}$
+    \item $\frac{a, b}{a\land b}$
+    \item $\frac{a}{a\lor b}$
+    \item $\frac{a\lor b}{b\lor a}$
+    \item $\frac{a\lor a}{ a}$
+    \item $\frac{a\lor (b\lor c)}{ (a\lor b)\lor c}$
+    \item $\frac{a\lor (b\land c)}{ (a\lor b) \lor (a\lor c)}$
+    \item $\frac{ (a\lor b) \lor (a\lor c)}{a\lor (b\land c)}$
+    \item $\frac{ a\lor c}{\lnot \lnot a\lor c}$
+    \item $\frac{ \lnot(a\lor b)\lor c}{(\lnot a\land \lnot b)\lor c}$
+    \item $\frac{ \lnot(a\land b)\lor c}{(\lnot a\lor \lnot b)\lor c}$
+    \item $\frac{\lnot \lnot a\lor c}{ a\lor c}$
+    \item $\frac{(\lnot a\land \lnot b)\lor c}{ \lnot(a\lor b)\lor c}$
+    \item $\frac{(\lnot a\lor \lnot b)\lor c}{ \lnot(a\land b)\lor c}$
+    \item $\frac{a\lor (b\land \lnot b)}{ a}$
+\end{itemize}
+Le regole di inferenza esprimono tutte le proprietà della logica,  ex: distributività, doppia negazione.
 
-L'inferenza sintattica \dots
+Anche qui abbiamo l'inferenza sintattica ovvero $\Gamma \vdash p$ con $\Gamma \subseteq \mathcal{F}$
+allora significa che $p$ si può derivare dell'insieme di formule $\Gamma$ mediante 
+l'applicazione di regole di inferenza.
 
+Questa algebra permette di modellare le query con null nei dbms relazionali.
+
+Ai valori di verità possiamo associare dei valori reali $F=0, T=1,u=\frac{1}{2}$.
+Questo mi permette di definire le operazioni con delle operazioni matematiche:
+\begin{itemize}
+    \item $a\land b = \min \{a,b\}$
+    \item $a\lor b = \max \{a,b\}$
+    \item $a' = 1-a$
+\end{itemize}
+
+Questo è uno dei possibili modi per estendere all'intervallo $[0,1]$ le operazioni.
+Il problema del verità funzionale è che si considera $u$ come coflitto tra il vero 
+e falso ma non tra quello noto come vero e noto come falso. Altre logiche separano 
+queste operazioni.  
+
+\textbf{DA SISTEMARE}
+Possiamo modificare la congiunzione\dots (deve essere monotona, compatibile con la logica booleana).
+La congiunzione non sempre è communtativa. Quelle con i nomi sono commutative e sono 
+le uniche associative.
+
+(tnorma, uninorma sono modi per definire AND su intervallo [0,1])
+
+Possiamo definire lanche l'implicazione\dots Questo introduce delle ocndizioni di contorno
+ex: $T\implies x= x$ e la proprietà d'ordine. Anche quin si ottengono altre logiche.
+tnorme quelle azzurre.
+
+La negazione può essere definita come implicazione e in base all'implicazione 
+che andiamo ad usare allora il significato di $\frac{1}{2}'$ cambia.
+
+Quindi abbiamo 14 congiunzioni e disgiunzioni e 
+
+
+\subsection{Logica di prist}
+Logica paraconsistente, permette di associare il valore $u$ quando si hanno inconsistenze.
+Quindi in questo caso i valori di verità considerati come veri come $1,\frac{1}{2}$
+la conseguenza è che si hanno tautologie, tutte le tautologie booleane vengono preservate 
+però perdo il modusponens.
