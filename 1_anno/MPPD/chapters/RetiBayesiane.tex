@@ -54,6 +54,7 @@ Nella definizione della struttura della rete è importante che il grafo sia orie
 e non contenga cicli, ovvero che la rete bayesiane sia un DAG (\textit{Directed
     Acyclic Graph}). Questo perché non è possibile che una variabile sia causa
 di se stessa.
+
 \subsection{Componente Quantitativa}
 Consideriamo ora la componente quantitativa di una rete bayesiane, ovvero le
 \textbf{Conditional Probability Tables} (CPT). Di queste tabelle possiamo dire che:
@@ -297,13 +298,6 @@ Se al termine di questo processo si hanno:
     \end{figure}
 \end{esempio}
 \subsection{Rappresentazione efficiente delle distribuzioni condizionali}
-Per ridurre il numero di parametri nelle CPT possiamo utilizzare le \textbf{distribuzioni
-    canoniche} per rappresentare dei pattern standard tra i parametri come per
-i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo
-quando si possono notare dei pattern particolari, come ad esempio è possibile
-osservare una relazione di \texttt{AND} logico tra i genitori, oppure una relazione
-di \texttt{OR} logico tra i genitori, ma anche relazioni numeriche, come ad esempio
-la somma e così via.
 
 Una volta identificato il pattern, questo ci permette di specificare un numero
 limitato di parametri per compilare la CPT, dal momento che alcuni si derivano
@@ -320,17 +314,29 @@ Le relazioni tra genitori e figli possono essere di diversi tipi:
     \item \textbf{Numeriche}: come ad esempio il \texttt{minimo} valore delle
           variabili dei genitori.
 \end{itemize}
-Un importante pattern è l'\textbf{indipendenza di uno specifico contesto} ovvero
-quando la probabilità condizionata di un nodo è condizionalmente indipendente
-da alcuni genitori dati certi valori di altri (if-else sintax).
 
-Le relazioni incerte, possono essere caratterizzate dalle \textbf{Noisy Logical
-    Relations} che permettono di modellare l'incertezza dei genitori nel causare
-il figlio. Queste relazioni sono utili per modellare situazioni in cui la presenza
-di un genitore non implica necessariamente la presenza del figlio.
-Andiamo per esempio ad analizzare il modello \textbf{Noisy-OR}. Questo modello
-consente di introdurre incertezza circa la capacità di ogni nodo genitore di
-causare il valore vero della variabile figlio.
+Si possono identificare delle relazioni tra i valori che assumono i genitori e 
+i valori che assumono i figli, ex: quando il valore del figlio coincide con l'\texttt{AND}
+logico tra i valori dei genitori. In questo caso il valore del figlio è determinato 
+dai valori dei genitori, senza incertezza perché è un nodo deterministico. In questo 
+modo l'\texttt{AND} è una \textbf{distribuzione canonica} e questo permette di 
+non avere dei paramentri per il nodo deterministico, riducendo la complessità 
+della rete. 
+
+Con lo stesso ragionamento si possono utilizzare di stribuzioni canoniche che non 
+seguono relazioni logiche, ma seguono relazioni numeriche, ex: il figlio assume 
+sempre il minimo valore tra i valori assunti dai genitori.  Questa distribuzione 
+canonica coincide con il \texttt{min}.
+
+Le distribuzioni canoniche permettono anche di esprimere delle relazioni incerte 
+mediante l'ausilio delle distribuzioni \textbf{Noisy Logical}. Un esempio è la 
+distribuzione \textbf{Noisy-OR} che consiste nello specificare $P(f = T)$ solo 
+quando uno solo dei genitori è vero, poi le altre combinazioni si ottengono 
+di conseguenza. In questo modo se $k$ sono i genitori allora dovremo esprimere 
+solo $P(f=T | g_0 = F, \dots, g_i = T, \dots, g_k=F), \forall i \in \{0,\dots, k\}$,
+mentre le altre probabilità dove si hanno più genitori veri verranno calcolate 
+moltiplicando le probabilità dei singoli genitori veri. Questo si traduce nello specificare 
+solo $k$ parametri indipendenti e tutti gli altri saranno dipendenti. 
 
 Il modello Noisy-OR effettua le seguenti ipotesi:
 \begin{itemize}
@@ -340,6 +346,7 @@ Il modello Noisy-OR effettua le seguenti ipotesi:
 \end{itemize}
 In questo caso specifico la probabilità di un determinato evento, è data dal
 prodotto delle probabilità di inibizione per ogni nodo genitore.
+
 \subsection{Rappresentazioni efficiente delle distribuzioni continue}
 Per rappresentare efficientemente i nodi di distribuzioni continue, usando quelle
 canoniche, possiamo pensare di discretizzare le variabili continue definendo un
@@ -393,6 +400,7 @@ posteriori è:
 \begin{equation*}
     P(X|E=e) = <P(X=x_1|E=e), P(X=x_2|E=e), \dots, P(X=x_n|E=e)>
 \end{equation*}
+
 Fino a questo momento, calcolavamo la distribuzione di probabilità di una
 variabile date tutte le altre variabili nella rete, come possiamo fare se per
 alcune di esse non abbiamo informazioni?
@@ -449,7 +457,8 @@ allora posso sfruttare la seguente equazione, ovvero l'\textbf{algoritmo di
     P(X|E = e) = \alpha P(X,E = e) = \alpha \sum_{y} P(X,E = e, Y = y)
 \end{equation}
 dove $\alpha$ mi rappresenta un parametro di normalizzazione, mentre $\sum_{y}
-    P(X,E = e, Y = y)$ rappresenta la probabilità al variare delle variabili nascoste.
+    P(X,E = e, Y = y)$ rappresenta la probabilità al variare delle variabili nascoste 
+(\textbf{marginalizzazione}).
 
 Si parla di enumerazione perché calcoliamo tutte le possibili combinazioni di valori
 delle variabili che non fanno parte dell'evidenza.
@@ -485,27 +494,18 @@ Possiamo però migliorare le tempistiche attraverso delle semplificazioni:
 
 L'algoritmo si basa sul principio di risolvere il calcolo delle sommatorie in
 \textbf{bottom-up}, ovvero da destra verso sinistra e salvando i valori in modo
-tale da calcolarlo senza ripetizione.
-\subsection{Inferenza approssimata}
-Permette di effettuare inferenza in tempi ragionevoli quando si hanno tante
-variabili che non fanno parte dell'evidenza, infatti questo evita di ricadere
-nell'NP-Hard come accadeva per quella esatta. L'inferenza approssimata consiste
-nel approssimare queste variabili libere, campionandole attraverso la generazione
-dei numeri pseudo-casuali.
+tale da calcolarlo senza ripetizione. 
 
-In questo modo non si controllano le probabilità di tutte le combinazioni di
-valori ($2^n$) ma si controllano le probabilità di una successione finita di
-numeri casuali, non entrando nella complessità esponenziale.
-
-Per valutare la complessità di un algoritmo di inferenza è importante considerare
-la struttura della rete, alcuni esempi di strutture sono riportate in figura
-\ref{fig:struttura_reti}:
+La complessità dell'inferenza esatta dipende interamente dalla tipologia della rete,
+le reti si dividono in:
 \begin{itemize}
     \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha
           al massimo un cammino non orientato tra due nodi.
     \item \textbf{Rete multiplamente connessa}: dove si hanno più cammini non
           orientati tra due nodi.
 \end{itemize}
+
+Un esempio di queste reti si può vedere nella figura \ref{fig:struttura_reti}.
 
 \begin{figure}[!ht]
     \centering
@@ -514,27 +514,40 @@ la struttura della rete, alcuni esempi di strutture sono riportate in figura
     \label{fig:struttura_reti}
 \end{figure}
 
-Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
-variabili. Per calcolare l'inferenza esatta questo algoritmo permette, nel caso
-di una rete Polytree, di computare la probabilità a posteriori per tutte le
-variabili $\mathcal{O}(n)$, attraverso una query avente complessità $\mathcal{O}(n)$.
-Quindi l'algoritmo ha una complessità di $\mathcal{O}(n^2)$.
+Infatti per le reti \textbf{Polytree} la complessità dell'inferenza esatta è \textbf{lineare} 
+alla dimensione della rete, per dimensione della rete si intente il \textbf{numero di entry 
+delle CPT}. Se il numero dei genitori per ogni nodo è vincolato da una costante allora 
+la complessità risulta \textbf{lineare} rispetto al numero di \textbf{nodi della rete}.
+Quindi in caso di reti Polytree possiamo dire, generalizzando, che se vogliamo calcolare 
+le probabilità a posteriori di tutte le variabili la complessià è $\mathcal{O}(n^2)$.
 
-L'impiego di un algoritmo appartenente alla classe degli \textbf{algoritmi di
-    clustering} (join tree algorithms) consente di ridurre la complessità a $\mathcal{O}(n)$.
+Al contrario per le reti \textbf{multiplamente connesse} l'algoritmo dell'eliminazione 
+delle variabili è NP-Hard anche nel caso in cui il numero di genitori è limitato 
+da una costante, perché si riduce a SAT.
 
-Il principio sul quale si basano questi algoritmi è rappresentato dal fatto di
-unire i nodi di una rete formando clusters di variabili. Queste operazioni vengono
-fatte per trasformare la rete in un Polytree nel quale applicare un algoritmo di
-inferenza efficiente.
+Per l'inferenza esatta si usano spesso \textbf{algoritmi di clustering} (join tree algorithms) per fondere dei 
+nodi in modo da avere un unico nodo finale. Quando si fondono i nodi si introduce 
+una variabile che assume tutte le combinazioni dei valori delle variabili fuse.
+In questo modo, calcolare l'inferenza esatta su reti  \textbf{Polytree} per ogni 
+variabile della rete diventa $\mathcal{O}(n)$. Il problema è che per le \textbf{multiplamente 
+connesse}, la complessità rimane invariata dal momento che pur unendo le variabili,
+le nuove CPT crescono esponenzialmente di dimensione, rimanento dell'NP-Hard.
 
-Resta comunque il problema che il problema di inferenza esatta è NP-Hard. Per
+Per
 questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
 \textbf{Monte Carlo}. L'accuratezza di questi metodi dipende dal numero di campionamenti
 generati.
 
+\subsection{Inferenza approssimata}
+Permette di effettuare inferenza in tempi ragionevoli quando si hanno tante
+variabili che non fanno parte dell'evidenza, infatti questo evita di ricadere
+nell'NP-Hard come accadeva per quella esatta. L'inferenza approssimata consiste
+nel approssimare queste variabili libere, campionandole attraverso la generazione
+dei numeri pseudo-casuali.
+
 In ogni algoritmo di campionamento le risposte vengono computate tramite conteggio
 dei campioni generati.
+
 \subsubsection{Direct Sampling}
 Questo metodo consiste nel campionare direttamente le variabili della rete ignorando
 le evidenze. Il funzionamento di questo algoritmo si basa sull'ordinamento
