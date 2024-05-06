@@ -1,0 +1,156 @@
+\chapter*{Catene Markoviane}
+
+Introdurremo dei modelli probabilistici che permettodo di descrivere un mondo 
+mutevole, avremo una serie di variabili casuali descritte da uno stato al variare 
+del tempo.  Le relazioni tra i cambiamenti di stato nel tempo descrivono l'evoluzione 
+della variabile.
+
+I modelli possono essere:
+\begin{itemize}
+    \item \textbf{statici}: il valore delle variabili non cambia nel tempo
+    \item \textbf{dinamici}: il valore delle variabili cambia nel tempo, lo stato corrente 
+    dipende dalla storia e il processo di cambiamento è descritto da una serie di fotografie al tempo $t$
+    ogniuna delle quali contiene un insieme di variabili casuali.
+\end{itemize}
+
+\begin{definizione}
+    Un \textbf{processo stocastico} $\{X(t), t\in T\}$ è un insieme di variabilli aleatorie 
+    per cui ciascuna assume una distribuzione di valori al tempo $t$ dipendente dal 
+    tempo precedente.    
+\end{definizione}
+
+Il tempo espresso dagli indici $t$ possono essere continui o discreti, inoltre possono 
+essere finiti o infiniti. 
+
+Avremo quindi diverse tipologie di processi stocastici:
+\begin{itemize}
+    \item processi stocastici a tempo continuo 
+    $$\{X(t), t>0\}$$
+    \item processi stocastici a tempo discreto 
+    $$\{X(t), t=0,1,\dots\}$$
+    \item processi stocastici a stati continui 
+    $$\{X(t), t=0,1,\dots\}, X(t) \text{ distribuzione continua}$$
+    \item processi stocastici a stati discreti
+    $$\{X(t), t=0,1,\dots\}, X(t) \text{ distribuzione discreta}$$
+\end{itemize}
+
+La variabile $X(t)$ è un valore dato dal sistema al tempo $t$, cioè un valore della 
+variabile che descrive uno stato del sistema al tempo $t$. Questo stato può essere 
+puntuale o incrementale.
+
+\begin{esempio}
+    $X(t)$ può rappresentare il numero di visitatori fino al tempo $t$, oppure 
+    può rappresentare il numero di visitatori al tempo $t$.
+\end{esempio}
+
+Un esempio di processo stocastico naive è il \textbf{Random Walk}, questo processo viene descrito 
+dalla seguente equazione:
+$$X(t) = X(t-1) + \epsilon_t$$
+Dove $\epsilon_t \in \{-1, 1\}$,  $P(\epsilon_t = -1) = p$ e $P(\epsilon_t = 1) = 1- p$.
+Se $p=\frac{1}{2}$ allora il processo è bilanciato, altrimenti il modello verrebbe 
+chiamato random walk con \textbf{drift}.
+
+In realtà si può esprimere la distribuzione $\epsilon_t$ come continua e questo 
+crea delle randomicità maggiore. 
+
+Esistono anche altri processi stocastici è il \textbf{processo autoregressivo del primo ordine}
+dove 
+$$X_t = \alpha X_{t-1}+b+\epsilon_t$$
+con $a,b$ constanti, con $-1<a<1$ e $\epsilon_t \sim N(0,1)$.
+
+I processi stocastici sono importanti perché posso effettuare delle predizioni.
+Per esempio il tracking degli oggetti in movimento nei video, oltre al tracking 
+possono essere utilizzati anche per generare dei processi (ex: generazioni di comportamenti 
+casuali per le simulazioni).
+
+\section{Processi Markoviani}
+I processi stocastici possono rispettare una proprietà chiamata \textbf{proprietà Markoviana del 
+primo ordine}, la proprietà assicura che la distribuzione di probabilità per tutti 
+i possibili valori futuri del processo dipende solo dal valore corrente e non dai 
+valori passati o da altre informazioni. 
+
+La generalizzazione di questa proprietà specifica il fatto che la distribuzione di probabilità per tutti 
+i possibili valori futuri del processo dipende da una storia finita.
+
+Formalmente coincide con 
+$$P(X_{t+1} = i_{t+1 } | X_t =i_t, \dots, X_{0} = i_{0})=P(X_{t+1} = i_{t+1 } | X_t =i_t, \dots, X_{t-k} = i_{t-k}), k < \infty$$
+
+Per la proprietà Markoviana del primo ordine formalmente sarà
+$$P(X_{t+1} = i_{t+1 } | X_t =i_t, X_{t-1} = i_{t-2}, \dots, X_{0} = i_{0}) = P(X_{t+1} = i_{t+1 } | X_t =i_t)$$
+
+I processi stocastici che rispettano la \textbf{proprietà Markoviana} sono detti 
+\textbf{processi Markoviani} e verranno rappresentati attraverso una \textbf{catena di Markov}.
+
+Quindi un processo stocastico a tempi discreti che rispetta la proprietà Markoviana 
+del primo ordine è una \textbf{catena di Markov del primo ordine} se per tutti gli stati si ha 
+$$P(X_{t+1} = i_{t+1 } | X_t =i_t, \dots, X_{0} = i_{0}) = P(X_{t+1} = i_{t+1 } | X_t =i_t)$$
+dove $P(X_0 = i_0) = q_i$, $q_i$ viene espressa come distribuzione di probabilità 
+a priori che può essere data se si conosce la distribuzione iniziale, se non si 
+ha inizialmente allora si può considerare la distribuzione uniforme. 
+
+\begin{nota}
+    Si può generalizzare a più ordini allora deovno rispettare 
+    la proprietà Markoviana a più ordini.     
+\end{nota}
+
+Questi processi si riferiscono a stati direttamente osservabili, esistono anche 
+le catene associate a stati non osservabili direttamente allora si parlerà di 
+\textbf{Catena di Markov nascoste}.
+
+Se la probabilità di un certo evento è indipendente dal tempo $t$ la catena di 
+Markov si definisce \textbf{stazionaria} e si ha che 
+$$P(X_{t+1}=j | X_t = i) = p_{ij}$$
+$p_{ij}$  specifica la probabilità di passare dal valore $X_t = i$ a $X_{t+1} = j$,
+quindi le catene di Markov possono essere rappresentate da una \textbf{Matrice di 
+transizione} (ad un passo)
+
+$$ P = \left[\begin{array}{cccc}
+    p_{11} & p_{12} & \dots & p_{1n}\\
+    p_{21} & p_{22} & \dots & p_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    p_{n1} & p_{n2} & \dots & p_{nn}\\
+\end{array}\right]$$
+dove $1,\dots, n$ sono i possibili valori che può assumere la variabile aleatoria.
+La matrice ha i seguenti vincoli $p_{ij}\ge 0$ e $\sum_{j=0}^{n}p_{ij}=1, \forall i$.
+
+\begin{nota}
+    Per i modelli stazionari la matrice di transizione rimane identica nel tempo, 
+    altrimenti se varia nel tempo allora saranno modelli non stazionari.
+\end{nota}
+
+La rappresentazione grafica di una \textbf{Catena di Markov} è un grafo in cui 
+gli stati sono i valori possibili che la variabile può assumere ($i,j,\dots$), gli archi rappresentano 
+da che valore a quale valore si può passare nel tempo (ex: $(i,j), (j,k),\dots$) e gli archi vengono etichettati 
+da $l(i,j) = p_{ij}$, quindi la matrice di transizione diventa la matrice di 
+adiacienza.
+
+A livello formale per definire la \textbf{Catena di Markov} devo avere l'insieme 
+di stati $$\{S_1,S_2,\dots, S_n\}$$
+Serve la probabilità di transizione tra stati
+$$a_{ij} = P(X_{t+1} = S_i | X_t = S_j)$$
+Successivamente serve la distribuzione iniziale degli stati
+$$\pi_i = P[X_1 = S_i]$$
+Se non si conosce la distribuzione iniziale allora si usa quella uniforme, se 
+si conosce con certezza il valore che assume la variabile all'inizio allora se $i$
+è il valore che assume, $\pi_i = 1, \forall j \ne i, \pi_j=0$.
+
+Per calcolare la \textbf{probabilità di una serie storica} mi basta effettuare 
+il prodotto della probabilità di ciascuno stato dato quello precedente.
+\begin{esempio}
+    Se vogliamo calcolare la probabilità della serie $Sn, R,R,R,Sw,Sw$, la probabilità 
+    coincide con 
+    $$P(Sn) \cdot P(R|Sn) \cdot P(R|R)\cdot P(R|R)\cdot P(Sw|R) \cdot P(Sw|Sw)$$
+    La probabilità iniziale $P(Sn) = \pi_{Sn}$, con $\pi$ distribuzione iniziale 
+    della variabile aleatoria.
+\end{esempio}
+
+Quando la serie storica è molto lunga il prodotto tra probabilità tende a $0$, quindi 
+conviene passare al logaritmo.
+
+\subsection{Inferenza}
+
+Possiamo effettuare inferenza di valori per istanti di tempo più lontani.
+
+Data la matrice di transizione, possiamo calcolare la probabilità che dopo $n$ 
+passi si trovi in uno stato specifico $j$. Dovremo calcolare $P(X_{m+n} = j | X_{m}=i) = P(X_n=j | X_0=i)=P_{ij}(n)$.
+Dove $P_{ij}(n) = P^n_{ij}$ 
