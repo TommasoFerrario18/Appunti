@@ -415,13 +415,16 @@ Riassumendo, per calcolare la trasformata di Fourier $f(x)$ allora ci serve:
 
 La convergenza della serie di Fourier dipende dalla regolarità delle funzioni $f$,
 infatti se ci sono delle discontinuità di tipo salto allora si hanno delle
-convergenze meno precise. Si hanno i fenomeni di \textbf{Gibbs} ovvero si hanno andamenti.
+convergenze meno precise. Si hanno i fenomeni di \textbf{Gibbs} ovvero si hanno andamenti
+oscillatori vicino al punto di discontinuità, questi sono dovuti dal fatto che si
+stanno approssimando dei punti di discontinuità di tipo salto con funzioni che non 
+li hanno.
 Per risolvere questo problema possiamo introdurre nella sommatoria delle funzioni
 che avranno gli stessi punti di discontinuità negli stessi valori.
 
 \begin{teorema}[\textbf{Convergenza della serie di Fourier}]
     Sia $f:\mathbb{R}\to \mathbb{R}$ periodica, assumiamo che $f$ sia $C^1$ (continua
-    nella prima derivata) a tratti allora se $f$ è continua in $t \in \mathbb{R}$
+    fino alla prima derivata) a tratti allora se $f$ è continua in $t \in \mathbb{R}$
     la serie $f_N$ converge a $f(t)$, altrimenti se non è continua allora $f_N$
     converge a:
     \begin{equation*}
@@ -484,3 +487,66 @@ infinite volte, ottenendo una funzione periodica di periodo $2p$.
 
 Utilizzando quest'ultimo la trasformazione di Fourier si chiamerà \textbf{cosine trasformation},
 perché $\stackrel{\sim}{g}(x)$ sarà pari e quindi avrà solo i coefficienti del coseno.
+
+Generando la funzione $\stackrel{\sim}{g}(x)$ complica il calcolo della trasformata 
+perché ci chiede di calcolare i coefficienti nell'intervallo di periodicità $[0, 2L]$
+di una funzione che abbiamo costruito. Possiamo semplicficarci la vita sfruttando 
+la funzione iniziale nell'intervallo $[a,b]$, sapendo che $\stackrel{\sim}{g}(x)$
+coincide con quella di partenza specchiata rispetto l'asse $y$ e poi resa periodica (quindi funzione pari).
+Quindi possiamo portare gli integrali dall'intervallo $[0,L]$ all'intervallo $[-L,L]$ 
+che essendo pari permette di essere semplificato nel calcolare $2\int_0^L$ che 
+coincide con la funzione iniziale. 
+Quindi ad esempio i coefficienti diventano:
+\begin{itemize}
+    \item $a_0 = \frac{1}{2L} \int_0^{2L} \stackrel{\sim}{g}(s)ds =\dots =\frac{1}{L} \int_{0}^{L}f(\frac{b-a}{L}s + a)$
+    \item $a_k = \frac{2}{p} \int_{0}^{p}\stackrel{\sim}{g}(s)\cos (\frac{2\pi k}{p}s)ds = \frac{\not 2}{\not 2 L} \int_{0}^{2L}\stackrel{\sim}{g}(s)\cos (\frac{2\pi k}{2L}s)ds = \frac{1}{L} \int_{0}^{2L}\stackrel{\sim}{g}(s)\cos (\frac{\pi k}{L}s)ds = \dots$
+    \item $\beta_k = 0$ perché la funzione è pari
+\end{itemize}
+
+Quindi 
+$$\stackrel{\sim}{g}(s) = \sum_{k=0}^{+\infty}a_k\cos (\frac{2\pi k}{2K}s) + \beta _k \sin(\frac{2\pi k}{2L}s) = \sum_{k=0}^{+\infty}a_k\cos (\frac{\pi k}{K}s) $$
+
+Quello che possiamo pensare è che non abbiamo la stessa potenza di approssimazione 
+in realtà sì solo che dimezzando il periodo abbiamo bisogno del doppio delle iterazioni 
+per arrivare alla stessa tipologia di convergenza di quello di base.
+
+\section{Serie di Fourier nel discreto}
+Nel caso del continuo abbiamo funzioni $f:[a,b]\to \mathbb{R}$, il problema è che 
+noi nella realtà non possiamo ragionare nel continuo, ma nel discreto. Perciò 
+abbiamo una serie di valori che approssima funzioni continue.
+
+Supponiamo che $f:[0,p]\to \mathbb{R}$ continua nell'intervallo, vogliamo approssimare 
+la funzione con un totale $n=4$ campionamenti, quindi vogliamo trovare $f_4 = (f_0, f_1,f_2,f_3, f_4)$.
+Possiamo pensare di prendere i valori di $f$ continua in $n$ istanti, per fare 
+ciò prendiamo $[0,p]$ lo vogliamo suddividere in $n+1$ sottointervalli in equal 
+lunghezza prendendo i valori ogni $\frac{p-0}{n}$. 
+
+$$f_4 = (f_0 = f(\frac{0}{n}p), f_1 = f(\frac{1}{n}p),f_2=f(\frac{2}{n}p),f_3= f(\frac{3}{n}p), f_4=f(\frac{4}{n}p))$$
+
+Quindi formalmente $f_4 \in \mathbb{R}^{n+1}$.
+
+\begin{definizione}
+    $V$ uno spazio vettoriale, una base è un insimee di vetotri $\{v_i\}$  linearmente 
+    indipendenti tali che 
+    $$v= \sum_{i=1}^{n} c_iv_i, \forall v \in V, c_i \in \mathbb{R}$$
+\end{definizione}
+
+\begin{definizione}
+    Una base $\{v_i\}$ di uno spazio vettoriale $V$ è ortogonale sse
+    $$v_i\cdot v_j = \begin{cases}
+        0&i\ne j\\
+        \ne 0&i= j
+    \end{cases}$$  
+\end{definizione}
+
+Le basi ortogonali permettono di semplificare i conti tra prodotti scalari da vettori 
+dello spazio e uno della base permette di effettuare solo il prodotto tra il coefficiente $j$
+del vettore e il coefficiente $j$ del vettore della base.
+
+\begin{definizione}
+    Una base $\{v_i\}$ di uno spazio vettoriale $V$ è ortonormale sse
+    $$v_i\cdot v_j = \begin{cases}
+        0&i\ne j\\
+        1&i= j
+    \end{cases}$$  
+\end{definizione}
