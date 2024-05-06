@@ -417,7 +417,7 @@ La convergenza della serie di Fourier dipende dalla regolarità delle funzioni $
 infatti se ci sono delle discontinuità di tipo salto allora si hanno delle
 convergenze meno precise. Si hanno i fenomeni di \textbf{Gibbs} ovvero si hanno andamenti
 oscillatori vicino al punto di discontinuità, questi sono dovuti dal fatto che si
-stanno approssimando dei punti di discontinuità di tipo salto con funzioni che non 
+stanno approssimando dei punti di discontinuità di tipo salto con funzioni che non
 li hanno.
 Per risolvere questo problema possiamo introdurre nella sommatoria delle funzioni
 che avranno gli stessi punti di discontinuità negli stessi valori.
@@ -463,7 +463,7 @@ In questo modo si riesce a portare la funzione nell'intervallo canonico definend
 \end{equation*}
 Si apre ora la questione di come creare una funzione periodica a partire da questa
 funzione $\stackrel{\sim}{g}(x)$ definita nell'intervallo $[0, p]$. Un primo
-tentativo potrebbe essere quello di periodizzarla per ripetizione. 
+tentativo potrebbe essere quello di periodizzarla per ripetizione.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{img/Serie/ripetizione.png}
@@ -484,69 +484,99 @@ infinite volte, ottenendo una funzione periodica di periodo $2p$.
     \caption{Periodizzazione della funzione $\stackrel{\sim}{g}(x)$}
     \label{fig:specchio}
 \end{figure}
-
 Utilizzando quest'ultimo la trasformazione di Fourier si chiamerà \textbf{cosine trasformation},
-perché $\stackrel{\sim}{g}(x)$ sarà pari e quindi avrà solo i coefficienti del coseno.
+perché $\stackrel{\sim}{g}(x)$ sarà pari e quindi la sua approssimazione sarà
+composta solamente dai coefficienti del coseno.
 
-Generando la funzione $\stackrel{\sim}{g}(x)$ complica il calcolo della trasformata 
-perché ci chiede di calcolare i coefficienti nell'intervallo di periodicità $[0, 2L]$
-di una funzione che abbiamo costruito. Possiamo semplicficarci la vita sfruttando 
-la funzione iniziale nell'intervallo $[a,b]$, sapendo che $\stackrel{\sim}{g}(x)$
-coincide con quella di partenza specchiata rispetto l'asse $y$ e poi resa periodica (quindi funzione pari).
-Quindi possiamo portare gli integrali dall'intervallo $[0,L]$ all'intervallo $[-L,L]$ 
-che essendo pari permette di essere semplificato nel calcolare $2\int_0^L$ che 
-coincide con la funzione iniziale. 
-Quindi ad esempio i coefficienti diventano:
+Avendo definito la funzione $\stackrel{\sim}{g}(x)$ per renderla periodica, il
+calcolo della trasformata di Fourier si complicherà, in quanto viene chiesto di
+calcolare i coefficienti nell'intervallo di periodicità $[0, 2L]$.
+
+Possiamo semplificarci la vita sfruttando la funzione iniziale nell'intervallo
+$[a,b]$, sapendo che $\stackrel{\sim}{g}(x)$ coincide con quella di partenza
+specchiata rispetto l'asse $y$ e poi resa periodica, abbiamo quindi costruito una
+funzione pari.
+
+Vediamo ora come possiamo calcolare i coefficienti della serie di Fourier per
+questa funzione $\stackrel{\sim}{g}(x)$.
+
+Iniziamo con il calcolo del coefficiente $a_0$:
+\begin{equation}
+    a_0 = \frac{1}{2L} \int_{0}^{2L} \stackrel{\sim}{g}(s)ds = \frac{1}{2L}
+    \int_{-L}^{L} \stackrel{\sim}{g}(s)ds = \frac{1}{2L} 2 \int_{0}^{L} \stackrel{\sim}{g}(s)ds
+    = \frac{1}{L} \int_{0}^{L} g(s)ds = \frac{1}{L} \int_{0}^{L} g\left(\frac{b - a}{L} s + a\right)ds
+\end{equation}
+Nello specifico, essendo la funzione periodica e pari, possiamo fare le seguenti
+considerazioni:
 \begin{itemize}
-    \item $a_0 = \frac{1}{2L} \int_0^{2L} \stackrel{\sim}{g}(s)ds =\dots =\frac{1}{L} \int_{0}^{L}f(\frac{b-a}{L}s + a)$
-    \item $a_k = \frac{2}{p} \int_{0}^{p}\stackrel{\sim}{g}(s)\cos (\frac{2\pi k}{p}s)ds = \frac{\not 2}{\not 2 L} \int_{0}^{2L}\stackrel{\sim}{g}(s)\cos (\frac{2\pi k}{2L}s)ds = \frac{1}{L} \int_{0}^{2L}\stackrel{\sim}{g}(s)\cos (\frac{\pi k}{L}s)ds = \dots$
-    \item $\beta_k = 0$ perché la funzione è pari
+    \item Portare gli integrali dall'intervallo $[0,2L]$ all'intervallo $[-L,L]$
+    \item Semplificare il calcolo di $2\int_{0}^{L}$ che coincide con la funzione iniziale
 \end{itemize}
-
-Quindi 
-$$\stackrel{\sim}{g}(s) = \sum_{k=0}^{+\infty}a_k\cos (\frac{2\pi k}{2K}s) + \beta _k \sin(\frac{2\pi k}{2L}s) = \sum_{k=0}^{+\infty}a_k\cos (\frac{\pi k}{K}s) $$
-
-Quello che possiamo pensare è che non abbiamo la stessa potenza di approssimazione 
-in realtà sì solo che dimezzando il periodo abbiamo bisogno del doppio delle iterazioni 
-per arrivare alla stessa tipologia di convergenza di quello di base.
-
+Per quanto riguarda il calcolo del generico coefficiente $a_k$:
+\begin{equation}
+    \begin{array}{l}
+        a_k = \frac{2}{2L} \int_{0}^{2L} \stackrel{\sim}{g}(s) \cos\left(\frac{2\pi k}{2L}s\right)ds
+        = \frac{1}{L} \int_{0}^{2L} \stackrel{\sim}{g}(s) \cos\left(\frac{\pi k}{L}s\right)ds \\
+        = \frac{1}{L} \int_{-L}^{L} \stackrel{\sim}{g}(s) \cos\left(\frac{\pi k}{L}s\right)ds
+        = \frac{2}{L} \int_{0}^{L} \stackrel{\sim}{g}(s) \cos\left(\frac{\pi k}{L}s\right)ds  \\
+        = \frac{2}{L} \int_{0}^{L} g\left(\frac{b - a}{L} s  + a\right) \cos\left(\frac{\pi k}{L}s\right)ds
+    \end{array}
+\end{equation}
+La serie di Fourier diventa quindi:
+\begin{equation}
+    f(x) = a_0 + \sum_{k=1}^{+\infty} a_k \cos\left(\frac{\pi k}{L}x\right)
+\end{equation}
+A prima vista si potrebbe pensare che esse permettano di rappresentare una
+funzione $f$ con meno informazioni rispetto alle classiche serie di Fourier.
+Infatti in questo caso non appaiono le funzioni seno. Tuttavia, in questo caso le
+funzioni coseno che stiamo considerando sono associate a molte più frequenze
+rispetto a quelle della classica serie di Fourier. In un certo senso con la serie
+dei coseni abbiamo eliminato le funzioni seno a scapito di avere molte più funzioni
+coseno rispetto alla serie di Fourier.
 \section{Serie di Fourier nel discreto}
-Nel caso del continuo abbiamo funzioni $f:[a,b]\to \mathbb{R}$, il problema è che 
-noi nella realtà non possiamo ragionare nel continuo, ma nel discreto. Perciò 
-abbiamo una serie di valori che approssima funzioni continue.
+Fino a questo momento, abbiamo considerato solo funzioni continue definite come
+$f:[a,b]\to \mathbb{R}$, il problema è che noi nella realtà non possiamo ragionare
+nel continuo, ma nel discreto. Piuttosto che avere una funzione nota in tutti i
+punti dell'intervallo di periodicità [0, p], possiamo pensare di conoscere solamente
+i valori di questa funzione in alcuni punti e avere una sua approssimazione a “scalini”.
 
-Supponiamo che $f:[0,p]\to \mathbb{R}$ continua nell'intervallo, vogliamo approssimare 
-la funzione con un totale $n=4$ campionamenti, quindi vogliamo trovare $f_4 = (f_0, f_1,f_2,f_3, f_4)$.
-Possiamo pensare di prendere i valori di $f$ continua in $n$ istanti, per fare 
-ciò prendiamo $[0,p]$ lo vogliamo suddividere in $n+1$ sottointervalli in equal 
-lunghezza prendendo i valori ogni $\frac{p-0}{n}$. 
+Supponiamo che $f:[0,p] \to \mathbb{R}$ continua nell'intervallo, vogliamo approssimare
+la funzione con un totale $n = 4$ campionamenti, quindi vogliamo trovare $f_4 = (f_0, f_1,f_2,f_3, f_4)$.
 
-$$f_4 = (f_0 = f(\frac{0}{n}p), f_1 = f(\frac{1}{n}p),f_2=f(\frac{2}{n}p),f_3= f(\frac{3}{n}p), f_4=f(\frac{4}{n}p))$$
-
-Quindi formalmente $f_4 \in \mathbb{R}^{n+1}$.
-
-\begin{definizione}
-    $V$ uno spazio vettoriale, una base è un insimee di vetotri $\{v_i\}$  linearmente 
-    indipendenti tali che 
-    $$v= \sum_{i=1}^{n} c_iv_i, \forall v \in V, c_i \in \mathbb{R}$$
+Possiamo creare un'approssimazione di tale funzione suddividendo l'intervallo $[0,p]$
+in $n+1$ sotto-intervalli di lunghezza $\frac{p-0}{n}$ e prendendo i valori della
+funzione nel punto medio di ciascun sotto-intervallo.
+\begin{equation*}
+    f_n = \left( f_0 = f\left(\frac{0}{n}p\right), f_1 = f\left(\frac{1}{n}p\right),
+    \dots, f_n = f\left(\frac{n}{n}p\right)\right)
+\end{equation*}
+\begin{definizione}[\textbf{Base}]
+    Sia $V$ uno spazio vettoriale, un insieme di vettori $\{v_i\}$ linearmente
+    indipendenti è una base di $V$ se ogni vettore $v \in V$ può essere scritto
+    come combinazione lineare dei vettori della base.
+    \begin{equation}
+        \vec{v} = \sum_{i=1}^{n} c_i \vec{v_i}, \quad \forall \vec{v} \in V, c_i \in \mathbb{R}
+    \end{equation}
 \end{definizione}
-
-\begin{definizione}
-    Una base $\{v_i\}$ di uno spazio vettoriale $V$ è ortogonale sse
-    $$v_i\cdot v_j = \begin{cases}
-        0&i\ne j\\
-        \ne 0&i= j
-    \end{cases}$$  
+\begin{definizione}[\textbf{Base ortogonale}]
+    Una base $\{v_i\}$ di uno spazio vettoriale $V$ è ortogonale se e solo se:
+    \begin{equation}
+        v_i\cdot v_j = \begin{cases}
+            0     & i\ne j \\
+            \ne 0 & i = j
+        \end{cases}
+    \end{equation}
 \end{definizione}
-
-Le basi ortogonali permettono di semplificare i conti tra prodotti scalari da vettori 
-dello spazio e uno della base permette di effettuare solo il prodotto tra il coefficiente $j$
-del vettore e il coefficiente $j$ del vettore della base.
-
-\begin{definizione}
-    Una base $\{v_i\}$ di uno spazio vettoriale $V$ è ortonormale sse
-    $$v_i\cdot v_j = \begin{cases}
-        0&i\ne j\\
-        1&i= j
-    \end{cases}$$  
-\end{definizione}
+Le basi ortogonali permettono di semplificare il calcolo del prodotto scalare
+tra i vettori dello spazio. Nello specifico, permette di effettuare solo il prodotto 
+scalare tra il vettore di coefficiente $j$ e il coefficiente $j$ della base.
+\begin{nota}
+    Per ogni spazio vettoriale possiamo definire la sua base canonica, ovvero
+    la base formata dai vettori $\vec{e_i}$ tali che:
+    \begin{equation}
+        \vec{e_i} = \begin{cases}
+            1 & i = j \\
+            0 & i \ne j
+        \end{cases}
+    \end{equation}
+\end{nota}
