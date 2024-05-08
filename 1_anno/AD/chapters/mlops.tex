@@ -70,23 +70,22 @@ Per effettuare tutti i passi della pipeline servono diverse figure lavorative:
             tutta la pipeline e di risolvere eventuali problemi.
 \end{itemize}
 
-Nella fase di preparazione dei dati si possono avere diverse fasi che permettono 
+Nella fase di preparazione dei dati si possono avere diverse fasi che permettono
 la corretta gestione e formulazione del dataset da utilizzare per il modello di ML.
-
 \section{Data Acquisition}
 Una delle fasi più importanti è \textbf{Data Acquisition} che si articola nell'acquisizione
-dei dati per la creazione del dataset, spesso si utilizzano diverse fonti. 
+dei dati per la creazione del dataset, spesso si utilizzano diverse fonti.
 In questa fase possiamo
-avere diversi problemi nell'acquisizione dei dati 
+avere diversi problemi nell'acquisizione dei dati
 come ad esempio l'introduzione di bias che invalidano i risultati del modello.
 I bias possono essere di due tipi:
 \begin{itemize}
-      \item storici: ex: se si vuole predire il futuro presidente degli USA, 
-      se si allenasse l'algoritmo con dati storici sicuramente non potrà predire 
-      una donna.
+      \item storici: ex: se si vuole predire il futuro presidente degli USA,
+            se si allenasse l'algoritmo con dati storici sicuramente non potrà predire
+            una donna.
       \item rappresentativi: ex: se si vuole sviluppare un riconoscimento facciale
-      allora non possiamo allenarlo solo su individui di un continente.
-\end{itemize} 
+            allora non possiamo allenarlo solo su individui di un continente.
+\end{itemize}
 
 In aggiunta, quando si deve creare un dataset è obbligatorio sapere la
 \textbf{Data Provenance} ovvero documentare
@@ -94,11 +93,10 @@ come ho costruito il dataset di training e validation. Questo consiste nel saper
 quali sono i dati utilizzati, da dove vengono, come ho costruito il dataset. In
 questo modo si risolvono eventuali problemi dovuti a risultati sballati per dati
 che sono stati iniettati nel dataset.
-
 \section{Data Understanding}
 Una volta acquisiti i dati, il primo passo consiste nella loro comprensione,
-quindi di passa per una fase di \textbf{data exploration}. 
-Questa fase viene fatta dopo aver creato il dataset e prima di effettuare il training 
+quindi di passa per una fase di \textbf{data exploration}.
+Questa fase viene fatta dopo aver creato il dataset e prima di effettuare il training
 o il serving dei dati, in modo da capire se i dati sono consistenti e se sono stati raccolti in modo
 corretto, generalmente si implementa con dei \textbf{sanity checks}.
 
@@ -172,7 +170,7 @@ Riassumendo, la fase di data exploration è composta dai seguenti passi:
 
 Tra le varie tecniche di analisi dei dati abbiamo:
 \begin{itemize}
-      \item \textbf{Measure of dispersion}: permette di capire la dispersione 
+      \item \textbf{Measure of dispersion}: permette di capire la dispersione
             dei dati, vovero quanto i dati sono
             distanti tra di loro. Questo può essere fatto attraverso l'utilizzo
             di varianza, deviazione standard, media, quantili e altre misure statistiche.
@@ -191,7 +189,7 @@ Tra le varie tecniche di analisi dei dati abbiamo:
       \includegraphics[width=0.7\textwidth]{img/MLops/exploration.png}
 \end{figure}
 
-Le visualizzazioni sono spesso guidate dai dati quindi varieranno in base alle 
+Le visualizzazioni sono spesso guidate dai dati quindi varieranno in base alle
 caratteristiche degli attributi.
 
 Queste analisi sono fondamentali per capire se i dati sono soggetti a dei bias,
@@ -204,7 +202,6 @@ in base al contesto. Ogni dominio applicativo richiede delle analisi specifiche.
 In aggiunta, quando addestriamo un modello di machine learning dobbiamo capire se
 il suo comportamento è \textbf{fair}, ovvero se il modello non è influenzato da
 bias.
-
 \section{Data validation}
 Nella fase di sviluppo e mantenimento di un modello dobbiamo sempre controllare
 che la distribuzione dei dati non sia cambiata durante il tempo.
@@ -230,12 +227,11 @@ specifica chi deve essere avvisato e come risolvere il problema.
 
 In questo modo, quando si riceve un alert si sa già come risolverlo, seguendo
 le specifiche descritte nel playbook.
-
 \section{Data Integration}
 Con il termine \textbf{data integration} si intende la fase in cui si uniscono
-diverse sorgenti di dati in un'unica sorgente. La complessità di questa 
-fase si palesa quando le sorgenti dati presentano una grande sovrapposizione tra di loro.
-Posso risolverlo in primo luogo utilizzando delle \textbf{join}.
+diverse sorgenti di dati in un'unica sorgente. La complessità di questa
+fase si palesa quando le sorgenti dati presentano una grande sovrapposizione tra
+di loro. Posso risolverlo in primo luogo utilizzando delle \textbf{join}.
 
 Per effettuare questa operazione bisogna per prima cosa identificare lo schema
 delle sorgenti che si vogliono unire. Fatto ciò, bisogna trovare gli attributi
@@ -293,16 +289,16 @@ Uno primo problema che si può avere durante l'integrazione sono i \textbf{confl
 dove differenti proprietà vengono descritte in modi differenti:
 \begin{itemize}
       \item \textbf{conflitti di nomi}: spesso sono conflitti che appaiono nei nomi
-      di oggetti, entità e relazioni. Questi conflitti possono essere di \textbf{sinonimi}
-      (ex: usiamo da una parte nodo e dall'altra estremità), oppure possono essere 
-      di \textbf{omonimi} (ex: usiamo da una parte Highway (EU) e dall'altra Highway (USA))
-      \item \textbf{conflitti di composizione}: da una sorgente abbiamo gli Utenti 
-      specificati con degli alttributi, mentre in un altra sorgente abbiamo gli 
-      Utenti specificati in un altro modo.
+            di oggetti, entità e relazioni. Questi conflitti possono essere di \textbf{sinonimi}
+            (ex: usiamo da una parte nodo e dall'altra estremità), oppure possono essere
+            di \textbf{omonimi} (ex: usiamo da una parte Highway (EU) e dall'altra Highway (USA))
+      \item \textbf{conflitti di composizione}: da una sorgente abbiamo gli Utenti
+            specificati con degli alttributi, mentre in un altra sorgente abbiamo gli
+            Utenti specificati in un altro modo.
 \end{itemize}
 
-Un altro problema è sono i \textbf{conflitti di frammentazione}, stesse istanze 
-rappresentante in due sorgenti diverse che possono avere valori degli attributi 
+Un altro problema è sono i \textbf{conflitti di frammentazione}, stesse istanze
+rappresentante in due sorgenti diverse che possono avere valori degli attributi
 differenti:
 \begin{itemize}
       \item \textbf{Conflitto di chiave}: due record uguali che hanno chiavi
@@ -322,13 +318,13 @@ Le tecniche per risolvere i conflitti a livello di istanza si differenziano in
 \textbf{design time} e \textbf{run time}. In entrambi i casi il conflitto si
 verifica a \textit{query time}, ma a design time si sceglie la politica mentre a
 run time si esegue. In entrambi i casi, possiamo usare delle funzioni di
-risoluzione dei conflitti (COUNT, MIN, MAX\dots). 
+risoluzione dei conflitti (COUNT, MIN, MAX\dots).
 
 Una volta integrate le sorgenti, dobbiamo occuparci della rimozione dei \textbf{duplicati}.
 Per farlo, la prima operazione consiste nel \textbf{riconoscerli}, questo perché ci possono
 essere valori duplicati che non sono subito riconoscibili a causa di errori,
 ex: concettualemente due record rappresentano la stessa istanza ma non si riconoscono
-perché hanno attributi con errori che rendono sintatticamente differenti i due record. 
+perché hanno attributi con errori che rendono sintatticamente differenti i due record.
 Per svolgere questa operazione, spesso si sfrutta la conoscenza del dominio.
 Può capitare che la fase di rimozione dei duplicati porti alla necessità di
 fondere due righe. Questo perché potremmo avere due righe che rappresentano la
@@ -352,14 +348,12 @@ Per confrontare le righe e riconoscere se sono dei duplicati ci possono essere d
       \item \textbf{Mixed}: si utilizzando metodi Probabilistici e Knowledge-based
             insieme.
 \end{itemize}
-
 \section{Data Enrichment}
 Il \textbf{data enrichment} è una fase in cui si vogliono arricchire i dati con
 nuove informazioni presenti in altre sorgenti. Nel fase di data integration
 avremo che una riga può essere associata con una sola riga nella seconda sorgente.
 In questo caso possono avere che una riga è associata con più righe della seconda
 tabella.
-
 \section{Feature engineering}
 Il \textbf{feature engineering} è un insieme di operazioni per aggiungere nuove
 feature o rimuovere righe, modificarle etc.
@@ -372,75 +366,98 @@ Queste operazioni si dividono in:
       \item \textbf{Feature enconding}: trasformare un attributo in più attributi.
             Questo viene spesso usato per i categorici, ad esempio one hot encoding.
       \item \textbf{Feature extraction}: estrazione di feature dai dati raw.
-      Molto spesso nella realtà abbiamo dei dati raw che devono essere etichettati,
-      effettuare un'etichettatura superficiale e quindi con poca accuratezza porta a 
-      delle performance peggiori.
-      \item \textbf{Feature selection}: si selezionano le feature del dataset 
-      che sono le più rilevanti, esistono approcci matematici come PCA e RP. Si possono 
-      utilizzare anche metodi supervisionati che provano ad allenare il modello 
-      selezionando delle feature diverse e si tengono quelle più significative. 
-      Possiamo utilizzare anche wrapper.
+            Molto spesso nella realtà abbiamo dei dati raw che devono essere
+            etichettati. Questa operazione risulta molto costosa perché richiede
+            esperti del dominio. Inoltre, effettuare un'etichettatura superficiale
+            porta a delle performance peggiori del modello.
+      \item \textbf{Feature selection}: si selezionano le feature del dataset
+            che sono le più rilevanti, esistono approcci matematici come PCA e RP.
+            Oltre a questi metodi, possiamo utilizzare anche metodi supervisionati,
+            i quali addestrano modelli per effettuare la selezione delle feature.
+            Oppure, possiamo utilizzare anche algoritmi non supervisionati.
+            \begin{figure}[!ht]
+                  \centering
+                  \includegraphics[width=0.5\textwidth]{./img/MLops/feature_selection.png}
+                  \caption{Feature Selection}
+                  \label{fig:feature_selection}
+            \end{figure}
 \end{itemize}
-
 \subsection{AutoML}
-Sono tecniche che permettono di automatizzare la fase di Feature engineering,
-Machine Learning e valutazione del modello. Quindi quello che fa il Data scientist
-è solo effettuare la raccolta dei dati raw, integrarli e poi tutta la parte di 
-FE, creazione del modello e valutrazione viene fatta in automatico. L'implementazioni 
-di questi metodi viene fatta attraverso la conoscenza e l'esperienza sviluppata 
-negli anni, infatti si è scoperto che per alcuni problemi ci sono dei modelli migliori
-per risolvere il problema, oppure spesso si hanno delle trasformazioni standard 
-delle feature in base alle loro tipologie.
+Con il termine \textbf{AutoML} si indicano delle tecniche che permettono di
+automatizzare la pipeline di un progetto di machine learning. Nello specifico,
+queste tecniche permettono di automatizzare la fase di feature engineering,
+creazione del modello e valutazione di esso. Questo permette di ridurre il lavoro
+che svolge il data scientist, il quale si occupa solo della raccolta dei dati raw
+e prepararli per passarli al processo di AutoML.
 
+L'implementazioni di questi metodi viene fatta sfruttando la conoscenza e
+l'esperienza sviluppata nel corso degli anni.
 \section{MLops}
-Come per lo svilippo SW che abbiamo DEVOPS per automatizzare tutta la parte di 
-svilluppo e deployment, anche per la pipeline ML possiamo aggiuciare un'automatizzazione
-dei passi chiamato MLops. MLops non è altro che l'estensione di DEVops per includere 
-Data provenance, modellazione, feature engineering, stima degli iperparametri 
-e metriche. MLops si utilizza quando si hanno tante pipeline e questo permette 
-di gestirle in automatico.
+Come per lo sviluppo del software, il quale è in continua evoluzione, anche lo
+sviluppo di una pipeline di machine learning cambia nel tempo. Per questo motivo
+è stato introdotto il concetto di \textbf{MLops}, il quale estende il concetto di
+DevOps includendo la parte di machine learning.
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/MLops/mlops.png}
+      \caption{MLops}
+      \label{fig:mlops}
+\end{figure}
+\begin{nota}
+      Si parla solitamente di MLops quando ci si trova a gestire un numero elevato
+      di pipeline. Questo permette di gestire in automatico tutte le pipeline e
+      riuscire ad organizzare il lavoro in modo più efficiente.
+\end{nota}
 
-Spesso in MLops abbiamo bisogno dei \textbf{feature store} che permettono la
-gestone di molti dati a bassa latenza per tenere traccia di tutte le versioni e 
-di tutte le operazioni applicate sui dati. In questo modo per ogni pipeline possiamo 
-sapere quali sono i dati su cui è stato effettuato il training del modello, su
-quali dati si sta facendo eventualmente reinforcement learning etc\dots
-
+Uno strumento molto utile quando si parla di MLops sono i \textbf{feature store}.
+Questi strumenti permettono di gestire in modo efficiente i processi di gestione
+delle pipeline. In particolare, si ha una parte di \textbf{governance}, nella
+quale sono memorizzati dei meta-dati che permettono di tenere traccia di tutte
+le pipeline. Un esempio di questi meta-dati sono:
+\begin{itemize}
+      \item Le feature utilizzate.
+      \item Il modello che è stato addestrato.
+      \item Gli iperparametri utilizzati.
+      \item etc\dots
+\end{itemize}
 \section{Data quality}
-Il processo di rappresentare la realtà in dati è molto complesso perché noi 
-approssimiamo la realtà mediante un insieme non esaustivo di valori che spesso 
-non sono nemmeno aggiornato al tempo reale. 
+Rappresentare la realtà attraverso i dati è un processo molto complesso, perché
+si utilizza un insieme finito di dati che approssimano la realta. Inoltre, tali
+dati non sempre sono aggiornati e non sempre sono corretti.
 
-La qualità di un dato dipende da cosa ci devo fare, dalla sorgente che me la 
-lasciata. In generarle si ha un trade off tra utilità e realità del dato.
-
-\begin{definizione}
-      Un dato è di buona qualità se si fitta bene con quello che si vuole fare.
+Il problema è legato al fatto che le misure di qualità dei dati dipendono da
+chi li utilizza e per cosa sono utilizzati. Solitamente si ha un trade off tra
+utilità e realtà del dato.
+\begin{definizione}[\textbf{Data Quality}]
+      Non esiste una definizione precisa di data quality, ma possiamo dire che
+      un dato è di buona qualità se è adatto all'uso che se ne vuole fare.
 \end{definizione}
 
-Quindi la qualità è una metrica soggettiva, possiamo però misurare la qualità 
-attraverso delle dimensioni, ex: incompletezza, incorrettezza, inconsistenza. 
+Quindi la qualità è una metrica soggettiva, possiamo però fornire una dimensione,
+ovvero delle caratteristiche che descrivono la qualità dell'informazione.
+Un esempio sono l'incompletezza, l'incorrettezza e l'inconsistenza.
 
-Il problema che queste dimensioni non sono misurabili. Quindi dovremo utilizzare delle misure 
-metriche che devono essere calcolate, per ogni metrica avremo bisogno della procedura di 
-misura (algoritmo) e l'unità di misura. 
+Il problema di queste è che non sono misurabili. Quindi dovremo utilizzare delle
+misure metriche, le quali vengono calcolate sui dati attraverso una specifica
+procedura e hanno una unità di misura associata.
 
 In generale abbiamo diverse metriche per ogni dato.
 
 Le dimensioni sono tante ma si possono raggruppare nei seguenti gruppi:
 \begin{itemize}
-      \item accuratezza, precisione e correttezza
-      \item completezza
-      \item minimalità, didondanza e compattezza
-      \item consistenza e coerenza
-      \item leggibilità, comprensibilitò e usabilità
-      \item accessibilità
-      \item volatilità
+      \item Accuracy, Correctness, Precision
+      \item Completeness, Pertinence
+      \item Minimality, Redundancy, Compactness
+      \item Consistency, Coherence
+      \item Readability, Comprehensibility, Usability
+      \item Accessibility, Usability
+      \item Currency, Volatility, Timeliness
 \end{itemize}
-
-Le metriche si dividono in:
+Oltre a questa divisione, le metriche possono essere divise tra:
 \begin{itemize}
-      \item soggettive: 
-      \item oggettive:
+      \item Soggettive: misure di qualità che dipendono dalla percezione delle
+            persone che  effettuano la misura.
+      \item Oggettive: misure di qualità che non dipendono dalla percezione delle
+            persone che effettuano la misura.
 \end{itemize}
 
