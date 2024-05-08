@@ -352,6 +352,7 @@ Per confrontare le righe e riconoscere se sono dei duplicati ci possono essere d
       \item \textbf{Mixed}: si utilizzando metodi Probabilistici e Knowledge-based
             insieme.
 \end{itemize}
+
 \section{Data Enrichment}
 Il \textbf{data enrichment} è una fase in cui si vogliono arricchire i dati con
 nuove informazioni presenti in altre sorgenti. Nel fase di data integration
@@ -371,4 +372,75 @@ Queste operazioni si dividono in:
       \item \textbf{Feature enconding}: trasformare un attributo in più attributi.
             Questo viene spesso usato per i categorici, ad esempio one hot encoding.
       \item \textbf{Feature extraction}: estrazione di feature dai dati raw.
+      Molto spesso nella realtà abbiamo dei dati raw che devono essere etichettati,
+      effettuare un'etichettatura superficiale e quindi con poca accuratezza porta a 
+      delle performance peggiori.
+      \item \textbf{Feature selection}: si selezionano le feature del dataset 
+      che sono le più rilevanti, esistono approcci matematici come PCA e RP. Si possono 
+      utilizzare anche metodi supervisionati che provano ad allenare il modello 
+      selezionando delle feature diverse e si tengono quelle più significative. 
+      Possiamo utilizzare anche wrapper.
 \end{itemize}
+
+\subsection{AutoML}
+Sono tecniche che permettono di automatizzare la fase di Feature engineering,
+Machine Learning e valutazione del modello. Quindi quello che fa il Data scientist
+è solo effettuare la raccolta dei dati raw, integrarli e poi tutta la parte di 
+FE, creazione del modello e valutrazione viene fatta in automatico. L'implementazioni 
+di questi metodi viene fatta attraverso la conoscenza e l'esperienza sviluppata 
+negli anni, infatti si è scoperto che per alcuni problemi ci sono dei modelli migliori
+per risolvere il problema, oppure spesso si hanno delle trasformazioni standard 
+delle feature in base alle loro tipologie.
+
+\section{MLops}
+Come per lo svilippo SW che abbiamo DEVOPS per automatizzare tutta la parte di 
+svilluppo e deployment, anche per la pipeline ML possiamo aggiuciare un'automatizzazione
+dei passi chiamato MLops. MLops non è altro che l'estensione di DEVops per includere 
+Data provenance, modellazione, feature engineering, stima degli iperparametri 
+e metriche. MLops si utilizza quando si hanno tante pipeline e questo permette 
+di gestirle in automatico.
+
+Spesso in MLops abbiamo bisogno dei \textbf{feature store} che permettono la
+gestone di molti dati a bassa latenza per tenere traccia di tutte le versioni e 
+di tutte le operazioni applicate sui dati. In questo modo per ogni pipeline possiamo 
+sapere quali sono i dati su cui è stato effettuato il training del modello, su
+quali dati si sta facendo eventualmente reinforcement learning etc\dots
+
+\section{Data quality}
+Il processo di rappresentare la realtà in dati è molto complesso perché noi 
+approssimiamo la realtà mediante un insieme non esaustivo di valori che spesso 
+non sono nemmeno aggiornato al tempo reale. 
+
+La qualità di un dato dipende da cosa ci devo fare, dalla sorgente che me la 
+lasciata. In generarle si ha un trade off tra utilità e realità del dato.
+
+\begin{definizione}
+      Un dato è di buona qualità se si fitta bene con quello che si vuole fare.
+\end{definizione}
+
+Quindi la qualità è una metrica soggettiva, possiamo però misurare la qualità 
+attraverso delle dimensioni, ex: incompletezza, incorrettezza, inconsistenza. 
+
+Il problema che queste dimensioni non sono misurabili. Quindi dovremo utilizzare delle misure 
+metriche che devono essere calcolate, per ogni metrica avremo bisogno della procedura di 
+misura (algoritmo) e l'unità di misura. 
+
+In generale abbiamo diverse metriche per ogni dato.
+
+Le dimensioni sono tante ma si possono raggruppare nei seguenti gruppi:
+\begin{itemize}
+      \item accuratezza, precisione e correttezza
+      \item completezza
+      \item minimalità, didondanza e compattezza
+      \item consistenza e coerenza
+      \item leggibilità, comprensibilitò e usabilità
+      \item accessibilità
+      \item volatilità
+\end{itemize}
+
+Le metriche si dividono in:
+\begin{itemize}
+      \item soggettive: 
+      \item oggettive:
+\end{itemize}
+

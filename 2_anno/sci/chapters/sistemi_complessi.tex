@@ -419,7 +419,7 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
 \end{definizione}
 
 \begin{nota}
-    Se $A^\ast\equiv A^\mathbb{Z}\implies F \equiv f^\ast$.
+    Se $A^\ast\equiv A^\mathbb{Z}\implies f^\ast \equiv F$.
 \end{nota}
 
 \begin{nota}
@@ -736,7 +736,7 @@ Bruijn (vedi figura \ref{fig:automa_prodotto}).
                   seguito da un ciclo che esce da $\Delta$ per poi ritornare in $\Delta$.
                   Questo significa che il ciclo è composto da nodi sia nella diagonale,
                   sia fuori; quindi non è iniettivo. Viceversa, dato un ciclo composto da nodi nella diagonale
-                  e fuori dalla diagonale, allora si ha un diamente, quindi CA non è suriettivo.
+                  e fuori dalla diagonale, allora si ha un diamante, quindi CA non è suriettivo.
 
         \end{itemize}
     \end{proof}
@@ -774,20 +774,11 @@ $F$ è la regola globale e $d$ è la distanza di Tychonoff.
     $$\forall \epsilon > 0,\exists \delta > 0, \forall y\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 
     Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
-    $$\forall \epsilon > 0,\exists \delta > 0, \forall y\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
-
-    Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
     la definizione in questo modo, $x\in X$ è un \textbf{punto stabile} sse
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, d(y,x) < \frac{1}{2^m} \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \frac{1}{2^n}$$
     Equivale a dire:
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
-
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
-
 \end{definizione}
-Questa coincide con la definizione di continuità con l'aggiunta del controllo che
-sia continua anche sulle successive applicazioni, quindi per i successivi passi
 Questa coincide con la definizione di continuità con l'aggiunta del controllo che
 sia continua anche sulle successive applicazioni, quindi per i successivi passi
 temporali.
@@ -796,9 +787,6 @@ temporali.
     $x\in X$ è un \textbf{punto instabile} sse $x$ \textbf{non è stabile}
 
     $$\exists \epsilon > 0,\forall \delta > 0, \exists y\in X,x \ne y, d(y,x) < \delta \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \epsilon$$
-
-    Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
-
     Con $X \equiv A^\mathbb{Z}$ e $d$ distanza di Tychonoff allora possiamo riscrivere
     la definizione in questo modo,
     $$\exists n\in \mathbb{N} ,\forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, d(y,x) < \frac{1}{2^m} \land \exists t\in \mathbb{N} d(F^t(y),F^t(x))\ge \frac{1}{2^n}$$
@@ -814,19 +802,16 @@ temporali.
 
 \begin{definizione} [\textbf{Sistema equicontinuo (equicontinuità)}]
     $(X,F)$ è \textbf{equicontinuo} dove la definizione di stabilità di un punto cambia
-    $(X,F)$ è \textbf{equicontinuo} dove la definizione di stabilità di un punto cambia
     perché $\epsilon$ non dipende per un particolare punto $x\in X$ ovvero
-    $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
     $$\forall \epsilon > 0,\exists \delta > 0, \forall y, x\in X, d(y,x) < \delta \implies \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
 \end{definizione}
 
 \begin{nota}
     L'equicontinuità è più stringente rispetto alla stabilità globale. Quando $X=A^\mathbb{Z}$
     si hanno due definizioni equivalenti e possono essere riscritte come
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-m,m]}=F^t(x)_{[-n,n]}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
 \end{nota}
-\begin{definizione} [\textbf{Sistema instabile (instabilità globale)}]
+
 \begin{definizione} [\textbf{Sistema instabile (instabilità globale)}]
     $(X,F)$ è \textbf{instabile} se $\forall x \in X$, $x$ è un \textbf{punto instabile}
 \end{definizione}
@@ -837,13 +822,13 @@ temporali.
     In $A^\mathbb{Z}$
     $$\exists n\in \mathbb{N} ,\forall x \in A^\mathbb{Z}, \forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
 \end{definizione}
-\end{definizione}
+
 \begin{nota}
     Un sistema sensibile è un sistema instabile in cui la constante $\epsilon$
-    non dipende da $x\in X$, questa viene chiamata anche costante sensitiva e
-    non dipende da $x\in X$, questa viene chiamata anche costante sensitiva e
+    non dipende da $x\in X$, questa viene chiamata anche costante sensitiva ed
     è una specifica feature del sistema.
 \end{nota}
+
 \begin{nota}
     Ricorda che nelle definizioni di punti e sistemi stabili, equicontinui, instabili e sensibili
     alle condizioni i coefficienti $m$ e $n$ sono relazionati nel seguente modo $m> n$.
@@ -882,16 +867,16 @@ prima o poi si propagheranno all'interno di $[-n,n]$.
     $x\in X $ è \textbf{ultimamente periodico} se esistono due naturali $p_x>0$ (chiamato
     periodo) e $q_x\ge 0$ (chiamato preperiodo) tale che $F^{q_x+p_x} = F^{q_x}$, o
     equivalentemente,
-    $$\forall x\in X,\exists p_x>0,q_x>0:F^{q_x+p_x}(x) = F^{q_x}(x)$$.
+    $$\forall x\in X,\exists p_x>0,q_x\ge 0:F^{q_x+p_x}(x) = F^{q_x}(x)$$.
 \end{definizione}
 \begin{definizione}[\textbf{Ultima periodicità del sistema}]
     $(X,F)$ è \textbf{ultimamente periodico} se esistono due naturali $p>0$ (chiamato
     periodo) e $q\ge 0$ (chiamato preperiodo) tale che $F^{q+p} = F^q$, equivalentemente,
-    $$\forall x\in X,F^{q+p}(x) = F^q(x)$$.
+    $$\forall x\in X,F^{q+p}(x) = F^q(x)$$
 \end{definizione}
 Ultima periodicità significa che tutte le configurazioni dopo un numero di applicazioni
 finite di $F$ (in totale $q$) (configurazione zero) diventano periodiche di periodo $p$ ovvero dopo
-$p$ colpi di $F$ tornarno alla configurazione zero.
+$p$ colpi di $F$ si torna alla configurazione zero.
 
 \begin{definizione} [\textbf{Nilpotenza}]
     \textbf{Nilpotenza} significa $\exists t:\forall x\in X$$F^t(x)$ sarà la configurazione
@@ -933,7 +918,7 @@ periodici e quindi non possiamo studiare comportamenti instabili.
 \begin{teorema}
     Sia $(X,F)$ un DTDS, allora:
     \begin{itemize}
-        \item $(X,F)$ è ultimamente periodico $\implies$ $(X,F)$ equiconinuo (solo quando $(X,d)$ è compattos)
+        \item $(X,F)$ è ultimamente periodico $\implies$ $(X,F)$ equiconinuo (solo quando $(X,d)$ è compatto)
         \item $(X,F)$ è equiconinuo $\implies$ $(X,F)$ almeno equicontinuo
     \end{itemize}
     \begin{proof}
@@ -955,8 +940,7 @@ periodici e quindi non possiamo studiare comportamenti instabili.
                       \end{array}
                   \end{equation*}
                   allora $\exists \delta = \min \{\delta_0,\delta_1, \dots, \delta_q,\dots, \delta_{q+p-1}\}$ tale che
-                  $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon \implies $$$$\implies
-                      \forall t\in \mathbb{N} d(F^t(y),F^t(x))< \epsilon$$
+                  $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon $$
             \item Equiconinuo $\implies$ almeno equicontinuo: se $(X ,F)$ è equiconinuo
                 allora $\xi = X$.  Abbiamo che $\xi = \bigcap_{n\in \mathbb{N}}X_n$ con $X_n= X$,
                 dove $X$ è aperto e denso, quindi $(X,F)$ è almeno equicontinuo.
@@ -979,13 +963,13 @@ periodici e quindi non possiamo studiare comportamenti instabili.
         \item $\vdots$
         \item $F(x)=^\infty u^{(t)\infty}$ per qualche $u^{(t)}\in  A^n$
     \end{itemize}
-    Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x\ge 0$ 
+    Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x> 0$ 
     tale che $F^{q_x+p_x-1}(x)=F^{q_x}(x)$ ($x$ è ultimamente periodica).
 \end{nota}
 \begin{definizione}[\textbf{Blocking word}]
     Sia $u\in A^n$ per qualche $n\in \mathbb{N}$. Sia $s\in \mathbb{N}$ con $s>0$,
     la parola $u$ è $s$\textbf{-blocking} se $\exists \theta\in [0,n-s]$ (offset)
-    tale che $\forall x,y\in A^\mathbb{Z}:x_{[0,n)}=y_{[0,n)}=u$ e vale $forall t\in \mathbb{N}:
+    tale che $\forall x,y\in A^\mathbb{Z}:x_{[0,n)}=y_{[0,n)}=u$ e vale $\forall t\in \mathbb{N}:
     F^t(x)_{[\theta,\theta +s)} =F^t(y)_{[\theta,\theta +s)}$
 \end{definizione}
 
@@ -1025,7 +1009,7 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
         Sia $x\in A^\mathbb{Z}$ una qualsiasi configurazione del tipo $(uA^\ast)^+$,
         andremo a dismostrare che $x$ sia un punto di equicontinuità, ovvero 
         $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
-        Scelto un $n \in \mathbb{N}$ e sua $m$ tale che $[-n,n]\subseteq [-m,m]$
+        Scelto un $n \in \mathbb{N}$ e sia $m$ tale che $[-n,n]\subseteq [-m,m]$
         e $[-n,n]$ è contenuto all'interno del segmento $[-m,m]$ tale che 
         inizi all'interno segmento definito dal primo muro della prima occorrenza di $u$ in $[-m,m]$ fino 
         all'ultimo muro dell'ultima occorrenza di $u$. Allora $x$ è un punto di 
@@ -1082,7 +1066,7 @@ alle condizioni iniziali.
     una che prima o poi diventerà bloccante.
 \end{nota}
 
-\begin{teorema}[\textbf{Caratterizzazzione dell\'almeno equiconinuità}]
+\begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
     Sia $\langle A,r,f\rangle$ un CA e sia $F$ la regola globale allora i seguenti
     punti sono equivalenti:
     \begin{enumerate}
@@ -1241,7 +1225,7 @@ alle condizioni iniziali.
     Un DTDS $(X,F)$ è detto \textbf{positivamente espansivo} se 
     $$\exists \epsilon >0, \forall x,y\in X, x\ne y, \exists t\in \mathbb{N}, d(F^t(y),F^t(x))\ge \epsilon$$
     Negli automi cellulari si ha
-    $$\exists m\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
+    $$\exists m\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-m,m]} \ne F^t(x)_{[-m,m]}$$
 \end{definizione}
 
 \begin{teorema}
@@ -1494,7 +1478,7 @@ con $\underline{x_i} \in N$.
 La generalizzazione della mappa shift al caso $d$-dimensionale non è altro che una 
 traslazione $\tau$ determinata dal vettore $\underline{r}\in  \mathbb{Z}^d$, è
 la trasformazione
-$$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow \rightarrow S^{\mathbb{Z}^d}$$
+$$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow  S^{\mathbb{Z}^d}$$
 tale che 
 $$e =\tau_{\underline{r}}(c) \iff e(\underline{x}) =  c(\underline{x}+\underline{r}), \forall \underline{x},\underline{r}\in \mathbb{Z}^d$$
 
@@ -1507,7 +1491,7 @@ unitario.
     sono vere:
     \begin{itemize}
         \item $G$ continua
-        \item $G$ con tutte le traslazioni
+        \item $G$ commuta con tutte le traslazioni
     \end{itemize}
 \end{teorema}
 
