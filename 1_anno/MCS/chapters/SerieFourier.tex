@@ -541,17 +541,23 @@ punti dell'intervallo di periodicità [0, p], possiamo pensare di conoscere sola
 i valori di questa funzione in alcuni punti e avere una sua approssimazione a “scalini”.
 
 Supponiamo che $f:[0,p] \to \mathbb{R}$ continua nell'intervallo, vogliamo approssimare
-la funzione con un totale $n = 4$ campionamenti, quindi vogliamo trovare $f_4 = (f_0, f_1,f_2,f_3)\in \mathbb{R}^n$.
+la funzione con un totale $n = 4$ campionamenti, quindi vogliamo trovare $f_4 = (f_0, f_1,f_2,f_3)\in \mathbb{R}^4$.
 
-Quindi $f_i = (\frac{i}{N} + \frac{i+1}{N}) \frac{1}{2} = \frac{2i+1}{2N}$ coicidono 
-con il punto medio dell'$i$-esimo sottointervallo di $[0,p]$ suddiviso in $n$ intervalli.
-Possiamo generalizzare questo ragionamento sfruttando la funzione reale
-$$f_i = f(\frac{2i+1}{2n})$$
+Quindi abbiamo che ogni punto $f_i$ coincide con il punto medio dell'$i$-esimo
+sotto-intervallo di $[0,p]$, ovvero:
+\begin{equation*}
+    f_i= \left(\frac{i}{N} + \frac{i+1}{N}\right) \frac{1}{2} = \frac{2i+1}{2N}
+\end{equation*}
+quindi, possiamo generalizzare il ragionamento fatto nel seguente modo:
+\begin{equation*}
+    f_i = f(\frac{2i+1}{2n})
+\end{equation*}
 
-Possiamo vedere $f_N = \sum_{i=0}^{N-1} f_i \cdot e_i$ ovvero possiamo vedere il vettore 
-$f_N$ come combinazione lineare dei valori $f_i$ per i vettori della base canonica 
-$e_i$.
-
+Inoltre, il vettore $f_N$ può essere rappresentato come combinazione lineare dei
+valori $f_i$ per i vettori della base canonica $e_i$, ovvero:
+\begin{equation}
+    f_N = \sum_{i=0}^{N-1} f_i \cdot e_i
+\end{equation}
 \begin{definizione}[\textbf{Base}]
     Sia $V$ uno spazio vettoriale, un insieme di vettori $\{v_i\}$ linearmente
     indipendenti è una base di $V$ se ogni vettore $v \in V$ può essere scritto
@@ -570,152 +576,266 @@ $e_i$.
     \end{equation}
 \end{definizione}
 Le basi ortogonali permettono di semplificare il calcolo del prodotto scalare
-tra i vettori dello spazio. Nello specifico, permette di effettuare solo il prodotto 
-scalare tra il vettore di coefficiente $j$ e il coefficiente $j$ della base.
-
+tra i vettori dello spazio. Nello specifico, permette di effettuare solo il
+prodotto tra il vettore $j-$esimo della base e il coefficiente $j$.
 \begin{nota}
     Per ogni spazio vettoriale possiamo definire la sua base canonica, ovvero
     la base formata dai vettori $\vec{e_i}$ tali che:
     \begin{equation}
         \vec{e_i} = \begin{cases}
-            1 & i = j \\
+            1 & i = j   \\
             0 & i \ne j
         \end{cases}
     \end{equation}
 \end{nota}
-
 \begin{nota}
     Data la base canonica $\{e_i\}$ di $\mathbb{R}^n$ rispetta le seguenti proprietà:
     \begin{itemize}
-        \item localizzata: guarda un'entrata alla volta
-        \item generano $\mathbb{R}^n$
-        \item ortogonale
+        \item Localizzata: guarda un'entrata alla volta
+        \item Generano $\mathbb{R}^n$
+        \item Ortogonale
     \end{itemize}
 \end{nota}
 
-A noi però interessa il fatto che una base non sia localizzata, perché se vogliamo 
-rappresentare $f_N$ come combinazione della base canonica, ci servono un totale di 
-$N$ vettori della base. Noi vogliamo trovare una base composta da un numero 
-fisso di vettori in modo da risparmiare memoria. 
+A noi però interessa il fatto che una base non sia localizzata, perché se vogliamo
+rappresentare $f_N$ come combinazione della base canonica, ci servono un totale di
+$N$ vettori della base. Noi vogliamo trovare una base composta da un numero
+fisso di vettori, possibilmente $< N$, in modo da risparmiare memoria.
 
-Quindi per il caso discreto, se vogliamo approssimare una funzione continua 
-$f$ dobbiamo 
-$$f= \sum_{k = 0}^{\infty} a_k\cos (\frac{k\pi}{L}x)$$
+Quindi per il caso discreto, vogliamo approssimare una funzione continua $f$
+sfruttando un vettore composto da un numero finito di elementi $N$. Partiamo dalla
+definizione della cosine trasform:
+\begin{equation*}
+    f= \sum_{k = 0}^{\infty} a_k\cos \left(\frac{k\pi}{L}x\right)
+\end{equation*}
+Vogliamo ora approssimare $f$ con un numero finito di campioni $N$. Per fare
+questo possiamo usare il fatto che un generico vettore $f_N$ può essere rappresentato
+come combinazione lineare dei valori medi degli intervalli $f_i$ per i vettori
+di una base ortogonale $\{w_k\}$, ovvero:
+\begin{equation}
+    f_N = \sum_{k=0}^{N-1} b_k \cdot w_k
+\end{equation}
+I vettori $w_k$ della base ortogonale sono tali che:
+\begin{equation*}
+    w_k =\left[\begin{array}{c}
+            w_k^0  \\
+            w_k^1  \\
+            \vdots \\
+            w_k^N  \\
+        \end{array}\right] = \left[\begin{array}{c}
+            \cos \left(\frac{\pi k}{L}\cdot \frac{1}{2N}\right)   \\
+            \cos \left(\frac{\pi k}{L}\cdot \frac{2}{2N}\right)   \\
+            \vdots                                                \\
+            \cos \left(\frac{\pi k}{L}\cdot \frac{N-1}{2N}\right) \\
+        \end{array}\right]
+\end{equation*}
+Quindi $w_k$ sono vettori che rappresentano le diverse oscillazioni del $\cos$
+con periodi differenti. Quindi l'obiettivo è rappresentare $f_N$ con meno di $N$
+vettori della base, cosa che non potevamo fare con la base canonica.
 
-Nella possiamo rappresentare $f$ con un numero massimo di $N$ campioni quindi 
-$$f \sim f_N = \sum_{k=0}^{N-1} b_k \cdot w_k$$
+Per calcolare i coefficienti $b_k$ dobbiamo innanzitutto far sì che la base sia
+ortogonale, così facendo il calcolo di tali valori risulta più semplice.
 
-dove $f_i$ sono i famosi valori medi degli $N$ intervalli e $w_k$ è il vettore 
-$k$-esimo della base di $\mathbb{R}^n$ tale che non sia localizzata. I vettori 
-della base saranno:
-
-$$w_k =\left[\begin{array}{c}
-    w_k^0\\
-    w_k^1\\
-    \vdots\\
-    w_k^N\\
-\end{array}\right] = \left[\begin{array}{c}
-    \cos (\frac{\pi k}{L}\cdot \frac{1}{2N})\\
-    \cos (\frac{\pi k}{L}\cdot \frac{2}{2N})\\
-    \vdots\\
-    \cos (\frac{\pi k}{L}\cdot \frac{N-1}{2N})\\
-\end{array}\right]$$
-
-Quindi $w_k$ sono tutti i vettori che mi rappresentanto oscillazioni diverse del $\cos$
-con periodi differenti. Quindi l'obiettivo è rappresentare 
-$f_N$ con meno di $N$ vettori della base, cosa che non potevamo fare con la base
-canonica.
-
-Per calcolare i coefficienti $b_k$ dobbiamo innanzitutto far sì che la base sia 
-ortogonale così risulta essere più semplice il conto.
-
-\begin{teorema}
-    Sia $\theta\in \mathbb{R}$ e $N\in \mathbb{N}$ allora 
-    $$(\cos (\theta) + i\sin (\theta))^N = \cos(N \theta) + i \sin(N\theta)$$
+\begin{proposizione}[\textbf{Forumal di De Moivre}]
+    Sia $\theta\in \mathbb{R}$ e $N\in \mathbb{N}$, allora vale la seguente identità:
+    \begin{equation}
+        (\cos (\theta) + i\sin (\theta))^N = \cos(N \theta) + i \sin(N\theta)
+    \end{equation}
     dove $i$ è la base immaginaria.
     \begin{proof}
-        Dimostriamo per induzione:
+        Questa proposizione può essere dimostrata per induzione:
         \begin{itemize}
-            \item Se $N = 1$ allora è ovvio. 
-            \item Supponiamo che valga $(\cos (\theta) + i\sin (\theta))^N= \cos(N \theta) + i \sin(N\theta)$
-            dimostriamo che $$(\cos (\theta) + i\sin (\theta))^{N+1}= \cos((N+1) \theta) + i \sin((N+1)\theta)$$
-            $$\cos((N+1) \theta) + i \sin((N+1)\theta) = \cos(N\theta+\theta) + i \sin(N\theta+\theta) =$$$$= \cos(N\theta)\cos(\theta) -\sin(N\theta)\sin(\theta) + i \left[\sin(N\theta)\cos(\theta)+\cos(N\theta)\sin(\theta)\right] =$$
-            $$= \cos(N\theta)\cos(\theta) -\sin(N\theta)\sin(\theta) + i\sin(N\theta)\cos(\theta)+i\cos(N\theta)\sin(\theta)=$$
-            $$= \cos(\theta) \left(\cos(N\theta) + i\sin (N\theta)\right)+\sin(\theta)(i\cos(N\theta)-\sin(N\theta))=$$
-            $$= \cos(\theta) \left(\cos(N\theta) + i\sin (N\theta)\right)+\sin(\theta)(i\cos(N\theta)+i^2\sin(N\theta))=$$
-            $$= \cos(\theta) \left(\cos(N\theta) + i\sin (N\theta)\right)+i\sin(\theta)(\cos(N\theta)+i\sin(N\theta))=$$
-            $$= \left(\cos(\theta) +i\sin(\theta)\right) + \left(\cos(N\theta) + i\sin (N\theta)\right) = \left(\cos(\theta) +i\sin(\theta)\right) + \left(\cos(\theta) + i\sin (\theta)\right)^N =\left(\cos(\theta) + i\sin (\theta)\right)^{N+1} $$
-
+            \item Se $N = 1$ allora la formula è verificata.
+            \item Supponiamo che valga il seguente risultato:
+                  \begin{equation*}
+                      (\cos (\theta) + i\sin (\theta))^N = \cos(N \theta) + i \sin(N\theta)
+                  \end{equation*}
+                  vogliamo ora dimostrare che vale anche per $N+1$. Quindi:
+                  \begin{equation*}
+                      (\cos (\theta) + i\sin (\theta))^{N+1}= \cos((N+1) \theta) + i \sin((N+1)\theta)
+                  \end{equation*}
+                  Possiamo applicare le formule di somma del seno e del coseno:
+                  \begin{equation*}
+                      \begin{array}{l}
+                          \cos((N + 1) \theta) + i \sin((N + 1)\theta) = \cos(N\theta
+                          + \theta) + i \sin(N\theta + \theta) = \\
+                          = \cos(N\theta)\cos(\theta) -\sin(N\theta)\sin(\theta) + i
+                          \left[\sin(N\theta)\cos(\theta)+\cos(N\theta)\sin(\theta)\right]
+                      \end{array}
+                  \end{equation*}
+                  sfruttando il fatto che $i^2 = -1$ possiamo raccogliere i termini:
+                  \begin{equation*}
+                      \cos(\theta) \left[
+                          \cos(N \theta) + i \sin(N \theta) + i \sin(\theta) \left[
+                              \cos(N \theta) + i \sin(N \theta)
+                              \right]
+                          \right]
+                  \end{equation*}
+                  raccogliendo i termini in comune otteniamo:
+                  \begin{equation*}
+                      (\cos(\theta) + i\sin(\theta))^N = \cos(N\theta) + i\sin(N\theta)
+                  \end{equation*}
+                  abbiamo la tesi iniziale:
+                  \begin{equation*}
+                      \left[\cos(N \theta) i + \sin(N \theta)\right]^N (\cos(\theta) + i\sin(\theta)) =
+                      \left[\cos(N \theta) i + \sin(N \theta)\right]^{N + 1}
+                  \end{equation*}
         \end{itemize}
-        
     \end{proof}
-\end{teorema}
-
-\begin{teorema}
-    Sia $z\in \mathbb{C}$  $z\ne 1$ allora $\forall \in \mathbb{N}$ 
-    $$\sum_{j=0}^{N-1}  z^j = \frac{1-z^N}{1-z}$$
+\end{proposizione}
+\begin{proposizione}
+    Sia $z\in \mathbb{C}$ tale per cui  $z \neq 1$, allora $\forall N \in \mathbb{N}$,
+    vale la seguente identità:
+    \begin{equation}
+        \sum_{j=0}^{N-1}  z^j = \frac{1-z^N}{1-z}
+    \end{equation}
     \begin{proof}
-        Dimostrare $\sum_{j=0}^{N-1}  z^j = \frac{1-z^N}{1-z}$ allora è come dimostrare
-        $$(1-z)\sum_{j=0}^{N-1}  z^j = 1-z^N$$
-        Quindi 
-        $$(1-z)\sum_{j=0}^{N-1} z^j = \sum_{j=0}^{N-1}z^j-z\sum_{j=0}^{N-1} z^j = 1+ z+z^1+\dots + z^{N-1} - z -z^1-z^2-\dots-z^{N} = 1- z^N$$
+        Vogliamo ora dimostrare $\sum_{j=0}^{N-1}  z^j = \frac{1-z^N}{1-z}$. Dato
+        che $z \neq 1$ possiamo dire che $1-z \neq 0$ e quindi possiamo scrivere:
+        \begin{equation*}
+            (1-z)\sum_{j=0}^{N-1}  z^j = 1-z^N
+        \end{equation*}
+        A questo punto, sviluppando il prodotto otteniamo:
+        \begin{equation*}
+            (1 - z)\sum_{j = 0}^{N - 1} z^j = \sum_{j = 0}^{N - 1}z^j -
+            z\sum_{j = 0}^{N - 1} z^j = 1 + z + z^1 + \dots + z^{N-1} - z -z^1
+            -z^2-\dots-z^{N} = 1- z^N
+        \end{equation*}
     \end{proof}
-\end{teorema}
-\begin{teorema}
-    Per ogni $m\in \mathbb{Z}$ tale  che $m\in [-N+1,0)\cup (0, 2N-2]$
-    $$\sum_{i=0}^{N-1} \cos(\pi m \frac{2i+1}{2N}) = 0$$
+\end{proposizione}
+\begin{proposizione}
+    Per ogni $m\in \mathbb{Z}$, con $m \neq 0$, e tale che $m\in [-N + 1,0) \cup
+            (0, 2N-2]$ vale:
+    \begin{equation}
+        \sum_{i=0}^{N-1} \cos\left(\pi m \frac{2i+1}{2N}\right) = 0
+    \end{equation}
     \begin{proof}
-        Possiamo dire $\cos (\frac{\pi m i}{N} + \frac{\pi m}{2N})= \cos(\frac{\pi m i}{N}) \cos(\frac{\pi m}{2N})-\sin(\frac{\pi m i}{N}) \sin(\frac{\pi m}{2N})$.
-        Questo significa che la sommatoria si trasforma in 
-        $$\sum_{i=0}^{N-1}  \cos(\frac{\pi m i}{N}) \cos(\frac{\pi m}{2N})-\sum_{i=0}^{N-1}\sin(\frac{\pi m i}{N}) \sin(\frac{\pi m}{2N}) = 
-        \cos(\frac{\pi m}{2N})\sum_{i=0}^{N-1}  \cos(\frac{\pi m i}{N}) -\sin(\frac{\pi m}{2N})\sum_{i=0}^{N-1}\sin(\frac{\pi m i}{N})  $$
-
-        Possiamo dire che $\cos(\frac{\pi m i}{N}) = \mathcal{R}\left[\cos(\frac{\pi m i}{N}) + \underline{i} \sin(\frac{\pi m i}{N})\right]$
-        e di conseguenza $\sin(\frac{\pi m i}{N}) = \mathcal{I}\left[\cos(\frac{\pi m i}{N}) + \underline{i} \sin(\frac{\pi m i}{N})\right]$
-        dove $\mathcal{R}$ $\mathcal{I}$ indicano rispettivamente la parte reale 
-        e immaginaria del numero complesso e $\underline{i}$ è la costante immaginaria.
-
-        Quindi possiamo utilizzare i teoremi dimostrati precedentemente e dire
-        $$\cos(\frac{\pi m i}{N}) = \mathcal{R}\left[\cos(\frac{\pi m i}{N}) + \underline{i} \sin(\frac{\pi m i}{N})\right] =\mathcal{R}\left[\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right]$$
-        $$\sin(\frac{\pi m i}{N}) = \mathcal{I}\left[\cos(\frac{\pi m i}{N}) + \underline{i} \sin(\frac{\pi m i}{N})\right] =\mathcal{I}\left[\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right]$$
-    
-        Quindi possiamo sostituire nella sommatoria per spostare l'indice all'esponente.
-
-        $$\cos(\frac{\pi m}{2N})\sum_{i=0}^{N-1}  \cos(\frac{\pi m i}{N}) -\sin(\frac{\pi m}{2N})\sum_{i=0}^{N-1}\sin(\frac{\pi m i}{N}) = $$
-        $$= \cos(\frac{\pi m}{2N})\sum_{i=0}^{N-1}  \mathcal{R}\left[\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right] -\sin(\frac{\pi m}{2N})\sum_{i=0}^{N-1}\mathcal{I}\left[\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right]$$
-        Possiamo portare fuori l'operazione di estrazione della parte immaginaria
-        e reale.
-        $$\cos(\frac{\pi m}{2N})\sum_{i=0}^{N-1}  \mathcal{R}\left[\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right] -\sin(\frac{\pi m}{2N})\sum_{i=0}^{N-1}\mathcal{I}\left[\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right]=$$
-        $$=\cos(\frac{\pi m}{2N})\mathcal{R}\left[\sum_{i=0}^{N-1}  \left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right] -\sin(\frac{\pi m}{2N})\mathcal{I}\left[\sum_{i=0}^{N-1}\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right]$$
-        
-        Utilizziamo sempre i teoremi precedenti
-    
-        $$\cos(\frac{\pi m}{2N})\mathcal{R}\left[\sum_{i=0}^{N-1}  \left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right] -\sin(\frac{\pi m}{2N})\mathcal{I}\left[\sum_{i=0}^{N-1}\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^i\right]=$$
-        $$=\cos(\frac{\pi m}{2N})\mathcal{R}\left[ \frac{1- \left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^N}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right] -\sin(\frac{\pi m}{2N})\mathcal{I}\left[\frac{1- \left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^N}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right]$$
-        
-        Utilizziamo sempre i teoremi precedenti
-        $$\cos(\frac{\pi m}{2N})\mathcal{R}\left[ \frac{1- \left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^N}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right] -\sin(\frac{\pi m}{2N})\mathcal{I}\left[\frac{1- \left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)^N}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right]=$$
-        $$=\cos(\frac{\pi m}{2N})\mathcal{R}\left[ \frac{1- \left(\cos(\not N\frac{\pi m }{\not N}) + \underline{i} \sin(\not N\frac{\pi m }{\not N})\right)}{1-\left(\cos( \frac{\pi m }{ N}) + \underline{i} \sin( \frac{\pi m }{ N})\right)}\right] -\sin(\frac{\pi m}{2N})\mathcal{I}\left[\frac{1- \left(\cos(\not N\frac{\pi m }{\not N}) + \underline{i} \sin(\not N\frac{\pi m }{\not N})\right)}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right]$$
-    
-        Quindi possiamo dire che $\forall m \in \mathbb{Z}$ allora $\sin(\pi m) = 0$.
-        Il problema è il $\cos$ che dipende da $m$ pari o $m$ dispari.
-        Quindi:
+        Dimostrare questo fatto è molto laborioso e necessiterà l'utilizzo dei
+        risultati delle proposizioni precedenti. Iniziamo con il termine della
+        sommatoria:
+        \begin{equation*}
+            \cos\left(\pi m \frac{2i+1}{2N}\right) = \cos\left(\frac{\pi mi}{N}
+            + \frac{\pi m}{2N}\right)
+        \end{equation*}
+        usando la formula del coseno della somma possiamo scrivere:
+        \begin{equation*}
+            \cos\left(\frac{\pi mi}{N}\right)\cos\left(\frac{\pi m}{2N}\right) -
+            \sin\left(\frac{\pi mi}{N}\right)\sin\left(\frac{\pi m}{2N}\right)
+        \end{equation*}
+        Riconducendoci ai numeri complessi e usando la formula di De Moivre,
+        possiamo riscrivere i termini che dipendono dall'indice $i$ nel seguente
+        modo:
+        \begin{equation*}
+            \begin{array}{l}
+                \cos\left(\frac{\pi mi}{N}\right) = \mathcal{R} \left[\cos\left(
+                    \frac{\pi mi}{N}\right) + \text{i} \sin\left(\frac{\pi mi}{N}
+                    \right)\right] = \mathcal{R} \left[\cos\left(\frac{\pi m}{N}\right)
+                + \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i \\
+                \sin\left(\frac{\pi mi}{N}\right) = \mathcal{I} \left[\cos\left(
+                    \frac{\pi mi}{N}\right) + \text{i} \sin\left(\frac{\pi mi}{N}
+                    \right)\right] = \mathcal{I} \left[\cos\left(\frac{\pi m}{N}\right)
+                    + \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i
+            \end{array}
+        \end{equation*}
+        Riprendiamo ora la sommatoria e consideriamo il termine con il doppio
+        coseno, per la parte con i doppi seni vale un discorso simile.
+        \begin{equation*}
+            \sum_{i=0}^{N-1} \cos\left(\frac{\pi mi}{N}\right)\cos\left(\frac{\pi m}{2N}\right) =
+            \sum_{i = 0}^{N - 1} \mathcal{R} \left[\cos\left(\frac{\pi m}{N}\right) +
+                \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i \cos\left(\frac{\pi m}{2N}\right)
+        \end{equation*}
+        A questo punto possiamo tirare fuori il termine $\cos\left(\frac{\pi m}{2N}\right)$
+        e riscrivere la sommatoria come:
+        \begin{equation*}
+            \cos\left(\frac{\pi m}{2N}\right) \mathcal{R} \left[\sum_{i = 0}^{N - 1}\left[ \cos\left(\frac{\pi m}{N}\right) +
+                    \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i\right]
+        \end{equation*}
+        Per la parte con i seni procediamo in modo analogo, ma questa volta ci
+        sarà la parte immaginaria del numero complesso.
+        \begin{equation*}
+            \sum_{i=0}^{N-1} \sin\left(\frac{\pi mi}{N}\right)\sin\left(\frac{\pi m}{2N}\right) =
+            \sum_{i = 0}^{N - 1} \mathcal{I} \left[\cos\left(\frac{\pi m}{N}\right) +
+                \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i \sin\left(\frac{\pi m}{2N}\right)
+        \end{equation*}
+        A questo punto possiamo tirare fuori il termine $\sin\left(\frac{\pi m}{2N}\right)$
+        e riscrivere la sommatoria come:
+        \begin{equation*}
+            \sin\left(\frac{\pi m}{2N}\right) \mathcal{I} \left[\sum_{i = 0}^{N - 1} \left[\cos\left(\frac{\pi m}{N}\right) +
+                    \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i\right]
+        \end{equation*}
+        Entrambi questi termini coinvolgono la stessa sommatoria, ossia, una
+        sommatoria che ha lo stesso termine generale. L'unica differenza è che
+        una prende la parte reale mentre l'altra prende la parte immaginaria del
+        risultato. Analizziamo meglio questa somma. Dato che $m \neq 0$ possiamo
+        applicare quanto dimostrato nella proposizione precedente:
+        \begin{equation*}
+            \sum_{i = 0}^{N - 1} \left[\cos\left(\frac{\pi m}{N}\right) + \text{i}
+                \sin\left(\frac{\pi m}{N}\right)\right]^i =
+            \frac{\left[\cos\left(\frac{\pi m}{N}\right) + \text{i} \sin\left(
+                    \frac{\pi m}{N}\right)\right]^N - 1}{\left[\cos\left(\frac{\pi m}{N}\right)
+                    + \text{i} \sin\left(\frac{\pi m}{N}\right)\right] - 1}
+        \end{equation*}
+        Al numeratore possiamo applicare nuovamente la formula di De Moivre e otteniamo:
+        \begin{equation*}
+            \frac{\left[\cos\left(\frac{\pi m}{N}\right) + \text{i} \sin\left(
+                    \frac{\pi m}{N}\right)\right]^N - 1}{\left[\cos\left(\frac{\pi m}{N}\right)
+                    + \text{i} \sin\left(\frac{\pi m}{N}\right)\right] - 1} =
+            \frac{\cos\left(\pi m\right) + \text{i} \sin\left(\pi m\right) - 1}{\cos\left(\frac{\pi m}{N}\right)
+                + \text{i} \sin\left(\frac{\pi m}{N}\right) - 1}
+        \end{equation*}
+        Dato che $m$ è un numero intero diverso da zero abbiamo solamente due possibilità:
         \begin{itemize}
-            \item $m$ pari: allora $1- \left(\cos(\pi m ) + \underline{i} \sin(\pi m)\right) = 1 - 1 = 0$ 
-            tutta l'equazione si annulla e quindi abbiamo dimostrato.
-            \item $m$ dispari: allora $1- \left(\cos(\pi m ) + \underline{i} \sin(\pi m)\right) = 1 + 1 = 2$
-        $$\cos(\frac{\pi m}{2N})\mathcal{R}\left[ \frac{2}{1-\left(\cos( \frac{\pi m }{ N}) + \underline{i} \sin( \frac{\pi m }{ N})\right)}\right] -\sin(\frac{\pi m}{2N})\mathcal{I}\left[\frac{2}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right]$$
-        Consideriamo $\mathcal{I}\left[\frac{2}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right]$ allora possiamo
-        manipolare il denominatore in questo modo:
-        $$\mathcal{I}\left[\frac{2}{1-\left(\cos(\frac{\pi m }{N}) + \underline{i} \sin(\frac{\pi m }{N})\right)}\right]=$$
-        $$=\mathcal{I}\left[\frac{2}{\left(1-\cos(\frac{\pi m }{N})\right) - \underline{i} \sin(\frac{\pi m }{N})}\right]= $$
-        $$=\mathcal{I}\left[\frac{2}{\left(1-\cos(\frac{\pi m }{N})\right) - \underline{i} \sin(\frac{\pi m }{N})}\cdot \frac{\left(1-\cos(\frac{\pi m }{N})\right) + \underline{i} \sin(\frac{\pi m }{N})}{\left(1-\cos(\frac{\pi m }{N})\right) + \underline{i} \sin(\frac{\pi m }{N})}\right]= $$
-        $$=\mathcal{I}\left[\frac{2\left[\left(1-\cos(\frac{\pi m }{N})\right) + \underline{i} \sin(\frac{\pi m }{N})\right]}{\left(1-\cos(\frac{\pi m }{N})\right)^2 - \left(\underline{i} \sin(\frac{\pi m }{N})\right)^2}\right]= $$
-    \end{itemize}
-    
-    
-    
-    
-    
+            \item Se $m$ è pari allora $\cos(\pi m) = 1$ e $\sin(\pi m) = 0$.
+            \item Se $m$ è dispari allora $\cos(\pi m) = -1$ e $\sin(\pi m) = 0$.
+        \end{itemize}
+        Se $m$ è pari abbiamo che il numeratore si annulla, quindi la proposizione
+        è dimostrata perché le due sommatorie sono entrambe uguali a zero. Se
+        invece $m$ è dispari abbiamo:
+        \begin{equation*}
+            \left[ \cos(\pi m) + i \sin(\pi m) - 1\right] = -1 - 1 = -2
+        \end{equation*}
+        Possiamo quindi scrivere la sommatoria come:
+        \begin{equation*}
+            \frac{-2}{\left[\cos\left(\frac{\pi m}{N}\right) + \text{i} \sin\left(\frac{\pi m}{N}\right)\right] - 1} =
+            \frac{2}{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] - \text{i} \sin\left(\frac{\pi m}{N}\right)}
+        \end{equation*}
+        Possiamo quindi razionalizzare il denominatore e ottenere:
+        \begin{equation*}
+            \frac{2}{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] - \text{i} \sin\left(\frac{\pi m}{N}\right)}
+            \cdot \frac{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] + \text{i} \sin\left(\frac{\pi m}{N}\right)}{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] + \text{i} \sin\left(\frac{\pi m}{N}\right)}
+        \end{equation*}
+        Svolgendo i conti si ottiene:
+        \begin{equation*}
+            2 \cdot \frac{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] + \text{i} \sin\left(\frac{\pi m}{N}\right)}{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right]^2 - \text{i} \sin^2\left(\frac{\pi m}{N}\right)} =
+            2 \cdot \frac{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] + \text{i} \sin\left(\frac{\pi m}{N}\right)}{2 - 2\cos\left(\frac{\pi m}{N}\right)} =
+        \end{equation*}
+        \begin{equation*}
+            = \frac{\left[1 - \cos\left(\frac{\pi m}{N}\right)\right] + \text{i} \sin\left(\frac{\pi m}{N}\right)}{1 - 1\cos\left(\frac{\pi m}{N}\right)} =
+            1 + \text{i} \left[\frac{\sin\left(\frac{\pi m}{N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)}\right]
+        \end{equation*}
+        Quindi i due contributi diventano:
+        \begin{equation*}
+            \sum_{i=0}^{N-1} \cos\left(\frac{\pi mi}{N}\right)\cos\left(\frac{\pi m}{2N}\right) =
+            \cos\left(\frac{\pi m}{2N}\right) \mathcal{R} \left[\sum_{i = 0}^{N - 1}\left[ \cos\left(\frac{\pi m}{N}\right) + \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i\right]
+            = \cos\left(\frac{\pi m}{2N}\right)
+        \end{equation*}
+        \begin{equation*}
+            \sum_{i=0}^{N-1} \sin\left(\frac{\pi mi}{N}\right)\sin\left(\frac{\pi m}{2N}\right) =
+            \sin\left(\frac{\pi m}{2N}\right) \mathcal{I} \left[\sum_{i = 0}^{N - 1} \left[\cos\left(\frac{\pi m}{N}\right) + \text{i} \sin\left(\frac{\pi m}{N}\right)\right]^i\right]
+            = \frac{\sin\left(\frac{\pi m}{N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)}
+        \end{equation*}
+        Da cui otteniamo:
+        \begin{equation*}
+            \cos\left(\frac{\pi m}{2N}\right) - \frac{\sin\left(\frac{\pi m}{N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)} =
+            \frac{\cos\left(\frac{\pi m}{2N}\right) - \cos\left(\frac{\pi m}{2N}\right) \cos \left(\frac{\pi m}{N}\right) - \sin\left(\frac{\pi m}{N}\right)\sin\left(\frac{\pi m}{2N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)} =
+        \end{equation*}
+        \begin{equation*}
+            = \frac{\cos\left(\frac{\pi m}{2N}\right) - \left[\cos\left(\frac{\pi m}{2N}\right) \cos \left(\frac{\pi m}{N}\right) + \sin\left(\frac{\pi m}{N}\right)\sin\left(\frac{\pi m}{2N}\right)\right]}{1 - \cos \left(\frac{\pi m}{N}\right)} =
+            \frac{\cos\left(\frac{\pi m}{2N}\right) - \cos\left(\frac{\pi m}{2N} + \frac{\pi m}{N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)} =
+        \end{equation*}
+        \begin{equation*}
+            = \frac{\cos\left(\frac{\pi m}{2N}\right) - \cos\left(- \frac{\pi m}{2N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)}
+            = \frac{\cos\left(\frac{\pi m}{2N}\right) - \cos\left(\frac{\pi m}{2N}\right)}{1 - \cos \left(\frac{\pi m}{N}\right)} = 0
+        \end{equation*}
     \end{proof}
-\end{teorema}
+\end{proposizione}
