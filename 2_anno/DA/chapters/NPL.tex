@@ -329,40 +329,64 @@ il quale funziona nel seguente modo:
 \end{itemize}
 
 \section{Topic Models}
-Sono strumenti che permettono di identificare dei topic del testo.
+\begin{definizione}
+      Il \textbf{topic recognition} è il problema di riconoscere il topic data una 
+      collezione di documenti.
+\end{definizione}
 
-L'obiettivo è scoprire dei pattern di utilizzo delle parole e 
-collegarle ad un topic comune, è un processo non supervisionato.
+Il riconoscimento si basa sulla ricerca di pattern sintattici di parole collegate 
+da un topic comune, si basa sull'idea che il topic dipende dall'insieme di parole 
+che compoaiono con frequenza maggiore. Di conseguenza è un processo non supervisionato.
 
-Alla fine dato un documento si otterrà una distribuzione dei topic. Ogni topic 
-può essere visto come una distribuzione di parole nel coumento. Quindi possiamo 
-avere una serie di documenti che contengono diverse parole con frequenza diversa 
-e allora vogliamo trovare i topic (rappresentazione latente dei documenti e parole).
+Alla fine data una collezione di documenti, si assume che per ogni documento ci siano 
+diversi topics, quindi per ogni documento avremo una distribuzione di topic.
+Ogni topic può essere visto, a sua volta, come una distribuzione di parole all'interno 
+del documento. Quindi noi \textbf{osserviamo} i documenti e le parole dai quali 
+si devono predire i topic \ref{fig:topic}.
 
-I topic sono come delle wordcloud. Le etichette dei topic possono essere identificate 
-da un umano o automaticamente.
+\begin{figure}[!h]
+      \centering
+      \includegraphics[width=0.7\textwidth]{img/nlp/topic_model.png}
+      \caption{Rappresentazione dei topic}
+      \label{fig:topic}
+\end{figure}
 
-Una generica pipeline sul topic modelling consiste nel:
+\begin{nota}
+      I topic li possiamo vedere come delle wordcloud e le etichette dei topic 
+      possono essere identificate da un umano o automaticamente.
+\end{nota}
+
+Una generica pipeline sul topic modelling consiste nel prendere delle collezioni
+una serie di documenti e si eseguono i topic model.
+Questi permettono di estrarre dalla collezione di documenti:
 \begin{itemize}
-      \item 
+      \item i topic (cluster di parole)
+      \item distribuzione dei topic in ciascun documento
+      \item distribuzione delle parole nei topic
+\end{itemize} 
+
+Più precisamente la modellazione dei topic si basa sui seguenti concetti:
+\begin{itemize}
+      \item ogni documento è un insieme di topic. Specifica che ogni documento 
+      può essere definito da una distribuzione di topic.
+      \item ogni topic è un mix di parole. Specifica che ogni topic ha una distribuzione 
+      delle parole.
 \end{itemize}
 
-Gli elementi fondamentali dei topic model che si traduce in un'assunzione:
+Gli strumenti che si utilizzano per risolvere il seguente problema sono:
 \begin{itemize}
-      \item ogni documento è un insieme di topic: 
-      \item ogni topic è un mix di parole
+      \item \textbf{frequentisti o statistical based}: unigramma, mixture of unigramm, latente dirichlet allocation.
+      Le metriche di valutazione sono PMI, RBO e KL.
+      \item \textbf{neural based}: contextualized topic model, neural-based. Vengono 
+      valutati usando la metrica WED.
 \end{itemize}
 
-Possiamo distinguere modelli:
-\begin{itemize}
-      \item frequentisti o statistical based: unigramma, mixture of unigramm, latente dirichlet allocation,
-      la modalità di valutazione si articola usando le metriche PMI, RBO, KL
-      \item neurale: contextualized topic, neural-based, valutati con Word Embedding-based diversity
-\end{itemize}
+I modelli neurali permettono di trovare delle differenze semantiche rispetto al 
+contesto, cosa che non fanno i modelli frequentisti.
 
-I modelli neurali permettono di capire quelli 
 \subsection{Unigram model}
-Ci si aspetta che nella collezione di documenti esista solo un topic. Si usa il 
+Questo modello si basa sull'assunzione che esista un solo topic nella collezione.
+nella collezione di documenti esista solo un topic. Si usa il 
 diagramma a piattine che rappresenta variabili (parole) osservate e non osservate
 quante sono nella collezioni e in quanti documenti. Conta le parole non i topic.
 $w$ sono le parole del dizionario che possono essere osservate se sono nei documenti 

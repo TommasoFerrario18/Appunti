@@ -197,3 +197,25 @@ l'eterogeneità, non posso specificare strutture particolari dell'ambiente \dots
 Il processo di definizione dei simulatori coinvolge diverse fasi, regole e
 tipologie di conoscenze. I passaggi tra i diversi livelli di astrazione possono
 portare all'introduzione di errori e di incertezze.
+
+\section{Reinforcement leanring per la gestione temporizzata dei semafori}
+L'ambiente è stato realizzato con SUMO, si ha un solo agente che guarda l'ambiente 
+SUMO (al suo interno tanti agenti) e un decisore che invia all'agente le informazioni 
+sulla temporizzazione corretta. Una semplificazione del simulatore è che non ci sono 
+pedoni e non si guarda oltre l'incrocio.
+
+Il tutto si basa sul cambiare stato ogni 10s e quando cambia deve mettere 4s di 
+giallo.
+
+Di algoritmi per RL ne esistono molti Q-Learning associo ad ogni azione 
+una funzione di valore, maggiore è il valore allora migliore.
+
+$\phi \in [0,1]$ se $\phi=0$ allora considero solo la nuova azione, $\phi=1$ 
+allora la prima azione conta quanto l'ultima. Dal momento che la definizione dipende 
+dalle azioni future, se lo spazio è ridotto allora si esplora tutta la combinatoria 
+altrimenti si usa una rete neurale che mi approssima tutto.
+
+Il problema è che gli stati dell'ambiente sono molto correlati rispetto al tempo 
+quindi la rete ha un bias. Per il problema sarlviamo ogni sample (stato, azione, 
+reward, stato prossimo) in un buffer e poi si allena la rete estraendo casualmente 
+il sample.
