@@ -327,3 +327,118 @@ il quale funziona nel seguente modo:
             della frase.
       \item Seleziona il significato con il massimo overlap.
 \end{itemize}
+
+\section{Topic Models}
+Sono strumenti che permettono di identificare dei topic del testo.
+
+L'obiettivo è scoprire dei pattern di utilizzo delle parole e 
+collegarle ad un topic comune, è un processo non supervisionato.
+
+Alla fine dato un documento si otterrà una distribuzione dei topic. Ogni topic 
+può essere visto come una distribuzione di parole nel coumento. Quindi possiamo 
+avere una serie di documenti che contengono diverse parole con frequenza diversa 
+e allora vogliamo trovare i topic (rappresentazione latente dei documenti e parole).
+
+I topic sono come delle wordcloud. Le etichette dei topic possono essere identificate 
+da un umano o automaticamente.
+
+Una generica pipeline sul topic modelling consiste nel:
+\begin{itemize}
+      \item 
+\end{itemize}
+
+Gli elementi fondamentali dei topic model che si traduce in un'assunzione:
+\begin{itemize}
+      \item ogni documento è un insieme di topic: 
+      \item ogni topic è un mix di parole
+\end{itemize}
+
+Possiamo distinguere modelli:
+\begin{itemize}
+      \item frequentisti o statistical based: unigramma, mixture of unigramm, latente dirichlet allocation,
+      la modalità di valutazione si articola usando le metriche PMI, RBO, KL
+      \item neurale: contextualized topic, neural-based, valutati con Word Embedding-based diversity
+\end{itemize}
+
+I modelli neurali permettono di capire quelli 
+\subsection{Unigram model}
+Ci si aspetta che nella collezione di documenti esista solo un topic. Si usa il 
+diagramma a piattine che rappresenta variabili (parole) osservate e non osservate
+quante sono nella collezioni e in quanti documenti. Conta le parole non i topic.
+$w$ sono le parole del dizionario che possono essere osservate se sono nei documenti 
+o non  osservate se non sono presenti documenti.
+\subsection{Mixutere Unigram model}
+Si possono avere più topic ma uno solo per documento. Ci si aspetta che nel topic 
+implicano parole più probabili.
+
+Quindi per ogni parola abbiamo una distribuzione di topic e per ogni documento 
+abbiamo una distribuzione di topic.
+
+Il nuemro di topic deve essere dato.
+
+\subsection{Latent Dirichlet Allocation}
+Tutto quello che ho può essere campionabile.
+
+Le assunzioni di questo modello::
+\begin{itemize}
+      \item ogni documento è costituito da più topic
+      \item ogni topic è una distribuzione su più parole
+      \item ongi documento è un insieme di topic
+      \item ogni parola è all'interno di un topic
+\end{itemize}
+
+Sono modelli generativi del linguaggio perché permettono di generare parole di un 
+topic attraverso il campionamento di probabilità.
+
+Avremo una \textbf{word topic distribution} $P(w|z)$ prob. di una parola del vocabolario 
+all'interno di un topic. Si crea a partire da una randomica e si perfeziona con
+MCM.
+
+Ogni documento ha associato un \textbf{Document topic distribution} $P(z|d)$ prob. di un topic 
+all'interno di un documento. Si crea a partire da una randomica e si perfeziona con
+MCM.
+
+Il processo generativo si articola: date le distribuzioni $P(w|z)$ e $P(z|d)$, allora prima campiono 
+$P(z|d)$ e poi campiono $P(w|z)$
+
+Rappresentazione a piattine.
+$\alpha, \beta$ sono le distribuzioni a priori di Dirichlet. $\beta$ specifica la 
+probabilità a priori che ci sia un topic nel documento data la parola.
+$\alpha$ specifica la probabilità a priori che ci sia un topic nel documento.
+
+$\alpha, \beta\in \mathbb{R}$:
+\begin{itemize}
+      \item $\alpha$ alto: più mi aspetto tanti topic nel documento
+      \item $\alpha$ basso: mi aspetto un topic dominante nel documento
+      \item $\beta$ alto: contiene un misture di molte parole
+      \item $\beta$ basso: contiene un misture di poche parole
+\end{itemize} 
+
+$\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo 
+il train per aggiustare meglio $\theta$ e $\phi$. 
+
+L'\textbf{inferenza}:
+\begin{itemize}
+      \item \textbf{inizializzazione}: randomicamente assegno ad ogni parola un 
+      topic in qualsiasi documento
+      \item \textbf{aggiornamento}: per ogni parola di ogni documento aggiorno il 
+      topic assegnato contando le frequenze di tutte le parole tra word e topic e 
+      aggiungo la viariabilità dalla distribuzione di dirichlet
+      \item \textbf{ripeto}: per ongi parola in tutti i documenti
+      \item \textbf{iterate}: ripeti per più iterazioni
+\end{itemize}
+
+Gibbs Sampling $p(z_t = j | z_t, w_t,d_t)$ si stima attraverso la probabilità $w$ 
+compare nel topic $t$ su il totale di tutte le parole nel topic. 
+
+\subsection{Valutazione dei Topic model}
+Per valutare i modelli precedenti basate su misure di coerenza e di divergenza:
+\begin{itemize}
+      \item coerenza: PMI
+      \item divergenza: RBO, considera l'overlap delle liste di parole tra liste diversa e scala 
+      
+\end{itemize}
+
+altre misure si basano la differenza tra distribuzione di probabilità associata ai 
+topic e la distribuzione target (KL), metrica asimmetrica.
+
