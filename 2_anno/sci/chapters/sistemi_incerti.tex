@@ -619,6 +619,132 @@ Il valore epistemico del terzo valore porta ad un problema di vero funzionale,
 dove se $p=u$ ma anche $\lnot p =u$ quindi $p\land \lnot p$ dovrebbe essere falso 
 e $p\lor p$ dovrebbe essere vero ma in realtà sono entrambi $u$.
 
+\subsection{Logiche a $3$ valori di verità}
+Formalmente nella logica booleana, i connettivi sono fissi, nel caso a $3$ valori di verità 
+si possono definire diversi modi per specificare i connettivi. Nella logica a 
+tre valori, il terzo valore può assumere $3$ diversi significati:
+\begin{itemize}
+    \item \textbf{mezzo vero} (logiche fuzzy): dove specifica un livello intermedio di certezza
+    \item \textbf{indefinito} (logica di Kleene): dove specifica il livello di 
+    indefinito
+    \item \textbf{irrilevante} (logica prist): non è associato al contesto
+\end{itemize}
+
+Quando si considera il terzo valore di verità come un significato \textbf{epistemico}
+allora assume una semantica:
+\begin{itemize}
+    \item \textbf{sconosciuto} nella logica di Kleene, nella quale si hanno problemi 
+    di vero funzionalità
+    \item \textbf{inconsistenza} specifica un valore per una preposizione che può
+    non essere consistente (logiche paraconsistenti come logica di Prist)
+    \item \textbf{possibile} la proposizione può assumere un valore di verità 
+    nel futuro ma lo si determinerà solo successivamente.
+\end{itemize}
+
+Avendo $3$ valori possiamo definire per ogni logica dei connettivi in modo che questi 
+siano coincidenti con delle operazioni matematice, in questo modo possiamo associare 
+ai valori di verità dei numeri $\{0,\frac{1}{2},1\}$.
+
+Quando vogliamo definire la \textbf{congiunzione} dobbiamo vincolare il fatto che 
+che si deve comportare come quella booleana e deve essere \textbf{monotona}.
+
+\begin{definizione}
+    Una congiunzione a $3$ valori è una mappa $\ast:3\times 3\to 3$ tale che:
+    \begin{itemize}
+        \item \textbf{monotona a SX}: $x\le y$ allora $x\ast z\le y\ast z$ 
+        \item \textbf{monotona a dX}: $x\le y$ allora $z\ast x\le z\ast y$ 
+        \item \textbf{stesso comportamento del booleano}: $F\ast F=F\ast T = T\ast F = F$ e $T\ast T = T$
+    \end{itemize}
+    inoltre $u\ast F = F \ast u = F$
+\end{definizione}
+
+Questa definizione copre tutte le combinazioni di valori che si hanno per la congiunzione 
+booleana, le uniche combinazioni che mancano sono quelle tra il valore $u$ e 
+il valore $T$ che in base a come le scegliamo determiniamo una congiunzione diversa.
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{c|c|c|c}
+        $\ast$ & F & u & T \\
+        \hline
+        F        & F & F & F \\
+        u        & F &  &  \\
+        T        & F &  & T
+    \end{tabular}
+\end{table}
+
+In totale possiamo definire $14$ congiunzioni delle quali:
+\begin{itemize}
+    \item $6$ sono commutative 
+    \item $5$ sono commuttative e associative
+    \item $2$ sono $t$-norme
+    \item $1$ è $u$-norma
+\end{itemize}
+
+Alcune congiunzioni hanno un nome:
+\begin{itemize}
+    \item \textbf{sette}: dove $u\ast u= T$, $u\ast T = T$ $T\ast u = T$. Inoltre 
+    è commutativa e associativa.
+    \item \textbf{quasi conjuction}: dove $u\ast u= u$, $u\ast T = T$ $T\ast u = T$. Inoltre 
+    è una $u$-norma e rispetta le proprietà di commutatività e associatività.
+    \item \textbf{Kleene}: dove $u\ast u= u$, $u\ast T = u$ $T\ast u = u$. Inoltre 
+    è una $t$-norma e rispetta le proprietà di commutatività e associatività.
+    \item \textbf{Bochvar external}: dove $u\ast u= F$, $u\ast T = F$ $T\ast u = F$.
+    Inoltre rispetta le proprietà di commutatività e associatività.
+    \item \textbf{Lukasiewicz}: dove $u\ast u= F$, $u\ast T = u$ $T\ast u = u$. Inoltre 
+    è una $t$-norma e rispetta le proprietà di commutatività e associatività.
+\end{itemize}
+
+Con lo stesso ragionamento si possono definire diverse tipologie di $\implies$,
+come al solito si richiede sempre che si comporti come quella booleana e che sia 
+monotona.
+
+\begin{definizione}
+    Un implicazione è una mappa $\implies: 3\times 3 \to 3$ tale che:
+    \begin{itemize}
+        \item \textbf{monotona a SX}: $x\le y$ allora $x\implies z\le y\implies z$ 
+        \item \textbf{monotona a dX}: $x\le y$ allora $z\implies x\le z\implies y$ 
+        \item \textbf{stesso comportamento del booleano}: $F\implies F=T\implies T = T$ e $T\implies F = F$
+    \end{itemize}
+    inoltre deve rispettare:
+    \begin{itemize}
+        \item \textbf{left neutrality o border condition}:$T\implies x = x$
+        \item \textbf{order property}:$x\implies y = T\iff x\le y$
+    \end{itemize}
+\end{definizione}
+
+Questa definizione copre tutte le combinazioni di valori che si hanno per la congiunzione 
+booleana, ma mancano tutti le altre combinazioni.
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{c|c|c|c}
+        $\implies$ & F & u & T \\
+        \hline
+        F        & T & T & T \\
+        u        &  &  & T \\
+        T        & F &  & T
+    \end{tabular}
+\end{table}
+
+Anche qui in base a come definiamo le combinazioni mancanti definiamo dei connettivi 
+di una particolare logica a tre valori.
+
+La \textbf{negazione} può essere definita usando l'implicazione, in generale 
+$a':= a\implies 0$  e in base a come definiamo la negazione sul valore $u$ 
+si definiscono $3$ diverse negazioni:
+\begin{itemize}
+    \item \textbf{intuistica}: $u' = 0 $
+    \item \textbf{involutiva}: $u' = u $
+    \item \textbf{paraconsistente}: $u' = 1 $
+\end{itemize}
+
+Posso definire gruppi di connettivi e relazioni tra i connettivi ovvero posso ottenere 
+un operazione di un gruppo da un operazione di un altro gruppo.
+
+Da $\land,\implies$ della logica di Lukasiewicz posso definire tutti i connettivi 
+di tutte le altre logiche, inoltre possiamo tradurre tutte le implicazioni usando 
+la logica modale.
 
 
 \subsection{Logica di Kleene}
@@ -778,6 +904,7 @@ Questo mi permette di definire le operazioni con delle operazioni matematiche:
     \item $a\land b = \min \{a,b\}$
     \item $a\lor b = \max \{a,b\}$
     \item $a' = 1-a$
+    \item $a\implies b = \max \{1-a,b\}$
 \end{itemize}
 
 Questo è uno dei possibili modi per estendere all'intervallo $[0,1]$ le operazioni.
@@ -785,25 +912,283 @@ Il problema del verità funzionale è che si considera $u$ come coflitto tra il 
 e falso ma non tra quello noto come vero e noto come falso. Altre logiche separano 
 queste operazioni.  
 
-\textbf{DA SISTEMARE}
-Possiamo modificare la congiunzione\dots (deve essere monotona, compatibile con la logica booleana).
-La congiunzione non sempre è communtativa. Quelle con i nomi sono commutative e sono 
-le uniche associative.
 
-(tnorma, uninorma sono modi per definire AND su intervallo [0,1])
-
-Possiamo definire lanche l'implicazione\dots Questo introduce delle ocndizioni di contorno
-ex: $T\implies x= x$ e la proprietà d'ordine. Anche quin si ottengono altre logiche.
-tnorme quelle azzurre.
-
-La negazione può essere definita come implicazione e in base all'implicazione 
-che andiamo ad usare allora il significato di $\frac{1}{2}'$ cambia.
-
-Quindi abbiamo 14 congiunzioni e disgiunzioni e 
-
-
-\subsection{Logica di prist}
+\subsection{Logica di Priest}
 Logica paraconsistente, permette di associare il valore $u$ quando si hanno inconsistenze.
 Quindi in questo caso i valori di verità considerati come veri come $1,\frac{1}{2}$
 la conseguenza è che si hanno tautologie, tutte le tautologie booleane vengono preservate 
-però perdo il modusponens.
+però perdo il modus ponens.
+
+
+\subsection{Logiche con valori infiniti}
+Quello che abbiamo fino ad ora è prendere le logiche booleane $\{0,1\}$ e le abbiamo 
+generalizzate a $\{0,\frac{1}{2},1\}$. Ora definiamo logiche che hanno valori di 
+verità in $[0,1]$. I connettivi su queste logiche devono essere:
+\begin{itemize}
+    \item \textbf{conformi alla logica booleana} (ovvero che $\ast$ su 0,1 si comportano come nella logica)
+    \item \textbf{rispettino vero funzionale} ovvero $p\ast q $ basta conoscere il valore di verità
+    di $p,q$ quindi diverso dalle logiche modali che non hanno questa proprietà.
+    \item congiunzione e disgiunzione \textbf{commutative, associative e monotone}.
+    \item implicazione deve soddisfare una forma generalizzata di modus ponens.
+\end{itemize}
+\begin{definizione}
+    definiremo $\land$ come una famiglia di operatori chiamati $t$-norme, sono operatori 
+    binari 
+    $$\ast : [0,1]\times [0,1]\to [0,1]$$
+    Devono soddisfare le seguenti proprietà:
+    \begin{itemize}
+        \item \textbf{commutatività} $a\ast b = b\ast a$
+        \item \textbf{associative} $a\ast (b\ast c) = (a\ast b)\ast c$
+        \item \textbf{monotona a SX} $a\le b\implies a\ast c \le b\le c,\forall c$.
+        \item \textbf{elemento neutro}: $a\ast 1 = a$ e $0\ast 1 = 0$
+    \end{itemize}        
+\end{definizione}
+
+\begin{esempio}
+    Esempio di operatori che soddisfano le condizioni e che hanno la semantica di 
+    $\land$ sono:
+    \begin{itemize}
+        \item godel: $min\{a,b\}$
+        \item Lukasiewicz: $\max\{0,a+b-1\}$
+        \item prodotto: $a\cdot b$ 
+        \item prodotto drastico: $\begin{cases}
+            0& a,b\in [0,1)\\
+            \min\{a,b\}
+        \end{cases}$ ($\max, \min$ hanno senso anche nella logica a $3$ valori)
+    \end{itemize}
+\end{esempio}
+
+\begin{nota}
+    ricorda che $\langle [0,1], \ast\rangle$ è un monoide con elemento neutro $1$. 
+\end{nota}
+
+
+
+\begin{definizione}
+    definiremo $\lor$ come una famiglia di operatori chiamati $t$-conorme, sono operatori binari 
+    $$+ : [0,1]\times [0,1]\to [0,1]$$
+    Devono soddisfare le seguenti proprietà:
+    \begin{itemize}
+        \item \textbf{commutatività}: $a+ b = b+ a$
+        \item \textbf{associative}: $a+ (b+ c) = (a+ b)+ c$
+        \item \textbf{monotone a sinistra}: $a\le b\implies a+ c \le b+ c,\forall c$.
+        \item \textbf{elemento neutro}: $a+ 0 = a$ e $0+ 1 = 1$
+    \end{itemize}
+\end{definizione}
+\begin{teorema}
+Data una $t$-norma $\ast$ possiamo definire $$a+b= 1-[(1-a)\ast (1-b)]$$ Questa è una 
+$t$-conorma che è la duale della $t$-norma.
+\end{teorema}
+\begin{nota}
+    Questa è una generalizzazione delle 
+    proiorietà di De Morgan perché se definiamo $'$ come $x'= 1-x$ allora $a+b = (a'\ast  b')'$.    
+\end{nota}
+
+
+\begin{esempio}
+    Le $t$-conorme duali delle logiche introdotte prima sono:
+    \begin{itemize}
+        \item \textbf{Godel}: $min\{a,b\} = \max{a,b}$
+        \item \textbf{Lukasiewicz}: $a+b = \min{1,a+b}$
+        \item \textbf{Prodotto}: $a+b = a+b-a\cdot b$ (somma probabilistica)
+        \item \textbf{Prodotto drastico}: $a+b =\begin{cases}
+            1& a,b\in (0,1]\\
+            \max\{a,b\} & altrimenti
+        \end{cases}$
+    \end{itemize} 
+\end{esempio}
+
+\begin{definizione}
+    Diremo $t$-norme \textbf{continue a sinistra} $\ast$ se $\forall (x_0,y_0)\in [0,1]^2$
+    $$\forall \epsilon >0, \exists \delta >0, \forall (x,y)\in (x_0  -\delta, x_0] \times (y_0-\delta, y_0], x\ast y > x_0 \ast y_0 -\epsilon$$
+\end{definizione}
+\begin{definizione}
+    Diremo $t$-norme \textbf{continue a destra} $\ast$ se $\forall (x_0,y_0)\in [0,1]^2$
+    $$\forall \epsilon >0, \exists \delta >0, \forall (x,y)\in (x_0  -\delta, x_0] \times (y_0-\delta, y_0], x\ast y < x_0 \ast y_0 -\epsilon$$
+\end{definizione}
+
+\begin{esempio}
+    Godel, Lukasiewicz, Prodotto sono continue a SX, mentre prdotto drastico no
+    \begin{proof}
+        $\epsilon =0.2$ $x_0=0.5$ $y_0=1$ $(x,y)=(0.5,1-\frac{\delta}{2})$
+
+        $x\ast y = 0 > 0.5 - 0.2 = 0.3$
+        Non è soddisfatta. 
+    \end{proof}
+\end{esempio}
+\begin{definizione}
+    Data un $\ast$ $t$-norma continua a SX allora definiremo $a\implies_\ast b$ come 
+    $$\sup = \{x\in [0,1]:a\ast x \le b\}$$
+\end{definizione}
+
+\begin{esempio}
+    Per ogni logica induciamo:
+    \begin{itemize}
+        \item \textbf{Godel}: $$\implies_G= \implies_\ast \begin{cases}
+            1 & a\le b \text{ per a$\ast$ 1 = a}\\
+            b & a >b
+        \end{cases}$$ 
+        \item \textbf{Lukasiewicz}: $$\implies_L = \min\{1,1-a+b\}$$
+        \item \textbf{Goguen}: $$\implies_G =  \begin{cases}
+            1 & a\le b\\
+            b/a & a >b
+        \end{cases}$$ 
+    \end{itemize}
+
+\end{esempio}
+
+\begin{teorema}
+    ogni implicazione definita generalmente coincide con  
+    $$x\le (a\implies b ) \iff a\ast x \le b$$
+    
+\end{teorema}
+Quando $x =1$ allora $1\le a\implies b \iff a\ast \le b$ 
+allora $a\implies b = 1 \iff a\le b$. 
+
+Il teorema può essere visto come la generalizzazione del modus ponens.
+Se $a$ è vera con un certo grado $a$ e $(a\implies b)$ è vera con un grado $\ge x$ allora $b$ è vera almeno $a\ast x$. 
+
+\begin{nota}
+    impliczione è anche chiamata residuo della $t$-norma continua a SX
+\end{nota}
+
+Se la $t$-norma è continua allora possiamo definire le seguenti operazioni di reticolo
+$$a\land b = a\ast (a\implies_\ast b)$$
+$$a\lor b = ((a\implies_\ast b )\implies_\ast b)\land ((b\implies_\ast a) \implies_\ast a)$$
+
+\begin{definizione}
+    la negazione $'$ si può ottenere con $a\implies 0 \equiv \sup \{c\in [0,1]: a\ast c =0\}$.
+    
+\end{definizione}
+
+
+\begin{esempio}
+    Se consideriamo $\implies_L$ allora $a'= a\implies_L 0 = \min\{1,1-a\} = 1-a$ 
+    coincide con la negazione standard.
+\end{esempio}
+
+$t$-conorma di Lukasiewicz $a \oplus b = \min \{1, a+b\}$ quindi $a\implies_L b = a'\oplus b$.
+
+Come nel caso dei tre valori la Lukasiewicz può essere usata per definire gli operatori 
+di tutte le logiche.
+
+Vogliamo quindi definire una struttura algebrica che caratterizza le tnorme continue.
+
+\begin{definizione}
+    Un \textbf{reticolo residuato} è una struttura $\langle A, \land, \lor, \ast ,\implies,0,1\rangle$
+    dove:
+    \begin{itemize}
+        \item $\langle A, \land, \lor, 0,1\rangle$ è un reticolo dove $0\le x \le 1 $ e 
+        $a\le b \iff a\land b =a$
+        \item $\langle A,\ast,1\rangle$ è un monoide dove $1$ è elemento neutro che rispetta 
+        associatività e commutatività
+        \item $a\le (a \implies b) \iff a \ast c \le b$, questa condizione può essere 
+        sostituita anche da equazioni
+    \end{itemize} 
+\end{definizione}
+
+Questa caratterizzazione non basta per caratterizzare tutte le $t$-norme, infatti 
+per esempio le $t$-norme soddisfano questa prop. $a\implies b \lor b\implies a =1 $
+non sono ricavabili dal reticolo residuato.
+
+\begin{definizione} [MTL-algebra]
+    La \textbf{MTL-algebra} è un reticolo residuato con l'aggiunta della condizione $a\implies b \lor b\implies a =1 $
+\end{definizione}
+MTL caratterizza le tnorme continue a sx
+
+\begin{definizione}
+    Chiamiamo $t$-algebra una MTL tale che $\langle [0,1], \min,\max,\ast,\implies, 0,1\rangle$
+    dove:
+    \begin{itemize}
+        \item $\ast$ è t-norma conitnua a SX
+        \item $\implies$ è il residuo che si ottiene dalla $t$-norma
+    \end{itemize} 
+\end{definizione}
+
+\begin{teorema}
+    Sia  $\phi, \xi$ due termini utilizzando i simboli di $mtl$-algebre.
+    $\phi=\xi$ è soddisfatta in generale in una $MTL$-algebra sse è soddisfatta 
+    in tutte le $t$-algebre.
+\end{teorema}
+
+Dalle MTL-algebre (T-norme continue a sx) posso aggiungere assiomi per definire:
+\begin{itemize}
+    \item $BL$-algebre dove le $t$-norme continue e devo aggiungere 
+    $$a\land b = a\ast (a\implies b)$$
+    \begin{itemize}
+        \item se aggiungo $(a\implies 0 )\implies 0 = a\equiv [a''=a]$ è la $t$-algebra di Lukasiewicz 
+        \item se aggiungo $a\ast a  = a$ è la $t$-algebra di Godel dove $\ast \equiv \land $ infatti $a\ast b = \min \{a,b\}$ 
+    \end{itemize}
+\end{itemize}
+
+Dal punto di vista delle logiche abbiamo $\{0,1\}$ o $[0,1]$
+oppure possiamo ragionare tramite insiemi $A$ e quindi possiamo pensare di usare la funzione
+caratteristica di $A$ ($\xi_A: U \to \{0,1\}$).
+Possiamo però generalizzare la funzione caratteristica in modo che restituisca un
+valore $[0,1]$ che coindice con gli insiemi Fuzzy.
+
+\section{Fuzzy set}
+Abbiamo una funzione $f$ tale che $f(x)$ specifica il membership degree ovvero il grado 
+di appartenenza.
+
+\begin{esempio}
+    Insieme delle persone alte fino a $150$ si considera bassa,
+    da $150$ a $180$ si può considerare medio alto e da $180$ è alto.
+    La funzione potrebbe essere definita come 
+    $$t(x) = \begin{cases}
+        0& x\le 150\\
+        \frac{x-150}{30}& 150\le x\le 180\\
+        1& x\ge 180\\
+    \end{cases}$$
+\end{esempio}
+
+Il fuzzy set è l'insieme delle coppie elemento e grado di appartenenza. Possono 
+essere continui o discreti. Per gli insiemi continui ci sono alcune forme standard:
+\begin{itemize}
+    \item triangolari: dato $a<m<b$ allora sarà definito Così
+    $$tr(x) = \begin{cases}
+        0& x\le a\\
+        \frac{x-a}{m-a} & x\in [a,m]\\
+        \frac{b-x}{b-m} & x\in [m,b]\\
+        0&x>b
+    \end{cases}$$
+    Usati nei Fuzzy control.
+    \item trapezioidali: dati $a<m<n<b$ che nel caso $m=n$ mi riconduco al triangolare
+    \item gaussiana: dove
+    $$g(x) = e^{-(\frac{(x-m)^2}{\sigma^2})}$$
+    dove $m$ è il valore tipico 
+\end{itemize}
+
+\begin{definizione}
+    Fs è normale se $\exists x, f(x) = 1$
+\end{definizione}
+\begin{definizione}
+    Supporto è l'insieme tale che $\{x: f(x) >0\}$
+\end{definizione}
+\begin{definizione}
+    Core è l'insieme tale che $\{x: f(x) =1\}$
+\end{definizione}
+\begin{definizione}
+    $\alpha$-cut è l'insieme tale che $\alpha \in [0,1], \{x: f(x) \ge\alpha\}$
+\end{definizione}
+$alpha=1$ ottengo il core
+\begin{definizione}
+    strong $\alpha$-cut è l'insieme tale che $\alpha \in [0,1], \{x: f(x) >\alpha\}$
+\end{definizione}
+$alpha=0$ ottengo il support
+
+I Fs sono degli insiemi e quindi possiamo definire $\cap, \cup, ^c$:
+\begin{itemize}
+    \item $(f\cap g)(x) = \min\{f(x), g(x)\}$ questo viene generalizzato dalle funzioni
+    caratteristiche
+    $$\mathcal{X}_A\cap \mathcal{X}_b = \begin{cases}
+        1& \mathcal{X}_A(x) = 1\land \mathcal{X}_B(x)=1\\
+        0& altrimenti
+    \end{cases} \equiv 
+    \min\{\mathcal{X}_A(x), \mathcal{X}_B(x)\}$$
+    Quando siamo nel caso in cui $f(x), g(x) \in [0,1]$ allora $(f\cap g)(x)\in [0,1]$
+    quindi coincide con la t-norma $(f\cap g)(x)= f(x) \ast g(x)$
+    \item 
+    Quando siamo nel caso in cui $f(x), g(x) \in [0,1]$ allora $(f\cup g)(x)\in [0,1]$
+    quindi coincide con la t-conorma $(f\cup g)(x)= f(x) + g(x)$
+\end{itemize}
