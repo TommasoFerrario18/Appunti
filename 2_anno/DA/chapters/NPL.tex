@@ -386,33 +386,41 @@ contesto, cosa che non fanno i modelli frequentisti.
 
 \subsection{Unigram model}
 Questo modello si basa sull'assunzione che esista un solo topic nella collezione.
-nella collezione di documenti esista solo un topic. Si usa il 
-diagramma a piattine che rappresenta variabili (parole) osservate e non osservate
-quante sono nella collezioni e in quanti documenti. Conta le parole non i topic.
-$w$ sono le parole del dizionario che possono essere osservate se sono nei documenti 
-o non  osservate se non sono presenti documenti.
+Essendoci un solo topic allora il compito diveta stimare la distribuzione delle 
+parole del dizionario rispetto al topic ($p(w)$).
+
+Quindi data una parola del dizionario, Questa può essere osservata se presente 
+in un documento oppure non osservata se non è presente della collezione. 
+Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai documenti,
+ovvero la probabilità di presenza della parola nei vari documenti, oppure possiamo 
+calcolare per ogni documenti la distribuzione delle parole. 
+
 \subsection{Mixutere Unigram model}
-Si possono avere più topic ma uno solo per documento. Ci si aspetta che nel topic 
-implicano parole più probabili.
+Identico all'Unigram con la differenza che si assume di avere più topic nella collezione (dati dal problema) ma 
+un solo topic per documento. 
 
-Quindi per ogni parola abbiamo una distribuzione di topic e per ogni documento 
-abbiamo una distribuzione di topic.
-
-Il nuemro di topic deve essere dato.
+Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai topic e 
+per ogni topic possiamo calcolare la distribuzione dei documenti.
 
 \subsection{Latent Dirichlet Allocation}
-Tutto quello che ho può essere campionabile.
+Si basa sulla teoria baiesiana quindi si dovrà campionare tutto quello che non 
+è osservato.
 
-Le assunzioni di questo modello::
+Le assunzioni di questo modello sono:
 \begin{itemize}
       \item ogni documento è costituito da più topic
       \item ogni topic è una distribuzione su più parole
-      \item ongi documento è un insieme di topic
-      \item ogni parola è all'interno di un topic
+      \item ogni documento è un insieme di topic
+      \item ogni parola è formata uno dei topic
 \end{itemize}
 
-Sono modelli generativi del linguaggio perché permettono di generare parole di un 
-topic attraverso il campionamento di probabilità.
+LDA ha due principi fondamentali:
+\begin{itemize}
+      \item modelli generativi del linguaggio perché permettono di generare parole di un 
+      topic attraverso il campionamento di probabilità
+      \item modelli inferenziali del linguaggio perché permettono di inferire un 
+      topic date le osservazioni nel documento
+\end{itemize}
 
 Avremo una \textbf{word topic distribution} $P(w|z)$ prob. di una parola del vocabolario 
 all'interno di un topic. Si crea a partire da una randomica e si perfeziona con
@@ -425,12 +433,9 @@ MCM.
 Il processo generativo si articola: date le distribuzioni $P(w|z)$ e $P(z|d)$, allora prima campiono 
 $P(z|d)$ e poi campiono $P(w|z)$
 
-Rappresentazione a piattine.
-$\alpha, \beta$ sono le distribuzioni a priori di Dirichlet. $\beta$ specifica la 
-probabilità a priori che ci sia un topic nel documento data la parola.
-$\alpha$ specifica la probabilità a priori che ci sia un topic nel documento.
-
-$\alpha, \beta\in \mathbb{R}$:
+Avremo gli iperparametri $\alpha, \beta$ che sono numeri reali che permettono 
+di inizializzare a priori le distribuzioni $P(z|d)$ e $P(w|z)$. In base ai valori 
+si hanno le seguenti implicazioni:
 \begin{itemize}
       \item $\alpha$ alto: più mi aspetto tanti topic nel documento
       \item $\alpha$ basso: mi aspetto un topic dominante nel documento
@@ -439,16 +444,16 @@ $\alpha, \beta\in \mathbb{R}$:
 \end{itemize} 
 
 $\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo 
-il train per aggiustare meglio $\theta$ e $\phi$. 
+il train migliorando le distribuzioni utilizzando le osservazioni. 
 
-L'\textbf{inferenza}:
+L'\textbf{inferenza} si articola:
 \begin{itemize}
       \item \textbf{inizializzazione}: randomicamente assegno ad ogni parola un 
       topic in qualsiasi documento
       \item \textbf{aggiornamento}: per ogni parola di ogni documento aggiorno il 
       topic assegnato contando le frequenze di tutte le parole tra word e topic e 
       aggiungo la viariabilità dalla distribuzione di dirichlet
-      \item \textbf{ripeto}: per ongi parola in tutti i documenti
+      \item \textbf{ripeto}: per ogni parola in tutti i documenti
       \item \textbf{iterate}: ripeti per più iterazioni
 \end{itemize}
 
@@ -458,11 +463,10 @@ compare nel topic $t$ su il totale di tutte le parole nel topic.
 \subsection{Valutazione dei Topic model}
 Per valutare i modelli precedenti basate su misure di coerenza e di divergenza:
 \begin{itemize}
-      \item coerenza: PMI
-      \item divergenza: RBO, considera l'overlap delle liste di parole tra liste diversa e scala 
-      
+      \item \textbf{coerenza}: PMI, coerenza tra le parole e i topic
+      \item \textbf{divergenza}: RBO, considera l'overlap delle liste di parole tra liste diverse e scala 
+      \item \textbf{probabilistico}: KL, considera la divergenza tra la distribuzione 
+      dei topi e la distribuzione target (metrica asimmetrica)
 \end{itemize}
 
-altre misure si basano la differenza tra distribuzione di probabilità associata ai 
-topic e la distribuzione target (KL), metrica asimmetrica.
 
