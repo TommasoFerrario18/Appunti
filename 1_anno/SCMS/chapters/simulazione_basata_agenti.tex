@@ -219,3 +219,32 @@ Il problema è che gli stati dell'ambiente sono molto correlati rispetto al temp
 quindi la rete ha un bias. Per il problema salviamo ogni sample (stato, azione, 
 reward, stato prossimo) in un buffer e poi si allena la rete estraendo casualmente 
 il sample.
+
+\section{Reinforcement learning per la simulazione di pedoni}
+Ho un modello regressivo che mi gestisce il cammino. 
+
+PEr muoversi nell'ambiente ciascun agente ha la posizione del goal, dei vicini con 
+le loro direzioni e dell'ostacolo più vicino. L'agente ha un raggio di visione e un 
+cambiamento discreto della velocità.
+
+L'apprendimento per rinforzo si articola attraverso le osservazioni che possono 
+specificare gli stati dell'ambiente, l'agente ha una policy (funzione che massimizza 
+la reward cumulata) e il reinforcement learning modifica la policy.
+
+La tipologia di osservazioni sono:
+\begin{itemize}
+      \item intrinsica (velocità di movimento dell'agente)
+      \item obiettivi e muri: distanza e codifica del tipo di oggetto (influenza la scelta dell'angolo)
+      \item agenti e muri: distanza, tipo, direzione e velocità
+\end{itemize}
+
+L'agente regola la propria velocità di camminata in maniera continua e quindi
+modifica il vettore e l'angolo.
+
+La funzione obiettivo deve spesso essere: obiettivo molto alto positivo e tutto 
+il resto un valore negativo. Si cerca di dare i valori negativi piuttosto che 
+valori positivi per evitare massimi locali.
+
+L'apprendimento per scenari differenti con CV e si nota che ogni volta che si cambia 
+scenario otteniamo dei peggioramenti su reward ma permette di generalizzare bene 
+e ridurre i tempi di apprendimento.
