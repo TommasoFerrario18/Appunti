@@ -549,7 +549,7 @@ tale che $v\not \vDash p$.
 \end{nota}
 
 \begin{definizione} [\textbf{Sistema deduttivo}]
-    Un \textbf{sistema deduttivo} è una tripla $\langle L, \mathcal{U}, \{r_1,\dots, r_k\}\rangle$+
+    Un \textbf{sistema deduttivo} è una tripla $\langle L, \mathcal{U}, \{r_1,\dots, r_k\}\rangle$
     dove:
     \begin{itemize}
         \item $L$ è il linguaggio formale
@@ -624,10 +624,10 @@ Formalmente nella logica booleana, i connettivi sono fissi, nel caso a $3$ valor
 si possono definire diversi modi per specificare i connettivi. Nella logica a 
 tre valori, il terzo valore può assumere $3$ diversi significati:
 \begin{itemize}
-    \item \textbf{mezzo vero} (logiche fuzzy): dove specifica un livello intermedio di certezza
+    \item \textbf{mezzo vero} (logiche Fuzzy): dove specifica un livello intermedio di certezza
     \item \textbf{indefinito} (logica di Kleene): dove specifica il livello di 
     indefinito
-    \item \textbf{irrilevante} (logica prist): non è associato al contesto
+    \item \textbf{irrilevante} (logica Priest): non è associato al contesto
 \end{itemize}
 
 Quando si considera il terzo valore di verità come un significato \textbf{epistemico}
@@ -681,7 +681,7 @@ In totale possiamo definire $14$ congiunzioni delle quali:
     \item $1$ è $u$-norma
 \end{itemize}
 
-Alcune congiunzioni hanno un nome:
+Alcune congiunzioni hanno un nome e definiscono la logica associata:
 \begin{itemize}
     \item \textbf{sette}: dove $u\ast u= T$, $u\ast T = T$ $T\ast u = T$. Inoltre 
     è commutativa e associativa.
@@ -874,8 +874,7 @@ Successivamente dobbiamo definire il sistema deduttivo della logica, per la logi
 di Kleene non esistono più assiomi, ma si hanno solo le regole di inferenza.
 Ciascuna regola rappresenta una proprietà della nostra logica:
 \begin{itemize}
-    \item $\frac{a\land b}{a}, \frac{a\land b}{b}$
-    \item $\frac{a, b}{a\land b}$
+    \item $\frac{a\land b}{a}, \frac{a\land b}{b}$ e $\frac{a, b}{a\land b}$
     \item $\frac{a}{a\lor b}$
     \item $\frac{a\lor b}{b\lor a}$
     \item $\frac{a\lor a}{ a}$
@@ -939,7 +938,7 @@ verità in $[0,1]$. I connettivi su queste logiche devono essere:
     \begin{itemize}
         \item \textbf{commutatività} $a\ast b = b\ast a$
         \item \textbf{associative} $a\ast (b\ast c) = (a\ast b)\ast c$
-        \item \textbf{monotona a SX} $a\le b\implies a\ast c \le b\le c,\forall c$.
+        \item \textbf{monotona a SX} $a\le b\implies a\ast c \le b\ast c,\forall c$.
         \item \textbf{elemento neutro}: $a\ast 1 = a$ e $0\ast 1 = 0$
     \end{itemize}        
 \end{definizione}
@@ -988,8 +987,8 @@ $t$-conorma che è la duale della $t$-norma.
 \begin{esempio}
     Le $t$-conorme duali delle logiche introdotte prima sono:
     \begin{itemize}
-        \item \textbf{Godel}: $min\{a,b\} = \max{a,b}$
-        \item \textbf{Lukasiewicz}: $a+b = \min{1,a+b}$
+        \item \textbf{Godel}: $min\{a,b\} = \max\{a,b\}$
+        \item \textbf{Lukasiewicz}: $a+b = \min\{1,a+b\}$
         \item \textbf{Prodotto}: $a+b = a+b-a\cdot b$ (somma probabilistica)
         \item \textbf{Prodotto drastico}: $a+b =\begin{cases}
             1& a,b\in (0,1]\\
@@ -1088,11 +1087,11 @@ Vogliamo quindi definire una struttura algebrica che caratterizza le tnorme cont
 \end{definizione}
 
 Questa caratterizzazione non basta per caratterizzare tutte le $t$-norme, infatti 
-per esempio le $t$-norme soddisfano questa prop. $a\implies b \lor b\implies a =1 $
+per esempio le $t$-norme soddisfano questa prop. $(a\implies b )\lor (b\implies a) =1 $
 non sono ricavabili dal reticolo residuato.
 
 \begin{definizione} [MTL-algebra]
-    La \textbf{MTL-algebra} è un reticolo residuato con l'aggiunta della condizione $a\implies b \lor b\implies a =1 $
+    La \textbf{MTL-algebra} è un reticolo residuato con l'aggiunta della condizione $(a\implies b )\lor (b\implies a) =1 $
 \end{definizione}
 MTL caratterizza le tnorme continue a sx
 
@@ -1128,9 +1127,32 @@ Possiamo però generalizzare la funzione caratteristica in modo che restituisca 
 valore $[0,1]$ che coindice con gli insiemi Fuzzy.
 
 \section{Fuzzy set}
-Abbiamo una funzione $f$ tale che $f(x)$ specifica il membership degree ovvero il grado 
-di appartenenza.
+Permette di rappresentare l'appartenenza di un elemento ad un insieme con una 
+percentuale di certezza. Per formalizzare questo concetto ci basta basarci sulla 
+funzioen caratteristica degli insiemi. Di norma le funzioni caratteristiche sono 
+definite in questo modo 
+$$\xi_A: U \to \{0,1\}$$
 
+Dove l'appartenenza è certa, sui quali possiamo effettuare delle operazioni insiemistiche 
+come $\cup, \cap, ^c, \subseteq$ che si possono mappare sull'algebra booleana e quindi sulla 
+logica booleana ($\lor, \land, ', \implies$).
+
+Ora con i Fuzzy cambiamo la funzione caratteristica in questo modo
+$$f_A: U \to [0,1]$$
+Dove l'appartenenza ha un grado di confidenza, anche per questi insiemi possiamo 
+applicare delle operazioni $\cup, \cap, ^c, \subseteq$ che si possono mappare 
+sull'algebra MTL derivata dale logiche a più valori. Quindi si mapperanno nelle 
+operazioni $t$-norme e $t$-conorme.
+
+I fuzzy si possono rappresentare con dei grafici che esprimono gli elementi sull'asse 
+$x$ e il grado di appartenenza agli insiemi sull'asse $y$ (\ref{fig:fuzzy_set}).
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/fuzzy.png}
+    \caption{Esempio di rappresentazione grafica di un fuzzy set}
+    \label{fig:fuzzy_set}
+\end{figure}    
 \begin{esempio}
     Insieme delle persone alte fino a $150$ si considera bassa,
     da $150$ a $180$ si può considerare medio alto e da $180$ è alto.
@@ -1142,10 +1164,15 @@ di appartenenza.
     \end{cases}$$
 \end{esempio}
 
-Il fuzzy set è l'insieme delle coppie elemento e grado di appartenenza. Possono 
-essere continui o discreti. Per gli insiemi continui ci sono alcune forme standard:
+I \textbf{fuzzy set}, a livello insiemistico, coincidono con l'insieme delle coppie 
+elemento e grado di appartenenza. 
+
+$$FS=\{(u, f(u)): u\in U, f(u)\in [0,1]\}$$
+
+I \textbf{fuzzy set} possono essere \textbf{continui} o \textbf{discreti} se 
+$U$ è \textbf{continuo} o \textbf{discreto}. Per gli insiemi continui ci sono alcune forme standard:
 \begin{itemize}
-    \item triangolari: dato $a<m<b$ allora sarà definito Così
+    \item \textbf{triangolari}: dato $a<m<b$ allora sarà definito Così
     $$tr(x) = \begin{cases}
         0& x\le a\\
         \frac{x-a}{m-a} & x\in [a,m]\\
@@ -1153,42 +1180,246 @@ essere continui o discreti. Per gli insiemi continui ci sono alcune forme standa
         0&x>b
     \end{cases}$$
     Usati nei Fuzzy control.
-    \item trapezioidali: dati $a<m<n<b$ che nel caso $m=n$ mi riconduco al triangolare
-    \item gaussiana: dove
+    \item \textbf{trapezioidali}: dati $a<m<n<b$ allora ho che da $[m,n]$ il grado
+    di appartenenza che nel caso $m=n$ mi riconduco al triangolare
+    \item \textbf{gaussiana}: dove
     $$g(x) = e^{-(\frac{(x-m)^2}{\sigma^2})}$$
     dove $m$ è il valore tipico 
 \end{itemize}
 
 \begin{definizione}
-    Fs è normale se $\exists x, f(x) = 1$
+    Per un fuzzy set, l'insieme è \textbf{normale} se $\exists x, f(x) = 1$
 \end{definizione}
 \begin{definizione}
-    Supporto è l'insieme tale che $\{x: f(x) >0\}$
+    Per un fuzzy set, il \textbf{support} è l'insieme tale che $\{x: f(x) >0\}$
 \end{definizione}
 \begin{definizione}
-    Core è l'insieme tale che $\{x: f(x) =1\}$
+    Per un fuzzy set, il \textbf{core} è l'insieme tale che $\{x: f(x) =1\}$
 \end{definizione}
 \begin{definizione}
-    $\alpha$-cut è l'insieme tale che $\alpha \in [0,1], \{x: f(x) \ge\alpha\}$
+    Per un fuzzy set, $\alpha$-cut è l'insieme tale che $\alpha \in [0,1], \{x: f(x) \ge\alpha\}$
 \end{definizione}
-$alpha=1$ ottengo il core
-\begin{definizione}
-    strong $\alpha$-cut è l'insieme tale che $\alpha \in [0,1], \{x: f(x) >\alpha\}$
-\end{definizione}
-$alpha=0$ ottengo il support
+\begin{esempio}
+    Dato un  $\alpha$-cut con $\alpha =1$ allora coincide con il sore set, mentre 
+    quando $\alpha =0$ allora ottengo il support.
+\end{esempio}
 
-I Fs sono degli insiemi e quindi possiamo definire $\cap, \cup, ^c$:
+\begin{definizione}
+    \textbf{strong} $\alpha$-cut è l'insieme tale che $\alpha \in [0,1], \{x: f(x) >\alpha\}$
+\end{definizione}
+
+I Fs sono degli insiemi e quindi possiamo definire le operazioni su insiemi $\cap, \cup, ^c, \subseteq$ 
+partendo dagli insiemi normali quindi sulle funzioni caratteristiche, per poi 
+mapparle sulle funzioni dei fuzzy:
 \begin{itemize}
-    \item $(f\cap g)(x) = \min\{f(x), g(x)\}$ questo viene generalizzato dalle funzioni
+    \item \textbf{intersezione}: l'intesezione insiemistica classica 
+    coincide con $(f\cap g)(x) = \min\{f(x), g(x)\}$ questo viene generalizzato dalle funzioni
     caratteristiche
     $$\mathcal{X}_A\cap \mathcal{X}_b = \begin{cases}
         1& \mathcal{X}_A(x) = 1\land \mathcal{X}_B(x)=1\\
         0& altrimenti
     \end{cases} \equiv 
     \min\{\mathcal{X}_A(x), \mathcal{X}_B(x)\}$$
-    Quando siamo nel caso in cui $f(x), g(x) \in [0,1]$ allora $(f\cap g)(x)\in [0,1]$
-    quindi coincide con la t-norma $(f\cap g)(x)= f(x) \ast g(x)$
-    \item 
+    Quando siamo nel caso dei fuzzy set, $f(x), g(x) \in [0,1]$, allora $(f\cap g)(x)\in [0,1]$
+    quindi coincide con la $t$-norma $(f\cap g)(x)= f(x) \ast g(x)$
+    \item \textbf{unione}: l'unione insiemistica classica 
+    coincide con $(f\cup g)(x) = \max\{f(x), g(x)\}$ questo viene generalizzato dalle funzioni
+    caratteristiche
+    $$\mathcal{X}_A\cup \mathcal{X}_b = \begin{cases}
+        1& \mathcal{X}_A(x) = 1\lor \mathcal{X}_B(x)=1\\
+        0& altrimenti
+    \end{cases} \equiv 
+    \max\{\mathcal{X}_A(x), \mathcal{X}_B(x)\}$$
     Quando siamo nel caso in cui $f(x), g(x) \in [0,1]$ allora $(f\cup g)(x)\in [0,1]$
-    quindi coincide con la t-conorma $(f\cup g)(x)= f(x) + g(x)$
+    quindi coincide con la $t$-conorma $(f\cup g)(x)= f(x) + g(x)$ (coincide con $\max$)
+    \item \textbf{complemento}: Quando siamo nel caso in cui $f(x), g(x) \in [0,1]$ allora $(f\cup g)(x)\in [0,1]$
+    allora il complemento coincide con $1-f(x)$.
+    \item \textbf{sottoinsieme}: nel caso delle funzioni caratteristiche 
+     $\mathcal{X}_A\subseteq \mathcal{X}_B$
+    è quando $\forall \mathcal{X}_A(x) \le \mathcal{X}_B(x)$ allora $f\subseteq g \iff \forall x, f(x)\le g(x)$.
+    Questo può essere visto come l'operazione di $\implies$ infatti
+    $$a\le b \iff a\implies b = 1$$
+
 \end{itemize}
+
+Abbiamo definito le operazioni in base alle $t$-norme e $t$-conorme, questo significa 
+che possiamo definirle usano una delle varianti definite per la logica a valori 
+infiniti.
+
+\begin{esempio}
+    Le varianti delle operazioni sono:
+    \begin{itemize}
+        \item $\min/\max$ (generalmente usata nei fuzzy)
+        \item \textbf{Lukasiewicz} (l'intersezione nei fuzzy tende a schiacciare verso 0)
+        \item \textbf{prodotto/somma probabilistica}
+    \end{itemize}
+\end{esempio}
+
+Possiamo avere funzioni di aggregazione:
+\begin{itemize}
+    \item similarità: abbiamo il quasi associato alla proprietà
+    \item incertezza: abbiamo il quasi associato al certamente. Teoria della possibilità 
+    distribuzioni di possibilità
+    \item preferenza:
+\end{itemize}
+
+
+\begin{definizione}[\textbf{Variabile linguistica}]
+    In sostanza è una tupla $\langle L, T(L), G, U , M\rangle$ dove:
+    \begin{itemize}
+        \item $L$ è il nome della Variabile
+        \item $T(L)$ insiemi di termini linguistici di $L$ ($L\in T(L)$) composto da 
+        termini base e modificatori
+        \item $G$ sono le regole con cui vando a mettere insieme i termini di base con i modificatori
+        \item $U$ insieme universo, è il range dei valori che può assumere la variabile
+        \item $M(x): U \to [0,1], \forall x\in T(L)$ assegna ad ogni termine un fuzzy set (dato un termine associanano un insieme fuzzy)
+    \end{itemize} 
+\end{definizione}
+
+\begin{esempio}
+    Un esempio può essere:
+    \begin{itemize}
+        \item $L=age$
+        \item $G=linguistic_modifier+\{old, young\}$
+        \item $T(L)=\{old,young, very_old,very_young, \dots\}$
+        \item $U=[1,100]$
+        \item $M(x):U\to [0,1], \forall x\in T(L)$, per esempio
+        $$M(old)(u)=\begin{cases}
+            \left[1+(\frac{u-50}{5})^{-2}\right]^{-1} & u\in [50,100]\\
+            0 & u\in [0, 50)
+        \end{cases}$$
+        In questo caso si definisce $old$ da quando supera i $50$.
+    \end{itemize}
+\end{esempio}
+
+Per assegnare una semantica numerica ai modificatori del linguaggio come tanto, molto,
+poco, utilizziamo delle funzioni \textbf{modifier} che modifica l'incertezza di appartenenza degli 
+elementi. La funzione sarà del tipo
+
+$$m_A: [0,1]_A \to [0,1]_A$$
+
+Le funzioni \textbf{modifier} si dividono in:
+\begin{itemize}
+    \item \textbf{concentration}: $con(f)(x)=[f(x)]^\beta, \beta>1$ da un significato di molto 
+    quando il valore $\beta =2$. (concentro il fuzzy)
+    \item \textbf{dilation}:  $dil(f)(x)=[f(x)]^\alpha, \alpha <1$ da un significato di abbastanza
+    quando il valore $\alpha =\frac{1}{2}$. (allargo il fuzzy)
+    \item \textbf{contrast intensifier}: modifica la confidenza degli elementi in modo 
+    che si avvicini a $0$ o $1$ se rispettivamente $f(x)< 0.5$ e $f(x) >0.5$.
+\end{itemize}
+
+\begin{esempio}
+    $vecchio(70)=0.94$ allora $molto_vecchio (70) = vecchio(70)^2$
+    mentre $abbastanza_vecchio (70) = \sqrt{vecchio(70)}$
+\end{esempio}
+
+\begin{esempio}
+    Per esempio un \textbf{contrast intensifier} definisce il modificatore $surely$
+    attraverso le seguenti formule:
+    $$sur(f)(x)=\begin{cases}
+        2f^2(x) & f(x) \le 0.5\\
+        1-2[1-f(x)]^2 & f(x) > 0.5
+    \end{cases}$$
+\end{esempio}
+
+Ecco un immagine che mostra come si modifica la confidenza di un fuzzy utilizzando 
+i modificatori (vedi \ref{fig:modificatori_fuzzy_set}).
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/modificatori_fuzzy.png}
+    \caption{Esempio di rappresentazione grafica di modificatori applicati ad un fuzzy set}
+    \label{fig:modificatori_fuzzy_set}
+\end{figure}  
+
+Le variabili linguistiche permettono associare dei fuzzy set a dei concetti e 
+mediante dei modificatori linguistici associare dei modificatori fuzzy per modificare 
+la confidenza.
+
+\subsection{Sistemi basati su regole}
+I rules-based system sono sistemi specifici per dominio che usano delle regole 
+per effettuare delle deduzioni o scelte.
+
+I componenti base di questi sistemi sono:
+\begin{itemize}
+    \item \textbf{base di conoscienza}: lista di regole di base che esprimono la 
+    conoscenza del sistema nel dominio. L'espressione della base di conoscienza 
+    si può fare attraverso due metodi:
+    \begin{itemize}
+        \item \textbf{mamdani}: regole if then con solo clausole formate da congiunzioni
+        di variabili linguistiche
+        \item  \textbf{sugeno}: regole if then con solo clausole formate da congiunzioni 
+        e disgiunzioni di variabili linguistiche
+    \end{itemize}
+    Essendo variabili linguistiche significa lavorare sui fuzzy.
+    \item \textbf{inference engine}: effettua inferenza o prende decisioni in base alle interazioni 
+    tra input e la base di conoscienza. Il processo di applicazione delle regole 
+    si basa sui seguenti passi:
+    \begin{itemize}
+        \item \textbf{match}: si prende l'input si metcha con le regole, si possono 
+        avere match multipli e ogni regola genera un risultato. Alla fine si avrà 
+        un insieme di risultati chiamato \textbf{conflict set}.
+        \item \textbf{conflict-resolution}: si agrega ciascun risultato del 
+        \textbf{conflict set} in modo da ottenure un unico valore.
+        \item \textbf{esegue}: ottenuto il valore attuale effettua l'azione 
+        desiderata
+    \end{itemize}
+\end{itemize}
+
+Quindi dal mondo reale otteniamo un insieme di valori reali che descrivono 
+la situazione, questi devono poi essere mappati sugli insiemi fuzzy associati (fuzzyficaione),
+successivamente avendo i fuzzy si  
+il valore $x$ in u
+Per esprimere le regole della conoscienza usiamo Mamdani, sintassi 
+if and then con variabili linguistiche. tutto si basa sui fuzzy. La Fuzzy
+partition è una famiglia di termini cherappresenta la variabile linguistica e 
+l'universo è $[l,r]$. (insiemi fuzzy + regole sugli insiemi)
+
+Le regole possono essere attivate insieme e le posso rappresentare come una tabella 
+se le regole sono poche.
+
+Nel processo decisionale abbimao.
+\begin{itemize}
+    \item fuzzycazione trasforma i valori  negli insiemi fuzzy (da numeri a gradi)
+    \item applico le regole (inferenza), se le regole sono connesse da connettive 
+    aggrego i fuzzy con tnorma o tconorma e ottengo un valore di uscita per il fuzzy
+    in out per ogni regola (ogni regola ha un peso) da $m$ regole a $m$ valori
+    del fuzzy di out e poi 
+    devo aggregare per passare ad un valore. L'aggregazione si fa con max.
+    \item defuzzificazione da fuzzy a valore numerico lo faccio usando la media o centro di gravità
+\end{itemize}
+
+media
+Prendo l'intervalli di $x$ per cui ha $y$ massima e prendo la media nell'intervallo. 
+
+centro di gravità
+media pesata
+
+Posso prima inferire poi aggregare o viceversa.
+
+
+\begin{nota}
+    Fuzzy set singleton è solo in un punto vale $1$ e in tutti gli altri $0$. In questo 
+    cosa l'output lo posso esprime dal valore diretto.
+\end{nota}
+
+posso avere delle varianti dei sistmei mani, possiamo avere or e aggregare con 
+tconorme ma coincide a definire regole singole.
+
+Un altra variabile per esprimere le regole è takgino che esprime l'output con una 
+funzione. Le regole mi danno già il valore numerico che devo aggregare con la media.
+non devo fare la fuzzyficazione. Sistema compatto ma più difficile.
+
+Per definire le regole serve un esperto, sistemi di questo tipo si trovano in forni,
+frigorifero.
+
+Oltre a questo c'è il fuzzy clustering.
+
+\section{Rough set}
+Usati principalmente nella feature selection, Rough clustering e applicazione 
+ai sistemi dinamici.
+
+si astrerrà all'orthopair.
+
+
+\section{Belief function}

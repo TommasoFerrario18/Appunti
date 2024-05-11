@@ -999,6 +999,10 @@ tutti gli indici.
     con un offset $\theta_2$, allora $\forall w \in A^+$ la parola $uwv$ è una parola 
     bloccante. 
     La regione che va da $\theta_1$ a $s_2$ sarà lunga $n - \theta_1 + | w | + \theta_2 + s_2$.
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_1.png}
+    \end{figure}
 \end{nota}
 
 Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
@@ -1016,6 +1020,10 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
         equicontinuità. Questo deriva dal fatto che $u$ è $r$-bloccante, quindi un
         qualsiasi cambiamento esterno a $[-m,m]$ non influenza la regione interna
         delimitata dalla parola $u$.
+        \begin{figure}[!h]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_2.png}
+        \end{figure}
     \end{proof} 
 \end{teorema}
 \begin{teorema}[\textbf{Caratterizzazzione della equiconinuità}]
@@ -1039,8 +1047,8 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
             andremo a mostrare che esistono $p>0$ e $q\ge 0$ tali che $F^{q+p} = F^q$.
             Per ogni $u\in A^{2k+1}$, consideriamo $x^{(u)}=^\infty u^\infty$ (per 
             definizione è spazialmentente periodica e per ipotesi $r$-bloccante).
-            Sappiamo che $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è utilimamente periodica,
-            allora  anche $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica.
+            Sappiamo che $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica,
+            allora  anche $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è ultimamente periodica.
             Questo significa che $\exists p_u>0$ e $q_u\ge 0$ tali che $F^{q_u+p_u}(x^{(u)})_0 =F^{q_u}(x^{(u)})_0 $.
             Sia $p=\text{mcd}\{p_u|u\in A^{2k+1}\}$ e $q=\max\{q_u|u\in A^{2k+1}\}$.
             Allora $\forall u\in A^{2k+1}, F^{q+p}(x^{(u)})_0 = F^{q}(x^{(u)})_0$.
@@ -1080,9 +1088,9 @@ alle condizioni iniziali.
         \begin{itemize}
             \item \ref{cond:non_carr_equi_1} $\implies $\ref{cond:non_carr_equi_2}:
             per ipotesi il sistema non è sensibile alle condizioni iniziali quindi
-            $$\forall n\in \mathbb{N} ,\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+            $$\forall n\in \mathbb{N} ,\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}= F^t(x)_{[-n,n]}$$
             Scegliamo arbitrariamente $n$ in modo tale che $2n+1\ge r$.
-            $$\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
+            $$\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}= F^t(x)_{[-n,n]}$$
             Quindi $u=x_{[-m,m]}$ è $(2n+1)$-bloccante quindi
             $$\forall z,z'\in A^\mathbb{Z}: z_{[-m,m]}=z'_{[-m,m]} = x_{[-m,m]} =u$$
             Questo significa che 
@@ -1200,7 +1208,7 @@ alle condizioni iniziali.
         Dovremo rincondurci alla definizione di sensibilità alle condizioni iniziali
         $\exists n=r: \forall x\in A^\mathbb{Z}, \forall m\in \mathbb{N},
         \exists y \in A^\mathbb{Z}, y\ne x, \text{ t.c. } y_{[-m,m]} = x_{[-m,m]}\land 
-        \exists t\in \mathbb{N},F^t(y)_{[-r,r]} =F^t(x)_{[-r,r]}$.
+        \exists t\in \mathbb{N},F^t(y)_{[-r,r]} \ne F^t(x)_{[-r,r]}$.
 
         Scelto arbitrariamente $x\in A^\mathbb{Z}$ e $m\in \mathbb{N}$ costruiamo
         $y\in A^\mathbb{Z}$ nel seguente modo: sia $t\in\mathbb{N}$ tale che 
@@ -1225,7 +1233,7 @@ alle condizioni iniziali.
     Un DTDS $(X,F)$ è detto \textbf{positivamente espansivo} se 
     $$\exists \epsilon >0, \forall x,y\in X, x\ne y, \exists t\in \mathbb{N}, d(F^t(y),F^t(x))\ge \epsilon$$
     Negli automi cellulari si ha
-    $$\exists m\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-m,m]} \ne F^t(x)_{[-m,m]}$$
+    $$\exists n\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
 \end{definizione}
 
 \begin{teorema}
@@ -1258,7 +1266,7 @@ alle condizioni iniziali.
 \end{teorema}
 
 \begin{esempio}
-    Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ non è positivamente espansivo.
+    Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ è positivamente espansivo.
     La stessa cosa vale per la regola del traffico ($184$).
 \end{esempio}
 
@@ -1271,7 +1279,7 @@ sistema è anche \textbf{caotico}.
 
     Quindi $\forall x,y\in X, d(F^t(x),F^t(y)) = |2^tx-2^ty|= 2^t|x-y|$. Si riesce 
     facilmente a dimostrare che il sistema è espansivo e sensibile alle condizioni 
-    iniziali. Il problema è che noi non voglia considerare questo sistema caotico 
+    iniziali. Il problema è che noi non vogliamo considerare questo sistema caotico 
     quindi dobbiamo introdurre nuovi concetti.
 \end{esempio}
 
@@ -1341,7 +1349,8 @@ di transitività specifica che il sistema deve essere irriducibile o non decompo
     Se un CA $(A^\mathbb{Z},F)$ è espansivo allora è anche transitivo.
 \end{teorema}
 
-Quindi le condizioni di $|X|=\infty$ e di sensibilità sono superflue.
+Quindi per sapere se i CA sono caotici, le condizioni di $|X|=\infty$ e di sensibilità sono superflue,
+basta solo controllare che sia transitivo e DPO.
 
 \begin{teorema}
     Se un CA $(A^\mathbb{Z},F)$ con una regola locale LM/RM è transitivo e ha DPO.
@@ -1516,9 +1525,6 @@ unitario.
 \begin{teorema}
     Un CA $G$ è reversibile sse è biettivo
 \end{teorema}
-\begin{teorema}
-    Un CA $G$ è reversibile sse è biettivo
-\end{teorema}
 
 \begin{definizione} [\textbf{Regola locale bilanciata}]
     Una \textbf{regola locale bilanciata} è una regola $f$ di un generico automa 
@@ -1592,7 +1598,7 @@ la nilpotenza.
 \end{definizione}
 
 Ovviamente per un CA nilpotente, deve diventare quiesciente in un numero finito
-e unguale salti per ogni configurazione. 
+e uguale salti per ogni configurazione. 
 
 \begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-2D}]
     Il problema di identificare se un CA-2D è nilpotente è indecidibile. 
@@ -1608,7 +1614,7 @@ e unguale salti per ogni configurazione.
             vicinato sono tile e il vincolo del colore dei lati è soddisfatto, in 
             tutti gli altri casi il nuovo stato è $q$.
         \end{itemize}
-        Dimostrimao i singoli punti:
+        Dimostriamo i singoli punti:
         \begin{itemize}
             \item $\implies$:
             Quindi se $CA$ ammette il tile corretto $c$ allora $c$ è un punto fisso 
@@ -1634,7 +1640,7 @@ con una diagonale del tiling 2D
 
 \begin{definizione} [\textbf{NW-deterministic tiling}]
     Un Tileset $T$ è \textbf{NW-deterministic tiling} se nessuna coppia di tile
-    hanno gli stessi identici colori sugli edge superiore e a sinistra.
+    hanno gli stessi identici colori sugli edge superiore e a sinistra. (si guarda solo l'insieme)
 \end{definizione}
 
 Quindi in un tiling valido, un particolare tile è univocamente determinato 
@@ -1664,7 +1670,10 @@ bi-infinita di un CA 1D.
                 C & \exists ! C \text{ per definizione}\\
                 q &  A=q\lor B=q\lor\text{ se non esiste, quando non ammette tiling}
             \end{cases}$$
-
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.1\textwidth]{img/sistemi_complessi/tileset.png}
+            \end{figure}
         \end{itemize}
         Dimsotriamo le singole implicazioni:
         \begin{itemize}
@@ -1700,7 +1709,7 @@ Tutto quello che abbiamo detto vale anche per $NE, SW, SE$. Un tile set
     \textbf{Snake} è un tileset con l'aggiunta di frecce verso le 4 direzioni (N,W,E,S).
 \end{definizione}
 
-Dato un generico tiling di Snake (valido o no), a partire da una qualsiasi posizione
+Dato un generico tiling di \textbf{Snake} (valido o no), a partire da una qualsiasi posizione
 si possono generare dei cammini infiniti dati dalle freccie, questi possono 
 essere:
 \begin{itemize}
@@ -1708,23 +1717,30 @@ essere:
     \item infiniti con loop
 \end{itemize} 
 
-Dato un generico tiling di \textbf{Snake} (valido o no), a partire da una qualsiasi posizione
-si possono generare dei cammini infiniti dati dalle freccie, sui cammini possono
-accadere le seguenti cose:
+Sui cammini possono accadere le seguenti cose:
 \begin{enumerate}
     \item ci può essere un tiling error tra due tiles entrambe sul percorso
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/snake1.png}
+    \end{figure}
     \item il percorso è un \textbf{plane-filling path}, ovvero $\forall n\in \mathbb{N}^+$
     esistono $n\times n$ quadrati incui tutte le loro posizioni vengono visitate 
     dal cammino.
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.2\textwidth]{img/sistemi_complessi/snake2.png}
+    \end{figure}
 \end{enumerate}
+
 
 \begin{nota}
     Un percorso che forza gli \textbf{Snake} ad ammettere tiling valido è il \textbf{
-        plane-filling Hillbert curve}
+        plane-filling Hillbert curve} (quello dell'immagine)
 \end{nota}
 
 \begin{esempio}
-    Un esempio di Snakes corrisponde ad un CA inietivo sulle configurazioni periodiche
+    Un esempio di applicazione degli Snakes corrisponde ad un CA inietivo sulle configurazioni periodiche
     ma non iniettivo su tutte le configurazioni.
 \end{esempio}
 
@@ -1769,7 +1785,7 @@ Snake.
         Dimostriamo le implicazioni:
         \begin{itemize}
             \item $\implies$: dimostriamo che $T$ ammette tile valido allora 
-            CA è reversibile.
+            CA non è reversibile.
 
             Se $T$ ammette tile valido costruiamo $2$ configurazioni $c', c''$
             tali che $G(c') = G(c'')$. Lo Snake e $T$ hanno lo stesso tiling valido
@@ -1850,6 +1866,11 @@ una MT non si arresta per ogni input sse posso costruire un tile set valido.
     letto $a$. Le frecce uscenti $a'$ o $q'$ rappresentano rispettivamente il nuovo 
     carattere da scrivere e il nuovo stato.
 \end{nota}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/simulazione_mt_tile.png}
+\end{figure}
 
 \section{Subshift}
 
@@ -1937,7 +1958,7 @@ simbolo in testa.
 
 \begin{definizione} [\textbf{Rappresentazione a blocchi di} $X$] 
     Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è 
-    $$X^{[N]} = \mathcal{B}_N (X)$$
+    $$X^{[N]} =\beta_N (X)$$
 \end{definizione}
 
 \begin{teorema}
@@ -1946,10 +1967,10 @@ simbolo in testa.
 
 \begin{esempio}
     Sia $\mathcal{F}=\{11\}$, $X = X_\mathcal{F}$ e sia $N=2$ allora 
-    $$x=(\dots, 0,1,0,0,0,1,\dots)$$
-    $$\mathcal{B}_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
+    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
+    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
 
-    In generale $\mathcal{B}_N(x)_i = x_{[i, i+N-1]}$
+    In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
 \end{esempio}
 
 \begin{definizione} [\textbf{Grafo di in SFT}]
@@ -1963,12 +1984,16 @@ simbolo in testa.
 
 La costruzione per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
 \begin{itemize}
-    \item Calcolo $\mathcal{B}_M(X)$ con $M$ che sono i vertici
+    \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item disegno un arco tra due nodi solo se $u_1v=uv_M \not \in \mathcal{F}$
     \item controllo tutti i cammini biinfiniti e controllo che tutti gli archi 
     fanno parte dei cammini. Se non fanno parte allora si cancellano gli archi e i
     nodi isolati.
 \end{itemize}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/sistemi_complessi/subshift.png}
+\end{figure}
 
 Il grafo è un sottografo del De Bruijn.
 
@@ -1988,7 +2013,7 @@ Per definizione $x\in \mathcal{B}_M(y), \forall y\in X$.
     \begin{proof}
         Sia $\mathcal{F}= \{\alpha\beta|t(\alpha) \ne i(\beta)\}\subseteq E^2$ allora 
         si ha che $X_G= X_\mathcal{F}$ e allora $X_G$ è un SFT, inoltre è di memoria 
-        $M=1$  perché $\mathcal{F}\subseteq A^{M+1}$.
+        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
     \end{proof}
 \end{teorema}
 In generale ho $X$ costruisco $G$ e poi ottengo $X_G = X^{[M+1]}$ che contiene gli 
