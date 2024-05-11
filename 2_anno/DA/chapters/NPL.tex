@@ -145,7 +145,6 @@ di classificazione. Questa può essere fatta in diversi modi:
       Nel primo caso risulta importate scegliere bene il lessico, perché le parole
       possono essere positive o negative in base al contesto.
 \end{nota}
-
 \section{Semantic Ambiguity}
  (disambiguazione dal punto di vista morfosintattico)
 Uno dei tanti problemi che si riscontrano nell'analisi del linguaggio naturale
@@ -327,7 +326,6 @@ il quale funziona nel seguente modo:
             della frase.
       \item Seleziona il significato con il massimo overlap.
 \end{itemize}
-
 \section{Topic Models}
 \begin{definizione}
       Il \textbf{topic recognition} è il problema di riconoscere il topic data una 
@@ -336,7 +334,7 @@ il quale funziona nel seguente modo:
 
 Il riconoscimento si basa sulla ricerca di pattern sintattici di parole collegate 
 da un topic comune, si basa sull'idea che il topic dipende dall'insieme di parole 
-che compoaiono con frequenza maggiore. Di conseguenza è un processo non supervisionato.
+che compaiono con frequenza maggiore. Di conseguenza è un processo non supervisionato.
 
 Alla fine data una collezione di documenti, si assume che per ogni documento ci siano 
 diversi topics, quindi per ogni documento avremo una distribuzione di topic.
@@ -344,7 +342,7 @@ Ogni topic può essere visto, a sua volta, come una distribuzione di parole all'
 del documento. Quindi noi \textbf{osserviamo} i documenti e le parole dai quali 
 si devono predire i topic \ref{fig:topic}.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
       \centering
       \includegraphics[width=0.7\textwidth]{img/nlp/topic_model.png}
       \caption{Rappresentazione dei topic}
@@ -352,7 +350,7 @@ si devono predire i topic \ref{fig:topic}.
 \end{figure}
 
 \begin{nota}
-      I topic li possiamo vedere come delle wordcloud e le etichette dei topic 
+      I topic li possiamo vedere come delle word-cloud e le etichette dei topic 
       possono essere identificate da un umano o automaticamente.
 \end{nota}
 
@@ -402,29 +400,48 @@ un solo topic per documento.
 Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai topic e 
 per ogni topic possiamo calcolare la distribuzione dei documenti.
 
+Quindi per ogni parola abbiamo una distribuzione di topic e per ogni documento
+abbiamo una distribuzione di topic. In formule:
+\begin{equation}
+      p(\vec{w}) = \sum_z p(z) \prod_{n = 1}^{N} p(w_n|z)
+\end{equation}
+dove $z$ è il topic e $w_n$ è la parola.
+\begin{nota}
+      In questo modello il numero dei topic deve essere dato.
+\end{nota}
 \subsection{Latent Dirichlet Allocation}
-Si basa sulla teoria baiesiana quindi si dovrà campionare tutto quello che non 
-è osservato.
-
-Le assunzioni di questo modello sono:
+Questo modello si basa sulla teoria bayesiana dove nulla è fissato e tutto è
+campionabile. La principale assunzione su cui si basa questo metodo è che ogni
+documento è costituito da più topic e che:
 \begin{itemize}
-      \item ogni documento è costituito da più topic
-      \item ogni topic è una distribuzione su più parole
-      \item ogni documento è un insieme di topic
-      \item ogni parola è formata uno dei topic
+      \item Ogni topic è una distribuzione su più parole.
+      \item Ogni documento è un insieme di topic.
+      \item Ogni parola è all'interno di un topic.
+\end{itemize}
+LDA si basa su due processi:
+\begin{itemize}
+      \item \textbf{Generative process}: processo che genera i documenti partendo
+            da delle distribuzioni note.
+      \item \textbf{Inferential process}: processo che permette di inferire i topic
+            osservando le parole nei documenti.
 \end{itemize}
 
-LDA ha due principi fondamentali:
-\begin{itemize}
-      \item modelli generativi del linguaggio perché permettono di generare parole di un 
-      topic attraverso il campionamento di probabilità
-      \item modelli inferenziali del linguaggio perché permettono di inferire un 
-      topic date le osservazioni nel documento
-\end{itemize}
+Avremo una \textbf{word topic distribution}, ovvero:
+\begin{equation*}
+      P(w|z)
+\end{equation*}
+la quale rappresenta la probabilità di una parola del vocabolario all'interno di
+un topic. Il processo di costruzione di questa distribuzione parte da una versione
+randomica che viene migliorata in modo iterativo, con un funzionamento simile a
+quello di Markov Chain Monte Carlo.
 
-Avremo una \textbf{word topic distribution} $P(w|z)$ prob. di una parola del vocabolario 
-all'interno di un topic. Si crea a partire da una randomica e si perfeziona con
-MCM.
+Ad ogni documento è associata una \textbf{document topic distribution}, ovvero:
+\begin{equation*}
+      P(z|d)
+\end{equation*}
+la quale rappresenta la probabilità di osservare un topic all'interno di un documento.
+Anche questa distribuzione, come la precedente, viene costruita in modo iterativo
+partendo da una versione randomica.
 
 Ogni documento ha associato un \textbf{Document topic distribution} $P(z|d)$ prob. di un topic 
 all'interno di un documento. Si crea a partire da una randomica e si perfeziona con
@@ -456,17 +473,90 @@ L'\textbf{inferenza} si articola:
       \item \textbf{ripeto}: per ogni parola in tutti i documenti
       \item \textbf{iterate}: ripeti per più iterazioni
 \end{itemize}
+Il precedente processo può essere rappresentato con il seguente diagramma:
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/nlp/lda.png}
+      \caption{Diagramma di LDA}
+      \label{fig:lda}
+\end{figure}
+In questo diagramma abbiamo la \textbf{Dirichlet prior} $\alpha$ applicata alla
+document topic distribution e la \textbf{Dirichlet prior} $\beta$ applicata alla
+word topic distribution.
 
-Gibbs Sampling $p(z_t = j | z_t, w_t,d_t)$ si stima attraverso la probabilità $w$ 
-compare nel topic $t$ su il totale di tutte le parole nel topic. 
+Il termine $\alpha$ è un iperparametro che permette di stabilire la probabilità
+a priori che il topic sia presente nel documento. Se $\alpha$ è alto, allora mi
+aspetto che ci siano tanti topic nel documento, mentre se è basso mi aspetto che
+ci sia un topic dominante nel documento.
 
-\subsection{Valutazione dei Topic model}
-Per valutare i modelli precedenti basate su misure di coerenza e di divergenza:
+Il termine $\beta$ è un iperparametro che permette di stabilire la probabilità
+a priori che la parola sia presente nel topic. Se $\beta$ è alto, allora mi aspetto
+che ci siano molte parole nel topic, mentre se è basso mi aspetto che ci siano
+poche parole nel topic.
+
+% ! Non ho capito questa frase
+$\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo
+il train per aggiustare meglio $\theta$ e $\phi$.
+
+Il processo di \textbf{inferenza} è strutturato nel seguente modo:
+\begin{enumerate}
+      \item \textbf{Inizializzazione}: vengono assegnati i topic in modo randomico
+            ad ogni parola del documento. Questo permette di stabilire le
+            frequenze semplicemente contando le parole.
+      \item \textbf{Aggiornamento}: per ogni parola di un documento, si aggiorna
+            il topic assegnato usando le frequenze di tutte le parole tra word e
+            topic in aggiunta a una variabilità dalla distribuzione di Dirichlet.
+            Questo processo prende il nome di \textbf{Collapsed Gibbs Sampling}.
+      \item \textbf{Ripeto}: l'aggiornamento del punto precedente viene ripetuto
+            per tutte le parole di tutti i documenti.
+      \item \textbf{Iterate}: si ripete tutto il processo per un numero di iterazioni
+            fissato.
+\end{enumerate}
+
+La fase di aggiornamento avviene tramite il \textbf{Collapsed Gibbs Sampling}:
+\begin{equation}
+      p(z_t = j | z_t, w_t,d_t) = \frac{C_{w, j}^{WT} + \beta}{\sum_{w = 1}^{W} C_{w, j}^{WT} + W\beta}
+      \frac{C_{d, t}^{DT} + \beta}{\sum_{t = 1}^{T} C_{d, t}^{DT} + T\alpha}
+\end{equation}
+dove:
 \begin{itemize}
-      \item \textbf{coerenza}: PMI, coerenza tra le parole e i topic
-      \item \textbf{divergenza}: RBO, considera l'overlap delle liste di parole tra liste diverse e scala 
-      \item \textbf{probabilistico}: KL, considera la divergenza tra la distribuzione 
-      dei topi e la distribuzione target (metrica asimmetrica)
+      \item $p(z_t = j | z_t, w_t,d_t)$ è la probabilità di avere il topic $j$
+            per la parola $w_t$ nel documento $d_t$.
+      \item $\frac{C_{w, j}^{WT} + \beta}{\sum_{w = 1}^{W} C_{w, j}^{WT} + W\beta}$
+            è la probabilità di avere la parola $w$ nel topic $t$. In pratica la
+            formula mette a numeratore il numero di volte che la parola $w$ appare
+            nel topic $t$. Mentre a denominatore si ha la somma delle parole nel
+            topic $t$ più il numero di parole nel vocabolario.
+      \item $\frac{C_{d, t}^{DT} + \beta}{\sum_{t = 1}^{T} C_{d, t}^{DT} + T\alpha}$
+            è la probabilità di avere il topic $t$ nel documento $d$. In pratica
+            la formula mette a numeratore il numero di volte che il topic $t$ appare
+            nel documento $d$. Mentre a denominatore si ha la somma dei topic
+            nel documento $d$ più il numero di word.
 \end{itemize}
-
-
+\subsection{Valutazione dei Topic model}
+Per valutare i modelli precedentemente introdotti possiamo usare delle misure
+basate su \textit{Shared Word Tokens}:
+\begin{itemize}
+      \item \textbf{Topic Coherence}: Average Pointwise Mutual Information (PMI)
+            tra le parole del topic.
+            \begin{equation*}
+                  PMI(t_i, t_j) = \frac{1}{t^2} \sum_{u \in t_i} \sum_{v \in t_j} PMI(u, v)
+            \end{equation*}
+            dove $t$ è il numero di parole per ogni topic.
+      \item \textbf{Topic diversity}: Rank-Biased Overlap (RBO), considera l'overlap
+            delle liste di parole in base alla scala.
+            \begin{equation*}
+                  RBO(S, T, p) = (1 - p) \sum_{k = 1}^{\infty} p^{k - 1} A_k
+            \end{equation*}
+\end{itemize}
+Una diversa metrica di confronto, che si basa sulla distribuzione di probabilità
+dei topic, è la \textbf{Kullback-Leibler divergence} (KL):
+\begin{equation}
+      KL(p||q) = \sum_{i} p(i) \log \frac{p(i)}{q(i)}
+\end{equation}
+\begin{nota}
+      Questa metrica è asimmetrica, ovvero l'ordine con cui confronto le distribuzioni
+      è importante.
+\end{nota}
+Solitamente si confronta la distribuzione con distribuzioni note, come ad esempio
+la distribuzione uniforme, la Junk Topic Distribution, etc.
