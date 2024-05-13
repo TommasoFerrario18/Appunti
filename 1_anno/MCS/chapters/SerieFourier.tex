@@ -635,7 +635,7 @@ con periodi differenti. Quindi l'obiettivo è rappresentare $f_N$ con meno di $N
 vettori della base, cosa che non potevamo fare con la base canonica.
 
 Per calcolare i coefficienti $b_k$ dobbiamo innanzitutto far sì che la base sia
-ortogonale, così facendo il calcolo di tali valori risulta più semplice. Per dimostrare 
+ortogonale, così facendo il calcolo di tali valori risulta più semplice. Per dimostrare
 quest'ultima proprietà si introdurranno delle formule particolari.
 
 \begin{proposizione}[\textbf{Formula di De Moivre}]
@@ -841,93 +841,131 @@ quest'ultima proprietà si introdurranno delle formule particolari.
         \end{equation*}
     \end{proof}
 \end{proposizione}
-
 \begin{proposizione}
-    $m = 0$ allora
+    Per ogni intero $m = 0$ vale la seguente formula:
     \begin{equation}
         \sum_{i=0}^{N-1} \cos\left(\pi m \frac{2i+1}{2N}\right) = \sum_{i=0}^{N-1} 1 = N
     \end{equation}
 \end{proposizione}
-
 \begin{nota}
-    Date le seguenti formule 
-    $$\cos (\alpha + \beta) = \cos(\alpha) \cos (\beta) - \sin(\alpha)\sin(\beta)$$
-    $$\cos (\alpha - \beta) = \cos(\alpha) \cos (\beta) + \sin(\alpha)\sin(\beta)$$
-    Possiamo sommarle in colonna e otteniamo
-    $$\frac{1}{2}\cos (\alpha + \beta)  + \frac{1}{2}\cos(\alpha-\beta) = \cos(\alpha) \cos(\beta)$$
-
+    Date le seguenti formule:
+    \begin{equation*}
+        \begin{array}{l}
+            \cos (\alpha + \beta) = \cos(\alpha) \cos (\beta) - \sin(\alpha)\sin(\beta) \\
+            \cos (\alpha - \beta) = \cos(\alpha) \cos (\beta) + \sin(\alpha)\sin(\beta)
+        \end{array}
+    \end{equation*}
+    Possiamo sommarle in colonna e ottenere la seguente formula:
+    \begin{equation}\label{eq:cos_sum}
+        \frac{1}{2}\cos (\alpha + \beta)  + \frac{1}{2}\cos(\alpha-\beta) = \cos(\alpha) \cos(\beta)
+    \end{equation}
 \end{nota}
-
 \begin{proposizione}
-    $N\in\mathbb{N}$ l'insieme 
+    Dato un intero $N\in\mathbb{N}$, l'insieme di vettori
     \begin{equation}
         \{w_0,w_1\dots, w_{N-1}\} \qquad (w_k)_i  = \cos\left( k\pi \frac{2i+1}{2N}\right)
     \end{equation}
-    Sono ortogonali
+    sono una base ortogonale di $\mathbb{R}^N$.
     \begin{proof}
-        Quindi
+        Per dimostrare questo fatto, dobbiamo innanzitutto far vedere che vale
+        l'ortogonalità dell'insieme dei vettori preso in esame.
         \begin{equation*}
-            w_s\cdot w_l = \sum_{i= 0} ^{N-1} (w_s)_i\cdot (w_l)_i  = \sum_{i= 0} ^{N-1}  \cos\left( s \pi \frac{2i+1}{2N}\right)\cdot  \cos \left( l\pi \frac{2i+1}{2N}\right)=
-        \end{equation*} 
-        \begin{equation*}
-           = \sum_{i= 0} ^{N-1}  \cos\left( s \pi \frac{2i+1}{2N}\right)\cdot  \cos \left( l\pi \frac{2i+1}{2N}\right)=
-           \sum_{i= 0} ^{N-1} \frac{1}{2} \cos\left( \pi \frac{2i+1}{2N}(s+l)\right)  + \frac{1}{2}\cos\left( \pi \frac{2i+1}{2N}(s-l)\right) =  
-        \end{equation*} 
-
-        \begin{equation*}
-            =\frac{1}{2}\sum_{i= 0} ^{N-1}  \cos\left( \pi \frac{2i+1}{2N}(s+l)\right)  + \frac{1}{2}\sum_{i= 0} ^{N-1}\cos\left( \pi \frac{2i+1}{2N}(s-l)\right) 
-         \end{equation*} 
-        dal momento che $s+l, s-l\in \mathbb{N}$ allora è come se fosse $k$
-        quindi possiamo separare i casi
-        \begin{equation*}
-            \begin{cases}
-                \frac{1}{2} 0  + \frac{1}{2} 0 = 0 & s\ne l \\
-                \frac{N}{2} & l = s  \ne 0\\ 
-                \frac{N}{2} + \frac{N}{2} = N & s=l =0\\
+            \vec{w}_j \cdot \vec{w}_l = \begin{cases}
+                = 0    & j \neq l \\
+                \neq 0 & j = l
             \end{cases}
         \end{equation*}
-        Quindi sono ortogani
+        Quindi, partendo dalla seguente formula:
+        \begin{equation*}
+            w_s\cdot w_l = \sum_{i= 0}^{N-1} (w_s)_i\cdot (w_l)_i = \sum_{i= 0}^{N-1}
+            \cos\left( s \pi \frac{2i+1}{2N}\right)\cdot  \cos \left( l\pi \frac{2i+1}{2N}\right)=
+        \end{equation*}
+        Usando la formula \ref{eq:cos_sum} possiamo scrivere:
+        \begin{equation*}
+            \sum_{i= 0} ^{N-1}  \cos\left( s \pi \frac{2i+1}{2N}\right)\cdot  \cos \left( l\pi \frac{2i+1}{2N}\right)=
+            \sum_{i= 0} ^{N-1} \frac{1}{2} \cos\left( \pi \frac{2i+1}{2N}(s+l)\right)  + \frac{1}{2}\cos\left( \pi \frac{2i+1}{2N}(s-l)\right) =
+        \end{equation*}
+        la quale può essere ulteriormente semplificata:
+        \begin{equation*}
+            =\frac{1}{2}\sum_{i= 0} ^{N-1}  \cos\left( \pi \frac{2i+1}{2N}(s+l)\right)  + \frac{1}{2}\sum_{i= 0} ^{N-1}\cos\left( \pi \frac{2i+1}{2N}(s-l)\right)
+        \end{equation*}
+        A questo punto possiamo considerare che $s+l, s-l\in \mathbb{N}$, di
+        conseguenza, possiamo vedere come se fosse un unico intero $k$ e ricondurci
+        alle formule dimostrate in precedenza. Da qui possiamo distinguere due
+        casistiche:
+        \begin{equation*}
+            \begin{cases}
+                \frac{1}{2} 0  + \frac{1}{2} 0 = 0 & s\ne l       \\
+                \frac{N}{2}                        & l = s  \ne 0 \\
+                \frac{N}{2} + \frac{N}{2} = N      & s=l =0       \\
+            \end{cases}
+        \end{equation*}
+        Quindi i vettori $w_k$ sono ortogonali.
     \end{proof}
 \end{proposizione}
 
-Sia $f_N\in \mathbb{R}^N$ allora la base $\{w_0,w_1,\dots,w_{N-1}\}$ allora 
-$$f_N = \sum_{k=0}^{N-1} a_k w_k$$
-Possiamo quindi pensare di moltiplicare entrambi i membri per $w_j\in \{w_0,w_1,\dots,w_{N-1}\}$
-$$w_j f_N = w_j  \cdot \left(\right)\sum_{k=0}^{N-1} a_k w_k = \sum_{k=0}^{N-1} a_k w_j w_k $$
-Ma abbiamo appena dimostrato l'ortogonalità quindi quando $j\ne k$ allora si annulla 
-quindi $\sum_{k=0}^{N-1} a_k w_j w_k = a_j w_j w_j$ perché sopravvive 
-sempre $j$ perché non si annulla quando $j=k$. Quindi il coefficiente 
-$$a_j = \frac{w_j \cdot f_N}{w_j \cdot w_j}$$
-Questo è molto semplice calcolarlo perché il calcolo $w_j w_j$ è costante perché
-$$w_j \cdot w_j = 
-\begin{cases}
-    \frac{N}{2} & l = s  \ne 0\\ 
-    \frac{N}{2} + \frac{N}{2} = N & s=l =0\\
-\end{cases}$$
-mentre 
+Vogliamo ora calcolare i coefficienti $a_k$ per scrivere $f_N$ come combinazione
+lineare dei vettori della base ortogonale. Sia $f_N \in \mathbb{R}^N$ e
+$\{w_0,w_1,\dots,w_{N-1}\}$ una base ortogonale, allora possiamo scrivere:
+\begin{equation*}
+    f_N = \sum_{k=0}^{N-1} a_k w_k
+\end{equation*}
 
-$$w_j \cdot f_N = \sum_{i=0}^{N-1} f_i \cos\left(j\pi \frac{2i+1}{2N}\right)$$
-quindi 
+A questo punto, se vogliamo calcolare il generico coefficiente $a_j$, possiamo
+moltiplicare entrambi i membri per $w_j\in \{w_0,w_1,\dots,w_{N-1}\}$, ottenendo:
+\begin{equation*}
+    w_j f_N = w_j \cdot \left(\sum_{k=0}^{N-1} a_k w_k\right) = \sum_{k=0}^{N-1} a_k w_j w_k
+\end{equation*}
+Avendo precedentemente dimostrato l'ortogonalità dei vettori che compongono la
+base sappiamo che il termine $w_j w_k$ si annulla per $j \neq k$, mentre sopravvive
+per $j = k$. Quindi possiamo scrivere:
+\begin{equation*}
+    w_j f_N = \sum_{k=0}^{N-1} a_k w_j w_k = a_j w_j w_j
+\end{equation*}
 
-$$a_j =\frac{1}{2}\sum_{i=0}^{N-1} f_i \cos\left(j\pi \frac{2i+1}{2N}\right) $$
+Questo è molto semplice calcolarlo perché il calcolo $w_j w_j$ è costante:
+\begin{equation*}
+    w_j \cdot w_j = \begin{cases}
+        \frac{N}{2}                   & l = s  \ne 0 \\
+        \frac{N}{2} + \frac{N}{2} = N & s=l =0       \\
+    \end{cases}
+\end{equation*}
+Da questo risultato possiamo ricavare il coefficiente $a_j$:
+\begin{equation*}
+    a_j = \frac{w_j f_N}{w_j \cdot w_j} = \frac{1}{w_j \cdot w_j} \sum_{i=0}^{N-1}
+    f_i \cos\left(j\pi \frac{2i+1}{2N}\right)
+\end{equation*}
+Quindi perso $f_N\in \mathbb{R}^N$ possiamo riscriverlo nel seguente modo:
+\begin{equation*}
+    \begin{array}{cl}
+        f_N = \sum_{i=0}^{N-1} f_i \cdot e_i & \text{base canonica}    \\
+        f_N = \sum_{i=0}^{N-1} a_i \cdot w_i & \text{cosine transform}
+    \end{array}
+\end{equation*}
 
-Quindi perso $f_N\in \mathbb{R}^N$ possiamo riscriverlo come 
-$$\begin{array}{cl}
-    f_N = \sum_{i=0}^{N-1} f_i \cdot e_i & \text{base canonica}\\
-    f_N = \sum_{i=0}^{N-1} a_i \cdot w_i & \text{cosine transform}
-\end{array}$$ 
-
-Il processo che a partire$f_N$ scritto nella base canonica allora posso riscrivere 
-$f_i$ in $a_i$ e quindi effettuare il processo $DCT$. Questo processo non fa altro 
-che riscrivere il vettore dalla base canonica alla base dei coseni.
-$$f_N \stackrel{DCT}{\to } \hat{f_N} \iff a_k = \frac{\sum_{i = 0}^{N-1}f_i\cos \left(\pi k \frac{2i +1}{2N}\right)}{w_k\cdot w_k}$$
-Inoltre possiamo fare il contrario.
-
-$$ \hat{f_N}  \stackrel{IDCT}{\to }f_N \iff e_j \hat{f_k} = e_j \cdot \left(\sum_{k=0}^{N-1}a_k \cdot w_k\right)  \iff \hat{f_k}_j = \sum_{k=0}^{N-1}  a_k \cdot e_j \cdot w_k   =  \sum_{k=0}^{N-1}  a_k  \cos\left(\pi k \frac{2j+1}{2N}\right)$$
+Il processo che, partendo da $f_N$ scritto nella base canonica allora posso
+riscrivere $f_i$ in $a_i$ e quindi effettuare il processo di \textbf{Discrete
+    Cosine Transform} (DCT). Questo processo non fa altro che riscrivere il
+vettore dalla base canonica alla base dei coseni.
+\begin{equation*}
+    f_N \stackrel{DCT}{\to } \hat{f_N} \iff a_k = \frac{\sum_{i = 0}^{N-1}f_i\cos
+        \left(\pi k \frac{2i +1}{2N}\right)}{w_k\cdot w_k}
+\end{equation*}
+Introduciamo la procedura inversa della Discrete Cosine Transform, ossia la
+procedura che partendo dai coefficienti $a_k$ nella base $w_k$, trovare i
+coefficienti $c_j$ nella base degli $e_j$. Ovvero:
+\begin{equation*}
+    \hat{f_N} \stackrel{IDCT}{\to} f_N \iff e_j \hat{f_k} = e_j \cdot
+    \left(\sum_{k=0}^{N-1}a_k \cdot w_k\right) \iff \hat{f_k}_j = \sum_{k=0}^{N-1}
+    a_k \cdot e_j \cdot w_k = \sum_{k=0}^{N-1} a_k \cos\left(\pi k \frac{2j+1}{2N}\right)
+\end{equation*}
 dove $e_j$ è il vettore $i$-esimo della base canonica ($i\in \{0,1,\dots, N-1\}$).
 
-DCT e IDCT permettono di effettuare una compressione delle funzioni, rappresentiamo 
-la funzione in modo discreto con $f_N$. Quindi prendo $f_N$, applico DCT e ottengo $\hat{f_N}$, ottengo $N$ componenti 
-delle quali solo le prime sono significative e quindi possiamo troncare il vettore 
-e ridurre la dimensione. Poi posso tornare indietro usando IDCT con una perdita di 
-informazioni. Questo è alla base di jpeg.
+Le due funzioni appena introdotte, DCT e IDCT, permettono di effettuare una
+compressione delle funzioni. In particolare, se consideriamo la prima rappresentazione,
+i coefficienti $c_k$ sono associati ai vettori $e_k$ sono essenzialmente i valori
+della funzione in un punto specifico. Rimuovendo alcuni di questi vettori perdiamo,
+l'informazione della funzione in quello specifico punto. Al contrario, i coefficienti
+$a_k$ associati ai vettori $w_k$ assegnano una certa importanza a determinate
+frequenze. Se rimuoviamo i coefficienti meno significativi, possiamo ottenere una
+compressione della funzione. Questo è alla base del formato jpeg.
