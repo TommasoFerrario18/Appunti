@@ -3,7 +3,8 @@
 Quando le dimensioni dei grafi iniziano a crescere risulta difficile
 rappresentarli in modo chiaro e comprensibile. Per questo motivo, quando si
 lavora con grafi di grandi dimensioni, essi vengono rappresentati tramite
-delle proprietà che ne descrivono la struttura.
+delle proprietà che ne descrivono la struttura, queste proprietà sono delle 
+statistiche descrittive che facilitano anche il confronto tra le reti.
 
 Tra le proprietà più importanti troviamo:
 \begin{itemize}
@@ -88,7 +89,7 @@ valori di $p(k)$.
         \sum_{k=0}^{\infty} p(k) = 1
     \end{equation*}
 \end{nota}
-Il valore della distribuzione mi permette di rappresentare molti fenomeni dalla
+Il valore della distribuzione mi permette di rappresentare molti fenomeni: dalla
 robustezza della rete, alle sue vulnerabilità.
 \subsection{Cammino e distanza}
 \begin{definizione}[\textbf{Cammino}]
@@ -129,7 +130,7 @@ il numero massimo di archi presenti nel grafo.
     \begin{equation}
         C_i = \frac{2E_i}{k_i(k_i - 1)}
     \end{equation}
-    dove $E_i$ rappresenta il numero di archi tra i vicini del nodo $i$. Se il grafo
+    dove $E_i$ rappresenta il numero di archi tra i $k_i$  vicini del nodo $i$. Se il grafo
     è diretto allora si divide per $2$ il coefficiente.
 \end{definizione}
 
@@ -193,9 +194,10 @@ diversi criteri. Tra le misure di centralità più comuni troviamo:
 \end{itemize}
 Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}.
 \begin{definizione}[\textbf{Centralizzazione}]
-    La \textbf{centralizzazione} di un grafo è una misura della distribuzione
-    della centralità dei nodi del grafo. In particolare, la centralizzazione
-    di un grafo è massima quando un nodo ha una centralità molto più alta
+    La \textbf{centralizzazione} di un grafo è una misura di quanto è centrale il 
+    nodo con massima centralità rispetto alla centralità di tutti gli altri. 
+    In particolare, la centralizzazione
+    di un grafo è massima quando il nodo con centralità massima ha una centralità molto più alta
     rispetto agli altri nodi del grafo.
 \end{definizione}
 
@@ -214,22 +216,24 @@ Una delle prime possibilità di misurare la centralità di un nodo è quella di
 utilizzare il grado del nodo. Questa misura è particolarmente utile nel caso di
 reti sociali, in cui il grado di un nodo corrisponde al numero di amici che
 il nodo ha.
-il nodo ha.
 \begin{equation}
     C_D(i) = \sum_{j=1}^{n} x_{ij}
 \end{equation}
+
 Nel caso di grafo orientato, possiamo distinguere tra grado entrante e grado
-uscente. In particolare, il grado entrante di un nodo corrisponde al numero di
-archi che arrivano al nodo, mentre il grado uscente corrisponde al numero di
-archi che partono dal nodo.
+uscente.
+
 \begin{equation}
     C_{D_{in}}(i) = \sum_{j=1}^{n} x_{ji} \quad \text{e} \quad
     C_{D_{out}}(i) = \sum_{j=1}^{n} x_{ij}
 \end{equation}
 La centralità massima per un nodo è $n - 1$.
 
-Questa misura può essere normalizzata ottenendo la centralità di grado normalizzata
+Questa misura può essere normalizzata
 dividendo la centralità di grado per il numero di nodi meno uno.
+
+$${C_D}_{norm} (i)= \frac{C_D(i)}{n-1}$$
+
 \subsection{Betweeness}
 Un altra misura di centralità è la \textbf{betweeness}, ovvero il nodi più
 rilevanti sono quelli che fanno da ponte tra due gruppi di nodi. Posso anche
@@ -252,11 +256,11 @@ Viene successivamente fatta una seconda normalizzazione, questa volta sui nodi,
 per rendere indipendentemente dalla dimensione del grafo. Questo può essere
 espresso nel caso di un grafo non orientato come segue:
 \begin{equation}
-    C_B(i) = \frac{C_B(i)}{(n - 1)(n - 2)}
+    {C_B}_{norm}(i) = \frac{C_B(i)}{(n - 1)(n - 2)}
 \end{equation}
 mentre nel caso di un grafo orientato come segue:
 \begin{equation}
-    C_B(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
+    {C_B}_{norm}(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
 \end{equation}
 \subsection{Closeness}
 La centralità misurata come \textbf{closeness} è una misura della vicinanza di
@@ -266,11 +270,11 @@ un nodo agli altri nodi del grafo. Questa misura può essere calcolata come segu
 \end{equation}
 Corrisponde alla misura di un vertice in merito alla sua efficienza nel
 comunicare l'informazione, mentre la betweeness è una misura l'efficacia di un
-nodo nell trasmettere un'informazione.
+nodo nel trasmettere un'informazione.
 
 Questa misura può essere normalizzata come segue:
 \begin{equation}
-    C_C(i) = \frac{C_C(i)}{n - 1}
+    {C_C}_{norm}(i) = \frac{C_C(i)}{n - 1}
 \end{equation}
 \subsection{Autovettori}
 La misura di centralità calcolata utilizzando il grado del nodo rappresenta una
@@ -287,7 +291,7 @@ Questa misura può essere calcolata come segue:
     C_A(i) = \frac{1}{\lambda} \sum_{j=1}^{n} A_{ij} C_A(j)
 \end{equation}
 dove $A$ è la matrice di adiacenza del grafo e $\lambda$ è l'autovalore
-corrispondente all'autovettore dominante della matrice di adiacenza.
+corrispondente all'autovettore dominante della matrice di adiacenza. 
 
 A differenza della misura basata sul grado, un nodo che ha un alto grado ma è
 collegato a nodi poco importanti avrà una centralità di autovettori bassa. Al
@@ -334,8 +338,8 @@ normalizzata.
 Il problema è che per garantire la convergenza di questo algoritmo è necessario
 rispettare due condizioni:
 \begin{itemize}
-    \item Si ha un unico autovettore dominante.
-    \item $P$ è il principale autovettore di $A$.
+    \item Si ha un unico autovalore massimo che deve essere $1$.
+    \item $P$ è l'autovettore di modulo massimo di $A$.
 \end{itemize}
 
 Un'altro possibile metodo per risolvere questo problema è quello di utilizzare
@@ -492,9 +496,9 @@ Con questo criterio possiamo identificare le community che soddisfano le seguent
 proprietà utilizzando diversi algoritmi:
 \begin{itemize}
     \item \textbf{Complete Mutuality}: tutti i nodi della community sono connessi
-          tra di loro. Questo problema può essere risolto utilizzando l'algoritmo
-          di ricerca delle \textbf{clique}. Una clique è una sotto-componente
-          fortemente connessa del grafo. Questo problema è NP-Hard, quindi richiede
+          tra di loro, quindi ci si riconduce alla ricerca delle \textbf{clique}. 
+          Una clique è una sotto-componente fortemente connessa del grafo. 
+          Questo problema è NP-Hard, quindi richiede
           un tempo esponenziale per essere risolto. Possiamo distinguere due varianti
           di questo problema:
           \begin{enumerate}
@@ -565,12 +569,18 @@ funzioni di similarità, come ad esempio:
           \begin{equation*}
               \cos(\theta) = \frac{A \cdot B}{||A|| \cdot ||B||}
           \end{equation*}
+          dove $A,B$ sono le righe della matrice di adiacenza associate ai nodi $A,B$,
+          quindi $A\cdot B$ è il prodotto scalare. Si usa per grafi pesati perché
+          nella matrice di adiacenza si avranno i pesi degli archi.
     \item \textbf{Jaccard similarity}: calcola la similarità tra due nodi
           considerando solamente se l'arco è presente o meno. Questa misura
           è molto utilizzata per grafi non pesati.
           \begin{equation*}
               J(A, B) = \frac{|A \cap B|}{|A \cup B|}
           \end{equation*}
+          dove $A,B$ sono le righe della matrice di adiacenza associate ai nodi $A,B$,
+          quindi $A\cap B$ o $A\cup B$ coincindo con l'intersezione o l'unione degli 
+          archi raggiungibili rispettivamente da $A,B$.
 \end{itemize}
 Usando il valore di similarità, abbiamo che due nodi simili avranno un valore
 di similarità alto, mentre due nodi dissimili avranno un valore di similarità
@@ -624,11 +634,11 @@ date da:
 \end{equation}
 L'interazione tra due nodi in un gruppo è data dalla seguente formula:
 \begin{equation}
-    \sum_{i, j}\left(A_{ij} - \frac{d_i \cdot d_j}{2m}\right)
+    \sum_{i, j\in V}\left(A_{ij} - \frac{d_i \cdot d_j}{2m}\right)
 \end{equation}
 La modularity può essere calcolata come segue:
 \begin{equation}
-    Q = \frac{1}{2m} \sum_{i, j} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
+    Q = \frac{1}{2m} \sum_{i, j\in V} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
 \end{equation}
 dove:
 \begin{itemize}
@@ -643,11 +653,13 @@ dove:
 \end{itemize}
 
 Più è grande la differenza tra $A_{ij} - \frac{d_i \cdot d_j}{2m}$, più forti
-sono le connessioni tra i nodi. Al contrario, se la differenza è piccola,
-allora le connessioni tra i nodi sono casuali.
+sono le connessioni tra i nodi $i,j$. Al contrario, se la differenza è piccola,
+allora le connessioni tra i nodi $i,j$ sono casuali.
 Un vantaggio di questo approccio è che il valore di modularity è compreso tra
 $-1$ e $1$. Inoltre, una modularity uguale a $0$ indica che tutti i nodi
-appartengono allo stesso gruppo.
+appartengono allo stesso gruppo. Il tutto quindi si riconduce ad un problema di 
+massimizzazione di $Q$ ovvero vogliamo massimizzare la sudivisione dei nodi in 
+community in modo tale che $Q\to 1$. 
 
 Questo valore può essere calcolato attraverso gli autovettori della matrice di
 modularità, ovvero la matrice definita come segue:
