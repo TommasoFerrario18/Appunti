@@ -1340,16 +1340,24 @@ la confidenza.
 I rules-based system sono sistemi specifici per dominio che usano delle regole 
 per effettuare delle deduzioni o scelte.
 
-I componenti base di questi sistemi sono:
+I componenti base di questi sistemi sono (\ref{fig:rule-based}):
 \begin{itemize}
     \item \textbf{base di conoscienza}: lista di regole di base che esprimono la 
     conoscenza del sistema nel dominio. L'espressione della base di conoscienza 
     si può fare attraverso due metodi:
     \begin{itemize}
         \item \textbf{mamdani}: regole if then con solo clausole formate da congiunzioni
-        di variabili linguistiche
-        \item  \textbf{sugeno}: regole if then con solo clausole formate da congiunzioni 
-        e disgiunzioni di variabili linguistiche
+        di espressioni boobleane in cui si testa il valore di alcune variabili linguistiche.
+        \begin{center}
+            IF ($X_1$ is $LT_1$) and \dots and ($X_n$ is $LT_n$) Then $Y$ is $LT_0$
+        \end{center}
+        Dove $X_i, Y$ sono variabili linguistiche e $LT_i$ sono i temini linguistici.
+        \item  \textbf{sugeno}: cambiano le regole e permette di saltare il passo 
+        di fuzzificazione.
+        \begin{center}
+            IF ($X_1$ is $LT_1$) and \dots and ($X_n$ is $LT_n$) Then $Y =p_0 + p_1X_1+ p_2X_2+\dots+ p_nX_n$
+        \end{center}
+        con $p=(p_0,\dots,p_n)$ vettore di numeri reali.
     \end{itemize}
     Essendo variabili linguistiche significa lavorare sui fuzzy.
     \item \textbf{inference engine}: effettua inferenza o prende decisioni in base alle interazioni 
@@ -1366,54 +1374,53 @@ I componenti base di questi sistemi sono:
     \end{itemize}
 \end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/rule-based-system.png}
+    \caption{Schema dei rule-based system}
+    \label{fig:rule-based}
+\end{figure}
+
 Quindi dal mondo reale otteniamo un insieme di valori reali che descrivono 
-la situazione, questi devono poi essere mappati sugli insiemi fuzzy associati (fuzzyficaione),
-successivamente avendo i fuzzy si  
-il valore $x$ in u
-Per esprimere le regole della conoscienza usiamo Mamdani, sintassi 
-if and then con variabili linguistiche. tutto si basa sui fuzzy. La Fuzzy
-partition è una famiglia di termini cherappresenta la variabile linguistica e 
-l'universo è $[l,r]$. (insiemi fuzzy + regole sugli insiemi)
+la situazione, questi devono poi essere mappati sugli insiemi fuzzy associati (fuzzyficazione),
+successivamente avendo i fuzzy si applica una regola alla volta, in modo da produrre 
+un valore del fuzzy di output per ogni regola. Per produrre un valore di output 
+per ogni regola, si applicano le $t$-norme e le $t$-conorme sui fuzzy delle regole 
+in base ai connettivi. Quindi se abbiamo $m$ regole, otteniamo $m$ valori del 
+fuzzy di output, quindi dovremo aggregarle, per fare ciò si usa la $t$-conorma ($\max$).
 
-Le regole possono essere attivate insieme e le posso rappresentare come una tabella 
-se le regole sono poche.
-
-Nel processo decisionale abbimao.
+In questo modo otteniamo un unico valore di fuzzy in output, infine dobbiamo riconvertire
+ il valore in numero reale e questo può essere vatto in due metodi:
 \begin{itemize}
-    \item fuzzycazione trasforma i valori  negli insiemi fuzzy (da numeri a gradi)
-    \item applico le regole (inferenza), se le regole sono connesse da connettive 
-    aggrego i fuzzy con tnorma o tconorma e ottengo un valore di uscita per il fuzzy
-    in out per ogni regola (ogni regola ha un peso) da $m$ regole a $m$ valori
-    del fuzzy di out e poi 
-    devo aggregare per passare ad un valore. L'aggregazione si fa con max.
-    \item defuzzificazione da fuzzy a valore numerico lo faccio usando la media o centro di gravità
+    \item \textbf{mean of maxima}: si estrae il valore 
+    $$x^\ast = (a+b)/2$$
+    dove $a = \inf\{x|B(x) = \max_y B(y)\}$ e  $b = \sup\{x|B(x) = \max_y B(y)\}$,
+    ovvero coincide al valore medio dell'intervallo di valori di massima confidenza 
+    del fuzzy di output ($B(x)$).
+    \item \textbf{center of gravity}: si effettua una media pesata dei valori 
+    del fuzzy per la loro confidenza
+    $$x^\ast = \frac{\int_x x\cdot B(x)dx}{\int_x \cdot B(x)dx} \equiv x^\ast =\frac{\sum_x x\cdot B(x)dx}{\sum_x \cdot B(x)dx} $$
 \end{itemize}
 
-media
-Prendo l'intervalli di $x$ per cui ha $y$ massima e prendo la media nell'intervallo. 
-
-centro di gravità
-media pesata
-
-Posso prima inferire poi aggregare o viceversa.
-
-
+La parte di fuzzyficazione può essere fatta di due modi:
+\begin{itemize}
+    \item \textbf{FATI}: come spiegato prima, sia $B_i(y)$ il valore del fuzzy di 
+    output dell'$i$-esima regola allora si calcola $B(y)= G(B_1(y),\dots, B_m(y))$
+    ($G\equiv \max$) e poi inferisco il valore finale $Y_0=D(B(y))$ ($D\equiv$ center of 
+    gravity o mean of maxima).
+    \item \textbf{FITA}: per ogni regola ottengo $B_i(y)$ il valore del fuzzy di 
+    output dell'$i$-esima regola allora effettuo subito l'inferenza per ogni 
+    regola ottenendo il valore $y_i=D(B_i(y))$, infine aggrego i valori inferiti 
+    pesandoli per la $t$-norma dei fuzzy di input $y=\frac{\sum y_i\cdot h_i}{\sum h_i}$
+    dove $h_i=\ast(A_1(x_1),\dots,A_n(x_n))$.
+\end{itemize}
 \begin{nota}
-    Fuzzy set singleton è solo in un punto vale $1$ e in tutti gli altri $0$. In questo 
-    cosa l'output lo posso esprime dal valore diretto.
+Le regole possono essere attivate insieme e le posso rappresentare come una tabella 
+se le regole sono poche.
 \end{nota}
 
-posso avere delle varianti dei sistmei mani, possiamo avere or e aggregare con 
-tconorme ma coincide a definire regole singole.
-
-Un altra variabile per esprimere le regole è takgino che esprime l'output con una 
-funzione. Le regole mi danno già il valore numerico che devo aggregare con la media.
-non devo fare la fuzzyficazione. Sistema compatto ma più difficile.
-
-Per definire le regole serve un esperto, sistemi di questo tipo si trovano in forni,
-frigorifero.
-
-Oltre a questo c'è il fuzzy clustering.
+Spesso in output alle regole posso avere un singleton fuzzy ovvero quando abbiamo 
+un unico valore a $1$ e tutto il resto a $0$ per ogni regola.
 
 \section{Rough set}
 Usati principalmente nella feature selection, Rough clustering e applicazione 
