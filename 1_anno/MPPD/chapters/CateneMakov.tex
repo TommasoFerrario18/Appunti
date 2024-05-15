@@ -178,7 +178,7 @@ dove $P_{ij}(n)$ rappresenta la probabilità di passare dallo stato $i$ allo sta
 $j$ in $n$ passi. Questa probabilità può essere calcolata attraverso la seguente
 formula:
 \begin{equation}
-    P_{ij}(n) = \prod_{i = 1}^{n} P_{ij}
+    P_{ij}(n) = \prod_{i = 1}^{n} P_{ij} \equiv P^n_{ij}
 \end{equation}
 ovvero, si calcola il prodotto riga per colonna della matrice di transizione
 per $n$ volte. In questo modo, si considerano tutti i possibili percorsi che
@@ -229,7 +229,7 @@ portano dallo stato $i$ allo stato $j$ in $n$ passi.
     \end{equation*}
 \end{definizione}
 \begin{nota}
-    La ricorrenza è una proprietà di classe, se lo stato i $i$ è ricorrente e
+    La ricorrenza è una proprietà di classe, se lo stato $i$ è ricorrente e
     lo stato $j$ comunica con $i$ allora $j$ è ricorrente.
 \end{nota}
 \begin{nota}
@@ -361,7 +361,7 @@ L'inferenza con questi modelli è di $4$ tipologie:
           Dato il risultato del filtraggio al tempo $t$, si proietta in avanti
           la distribuzione dello stato corrente al tempo $t + 1$. In seguito, si
           aggiorna la distribuzione dello stato corrente al tempo $t + 1$ con
-          l'osservazione al tempo $r_{t + 1}$. Infine, si ripete il processo
+          l'osservazione al tempo $e_{t + 1}$. Infine, si ripete il processo
           ricorsivamente.
 
           Generalizzando a $t' \in \{0,t-1\}$, per calcolare un generico $P(X_{t'+1}|e_{1:t'+1})$
@@ -374,7 +374,7 @@ L'inferenza con questi modelli è di $4$ tipologie:
 
           La formula si ottiene prima separando l'evidenza al tempo $t'+1$
           rispetto al tempo $t'$, successivamente è stata utilizzata la regola
-          di Bayes e successivamente l'assunzione di indipendenza tra $e_t'$ e
+          di Bayes e successivamente l'assunzione di indipendenza tra $e_{t'}$ e
           $e_{t'+1}$.
 
           Quindi, per ottenere la predizione del prossimo stato, si calcola:
@@ -462,3 +462,5 @@ L'inferenza con questi modelli è di $4$ tipologie:
               P(x_1,\dots,x_{t-1},x_t|e_{1:t})\right)
           \end{equation}
 \end{itemize}
+
+
