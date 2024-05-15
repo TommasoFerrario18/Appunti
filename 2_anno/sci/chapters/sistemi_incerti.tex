@@ -1423,10 +1423,366 @@ Spesso in output alle regole posso avere un singleton fuzzy ovvero quando abbiam
 un unico valore a $1$ e tutto il resto a $0$ per ogni regola.
 
 \section{Rough set}
-Usati principalmente nella feature selection, Rough clustering e applicazione 
-ai sistemi dinamici.
 
-si astrerrà all'orthopair.
+Sono delle varianti di insiemi che permettono di effettuare operazioni di feature 
+selection, Rough clustering e trovano applicazione anche ai sistemi dinamici.
+I Rough set a livello generale sono degli insiemi di cui conosciamo con certezza 
+solo alcuni elementi che appartengono e alcuni elementi che non appartengono, ma 
+abbiamo elementi che forse appartengono o forse no.
+
+\begin{definizione} [\textbf{information table} (information system)]
+    L'\textbf{information table} $S(U) = \langle U, Att, Val, F\rangle$ dove:
+    \begin{itemize}
+        \item $U$ è un insieme di Oggetti
+        \item $Att$ è un insieme di attributi
+        \item $Val$ è un insieme di valori degli attributi
+        \item $F:U\times A \to Val$ è una funzione che ad ogni oggetto ritorna il 
+        valore dell'attributo scelto
+        \item 
+    \end{itemize}
+\end{definizione}
+\begin{esempio}
+    Datta la seguente tabella informativa.
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/i_t.png}
+    \end{figure}
+    possiamo identificare:
+    \begin{itemize}
+        \item l'insieme degli oggetti $\{P_1,\dots,P_5\}$
+        \item l'insieme degli attributi $\{Pressure, HA, Temperature,MP\}$
+        \item l'insieme dei valori $\{Yes, No, 37-38,\dots\}$
+        \item $F(P2, Pressure)=High$
+    \end{itemize}
+\end{esempio}
+\begin{definizione}[\textbf{Decision system}]
+    Un \textbf{decision system} $S(U) = \langle U, C\cup \{d\}, Val, F\rangle$ dove:
+    \begin{itemize}
+        \item $U$ è un insieme di Oggetti
+        \item $C$ è un insieme di attributi dette condizioni
+        \item $\{d\}$ è l'insieme di attributi di decisione
+        \item $Val$ è un insieme di valori degli attributi
+        \item $F:U\times C\cup \{d\} \to Val$ è una funzione che ad ogni oggetto ritorna il 
+        valore dell'attributo scelto
+        \item 
+    \end{itemize}
+\end{definizione}
+In sostanza si aggiunge l'attributo decisione che corrisponde alla classe degli oggetti.
+Possiamo raggruppare gli oggetti rispetto all'attributo decisione, questo mi permette 
+di definire delle \textbf{classi di decisione} (insiemi $U_d = \{u\in U: F(u, decision) =d\}$) 
+
+Il sistema viene definito:
+\begin{itemize}
+    \item \textbf{consistente}: se ogni coppia di oggetti che hanno attributi uguali 
+    afferiscono alla stessa classe di decisione
+    \item \textbf{inconsistente}: se esiste una  coppia di oggetti
+    con attributi uguali e classi di decisione diverse
+\end{itemize}
+
+\begin{definizione} [\textbf{Relazione di Indiscernibilità}]
+    Dato un sottoinsieme di attributi $A\subseteq Att$, due oggetti $x,y\in U$ sono 
+    \textbf{indiscernibilità} rispetto a $A$ se 
+    $$\forall a \in A, F(a, x) = F(a,y)$$
+    Si scriverà $xI_A y$.
+\end{definizione}
+$I_A$ è una relazione di equivalenza perché è riflessiva, simmetrica e transitiva.
+Questo significa che partiziona $U$ in classi di equivalenza chiamate anche \textbf{granularità 
+delle informazioni}.
+$$[x]_A:=\{y\in U:xI_Ay\}$$
+
+\begin{definizione}[\textbf{Decisione generalizzata}]
+    Una decisione generalizzata è una funzione decisione $\delta_A: U \to \mathcal{P}(Val)$
+    tale che 
+    $$\delta_A(x) = \{i \in Val: \exists y, xI_A y \land F(y,d) = i \}$$
+\end{definizione}
+
+La funzione di decisione generalizzata ritorna l'insieme delle decisioni di tutti 
+gli oggetti che condividono gli stessi attrbuti dell'oggetto di input.
+
+\begin{nota}
+    Un sistema è \textbf{consistente} sse $|\delta_A(x)| = 1,\forall x\in U$.
+\end{nota}
+
+Data una partazione degli oggetti mediante l'indiscernibilità $\{P_1\}, \{P_2,P_3\}, 
+\{P_4\}, \{P_5\}$, possiamo identificare un insieme normale $H = \{P_1\}\cup\{P_2,P_3\}$, 
+che è certo, mentre possiamo definire $K=\{P_1,P_2\}$  che è un insieme \textbf{rough}
+perché $P_2$ non conosciamo in che partizione si trova e infatti $K$ può essere approssimato 
+tra due insiemi esatti (ovvero partizioni).
+$$\{P_1\} \subseteq K \subseteq \{P_1,P_2,P_3\}$$
+
+
+\begin{definizione}[\textbf{Approssimizzazioni}]
+    Sia $S(U) = \langle U, Att, Val, F\rangle$ un information table. Dato un insieme 
+    di attributi $A\subseteq Att$, allora per ogni $H\subseteq U$ definiamo:
+    \begin{itemize}
+        \item \textbf{lower approximation} di $H$:
+        $$L(H):= \{x: [x]_A\subseteq H\}$$
+        \item \textbf{upper approximation} di $H$:
+        $$U(H):= \{x: [x]_A \cap H\ne \emptyset\}$$
+    \end{itemize}
+\end{definizione}
+
+\begin{definizione}[\textbf{Rough}]
+    La coppia $r(H) = \langle L(H), U(H)\rangle$ è chiamato \textbf{rough approximation} o
+    \textbf{rough set}.
+\end{definizione}
+Ecco un esempio di rough set \ref*{fig:rs}.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/rs.png}
+    \caption*{Esempio di Rough set}
+    \label{fig:rs}
+\end{figure}
+
+Definiremo:
+\begin{itemize}
+    \item \textbf{esterior}: $E(H) = U^c(H), L(H)\cap E(H) = \emptyset$ ovvero gli 
+    le classi che sicuramente non appartengono al rough
+    \item \textbf{Boundary}: $Bnd(H) = U(H) - L(H)$ ovvero 
+    le classi su cui abbiamo incertezza sull'appartenenza.
+\end{itemize}
+
+Possiamo misurare la grandezza del boyndary utilizzando le misure di incertezza:
+\begin{itemize}
+    \item \textbf{accuracy}: $\alpha(H) = \frac{|L(H)|}{|U(H)|}$
+    \item \textbf{roughness}: $1-\alpha(H) = \frac{|Bnd(H)|}{|U(H)|}$
+\end{itemize}
+
+Le approssimazioni dall'alto e dal basso rispettano le seguenti proprietà:
+\begin{itemize}
+    \item $L(\emptyset)= \emptyset$, $L(U)=U$ uguale per l'approx alto
+    \item $L(H)\subseteq H$ $H\subseteq U(H)$ 
+    \item distributività $L(H\cap K)= L(H) \cap L(K) $, $L(H) \cup L(K) \subseteq L(H\cup K) $ contrario per l'approx alto
+    \item monotonia $H\subseteq K\implies L(H)\subseteq L(K)$ uguale
+    \item idempotenti $L(L(H)) = L(H)$ e $L(U(H)) = U(H)$
+    \item dualità $L(H) = (U(H^c))^c$
+\end{itemize}
+
+\begin{nota}
+    Queste sono proprietà tipiche di uno spazio topologico e sono operatori dipici
+    delle logiche modali.        
+\end{nota}
+
+Fino ad ora abbiamo definito tutte i rough set tramite relazioni di equivalenza,
+ma questo è troppo restrittivo, quindi possiamo generalizzare il ragionamento a una 
+relazione $R$ "qualsiasi" (se $R$ è una relazione di equivalenza allora torno a prima). 
+In realtà non possiamo estendere ad una $R$ binaria generica perché perdiamo 
+alcune delle prorpietà introdotte prima. 
+Definiamo una generica relazione $R\subseteq U\times U$, definiamo la granularità
+dell'informazione $g_R(x) = \{y\in U: xR y\}$ allora otteniamo le seguenti approssimazioni
+$$l_R(H) = \{x\in U:g_R(x)\subseteq U\}$$
+$$u_R(H) = \{x\in U:g_R(x)\cap U = \emptyset\}$$
+
+Si mantengono quindi le seguenti prorpietà per ogni $R$ scelta:
+\begin{itemize}
+    \item $l_R(U) = U$ 
+    \item $u_R(\emptyset) = \emptyset$
+    \item $l_R,u_R$ sono monotone
+\end{itemize} 
+Dobbiamo solo chiedere che $R$ rispetti:
+\begin{itemize}
+    \item \textbf{serialità} (no punti isolati): che ci aggiunge le proprietà $l_R(H) \subseteq u_R(H)$,
+    $u_R(U) =U$ e $l_R(\emptyset) = \emptyset$.
+    \item \textbf{riflessività}: che ci aggiunge le proprietà $l_R(H)\subseteq H \subseteq u_R(H)$
+\end{itemize}
+
+\begin{nota}
+    se una relazione è \textbf{riflessiva} allora è anche \textbf{seriale}
+\end{nota}
+
+Se condidero rough set con $\mathcal{R}$ di similarità, sono certo che questa è simmetrica 
+e riflessiva quindi perdiamo solo la transitività dalle relazioni di equivalenza.
+
+Possiamo considerare i seguenti esempi:
+\begin{itemize}
+    \item $\mathcal{R}$ associata alla distanza tra oggetti utilizzabile quando 
+    abbiamo piena conoscienza degli attributi degli oggetti
+    \item $\mathcal{R}$ gestire valori mancanti
+    $$x\mathcal{R}_Dy\iff \forall a_i\in D, F(x, a_i) = F(y,a_i) \lor F(x, a_i)=\ast \lor F(y, a_i)=\ast $$
+    \item $\mathcal{R}$ gestire valori incompleti o parziali
+    $$x\mathcal{R}_Dy\iff \forall a_i\in D, F(x, a_i) \cap F(y,a_i) \ne \emptyset$$
+\end{itemize}
+
+\subsection{Reduct}
+
+I Rough set permettono di calcolare i reduct, ovvero gli insiemi di attributi più 
+significativi per prendere una decisione e questi sono utili per definire delle 
+regole per effettuare le decisioni a partire dal sottoinsieme di attributi.
+
+Scelta la tabella, per calcolare i reduct posso calcolare la partizione degli oggetti 
+eliminando ogni volta uno o più attributi, l'insieme di attributi minimo che preserva 
+la partizione iniziale coincide con un \textbf{Reduct}. 
+
+\begin{definizione}[\textbf{Reduct}]
+    Sia $A\subseteq B\subseteq Att$, $A$ è un \textbf{reduct} di $B$ se :
+    \begin{itemize}
+        \item $\Pi_A = \Pi_B$
+        \item $\not\exists C \subset A, \Pi_C=\Pi_B$
+    \end{itemize}
+    insieme minimale di attributi che mi rappresenta la stessa partizione (preservazione 
+    della partizione e minimalità)
+\end{definizione}
+\begin{definizione}[\textbf{attributo indispensabile}]
+    Sia $a \in A\subseteq Att$ è un \textbf{attributo indispensabile} in $A$ se $\Pi_A \ne \Pi_{A-\{a\}}$
+\end{definizione}
+\begin{definizione}[\textbf{Core}]
+    Il \textbf{Core} è l'insieme indispensabile di attributi in $Att$ ovvero l'intersezione 
+    di tutti i reduct in $Att$.
+\end{definizione}
+
+Dati $n$ attributi allora esistono $\mathcal{O} \left(\frac{3^n}{\sqrt{n}}\right)$ reduct.
+
+Trovare il reduct più piccolo è più di NP completo e quindi una soluzione è parallelizzare 
+oppure si devono utilizzare delle euristiche.
+
+
+\subsection{Sistemi basati su regole}
+Posso utilizzare i Rough set per i sistemi basati su regole. 
+
+Se siamo nel caso di sistemi consistenti, dato un reduct allora si possono definire
+delle regole in base ai valori che assumono gli attributi, in questo modo possiamo 
+effettuare delle decisioni.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/rule-based-system-rough.png}
+\end{figure}
+
+In caso di sistemi inconsistenti, il ragionamento cambia e non possiamo più basarci 
+sulla \textbf{decisione} esata degli oggetti, bensì dobbiamo basarci sulla 
+\textbf{decisione generalizzata}.
+
+\begin{definizione}[\textbf{Estensione reduct alla decisione generalizzata}]
+    Sia $A\subseteq B\subseteq Att$, $A$ è un \textbf{reduct} di $B$ se:
+    \begin{itemize}
+        \item $\delta_A = \delta_B$ (rimuovo inconsistenza)
+        \item $\not\exists C \subset A, \delta_C=\delta_B$
+    \end{itemize}
+\end{definizione}
+
+In questo modo risolvo l'inconsistenza a discapito di un'incertezza nelle regole,
+infatti non ho una classificazione corretta, ma è sempre una classificazione ambigua ma senza errori.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/rule-based-system-rough-apr.png}
+\end{figure}
+
+Un altra soluzione all'inconsistenza del sistema  è valutare l'\textbf{indipendenza degli attributi}, 
+
+\begin{definizione}[\textbf{Coefficiente di dipendenza}]
+    sia $S(U)$ un decision system, sia $A\subseteq Att$ un insieme di attributi,
+    $X_i$ le classi di decisione. Il \textbf{coefficiente di dipendenza} di decisione 
+    $d$ dagli attributi $A$ è 
+    $$Dip(A, d) = \frac{\sum |L_A(X_i)|}{|X|}$$
+
+\end{definizione}
+
+Il coefficiente specifica quanti oggetti riesco a caratterizzare con certezza per 
+l'insieme di attributi $A$ sulla decisione $d$ ($Dip(A, d) =1$ è un sistema consistente). 
+
+\begin{definizione}[\textbf{Estensione reduct al coefficiente di dipendenza}]
+    sia $S(U)$ un decision system,  $A\subseteq B\subseteq Att$, $A$ è un \textbf{reduct} di $B$ se:
+    \begin{itemize}
+        \item $Dip(A,d) =Dip(B,d)$ (rimuovo inconsistenza)
+        \item $\not\exists C \subset A, Dip(C,d) =Dip(B,d)$
+    \end{itemize}
+\end{definizione}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/rule-based-system-rough-apr2.png}
+\end{figure}
+
+Un modo per alleggerire le varie richieste è quello di considerare reduct approssimati,
+quindi non vado più a valutare attributi indispensabili/inutili, valuto quanto 
+un attributo è significativo. 
+
+Utilizziamo il coefficiente di dipendenza e valuto quanto 
+varia il ocefficiente eliminando una porzione degli attributi.
+$$Dip(C,d) = \frac{\sum_{min}^{max}|L_C(U_i)|}{|U|}$$
+quindi ogni volta probo a rimuovere $B$ attributi e calcolo quanto varia il coefficiente
+di dipendenza, se rimane sotto una soglia allora va bene altrimenti cerco nuovi 
+attributi.
+$$\frac{Dip(C,d)-Dip(C-B,d)}{Dip(C,d)} = \begin{cases}
+    =0 & \text{def prec.}\\
+    \le \epsilon 
+\end{cases}$$
+
+\begin{nota}
+    In caso di attributi continui si fa una discretizzazione.
+\end{nota}
+
+Le regole le definiamo in questo modo 
+$$r:U \to (d=v)$$
+$match(r) = |U|$
+$support(r) = |U\cap (d=v)|$
+$consistenza = \frac{support(r)}{match(r)}$
+$u$ oggetti.$(d= v)$ decisione uguale $v$
+
+$r=(temp = 36-37)\to (D=no)$ in numero di oggetti che metchnano è $match(r)=3$ 
+mentre $support(r)= 2$ quanti sono $no$ tra quelli che metchano.
+
+
+\begin{esempio}
+    Data la relazione $xI_Ay$ di discernibilità, abbiamo $n$ oggetti $|U|=n$ allora 
+    dobbiamo definire una matrice $n\times n$ 
+    $$c_{ij}= \{a\in A: F(a,x_i)\ne F(a,x_j)\}$$
+    $A$ attributi.
+$$
+    \begin{array}{cccccc}
+        x_U & a&b&c&d&e\\
+        x_1 & 0&1&1&1&1\\
+        x_2 & 1&1&0&1&0\\
+        x_3 & 1&0&0&1&1\\
+        x_4 & 1&0&0&1&0\\
+        x_5 & 1&0&0&0&0\\
+        x_6 &1&1&0&1&1\\
+    \end{array}
+    $$  
+    La matrice di discernibilità è simmetrica e sulla diagonale $\emptyset$ e 
+    $d_{ij}$ contiene di tutti gli attributi comuni a $x_i,x_j$.   
+    $$
+    \begin{array}{ccccccc}
+        x_U & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\
+        x_1 & &1&1&1&1\\
+        x_2 & \{a,d,e\}&1&0&1&0\\
+        x_3 & \{a,c,d,e\}&0&0&1&1\\
+        x_4 & 1&0&0&1&0\\
+        x_5 & 1&0&0&0&0\\
+        x_6 &1&1&0&1&1\\
+    \end{array}
+    $$
+
+    Questa mi permette di ottenere il $core=\{a\in A: c_{ij}= \{a\}\}$
+
+    Per calcolare i reduct: definsco una funzione booleana basandomi sula matrice 
+    discernibilità composta da conciuzioni degli elementi $\lor c_{ij}$ 
+    $$f(a,b,c,d,e,o)=(a\lor d\lor o)\land (a\lor d\lor c\lor e)$$
+
+    and di tutte le entry della matrice di discernibilità, ogni entri coincide con un 
+    or degli attributi. elimino le clasole contenenti elementi minimali
+
+    $$f(a,b,c,d,e,o)= c\land e\land o \land (a\lor d)\land \dots$$
+    La devo trasformare in forma normale disgiunta
+    $$f(a,b,c,d,e,o)= (c\land e\land o \land a)\lor(c\land e\land o \land d)$$
+    e questi sono tutti i reduct $c\land e\land o \land a$ e $c\land e\land o \land d$.
+    Quello che abbiamo fatto è calcolcare gli implicanti primi della funzione booleana
+    ovvero mi basta conoscere questi valori per decidere la tabella finale.
+\end{esempio}
+
+Abbiamo La matrice di discernibilità permette di avere un modo per calcolare i reduct 
+attraverso la riduzione.
+\subsection{Fuzzy Rough Set}
+noi abbiamo fuzzy per rappresentare il vago e poi abbiamo Roughset che mi permette 
+di suddividere gli oggetti, ovvero la granularità dell'universo (basati su insiemi e relazioni)
+Possiamo unire i concetti usando fuzzy set e relazione fuzzy (quanto un elemento è
+in relazione con un elemento). Per definire le approssimazioni si usano le $t$-norme 
+e $t$-conorme (approssimo un insieme fuzzy attraverso due insiemi fuzzy).
+
+
+
 
 
 \section{Belief function}
