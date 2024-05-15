@@ -969,3 +969,111 @@ l'informazione della funzione in quello specifico punto. Al contrario, i coeffic
 $a_k$ associati ai vettori $w_k$ assegnano una certa importanza a determinate
 frequenze. Se rimuoviamo i coefficienti meno significativi, possiamo ottenere una
 compressione della funzione. Questo è alla base del formato jpeg.
+
+\begin{nota}
+    Nel caso di funzione discrete, la loro approssimasione mediante FFT non 
+    presenta i \textbf{fenomeni di Gibbs}. Questo è dato dal fatto che nel continuo 
+    noi stiamo
+    $$f(x)=a_0+\sum_{k=1}^{+\infty} a_k\cos (\frac{\pi k}{L}x)$$
+    Quindi dobbiamo rappresentare una somma di termini infinita che è impossibile 
+    da rappresentare.
+    
+    Al contrario le funzioni discrete allora noi rappresentiamo la funzione continua
+    con un numero finito $N$ quindi la sommatoria è finita.
+\end{nota}
+
+\begin{nota}
+    Più le funzioni sono irregolari allora più la trasformata discreta funziona 
+    male.
+\end{nota}
+
+\section{Generalizzazione al 2D}
+
+Applicare la DCT consiste a 
+$$f_N = \sum_{i=0}^{N-1} c_i e_i$$ 
+
+Possiamo applicare la DCT estendendola allo spazio delle matrici $\mathbb{R}^{n\times m}$,
+quindi possiamo pensare 
+$$A=\sum_{i=0}^{N-1} \sum_{j=0}^{N-1}c_{ij}E_{ij}$$
+Dove $E_{ij}$ è la base canonica.
+
+Una generica matrice $E_{ij}$ ha tutte entrate nulle tranne $e_{ij}=1$ allora 
+le possiamo rappresentare come prodotto di vettori
+$$E_{ij} = e_i \cdot e_j^t$$
+
+Quindi alla fine si avrà
+$$A=\sum_{i=0}^{N-1} \sum_{j=0}^{N-1}c_{ij}e_i e_j^t$$
+
+\begin{definizione}
+    Presa $A,B\in \mathbb{R}^{n\times m}$ il loro \textbf{prodotto interno} è dato 
+    da
+
+    $$A:B = \sum_{i=0}^{n-1} \sum_{j= 0}^{m-1} a_{ij}b_{ij}$$
+\end{definizione}
+
+Rispetta le stesse proprietà del prodotto interno. 
+\begin{nota}
+    Date $A,B$ matrici allora $A:B=0$ allora gli spazi vettoriali generati da $A,B$
+    sono ortogonali, ovvero prese due coppie di vettori uno da $A$ e uno da $B$, 
+    allora questi due sono ortogonali.
+\end{nota}
+
+Con nl ostesso ragionamento noi quando dovevamo ottenere un coefficiente di $f_N$ 
+facevamo 
+$$e_j\cdot f_N = \left[\sum_{i=0}^{N-1}c_i e_i\right] e_j\iff (f_N)_j = c_j$$
+$$E_{ij}\cdot A = \left[\sum_{i=0}^{N-1}\sum_{j=0}^{M-1}c_{ij} E_{il}\right]  E_{ls} \iff a_{ls} = c_{ls} $$
+
+Come nel caso ad una dimensione, a noi interessa definire una base dello spazio delle 
+matrici $W_{ij}$ (equivalente ai $w_i$ nella singola dimensione) composta da coseni 
+tale che sia una base ortogonale e non locale. Questo è possibile rispetto alla 
+seguente equazione
+
+$$W_{ij} = w_i\cdot w_j^t = \sum_{i=0}^{N-1} \sum_{j=0}^{M-1} \cos\left(\pi i\frac{2l+1}{N}\right)\cos\left(\pi j\frac{2j+1}{M}\right)$$
+
+Ad una dimensione, la base ortogonale dei vettori $(w_k)_i = \cos \left(\frac{\pi k}{L} \frac{2i+1}{N}\right)$
+per cui 
+$$w_k \cdot w_s = \begin{cases}
+    0 & k\ne s\\
+    \ne 0 & k = s
+\end{cases}$$
+
+A 2 dimensioni dobbiamo dimostrare che sia una base ortogonoale
+\begin{teorema}
+    Presi $w_k\in \mathbb{R}^N$ e $w_l \in \mathbb{R}^M$, l'insieme delle matrici 
+    $W_{kl}\in \mathbb{R}^{N\times M}$ sono ortogonali
+    \begin{proof}
+        Dobbiamo dimostrare che $W_{kl} : W_{st} = \begin{cases}
+            0 & (k,l)\ne (s,t)\\
+            \ne 0 & (k,l)= (s,t)
+        \end{cases}$.
+
+        Possiamo dire che 
+        $$W_{kl} : W_{st} = \sum_{i=0}^{N-1}\sum_{j=0}^{M-1}(W_{kl})_{ij} \cdot (W_{st})_{ij} =$$
+        $$= \sum_{i=0}^{N-1}\sum_{j=0}^{M-1}\left[\cos\left(\frac{\pi k}{L}\frac{2i+1}{N}\right)\cos\left(\frac{\pi l}{L}\frac{2j+1}{N}\right)\right] \cdot \left[\cos\left(\frac{\pi s}{L}\frac{2i+1}{N}\right)\cos\left(\frac{\pi t}{L}\frac{2j+1}{N}\right)\right]=$$ 
+        $$= \sum_{i=0}^{N-1} \left[\cos\left(\frac{\pi k}{L}\frac{2i+1}{N}\right)\cos\left(\frac{\pi s}{L}\frac{2i+1}{N}\right)\right] \cdot \sum_{j=0}^{M-1}\left[\cos\left(\frac{\pi l}{L}\frac{2j+1}{N}\right)\cos\left(\frac{\pi t}{L}\frac{2j+1}{N}\right)\right]=$$ 
+        $$= \sum_{i=0}^{N-1} \left[(w_k)_i(w_s)_i\right] \cdot \sum_{j=0}^{M-1}\left[(w_l)_j(w_t)_j\right]=
+         \left[(w_k)(w_s)\right] \cdot \left[(w_l)(w_t)\right]=\begin{cases}
+            \frac{N}{2} \cdot \frac{M}{2} = \frac{NM}{4}& k= s\ne 0 \land  l= t \ne 0\\
+            N \cdot \frac{M}{2} = \frac{NM}{2}& k= s= 0 \land  l= t \ne 0\\
+            \frac{N}{2} \cdot M = \frac{NM}{2}& k= s\ne 0 \land  l= t =0\\
+            N\cdot M& k= s=  l= t= 0\\
+            0& altrimenti\\
+        \end{cases}$$
+        Derivante dall'ortogonalità della base $\{w_i\}$ di $\mathbb{R}^N$ 
+    \end{proof}
+\end{teorema}
+
+Quindi data la matrice $A$ e i suoi coefficienti nella base $E_{ij}$ trovare i 
+coefficienti nella base $W_{lm}$  (DCT2)
+
+$$A= \sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij}W_{ij}$$
+Quindi se vogliamo trovare il coefficiente $lm$ 
+$$W_{lm}:A = \sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij}\left(W_{ij}:W_{lm}\right) \iff$$
+$$\iff \sum_{i= 0}^{N-1}\sum_{j=0}^{M-1}\alpha_{ij}\cos (\frac{\pi l}{L}\frac{2i+1}{N}) \cos (\frac{\pi m}{L}\frac{2j+1}{M})= \alpha_{lm}\left(W_{lm}:W_{lm}\right)$$
+
+Quindi data la matrice $A$ e i suoi coefficienti nella base $W_{ij}$ trovare i 
+coefficienti nella base $E_{lm}$  (DCT2)
+
+$$E_{lm} : A= \left(\sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij}W_{ij}\right)E_{lm} = \sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij} \cos \left(\frac{\pi i}{L}\frac{2l+1}{N}\right)\cos \left(\frac{\pi j}{L}\frac{2m+1}{M}\right)$$
+
+Questa complessità $\mathcal{O}(N^3)$ e tramite FFT $\mathcal{O}(N^2\log N)$
