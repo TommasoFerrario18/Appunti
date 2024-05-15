@@ -461,3 +461,102 @@ Oltre a questa divisione, le metriche possono essere divise tra:
             persone che effettuano la misura.
 \end{itemize}
 
+
+Quando noi abbiamo un'etichetta in un record ppossiamo avere:
+\begin{itemize}
+      \item accuratezza semantica: ex: quando sbagliamo ad etichettare e associamo 
+      $1$ al posto di $0$ (dato nei valori ammissibili ma semantimaente corretto)
+      \item accuratezza sintattica: ex: etichetta può assumere un valore $0,1$ noi 
+      assegnamo $5$. (dato nei valori ammissibili)
+\end{itemize}
+Questo ragionamento si può applicare anche a tutti gli attributi del dataset.
+
+(closeness)
+Più difficile dimostrare l'accuratezza semantica rispetto a quella sintattica. 
+per controllare l'accuratezza sintattica cerchiamo un elenco di tutti valori del dominio 
+dell'attributo e si cerca il valore a distanza minima, in caso di più valori allora 
+scegliamo quello più coerente col record facendo controlli incrociati con altri attrbuti 
+dello stesso record o si inferisce dalle frequenze dei valori dell'attributo 
+degli altri record.
+
+Spesso non abbiamo un insieme completo di valori del dominio dell'attributo
+quindi si inferisce dagli altri valori degli attributi dello stesso record o altri 
+valori dello stesso attributo su record diverso.
+
+Per controllare l'accuratezza di nomi possiamo utilizzare la distanza di edit normalizzata 
+($1-ED(x,y)/n$) o no ($ED(x,y)$). Abbiamo diverse tipologie di ED che si applicano 
+in base al formato del dato. Esiste la distanza di soundex che confronta la fonentica.
+
+Abbiamo la completezza che specifica la copertura con la quale il fenomeno osservato
+è rappresentato nell'insieme di dati. 
+
+Esistono diversi livelli di completezza.
+Possiamo avere anche completezza di oggetto.
+
+Un'altra metrica di currency che misura la rapidita di aggiornamento. Misurabile se 
+c'è un log degli arrivi e degli aggiornamenti oppure possiamo riferirci al metadato 
+di ultimo aggiornamento.
+
+Un'altra metrica è la tempestività che misura quanto i dati sono aggiornati rispetto 
+a un particolare processo (o ai processi) che li realizza.
+
+Consistenza :
+\begin{itemize}
+      \item  consistenza dei dati con i vincoli di integrtà definiti sullo schema 
+      \item consistenza sui vincoli di integrità definito sulla base dei dati (Ex: codice fiscale)
+\end{itemize}
+I vincoli sulla consistenza si posso esprimere su gruppi di attributi, si posso specificarli:
+\begin{itemize}
+      \item vincoli di integrità nel modello relazionale
+      \item vincoli di integrità in logica
+      \item data edit 
+\end{itemize}
+Correggere il dato non è sempre possibile.
+
+Accessibilità
+Esprime la capacità di un utente di accedere ai dati a partire dalla propria cultura, stato 
+fisico e psichico e della tecnologie diponibili.
+
+In molti casi l'errore di qualità dipende da diversi fattori, una bassa qualità di 
+aggiornamento allora può essere che il dato abbiamo una accuratezza minore. Il problema 
+è che non possiamo avere massima qualità su qualsiasi metrica il problema è che 
+spesso è impossibile, possiamo pensare di avere massima accuratezza a discapito 
+dell'aggiornamento temporale. Ex: misurare la popolazione che vive a Milano, non 
+possiamo basarci sulla residenza, possiamo pensare di usare le celle telefoniche, ma
+non si ha la certezza sull'accuratezza.
+
+Possiamo pulire i dati secondo un approccio Datadriven, questo funziona quando 
+riceviamo tutti i dati e integriamo, fattibile solo quando raccogliamo una volta i dati
+
+Posisamo pulire i dati secondo un approccio processdrive, ovvero puliamo quando 
+riceviamo i singoli dati prima di integrare, in questo modo si pulisce alla sorgente 
+e non nel dataset. Più fattibile quando abbiamo flussi di dati.
+Esistono due approcci:
+\begin{itemize}
+      \item precess drive: 
+      \item procewss redesign:
+\end{itemize}
+
+I tipi di errori che si vogliono evitare:
+\begin{itemize}
+      \item noisy labels: informazioni insufficienti date all'esperto, erorri 
+      nell'etichetta, soggettività nell'etichettatura, problemi di comunicazione o codifica.
+      Questi errori causano riduzione delle performance, possibili errori della 
+      feature selection\dots
+      I possibili metodi per risolverli scelgo algoritmi robusti rispetto agli errori
+      che sono difficili da progettare e non facilmente portabili e applicabili in altri 
+      contesti. Oppure approccio ai dati, eliminazione delle etichette sbagliate \dots
+      Questi approcci sono tipo costruire un filtro per identificare eventuali errori
+      nelle labels, SVM e CNN.
+      \item outliers: causati da eorri di data entruu, misura strumento, sperimentali,
+      campionamento, procedure nella fase di preprocessing oppure origine naturale.
+      Gli algoirtmi sono sensibili alla distribuzione. La regressione è sensibile 
+      agli outliers in base alla loro posizione, quando ho un punto estremo e la 
+      distribuzione è sparsa e anche quando la distribuzione è compatta e un outlier estremo
+      fuori dalla 
+      \item overlapping data points:
+      \item 
+\end{itemize}
+
+L'ordine con cui si pulisce i dati cambia l'efficacia dei metodi. Esistono diversi 
+tool per pulire i dati
