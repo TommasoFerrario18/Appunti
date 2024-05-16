@@ -170,7 +170,7 @@ quindi la proprietà Markoviana.
         P(\langle Sn, R,R,R,Sw,Sw \rangle) = P(Sn) \cdot P(R|Sn) \cdot P(R|R)
         \cdot P(R|R)\cdot P(Sw|R) \cdot P(Sw|Sw)
     \end{equation*}
-    La probabilità iniziale $P(Sn) = \pi_{Sn}$, dove $\pi$ rappresenta la 
+    La probabilità iniziale $P(Sn) = \pi_{Sn}$, dove $\pi$ rappresenta la
     distribuzione iniziale della variabile aleatoria.
 \end{esempio}
 Quando la serie storica è molto lunga il prodotto tra probabilità tende a $0$,
@@ -364,42 +364,44 @@ L'inferenza con questi modelli è di $4$ tipologie:
           \begin{equation}
               P(X_t | e_{1:t})= f(e_t, P(X_{t-1}|e_{1:t-1}))
           \end{equation}
-          In questo caso, le osservazioni si fanno partire da $1$, si può
-          scegliere se raccoglierle da $1$ a $0$.
+          In questo caso, le osservazioni partono da $1$, si può scegliere se
+          raccoglierle da $1$ a $0$.
 
-          Dato il risultato del filtraggio al tempo $t$, si proietta in avanti
-          la distribuzione dello stato corrente al tempo $t + 1$. In seguito, si
-          aggiorna la distribuzione dello stato corrente al tempo $t + 1$ con
-          l'osservazione al tempo $e_{t + 1}$. Infine, si ripete il processo
-          ricorsivamente.
-
-          Generalizzando a $t' \in \{0,t-1\}$, per calcolare un generico $P(X_{t'+1}|e_{1:t'+1})$
-          utilizziamo la seguente formula:
+          Questa operazione è composta da due fasi:
+          \begin{itemize}
+              \item \textbf{Predizione}: calcolo della distribuzione dello stato
+                    corrente al tempo $t$ dato l'osservazione fino al tempo $t-1$
+                    \begin{equation}
+                        P(X_t | e_{1:t-1})
+                    \end{equation}
+              \item \textbf{Aggiornamento}: calcolo della distribuzione dello stato
+                    corrente al tempo $t$ data l'osservazione al tempo $t$:
+                    \begin{equation}
+                        P(e_t | X_{t})
+                    \end{equation}
+          \end{itemize}
+          Queste due operazioni vengono unite in un unica formula:
           \begin{equation}
-              P(X_{t'+1} | e_{1:t'+1}) = \alpha P(e_{t'+1}|X_{t'+1}, e_{1:t})\cdot P(X_{t' + 1}|e_{1:t'})
-              =\alpha P(e_{t'+1}|X_{t'+1})\cdot P(X_{t'+1}|e_{1:t'})
+              P(X_{t} | e_{1:t}) = \alpha P(e_{t}|X_{t})\cdot P(X_{t}|e_{1:t-1})
           \end{equation}
           dove $\alpha$ è una costante di normalizzazione.
 
-          La formula si ottiene prima separando l'evidenza al tempo $t'+1$
-          rispetto al tempo $t'$, successivamente è stata utilizzata la regola
-          di Bayes e successivamente l'assunzione di indipendenza tra $e_{t'}$ e
-          $e_{t'+1}$.
-
-          Quindi, per ottenere la predizione del prossimo stato, si calcola:
+          La formula si ottiene prima separando l'evidenza al tempo $t$
+          rispetto al tempo $t - 1$:
           \begin{equation*}
-              \begin{array}{l}
-                  P(X_{t'+1} | e_{1:t' + 1}) = \alpha P(e_{t + 1} | X_{t + 1})
-                  \sum_{x_{t'}}P(X_{t'+1}|x_{t'},e_{1:t'}) P(x_{t'}|e_{1:t'}) = \\
-                  \alpha P(e_{t'+1}|X_{t'+1})\cdot \sum_{x_{t'}}P(X_{t'+1}|x_{t'}) P(x_{t'}|e_{1:t'})
-              \end{array}
+              P(X_{t} | e_{1:t}) = P(X_{t} | e_{1:t - 1}, e_{t})
           \end{equation*}
-          dove $x_{t'}$ sono gli stati possibili al tempo $t'$.
-    \item \textbf{Previsione}: coincide col filtraggio privo dell'aggiunta di nuove
-          osservazioni. Coincide col calcolare:
+          Successivamente, utilizzando la regola di Bayes si riscrive la formula:
           \begin{equation*}
+              P(X_{t} | e_{1:t - 1}, e_{t}) = \alpha P(e_{t}|X_{t}, e_{1:t-1})\cdot P(X_{t}|e_{1:t-1})
+          \end{equation*}
+          Infine, attraverso l'assunzione di indipendenza tra $e_{t - 1}$ e $e_{t}$
+          otteniamo la formula finale.
+    \item \textbf{Previsione}: coincide col filtraggio privo della fase di
+          aggiornamento attraverso le osservazioni. Coincide col calcolare:
+          \begin{equation}
               P(X_{t+k } | e_{1:t}) = \sum_{x_t} P(X_{t+k}|x_t) P(x_t)
-          \end{equation*}
+          \end{equation}
           Più allunghiamo l'orizzonte di previsione, più l'incertezza aumenta,
           più breve sarà il tempo per raggiungere un punto fisso per una predizione
           (distribuzione stazionaria) e più ignoto sarà il futuro.
@@ -422,27 +424,27 @@ L'inferenza con questi modelli è di $4$ tipologie:
               P(X_k | e_{1:t}) = P(X_k | e_{1:k}, e_{k+1:t}) = \alpha P(X_{k}|e_{1:k})
               P(e_{k+1:t}|X_k,e_{1:k}) = \alpha P(X_{k}|e_{1:k}) P (e_{k+1:t}|X_k)
           \end{equation}
+          dove $\alpha$ è una costante di normalizzazione, mentre:
+          \begin{itemize}
+              \item $P(X_{k}|e_{1:k})$ è il filtraggio in avanti
+              \item $P(e_{k+1:t}|X_k)$ è una propagazione all'indietro delle osservazioni.
+          \end{itemize}
           Si sfrutta la regola di Bayes e l'indipendenza condizionata. Questa
           formula si può calcolare in modo ricorsivo.
           \begin{equation*}
-              P(X_k | e_{1:t}) =\alpha P(X_{k}|e_{1:k}) P (e_{k+1:t}|X_k) =\alpha f_{1:k}b_{k+1:t}
+              P(X_k | e_{1:t}) = \alpha P(X_{k}|e_{1:k}) P(e_{k+1:t}|X_k) = \alpha f_{1:k}b_{k+1:t}
           \end{equation*}
           dove $f_{1:k}$ consiste nel filtrare in avanti da $1$ a $k$ mentre
           $b_{k+1:t}$ viene calcolato mediante la procedura ricorsiva di backward
           che procede all'interno di $t$.
           \begin{equation}
-              \begin{array}{l}
-                  b_{k+1:t} = P(e_{k+1:t}|X_k)=\sum_{x_{k+1}} P(e_{k+1:t}|X_k,x_{k+1})
-                  P(x_{k+1}|X_k)=\sum_{x_{k+1}} P(e_{k+1:t}|x_{k+1}) P (x_{k+1}|X_k)= \\
-                  = \sum_{x_{k+1}} P(e_{k+1},e_{k+2:t}|x_{k+1}) P(x_{k+1}|X_k) =
-                  \sum_{x_{k+1}} P(e_{k+1}|x_{k+1}) P(e_{k+2:t} | x_{k+1}) P(x_{k+1}|X_k)
-              \end{array}
+              b_k = \alpha \cdot T \cdot E_k \cdot b_{k+1}
           \end{equation}
           dove:
           \begin{itemize}
-              \item $P(e_{k+1}|x_{k+1})$ è il modello sensoriale
-              \item $P(e_{k+2:t} | x_{k+1})$ è la ricorsione
-              \item $P(x_{k+1}|X_k)$ è il modello di transizione
+              \item $T$ è la matrice di transizione
+              \item $E_k$ è la matrice di emissione
+              \item $b_{k+1}$ è il vettore di backward per il tempo $k+1$
           \end{itemize}
           Complessità spaziale molto elevata, in quanto si hanno molti stati e
           sequenze lunghe e incapacità di lavorare in ambienti online (si risolve
@@ -453,7 +455,7 @@ L'inferenza con questi modelli è di $4$ tipologie:
           \begin{equation}
               \arg\max_{x_1:t} P(x_{1:t}|e_{1:t})
           \end{equation}
-          Supponiamo di essere in stati binari e che la sequenza delle osservazioni
+          Se supponiamo di avere stati binari e che la sequenza delle osservazioni
           sia lunga $n$, questo significa che abbiamo $2^n$ possibili sequenze
           di stati.
 
@@ -461,15 +463,33 @@ L'inferenza con questi modelli è di $4$ tipologie:
           di ogni cammino è il prodotto delle probabilità di transizione per le
           probabilità delle osservazioni rilevate ad ogni stato.
 
-          Utilizzeremo l'algoritmo di \textbf{Viterbi} che si basa sull'assunzione
-          che esiste una relazione ricorsiva fra i cammini più probabili verso
-          lo stato $x_{t+1}$ e i cammini più probabili verso ogni stato $x_t$.
+          Infine, utilizzeremo l'algoritmo di \textbf{Viterbi}, il quale si basa
+          sull'assunzione che esiste una relazione ricorsiva fra i cammini più
+          probabili verso lo stato $x_{t+1}$ e i cammini più probabili verso
+          ogni stato $x_t$.
+
           Possiamo scrivere tale relazione come:
           \begin{equation}
               \max _{x_1,\dots, x_t} P(x_1,\dots,x_t,X_{t+1}|e_{1:t+1}) = \alpha
               P(e_{t+1})\max_{x_t} \left(P(X_{t+1}|x_t)\max_{x_1,\dots,x_{t-1}}
               P(x_1,\dots,x_{t-1},x_t|e_{1:t})\right)
           \end{equation}
+          dove $\alpha$ è una costante di normalizzazione.
+
+          Riassumendo, l'algoritmo per la spiegazione più probabile è il seguente:
+          \begin{itemize}
+              \item Si ha una "linea" per ogni possibile stato della variabile.
+              \item Per ogni stato, si calcolano tutte le probabilità con cui
+                    si può raggiungere tale stato.
+              \item Si calcola la probabilità di raggiungere lo stato $i$ al tempo
+                    $t$ come il prodotto della probabilità di raggiungere lo stato
+                    $i$ al tempo $t-1$ e la probabilità di transizione dallo
+                    stato $i$ al tempo $t$.
+              \item Si effettua una scelta greedy, ovvero si sceglie lo stato con
+                    la probabilità maggiore e si utilizza tale probabilità per
+                    effettuare i conti successivi.
+              \item Per ricostruire la sequenza si parte dalla fine e si risale
+                    indietro seguendo le scelte greedy effettuate.
+          \end{itemize}
+          % ! Metto un esempio quando torno a casa che posso disegnare sul tablet
 \end{itemize}
-
-

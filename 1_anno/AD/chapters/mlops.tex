@@ -460,103 +460,145 @@ Oltre a questa divisione, le metriche possono essere divise tra:
       \item Oggettive: misure di qualità che non dipendono dalla percezione delle
             persone che effettuano la misura.
 \end{itemize}
-
-
-Quando noi abbiamo un'etichetta in un record ppossiamo avere:
+\subsection{Accuracy}
+Una misura che possiamo fare oer verificare la qualità di un dato è l'accuracy.
+Nello specifico, possiamo applicare questa metrica su dati alfanumerici,
+tuple e relazioni.
+\begin{definizione}[\textbf{Accuracy}]
+      L'\textbf{accuracy} è una misura di qualità che esprime quanto un dato è
+      vicino alla rappresentazione reale del fenomeno che si vuole rappresentare.
+\end{definizione}
+Dato che solitamente non conosciamo il valore reale del fenomeno, e che ottenerlo
+potrebbe essere costoso, possiamo distinguere due tipologie di accuracy:
 \begin{itemize}
-      \item accuratezza semantica: ex: quando sbagliamo ad etichettare e associamo 
-      $1$ al posto di $0$ (dato nei valori ammissibili ma semantimaente corretto)
-      \item accuratezza sintattica: ex: etichetta può assumere un valore $0,1$ noi 
-      assegnamo $5$. (dato nei valori ammissibili)
+      \item \textbf{Accuratezza semantica}: questa tipologia è definita quando si
+            è a conoscenza dei valori reali, e misura quanto il dato si avvicina
+            a questi valori.
+      \item \textbf{Accuratezza sintattica}: è definito come il grado con il quale
+            i dati rappresentano il mondo reale.
 \end{itemize}
-Questo ragionamento si può applicare anche a tutti gli attributi del dataset.
+\begin{nota}
+      Conoscere lo schema del dato pyò aiutare a valutare l'accuratezza.
+\end{nota}
+Come si può intuire dalle definizioni, risulta più difficile dimostrare l'accuratezza
+semantica rispetto a quella sintattica.
 
-(closeness)
-Più difficile dimostrare l'accuratezza semantica rispetto a quella sintattica. 
-per controllare l'accuratezza sintattica cerchiamo un elenco di tutti valori del dominio 
-dell'attributo e si cerca il valore a distanza minima, in caso di più valori allora 
-scegliamo quello più coerente col record facendo controlli incrociati con altri attrbuti 
-dello stesso record o si inferisce dalle frequenze dei valori dell'attributo 
-degli altri record.
+Un modo per controllare l'accuratezza sintattica è quello di ottenere un elenco
+di tutti valori del dominio dell'attributo e si cerca il valore a distanza minima.
 
-Spesso non abbiamo un insieme completo di valori del dominio dell'attributo
-quindi si inferisce dagli altri valori degli attributi dello stesso record o altri 
-valori dello stesso attributo su record diverso.
+Nel caso in cui si abbiano più valori, allora scegliamo quello più coerente col
+record facendo dei controlli incrociati con altri attributi dello stesso record,
+oppure è possibile inferire dalle frequenze dei valori dell'attributo degli altri
+record.
 
-Per controllare l'accuratezza di nomi possiamo utilizzare la distanza di edit normalizzata 
-($1-ED(x,y)/n$) o no ($ED(x,y)$). Abbiamo diverse tipologie di ED che si applicano 
-in base al formato del dato. Esiste la distanza di soundex che confronta la fonentica.
+Spesso non abbiamo un insieme completo di valori del dominio dell'attributo, quindi
+è possibile utilizzare dagli altri valori degli attributi dello stesso record o
+altri valori dello stesso attributo su record diverso.
 
-Abbiamo la completezza che specifica la copertura con la quale il fenomeno osservato
-è rappresentato nell'insieme di dati. 
+Per controllare l'accuratezza di stringhe possiamo utilizzare la distanza di edit
+normalizzata nel seguente modo:
+\begin{equation*}
+      1 - \frac{ED(x,y)}{n}
+\end{equation*}
+Abbiamo diverse tipologie di distanze che si applicano in base al formato del dato.
+\subsection{Completeness}
+Una misura di qualità che possiamo fare è la \textbf{completezza}. Essa specifica la
+copertura con la quale il fenomeno osservato è rappresentato nell'insieme di dati.
 
-Esistono diversi livelli di completezza.
-Possiamo avere anche completezza di oggetto.
-
-Un'altra metrica di currency che misura la rapidita di aggiornamento. Misurabile se 
-c'è un log degli arrivi e degli aggiornamenti oppure possiamo riferirci al metadato 
-di ultimo aggiornamento.
-
-Un'altra metrica è la tempestività che misura quanto i dati sono aggiornati rispetto 
-a un particolare processo (o ai processi) che li realizza.
-
-Consistenza :
+Esistono diversi livelli di completezza, in particolare:
 \begin{itemize}
-      \item  consistenza dei dati con i vincoli di integrtà definiti sullo schema 
-      \item consistenza sui vincoli di integrità definito sulla base dei dati (Ex: codice fiscale)
+      \item \textbf{Completezza di attributo}: misura il numero di valori nulli
+            rispetto al numero di record.
+      \item \textbf{Completezza di tupla}: misura il numero di valori nulli rispetto
+            al numero di attributi.
+      \item \textbf{Completezza di tabella}: misura il numero di valori nulli
+            rispetto al numero di valori possibili.
+      \item \textbf{Completezza di oggetto}: misura il numero di valori nulli
+            rispetto al numero di valori possibili.
 \end{itemize}
-I vincoli sulla consistenza si posso esprimere su gruppi di attributi, si posso specificarli:
+\subsection{Proprietà temporali}
+Un'altra metrica di qualità è la \textbf{currency}, la quale misura la rapidita
+di aggiornamento.Questa metrica è misurabile se c'è un file log degli arrivi e
+degli aggiornamenti, oppure possiamo riferirci al metadato di ultimo aggiornamento.
+
+Un'altra metrica è la \textbf{tempestività} che misura quanto i dati sono aggiornati
+rispetto a un particolare processo (o ai processi) che li realizza.
+\subsection{Consistenza}
+Alla consistenza possono essere associati due significati:
 \begin{itemize}
-      \item vincoli di integrità nel modello relazionale
-      \item vincoli di integrità in logica
-      \item data edit 
+      \item Consistenza dei dati con i vincoli di integrità definiti sullo schema.
+      \item Consistenza delle diverse rappresentazioni di uno stesso oggetto
+            della realtà presenti nella base di dati.
 \end{itemize}
-Correggere il dato non è sempre possibile.
-
-Accessibilità
-Esprime la capacità di un utente di accedere ai dati a partire dalla propria cultura, stato 
-fisico e psichico e della tecnologie diponibili.
-
-In molti casi l'errore di qualità dipende da diversi fattori, una bassa qualità di 
-aggiornamento allora può essere che il dato abbiamo una accuratezza minore. Il problema 
-è che non possiamo avere massima qualità su qualsiasi metrica il problema è che 
-spesso è impossibile, possiamo pensare di avere massima accuratezza a discapito 
-dell'aggiornamento temporale. Ex: misurare la popolazione che vive a Milano, non 
-possiamo basarci sulla residenza, possiamo pensare di usare le celle telefoniche, ma
-non si ha la certezza sull'accuratezza.
- 
-Possiamo pulire i dati secondo un approccio Datadriven, questo funziona quando 
-riceviamo tutti i dati e integriamo, fattibile solo quando raccogliamo una volta i dati
-
-Posisamo pulire i dati secondo un approccio processdrive, ovvero puliamo quando 
-riceviamo i singoli dati prima di integrare, in questo modo si pulisce alla sorgente 
-e non nel dataset. Più fattibile quando abbiamo flussi di dati.
-Esistono due approcci:
+I vincoli sulla consistenza si posso esprimere su gruppi di attributi, in particolare,
+possiamo specificare:
 \begin{itemize}
-      \item precess drive: 
-      \item procewss redesign:
+      \item Vincoli di integrità nel modello relazionale, come dipendenze funzionali
+            o integrità referenziale.
+      \item Vincoli di integrità in logica.
+      \item Data edit nelle indagini statistiche.
 \end{itemize}
+\begin{nota}
+      Non sempre si ha la possibilità di correggere un dato.
+\end{nota}
+\subsection{Accessibilità}
+Esprime la capacità di un utente di accedere ai dati a partire dalla propria
+cultura, stato fisico e psichico e della tecnologie disponibili.
 
+In molti casi la bassa qualità dei dati dipende da diversi fattori. Una bassa
+frequenza di aggiornamento può portare a una accuratezza minore del dato.
+
+Il problema è che non possiamo avere massima qualità su qualsiasi metrica. Possiamo
+pensare di avere massima accuratezza a discapito dell'aggiornamento temporale.
+
+Esiste una fase di data improvement che serve a migliorare la qualità dei dati.
+Questa fase può essere fatta seguendo due approcci:
+\begin{itemize}
+      \item \textbf{Data-driven}: si puliscono i dati una volta che sono stati
+            raccolti. Questo approccio funziona bene quando si raccolgono i dati
+            una volta sola.
+      \item \textbf{Process-driven}: si puliscono i dati prima di integrarli.
+            In questo approccio si puliscono i dati alla sorgente e non nel dataset.
+            Per la realizzazione di questo approccio si possono seguire due metodi:
+            \begin{itemize}
+                  \item \textbf{Process drive}: vengono inseriti dei checkpoint
+                        per controllare i dati che sono stati raccolti. Questo
+                        viene fatto per evitare che i dati sporchi vengano integrati.
+                  \item \textbf{Process redesign}: viene ridisegnato il processo
+                        di raccolta dei dati per evitare che i dati sporchi vengano
+                        integrati.
+            \end{itemize}
+\end{itemize}
+\subsection{Data quality for ML}
 I tipi di errori che si vogliono evitare:
 \begin{itemize}
-      \item noisy labels: informazioni insufficienti date all'esperto, erorri 
-      nell'etichetta, soggettività nell'etichettatura, problemi di comunicazione o codifica.
-      Questi errori causano riduzione delle performance, possibili errori della 
-      feature selection\dots
-      I possibili metodi per risolverli scelgo algoritmi robusti rispetto agli errori
-      che sono difficili da progettare e non facilmente portabili e applicabili in altri 
-      contesti. Oppure approccio ai dati, eliminazione delle etichette sbagliate \dots
-      Questi approcci sono tipo costruire un filtro per identificare eventuali errori
-      nelle labels, SVM e CNN.
-      \item outliers: causati da eorri di data entruu, misura strumento, sperimentali,
-      campionamento, procedure nella fase di preprocessing oppure origine naturale.
-      Gli algoirtmi sono sensibili alla distribuzione. La regressione è sensibile 
-      agli outliers in base alla loro posizione, quando ho un punto estremo e la 
-      distribuzione è sparsa e anche quando la distribuzione è compatta e un outlier estremo
-      fuori dalla 
-      \item overlapping data points:
-      \item 
+      \item \textbf{Noisy labels}: informazioni insufficienti date all'esperto,
+            errori nell'etichetta, soggettività nell'etichettatura, problemi di
+            comunicazione o codifica.
+
+            Questi errori causano riduzione delle performance, possibili errori
+            della feature selection\dots
+
+            I possibili metodi per risolverli sono:
+            \begin{itemize}
+                  \item Scegliere algoritmi robusti rispetto la presenza di errori
+                        nelle labels. Questi sono difficili da progettare e non
+                        facilmente portabili e applicabili in altri contesti.
+                  \item Approccio basato sui dati. Si eliminano le etichette sbagliate
+                        e si costruisce un filtro per identificare eventuali errori
+                        nelle labels, sfruttando SVM e CNN.
+            \end{itemize}
+      \item \textbf{Outliers}: causati da errori di data entry, misura strumento,
+            sperimentali, campionamento, procedure nella fase di preprocessing, 
+            oppure origine naturale.
+
+            Gli algoritmi possono essere più o meno sensibili alla distribuzione. 
+            Ad esempio, la regressione è sensibile agli outliers in base alla 
+            loro posizione.
+      \item \textbf{Overlapping data points}
+      \item \textbf{Inconsistency}
+      \item \textbf{Missing values}
 \end{itemize}
 
-L'ordine con cui si pulisce i dati cambia l'efficacia dei metodi. Esistono diversi 
-tool per pulire i dati
+L'ordine con cui si puliscono i dati cambia influenza l'efficacia dei metodi. 
+Esistono diversi tool che possono essere usati per pulire i dati.
