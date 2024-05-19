@@ -48,7 +48,7 @@ stato può essere puntuale o cumulativo.
     $X(t)$ può rappresentare il numero di visitatori fino al tempo $t$ (cumulativo),
     oppure può rappresentare il numero di visitatori al tempo $t$ (puntuale).
 \end{esempio}
-Un esempio di processo stocastico naive è il \textbf{Random Walk}. Questo processo
+Un esempio di processo stocastico naive è il \textbf{random Walk}. Questo processo
 vuole formalizzare l'idea di effettuare una camminata in cui la scelta del prossimo
 passo è casuale. Può essere descritto attraverso la seguente equazione:
 \begin{equation*}
@@ -109,7 +109,7 @@ distribuzione, si può assumere che sia uniforme.
 \end{nota}
 Questi processi si riferiscono a stati direttamente osservabili. Esistono anche
 le catene associate a stati non osservabili direttamente, in questo caso si
-parlerà di \textbf{Catena di Markov nascoste}.
+parlerà di \textbf{catena di Markov nascoste}.
 
 Se la probabilità di un certo evento è indipendente dal tempo $t$ la catena di
 Markov si definisce \textbf{stazionaria} e si ha che:
@@ -118,7 +118,7 @@ Markov si definisce \textbf{stazionaria} e si ha che:
 \end{equation}
 dove $p_{ij}$ specifica la probabilità di passare dal valore $X_t = i$ a $X_{t + 1} = j$.
 
-Quindi le catene di Markov possono essere rappresentate da una \textbf{Matrice di
+Quindi le catene di Markov possono essere rappresentate da una \textbf{matrice di
     transizione} (ad un passo), ovvero matrici quadrate di dimensione $n \times n$
 con $n$ che rappresenta il numero di stati possibili.
 
@@ -137,7 +137,7 @@ La matrice ha i seguenti vincoli $p_{ij} \geq 0$ e $\sum_{j=0}^{n}p_{ij}=1, \for
     Per i modelli stazionari la matrice di transizione rimane identica nel tempo.
 \end{nota}
 
-La rappresentazione grafica di una \textbf{Catena di Markov} è un grafo in cui i
+La rappresentazione grafica di una \textbf{catena di Markov} è un grafo in cui i
 nodi rappresentano gli stati che la variabile può assumere ($i,j,\dots$), mentre
 gli archi rappresentano la probabilità di passare da uno stato all'altro. Quindi
 la matrice di transizione diventa la matrice di adiacenza del grafo.
@@ -148,18 +148,19 @@ la matrice di transizione diventa la matrice di adiacenza del grafo.
     \label{fig:markovChain}
 \end{figure}
 
-A livello formale, per definire una \textbf{Catena di Markov} devo avere:
+A livello formale, per definire una \textbf{catena di Markov} devo avere:
 \begin{itemize}
-    \item Un insieme di stati $S = \{S_1, S_2, \dots, S_n\}$
+    \item Un insieme di stati $S = \{S_1, S_2, \dots, S_n\}$, ovvero i possibili
+          valori che la variabile può assumere.
     \item La probabilità di transizione tra stati: $p_{ij} = P(X_{t+1} = S_i | X_t = S_j)$
     \item La distribuzione iniziale degli stati: $\pi_i = P[X_0 = S_i]$
 \end{itemize}
-
 Se non si conosce la distribuzione iniziale, allora si assume sia quella uniforme.
-mentre se si conosce con certezza il valore che assume la variabile all'inizio,
-allora, assumendo che $i$ sia il valore assunto da tale variabile, si avrà che
-$\pi_i = 1, \forall j \neq i, \pi_j=0$.
-
+Mentre se si conosce con certezza il valore che assume la variabile all'inizio,
+allora, considerando $i$ come il valore assunto da tale variabile, si avrà che:
+\begin{equation*}
+    \pi_i = 1, \forall j \neq i, \pi_j = 0
+\end{equation*}
 Per calcolare la \textbf{probabilità di una serie storica} mi basta effettuare
 il prodotto della probabilità di ciascuno stato dato quello precedente, sfruttando
 quindi la proprietà Markoviana.
@@ -177,17 +178,16 @@ Quando la serie storica è molto lunga il prodotto tra probabilità tende a $0$,
 quindi conviene passare al logaritmo.
 \subsection{Inferenza}
 Possiamo effettuare inferenza di valori per istanti di tempo più lontani.
-
 Data la matrice di transizione, possiamo calcolare la probabilità che dopo $n$
 passi si trovi in uno stato specifico $j$. Per fare ciò, dovremo calcolare:
 \begin{equation}
-    P(X_{m + n} = j | X_{m} = i) = P(X_n = j | X_0 = i)=P_{ij}(n)
+    P(X_{m + n} = j | X_{m} = i) = P(X_n = j | X_0 = i)=p_{ij}(n)
 \end{equation}
-dove $P_{ij}(n)$ rappresenta la probabilità di passare dallo stato $i$ allo stato
+dove $p_{ij}(n)$ rappresenta la probabilità di passare dallo stato $i$ allo stato
 $j$ in $n$ passi. Questa probabilità può essere calcolata attraverso la seguente
 formula:
 \begin{equation}
-    P_{ij}(n) = \prod_{i = 1}^{n} P_{ij} \equiv P^n_{ij}
+    p_{ij}(n) = \prod_{i = 1}^{n} p_{ij} \equiv p^n_{ij}
 \end{equation}
 ovvero, si calcola il prodotto riga per colonna della matrice di transizione
 per $n$ volte. In questo modo, si considerano tutti i possibili percorsi che
@@ -245,8 +245,8 @@ portano dallo stato $i$ allo stato $j$ in $n$ passi.
     Anche la transiente è una proprietà di classe.
 \end{nota}
 \begin{nota}
-    Tutti gli stati di una catena di Markov \textbf{finita e irriducibile} sono
-    anche \textbf{ricorrenti}.
+    Tutti gli stati di una catena di Markov \textbf{finita}, ovvero composta da
+    un numero finito di stati, e \textbf{irriducibile} sono anche \textbf{ricorrenti}.
 \end{nota}
 \begin{definizione}[\textbf{Periodicità}]
     Uno stato $i$ è \textbf{periodico} di periodo $k > 1$ se $k$ è il più piccolo
@@ -309,7 +309,6 @@ correggere le catene di Markov per rappresentare questa evoluzione:
         \item Distribuzione delle probabilità a priori a $t=0$, $P(X_0)$.
     \end{itemize}
 \end{definizione}
-
 Il modello è caratterizzato da:
 \begin{itemize}
     \item \textbf{Modello di transizione}: matrice di probabilità di transizione
@@ -337,7 +336,6 @@ In generale, per ogni t finito, possiamo calcolare la distribuzione congiunta:
     Per calcolare le probabilità di entrambi i modelli si effettua un conto
     numerico dal dataset.
 \end{nota}
-
 Un esempio di grafico della catena nascosta \ref{fig:HMM}.
 \begin{figure}[!ht]
     \centering
@@ -413,8 +411,15 @@ L'inferenza con questi modelli è di $4$ tipologie:
           \end{equation*}
           Questa risulta utile per confrontare diversi modelli che potrebbero
           aver prodotto la stessa sequenza di osservazioni.
-    \item \textbf{Smoothing}: è un processo di calcolo della distribuzione di
-          stati passati, date le osservazioni fino allo stato corrente.
+
+          La probabilità di una sequenza di osservazioni può essere calcolata
+          in modo ricorsivo attraverso la seguente formula:
+          \begin{equation}
+              L_{1:t} = P(e_{1:t}) = \sum_{x_t} P(X_t, e_{1:t})
+          \end{equation}
+    \item \textbf{Smoothing}: anche detto regolarizzazione, è un processo di
+          calcolo della distribuzione di stati passati, date le osservazioni fino
+          allo stato corrente.
           \begin{equation}
               P(X_k | e_{1:t}), \forall 1 \leq k < t
           \end{equation}
@@ -426,11 +431,18 @@ L'inferenza con questi modelli è di $4$ tipologie:
           \end{equation}
           dove $\alpha$ è una costante di normalizzazione, mentre:
           \begin{itemize}
-              \item $P(X_{k}|e_{1:k})$ è il filtraggio in avanti
-              \item $P(e_{k+1:t}|X_k)$ è una propagazione all'indietro delle osservazioni.
+              \item $P(X_{k}|e_{1:k})$ è il filtraggio in avanti fino all'istante
+                    $k$.
+              \item $P(e_{k+1:t}|X_k)$ è una propagazione all'indietro delle
+                    osservazioni.
           \end{itemize}
           Si sfrutta la regola di Bayes e l'indipendenza condizionata. Questa
-          formula si può calcolare in modo ricorsivo.
+          formula si può calcolare in modo ricorsivo. Questa operazione si può
+          calcolare con la seguente formula:
+          \begin{equation*}
+              P(e_{k+1:t}|X_k) = \sum_{x_{k+1}} P(e_{k+1}|x_{k+1})P(e_{k+2:t}|x_{k+1})P(x_{k+1}|X_k)
+          \end{equation*}
+          che può essere vista come:
           \begin{equation*}
               P(X_k | e_{1:t}) = \alpha P(X_{k}|e_{1:k}) P(e_{k+1:t}|X_k) = \alpha f_{1:k}b_{k+1:t}
           \end{equation*}
@@ -491,5 +503,26 @@ L'inferenza con questi modelli è di $4$ tipologie:
               \item Per ricostruire la sequenza si parte dalla fine e si risale
                     indietro seguendo le scelte greedy effettuate.
           \end{itemize}
-          % ! Metto un esempio quando torno a casa che posso disegnare sul tablet
+          \begin{esempio}
+              Vediamo un esempio di spiegazione più probabile. Consideriamo la
+              catena di Markov a stati nascosti in figura \ref{fig:dado}.
+              \begin{figure}[!ht]
+                  \centering
+                  \includegraphics[width=.5\textwidth]{img/catene/dado.png}
+                  \caption{Esempio di catena di Markov a stati nascosti}
+                  \label{fig:dado}
+              \end{figure}
+              Supponiamo di voler calcolare la sequenza di stati più probabile
+              data la sequenza di osservazioni $O = \{3, 1, 6, 6, 6, 4\}$. Possiamo
+              utilizzare l'algoritmo di Viterbi per calcolare tale sequenza.
+              Il funzionamento di tale algoritmo è riportato in figura \ref{fig:viterbi}.
+              \begin{figure}[!ht]
+                  \centering
+                  \includegraphics[width=.5\textwidth]{img/catene/viterbi.png}
+                  \caption{Funzionamento dell'algoritmo di Viterbi}
+                  \label{fig:viterbi}
+              \end{figure}
+              Infine, partendo dalla fine della sequenza, possiamo ricostruire la
+              sequenza di stati più probabile seguendo le scelte greedy effettuate.
+          \end{esempio}
 \end{itemize}
