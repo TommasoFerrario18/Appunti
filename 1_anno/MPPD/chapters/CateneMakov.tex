@@ -192,6 +192,26 @@ formula:
 ovvero, si calcola il prodotto riga per colonna della matrice di transizione
 per $n$ volte. In questo modo, si considerano tutti i possibili percorsi che
 portano dallo stato $i$ allo stato $j$ in $n$ passi.
+
+La probabilità di transizione a $n$ passi
+\begin{equation*}
+    p_{ij}^n = P \left\{X_{n + k} = j | X_k = i\right\} \quad \text{con } n \geq 0
+    , i, j \geq 0
+\end{equation*}
+può essere calcolata anche attraverso le equazioni di \textbf{Chapman-Kolmogorov}:
+\begin{equation}
+    p_{ij}^{n+m} = \sum_{k} p_{ik}^n \cdot p_{kj}^m \quad \text{con } n, m \geq 0, i, j \geq 0
+\end{equation}
+
+La probabilità di essere in un certo stato $j$ al tempo $n$, non conoscendo lo
+stato di una di una catena di Markov al tempo $0$, può essere calcolata attraverso
+la seguente formula:
+\begin{equation}
+    \sum_{i} q_i \cdot p_{ij}^n = \vec{q} \cdot (\text{colonna j di } P^n)
+\end{equation}
+dove $q_i$ rappresenta la probabilità che la catena sia nello stato $i$ al tempo
+$0$.
+
 \begin{definizione}[\textbf{Raggiungibilità}]
     Uno stato $j$ è \textbf{raggiungibile} da uno stato $i$ se esiste un cammino
     che da $i$ arriva a $j$, in formule:
