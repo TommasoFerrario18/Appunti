@@ -1,0 +1,97 @@
+\chapter{LLM}
+
+LLM sono dei modelli che predicono del testo che segue un dato prompt, utilizzando 
+metodi probabilistici. (utilizzano meccanismi d accent)
+
+Sfrutta la probabilità condizionata delle parole.
+
+Esistono 2 tipi di modelli:
+\begin{itemize}
+    \item medium size
+    \item very large size
+\end{itemize}
+
+Si crede che più parametri permettodono al modello di fare cose. In realtà si possono 
+avere risultati comparabili con meno parametri.
+
+Inoltre spesso i modelli non riescono a rispondere direttamente alla domanda ma 
+bisogna fare prompt engineering.
+
+Con questi modelli è possibile scrivere query ad un db in linguaggio naturale e 
+ottenere risposta in linguaggio naturale. 
+
+Inoltre i modelli hanno anche la possibilità di ricevere input multimodale ovvero
+diverse tipologie di media.
+
+I limiti sono che sono costosi, sono pesanti, si inviano dati e molto spesso 
+sbaglia. Inoltre spesso non sono aggiornati e un altro problema è dove prende i 
+dati (bias, disinformazione, errori, proprietà intellettuale).
+
+Ci sono stati attacchi ai modelli in base ai prompt.
+
+Esistono anche Small model ovvero si utilizza la quantizzazione sui pesi per 
+perdere qualità ma riduco il peso degli iperparametri. Quindi spesso non serve 
+avere molti parametri ma bastano queste versioni quantizzate.
+
+Posso prendere i modelli e specializzarli su un particolare dominio effettuando il 
+finetuning, questo può essere fatto:
+\begin{itemize}
+    \item supervisionato: 
+    \item non supervisionato 
+\end{itemize}
+
+In generale l'apprendimento dei modelli può essere fatto in modo supervisionato 
+e non supervisionato, i dataset possono essere creati usando LLM oppure effettuare 
+dei labelling.
+Si può effettuare il RL.
+
+Utilizzando il finetuning significa prendere un modello e modificare un modello 
+già esistente e riapprendere dai parametri del modello vecchio. Bisogna 
+stare attenti perché se si modificano troppo si rischia di perdere la ocnoscienza
+iniziale. Questo permette di ridurre i tempi di apprendimento e aumentare le 
+performance.
+
+Il problema è che non abbiamo delle metriche standard per valutare i modelli,
+spesso sono in inglese e spesso confrontano la sintassi. Si può usare una persona 
+oppure un terzo llm per la valutazione.
+
+Un altro problema dei LLM è l'impossibilità di fornire il diritto all'oblio.
+
+Si è notato che i modelli con finetuning difficilmente sbagliano.
+
+La qualità del dataset impatta molto sul modello, posso avere un dataset ridotto 
+ma di alta qualità e ottenere risultati notevoli.
+
+Nei LLM non posso utilizzare dati sensibili (context sensitive) si possono utilizzare 
+modelli RAG che combinano modelli basati su retrieval e modelli generativi 
+per poter generare dati di contesto. Sono basati da due componenti:
+\begin{itemize}
+    \item nella fase di retrieval si estrggono le informazioni rilevanti dalla
+    conoscienza
+    \item nella fase generativa generano nuovi ontesti basati su un prompt e un 
+    contesto
+\end{itemize}
+Esistono diverse tenichiche di retrieval TF-IDF, BM25 oppure usare delle tecnihinche 
+che trasformano il linguaggio naturale in linguaggio di query e utilizzare LLM 
+per trasformare il risultato in linguaggio naturale.
+
+I modelli di retrieval si devono basare su una base di conoscienza spesso composta 
+da diversi documenti. Questi documenti devono essere partizionati in chunk di 
+lunghezza fissa, ogni chunk viene rappresentato come un vettore e questo viene 
+salvato in un db vettoriale.
+
+La fase di retrieval si traduce il prompt in una ricerca dei simili vettori nel 
+db vettoriale per dare in input il contesto.
+
+Nella base di conoscienza posso inserire qualsiasi cosa rappresentabile tramite 
+vettori. In aggiunta posso arricchire il chunk con un grafo di conoscienza. 
+I rag permettono di utilzzare i dati sensibili per ottenere il contesto dalla base 
+di conoscienza quindi il modello non vedrà mai i dati sensibili, infatti i dati 
+sensibili vengono salvati in un db.  (i rag permettono anche di selezionare 
+le info sensibili da usare dal momento che possiamo implementare meccanismi di 
+controllo degli accessi)
+
+Posso usare un LLM per costruire un KG e posso usare KG come supporto ai LLM.
+LamaIndex è un framework per architetture RAG. Ex: gerarchie di tra vettori\dots
+Langchain è un framework per lo sviluppo di applicazioni per LM attraverso una 
+pipeline di operazioni.

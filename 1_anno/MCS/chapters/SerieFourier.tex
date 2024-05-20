@@ -1100,11 +1100,48 @@ inversa, ovvero data la matrice $A$ e i coefficienti nella base $W_{ij}$ trovare
 i coefficienti nella base $E_{lm}$. Questo processo prende il nome di IDCT2.
 \begin{equation*}
     E_{lm} : A= \left(\sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij}W_{ij}\right)E_{lm}
-    \iff a_{lm} =  \sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij} \cos \left(\frac{\pi i}{L}\frac{2l+1}{N}\right)\cos \left(\frac{\pi j}{L}\frac{2m+1}{M}\right)
+    \iff a_{lm} = \frac{1}{W_{lm}:W_{lm}} \sum_{i=0}^{N-1}\sum_{j=0}^{M-1} \alpha_{ij} \cos \left(\frac{\pi i}{L}\frac{2l+1}{N}\right)\cos \left(\frac{\pi j}{L}\frac{2m+1}{M}\right)
 \end{equation*}
+
+Ma questo corrisponde 
+
+\begin{equation*}
+    a_{lm} = \frac{1}{W_{lm}:W_{lm}} \sum_{i=0}^{N-1}\left[\sum_{j=0}^{M-1} \alpha_{ij} \cos \left(\frac{\pi j}{L}\frac{2m+1}{M}\right)\right]\cdot \cos \left(\frac{\pi i}{L}\frac{2l+1}{N}\right)    
+\end{equation*}
+
+Definiamo 
+\begin{equation*}
+    b_i = \sum_{j=0}^{M-1} \alpha_{ij} \cos \left(\frac{\pi j}{L}\frac{2m+1}{M}\right)
+\end{equation*}
+
+Allora otteniamo 
+
+\begin{equation*}
+    a_{lm} = \frac{1}{W_{lm}:W_{lm}} \sum_{i=0}^{N-1}b_i\cdot \cos \left(\frac{\pi i}{L}\frac{2l+1}{N}\right)    
+\end{equation*}
+
+Inoltre $\frac{1}{W_{lm}:W_{lm}}  = \frac{1}{(w_{l}^t\cdot w_l):(w_{s}\cdot w_s)}$
+e $\frac{1}{(w_{s}^t\cdot w_s)}$ sono i coefficienti da dare all'interno di $b_i$.
+
+\begin{equation*}
+    b_i = \frac{1}{(w_{s}^t\cdot w_s)} \sum_{j=0}^{M-1} \alpha_{ij} \cos \left(\frac{\pi j}{L}\frac{2m+1}{M}\right)
+\end{equation*}
+
+\begin{equation*}
+    a_{lm} = \frac{1}{(w_{l}^t\cdot w_l)} \sum_{i=0}^{N-1}b_i\cdot \cos \left(\frac{\pi i}{L}\frac{2l+1}{N}\right)    
+\end{equation*}
+
+Questo coincide con applicare la DCT per righe e poi per colonne oppure viceversa 
+prima per colonne e poi per righe. Per effetuare IDCT2 basta effettuare i passi inversi 
+con IDCT.
 
 In termini implementativi, supponendo che la matrice sia quadrata di dimensione
 $N$, l'algoritmo impiega $\mathcal{O}(N^3)$ operazioni per ottenere i coefficienti
 $a_{kl}$. È possibile ridurre il tempo computazionale tramite la cosiddetta
 \textbf{Fast Fourier Transform} (FFT). In questo caso si passa da un costo
 $\mathcal{O}(N^3)$ a $\mathcal{O}(N^2 \log N)$.
+
+\begin{nota}
+    Quando siamo nel caso bidimensionale, quando vogliamo comprimere le informazioni
+    allora manteremo non nulla la sotto-matrice in alto a sinistra. 
+\end{nota}
