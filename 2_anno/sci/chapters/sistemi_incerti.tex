@@ -1782,7 +1782,352 @@ in relazione con un elemento). Per definire le approssimazioni si usano le $t$-n
 e $t$-conorme (approssimo un insieme fuzzy attraverso due insiemi fuzzy).
 
 
+\section{Orthopairs}
+Sono la generalizzazione dei Roughset 
+\begin{definizione}[\textbf{Orthopair}]
+    L'\textbf{orthopair} è una coppia $(A,B)$ ortogonale o disgiunta di sottoinsiemi
+    dell'insieme universo $X$: $A,B\subseteq X$ e $A\cap B=\emptyset$
+\end{definizione}
+\begin{definizione}[\textbf{Nested pairs}]
+    L'\textbf{nested pairs} è una coppia $(A,C)$ equivalente all'ortopair tale che 
+    $A\subseteq C \subseteq X$ e $C =B^c$
+\end{definizione}
+
+L'interpretazione associata all'orthopair $(P,N)$ è $P$ elementi positivi e $N$ 
+elementi negativi.
+
+Identifichiamo per l'orthopair il \textbf{boundary} $Bnd=(P\cup N )^c$ e quindi 
+definiamo con un orthopair una \textbf{tripartition} dell'universo.
+
+\begin{nota}
+    $(P,Bnd)$ e $(N, Bnd)$ sono a loro volta delle orthopair perché sono insiemi disgiunti.
+\end{nota}
+
+\begin{esempio}
+    Pari e dispari
+    caso booleano insieme di variabili vere e false, in bnd è l'incertezza.
+\end{esempio}
+
+\begin{definizione}[\textbf{Consistenza}]
+    Un insieme $S$ è \textbf{Consistente} con un'orthopair $O = (P,N)$ se 
+    $$s\in P \implies x\in S\land x\in N \implies x\not \in S$$
+\end{definizione}
+
+\begin{esempio}
+    Data l'ortocoppia $O=(\{1,3\}, \{2,4\})$ allora $S_1=\{1,3\}$ e $S_2=\{1,3,5\}$ 
+    sono consistenti con $O$, al contrario $S_3=\{1,2,3,5\}$ e $S_4=\{1,5\}$ non sono 
+    consistenti con $O$.
+\end{esempio}
+
+\begin{definizione}[\textbf{Disjoint}]
+    Due orthopairs $O_1,O_2$ sono \textbf{disjoint} se:
+    \begin{itemize}
+        \item $P_1\cap P_2=\emptyset$
+        \item $P_1\cap Bnd_2=\emptyset\land  Bnd_1\cap P_2=\emptyset$
+    \end{itemize}
+\end{definizione}
+
+Possiamo ottenere delle orthopair a partire dai Roughset che possiamo vederli come 
+$(L(H),U^c(H))$ o $(L(H),Bnd(H))$. Altrimenti possiamo tenerli da \textbf{modelli 
+partziali}, ovvero si assegna un valore di verità per ogni elemento dell'insieme 
+universo tale che sia consistente con l'orthopair. Questi modelli rispecchiano 
+il significato di consistenza.
+\begin{esempio}
+    Sia $(P = \{x_1,x_4\},N =\{x_3\})$ allora possiamo pensare di avere i seguenti 
+    modelli parziali:
+    \begin{itemize}
+        \item $v_1:= x_1=x_4=x_2 = true, x_3=false$
+        \item $v_2:= x_1=x_4= true, x_3=x_2 =false$
+    \end{itemize}
+    Entrambi i modelli soddisfano l'orthopair, in generale tutti i modelli che 
+    soddisfano l'orthopair sono quegli assegnamenti degli elementi tali che tutti 
+    gli elementi di un insieme devono avere lo stesso valore ma diverso dagli elementi 
+    dell'altro insieme. L'assegnamento agli elementi del boundary può essere fatto 
+    come si vuole (incertezza). 
+\end{esempio}
+
+Le orthopair possono essere ottenute dai \textbf{Shadow set} che sono approssimazioni 
+dei Fuzzy set mediante i valori $\{0, [0,1], 1\}$.
+
+Infine gli orthopair possono essere ottenuti dalle \textbf{informazioni bipolari}
+del mondo.
+
+Esistono delle generalizzazioni delle orthopairs chiamate \textbf{Fuzzy orthopair} o \textbf{insiemi
+fuzzy intuizionistici}. L'orthopair è una coppia di fuzzy $f_P,f_N:X\to \{0,1\}$
+tale che $\forall x\in X, f_P(x)+f_N(x) \le 1$.
+
+Un'altra generalizzazione è la \textbf{teoria della possibilità}, ovvero si ha un insieme 
+di valutazioni $E$ arbitrarie, la classe dell'orthopair coincide  con la particolare 
+classe \textbf{hyper-rectangular boolean possibility distributions} sullo spazio 
+$\{0,1\}^n $.
+
+Alle orthopair possiamo ritornare alle logiche a 3 valori. A partire da un universo 
+$X$, si definisce $f: X \to \{0,\frac{1}{2},1\}$ tale che 
+$$f(x) = \begin{cases}
+    1&x\in A\\
+    0&x\in B\\
+    \frac{1}{2}&altrimenti\\
+\end{cases}$$
+Quindi possiamo definire una orthopair $(A_1,A_0)$ tale che 
+$$A_1:=\{x:f(x)=1\} \qquad \text{dominio certo}$$
+$$A_0:=\{x:f(x)=0\}\qquad \text{dominio impossibile}$$
+
+In questo modo possiamo mappare i connettivi delle logiche a $3$ valori sulle orthopair 
+o nestedpair.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/conj_ortho.png}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/impl_nested_pair.png}
+\end{figure}
+
+Possiamo definire delle relazioni di ordinamento rispetto agli elementi dell'insieme 
+universo in base ai valori di verità specificati dall'orthopair.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/ordering.png}
+\end{figure}
+
+Possiamo identificare i seguenti ordinamenti importanti:
+\begin{itemize}
+    \item \textbf{ordine di verità} $O_1\le_t O_2$: $O_2$ è più vera rispetto $O_1$, ordine totale rispetto al valore di verità
+    \item \textbf{ordine di conoscienza} $O_1\le_l O_2$: $O_2$ è più informativa rispetto $O_1$ (boundary più piccolo), ordine parziale rispetto all'incertezza
+    in cui $0,1$ non sono confrontabili ma ci interessa solo il confronto tra l'incertezza
+    e la certezza.
+\end{itemize}
+
+Definendo un ordinamento totale basato sui $3$ valori, possiamo derivare quindi delle operazioni 
+di meet e join derivate dalle logiche a $3$ valori.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/op_ortho.png}
+\end{figure}
 
 
+Definendo un ordinamento parziale basato sui $3$ valori, possiamo derivare quindi delle operazioni 
+di meet e join derivate dalle logiche a $3$ valori, hanno senso solo quando si mantiene 
+la consistenza delle orthocoppie, ovvero quando non si ocntraddicono.
 
-\section{Belief function}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/op_orthon_r.png}
+\end{figure}
+
+Si chiama operatore pessimistico perché prendo solo la conoscienza comune, mentre 
+l'operatore ottimistico è un'operazione solo quando le ortocoppie sono consistenti e 
+fa l'unione della conoscienza.
+
+In aggiunta dal significato delle orthopair possiamo definire l'operatore di \textbf{consenso}
+$$O_1 \odot O _2 = (O_1 \ominus O _2) \sqcup_l (O_2 \ominus O_1)$$
+dove $O_1 \ominus O _2 :=  (P_1-P_2,N_1-N_2)$ è l'operatore di \textbf{differenza}.
+L'operatore mi calcola ciò su cui sono d'accordo.
+\begin{esempio}
+    Sia $O_1=(\{x_1,x_2\},\{x_3,x_4\})$ con $x_1,x_2$ true e $x_3,x_4$ sono falsi.
+    Sia $O_1=(\{x_1,x_3,x_4\},\{x_2,x_4,x_6\})$ con $x_1,x_3,x_4$ true e $x_2,x_4,x_6$ sono falsi.
+
+    Allora $O_1 \odot O _2 = (\{x_1,x_5\},\{x_4,x_6\})$. 
+\end{esempio}
+
+Date due orthopair che rappresentano l'opinione di due agenti allora possiamo dire:
+\begin{itemize}
+    \item $\odot$: permette di ottenere l'accordo tra le due opinioni
+    \item $\sqcap_l, \sqcup$: permettono di raggruppare le opinioni in modo pessimistico 
+    o ottimistico
+\end{itemize}
+
+Nel caso di orthopair che rappresentano l'accettazione o il rigetto, le operazioni 
+possono essere utilizzate per aggregare differenti decisioni. 
+
+\begin{esempio}
+    Queste operazioni permettono di unire risultati di classificazione.
+    
+\end{esempio}
+
+I Roughset sono un sottoinsieme delle orthopair, infatti un generico $R(X)= (l(X), u(X))$ 
+può essere associato ad un nestedpair e quindi un orthopair, perciò possiamo estendere 
+tutte le operazioni sulle orthopair ai roughset.
+Quindi possiamo combinare due Roughset usando le operazioni sulle orthopair che sono 
+chiuse sui roughset. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/conj_RS.png}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/impl_RS.png}
+\end{figure}
+
+In generale dati due RS $r(A) = (l(A), u(A))$ e $r(B)=(l(B),u(B))$ allora si 
+definisce l'unione e l'intersezione  come 
+$$r(A)  \sqcap r(B) = (l(A)\cap l(B),u(A)\cap u(B))$$
+$$r(A)  \sqcup r(B) = (l(A)\cup l(B),u(A)\cup u(B))$$
+
+sappiamo che $r(A)  \sqcap r(B)$ e $r(A)  \sqcup r(B)$ sono proprio dei roughset,
+supponiamo che siamo rispettivamente $r(C)$ e $r(D)$, in generale $C\ne A\cap B$ e $D\ne A\cup B$.
+
+Per l'unione abbiamo diverse definizioni:
+\begin{itemize}
+    \item $C= [l(A)\cap l(B)] \cup Y$, $Y$ corrisponde ad un elemento scelto in una 
+    classe di equivalenza, quindi si hanno diverse definizioni.
+    \item $C=(A\cap B) \cup ((A\cap u(B))\cap(u(A\cap B)^c))$, in questo caso non 
+    è simmetrica in $A,B$, quando $B=A^c$ allora $C\ne \emptyset$.
+\end{itemize}
+
+approssimazione C' è intersezione delle approssimazioni di A e B. La situazione è 
+duale per $D$.
+
+La scelta su come calcolare $C,D$ porta a dei problemi di interpretazione infatti 
+abbiamo $2$ livelli di interpretazione:
+\begin{itemize}
+    \item linguaggio di insiemi (estensione): quando si lavora con le classi di equivalenza
+    \item linguaggio di attributi (intensione): quando si lavora a livello di roughset
+\end{itemize}
+La soluzione dipende fortemente dalla partizione e dalle approssimazioni.
+
+\begin{nota}
+    $A\cap A^c \ne \emptyset$ 
+\end{nota}
+
+\section{Orthopartions}
+Sono la rappresentazione incerta di classi di equivalenza
+
+\begin{definizione}[\textbf{Orthopartition}]
+    Una \textbf{orthopartition} è un insieme $\mathcal{O} = \{O_1,\dots, O_n\}$ di 
+    orthopair tali che rispettano i seguenti assiomi:
+    \begin{itemize}
+        \item \textbf{disgiunzione}: $\forall O_i, O_j\in \mathcal{O}$ $O_i,O_j$ sono 
+        disgiunte
+        \item \textbf{copertura}: $\bigcap _i (P_i\cup Bnd_i) = U$
+        \item \textbf{appartenenza a più boundary}: $\forall x\in U, (x\in Bnd_i) \implies (x\in Bnd_j), i\ne j$
+    \end{itemize}
+\end{definizione}
+
+\begin{esempio}
+    Sia $U=\{1,2,\dots,10\}$ la collezione $\{O_1,O_2,O_3\}$ è una orthopartition
+    di $U$ solo se $O_1 =(\{1,2\},\{9,10\})$, $O_2=(\{9\}, \{1,2\})$ e $O_3=(\emptyset,\{1,2,9\})$.
+
+    Al contrario $(O_1,O_2)$ non è una orthopartition.
+\end{esempio}
+
+\begin{definizione}[\textbf{Consistenza}]
+    Sia $\pi$ una partizione, essa è \textbf{consistenze} con una $\mathcal{O}$ orthopartition
+    sse 
+    $$\forall O_i\in \mathcal{O},\exists !s_i \in \pi: S \text{ consistente }  O_i$$
+\end{definizione}
+
+\begin{esempio}
+    Sia $U=\{1,2,\dots,10\}$ con l'orthopartition $\{O_1,O_2,O_3\}$ tale che $O_1 =(\{1,2\},\{9,10\})$, $O_2=(\{9\}, \{1,2\})$ e $O_3=(\emptyset,\{1,2,9\})$.
+    Allora:
+    \begin{itemize}
+        \item $\pi = \{\{1,2,3\},\{7,8,9,10\},\{4,5,6\}\}$ è consistente
+        \item $\pi = \{\{1,2\},\{9\},\{3,4,5,6,7,8,10\}\}$ è consistente
+    \end{itemize}
+\end{esempio}
+
+\section{Teoria delle possibilità}
+Per modellare l'incertezza avevamo detto che possiamo usare due metodi generali:
+\begin{itemize}
+    \item probabilità estesa: belief function e probabilità imprecise
+    \item diversa dalla probabilità: teoria della possibilità/logica, Fuzzy set/logic,
+    modal logic, interval set, rough set.
+\end{itemize}
+Tutto parte dalla nozione di \textbf{capacità}, in generale è un valore associato 
+ad un insieme non per forza associato all'incertezza.
+
+\begin{definizione}[\textbf{Capacità}]
+    La \textbf{capacità} sull'universo $X$ è una funzione $\mu:2^X\to \mathcal{R}$:
+    \begin{itemize}
+        \item \textbf{limitato}: $\mu(\emptyset) = 0$
+        \item \textbf{monotona}: $\mu(A) \le \mu(B), A\subseteq B$
+    \end{itemize}
+    Spesso la capacità è normalizzata con $\mu(X)=1$.
+\end{definizione}
+
+La capacità è più generale della misura di probabilità, infatti una misura di probabilità è una capacità
+\textbf{additiva}, in generale però la capacità non è additiva.
+$$P(A\cup B) = P(A)+ P(B)$$
+
+La capacità è più generale della misura di possibilità, infatti una misura di possibilità 
+è la capacità massimitiva
+$$\Pi(A\cup B) = \max\{\Pi(A),\Pi(B)\}$$
+
+\begin{definizione} [\textbf{Distribuzione di possibilità}]
+    La \textbf{distribuzione di possibilità} è una funzione 
+    $$\pi:x\to [0,1]$$
+    che rappresenta lo stato di conoscienza dell'agente:
+    \begin{itemize}
+        \item \textbf{stato impossibile}: $\pi(a)=0$
+        \item \textbf{stato totalmente possibile}: $\pi(a)=1$ (più stati possono 
+        essere totalmente possibili)
+        \item \textbf{completa conoscenza}: $\exists a,\pi(a) = 1,\forall b\ne a,\pi(b)=0$
+        \item \textbf{completa ingnoranza}: $\forall a,\pi(a) = 1$
+    \end{itemize} 
+    Generalemente normalizzata e si assume che $\exists a,\pi(a) = 1$
+\end{definizione}
+
+
+\begin{nota}
+    totalmente possibile non vuol dire certo.
+\end{nota}
+
+Nella teoria della possibilità introdurremo delle misure di possibilità e necessità7
+applicate agli insiemi che si basano sulla distribuzione di possibilità che viene 
+applicata sui singoli elementi:
+\begin{itemize}
+    \item \textbf{misura di possibilità}: 
+    $$\Pi(A) = \sup_{a\in A}\pi(a)$$
+    \item \textbf{misura di necessità}: 
+    $$N(A) = 1- \Pi(A^c) =\inf_{a\not\in A}(1-\pi(a))$$
+\end{itemize}
+
+\begin{nota}
+    La necessità implica possibilità: $N(A) \le \Pi(A)$
+\end{nota}
+\begin{nota}
+    La misura di necessità è una capacità minitiva, mentre la misura di possibilità è
+    una capacità massitiva.
+\end{nota}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_incerti/diff_prob_poss.png}
+\end{figure}
+
+Un caso particolare sono le funzioni booleane, funzione caratteristica di un insieme
+ma che specificaun assegnamento di verità parziale. Quindi posso vedere un assegnamento 
+parziale come un ortocoppia.
+
+Posso vedere le belief function come un assegnamento di prob. agli insiemi, invece 
+la probabilità è un assegnamento ad un evento.
+\subsection{Belief function, Evidence theory and Dempster-Shafer}
+Dalla capacità si deriva:
+\begin{itemize}
+    \item \textbf{probabilità}: capacità additiva
+    \item \textbf{belieaf/plausibility function}
+    \item \textbf{necessity/possibility}: capacità minitiva/massitiva
+\end{itemize}
+
+L'idea è di associare delle probabilità ad osservazioni incomplete e imprecise.
+Il valore di verità deriva dall'insieme ma l'elemento esatto non lo si conosce.
+
+\begin{definizione}[\textbf{Mass function}]
+    Sia $X$ un insieme di esiti di esperimenti, sia $A\subseteq X$, possiamo associare
+    ad un evento una \textbf{distribuzione di massa} $m:2^X\to [0,1]$ tale che:
+    \begin{itemize}
+        \item $m(\emptyset) = 0$
+        \item $\sum_{A\subseteq X}m(A) = 1$
+    \end{itemize}
+\end{definizione}
+Stiamo associando una distribuzione di probabilità agli insiemi
+\begin{definizione}
+    $A$ si chiama focal set se $m(A)>0$ 
+\end{definizione}
+
