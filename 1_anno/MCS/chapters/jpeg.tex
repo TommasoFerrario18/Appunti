@@ -24,3 +24,48 @@ Nella compressione dell'immagine:
     \item diffusione del fenomeno di Gibbs
     \item costo computazionale elevato
 \end{itemize}
+
+Il formato jpeg risolve tutti questi problemi. 
+
+Jpeg utilizza una funzione $qf:[0,100] \to \mathbb{R}$ tale che
+
+$$qf(q)=\begin{cases}
+    \frac{500}{q}\frac{1}{100}&1\le q \le 50\\
+    \frac{200-2q}{100} & 50 \le q \le 100
+\end{cases}$$
+
+La quality function permette di specificare il bilanciamento tra compressione e 
+visibilità 
+
+In aggiunta è stata utilizzata la matrice di quantizzazione, definita in modo empirico, 
+che insieme alla quality function permette di effettuare delle operazioni matriciali 
+per azzerare la matrice delle frequenze della dct.
+
+
+
+
+L'idea di creazione di un file jpeg è di:
+\begin{itemize}
+    \item suddividere l'immagine in blocchi da $8\times 8$ pixel. Questo permette 
+    di risolvere il problema della complessità e della presenza del fenomeno di 
+    Gibbs, il primo 
+    possiamo velocizzarlo parallelizzandolo e il secondo permette di confinare 
+    il fenomeno al blocco $8\times 8$ senza intaccare gli altri blocchi. 
+    \item sottrarre i pixel di $128$, in questo modo si passa da un intervallo di 
+    pixel di $[0, 255]$ a $[-127,128]$ per avere media dei pixel $0$.
+    \item applicare dct 2 ad ogni blocco $8\times 8$ ottenendo le matrici $\alpha$ delle frequenze
+    \item Si crea la matrice $\overline{Q} = \text{round} (qf(q)\cdot Q)\in \mathbb{Z}^{8\times 8}$
+    \item compressione: costruiamo per ogni blocco $8\times 8$ delle frequenze 
+    $\alpha$, calcoliamo la matrice $\overline{\alpha} = \text{round}(\alpha./Q)$,
+    dove $./:= \alpha_{ij} / \overline{Q_{ij}}$ 
+    \item alla fine il file contiene tutti i blocchi $\overline{\alpha}$, le dimensioni 
+    dell'immagine, il quality factor $q$ e la matrice di quantizzazione $Q$.  
+\end{itemize}
+
+L'idea di lettuara di un file jpeg è di:
+\begin{itemize}
+    \item ottenere $\alpha = \overline{\alpha}.*\overline{Q}$
+    \item applicare idct2 su $\alpha$
+    \item sommiamo ai pixel $128$
+    \item visualizza l'immagine
+\end{itemize}
