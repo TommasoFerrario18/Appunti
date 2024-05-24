@@ -117,6 +117,11 @@ Markov si definisce \textbf{stazionaria} e si ha che:
     P(X_{t+1} = i_{t+1 } | X_t =i_t) = p_{ij}
 \end{equation}
 dove $p_{ij}$ specifica la probabilità di passare dal valore $X_t = i$ a $X_{t + 1} = j$.
+\begin{nota}
+    Una catena stazionaria \textbf{non} vuol dire che lo stato della variabile 
+    rimane lo stesso nel tempo, ma che la probabilità di passare da uno stato 
+    all'altro rimane costante.
+\end{nota}
 
 Quindi le catene di Markov possono essere rappresentate da una \textbf{matrice di
     transizione} (ad un passo), ovvero matrici quadrate di dimensione $n \times n$
@@ -187,7 +192,7 @@ dove $p_{ij}(n)$ rappresenta la probabilità di passare dallo stato $i$ allo sta
 $j$ in $n$ passi. Questa probabilità può essere calcolata attraverso la seguente
 formula:
 \begin{equation}
-    p_{ij}(n) = \prod_{i = 1}^{n} p_{ij} \equiv p^n_{ij}
+    p_{ij}(n) = \prod_{k = 1}^{n} p_{ij} \equiv p^n_{ij}
 \end{equation}
 ovvero, si calcola il prodotto riga per colonna della matrice di transizione
 per $n$ volte. In questo modo, si considerano tutti i possibili percorsi che
@@ -202,6 +207,12 @@ può essere calcolata anche attraverso le equazioni di \textbf{Chapman-Kolmogoro
 \begin{equation}
     p_{ij}^{n+m} = \sum_{k} p_{ik}^n \cdot p_{kj}^m \quad \text{con } n, m \geq 0, i, j \geq 0
 \end{equation}
+Questa formula permette di semplificare il calcolo della probabilità di transizione
+a $n+m$ passi, affermando che essa è uguale alla somma delle probabilità di
+transizione a $n$ passi moltiplicata per la probabilità di transizione a $m$ passi.
+\begin{equation*}
+    P^{n+m} = P^n \cdot P^m
+\end{equation*}
 
 La probabilità di essere in un certo stato $j$ al tempo $n$, non conoscendo lo
 stato di una di una catena di Markov al tempo $0$, può essere calcolata attraverso
@@ -312,7 +323,7 @@ correggere le catene di Markov per rappresentare questa evoluzione:
     direttamente.
 \end{esempio}
 \begin{definizione}[\textbf{Catene di Markov a stati nascosti}]
-    Le \textbf{catene di Markov a stati nascosti} è un processo stocastico
+    Le \textbf{catene di Markov a stati nascosti} sono un processo stocastico
     continuo/discreto caratterizzato da:
     \begin{itemize}
         \item $X_t$ insieme di stati nascosti al tempo $t$
