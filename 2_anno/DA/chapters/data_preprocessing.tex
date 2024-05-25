@@ -50,7 +50,7 @@ gestirli in modo corretto. La loro gestione è importante per le seguenti ragion
 Esistono 3 tipologie di dati mancanti:
 \begin{itemize}
       \item \textbf{Missing Completely At Random} (\textbf{MCAR}): quando la
-            mancanza del valore di un attributo non è dipendente dai valori
+            mancanza del valore di un attributo è randomica e non è dipendente dai valori
             osservati o dai valori mancanti.
       \item \textbf{Missing At Random} (\textbf{MAR}): quando la mancanza del
             valore di un attributo è dipendente dai valori osservati, ma non dai
@@ -78,7 +78,7 @@ gestione di essi. I principali metodi sono i seguenti:
 A seconda della situazione e in base alla tipologia dell'attributo, si possono
 usare diversi metodi di imputazione dei valori mancanti:
 \begin{itemize}
-      \item Una prima strategia è quella \textbf{Non ho segnato il Nome}, la quale
+      \item Una prima strategia è quella \textbf{most common value}, la quale
             fornisce due possibilità di imputazione:
             \begin{itemize}
                   \item \textbf{Continuo}: calcolo la media tra tutti gli altri
@@ -87,11 +87,13 @@ usare diversi metodi di imputazione dei valori mancanti:
                   \item \textbf{Discreto} o \textbf{Categorico}: sostituiamo il valore
                         mancante con quello più frequente.
             \end{itemize}
-      \item Un'altra strategia è quella \textbf{CMC}, la quale utilizza le stesse
+      \item Un'altra strategia è quella \textbf{consept most common value}, la quale utilizza le stesse
             strategie di imputazione ma in base alla classe dell'istanza.
 \end{itemize}
 Il primo approccio si può utilizzare in un contesto non supervisionato, mentre il
-secondo in un contesto supervisionato.
+secondo in un contesto supervisionato. Inoltre il primo approccio assume che tutti 
+gli attributi siano distribuiti normalmente, mentre il secondo assume che le
+distribuzioni degli attributi della stessa classe derivino da una normale.
 
 Gli approcci appena descritti sono molto semplici e veloci, ne esistono altri più
 complessi che scomodano algoritmi di Machine Learning. Per esempio si può usare
@@ -100,6 +102,7 @@ i $k$ valori degli esempi più vicini. Un estensione di questo metodo è l'utili
 di algoritmi di Machine Learning per la predizione dei valori mancanti. Questo
 significa definire un modello per la previsione dei valori mancanti per ciascuna
 feature, il che lo rende computazionalmente molto costoso.
+
 \subsection{Rumorosità dei dati}
 \begin{definizione} [\textbf{Rumorosità dei dati}]
       La \textbf{Rumorosità dei dati} è l'insieme di dati che presentano dei
@@ -156,7 +159,7 @@ Una possibile soluzione consiste nel bilanciare il dataset, ovvero cercare di
 rendere le classi rappresentate da un numero simile di istanze. Questo può essere
 fatto attraverso due metodi:
 \begin{itemize}
-      \item \textbf{Oversampling}: consiste nel replicare le istanze della classe
+      \item \textbf{Oversampling}: consiste nel duplicare le istanze della classe
             meno rappresentata.
       \item \textbf{Undersampling}: consiste nel rimuovere le istanze della classe
             più rappresentata.
@@ -187,8 +190,9 @@ del dataset. Tale algoritmo è chiamato \textbf{SMOTE} (\textbf{Synthetic Minori
 
 Un esempio di algoritmo di \textbf{undersampling} è \textbf{Tomek Link}. Un
 \textbf{Tomek Link} è una coppia di istanze $(x, y)$ tali che $x$ e $y$ sono
-istanze di classi diverse per cui non esiste un'istanza $z$ tale che sia più
-vicina a $x$ che a $y$.
+istanze di classi diverse che sono più vicine, ovvero non esiste un istanza 
+$z$ della classe opposta a $x$ o a $y$ tale che sia più vicina a $x$ o $y$. Le 
+coppie sono proprio gli elementi sulla frontiera delle classi.
 
 L'idea di \textbf{Tomek Link} è quella di rimuovere le istanze della classe più
 rappresentata che sono vicine a quelle della classe meno rappresentata.
@@ -249,18 +253,29 @@ Esistono diversi metodi per la selezione delle feature:
             una strategia con cui cercare le feature più importanti. Si possono
             utilizzare due strategie:
             \begin{itemize}
-                  \item Ricerca esaustiva
-                  \item Ricerca euristica
+                  \item Ricerca esaustiva: se vogliamo passare da $m$ features a 
+                  $n$ features allora significa controllare il contenuto informativo
+                  di ogni sottoinsieme di $n$ feature delle $m$ di partenza. Quindi 
+                  significa controllare un totale di $\left(\begin{array}{c}
+                        m\\n
+                  \end{array}\right) $ sottoinsiemi (esplosione combinatoria).
+                  \item Ricerca euristica: si utilizzano delle euristiche per 
+                  evitare di effettuare una ricerca esaustiva tra tutti i 
+                  sottoinsiemi (tempi ridotti ma meno qualità nelle feature).
             \end{itemize}
             Solitamente questo metodo viene utilizzato attraverso delle funzioni 
             di ranking che permettono di valutare l'importanza delle feature in 
-            base a misure statistiche. Un esempio di funzione di ranking è la
+            base a misure statistiche, maggiore è il ranking e maggiore sarà 
+            la qualità della feature. Un esempio di funzione di ranking è la
             \textbf{Information Gain}.
             Il problema di questo metodo è che non tiene conto delle relazioni tra
             le feature. Una soluzione a questo problema è quella di usare 
-            \textbf{Correlation-based Feature Selection}.
+            \textbf{Correlation-based Feature Selection} dove controllo $\left(\begin{array}{c}
+                  m\\2
+            \end{array}\right) $ sottoinsiemi.
       \item \textbf{Wrapper Methods}: si basano sull'uso di un classificatore per
-            valutare l'importanza delle feature. Questi metodi sono dipendenti dal
+            valutare l'importanza delle feature, ovvero la portenza predittiva.
+            Questi metodi sono dipendenti dal
             classificatore che viene considerato come una \textit{black box}.
             \begin{figure}[!ht]
                   \centering

@@ -1,5 +1,5 @@
 \chapter{Introduzione}
-In questo corso si analizzeranno modelli probabilistici. Questi modelli permettono
+In questo corso si analizzeranno modelli probabilistici. Essi permettono
 di quantificare l'incertezza delle informazioni e successivamente prendere delle
 decisioni. Questi passi sono fondamentali perché siamo costantemente circondati
 da tantissimi dati (evidenze) che per loro natura sono incerti, quindi dobbiamo
@@ -13,10 +13,11 @@ problemi:
     \item Evidenze inconsistenti
     \item Diverse fonti di incertezza
 \end{itemize}
-I \textbf{modelli probabilistici} rappresentano l'incertezza tramite le dipendenze
-tra le variabili (struttura del modello) e le probabilità (parametri del modello).
-Rappresentando l'incertezza, si riesce ad automatizzare la parte di previsione,
-di conseguenza risultano:
+I \textbf{modelli probabilistici} rappresentano l'incertezza tramite le
+dipendenze tra le variabili, le quali sono rappresentate dalla struttura del
+modello, e le probabilità, ovvero i parametri del modello. Rappresentando
+l'incertezza, si riesce ad automatizzare la parte di previsione, rendendo di
+conseguenza il modello:
 \begin{itemize}
     \item Scalabili
     \item Robusti
@@ -25,9 +26,10 @@ di conseguenza risultano:
 
 Per ora sono stati visti solo modelli \textbf{discriminativi}, al contrario i
 modelli probabilistici sono \textbf{generativi} perché sono caratterizzati da
-variabili aleatorie, le quali possono essere campionate e permettono di effettuare
-delle simulazioni. Essi si basano sulla teoria della probabilità e quindi ci
-permetteranno di inferire quantità sconosciute e allo stesso tempo apprendere.
+variabili aleatorie, le quali possono essere campionate e permettono di
+effettuare delle simulazioni. Essi si basano sulla teoria della probabilità e
+quindi ci permetteranno di inferire quantità sconosciute e allo stesso tempo
+apprendere.
 
 A livello di matematica si partirà da Teorema di Bayes per adattare i modelli
 nel tempo.
@@ -39,20 +41,22 @@ La fase di inferenza si classifica in due tipi:
 \end{itemize}
 \begin{esempio}
     Definizione di un sistema di Ranking per gli scacchi basato sulla statistica.
-    L'idea si basa sul fatto che non è possibile la misura diretta, ogni risultato
-    della partita dipende dalle persone. Quindi al termine di ogni partita bisogna
-    aggiornare la posizione in base al risultato della partita e chi ha giocato.
+    L'idea si basa sul fatto che non è possibile la misura diretta, ogni
+    risultato della partita dipende dalle persone. Quindi al termine di ogni
+    partita bisogna aggiornare la posizione in base al risultato della partita e
+    chi ha giocato.
 
-    Si esprime l'assunzione che la variabile che modella la mossa ha una distribuzione
-    normale.
+    Si esprime l'assunzione che la variabile che modella la mossa ha una
+    distribuzione normale.
 
-    Abbiamo due variabili gaussiane che rappresentano il valore del giocatore, Quando
-    si conosce l'esito della partita, si cambia la distribuzione delle due variabili.
-
-    $y$ è il risultato della partita
-    $\pi$ sono le caratteristiche del giocatore
-    $s$ è il livello del problema.
-
+    Abbiamo due variabili gaussiane che rappresentano il valore del giocatore.
+    Quando si conosce l'esito della partita, si cambia la distribuzione delle
+    due variabili.
+    \begin{itemize}
+        \item $y$: risultato della partita
+        \item $\pi$: caratteristiche del giocatore
+        \item $s$: livello del problema
+    \end{itemize}
     L'inferenza sarà diagnostica (dall'esito all'inizio).
 \end{esempio}
 \begin{esempio}
@@ -61,6 +65,6 @@ La fase di inferenza si classifica in due tipi:
     I modelli probabilistici permettono di identificare il miglior tasso pur non
     sapendo come cambieranno.
 \end{esempio}
-In generale i sistemi che modellano anche l'incertezza dovrebbero funzionare meglio
-rispetto a quelli che non la gestiscono. Per modellare l'incertezza, si utilizzerà
-la teoria della probabilità.
+In generale i sistemi che modellano anche l'incertezza dovrebbero funzionare 
+meglio rispetto a quelli che non la gestiscono. Per arrivare a questo obiettivo, 
+si utilizzerà la teoria della probabilità.
