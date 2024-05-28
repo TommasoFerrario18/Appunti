@@ -7,7 +7,8 @@ cambiamenti di stato nel tempo descrivono l'evoluzione della variabile.
 
 Possiamo distinguere due tipologie di modelli:
 \begin{itemize}
-    \item \textbf{Statici}: il valore delle variabili non cambia nel tempo.
+    \item \textbf{Statici}: il valore delle variabili non cambia nel tempo. La 
+            distribuzione di probabilità delle variabili casuali rimane costante.
     \item \textbf{Dinamici}: il valore delle variabili cambia nel tempo. In questa
           tipologia, lo stato corrente dipende dalla storia e il processo di
           cambiamento è descritto da una serie di fotografie, o anche dette
@@ -77,7 +78,7 @@ Oltre al tracking, possono essere utilizzati anche per generare dei processi com
 la generazioni di comportamenti casuali per le simulazioni.
 \section{Catene di Markov}
 I processi stocastici possono rispettare una proprietà chiamata \textbf{proprietà
-    Markoviana del primo ordine}, la proprietà assicura che la distribuzione di
+    Markoviana del primo ordine}, tale proprietà assicura che la distribuzione di
 probabilità per tutti i possibili valori futuri del processo dipende solo dal
 valore corrente e non dai valori passati o da altre informazioni.
 
@@ -118,8 +119,8 @@ Markov si definisce \textbf{stazionaria} e si ha che:
 \end{equation}
 dove $p_{ij}$ specifica la probabilità di passare dal valore $X_t = i$ a $X_{t + 1} = j$.
 \begin{nota}
-    Una catena stazionaria \textbf{non} vuol dire che lo stato della variabile 
-    rimane lo stesso nel tempo, ma che la probabilità di passare da uno stato 
+    Una catena stazionaria \textbf{non} vuol dire che lo stato della variabile
+    rimane lo stesso nel tempo, ma che la probabilità di passare da uno stato
     all'altro rimane costante.
 \end{nota}
 
@@ -142,7 +143,7 @@ La matrice ha i seguenti vincoli $p_{ij} \geq 0$ e $\sum_{j=0}^{n}p_{ij}=1, \for
     Per i modelli stazionari la matrice di transizione rimane identica nel tempo.
 \end{nota}
 
-La rappresentazione grafica di una \textbf{catena di Markov} è un grafo in cui i
+La rappresentazione grafica di una \textbf{catena di Markov} è un grafo, in cui i
 nodi rappresentano gli stati che la variabile può assumere ($i,j,\dots$), mentre
 gli archi rappresentano la probabilità di passare da uno stato all'altro. Quindi
 la matrice di transizione diventa la matrice di adiacenza del grafo.
@@ -267,6 +268,10 @@ $0$.
     \begin{equation*}
         \sum_{n=1}^{\infty} P_{ii}^n = \infty
     \end{equation*}
+\end{definizione}
+\begin{definizione}[\textbf{Regolare}]
+    Una catena si definisce regolare se esiste un intero positivo $h$ tale per
+    cui $p^h > 0$.
 \end{definizione}
 \begin{nota}
     La ricorrenza è una proprietà di classe, se lo stato $i$ è ricorrente e
