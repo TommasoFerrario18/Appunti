@@ -496,7 +496,7 @@ L'inferenza con questi modelli è di $4$ tipologie:
           vogliamo trovare la sequenza di stati che più probabilmente ha generato
           il mio set di osservazioni.
           \begin{equation}
-              \arg\max_{x_1:t} P(x_{1:t}|e_{1:t})
+              \arg\max_{x_{1:t}} P(x_{1:t}|e_{1:t})
           \end{equation}
           Se supponiamo di avere stati binari e che la sequenza delle osservazioni
           sia lunga $n$, questo significa che abbiamo $2^n$ possibili sequenze

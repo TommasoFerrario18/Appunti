@@ -2131,3 +2131,309 @@ Stiamo associando una distribuzione di probabilità agli insiemi
     $A$ si chiama focal set se $m(A)>0$ 
 \end{definizione}
 
+
+
+\section{Unione sistemi incerti e sistemi complessi}
+sistemi tempo discreto e spazio discreto e pazio finito. L'idea è di capire incertezza 
+e complessità in ml.
+
+Nella vita reale in sistemi complessi possiamo osservare solo una parte del mondo 
+e tutto il resto è incerto.
+
+\begin{definizione}[\textbf{Sistema dinamico deterministico}]
+    Un \textbf{sistema dinamico deterministico} è una coppia $(X,f)$ tale che 
+    $f:X\to X$  che seleziona lo stato successivo
+\end{definizione}
+
+Quando i sistemi dinamici sono non deterministici allora questo introduce incertezza,
+perché la transizione determina diversi stati raggiungibili ma non si conosce
+quello preciso.
+
+\begin{definizione}[\textbf{Sistema dinamico non deterministico}]
+    Un \textbf{sistema dinamico non deterministico} è una coppia $(X,f)$
+    $(X,f)$, $f:X\to 2^X$  che seleziona un insieme di stati possibili successivi.
+\end{definizione}
+
+questo coincide col dire che lo stato successivo può essere uno dei tanti successivi,
+perché quando abbiamo un'osservazione parziale allora passiamo avere diversi possibili 
+stati successivi.
+
+Per ogni sistema deterministico possiamo associare un grafo che mostra il passaggio 
+da uno stato all'altro attraverso transizioni, questo mostra se si ha determinismo 
+o meno. (formalismo per rappresentare un qualsiasi sistema dinamico a tempo discreto 
+e a stato discreto) Per quelli continui si discretizza.
+
+
+Reaction system modellano i processi chimici. Si formalizzano mediante $3$ insiemi di sostanze:
+\begin{itemize}
+    \item reagenti
+    \item inibitori
+    \item prodotti
+\end{itemize}
+La stessa sostanza può essere prima un reagente, poi un inibitore e poi un prodotto.
+Poi abbiamo l'insieme delle reazioni, sono le regole che si chiamano reazioni.
+Formalmente si descrivono $(S,A)$ $S$ sostanze $A$ regole. Le regole sono triple 
+$(R\subset S, I\subset S, P\subset S)$ dove se $R=S$ e $I=\emptyset$ allora $P=R$.
+
+\begin{esempio}
+    $S=\{H,O,H_2O\}$ allora una regola è $R=\{H,O\}$ $I = \{\}$ $P=\{H_2O\}$.
+\end{esempio}
+
+\begin{esempio}
+    Sia $S=\{A,B,C\}$ le regole possono essere:
+    \begin{itemize}
+        \item $(\emptyset, ABC,BC)$
+        \item $(B, C,AB)$
+        \item $(A, C,AB)$
+        \item $(C, AB,AC)$
+        \item $(AB, \emptyset,ABC)$
+    \end{itemize}
+    Tutte le regole vengono applicate in parallelo e quindi il risultato è l'unione 
+    dei risultati di tutte le regole applicabili
+\end{esempio}
+
+Possiamo rappresentare anche le reti di petri.
+
+Vogliamo modellare l'incertezza con un unico linguaggio per tutti i sistemi dinamici.
+
+Un primo modo per modellarli universalmente è attraverso il grafo ma essendo semplice 
+perdo informazioni.
+\begin{definizione}[\textbf{pattern}]
+\end{definizione}
+Un pattern rappresenta un pezzo di informazione rispetto allo stato del sistema.
+(in questo stato è presente una sostanza)
+\begin{definizione}[\textbf{Spazio di pattern}]
+    Lo \textbf{spazio di pattern} è una tripla $(P,\le, \sim_m)$ dove:
+    \begin{itemize}
+        \item $P$ è l'insieme di pattern
+        \item $(P,\le)$ è un poset
+        \item $\sim_m$ è una relazione di equivallenza sugli insiemi minimali di $P$
+    \end{itemize}
+    Deve valere che presi $p_1,p_2\in P$ tale che $p_1\sqcup p_2$ esiste sse $\exists
+    p_1'\le p_1, p_2'\le p_2$ tale che $p_1'\sim_mp_2\implies p_1' = p_2'$.
+\end{definizione}
+La relazione d'ordine esprime il concetto di generalità mentre la relazione di equivalenza 
+è sui pattern minimali ovvero quello specifico.
+
+
+\begin{definizione}[\textbf{Pattern dynamical system}]
+    \textbf{Pattern dynamical system} è una quindtupla 
+    $$(X, f, \mathcal{P},g, h)$$
+    dove:
+    \begin{itemize}
+        \item $(X,f)$ è un sistema dinamico
+        \item $\mathcal{P} = (P, \le, \sim_m)$ è un pattern spece
+        \item $h:X\to M$ dove $M$ è l'insieme di elementi massimali, la funzione 
+        deve essere un isomorfismo (gli elementi massimali di descrivono lo stato)
+        \item $g:X\to 2^P$ dove $g(x)$ è l'ideale principale in $h(x)$ (sono tutti 
+        gli elementi che stanno sotto $h(x)$, ovverlo tutti elementi $\le h(x)$)
+    \end{itemize}
+\end{definizione}
+
+Aggiungo più informazioni al sistema dinamico astratto ($(X,f)$)
+
+\begin{esempio}
+    Nei sistemi reattivi l'informazione è quale sostanza appartiene e quale no.
+    Quindi $P=S\cup \overline{S}$, $S$ sono le sostanze che sono presenti e $\overline{S}$
+    le sostanze assenti. Un pattern $p=\{a,b,\overline{c}\}$ non è detto che ci 
+    siano tutte le sostanze. La relazione $\le$ è la relazione di specificità. Se 
+    $p_1\subseteq p_2$ allora $p_1\le p_2$, ex: $\{a,b\}\le \{a,b,\overline{c}\}$.
+    
+    La relazione di equivalenza $\sim_m$ associa simboli simili ex: $a\sim_m \overline{a}$
+    (ovvero la contraddizione). 
+
+    Esiste un pattern join solo quando esistono 2 elementi minimali che sono esattamente
+    uguali.
+
+    $h(x)$ mapperà gli stati nei pattern più specifici, $h(ab) = ab\overline{c}$
+
+    $g(x)$ rappresenta per ogni stato quali informazioni sono vere, ex: $g(ab)=a,b, \overline{c}, a\overline{c}\dots$.
+\end{esempio}
+
+Il tipo di incertezza che avremo sui sistemi dinamici coincide con l'applicazione 
+di un test che mi da delle informazioni parziali sullo stato attuale e quello che 
+ci interessa è trovare le sottoinformazioni dello stato scoperto che ci viene descitto 
+dal testo.
+
+\begin{definizione}
+    Sia $$APDS= (X,f, \mathcal{P}, g,h,T)$$ ddove $T$ è un insieme di test che ci dicono 
+    se dei pattern sono veri oppure no in un certo pattern.
+\end{definizione}
+\begin{definizione}
+    Quuindi $t:\mathcal{P} \to \{T,F\}$ che restituisce true o false se il pattern 
+    è presente nello stato oppure no. Il test deve essere:
+    \begin{itemize}
+        \item monotona crescente: $p_1\le p_2 \implies t(p_1)\le t(p_2)$
+        Questo mi dice che $x:t(x)= \sqcup_{p\in g(x)} t(p)$
+    \end{itemize}
+\end{definizione}
+
+Questi test introducono delle delle approssimazioni perché possono ritornare valori 
+uguali per stati differenti. Questo mi porta a modellare l'incertezza come Roughset
+
+Quindi dato un insieme di test $T$, abbiamo uno stato $x$ allora $[x]_T$ è la 
+classe di equivalenza $x$ su un insieme di test $T$. Quindi possimao definire 
+la routhapproximation di uno stato $x$ è $r(x) =(l(x), u(x))$ tale che 0
+$$l(x) = \bigcap_{y\in [x]_T} g(y)$$
+$$u(x) = \bigcup_{y\in [x]_T} g(y)$$
+
+PEr un qualsiasi test possiamo calcolare il supporto ovvero l'insieme per cui il 
+test è vero.
+
+Dai test si ottengono le classi di equivalenza degli stati, dalle quali si ottiene 
+la rough approx delle classi di equivalenza e quindi si può avere del sistema dinamico 
+rappresentato come rough approx. Quindi si collassano gli stati nelle classi di 
+equivalenza e nella rappresentazione con rough abbiamo la fraccia tra rough solo 
+se esiste un arco da un nodo di una classe ad un'altra. Con questa trasformazione 
+rischiamo di perdere il determinismo.
+
+Possiamo avere un'altra incertezza dipendente dall'osservazione dell'evoluzione 
+di uno stato
+\begin{definizione}
+    Un osservazione $O$ è una collezioni di cammini massimale (aciclico) 
+\end{definizione}
+Ogni cammino massimale è un'osservazioene.
+
+Se introduciamo delle opprossimazioni allroa le osservazioni possono cambiare 
+le osservazioni a causa dei test che creano un'approssimazione.
+
+Ora ci interessa sapere se i test permettono di riconoscere il comportamento del 
+sistema oppure se un test non è infomrativo, per fare ciò si sfruttano i Reduct.
+
+Si rappresenta il sistema dinamico con l'information table, in questo modo Vogliamo
+trovare il reduct dei test.
+
+Dato un insieme di test  $T$ allora $F\subseteq T$:
+\begin{itemize}
+    \item $F$ è un superreduct totale (un super insieme di un reduct) è un reduct 
+    senza la minimalità se non mi cambia il grafico della dinamica
+    \item $F$ è un superreduct parziale se nel caso due stati appartengono alla calsse 
+    di equivalenza allora possono rimanere così, se due stati non sono nella stessa classe 
+    allora si preservano le stesse classi.
+    \item $F$ è un superreduct locale la dinamica non cambia limitatamente all'osservazione
+\end{itemize} 
+Trovare un sup-reduct totale allora è polinomiale 
+
+In un reaction sistem è Np-Hard perché è polinomiale nella dimensione del grafo 
+
+In generale il reduct minimale è Np-completo.
+
+
+\section{MLOps}
+Si ha l'algoritmo di apprendimento, diamo in input un insieme di dati e una topologia della rete allora in output 
+otterremo il modello con i parametri. Successivamente col modello effettueremo le predizioni.
+
+
+Possiamo avere 2 tipi di incertezza:
+\begin{itemize}
+    \item sui dati di training: si effettua un campionamento dei dati reali che può essere schematizzato attraverso un 
+    generatore di dati $\mathcal{D}$, questo contiene incertezza sui dati come bias, errori sui dati, missing o imprecisione.
+    \item sui dati di predizioni: si vuole comunicare l'incertezza, ovvero dal momento che abbiamo in input incertezza allora vogliamo 
+    quantizzare questa incertezza, stima della probabilità che la predizione sia corretta. (uncertanty quantification)
+\end{itemize}
+
+\section*{Uncertanty quantification nella classificazione (supervisionato)}
+
+Abbiamo uno spazio $X$ (feature space) rappresentazione degli oggetti che voglio studiare. e poi si ha $Y$ che è il target space. EX:
+$X$ insieme di immagini mentre $Y$ sono le etichette associate. Se $Y$ è numerabile allora è classifivazione (binaria) altrimenti se è almento la 
+cardinalità del continuo allora si parla di regressione.
+
+$\mathcal{D}(X, Y)$ è il data generation mekanism, ovvero $\mathcal{D}(X, Y)$ è la probabilià di pescare la coppia $X,Y$ se $\forall x \exists !y\mathcal{D}(x,y)=1$
+allora è un problema deterministico, altrimenti no (ex: riconoscere una malattia man on bastano i sintomi per riconoscerla). Si assume 
+che non valga il determinsmo.
+
+Si denota $\mathcal{D}(X)=\mathcal{D}(y=!|x) = E[y|x]$ perché siamo in una distribuzione di bernulli quindi il valore atteso è la probabilità 
+di pescare la classe positiva. $\mathcal{D}(X)$ è l'incertezza aleatorica ed è un'incertezza che non può essere eliminata perché è una caratteristica
+del meccanismo di generazione dei dati ed è quella che vogliamo quantificare. 
+
+Il problema è che non conosciamo perché se lo conoscessimo allora possiamo definire il \textbf{classificatore}
+perfetto quinid $h(x)=E[y|x]$. noi ci vogliamo avvicinare il più possibile e quindi definiremo una loss $l:H\to \mathbb{R}$.
+La più semplice è la zero loss  $z(h)-1$ ovvero $1-accuracy$ il problema di usare l'accuracy è che non c'è un'inica soluzione giusta 
+perché non è una funzione convessa. Generalmente si usano altre funzioni di loss come $L_2$ (squared-error).
+
+Noi vogliamo trovare un modello tale che 
+$$\arg\max_h E_x[(h(x)-E[y!x])^2]$$
+Ma noi possiamo approssimarlo con 
+
+$$\arg\max_h E_{x,y}[(h(x)-y)^2]$$
+perché vediamo le etichette dal dataset, inoltre possiamo approssimare il valore atteso con la media campionaria
+$$\arg\max_h \frac{1}{2}\sum_{(x,y)}[(h(x)-y)^2]$$
+
+e questo è un upperbound dell'errore vero effettivo.
+
+Se il nostro errore è $\alpha$ allora il modello è $\alpha$-valido, l'obiettivo è trovare $0$-valido che è impossibile perché non 
+conosciamo la distribuzione marginale. 
+
+Un modo per calcolare $\alpha$ è approssimarlo, perché non possiamo calcolare correttamente perché ci servono tutti i dati,
+$\alpha = |E_x[h(x)]-E_{x,y}[y]|$ che è $\alpha$-mean marginally consistant che mi specifica il la predizione media sulle etichette medie.
+Questo non mi dice che il mio classificatore è quello corretto ma se non è $0$-mean marginally consistant allora non lo è sicuramente.
+Possiamo ottenere da un modello il suo $0$-mean marginally consistant  allora sia $\Delta = E_{x,y}[y]-E_x[h(x)]$ allora posso 
+definire $h'(x) = h(x) +\Delta$ che è $0$-mean marginally consistant perché correggo le predizioni con il suo errore. 
+
+Per calcolarl oeffitivamente userò le medie campionarie al posto dei valori attesi ma è sempre un'approssimazione con errore $\sqrt{\frac{\log(1/\delta)}{2n}}\ge \alpha$ ($\alpha$ reale col valore atteso).
+dove $n$ è la dimensione del dataset ma $\delta$ è la confidenza.
+
+Il problema è che sto guardando le singole istanze ma le medie delle istanze.
+Un modo migliore è la calibrazione
+
+Supponiamo che per un'istanza $x$ il modello predice $p=h(x)$ noi lo interpretiamo come probabilità ma non sempre questo è vero.
+
+Se $P(y=1|h(x)=p)= p$ allora il modello è calibrato allora possiamo interpretare come probabilità se $P(y=1|h(x)=p)\ne p$ allora 
+il modello è scalibrato e $p$ non coicide con la probabilità (maggior parte delle volte). In generale si sovrastima le probabilità della 
+classe negativa e si sottostima le probabilità della classe negativa.
+
+Il predittore di bayes è calibrato quindi tutti modelli scalibrati allora non è il predittore corretto.
+
+Dobbiamo capire se è possibile calcolare se il modello è calibrato e nel caso correggere la calibrazione (è possibile). Per farlo facciamo 
+l'assunzione che l'insieme di tutti gli score che mi può dare è finito $|V=\{h(x), x\in X\}|<\infty$ e questo non è troppo restrittivo perché
+su pc tutto è finito.
+
+Si introducono 2 metriche $ECE$ (expected calibration error) 
+$$ECE = \sum_{v\in V}P(h(x)=v)|v-E[y|h(x)=v]|$$
+$$K_2 = \sum_{v\in V}P(h(x)=v)(v-E[y|h(x)=v])^2$$
+Anche per queste metriche non si possono calcolare perché dobbiamo conoscere la distribuzione generatrice.
+
+Possiamo sempre correggere l'errore di calibrazione attraverso un algo iterativo di $T$ step dove ad ogni step 
+riduco l'errore, ad ogni step calcolo 
+$$v^\ast = \arg\max_{v\in V}P(h(x)=v)|v-E[y|h(x)=v]|$$ 
+e un altro ciclo for tale che $h(x)=v^\ast $ allora $h(x)=E[y|h(x)=v^\ast]$. 
+In sostanza istanza per istanza correggo le prredizioni col valore corretto. Al limite si correggono tutti i valori.
+LA probabilità e il valore atteso le calocliamo sul dataset per ottenere un upperbound. Il problema è che 
+la complessità è molto elevata, esiste una versione senza il for su $T$, alla fine assicura la correttezza 
+ma la complessità è sempre elevata per la cardinalità del dataset. Nella pratica si usa la tecnica 
+di platt scaling che sfrutta un modello di machine learning che risolve un problema di regressione 
+dove le feature sono $h(x)$ e l'output è $y$. Si risolve con la logistic regression,
+ma non ha una certezza teorica sul risultato ma è più efficiente.
+In questo caso il modello dipende dalle istanze, il problema è che si deve eseguire 
+su dati mai visti ovvero su un (Calibration set).
+
+Tornando al problema iniziale i modelli $h:X\to [0,1]$  si ha il problema che non 
+è associato alla probabilità. Per risolverlo si può usare l'approccio di 
+restituire $h_\tau :X\to 2^Y$ ovvero restituendo un insieme contenente la classe 
+corretta con una certa confidenza (simile all'intervallo di confidenza). Si parla 
+quindi di conformal prediction. Tutto si basa su test statistici.
+
+Si parte dal modello costruito $h:X\to [0,1]$, si definisce una \textbf{conformity score}
+function 
+$$S:X\times \mathbb{Z} \to \mathbb{R}$$
+\begin{esempio}
+    $S(x,h) = |h(x)-y|$
+\end{esempio}
+Più alto è il valore di $S$ allora maggiore è l'errore sul'istanza. Avremo 
+quindi un calibration set separato dal training set per cui calcoliamo per ogni
+coppia $(x_1,y_1)\dot(x_n,y_n)$ calcoliamo $S_i$.
+
+Definiamo un nuovo modello 
+$$h'_\tau(x)=\{y\in Y, S(x,h)\le \delta\}$$
+con $\delta = \tau$-quantile su $C$. 
+
+Quindi in $C$ eisteranno un totale di $(1-\tau)(n-1)$ istanze tale che $S(x,h)\le \delta$.
+
+L'idea è di identificare un insieme di etichette tale che con probabilità maggiore
+di $1-\tau$ l'etichetta vera appartiene all'insiem ovvero 
+$$P_{x,y}(y\not \in h'_\tau(x))\le \tau + \mathcal{O}(\frac{1}{n})$$
+più grande è $\tau$ allora più è inutile.
+
+
+
+\section*{Uncertanty quantification nel clustering (non supervisionato)}
