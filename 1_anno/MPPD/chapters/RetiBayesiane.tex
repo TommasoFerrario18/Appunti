@@ -298,6 +298,13 @@ Se al termine di questo processo si hanno:
     \end{figure}
 \end{esempio}
 \subsection{Rappresentazione efficiente delle distribuzioni condizionali}
+Per ridurre il numero di parametri nelle CPT possiamo utilizzare le \textbf{distribuzioni
+    canoniche} per rappresentare dei pattern standard tra i parametri come per
+i nodi deterministici. Si possono utilizzare le distribuzioni canoniche solo
+quando si possono notare dei pattern particolari, come ad esempio è possibile
+osservare una relazione di \texttt{AND} logico tra i genitori, oppure una relazione
+di \texttt{OR} logico tra i genitori, ma anche relazioni numeriche, come ad esempio
+la somma e così via.
 
 Una volta identificato il pattern, questo ci permette di specificare un numero
 limitato di parametri per compilare la CPT, dal momento che alcuni si derivano
@@ -571,6 +578,70 @@ Questo metodo mi permette di generare campioni \underline{senza considerare le
     evidenze}. Nel caso in cui si voglia considerare le evidenze, si utilizza il
 metodo di \textbf{Rejection Sampling}.
 
+In questo modo non si controllano le probabilità di tutte le combinazioni di valori
+(i famosi $2^n$) ma si controllano le probabilità di una successione finita di
+numeri casuali, non entrando nella complessità esponenziale.
+Per valutare la complessità di un algoritmo di inferenza è importante considerare
+la struttura della rete. Possiamo avere una rete con una struttura (vedi figura
+\ref{fig:struttura_reti}):
+\begin{itemize}
+    \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha al
+          massimo un cammino non orientato tra due nodi.
+    \item \textbf{Rete Multiplamente connessa}: dove si hanno più cammini non
+          orientati tra due nodi.
+\end{itemize}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/Reti/struttura_reti_bayesiane.png}
+    \caption{Esempio di struttura delle reti bayesiane}
+    \label{fig:struttura_reti}
+\end{figure}
+
+Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
+variabili. Per calcolare l'inferenza approssimata l'algoritmo permette, nel caso
+di una rete Polytree, di computare la probabilità a posteriori per tutte le
+variabili, ovvero $\mathcal{O}(n)$, una query che ha una complessità $\mathcal{O}(n)$.
+Quindi l'algoritmo ha una complessità di $\mathcal{O}(n^2)$.
+
+L'impiego di un algoritmo appartenente alla classe degli \textbf{algoritmi di
+    clustering} (join tree algorithms) consente di ridurre la complessità a $\mathcal{O}(n)$.
+
+Il principio sul quale si basano questi algoritmi è rappresentato dal fatto di
+unire i nodi di una rete formando clusters di variabili. Queste operazioni vengono
+fatte per trasformare la rete in un Polytree nel quale applicare un algoritmo di
+inferenza efficiente.
+
+Resta comunque il problema che il problema di inferenza esatta è NP-Hard. Per
+questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
+\textbf{Monte Carlo}. L'accuratezza di questi metodi dipende dal numero di campionamenti
+generati.
+\subsubsection{Direct Sampling}
+Questo metodo consiste nel campionare direttamente le variabili della rete ignorando
+le evidenze. Il funzionamento di questo algoritmo si basa sull'ordinamento
+topologico delle variabili della rete.
+
+Nel dettaglio, il suo funzionamento è il seguente:
+\begin{itemize}
+    \item Si ordinano le variabili della rete in modo tale che ogni variabile
+          sia preceduta dai suoi genitori.
+    \item Partendo dalla prima variabile si genera un campione casuale sulla base
+          della distribuzione espressa dalla CPT.
+    \item Si prosegue con la generazione delle altre variabili tenendo in
+          considerazione i valori delle variabili precedenti che sono già stati
+          estratti.
+    \item Si ripete questo procedimento per generare un numero finito di campioni.
+\end{itemize}
+Questo algoritmo genera campioni della distribuzione di probabilità congiunta a
+priori per il modello di rete bayesiana specificata.
+
+In ogni algoritmo di campionamento le risposte vengono computate tramite conteggio
+dei campioni generati.
+
+Questo metodo mi permette di generare campioni senza considerare le evidenze. Nel
+caso in cui si voglia considerare le evidenze, si utilizza il metodo di \textbf{Rejection
+    Sampling}.
+
 Questo algoritmo genera campioni della probabilità congiunta e successivamente
 rifiuta i campioni che non soddisfano le evidenze. La stima viene fatta sui
 campioni non rigettati.
@@ -579,6 +650,7 @@ Purtroppo, l'algoritmo di Rejection Sampling rifiuta troppi campioni ed il tasso
 di rigetto cresce esponenzialmente con il numero di variabili per le quali è
 disponibile evidenza. Questa particolarità rende sostanzialmente inutilizzabile
 l'algoritmo nel caso di modelli reali di reti bayesiane.
+
 \subsubsection{Likelihood Weighting}
 Questo algoritmo evita di generare campioni che dovranno essere successivamente
 rigettati. Per fare questo fissa il valore dei nodi per i quali è disponibile
@@ -598,6 +670,7 @@ dove $V_j$ sono tutte le variabili. Quando si esegue il processo di campionament
 se le variabili hanno evidenza, allora il loro valore è definito. Nel caso in
 cui non ci sia evidenza, allora si campiona la variabile secondo la distribuzione
 data dalla CPT, considerando le eventuali dipendenze.
+
 
 Questo rende importante rispettare l'ordinamento topologico quando si applica
 l'algoritmo di Likelihood Weighting.
