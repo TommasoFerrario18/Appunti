@@ -2127,12 +2127,203 @@ Il valore di verità deriva dall'insieme ma l'elemento esatto non lo si conosce.
         \item $\sum_{A\subseteq X}m(A) = 1$
     \end{itemize}
 \end{definizione}
+
 Stiamo associando una distribuzione di probabilità agli insiemi
+
 \begin{definizione}
-    $A$ si chiama focal set se $m(A)>0$ 
+    $A$ si chiama \textbf{focal set} se $m(A)>0$ 
 \end{definizione}
 
+\begin{nota}
+    l'interpretazione della distribuzione ha un significato di un punto di vista 
+    di tipo  epistemico ovvero si basa sulla nostra conoscenza soggettiva. Più precisamente $m(A)$ specifica che l'agente 
+    conosce $x$ è in $A$. La massa può non essere monotona $A\subseteq B$ allora 
+    $m(B)\le m(A) $ se l'agente è abbastanza sicuro che $x$ è in $A$. Se $m(X)=1$
+    allora l'agente non sa niente. 
+\end{nota}
 
+Possiamo definire
+\begin{definizione}[\textbf{Belief function}]
+    La \textbf{belief function} $Bel:2^X\to [0,1]$ indica il totale della massa certa in $A$
+    $$Bel(A) = \sum_{B\subseteq A} m(B)$$
+\end{definizione}
+\begin{definizione}[\textbf{Plausibility function}]
+    La \textbf{plausibility function} $Pl:2^X\to [0,1]$ indica il totale della massa possibile in $A$
+    $$Pl(A) = \sum_{B\cap A \ne \emptyset} m(B)$$
+\end{definizione} 
+
+Abbiamo che $Bel\le Pl$ e sono duali ovvero $Pl(A) = 1- Bel(A^c)$.
+
+\begin{nota}
+    Ricorda che $m(\emptyset) = 0$
+\end{nota}
+
+Le distribuzioni di massa rappresentano la conoscienza a priori e le possiamo 
+unire effettuando \textbf{dempster's rule}
+\begin{definizione}
+    Date $m1,m2$ distribuzini di massa:
+    \begin{itemize}
+        \item $m_{1,2}(\emptyset) = 0$
+        \item $m_{1,2} (A) = \frac{1}{1-K}\sum_{B\cap C =A}m_1(B)m_2(C)$
+        dove $K =\sum_{B\cap C =A}m_1(B)m_2(C)$ è la misura di conflitto.
+    \end{itemize}
+\end{definizione}
+
+Questa regola va bene solo quando le distribuzioni di massa impongono dei vincoli
+sulla situazione, predilige i punti in comune.
+
+Esistono altre regole di aggregazione:
+\begin{itemize}
+    \item \textbf{non normalizzata}: $m_{1,2}(A) =\sum_{B\cap C =A}m_1(B)m_2(C)$
+    \item \textbf{unione}: $m_{1,2} (A)=\sum_{B\cup C =A}m_1(B)m_2(C)$
+\end{itemize}
+
+Generalmente:
+\begin{itemize}
+    \item sotto l'ipotesi di mondo chiuso meglio la normalizzata
+    \item sotto l'ipotesi di mondo aperto meglio la non normalizzata.
+\end{itemize}
+
+Se la distribuzione di maassa è sul singolo elemento e non sugli insiemi si ottiene 
+la probabilità. Otteniamo invece la misura di necessità se i set focali sono uno incluso nell'altro.
+Dalle belief si possono ottenere l'approssimazione rough se i focal set sono una partizione.
+Quindi catturo rappresentazioni rough basate su relazione di equivalenza.
+
+Per ora abbiamo visto solo misure quantitative, passiamo definire delle \textbf{misure qualitative}, 
+in cui si associa quindi un valore da un insieme ordinato (ordine totale).
+
+Dato un universo $X$, definiamo $\mu:2^X\to L$ dove $L$ è un insieme con ordine 
+totale in cui gli elementi esprimono credenza.
+
+\section{Misure di incertezza}
+La misura principale per misurare l'incertezza è l'entropia e ne esistono di diverse 
+tipologie.
+
+$X$ è un insieme di possibili alternative con associate delle probabilità 
+e solo una alternativa è possibile. Come possiamo quantificare il fatto che $x$ 
+occorre? 
+L'idea è di definire una funzione:
+\begin{itemize}
+    \item \textbf{decrescente}: più è probabile che 
+    occorre $x$ allora meno entropia ha
+    \item \textbf{additiva}: se $p(x,y) = p(x)\cdot p(y)$ allora 
+    $$u(p(x,y)) = u(p(x)) + u(p(y))$$
+\end{itemize}
+
+Esistono diverse tipologie di entropia:
+\begin{itemize}
+    \item \textbf{Shannon}:  
+    $$u(p(x)) = K\log_b(p(x))$$
+    dove $b = 2$ se si rappresenta in $b$ mentre $-1$ per la normalizazione.
+    L'incertezza associata ad un insieme è 
+    $$H(X) = - \sum_{x\in X}p(x)\log_2(p(x))$$
+    Questo misura il contenuto informativo atteso di $X$.
+
+    \item \textbf{Ellerman}: misura il contenuto informativo di una partizione $\pi$.
+    L'entropia è alta tanto quanto l'abilità di distinguere tra due alternative.
+    Per esempio quando abbiamo una classe che include tutti gli elementi allora non 
+    si ha l'abilità di distinguerli e quindi abbiamo poca informazione. Al contrario 
+    quando abbiamo una classe di equivalenza per ogni elemento allora abbiamo 
+    massima informazione.
+
+    Il calcolo si basa sui \textbf{dits} (distinction): coppie ordinate $(u_i,u_j)$
+    di elementi in blocchi differneti:
+    $$dit(\pi) = \{(u_i,u_j)| u_i,u_j \text{ classi che riesco a distinguere }\pi\}$$
+    $$H(\pi) = \frac{|dit(\pi)|}{|U\times U|}$$
+    utile quando dobbiamo creare delle orthopartition.
+\end{itemize}
+
+Possiamo introdurre delle misure di entropia più generalizzate:
+\begin{itemize}
+    \item \textbf{fuzzy entropy}: dato un fuzzy $f:X\to [0,1]$  
+    $$H(f) = -\sum_{x\in X }\left[ f(x)\log_2f(x) + (1-f(x))\log_2(1-f(x))\right]$$
+    Misura il grado di fuzzyness, quando $h(f) = 0$ quando è un insieme booleano,
+    altrimenti massimo quando $\forall x, f(x) = \frac{1}{2}$. Dati due fuzzy $f_1,f_2$
+    allora l'entropia misura anche la relazione di fuzzyness ovvero $f_1\le f_2 \iff H(f_1)\le H(f_2)$
+    \item \textbf{conflitto di evidenza}: misura quanto sono in conflitto due distribuzioni 
+    di massa $m_1,m_2$. Due distribuzioni sono in conflitto se $m_1(A)\ne 0, m_2(B)\ne 0$ 
+    $A\cap B=\emptyset$ allora 
+    $$con(m_1,m_2) = -\log_2(1-K)$$
+    dove $K=\sum_{A\cap B=\emptyset}^{m_2(A)\cdot m_2(B)}$ e $A,B$ sono insiemi 
+    focali. Dove $con$ è monotona crescente rispetto a $K$:
+    \begin{itemize}
+        \item $con(m_1,m_2) = 0$ sse $m_1,m_2$ non sono totalmente in conflitto ($K=0$)
+        \item $con(m_1,m_2) = \infty$ sse $m_1,m_2$ sono totalmente in conflitto ($K=1$)
+    \end{itemize}
+    Possiamo calcolare il conflitto all'interno di una distribuzione di massa $m$. Per 
+    fare ciò dobbiamo specificare una distribuzione fittizia
+    $$m_A(B) = \begin{cases}
+        1 & B=A\\
+        0&altrimenti
+    \end{cases}$$
+    La quantità di conflitto di un focal set  con tutti gli altri focal set è 
+    $$con(m,m_A) = -\log_2(1-\sum_{B\cap A=\emptyset}m(B))=-\log_2Pl(A)$$
+    Possiamo calcolare la media su tutti gli insiemi focali:
+    $$E[m] = \sum_{A\in F}m(A)conn(m,m_A) = -\sum_{A\in F}m(A)\log_2Pl(A) $$
+    con $F$ focal sets.
+    Se $m$ è una distribuzione di probabilità quindi assegna una distribuzione 
+    ai singoli elementi allora $E[m]$ è l'entropia di shannon.
+    Il conflitto è anche chiamato \textbf{dissonance}. Se i focal set sono tutti 
+    $$A_1\subseteq A_2 \subseteq \dots \subseteq A_n$$
+    Allora $E[m]= 0$, possibilità e necessità è senza conflitto.
+    \item \textbf{confusione di evidenza}: dal conflitto possiamo ottenere la confusione 
+    usando $Bel$:
+    $$C[m]=-\sum_{A\in F}m(A)\log_2Bel(A)$$
+    Se $C[m]=0$ sse $m(A)=1$ per un particolare $A$ e $m(B)=0$ tutti gli altri.
+    $C[m]$ caratterizza:
+    \begin{itemize}
+        \item più la distribuzione è uniforme allora più siamo confusi
+        \item se conconcentriamo su un insieme focale allora la confusione è $0$.
+    \end{itemize}
+    \item \textbf{Ellerman} sulle orthopartition: Sia $\mathcal{O}$ una orthopartizione 
+    allora $\sqcap_\mathcal{O}$ è l'insieme di tutte le partizioni consistenti con $\mathcal{O}$.
+    quindi $\pi \in \sqcap_\mathcal{O}$ possiamo calcolare $H(\pi)$ (con quella di Ellerman) e successivamente 
+    calcolare l'entropia della orthopartition:
+    \begin{itemize}
+        \item lower entropy:
+        $$h_\ast(\mathcal{O}) = \min\{H(\pi)|\pi \in \sqcap_\mathcal{O}\}$$
+        \item upper entropy:
+        $$h^\ast(\mathcal{O}) = \max\{H(\pi)|\pi \in \sqcap_\mathcal{O}\}$$
+        \item mean entropy:
+        $$\hat{h}(\mathcal{O}) = \frac{h_\ast(\mathcal{O}) + h^\ast(\mathcal{O})}{2}$$
+        \item avg entropy:
+        $$h_A(\mathcal{O})= \frac{1}{|\sqcap_\mathcal{O}|}\sum_{\pi \in \sqcap_\mathcal{O}}H(\pi)$$
+    \end{itemize}
+    \item \textbf{Shannon} sulle orthopartition: abbiamo bisogno di una distribuzione 
+    $p=\left[p_1,\dots,p_n\right]$ che sia compatibile con l'orthopartizione.
+    $$\mathcal{P}_\mathcal{O} = \{\left[p_1,\dots, p_n\right] | p_i\in \left[\frac{|P_i|}{|U|},\frac{|P_i\cup Bnd_i|}{|U|}\right], \sum_{i=1}^{n}p_i=1\}$$
+    \begin{itemize}
+        \item lower entropy:
+        $$h_{S\ast}(\mathcal{O}) = \min\{H_S(\pi)|\pi \in \sqcap_\mathcal{O}\}$$
+        \item upper entropy:
+        $$h_S^\ast(\mathcal{O}) = \max\{H_S(\pi)|\pi \in \sqcap_\mathcal{O}\}$$
+        \item mean entropy:
+        $$\hat{h}(\mathcal{O}) = \frac{h_{S\ast}(\mathcal{O}) + h_S^\ast(\mathcal{O})}{2}$$
+        \item avg entropy:
+        $$h_{SA}(\mathcal{O})= \frac{1}{|\sqcap_\mathcal{O}|}\sum_{\pi \in \sqcap_\mathcal{O}}H_S(\pi)$$
+    \end{itemize}
+\end{itemize}
+
+
+Per valutare il soft clustering si usano le ortopartizioni e si applica l'entropia.
+L'entropia mi rappresenta le possibili coppie ordinate che possiamo distinguere.
+
+Il problema è che non è efficiente perché si entra nel combinatorio
+e quindi spesso si usano delle euristiche. Oppure possiamo usare l'entropia di 
+Ellerman che sono polinomiali.
+
+Nelle orthopartizioni spesso si calcola la misura di mutua informazione, ovvero 
+l'informazione comune tra due orthopartizioni. 
+
+$$m(\mathcal{O}_1,\mathcal{O}_2) = h(\mathcal{O}_1) + h(\mathcal{O}_2) - h(\mathcal{O}_1\land \mathcal{O}_2) $$
+Dove $h$ è una qualsiasi entropia definita e $\mathcal{O}_1\land \mathcal{O}_2$ è 
+l'intersezione.
+
+$$\mathcal{O}_1\land \mathcal{O}_2=\{O_{i1}\sqcap_t O_{j2}|O_{i1}\in \mathcal{O}_1 \land O_{j2}\in\mathcal{O}_2\}$$
+
+dove $O_{i1}\sqcap_t O_{j2} = (L_1\cap L_2, U_1\cup U_2)$
+L'intersezione si calcola con l'intersezione dell'approssimazione dal basso e l'unione del boundary. Si usa 
+questa perché coincide con l'intersezione tra partizioni delle due orthocopie. Menomale che Silvio c'è!
 
 \section{Unione sistemi incerti e sistemi complessi}
 sistemi tempo discreto e spazio discreto e pazio finito. L'idea è di capire incertezza 
@@ -2333,6 +2524,10 @@ Possiamo avere 2 tipi di incertezza:
     quantizzare questa incertezza, stima della probabilità che la predizione sia corretta. (uncertanty quantification)
 \end{itemize}
 
+
+
+
+
 \section*{Uncertanty quantification nella classificazione (supervisionato)}
 
 Abbiamo uno spazio $X$ (feature space) rappresentazione degli oggetti che voglio studiare. e poi si ha $Y$ che è il target space. EX:
@@ -2438,3 +2633,4 @@ più grande è $\tau$ allora più è inutile.
 
 
 \section*{Uncertanty quantification nel clustering (non supervisionato)}
+
