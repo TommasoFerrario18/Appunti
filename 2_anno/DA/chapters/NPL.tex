@@ -24,10 +24,10 @@ l'albero della frase più probabile.
 Tra le varie tipologie di ambiguità che possiamo incontrare distinguiamo due
 tipologie:
 \begin{itemize}
-      \item Ambiguità emozionale: in una frase sono espresse emozioni contrastanti.
-            Questo viene studiato attraverso la \textbf{sentiment analysis}.
-      \item Ambiguità semantica: in una frase sono presenti parole che possono
-            avere più significati. Questo viene studiato attraverso la
+      \item \textbf{Ambiguità emozionale}: in una frase sono espresse emozioni
+            contrastanti. Questo viene studiato attraverso la \textbf{sentiment analysis}.
+      \item \textbf{Ambiguità semantica}: in una frase sono presenti parole che
+            possono avere più significati. Questo viene studiato attraverso la
             \textbf{named-entity recognition} e in seguito il \textbf{named-entity
                   linking}.
 \end{itemize}
@@ -43,8 +43,8 @@ sia:
       \item \textbf{Soggettivo} (emozione): si sta esprimendo un'emozione la quale
             può essere:
             \begin{itemize}
-                  \item Positivo.
-                  \item Negativo.
+                  \item Positiva
+                  \item Negativa
                   \item Neutrale: complesso perché spesso è molto vicino ad una
                         frase oggettiva o spesso si pesa la frase tra positiva e
                         negativa, quindi se è bilanciata è neutrale.
@@ -89,43 +89,41 @@ come un vettore di bit, dove il bit $i$-esimo è a $1$ se la parola $i$-esima
       \item Il vettore che rappresenta la frase è molto grande e sparso.
       \item Perdiamo l'ordinamento delle parole.
 \end{itemize}
-Un ulteriore metodo è rappresentato dalla \textbf{BagOfWord}, la quale consiste
-nel rappresentare una frase tramite un vettore in uno spazio. Il problema è che
-manca la composizionalità delle parole.
+Un ulteriore metodo consiste nella \textbf{BagOfWord}, ovvero si rappresenta una
+frase tramite un vettore in uno spazio. Il problema di questo approccio è legato
+al fatto che manca la composizionalità delle parole.
 
 Possiamo usare una rappresentazione deep basata su \textbf{word2vec}. Questa consiste
 nello scrivere il termine sulla base dei termini che lo precedono e che lo seguono.
-Si ha quindi uns strategia simile alla BagOfWord, ma mantenendo la composizionalità.
+Si ha quindi una strategia simile alla BagOfWord, ma mantenendo la composizionalità.
 
 Word2Vec è un modello che viene usato per creare una rappresentazione vettoriale
-delle parole. Questo modello è basato su una rete neurale che prende in input
-una parola e cerca di prevedere le parole che la circondano.
+delle parole. Esistono due tipologie di Word2Vec:
 \begin{itemize}
-      \item \textbf{skip-gram}: parte da una parola del documento e cerca di
-            predire l'intorno della parola.
+      \item \textbf{skip-gram}: partendo da una parola del documento cerco di
+            predire l'intorno di essa.
 
-            Per ottenere questo risultato, usiamo un \textbf{one-hot-vector},
-            ovvero un bitvector, lungo quanto il il vocabolario, con un bit a $1$
-            nella posizione associata alla parola all'interno del vocabolario.
+            Per ottenere questo risultato, la parola viene codificata attraverso
+            \textbf{one-hot-vector}, ovvero un bitvector lungo quanto il
+            vocabolario, con un bit a $1$ nella posizione associata alla parola.
 
-            Successivamente costruiamo una rete neurale (Encoder Decoder) che
-            preso in input il bitvector, in output dobbiamo avere un vettore
+            Successivamente si costruisce una rete neurale tipo Encoder-Decoder
+            che preso in input il bitvector, fornisce in output un vettore
             lungo tanto quanto il vocabolario con una probabilità associata ad
-            ogni parola. La rappresentazione vettoriale coincide con  quello che
-            si ha nell'hidden layer, la sua dimensione è decisa in fase di
+            ogni parola. La rappresentazione vettoriale coincide con quello che
+            si ha nell'hidden layer, quindi la sua dimensione è decisa in fase di
             costruzione della rete.
 
             Il documento viene rappresentato dal vettore media dei vettori dei
             termini presenti nel documento.
 
-            A differenza dalle rappresentazioni più vecchie abbiamo un vettore di
-            dimensione $n$ selezionato dalla rete. Il problema è che non consideriamo
-            il contesto del mondo.
+            A differenza dalle rappresentazioni viste in precedenza, abbiamo un
+            vettore di dimensione $n$ selezionato dalla rete. Il problema è che
+            non andiamo a considerare il contesto del mondo.
 
             Esistono metodi più efficaci per rappresentare il testo come
             \textbf{USE} e \textbf{BERT}.
-      \item \textbf{CBOW}: cerca di predire la parola sulla base dell'intorno
-            delle parole vicine.
+      \item \textbf{CBOW}: cerca di predire la parola sulla base del suo intorno.
 \end{itemize}
 Questi permettono di avere parole con lo stesso significato o simili vicine nello
 spazio vettoriale.
@@ -217,7 +215,7 @@ funzione $\phi(y_t,y_{t-1},x ,t)$ può essere scritta come:
 \end{equation}
 dove $f_k(y_t,y_{t-1},x,t)$ sono delle \textbf{feature function}, ovvero delle
 funzioni predeterminate che valutano diverse proprietà in base all'osservazione e
-all'etichetta precedente al tempo $t$.È impor tante che queste funzioni abbiano
+all'etichetta precedente al tempo $t$.È importante che queste funzioni abbiano
 almeno due stati di uscita, possiamo considerare le feature function come degli
 \textbf{if}.
 
@@ -326,20 +324,40 @@ il quale funziona nel seguente modo:
             della frase.
       \item Seleziona il significato con il massimo overlap.
 \end{itemize}
+\subsubsection{Unsupervised Disambiguation}
+Questi approcci tentano di rimuovere il collo di bottiglia legato alla necessità
+di avere una base di conoscenza. Infatti, non si ha la necessità di avere una
+base di conoscenza o etichette, ma il senso viene definito dal contesto.
+
+Un esempio di algoritmo unsupervised è \textbf{Word Sense Induction} oppure
+\textbf{Word Sense Disambiguation}.
+
+L'algoritmo \textbf{Chinese Whispers} è un algoritmo di clustering che si basa
+su grafi non orientati e senza pesi sugli archi. Questo algoritmo funziona nel
+seguente modo:
+\begin{itemize}
+      \item Inizialmente, ogni nodo è assegnato a una classe.
+      \item In modo iterativo, si seleziona un nodo in modo casuale e lo si assegna
+            alla classe con la quale il nodo ha più connessioni. In caso di
+            parità, si assegna il nodo a una classe casuale.
+\end{itemize}
+I vantaggi di questo algoritmo sono legati all'efficienza e al fatto che non è
+necessario specificare nessun parametro. Tuttavia, il principale svantaggio è
+che non è deterministico e ci sono situazioni in cui non converge.
 \section{Topic Models}
 \begin{definizione}
-      Il \textbf{topic recognition} è il problema di riconoscere il topic data una 
+      Il \textbf{topic recognition} è il problema di riconoscere il topic data una
       collezione di documenti.
 \end{definizione}
 
-Il riconoscimento si basa sulla ricerca di pattern sintattici di parole collegate 
-da un topic comune, si basa sull'idea che il topic dipende dall'insieme di parole 
+Il riconoscimento si basa sulla ricerca di pattern sintattici di parole collegate
+da un topic comune, si basa sull'idea che il topic dipende dall'insieme di parole
 che compaiono con frequenza maggiore. Di conseguenza è un processo non supervisionato.
 
-Alla fine data una collezione di documenti, si assume che per ogni documento ci siano 
+Alla fine data una collezione di documenti, si assume che per ogni documento ci siano
 diversi topics, quindi per ogni documento avremo una distribuzione di topic.
-Ogni topic può essere visto, a sua volta, come una distribuzione di parole all'interno 
-del documento. Quindi noi \textbf{osserviamo} i documenti e le parole dai quali 
+Ogni topic può essere visto, a sua volta, come una distribuzione di parole all'interno
+del documento. Quindi noi \textbf{osserviamo} i documenti e le parole dai quali
 si devono predire i topic \ref{fig:topic}.
 
 \begin{figure}[!ht]
@@ -350,7 +368,7 @@ si devono predire i topic \ref{fig:topic}.
 \end{figure}
 
 \begin{nota}
-      I topic li possiamo vedere come delle word-cloud e le etichette dei topic 
+      I topic li possiamo vedere come delle word-cloud e le etichette dei topic
       possono essere identificate da un umano o automaticamente.
 \end{nota}
 
@@ -361,43 +379,43 @@ Questi permettono di estrarre dalla collezione di documenti:
       \item i topic (cluster di parole)
       \item distribuzione dei topic in ciascun documento
       \item distribuzione delle parole nei topic
-\end{itemize} 
+\end{itemize}
 
 Più precisamente la modellazione dei topic si basa sui seguenti concetti:
 \begin{itemize}
-      \item ogni documento è un insieme di topic. Specifica che ogni documento 
-      può essere definito da una distribuzione di topic.
-      \item ogni topic è un mix di parole. Specifica che ogni topic ha una distribuzione 
-      delle parole.
+      \item ogni documento è un insieme di topic. Specifica che ogni documento
+            può essere definito da una distribuzione di topic.
+      \item ogni topic è un mix di parole. Specifica che ogni topic ha una distribuzione
+            delle parole.
 \end{itemize}
 
 Gli strumenti che si utilizzano per risolvere il seguente problema sono:
 \begin{itemize}
       \item \textbf{frequentisti o statistical based}: unigramma, mixture of unigramm, latente dirichlet allocation.
-      Le metriche di valutazione sono PMI, RBO e KL.
-      \item \textbf{neural based}: contextualized topic model, neural-based. Vengono 
-      valutati usando la metrica WED.
+            Le metriche di valutazione sono PMI, RBO e KL.
+      \item \textbf{neural based}: contextualized topic model, neural-based. Vengono
+            valutati usando la metrica WED.
 \end{itemize}
 
-I modelli neurali permettono di trovare delle differenze semantiche rispetto al 
+I modelli neurali permettono di trovare delle differenze semantiche rispetto al
 contesto, cosa che non fanno i modelli frequentisti.
 
 \subsection{Unigram model}
 Questo modello si basa sull'assunzione che esista un solo topic nella collezione.
-Essendoci un solo topic allora il compito diveta stimare la distribuzione delle 
+Essendoci un solo topic allora il compito diveta stimare la distribuzione delle
 parole del dizionario rispetto al topic ($p(w)$).
 
-Quindi data una parola del dizionario, Questa può essere osservata se presente 
-in un documento oppure non osservata se non è presente della collezione. 
+Quindi data una parola del dizionario, Questa può essere osservata se presente
+in un documento oppure non osservata se non è presente della collezione.
 Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai documenti,
-ovvero la probabilità di presenza della parola nei vari documenti, oppure possiamo 
-calcolare per ogni documenti la distribuzione delle parole. 
+ovvero la probabilità di presenza della parola nei vari documenti, oppure possiamo
+calcolare per ogni documenti la distribuzione delle parole.
 
 \subsection{Mixutere Unigram model}
-Identico all'Unigram con la differenza che si assume di avere più topic nella collezione (dati dal problema) ma 
-un solo topic per documento. 
+Identico all'Unigram con la differenza che si assume di avere più topic nella collezione (dati dal problema) ma
+un solo topic per documento.
 
-Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai topic e 
+Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai topic e
 per ogni topic possiamo calcolare la distribuzione dei documenti.
 
 Quindi per ogni parola abbiamo una distribuzione di topic e per ogni documento
@@ -443,33 +461,33 @@ la quale rappresenta la probabilità di osservare un topic all'interno di un doc
 Anche questa distribuzione, come la precedente, viene costruita in modo iterativo
 partendo da una versione randomica.
 
-Ogni documento ha associato un \textbf{Document topic distribution} $P(z|d)$ prob. di un topic 
+Ogni documento ha associato un \textbf{Document topic distribution} $P(z|d)$ prob. di un topic
 all'interno di un documento. Si crea a partire da una randomica e si perfeziona con
 MCM.
 
-Il processo generativo si articola: date le distribuzioni $P(w|z)$ e $P(z|d)$, allora prima campiono 
+Il processo generativo si articola: date le distribuzioni $P(w|z)$ e $P(z|d)$, allora prima campiono
 $P(z|d)$ e poi campiono $P(w|z)$
 
-Avremo gli iperparametri $\alpha, \beta$ che sono numeri reali che permettono 
-di inizializzare a priori le distribuzioni $P(z|d)$ e $P(w|z)$. In base ai valori 
+Avremo gli iperparametri $\alpha, \beta$ che sono numeri reali che permettono
+di inizializzare a priori le distribuzioni $P(z|d)$ e $P(w|z)$. In base ai valori
 si hanno le seguenti implicazioni:
 \begin{itemize}
       \item $\alpha$ alto: più mi aspetto tanti topic nel documento
       \item $\alpha$ basso: mi aspetto un topic dominante nel documento
       \item $\beta$ alto: contiene un misture di molte parole
       \item $\beta$ basso: contiene un misture di poche parole
-\end{itemize} 
+\end{itemize}
 
-$\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo 
-il train migliorando le distribuzioni utilizzando le osservazioni. 
+$\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo
+il train migliorando le distribuzioni utilizzando le osservazioni.
 
 L'\textbf{inferenza} si articola:
 \begin{itemize}
-      \item \textbf{inizializzazione}: randomicamente assegno ad ogni parola un 
-      topic in qualsiasi documento
-      \item \textbf{aggiornamento}: per ogni parola di ogni documento aggiorno il 
-      topic assegnato contando le frequenze di tutte le parole tra word e topic e 
-      aggiungo la viariabilità dalla distribuzione di dirichlet
+      \item \textbf{inizializzazione}: randomicamente assegno ad ogni parola un
+            topic in qualsiasi documento
+      \item \textbf{aggiornamento}: per ogni parola di ogni documento aggiorno il
+            topic assegnato contando le frequenze di tutte le parole tra word e topic e
+            aggiungo la viariabilità dalla distribuzione di dirichlet
       \item \textbf{ripeto}: per ogni parola in tutti i documenti
       \item \textbf{iterate}: ripeti per più iterazioni
 \end{itemize}

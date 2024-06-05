@@ -322,28 +322,28 @@ Le relazioni tra genitori e figli possono essere di diversi tipi:
           variabili dei genitori.
 \end{itemize}
 
-Si possono identificare delle relazioni tra i valori che assumono i genitori e 
+Si possono identificare delle relazioni tra i valori che assumono i genitori e
 i valori che assumono i figli, ex: quando il valore del figlio coincide con l'\texttt{AND}
-logico tra i valori dei genitori. In questo caso il valore del figlio è determinato 
-dai valori dei genitori, senza incertezza perché è un nodo deterministico. In questo 
-modo l'\texttt{AND} è una \textbf{distribuzione canonica} e questo permette di 
-non avere dei paramentri per il nodo deterministico, riducendo la complessità 
-della rete. 
+logico tra i valori dei genitori. In questo caso il valore del figlio è determinato
+dai valori dei genitori, senza incertezza perché è un nodo deterministico. In questo
+modo l'\texttt{AND} è una \textbf{distribuzione canonica} e questo permette di
+non avere dei paramentri per il nodo deterministico, riducendo la complessità
+della rete.
 
-Con lo stesso ragionamento si possono utilizzare di stribuzioni canoniche che non 
-seguono relazioni logiche, ma seguono relazioni numeriche, ex: il figlio assume 
-sempre il minimo valore tra i valori assunti dai genitori.  Questa distribuzione 
+Con lo stesso ragionamento si possono utilizzare di stribuzioni canoniche che non
+seguono relazioni logiche, ma seguono relazioni numeriche, ex: il figlio assume
+sempre il minimo valore tra i valori assunti dai genitori.  Questa distribuzione
 canonica coincide con il \texttt{min}.
 
-Le distribuzioni canoniche permettono anche di esprimere delle relazioni incerte 
-mediante l'ausilio delle distribuzioni \textbf{Noisy Logical}. Un esempio è la 
-distribuzione \textbf{Noisy-OR} che consiste nello specificare $P(f = T)$ solo 
-quando uno solo dei genitori è vero, poi le altre combinazioni si ottengono 
-di conseguenza. In questo modo se $k$ sono i genitori allora dovremo esprimere 
+Le distribuzioni canoniche permettono anche di esprimere delle relazioni incerte
+mediante l'ausilio delle distribuzioni \textbf{Noisy Logical}. Un esempio è la
+distribuzione \textbf{Noisy-OR} che consiste nello specificare $P(f = T)$ solo
+quando uno solo dei genitori è vero, poi le altre combinazioni si ottengono
+di conseguenza. In questo modo se $k$ sono i genitori allora dovremo esprimere
 solo $P(f=T | g_0 = F, \dots, g_i = T, \dots, g_k=F), \forall i \in \{0,\dots, k\}$,
-mentre le altre probabilità dove si hanno più genitori veri verranno calcolate 
-moltiplicando le probabilità dei singoli genitori veri. Questo si traduce nello specificare 
-solo $k$ parametri indipendenti e tutti gli altri saranno dipendenti. 
+mentre le altre probabilità dove si hanno più genitori veri verranno calcolate
+moltiplicando le probabilità dei singoli genitori veri. Questo si traduce nello specificare
+solo $k$ parametri indipendenti e tutti gli altri saranno dipendenti.
 
 Il modello Noisy-OR effettua le seguenti ipotesi:
 \begin{itemize}
@@ -385,9 +385,9 @@ computare la distribuzione a posteriori, per un determinato insieme di \textbf{v
     di query}, quando si è osservato un determinato evento, ovvero un assegnamento
 congiunto di valori per un insieme di \textbf{variabili di evidenza}.
 Le reti bayesiane permettono di effettuare il \textbf{probabilistic reasoning}, ovvero
-possiamo osservare un assegnamento ad una variabile di evidenza alla volta per 
-vedere come si modificano le distribuzioni delle nostre variabili. Infatti ogni 
-qual volta otteniamo una nuova evidenza, si aggiornano tutte le cpt per aggiornare 
+possiamo osservare un assegnamento ad una variabile di evidenza alla volta per
+vedere come si modificano le distribuzioni delle nostre variabili. Infatti ogni
+qual volta otteniamo una nuova evidenza, si aggiornano tutte le cpt per aggiornare
 le distribuzioni.
 
 In questa sezione useremo la seguente notazione:
@@ -464,11 +464,18 @@ allora posso sfruttare la seguente equazione, ovvero l'\textbf{algoritmo di
     P(X|E = e) = \alpha P(X,E = e) = \alpha \sum_{y} P(X,E = e, Y = y)
 \end{equation}
 dove $\alpha$ mi rappresenta un parametro di normalizzazione, mentre $\sum_{y}
-    P(X,E = e, Y = y)$ rappresenta la probabilità al variare delle variabili nascoste 
+    P(X,E = e, Y = y)$ rappresenta la probabilità al variare delle variabili nascoste
 che si chiama \textbf{marginalizzazione}.
 
-Si parla di \textbf{enumerazione} perché calcoliamo tutte le possibili combinazioni di valori
-delle variabili che non fanno parte dell'evidenza.
+La distribuzione marginale a posteriori per la variabile di query $X$ viene
+ottenuta applicando un procedimento di \textbf{marginalizzazione} rispetto all'insieme
+delle variabili senza evidenza $Y$, ovvero:
+\begin{equation}
+    P(X|E = e) = \alpha P(X, E = e) = \alpha \sum_{y} P(X,E = e, Y = y)
+\end{equation}
+
+Si parla di \textbf{enumerazione} perché calcoliamo tutte le possibili combinazioni
+di valori delle variabili che non fanno parte dell'evidenza.
 \begin{nota}
     Si aggiunge la costante di normalizzazione, ovvero:
     \begin{equation}
@@ -501,7 +508,7 @@ Possiamo però migliorare le tempistiche attraverso delle semplificazioni:
 
 L'algoritmo si basa sul principio di risolvere il calcolo delle sommatorie in
 \textbf{bottom-up}, ovvero da destra verso sinistra e salvando i valori in modo
-tale da calcolarlo senza ripetizione. 
+tale da calcolarlo senza ripetizione.
 
 La complessità dell'inferenza esatta dipende interamente dalla tipologia della rete,
 le reti si dividono in:
@@ -521,23 +528,23 @@ Un esempio di queste reti si può vedere nella figura \ref{fig:struttura_reti}.
     \label{fig:struttura_reti}
 \end{figure}
 
-Infatti per le reti \textbf{Polytree} la complessità dell'inferenza esatta è \textbf{lineare} 
-alla dimensione della rete, per dimensione della rete si intente il \textbf{numero di entry 
-delle CPT}. Se il numero dei genitori per ogni nodo è vincolato da una costante allora 
+Infatti per le reti \textbf{Polytree} la complessità dell'inferenza esatta è \textbf{lineare}
+alla dimensione della rete, per dimensione della rete si intente il \textbf{numero di entry
+    delle CPT}. Se il numero dei genitori per ogni nodo è vincolato da una costante allora
 la complessità risulta \textbf{lineare} rispetto al numero di \textbf{nodi della rete}.
-Quindi in caso di reti Polytree possiamo dire, generalizzando, che se vogliamo calcolare 
+Quindi in caso di reti Polytree possiamo dire, generalizzando, che se vogliamo calcolare
 le probabilità a posteriori di tutte le variabili la complessià è $\mathcal{O}(n^2)$.
 
-Al contrario per le reti \textbf{multiplamente connesse} l'algoritmo dell'eliminazione 
-delle variabili è NP-Hard anche nel caso in cui il numero di genitori è limitato 
+Al contrario per le reti \textbf{multiplamente connesse} l'algoritmo dell'eliminazione
+delle variabili è NP-Hard anche nel caso in cui il numero di genitori è limitato
 da una costante, perché si riduce a SAT.
 
-Per l'inferenza esatta si usano spesso \textbf{algoritmi di clustering} (join tree algorithms) per fondere dei 
-nodi in modo da avere un unico nodo finale. Quando si fondono i nodi si introduce 
+Per l'inferenza esatta si usano spesso \textbf{algoritmi di clustering} (join tree algorithms) per fondere dei
+nodi in modo da avere un unico nodo finale. Quando si fondono i nodi si introduce
 una variabile che assume tutte le combinazioni dei valori delle variabili fuse.
-In questo modo, calcolare l'inferenza esatta su reti  \textbf{Polytree} per ogni 
-variabile della rete diventa $\mathcal{O}(n)$. Il problema è che per le \textbf{multiplamente 
-connesse}, la complessità rimane invariata dal momento che pur unendo le variabili,
+In questo modo, calcolare l'inferenza esatta su reti  \textbf{Polytree} per ogni
+variabile della rete diventa $\mathcal{O}(n)$. Il problema è che per le \textbf{multiplamente
+    connesse}, la complessità rimane invariata dal momento che pur unendo le variabili,
 le nuove CPT crescono esponenzialmente di dimensione, rimanento dell'NP-Hard.
 
 Per
