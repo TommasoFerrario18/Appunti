@@ -327,10 +327,10 @@ i valori che assumono i figli, ex: quando il valore del figlio coincide con l'\t
 logico tra i valori dei genitori. In questo caso il valore del figlio è determinato
 dai valori dei genitori, senza incertezza perché è un nodo deterministico. In questo
 modo l'\texttt{AND} è una \textbf{distribuzione canonica} e questo permette di
-non avere dei paramentri per il nodo deterministico, riducendo la complessità
+non avere dei parametri per il nodo deterministico, riducendo la complessità
 della rete.
 
-Con lo stesso ragionamento si possono utilizzare di stribuzioni canoniche che non
+Con lo stesso ragionamento si possono utilizzare di distribuzioni canoniche che non
 seguono relazioni logiche, ma seguono relazioni numeriche, ex: il figlio assume
 sempre il minimo valore tra i valori assunti dai genitori.  Questa distribuzione
 canonica coincide con il \texttt{min}.
@@ -362,7 +362,7 @@ insieme finito di intervalli. Il problema che sorge utilizzando questo approccio
 di dimensione.
 
 Una soluzione alternativa è rappresentare le variabili con delle \textbf{funzioni
-    di densità di probabilità} vengono descritte tramite un numero finito e di
+    di densità di probabilità} che vengono descritte tramite un numero finito e di
 norma contenuto di parametri. Un esempio è la funzione di densità di probabilità
 della distribuzione normale, la quale viene completamente specificata tramite
 la media e la deviazione standard.
@@ -529,11 +529,11 @@ Un esempio di queste reti si può vedere nella figura \ref{fig:struttura_reti}.
 \end{figure}
 
 Infatti per le reti \textbf{Polytree} la complessità dell'inferenza esatta è \textbf{lineare}
-alla dimensione della rete, per dimensione della rete si intente il \textbf{numero di entry
+alla dimensione della rete, per dimensione della rete si intende il \textbf{numero di entry
     delle CPT}. Se il numero dei genitori per ogni nodo è vincolato da una costante allora
 la complessità risulta \textbf{lineare} rispetto al numero di \textbf{nodi della rete}.
 Quindi in caso di reti Polytree possiamo dire, generalizzando, che se vogliamo calcolare
-le probabilità a posteriori di tutte le variabili la complessià è $\mathcal{O}(n^2)$.
+le probabilità a posteriori di tutte le variabili la complessità è $\mathcal{O}(n^2)$.
 
 Al contrario per le reti \textbf{multiplamente connesse} l'algoritmo dell'eliminazione
 delle variabili è NP-Hard anche nel caso in cui il numero di genitori è limitato
@@ -584,70 +584,6 @@ priori per il modello di rete bayesiana specificata.
 Questo metodo mi permette di generare campioni \underline{senza considerare le
     evidenze}. Nel caso in cui si voglia considerare le evidenze, si utilizza il
 metodo di \textbf{Rejection Sampling}.
-
-In questo modo non si controllano le probabilità di tutte le combinazioni di valori
-(i famosi $2^n$) ma si controllano le probabilità di una successione finita di
-numeri casuali, non entrando nella complessità esponenziale.
-Per valutare la complessità di un algoritmo di inferenza è importante considerare
-la struttura della rete. Possiamo avere una rete con una struttura (vedi figura
-\ref{fig:struttura_reti}):
-\begin{itemize}
-    \item \textbf{Rete singolarmente connessa} (\textbf{Polytree}): dove si ha al
-          massimo un cammino non orientato tra due nodi.
-    \item \textbf{Rete Multiplamente connessa}: dove si hanno più cammini non
-          orientati tra due nodi.
-\end{itemize}
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{img/Reti/struttura_reti_bayesiane.png}
-    \caption{Esempio di struttura delle reti bayesiane}
-    \label{fig:struttura_reti}
-\end{figure}
-
-Nella precedente sezione abbiamo visto l'algoritmo di eliminazione delle
-variabili. Per calcolare l'inferenza approssimata l'algoritmo permette, nel caso
-di una rete Polytree, di computare la probabilità a posteriori per tutte le
-variabili, ovvero $\mathcal{O}(n)$, una query che ha una complessità $\mathcal{O}(n)$.
-Quindi l'algoritmo ha una complessità di $\mathcal{O}(n^2)$.
-
-L'impiego di un algoritmo appartenente alla classe degli \textbf{algoritmi di
-    clustering} (join tree algorithms) consente di ridurre la complessità a $\mathcal{O}(n)$.
-
-Il principio sul quale si basano questi algoritmi è rappresentato dal fatto di
-unire i nodi di una rete formando clusters di variabili. Queste operazioni vengono
-fatte per trasformare la rete in un Polytree nel quale applicare un algoritmo di
-inferenza efficiente.
-
-Resta comunque il problema che il problema di inferenza esatta è NP-Hard. Per
-questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
-\textbf{Monte Carlo}. L'accuratezza di questi metodi dipende dal numero di campionamenti
-generati.
-\subsubsection{Direct Sampling}
-Questo metodo consiste nel campionare direttamente le variabili della rete ignorando
-le evidenze. Il funzionamento di questo algoritmo si basa sull'ordinamento
-topologico delle variabili della rete.
-
-Nel dettaglio, il suo funzionamento è il seguente:
-\begin{itemize}
-    \item Si ordinano le variabili della rete in modo tale che ogni variabile
-          sia preceduta dai suoi genitori.
-    \item Partendo dalla prima variabile si genera un campione casuale sulla base
-          della distribuzione espressa dalla CPT.
-    \item Si prosegue con la generazione delle altre variabili tenendo in
-          considerazione i valori delle variabili precedenti che sono già stati
-          estratti.
-    \item Si ripete questo procedimento per generare un numero finito di campioni.
-\end{itemize}
-Questo algoritmo genera campioni della distribuzione di probabilità congiunta a
-priori per il modello di rete bayesiana specificata.
-
-In ogni algoritmo di campionamento le risposte vengono computate tramite conteggio
-dei campioni generati.
-
-Questo metodo mi permette di generare campioni senza considerare le evidenze. Nel
-caso in cui si voglia considerare le evidenze, si utilizza il metodo di \textbf{Rejection
-    Sampling}.
 
 Questo algoritmo genera campioni della probabilità congiunta e successivamente
 rifiuta i campioni che non soddisfano le evidenze. La stima viene fatta sui
