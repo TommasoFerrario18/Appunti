@@ -579,7 +579,7 @@ funzioni di similarità, come ad esempio:
               J(A, B) = \frac{|A \cap B|}{|A \cup B|}
           \end{equation*}
           dove $A,B$ sono le righe della matrice di adiacenza associate ai nodi $A,B$,
-          quindi $A\cap B$ o $A\cup B$ coincindo con l'intersezione o l'unione degli 
+          quindi $A\cap B$ o $A\cup B$ coincidono con l'intersezione o l'unione degli 
           archi raggiungibili rispettivamente da $A,B$.
 \end{itemize}
 Usando il valore di similarità, abbiamo che due nodi simili avranno un valore
@@ -658,7 +658,7 @@ allora le connessioni tra i nodi $i,j$ sono casuali.
 Un vantaggio di questo approccio è che il valore di modularity è compreso tra
 $-1$ e $1$. Inoltre, una modularity uguale a $0$ indica che tutti i nodi
 appartengono allo stesso gruppo. Il tutto quindi si riconduce ad un problema di 
-massimizzazione di $Q$ ovvero vogliamo massimizzare la sudivisione dei nodi in 
+massimizzazione di $Q$ ovvero vogliamo massimizzare la suddivisione dei nodi in 
 community in modo tale che $Q\to 1$. 
 
 Questo valore può essere calcolato attraverso gli autovettori della matrice di
@@ -712,7 +712,8 @@ con edge-betweeness maggiore, fino a quando non si ottiene la struttura gerarchi
 delle community. Ad ogni iterazione è necessario ricalcolare la metrica, in quanto
 la struttura della rete cambia.
 \section{Social media Analysis}
-In questa sezione, dobbiamo sapere sapere le definizioni di \textbf{hub} e \textbf{spoke}.
+Prima di iniziare a presentare gli argomenti di questa sezione riprendiamo
+le definizioni di \textbf{hub} e \textbf{spoke}.
 \begin{definizione}[\textbf{Hub}]
     Un \textbf{hub} è un nodo con un grado molto alto, ovvero un nodo che è 
     connesso a molti altri nodi.
