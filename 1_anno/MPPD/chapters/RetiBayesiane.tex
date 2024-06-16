@@ -32,11 +32,15 @@ termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
     L'evento $A$ è \textbf{condizionalmente indipendente} dall'evento $B$, se dato
     un evento $C$ vale la seguente relazione:
     \begin{equation}
-        P(A|B,C) = P(A|C)
+        P(A, B | C) = P(A|C) \cdot P(B | C)
     \end{equation}
     ovvero che la conoscenza a priori di $B$ non influisce sulla probabilità di
     $A$ rispetto a quella che si ha conoscendo $C$.
 \end{definizione}
+\begin{nota}
+    Se due eventi $A$ e $B$ sono condizionalmente indipendenti, non è detto che
+    siano indipendenti.
+\end{nota}
 La topologia della rete, ovvero la sua struttura, e le probabilità condizionate
 dei nodi dati i loro genitori sono sufficienti a specificare la \textbf{distribuzione
     congiunta} di tutte le variabili rappresentate.
@@ -54,7 +58,6 @@ Nella definizione della struttura della rete è importante che il grafo sia orie
 e non contenga cicli, ovvero che la rete bayesiane sia un DAG (\textit{Directed
     Acyclic Graph}). Questo perché non è possibile che una variabile sia causa
 di se stessa.
-
 \subsection{Componente Quantitativa}
 Consideriamo ora la componente quantitativa di una rete bayesiane, ovvero le
 \textbf{Conditional Probability Tables} (CPT). Di queste tabelle possiamo dire che:
@@ -128,7 +131,7 @@ delle opportune componenti delle CPT dei nodi della rete.
     \end{equation*}
 \end{nota}
 \begin{nota}
-    Non si vedono più le dipendenze di una variabile da tutte le altre ma bensì
+    Non si vedono più le dipendenze di una variabile da tutte le altre, ma bensì
     probabilità della variabile condizionata dai suoi genitori.
 \end{nota}
 \subsection{Semantica topologica}
@@ -368,7 +371,7 @@ della distribuzione normale, la quale viene completamente specificata tramite
 la media e la deviazione standard.
 \begin{definizione}[\textbf{Rete bayesiana Ibrida}]
     Una rete che contiene nodi discreti e continui prende il nome di \textbf{Rete
-        Bayesiane Ibrida}
+        Bayesiane Ibrida}.
 \end{definizione}
 Per specificare una rete bayesiana Ibrida dobbiamo definire due nuovi tipi di
 distribuzione:
@@ -535,23 +538,22 @@ la complessità risulta \textbf{lineare} rispetto al numero di \textbf{nodi dell
 Quindi in caso di reti Polytree possiamo dire, generalizzando, che se vogliamo calcolare
 le probabilità a posteriori di tutte le variabili la complessità è $\mathcal{O}(n^2)$.
 
-Al contrario per le reti \textbf{multiplamente connesse} l'algoritmo dell'eliminazione
+Al contrario, per le reti \textbf{multiplamente connesse} l'algoritmo dell'eliminazione
 delle variabili è NP-Hard anche nel caso in cui il numero di genitori è limitato
 da una costante, perché si riduce a SAT.
 
-Per l'inferenza esatta si usano spesso \textbf{algoritmi di clustering} (join tree algorithms) per fondere dei
-nodi in modo da avere un unico nodo finale. Quando si fondono i nodi si introduce
-una variabile che assume tutte le combinazioni dei valori delle variabili fuse.
-In questo modo, calcolare l'inferenza esatta su reti  \textbf{Polytree} per ogni
-variabile della rete diventa $\mathcal{O}(n)$. Il problema è che per le \textbf{multiplamente
-    connesse}, la complessità rimane invariata dal momento che pur unendo le variabili,
-le nuove CPT crescono esponenzialmente di dimensione, rimanento dell'NP-Hard.
+Per l'inferenza esatta si usano spesso \textbf{algoritmi di clustering} (join
+tree algorithms) per fondere dei nodi in modo da avere un unico nodo finale.
+Quando si fondono i nodi si introduce una variabile che assume tutte le combinazioni
+dei valori delle variabili fuse. In questo modo, calcolare l'inferenza esatta su
+reti \textbf{Polytree} per ogni variabile della rete diventa $\mathcal{O}(n)$.
+Il problema è che per le \textbf{multiplamente connesse}, la complessità rimane
+invariata dal momento che pur unendo le variabili, le nuove CPT crescono
+esponenzialmente di dimensione, rimanendo dell'NP-Hard.
 
-Per
-questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
+Per questo motivo introduciamo degli algoritmi di inferenza approssimata della categoria
 \textbf{Monte Carlo}. L'accuratezza di questi metodi dipende dal numero di campionamenti
 generati.
-
 \subsection{Inferenza approssimata}
 Permette di effettuare inferenza in tempi ragionevoli quando si hanno tante
 variabili che non fanno parte dell'evidenza, infatti questo evita di ricadere
@@ -737,7 +739,6 @@ dove $a,c,M \in \mathbb{N}^+$, inoltre $M > x_0, c, a$.
 
 In ogni caso, a causa dell'operatore $\mod$, abbiamo sempre una periodicità dovuta
 a $M$, quindi si cerca di scegliere tale valore in modo tale che sia grande e primo.
-% TODO: chiedi al prof
 \subsection{Generazione di una distribuzione generica}
 Vogliamo avere degli approcci per generare casualmente dei numeri che rispettino
 una distribuzione generica.
