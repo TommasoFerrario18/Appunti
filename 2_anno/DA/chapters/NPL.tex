@@ -25,7 +25,7 @@ Tra le varie tipologie di ambiguità che possiamo incontrare distinguiamo due
 tipologie:
 \begin{itemize}
       \item \textbf{Ambiguità sintattica}: in una frase sono presenti più alberi
-            di parsing. Questo viene studiato attraverso la \textbf{part-tree-disambiguation}.
+            di parsing. Questo viene studiato attraverso la \textbf{parse-tree-disambiguation}.
       \item \textbf{Ambiguità emozionale}: in una frase sono espresse emozioni
             contrastanti. Questo viene studiato attraverso la \textbf{sentiment analysis}.
       \item \textbf{Ambiguità semantica}: in una frase sono presenti parole che
@@ -283,6 +283,7 @@ Un esempio di pipeline per il name entity linking è riportato di seguito:
       \caption{Pipeline per il Named Entity Linking}
       \label{fig:nel}
 \end{figure}
+
 Un possibile approccio è quello di utilizzare il \textbf{candidate resource selection},
 nel quale per ogni per ogni entità $e_j$ si calcola il suo score nella base di conoscenza
 con riferimento alla risorsa $c_k$.
@@ -453,7 +454,7 @@ documento abbiamo una distribuzione di topic. In formule:
 \begin{equation}
       p(\vec{w}) = \sum_z p(z) \prod_{n = 1}^{N} p(w_n|z)
 \end{equation}
-dove $z$ è il topic e $w_n$ è la parola.
+dove $z$ è il topic e $w_n$ è la parola nel documento $\vec{w}$.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{./img/nlp/mixture.png}

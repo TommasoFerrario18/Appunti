@@ -88,7 +88,7 @@ usare diversi metodi di imputazione dei valori mancanti:
                         mancante con quello più frequente.
             \end{itemize}
       \item Un'altra strategia è quella \textbf{concept most common value}, la
-            quale utilizza le stesse strategie di imputazione ma in base alla 
+            quale utilizza le stesse strategie di imputazione ma in base alla
             classe dell'istanza.
 \end{itemize}
 Il primo approccio si può utilizzare in un contesto non supervisionato, mentre il
@@ -119,26 +119,26 @@ i dati continui attraverso i seguenti metodi:
             Ad esempio se abbiamo un intervallo $[0, 100]$ e vogliamo partizionarlo
             in 5 intervalli, otteniamo $[0, 20]$, $[20, 40]$, $[40, 60]$, $[60, 80]$,
             $[80, 100]$.
-
-            \begin{figure}[!ht]
-                  \centering
-                  \includegraphics[width=0.7\textwidth]{./img/Preprocessing/equalwidth.png}
-                  \caption{Equal-width}
-                  \label{fig:equal-width}
-            \end{figure}
-
       \item \textbf{Equal-depth}: partiziona dell'intervallo dell'attributo in $N$
             intervalli in cui la frequenza dei dati è la stessa. Genera una
             distribuzione uniforme ma non mantiene gli outliers. Si riduce la
             varianza.
-
-            \begin{figure}[!ht]
-                  \centering
-                  \includegraphics[width=0.7\textwidth]{./img/Preprocessing/equaldepth.png}
-                  \caption{Equal-width}
-                  \label{fig:equal-depth}
-            \end{figure}
 \end{itemize}
+\begin{figure}[!ht]
+      \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./img/Preprocessing/equalwidth.png}
+            \caption{Equal-width}
+            \label{fig:equal-width}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./img/Preprocessing/equaldepth.png}
+            \caption{Equal-width}
+            \label{fig:equal-depth}
+      \end{subfigure}
+\end{figure}
 Entrambi i modelli hanno lo scopo di ridurre la varianza dei dati, in quanto si
 sta passando da uno spazio continuo a uno spazio discreto. La differenza tra i
 due metodi è che il primo mantiene gli outliers, mentre il secondo no.
@@ -230,7 +230,7 @@ Esistono diversi metodi per ridurre il numero di feature:
       \caption{Feature Reduction}
       \label{fig:feature_reduction}
 \end{figure}
-\subsection{Feature Reduction}
+\subsection{Feature Extraction}
 La \textbf{Feature reduction} è un processo che consiste nel selezionare una
 funzione $f(x): \mathbb{R}^N \to \mathbb{R}^M$ tale che $M < N$. Questo
 significa che si passa da uno spazio di dimensione $N$ a uno spazio di dimensione
@@ -288,7 +288,7 @@ Esistono diversi metodi per la selezione delle feature:
                   \caption{Wrapper Methods}
                   \label{fig:wrapper}
             \end{figure}
-            
+
             Il problema di questo metodo è che è molto costoso in termini di
             computazione. Si possono utilizzare due strategie:
             \begin{itemize}

@@ -192,25 +192,6 @@ diversi criteri. Tra le misure di centralità più comuni troviamo:
     \item \textbf{Autovettori}
     \item \textbf{Pagerank}
 \end{itemize}
-Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}.
-\begin{definizione}[\textbf{Centralizzazione}]
-    La \textbf{centralizzazione} di un grafo è una misura di quanto è centrale il
-    nodo con massima centralità rispetto alla centralità di tutti gli altri.
-    In particolare, la centralizzazione
-    di un grafo è massima quando il nodo con centralità massima ha una centralità molto più alta
-    rispetto agli altri nodi del grafo.
-\end{definizione}
-
-La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
-\begin{equation}
-    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
-\end{equation}
-dove:
-\begin{itemize}
-    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
-    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
-    \item $n$: corrisponde al numero di nodi del grafo.
-\end{itemize}
 \subsection{Degree}
 Una delle prime possibilità di misurare la centralità di un nodo è quella di
 utilizzare il grado del nodo. Questa misura è particolarmente utile nel caso di
@@ -234,6 +215,26 @@ dividendo la centralità di grado per il numero di nodi meno uno.
 \begin{equation*}
     {C_D}_{norm} (i)= \frac{C_D(i)}{n-1}
 \end{equation*}
+
+Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}.
+\begin{definizione}[\textbf{Centralizzazione}]
+    La \textbf{centralizzazione} di un grafo è una misura di quanto è centrale il
+    nodo con massima centralità rispetto alla centralità di tutti gli altri.
+    In particolare, la centralizzazione
+    di un grafo è massima quando il nodo con centralità massima ha una centralità
+    molto più alta rispetto agli altri nodi del grafo.
+\end{definizione}
+
+La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
+\begin{equation}
+    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
+    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
+    \item $n$: corrisponde al numero di nodi del grafo.
+\end{itemize}
 \subsection{Betweeness}
 Un altra misura di centralità è la \textbf{betweeness}, ovvero il nodi più
 rilevanti sono quelli che fanno da ponte tra due gruppi di nodi. Posso anche
@@ -244,9 +245,9 @@ può essere calcolata come segue:
 \end{equation}
 dove:
 \begin{itemize}
-    \item $g_{ik}(i)$: corrisponde al numero di \textit{shortest path} tra i
+    \item $g_{jk}(i)$: corrisponde al numero di \textit{path} tra i
           nodi $j$ e $k$ nella rete tale che il cammino passa per il nodo $i$.
-    \item $g_{ik}$: corrisponde al numero di \textit{shortest path} tra i nodi
+    \item $g_{jk}$: corrisponde al numero di \textit{path} tra i nodi
           $j$ e $k$.
 \end{itemize}
 In questo caso, la centralità è massima se un nodo ha alta capacità di unire
@@ -430,16 +431,16 @@ Sotto la seguente condizione:
 Oltre alle metriche appena presentate, esistono altri metodi per calcolare la
 centralità. Tra questi metodi troviamo:
 \begin{itemize}
-    \item \textbf{Reciprocity}: ovvero il rapporto tra il numero di relazioni che 
-            sono reciproche (l'arco è in entrambe le direzioni) e il numero totale 
-            di relazioni. Con relazione si intende il fatto che due nodi siano
-            collegati indipendentemente dalla direzione dell'arco. Chiaramente ha 
-            senso solo nelle reti orientate.
-    \item \textbf{Density}: ovvero il rapporto tra il numero di archi presenti nel 
-            grafo e il numero massimo di archi che potrebbero essere presenti. 
-            Il numero massimo di archi che potrebbero essere presenti è dato da
-            $\frac{n(n-1)}{2}$ nel caso di grafi non orientati e $n(n-1)$ nel caso
-            di grafi orientati.
+    \item \textbf{Reciprocity}: ovvero il rapporto tra il numero di relazioni che
+          sono reciproche (l'arco è in entrambe le direzioni) e il numero totale
+          di relazioni. Con relazione si intende il fatto che due nodi siano
+          collegati indipendentemente dalla direzione dell'arco. Chiaramente ha
+          senso solo nelle reti orientate.
+    \item \textbf{Density}: ovvero il rapporto tra il numero di archi presenti nel
+          grafo e il numero massimo di archi che potrebbero essere presenti.
+          Il numero massimo di archi che potrebbero essere presenti è dato da
+          $\frac{n(n-1)}{2}$ nel caso di grafi non orientati e $n(n-1)$ nel caso
+          di grafi orientati.
 \end{itemize}
 \section{Community detection}
 \begin{definizione}[\textbf{Community}]
@@ -723,10 +724,15 @@ Un possibile criterio per suddividere la rete è la \textbf{edge-betweeness}, ov
 il numero di cammini minimi tra ogni coppia di nodi che passa attraverso l'arco
 su cui calcolo la metrica.
 
-A questo punto, attraverso un processo iterativo, si procede eliminando gli archi
-con edge-betweeness maggiore, fino a quando non si ottiene la struttura gerarchica
-delle community. Ad ogni iterazione è necessario ricalcolare la metrica, in quanto
-la struttura della rete cambia.
+Sfruttando questa metrica si può realizzare l'algoritmo di \textbf{Girvan-Newman},
+il quale si basa sulla seguente procedura:
+\begin{enumerate}
+    \item Si calcola la edge-betweeness di tutti gli archi della rete.
+    \item Si rimuove l'arco con edge-betweeness maggiore.
+    \item Si ricalcola la metrica per gli archi influenzati dalla rimozione.
+    \item Si ripete il processo fino a quando non si ottiene la struttura gerarchica
+          delle community.
+\end{enumerate}
 \section{Social media Analysis}
 Prima di iniziare a presentare gli argomenti di questa sezione riprendiamo
 le definizioni di \textbf{hub} e \textbf{spoke}.
