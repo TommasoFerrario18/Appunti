@@ -104,11 +104,12 @@ robustezza della rete, alle sue vulnerabilità.
 Un modo semplice per calcolare la distanza tra due nodi è quello di utilizzare
 l'algoritmo BFS (Breadth First Search).
 \begin{definizione}[\textbf{Diametro}]
-    Il diametro di un grafo è la distanza massima tra due nodi nel grafo.
+    Il \textbf{diametro} di un grafo è la distanza massima tra due nodi nel grafo.
 \end{definizione}
 \begin{definizione}[\textbf{Lunghezza media dei cammini}]
-    La lunghezza media dei cammini è la media delle distanze tra tutti i nodi
-    del grafo. Tale misura può essere calcolata come segue:
+    La \textbf{lunghezza media dei cammini} è la media delle distanze tra tutti 
+    i nodi del grafo. Tale misura può essere calcolata come segue nel caso di 
+    un grafo orientato:
     \begin{equation}
         \langle d \rangle = \frac{1}{E_{max}} \sum_{i \neq j} d_{ij}
     \end{equation}
@@ -785,6 +786,23 @@ se si ha una distribuzione uniforme, allora la rete è neutrale.
 \begin{nota}
     Se il grafo è orientato allora non è simmetrica è il contrario.
 \end{nota}
+
+La matrice di \textbf{degree correlation} specifica la probabilità di trovare un 
+un nodo di grado $i$ collegato ad un nodo di grado $j$ selezionando un arco a caso.
+Questa matrice può essere calcolata come segue:
+\begin{equation}
+    e = \frac{E}{\|E\|}
+\end{equation}
+dove $E$ è la matrice che contiene il numero di archi che collegano un nodo di
+grado $i$ con un nodo di grado $j$ e $\|E\|$ è il numero di archi della rete.
+
+La probabilità $q_k$ che un nodo di grado $k$ sia alla fine di un arco selezionato
+casualmente è data da:
+\begin{equation}
+    q_k = \frac{k \cdot p_k}{\langle k \rangle}
+\end{equation}
+dove $k$ è il grado, $p_k$ è la probabilità che un nodo abbia grado $k$ e 
+$\langle k \rangle$ è il grado medio della rete.
 
 Possiamo determinare l'assortativa o disassortatività controllando se la seguente
 uguaglianza è verificata:

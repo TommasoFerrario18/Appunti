@@ -12,7 +12,7 @@ non è una cosa banale in quanto:
       \item Può essere presente dell'ambiguità nelle frasi, per esempio abbiamo
             modi di dire. Questo viene risolto in diversi modi, ad esempio
             effettuando l'analisi sintattici, part-of-speech tagging, etc.
-      \item Ambiguità sintattica, la quale viene risolta attraverso part-tree-disambiguation
+      \item Ambiguità sintattica, la quale viene risolta attraverso parse-tree-disambiguation
 \end{itemize}
 I problemi legati all'\textbf{ambiguità morfo-sintattica} sono molto importanti
 in questo campo, e sono studiati in modo approfondito. Per la loro risoluzione
@@ -188,15 +188,17 @@ In questo modo si considera nella predizione il contesto delle osservazioni
 facenti parte della sequenza, quindi non si effettua il training sulle singole parole.
 \subsubsection{Conditional Random Fields}
 Il modello che viene utilizzato per risolvere il problema di NER è il \textbf{Conditional
-      Random Fields} (CRF). Questo modello è un modello grafico probabilistico che
+      Random Fields} (CRF). È un modello grafico probabilistico che
 massimizza la probabilità condizionata delle etichette della sequenza di input.
 
-Questo modello può essere come un grafo dove si hanno dei nodi che rappresentano
+Questo può essere come un grafo dove si hanno dei nodi che rappresentano
 le osservazioni e degli archi che rappresentano le dipendenze tra le etichette.
 
 Le parole sono connesse solamente alle etichette, mentre è presente una relazione
-temporale tra le etichette. Questo modello è un modello di Markov del primo ordine,
-in quanto si considera solamente la parola precedente.
+temporale tra le etichette. Si tratta di un modello di Markov del primo ordine,
+in quanto si considera solamente la parola precedente. Più precisamente, si parla
+di un Hidden Markov Model (HMM) in cui le etichette sono nascoste e le osservazioni
+sono le parole.
 
 Vediamo ora un esempio di struttura di un CRF:
 \begin{figure}[!ht]
@@ -285,7 +287,7 @@ Un esempio di pipeline per il name entity linking è riportato di seguito:
 \end{figure}
 
 Un possibile approccio è quello di utilizzare il \textbf{candidate resource selection},
-nel quale per ogni per ogni entità $e_j$ si calcola il suo score nella base di conoscenza
+nel quale per ogni entità $e_j$ si calcola il suo score nella base di conoscenza
 con riferimento alla risorsa $c_k$.
 \begin{equation}
       KB(e_j, c_k) = \alpha \cdot \texttt{lex}(e_j, l_{c_k}) + (1 - \alpha) \cdot \texttt{cov}(e_j, c_k)
