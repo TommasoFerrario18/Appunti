@@ -12,6 +12,8 @@ al seguente [link](https://tommasoferrario18.github.io/Appunti/).
 
 ## Indice
 
+### Primo Anno
+
 - Modelli e Concorrenza (12 CFU)
   - Teoria della computazione (6 CFU)
   - Modelli della concorrenza (6 CFU)
@@ -21,8 +23,14 @@ al seguente [link](https://tommasoferrario18.github.io/Appunti/).
 - Metodi per il calcolo scientifico (6 CFU)
 - Modelli probabilistici per le decisioni (6 CFU)
 - Sistemi complessi: modelli e simulazione (6 CFU)
+
+### Secondo Anno
+
 - Data Analytics (6 CFU)
 - Sistemi complessi e incerti (6 CFU)
+- Advanced Machine Learning (6 CFU)
+- Causal Networks (6 CFU)
+- Visual Information Processing and Management (6 CFU)
 
 ## Collaboratori
 
