@@ -71,7 +71,7 @@ gestione di essi. I principali metodi sono i seguenti:
             \textit{si considera come un'informazione} il fatto che manchi il valore.
       \item \textbf{Metodi di imputazione}, assegno un valore basato sul resto delle
             osservazioni del dataset, ma non è importate sapere che manchi e quindi
-            meglio un valore che lo sostituisca.Questo metodo è applicabile per i
+            meglio un valore che lo sostituisca. Questo metodo è applicabile per i
             dati di tipo \textit{MCAR} e \textit{MAR}, ma non per \textit{NMAR}.
 \end{itemize}
 \subsubsection{Metodi di imputazione}
@@ -91,7 +91,7 @@ usare diversi metodi di imputazione dei valori mancanti:
             strategie di imputazione ma in base alla classe dell'istanza.
 \end{itemize}
 Il primo approccio si può utilizzare in un contesto non supervisionato, mentre il
-secondo in un contesto supervisionato. Inoltre il primo approccio assume che tutti 
+secondo in un contesto supervisionato. Inoltre il primo approccio assume che tutti
 gli attributi siano distribuiti normalmente, mentre il secondo assume che le
 distribuzioni degli attributi della stessa classe derivino da una normale.
 
@@ -118,23 +118,26 @@ i dati continui attraverso i seguenti metodi:
             Ad esempio se abbiamo un intervallo $[0, 100]$ e vogliamo partizionarlo
             in 5 intervalli, otteniamo $[0, 20]$, $[20, 40]$, $[40, 60]$, $[60, 80]$,
             $[80, 100]$.
-            \begin{figure}[!ht]
-                  \centering
-                  \includegraphics[width=0.5\textwidth]{./img/Preprocessing/equalwidth.png}
-                  \caption{Equal-width}
-                  \label{fig:equal-width}
-            \end{figure}
       \item \textbf{Equal-depth}: partiziona dell'intervallo dell'attributo in $N$
             intervalli in cui la frequenza dei dati è la stessa. Genera una
             distribuzione uniforme ma non mantiene gli outliers. Si riduce la
             varianza.
-            \begin{figure}[!ht]
-                  \centering
-                  \includegraphics[width=0.5\textwidth]{./img/Preprocessing/equaldepth.png}
-                  \caption{Equal-width}
-                  \label{fig:equal-depth}
-            \end{figure}
 \end{itemize}
+\begin{figure}[!ht]
+      \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./img/Preprocessing/equalwidth.png}
+            \caption{Equal-width}
+            \label{fig:equal-width}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{./img/Preprocessing/equaldepth.png}
+            \caption{Equal-width}
+            \label{fig:equal-depth}
+      \end{subfigure}
+\end{figure}
 Entrambi i modelli hanno lo scopo di ridurre la varianza dei dati, in quanto si
 sta passando da uno spazio continuo a uno spazio discreto. La differenza tra i
 due metodi è che il primo mantiene gli outliers, mentre il secondo no.
@@ -176,7 +179,7 @@ del dataset. Tale algoritmo è chiamato \textbf{SMOTE} (\textbf{Synthetic Minori
       \item Partendo da questa, attraverso un algoritmo di \textbf{kNN}, si
             selezionano le $k$ istanze più vicine.
       \item Si seleziona un sottoinsieme casuale di queste istanze e si calcola la
-            la media tra queste.
+            media tra queste.
       \item Si aggiunge questa nuova istanza al dataset.
       \item Si ripete il procedimento fino a quando non si raggiunge un numero
             sufficiente di istanze.
@@ -190,15 +193,15 @@ del dataset. Tale algoritmo è chiamato \textbf{SMOTE} (\textbf{Synthetic Minori
 
 Un esempio di algoritmo di \textbf{undersampling} è \textbf{Tomek Link}. Un
 \textbf{Tomek Link} è una coppia di istanze $(x, y)$ tali che $x$ e $y$ sono
-istanze di classi diverse che sono più vicine, ovvero non esiste un istanza 
-$z$ della classe opposta a $x$ o a $y$ tale che sia più vicina a $x$ o $y$. Le 
+istanze di classi diverse che sono più vicine, ovvero non esiste un istanza
+$z$ della classe opposta a $x$ o a $y$ tale che sia più vicina a $x$ o $y$. Le
 coppie sono proprio gli elementi sulla frontiera delle classi.
 
 L'idea di \textbf{Tomek Link} è quella di rimuovere le istanze della classe più
 rappresentata che sono vicine a quelle della classe meno rappresentata.
 \begin{figure}[!ht]
       \centering
-      \includegraphics[width=0.5\textwidth]{./img/Preprocessing/tomek.png}
+      \includegraphics[width=0.3\textwidth]{./img/Preprocessing/tomek.png}
       \caption{Tomek Link}
       \label{fig:tomeklink}
 \end{figure}
@@ -249,40 +252,42 @@ Esistono diversi metodi per la selezione delle feature:
 \begin{itemize}
       \item \textbf{Filter Methods}: si basano su misure statistiche per valutare
             l'importanza delle feature. Questi metodi sono indipendenti dal
-            classificatore. Per applicare questo metodo è necessario definire 
+            classificatore. Per applicare questo metodo è necessario definire
             una strategia con cui cercare le feature più importanti. Si possono
             utilizzare due strategie:
             \begin{itemize}
-                  \item Ricerca esaustiva: se vogliamo passare da $m$ features a 
-                  $n$ features allora significa controllare il contenuto informativo
-                  di ogni sottoinsieme di $n$ feature delle $m$ di partenza. Quindi 
-                  significa controllare un totale di $\left(\begin{array}{c}
-                        m\\n
-                  \end{array}\right) $ sottoinsiemi (esplosione combinatoria).
-                  \item Ricerca euristica: si utilizzano delle euristiche per 
-                  evitare di effettuare una ricerca esaustiva tra tutti i 
-                  sottoinsiemi (tempi ridotti ma meno qualità nelle feature).
+                  \item Ricerca esaustiva: se vogliamo passare da $m$ features a
+                        $n$ features allora significa controllare il contenuto informativo
+                        di ogni sottoinsieme di $n$ feature delle $m$ di partenza. Quindi
+                        significa controllare un totale di $\left(\begin{array}{c}
+                                    m \\n
+                              \end{array}\right) $ sottoinsiemi (esplosione combinatoria).
+                  \item Ricerca euristica: si utilizzano delle euristiche per
+                        evitare di effettuare una ricerca esaustiva tra tutti i
+                        sottoinsiemi (tempi ridotti ma meno qualità nelle feature).
             \end{itemize}
-            Solitamente questo metodo viene utilizzato attraverso delle funzioni 
-            di ranking che permettono di valutare l'importanza delle feature in 
-            base a misure statistiche, maggiore è il ranking e maggiore sarà 
+            Solitamente questo metodo viene utilizzato attraverso delle funzioni
+            di ranking che permettono di valutare l'importanza delle feature in
+            base a misure statistiche, maggiore è il ranking e maggiore sarà
             la qualità della feature. Un esempio di funzione di ranking è la
             \textbf{Information Gain}.
             Il problema di questo metodo è che non tiene conto delle relazioni tra
-            le feature. Una soluzione a questo problema è quella di usare 
+            le feature. Una soluzione a questo problema è quella di usare
             \textbf{Correlation-based Feature Selection} dove controllo $\left(\begin{array}{c}
-                  m\\2
-            \end{array}\right) $ sottoinsiemi.
+                              m \\2
+                        \end{array}\right) $ sottoinsiemi.
       \item \textbf{Wrapper Methods}: si basano sull'uso di un classificatore per
-            valutare l'importanza delle feature, ovvero la portenza predittiva.
+            valutare l'importanza delle feature, ovvero la potenza predittiva.
             Questi metodi sono dipendenti dal
             classificatore che viene considerato come una \textit{black box}.
+
             \begin{figure}[!ht]
                   \centering
                   \includegraphics[width=0.5\textwidth]{./img/Preprocessing/wrapper.png}
                   \caption{Wrapper Methods}
                   \label{fig:wrapper}
             \end{figure}
+
             Il problema di questo metodo è che è molto costoso in termini di
             computazione. Si possono utilizzare due strategie:
             \begin{itemize}
@@ -296,9 +301,9 @@ Esistono diversi metodi per la selezione delle feature:
 \end{itemize}
 
 La \textbf{Correlation-based Feature Selection} è un metodo che permette di
-selezionare le feature in base alla loro correlazione. Per questo metodo un 
+selezionare le feature in base alla loro correlazione. Per questo metodo un
 buon sottoinsieme di feature è quello in cui le feature sono altamente correlate
-con la classe e poco correlate con le altre. 
+con la classe e poco correlate con le altre.
 \begin{equation}
       M_s = \frac{k \cdot \overline{r_{cf}}}{\sqrt{k + k \cdot (k - 1) \cdot \overline{r_{ff}}}}
 \end{equation}

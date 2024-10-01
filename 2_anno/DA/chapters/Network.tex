@@ -3,7 +3,7 @@
 Quando le dimensioni dei grafi iniziano a crescere risulta difficile
 rappresentarli in modo chiaro e comprensibile. Per questo motivo, quando si
 lavora con grafi di grandi dimensioni, essi vengono rappresentati tramite
-delle proprietà che ne descrivono la struttura, queste proprietà sono delle 
+delle proprietà che ne descrivono la struttura, queste proprietà sono delle
 statistiche descrittive che facilitano anche il confronto tra le reti.
 
 Tra le proprietà più importanti troviamo:
@@ -29,8 +29,8 @@ Se si considera un grafo rappresentato attraverso una matrice di adiacenza, il
 grado di un nodo può essere calcolato sommando i valori della riga o della
 colonna corrispondente al nodo in questione. Nello specifico, se si considera
 un grafo orientato, il grado uscente corrisponde alla somma dei valori della
-riga corrispondente al nodo, mentre il grado entrante corrisponde alla somma dei
-valori della colonna ad esso associata.
+riga corrispondente al nodo, mentre il grado entrante alla somma dei valori della
+colonna ad esso associata.
 
 Più in generale possiamo riassumere il calcolo del grado di un nodo come segue:
 \begin{equation}
@@ -104,19 +104,20 @@ robustezza della rete, alle sue vulnerabilità.
 Un modo semplice per calcolare la distanza tra due nodi è quello di utilizzare
 l'algoritmo BFS (Breadth First Search).
 \begin{definizione}[\textbf{Diametro}]
-    Il diametro di un grafo è la distanza massima tra due nodi nel grafo.
+    Il \textbf{diametro} di un grafo è la distanza massima tra due nodi nel grafo.
 \end{definizione}
 \begin{definizione}[\textbf{Lunghezza media dei cammini}]
-    La lunghezza media dei cammini è la media delle distanze tra tutti i nodi
-    del grafo. Tale misura può essere calcolata come segue:
+    La \textbf{lunghezza media dei cammini} è la media delle distanze tra tutti 
+    i nodi del grafo. Tale misura può essere calcolata come segue nel caso di 
+    un grafo orientato:
     \begin{equation}
-        \langle d \rangle = \frac{1}{2E_{max}} \sum_{i \neq j} d_{ij}
+        \langle d \rangle = \frac{1}{E_{max}} \sum_{i \neq j} d_{ij}
     \end{equation}
 \end{definizione}
 Mentre, nei grafi non orientati, la lunghezza media dei cammini può essere calcolata
 come segue:
 \begin{equation}
-    \langle d \rangle = \frac{1}{E_{max}} \sum_{i \neq j} d_{ij}
+    \langle d \rangle = \frac{1}{2E_{max}} \sum_{i \neq j} d_{ij}
 \end{equation}
 dove $d_{ij}$ rappresenta la distanza tra i nodi $i$ e $j$ e $E_{max}$ rappresenta
 il numero massimo di archi presenti nel grafo.
@@ -130,8 +131,8 @@ il numero massimo di archi presenti nel grafo.
     \begin{equation}
         C_i = \frac{2E_i}{k_i(k_i - 1)}
     \end{equation}
-    dove $E_i$ rappresenta il numero di archi tra i $k_i$  vicini del nodo $i$. Se il grafo
-    è diretto allora si divide per $2$ il coefficiente.
+    dove $E_i$ rappresenta il numero di archi tra i $k_i$ vicini del nodo $i$.
+    Se il grafo è orientato allora si divide per $2$ il coefficiente.
 \end{definizione}
 
 Il valore di questo coefficiente può variare tra 0 e 1. Nel caso in cui il
@@ -192,25 +193,6 @@ diversi criteri. Tra le misure di centralità più comuni troviamo:
     \item \textbf{Autovettori}
     \item \textbf{Pagerank}
 \end{itemize}
-Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}.
-\begin{definizione}[\textbf{Centralizzazione}]
-    La \textbf{centralizzazione} di un grafo è una misura di quanto è centrale il 
-    nodo con massima centralità rispetto alla centralità di tutti gli altri. 
-    In particolare, la centralizzazione
-    di un grafo è massima quando il nodo con centralità massima ha una centralità molto più alta
-    rispetto agli altri nodi del grafo.
-\end{definizione}
-
-La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
-\begin{equation}
-    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
-\end{equation}
-dove:
-\begin{itemize}
-    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
-    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
-    \item $n$: corrisponde al numero di nodi del grafo.
-\end{itemize}
 \subsection{Degree}
 Una delle prime possibilità di misurare la centralità di un nodo è quella di
 utilizzare il grado del nodo. Questa misura è particolarmente utile nel caso di
@@ -231,9 +213,29 @@ La centralità massima per un nodo è $n - 1$.
 
 Questa misura può essere normalizzata
 dividendo la centralità di grado per il numero di nodi meno uno.
+\begin{equation*}
+    {C_D}_{norm} (i)= \frac{C_D(i)}{n-1}
+\end{equation*}
 
-$${C_D}_{norm} (i)= \frac{C_D(i)}{n-1}$$
+Oltre alla misura di centralità di grado, possiamo calcolare la \textbf{centralizzazione}.
+\begin{definizione}[\textbf{Centralizzazione}]
+    La \textbf{centralizzazione} di un grafo è una misura di quanto è centrale il
+    nodo con massima centralità rispetto alla centralità di tutti gli altri.
+    In particolare, la centralizzazione
+    di un grafo è massima quando il nodo con centralità massima ha una centralità
+    molto più alta rispetto agli altri nodi del grafo.
+\end{definizione}
 
+La centralizzazione di un grafo può essere calcolata come usando la formula di Freeman:
+\begin{equation}
+    C_D = \frac{\sum_{i=1}^{n} C_D(n^\ast) - C_D(i)}{(n - 1)(n - 2)}
+\end{equation}
+dove:
+\begin{itemize}
+    \item $C_D(n^\ast)$: corrisponde alla centralità massima di un nodo del grafo.
+    \item $C_D(i)$: corrisponde alla centralità del nodo $i$.
+    \item $n$: corrisponde al numero di nodi del grafo.
+\end{itemize}
 \subsection{Betweeness}
 Un altra misura di centralità è la \textbf{betweeness}, ovvero il nodi più
 rilevanti sono quelli che fanno da ponte tra due gruppi di nodi. Posso anche
@@ -244,9 +246,9 @@ può essere calcolata come segue:
 \end{equation}
 dove:
 \begin{itemize}
-    \item $g_{ik}(i)$: corrisponde al numero di \textit{shortest path} tra i
+    \item $g_{jk}(i)$: corrisponde al numero di \textit{path} tra i
           nodi $j$ e $k$ nella rete tale che il cammino passa per il nodo $i$.
-    \item $g_{ik}$: corrisponde al numero di \textit{shortest path} tra i nodi
+    \item $g_{jk}$: corrisponde al numero di \textit{path} tra i nodi
           $j$ e $k$.
 \end{itemize}
 In questo caso, la centralità è massima se un nodo ha alta capacità di unire
@@ -291,7 +293,7 @@ Questa misura può essere calcolata come segue:
     C_A(i) = \frac{1}{\lambda} \sum_{j=1}^{n} A_{ij} C_A(j)
 \end{equation}
 dove $A$ è la matrice di adiacenza del grafo e $\lambda$ è l'autovalore
-corrispondente all'autovettore dominante della matrice di adiacenza. 
+corrispondente all'autovettore dominante della matrice di adiacenza.
 
 A differenza della misura basata sul grado, un nodo che ha un alto grado ma è
 collegato a nodi poco importanti avrà una centralità di autovettori bassa. Al
@@ -376,8 +378,8 @@ distribuzione di probabilità stazionaria se $A$ è irriducibile e aperiodica.
 \end{nota}
 Per garantire questo devono essere verificate le seguenti condizioni:
 \begin{itemize}
-    \item La matrice $A$ deve essere \textbf{stocastica}, ovvero la somma di ogni riga
-          deve essere uguale a 1.
+    \item La matrice $A$ deve essere \textbf{stocastica}, ovvero la somma di
+          ogni riga deve essere uguale a 1.
           \begin{equation*}
               \sum_{j = 1}^n A_{ij} = 1
           \end{equation*}
@@ -426,9 +428,25 @@ Sotto la seguente condizione:
 \begin{equation*}
     \sum_{i}^n P_i = 1
 \end{equation*}
+\subsubsection{Altri metodi per calcolare la centralità}
+Oltre alle metriche appena presentate, esistono altri metodi per calcolare la
+centralità. Tra questi metodi troviamo:
+\begin{itemize}
+    \item \textbf{Reciprocity}: ovvero il rapporto tra il numero di relazioni che
+          sono reciproche (l'arco è in entrambe le direzioni) e il numero totale
+          di relazioni. Con relazione si intende il fatto che due nodi siano
+          collegati indipendentemente dalla direzione dell'arco. Chiaramente ha
+          senso solo nelle reti orientate.
+    \item \textbf{Density}: ovvero il rapporto tra il numero di archi presenti nel
+          grafo e il numero massimo di archi che potrebbero essere presenti.
+          Il numero massimo di archi che potrebbero essere presenti è dato da
+          $\frac{n(n-1)}{2}$ nel caso di grafi non orientati e $n(n-1)$ nel caso
+          di grafi orientati.
+\end{itemize}
 \section{Community detection}
 \begin{definizione}[\textbf{Community}]
-    Le community sono dei sottogruppi di oggetti che condividono delle proprietà.
+    Le \textbf{community} sono dei sottogruppi di oggetti che condividono delle
+    proprietà.
 \end{definizione}
 Ci interessa l'identificazione delle community per:
 \begin{itemize}
@@ -496,8 +514,8 @@ Con questo criterio possiamo identificare le community che soddisfano le seguent
 proprietà utilizzando diversi algoritmi:
 \begin{itemize}
     \item \textbf{Complete Mutuality}: tutti i nodi della community sono connessi
-          tra di loro, quindi ci si riconduce alla ricerca delle \textbf{clique}. 
-          Una clique è una sotto-componente fortemente connessa del grafo. 
+          tra di loro, quindi ci si riconduce alla ricerca delle \textbf{clique}.
+          Una clique è una sotto-componente fortemente connessa del grafo.
           Questo problema è NP-Hard, quindi richiede
           un tempo esponenziale per essere risolto. Possiamo distinguere due varianti
           di questo problema:
@@ -580,7 +598,7 @@ funzioni di similarità, come ad esempio:
               J(A, B) = \frac{|A \cap B|}{|A \cup B|}
           \end{equation*}
           dove $A,B$ sono le righe della matrice di adiacenza associate ai nodi $A,B$,
-          quindi $A\cap B$ o $A\cup B$ coincindo con l'intersezione o l'unione degli 
+          quindi $A\cap B$ o $A\cup B$ coincidono con l'intersezione o l'unione degli
           archi raggiungibili rispettivamente da $A,B$.
 \end{itemize}
 Usando il valore di similarità, abbiamo che due nodi simili avranno un valore
@@ -658,9 +676,9 @@ sono le connessioni tra i nodi $i,j$. Al contrario, se la differenza è piccola,
 allora le connessioni tra i nodi $i,j$ sono casuali.
 Un vantaggio di questo approccio è che il valore di modularity è compreso tra
 $-1$ e $1$. Inoltre, una modularity uguale a $0$ indica che tutti i nodi
-appartengono allo stesso gruppo. Il tutto quindi si riconduce ad un problema di 
-massimizzazione di $Q$ ovvero vogliamo massimizzare la sudivisione dei nodi in 
-community in modo tale che $Q\to 1$. 
+appartengono allo stesso gruppo. Il tutto quindi si riconduce ad un problema di
+massimizzazione di $Q$ ovvero vogliamo massimizzare la suddivisione dei nodi in
+community in modo tale che $Q\to 1$.
 
 Questo valore può essere calcolato attraverso gli autovettori della matrice di
 modularità, ovvero la matrice definita come segue:
@@ -720,13 +738,14 @@ iterativi:
 Alla fine si produce la struttura gerarchica del grafo.
 
 \section{Social media Analysis}
-In questa sezione, dobbiamo sapere sapere le definizioni di \textbf{hub} e \textbf{spoke}.
+Prima di iniziare a presentare gli argomenti di questa sezione riprendiamo
+le definizioni di \textbf{hub} e \textbf{spoke}.
 \begin{definizione}[\textbf{Hub}]
-    Un \textbf{hub} è un nodo con un grado molto alto, ovvero un nodo che è 
+    Un \textbf{hub} è un nodo con un grado molto alto, ovvero un nodo che è
     connesso a molti altri nodi.
 \end{definizione}
 \begin{definizione}[\textbf{Spoke}]
-    Un \textbf{spoke} è un nodo con un grado molto basso, ovvero un nodo che è 
+    Un \textbf{spoke} è un nodo con un grado molto basso, ovvero un nodo che è
     connesso a pochi altri nodi.
 \end{definizione}
 Reti che rappresentano domini diversi presentano delle strutture diverse nei
@@ -736,9 +755,9 @@ Per iniziare ad analizzare la rete, possiamo stimare la probabilità che un nodo
 di un grado $k$ e un nodo di grado $k'$ che siano connessi da un arco. Questo
 valore dipende dagli archi della rete.
 \begin{equation}
-    P(k, k') = \frac{k \cdot k'}{2m}
+    P(k, k') = \frac{k \cdot k'}{2E}
 \end{equation}
-dove $m$ è il numero di archi della rete. Questa formula ci permette di dire che
+dove $E$ è il numero di archi della rete. Questa formula ci permette di dire che
 gli hubs sono molto più facilmente collegati tra di loro, rispetto agli spoke.
 Quindi se due nodi hanno un grado molto alto, allora è molto probabile che siano
 connessi tra di loro.

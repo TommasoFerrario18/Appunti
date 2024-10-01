@@ -94,12 +94,12 @@ I processi stocastici che rispettano la \textbf{proprietà Markoviana} sono dett
 \textbf{processi Markoviani} e verranno rappresentati attraverso una \textbf{catena di Markov}.
 
 Quindi un processo stocastico a tempi discreti che rispetta la proprietà Markoviana
-del primo ordine è una \textbf{catena di Markov del primo ordine} se per tutti
-gli stati vale:
+del primo ordine è una \textbf{catena di Markov del primo ordine} se, per tutti
+gli stati, vale:
 \begin{equation*}
     P(X_{t+1} = i_{t+1 } | X_t =i_t, \dots, X_{0} = i_{0}) = P(X_{t+1} = i_{t+1 } | X_t =i_t)
 \end{equation*}
-dove $P(X_0 = i_0) = q_i$, mentre $q = [q_1, \dots, q_i \dots q_n]$ rappresenta la
+e se $P(X_0 = i_0) = q_i$, dove $q = [q_1, \dots, q_i \dots q_n]$ rappresenta la
 distribuzione di probabilità iniziale degli stati. Se non si conosce tale
 distribuzione, si può assumere che sia uniforme.
 \begin{nota}

@@ -1,13 +1,4 @@
 \chapter{Ripasso probabilità}
-\begin{definizione}[\textbf{Spazio degli eventi}]
-    Lo \textbf{spazio degli eventi} $\Omega$ è l'insieme di tutti gli esisti.
-\end{definizione}
-\begin{definizione}[\textbf{Evento}]
-    Un \textbf{evento} $A$ è un qualunque sottoinsieme di $\Omega$ tale che:
-    \begin{equation*}
-        A \subseteq \Omega \quad \text{e} \quad P(A) = \sum_{\omega \in A} P(\omega)
-    \end{equation*}
-\end{definizione}
 \begin{definizione}[\textbf{Variabile casuale}]
     Una \textbf{variabile casuale} può essere un'osservazione, un esito o un
     evento il cui valore incerto.
@@ -36,6 +27,15 @@ L'insieme di tutti i possibili eventi atomici gode delle seguenti proprietà:
     \item \textbf{Mutualmente esclusivo}: può verificarsi solo un evento atomico
           alla volta.
 \end{itemize}
+\begin{definizione}[\textbf{Spazio degli eventi}]
+    Lo \textbf{spazio degli eventi} $\Omega$ è l'insieme di tutti gli esisti.
+\end{definizione}
+\begin{definizione}[\textbf{Evento}]
+    Un \textbf{evento} $A$ è un qualunque sottoinsieme di $\Omega$ tale che:
+    \begin{equation*}
+        A \subseteq \Omega \quad \text{e} \quad P(A) = \sum_{\omega \in A} P(\omega)
+    \end{equation*}
+\end{definizione}
 \begin{definizione}[\textbf{Variabile aleatoria}]
     Una \textbf{variabile aleatoria} è una variabile che può assumere valori
     diversi in corrispondenza di eventi che costituiscono una partizione dello
@@ -60,9 +60,9 @@ La teoria della probabilità può essere derivata dalle seguenti assunzioni:
           \end{equation}
 \end{itemize}
 \begin{definizione}[\textbf{Probabilità congiunta}]
-    La \textbf{probabilità congiunta}, ovvero il fatto che due eventi si
-    verifichino contemporaneamente, si ottiene partendo dalla probabilità
-    condizionata e dalle probabilità dei singoli eventi.
+    La \textbf{probabilità congiunta} anche detta regola del prodotto, ovvero il
+    fatto che due eventi si verifichino contemporaneamente, si ottiene partendo
+    dalla probabilità condizionata e dalle probabilità dei singoli eventi.
     \begin{equation}
         P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A) \equiv P(A, B) \equiv
         P(A \land B)
@@ -101,9 +101,9 @@ indipendenti allora:
             \cdot P(B) = P(B|A) \cdot P(A)
         \end{equation*}
         Da cui si ottiene:
-        \begin{equation*}
+        \begin{equation}
             P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
-        \end{equation*}
+        \end{equation}
     \end{proof}
 \end{definizione}
 Un altro modo di interpretare la regola di Bayes è quello di considerare

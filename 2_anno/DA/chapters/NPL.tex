@@ -14,12 +14,12 @@ non è una cosa banale in quanto:
             effettuando l'analisi morfo-sintattica, part-of-speech tagging, etc.
       \item Ambiguità sintattica, la quale viene risolta attraverso part-tree-disambiguation
 \end{itemize}
-I problemi legati all'ambiguità sono molto importanti in questo campo, e sono
-studiati in modo approfondito. Per la loro risoluzione esistono diverse tecniche
-che sono state sviluppate nel tempo e implementate in librerie.
-Alcune di queste, forniscono sistemi per risolvere le ambiguità nelle frasi, i
-quali si basano sulla costruzione di diversi alberi di parsing e restituiscono
-l'albero della frase più probabile.
+I problemi legati all'\textbf{ambiguità morfo-sintattica} sono molto importanti
+in questo campo, e sono studiati in modo approfondito. Per la loro risoluzione
+esistono diverse tecniche che sono state sviluppate nel tempo e implementate in
+librerie. Alcune di queste, forniscono sistemi per risolvere le ambiguità nelle
+frasi, i quali si basano sulla costruzione di diversi alberi di parsing e
+restituiscono l'albero della frase più probabile.
 
 Le varie tipologie di ambiguità sono:
 \begin{itemize}
@@ -44,8 +44,8 @@ sia:
       \item \textbf{Soggettivo} (emozione): si sta esprimendo un'emozione personale la quale
             può essere:
             \begin{itemize}
-                  \item Positivo.
-                  \item Negativo.
+                  \item Positiva
+                  \item Negativa
                   \item Neutrale: complesso perché spesso è molto vicino ad una
                         frase oggettiva o spesso si pesa la frase tra positiva e
                         negativa, quindi se è bilanciata è neutrale.
@@ -96,42 +96,42 @@ rappresenta il testo come un array, ogni cella è associata ad una parola
 e contiene la frequenza della parola. Il problema è che
 si perde l'ordine e la composizionalità.
 
-Possiamo usare una rappresentazione deep basata su \textbf{word2vec}. Questa consiste
-nello scrivere il termine sulla base dei termini che lo precedono e che lo seguono.
-Si ha quindi uns strategia simile alla BagOfWord, ma mantenendo la composizionalità.
+Possiamo usare una rappresentazione deep basata su \textbf{word2vec}, essa consiste
+nello scrivere la parola sulla base dei termini che lo precedono e che lo seguono.
+Si ha quindi una strategia simile alla BagOfWord, ma mantenendo la composizionalità.
 
 Word2Vec è un modello che viene usato per creare una rappresentazione vettoriale
-delle parole. Questo modello è basato su una rete neurale che prende in input
-una parola e cerca di prevedere le parole che la circondano.
+delle parole. Esistono due tipologie di Word2Vec:
 \begin{itemize}
-      \item \textbf{skip-gram}: parte da una parola del documento e cerca di
-            predire l'intorno della parola.
+      \item \textbf{skip-gram}: partendo da una parola del documento cerco di
+            predire l'intorno di essa.
 
             Per ottenere questo risultato, usiamo un \textbf{one-hot-vector},
             ovvero un bitvector, lungo quanto il vocabolario, con un bit a $1$
             nella posizione associata alla parola all'interno del vocabolario.
 
-            Successivamente costruiamo una rete neurale (Encoder Decoder) che
-            preso in input il bitvector, in output dobbiamo avere un vettore
+            Successivamente si costruisce una rete neurale tipo Encoder-Decoder
+            che preso in input il bitvector, fornisce in output un vettore
             lungo tanto quanto il vocabolario con una probabilità associata ad
-            ogni parola. La rappresentazione vettoriale coincide con  quello che
-            si ha nell'hidden layer, la sua dimensione è decisa in fase di
+            ogni parola. La rappresentazione vettoriale coincide con quello che
+            si ha nell'hidden layer, quindi la sua dimensione è decisa in fase di
             costruzione della rete.
 
             Il documento viene rappresentato dal vettore media dei vettori dei
             termini presenti nel documento.
 
-            A differenza dalle rappresentazioni più vecchie abbiamo un vettore di
-            dimensione $n$ selezionato dalla rete. Il problema è che non consideriamo
-            il contesto del mondo.
+            A differenza dalle rappresentazioni viste in precedenza, abbiamo un
+            vettore di dimensione $n$ selezionato dalla rete. Il problema è che
+            non andiamo a considerare il contesto del mondo.
 
             Esistono metodi più efficaci per rappresentare il testo come
             \textbf{USE} e \textbf{BERT}.
-      \item \textbf{CBOW}: cerca di predire la parola sulla base dell'intorno
-            delle parole vicine.
+      \item \textbf{CBOW}: cerca di predire la parola sulla base del suo intorno.
 \end{itemize}
 Questi permettono di avere parole con lo stesso significato o simili vicine nello
-spazio vettoriale.
+spazio vettoriale. Inoltre, con questo approccio risulta possibile rappresentare
+l'intero documento con un vettore ottenuto come media dei vettori delle parole
+presenti in esso.
 
 Una volta risolto il problema della rappresentazione si può passare alla fase
 di classificazione. Questa può essere fatta in diversi modi:
@@ -149,7 +149,6 @@ di classificazione. Questa può essere fatta in diversi modi:
       possono essere positive o negative in base al contesto.
 \end{nota}
 \section{Semantic Ambiguity}
- (disambiguazione dal punto di vista morfosintattico)
 Uno dei tanti problemi che si riscontrano nell'analisi del linguaggio naturale
 è l'ambiguità delle parole. Questo è molto importante, in quanto per comprendere
 un testo bisogna capire a che cosa ogni token si riferisce.
@@ -190,15 +189,17 @@ In questo modo si considera nella predizione il contesto delle osservazioni
 facenti parte della sequenza, quindi non si effettua il training sulle singole parole.
 \subsubsection{Conditional Random Fields}
 Il modello che viene utilizzato per risolvere il problema di NER è il \textbf{Conditional
-      Random Fields} (CRF). Questo modello è un modello grafico probabilistico che
+      Random Fields} (CRF). È un modello grafico probabilistico che
 massimizza la probabilità condizionata delle etichette della sequenza di input.
 
-Questo modello può essere come un grafo dove si hanno dei nodi che rappresentano
+Questo può essere come un grafo dove si hanno dei nodi che rappresentano
 le osservazioni e degli archi che rappresentano le dipendenze tra le etichette.
 
 Le parole sono connesse solamente alle etichette, mentre è presente una relazione
-temporale tra le etichette. Questo modello è un modello di Markov del primo ordine,
-in quanto si considera solamente la parola precedente.
+temporale tra le etichette. Si tratta di un modello di Markov del primo ordine,
+in quanto si considera solamente la parola precedente. Più precisamente, si parla
+di un Hidden Markov Model (HMM) in cui le etichette sono nascoste e le osservazioni
+sono le parole.
 
 Vediamo ora un esempio di struttura di un CRF:
 \begin{figure}[!ht]
@@ -220,7 +221,7 @@ funzione $\phi(y_t,y_{t-1},x ,t)$ può essere scritta come:
 \end{equation}
 dove $f_k(y_t,y_{t-1},x,t)$ sono delle \textbf{feature function}, ovvero delle
 funzioni predeterminate che valutano diverse proprietà in base all'osservazione e
-all'etichetta precedente al tempo $t$.È impor tante che queste funzioni abbiano
+all'etichetta precedente al tempo $t$. È importante che queste funzioni abbiano
 almeno due stati di uscita, possiamo considerare le feature function come degli
 \textbf{if}.
 
@@ -285,6 +286,22 @@ Un esempio di pipeline per il name entity linking è riportato di seguito:
       \caption{Pipeline per il Named Entity Linking}
       \label{fig:nel}
 \end{figure}
+
+Un possibile approccio è quello di utilizzare il \textbf{candidate resource selection},
+nel quale per ogni entità $e_j$ si calcola il suo score nella base di conoscenza
+con riferimento alla risorsa $c_k$.
+\begin{equation}
+      KB(e_j, c_k) = \alpha \cdot \texttt{lex}(e_j, l_{c_k}) + (1 - \alpha) \cdot \texttt{cov}(e_j, c_k)
+\end{equation}
+dove:
+\begin{itemize}
+      \item $\texttt{lex}(e_j, l_{c_k})$ è la similarità lessicale tra l'entità
+            $e_j$ e la label associata alla risorsa $c_k$ candidata.
+      \item $\texttt{cov}(e_j, c_k)$ è la covarege basata sulla coerenza che l'entità
+            rispetto alla base di conoscenza e alla popolarità della risorsa candidata $c_k$.
+\end{itemize}
+A questo punto si seleziona la risorsa con il punteggio maggiore e si restituisce
+l'entità associata.
 \subsection{Word sense disambiguation}
 Si cerca di comprendere il significato della parola che è accettato comunemente.
 Questo ci permette di disambiguare il significato della parola dal punto di
@@ -329,93 +346,131 @@ il quale funziona nel seguente modo:
             della frase.
       \item Seleziona il significato con il massimo overlap.
 \end{itemize}
+\subsubsection{Unsupervised Disambiguation}
+Questi approcci tentano di rimuovere il collo di bottiglia legato alla necessità
+di avere una base di conoscenza. Infatti, non si ha la necessità di avere una
+base di conoscenza o etichette, ma il senso viene definito dal contesto.
+
+Un esempio di algoritmo unsupervised è \textbf{Word Sense Induction} oppure
+\textbf{Word Sense Disambiguation}.
+
+L'algoritmo \textbf{Chinese Whispers} è un algoritmo di clustering che si basa
+su grafi non orientati e senza pesi sugli archi. Questo algoritmo funziona nel
+seguente modo:
+\begin{itemize}
+      \item Inizialmente, ogni nodo è assegnato a una classe.
+      \item In modo iterativo, si seleziona un nodo in modo casuale e lo si assegna
+            alla classe con la quale il nodo ha più connessioni. In caso di
+            parità, si assegna il nodo a una classe casuale.
+\end{itemize}
+I vantaggi di questo algoritmo sono legati all'efficienza e al fatto che non è
+necessario specificare nessun parametro. Tuttavia, il principale svantaggio è
+che non è deterministico e ci sono situazioni in cui non converge.
+
+Un altro modo è quello di utilizzare un approccio basato sui grafi. In questo caso
+si parte da una fase di preprocessing del testo, dove si eliminano le stop-words
+e si effettua il part-of-speech tagging. Successivamente si costruisce un grafo
+dove i nodi sono le parole e gli archi sono le relazioni tra le parole. Infine,
+si pesano gli archi in base alle co-occorrenze delle parole.
+
+Una volta costruito il grafo, si applica l'algoritmo di clustering per trovare
+i cluster di parole. 
 \section{Topic Models}
 \begin{definizione}
-      Il \textbf{topic recognition} è il problema di riconoscere il topic data una 
+      Il \textbf{topic recognition} è il problema di riconoscere il tema data una
       collezione di documenti.
 \end{definizione}
 
-Il riconoscimento si basa sulla ricerca di pattern sintattici di parole collegate 
-da un topic comune, si basa sull'idea che il topic dipende dall'insieme di parole 
+Il riconoscimento è costruito sulla ricerca di pattern sintattici di parole collegate
+da un topic comune, si basa sull'idea che il topic dipende dall'insieme di parole
 che compaiono con frequenza maggiore. Di conseguenza è un processo non supervisionato.
 
-Alla fine data una collezione di documenti, si assume che per ogni documento ci siano 
-diversi topics, quindi per ogni documento avremo una distribuzione di topic.
-Ogni topic può essere visto, a sua volta, come una distribuzione di parole all'interno 
-del documento. Quindi noi \textbf{osserviamo} i documenti e le parole dai quali 
-si devono predire i topic \ref{fig:topic}.
-
+Alla fine, data una collezione di documenti, si assume che per ogni documento ci
+siano diversi topics, ottenendo quindi una una distribuzione di topic per ognuno
+di essi. Ogni topic può essere visto, a sua volta, come una distribuzione di parole
+all'interno del documento. Quindi noi \textbf{osserviamo} i documenti e le parole
+dai quali si devono predire i topic \ref{fig:topic}.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.7\textwidth]{img/nlp/topic_model.png}
       \caption{Rappresentazione dei topic}
       \label{fig:topic}
 \end{figure}
-
 \begin{nota}
-      I topic li possiamo vedere come delle word-cloud e le etichette dei topic 
+      I topic li possiamo vedere come delle word-cloud e le etichette dei topic
       possono essere identificate da un umano o automaticamente.
 \end{nota}
-
 Una generica pipeline sul topic modelling consiste nel prendere delle collezioni
-una serie di documenti e si eseguono i topic model.
-Questi permettono di estrarre dalla collezione di documenti:
+di documenti ed eseguire su di esse dei topic model. Questi permettono di
+estrarre dalla collezione di documenti:
 \begin{itemize}
-      \item i topic (cluster di parole)
-      \item distribuzione dei topic in ciascun documento
-      \item distribuzione delle parole nei topic
-\end{itemize} 
+      \item I topic, ovvero cluster di parole.
+      \item Distribuzione dei topic in ciascun documento.
+      \item Distribuzione delle parole nei topic.
+\end{itemize}
 
 Più precisamente la modellazione dei topic si basa sui seguenti concetti:
 \begin{itemize}
-      \item ogni documento è un insieme di topic. Specifica che ogni documento 
-      può essere definito da una distribuzione di topic.
-      \item ogni topic è un mix di parole. Specifica che ogni topic ha una distribuzione 
-      delle parole.
+      \item \textbf{Ogni documento è un insieme di topic}. Specifica che ogni
+            documento può essere definito da una distribuzione di topic.
+      \item \textbf{Ogni topic è un mix di parole}. Specifica che ogni topic ha
+            una distribuzione delle parole che ne descrivono il contenuto.
 \end{itemize}
-
 Gli strumenti che si utilizzano per risolvere il seguente problema sono:
 \begin{itemize}
-      \item \textbf{frequentisti o statistical based}: unigramma, mixture of unigramm, latente dirichlet allocation.
-      Le metriche di valutazione sono PMI, RBO e KL.
-      \item \textbf{neural based}: contextualized topic model, neural-based. Vengono 
-      valutati usando la metrica WED.
+      \item \textbf{Frequentisti} o \textbf{Statistical based}: unigramma, mixture
+            of unigramm, latente dirichlet allocation. Per queste tipologie, le
+            metriche di valutazione sono PMI, RBO e KL.
+      \item \textbf{Neural based}: contextualized topic model, neural-based. Vengono
+            valutati usando la metrica WED.
 \end{itemize}
 
-I modelli neurali permettono di trovare delle differenze semantiche rispetto al 
+I modelli neurali permettono di trovare delle differenze semantiche rispetto al
 contesto, cosa che non fanno i modelli frequentisti.
-
 \subsection{Unigram model}
 Questo modello si basa sull'assunzione che esista un solo topic nella collezione.
-Essendoci un solo topic allora il compito diveta stimare la distribuzione delle 
+Essendoci un solo topic allora il compito diventa stimare la distribuzione delle
 parole del dizionario rispetto al topic ($p(w)$).
 
-Quindi data una parola del dizionario, Questa può essere osservata se presente 
-in un documento oppure non osservata se non è presente della collezione. 
-Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai documenti,
-ovvero la probabilità di presenza della parola nei vari documenti, oppure possiamo 
-calcolare per ogni documenti la distribuzione delle parole. 
-
+Quindi data una parola del dizionario, questa può essere osservata se presente
+in un documento oppure non osservata se non è presente della collezione.
+Per ogni parola possiamo calcolare la distribuzione rispetto ai documenti,
+ovvero la probabilità di presenza della parola nei vari documenti, oppure possiamo
+calcolare per ogni documento la distribuzione delle parole.
+\begin{equation}
+      p(\vec{w}) = \prod_{n = 1}^{N} p(w_n)
+\end{equation}
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/nlp/unigram.png}
+      \caption{Unigram model}
+      \label{fig:unigram}
+\end{figure}
 \subsection{Mixutere Unigram model}
-Identico all'Unigram con la differenza che si assume di avere più topic nella collezione (dati dal problema) ma 
-un solo topic per documento. 
+Simile all'\textit{Unigram model} con la differenza che si assume di avere più
+topic nella collezione, i quali sono noti, ma con un solo topic per documento.
 
-Quindi per ogni parola possiamo calcolare la distribuzione rispetto ai topic e 
-per ogni topic possiamo calcolare la distribuzione dei documenti.
-
-Quindi per ogni parola abbiamo una distribuzione di topic e per ogni documento
-abbiamo una distribuzione di topic. In formule:
+Quindi per ogni parola possiamo calcolare la sua distribuzione rispetto ai topic,
+e per ogni topic possiamo calcolare la distribuzione dei documenti. Questo ci
+permette di avere per ogni parola abbiamo una distribuzione di topic e per ogni
+documento abbiamo una distribuzione di topic. In formule:
 \begin{equation}
       p(\vec{w}) = \sum_z p(z) \prod_{n = 1}^{N} p(w_n|z)
 \end{equation}
-dove $z$ è il topic e $w_n$ è la parola.
+dove $z$ è il topic e $w_n$ è la parola nel documento $\vec{w}$.
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/nlp/mixture.png}
+      \caption{Mixture Unigram model}
+      \label{fig:mixture_unigram}
+\end{figure}
 \begin{nota}
       In questo modello il numero dei topic deve essere dato.
 \end{nota}
 \subsection{Latent Dirichlet Allocation}
 Questo modello si basa sulla teoria bayesiana dove nulla è fissato e tutto è
-campionabile. La principale assunzione su cui si basa questo metodo è che ogni
-documento è costituito da più topic e che:
+campionabile. La principale assunzione è che ogni documento è costituito da più
+topic e che:
 \begin{itemize}
       \item Ogni topic è una distribuzione su più parole.
       \item Ogni documento è un insieme di topic.
@@ -428,9 +483,10 @@ LDA si basa su due processi:
       \item \textbf{Inferential process}: processo che permette di inferire i topic
             osservando le parole nei documenti.
 \end{itemize}
-
-Avremo una \textbf{word topic distribution}, ovvero:
-\begin{equation*}
+Partendo dal fatto che un \textit{topic} è una distribuzione di parole di un
+vocabolario $W$, il quale consiste di $N$ parole univoche che rappresentano il
+documento, possiamo definire una \textbf{word topic distribution}, ovvero:
+\begin{equation}
       P(w|z)
 \end{equation*}
 la quale rappresenta la probabilità di una parola del vocabolario all'interno di
@@ -438,43 +494,27 @@ un topic. Il processo di costruzione di questa distribuzione parte da una versio
 randomica che viene migliorata in modo iterativo, con un funzionamento simile a
 quello di Markov Chain Monte Carlo.
 
-Ogni documento ha associato un \textbf{Document topic distribution} $P(z|d)$ prob. di un topic 
-all'interno di un documento. Si crea a partire da una randomica e si perfeziona con
-MCM.
-
-Il processo generativo si articola: date le distribuzioni $P(w|z)$ e $P(z|d)$, allora prima campiono 
-$P(z|d)$ e poi campiono $P(w|z)$
-
-Avremo gli iperparametri $\alpha, \beta$ che sono numeri reali che permettono 
-di inizializzare a priori le distribuzioni $P(z|d)$ e $P(w|z)$. In base ai valori 
-si hanno le seguenti implicazioni:
+Dato un topic model LDA, il quale consiste nelle probabilità $P(w|z)$ e $P(z|d)$,
+un documento $d$ è composto da $n$ parole non univoche ed è generato secondo il
+seguente processo generativo:
 \begin{itemize}
-      \item $\alpha$ alto: più mi aspetto tanti topic nel documento
-      \item $\alpha$ basso: mi aspetto un topic dominante nel documento
-      \item $\beta$ alto: contiene un misture di molte parole
-      \item $\beta$ basso: contiene un misture di poche parole
-\end{itemize} 
-
-$\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo 
-il train migliorando le distribuzioni utilizzando le osservazioni. 
-
-L'\textbf{inferenza} si articola:
-\begin{itemize}
-      \item \textbf{inizializzazione}: randomicamente assegno ad ogni parola un 
-      topic in qualsiasi documento
-      \item \textbf{aggiornamento}: per ogni parola di ogni documento aggiorno il 
-      topic assegnato contando le frequenze di tutte le parole tra word e topic e 
-      aggiungo la viariabilità dalla distribuzione di dirichlet
-      \item \textbf{ripeto}: per ogni parola in tutti i documenti
-      \item \textbf{iterate}: ripeti per più iterazioni
+      \item Per ogni parola $w$ del documento $d$:
+            \begin{itemize}
+                  \item Campiona un topic $z$ da $P(z|d)$.
+                  \item Campiona una parola $w$ da $P(w|z)$.
+            \end{itemize}
+      \item Aggiungi la parola $w$ al documento $d$.
 \end{itemize}
-Il precedente processo può essere rappresentato con il seguente diagramma:
+
+Il precedente processo può essere rappresentato con il diagramma riportato in
+figura \ref{fig:lda}.
 \begin{figure}[!ht]
       \centering
       \includegraphics[width=0.5\textwidth]{./img/nlp/lda.png}
       \caption{Diagramma di LDA}
       \label{fig:lda}
 \end{figure}
+
 In questo diagramma abbiamo la \textbf{Dirichlet prior} $\alpha$ applicata alla
 document topic distribution e la \textbf{Dirichlet prior} $\beta$ applicata alla
 word topic distribution.
@@ -489,7 +529,6 @@ a priori che la parola sia presente nel topic. Se $\beta$ è alto, allora mi asp
 che ci siano molte parole nel topic, mentre se è basso mi aspetto che ci siano
 poche parole nel topic.
 
-% ! Non ho capito questa frase
 $\alpha, \beta$ sono iperparametri che danno la distribuzione a priori poi effettuo
 il train per aggiustare meglio $\theta$ e $\phi$.
 
