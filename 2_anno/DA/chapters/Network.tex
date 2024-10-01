@@ -327,7 +327,7 @@ vettore di PageRank $P = (P(1), \dots, P(n))^T$ come segue:
 dove $A$ è la matrice di adiacenza del grafo definita come:
 \begin{equation*}
     A_{ij} = \begin{cases}
-        \frac{1}{O_j} & \text{se esiste un arco da $j$ a $i$} \\
+        \frac{1}{O_i} & \text{se esiste un arco da $i$ a $j$} \\
         0             & \text{altrimenti}
     \end{cases}
 \end{equation*}
@@ -397,7 +397,7 @@ Una soluzione alle problematiche relative alla irriducibilità e aperiodicità
 si ottiene aggiungendo un arco da ogni nodo a tutti gli altri nodi del grafo con
 una probabilità di transizione molto bassa controllata da un parametro $d$:
 \begin{equation}
-    A_{ij} = (1 - d) + d \cdot \sum_{(j, i) \in E}\frac{P(j)}{O_j}
+    P_{i} = (1 - d) + d \cdot \sum_{(j, i) \in E}\frac{P(j)}{O_j}
 \end{equation}
 
 Il coefficiente di PageRank $P_i$ può essere calcolato risolvendo il seguente
@@ -504,15 +504,16 @@ proprietà utilizzando diversi algoritmi:
           \begin{enumerate}
               \item \textbf{Massima clique}: è la clique di grandezza massimale,
                     ovvero quella con il massimo numero di nodi.
-              \item \textbf{All maximal clique}: è la clique con un numero minimo
-                    di nodi.
+              \item \textbf{All maximal clique}: sono tutte le clique massimali (non possono essere espanse)
           \end{enumerate}
           Data la complessità del problema, è possibile semplificare la ricerca
           introducendo un'operazione di \textbf{pruning}. Tale operazione
           consiste nell'eliminare i nodi che non possono far parte della clique.
           Se stiamo cercando una clique di grandezza $k$, allora tutti i nodi che
           fanno parte della clique devono avere almeno $k$ archi. Questo ci permette
-          di non considerare i nodi il cui grado è minore di $k - 1$.
+          di non considerare i nodi il cui grado è minore di $k - 1$. Si reitera 
+          questo procedimento si ricorre fino a quando non abbiamo nodi con grado inferiore 
+          e in quesl caso abbiamo trovato una clique.
 
           In ogni caso le clique sono molto rare quindi rimane sempre pesante
           questa strategia.
@@ -543,8 +544,8 @@ che soddisfa il seguente vincolo:
 Definito il vincolo, si possono definire diversi problemi di ottimizzazione per
 trovare le quasi-clique:
 \begin{itemize}
-    \item \textbf{Massimizzazione}: si cercano i gruppi che massimizzano il criterio.
-    \item \textbf{Threshold}: si cercano i gruppi che superano una determinata soglia.
+    \item \textbf{Massimizzazione}: si cercano i gruppi che massimizzano $\delta\cdot |E_s|$.
+    \item \textbf{Threshold}: si cercano i gruppi che fissato $\delta$ massimizzano $|E_s|$ o fissato $|E_s|$ massimizzano $\delta$.
 \end{itemize}
 Un'altra strategia per identificare le community è quella di utilizzare un approccio
 \textbf{greedy}. In questo caso si parte da un nodo con grado elevato e si espande
@@ -687,7 +688,8 @@ Questo obiettivo può essere raggiunto utilizzando due approcci differenti:
           le community in base a un criterio di similarità.
     \item \textbf{Divisive}: si parte da una situazione in cui tutti i nodi
           appartengono alla stessa community. A questo punto, si dividono le
-          community in base a un criterio di similarità.
+          community in base a un criterio di similarità, ad esempio si può usare la centralità come 
+          la betweenness.
 \end{itemize}
 Solitamente, la costruzione di tale struttura, sfrutta la matrice delle distanze,
 la quale viene aggiornata, ad ogni iterazione, riducendo la dimensione (eliminando
@@ -707,10 +709,16 @@ Un possibile criterio per suddividere la rete è la \textbf{edge-betweeness}, ov
 il numero di cammini minimi tra ogni coppia di nodi che passa attraverso l'arco
 su cui calcolo la metrica.
 
-A questo punto, attraverso un processo iterativo, si procede eliminando gli archi
-con edge-betweeness maggiore, fino a quando non si ottiene la struttura gerarchica
-delle community. Ad ogni iterazione è necessario ricalcolare la metrica, in quanto
-la struttura della rete cambia.
+Un esempio del metodo divisivo è quello Girvan-Newman algorithm sui seguenti passi 
+iterativi:
+\begin{itemize}
+    \item calcola la betweenness per ogni edge del grafo
+    \item rimuovi gli edge con betweenness massima (si formano delle community)
+    \item si rieseguono i passi precedenti per partizionare ancora le community fino a quando non rimangono 
+    solo i singoli nodi.
+\end{itemize}
+Alla fine si produce la struttura gerarchica del grafo.
+
 \section{Social media Analysis}
 In questa sezione, dobbiamo sapere sapere le definizioni di \textbf{hub} e \textbf{spoke}.
 \begin{definizione}[\textbf{Hub}]
@@ -740,7 +748,7 @@ Possiamo avere tre tipologie di rete:
 \begin{itemize}
     \item \textbf{Assortativa}: avremo una tendenza ad avere hub che si collegano
           tra di loro. Un esempio sono le reti sociali, in cui gli hubs (persone
-          famose), tendono a collegarsi tra di loro.
+          famose), tendono a collegarsi tra di loro e gli spoke tendono a collegarsi tra di loro.
     \item \textbf{Neutrale}: rete che ha collegamenti tra due nodi con probabilità
           casuale.
     \item \textbf{Disassortativa}: avremo la tendenza ad avere spoke collegati
@@ -763,26 +771,43 @@ se si ha una distribuzione uniforme, allora la rete è neutrale.
     Se il grafo è orientato allora non è simmetrica è il contrario.
 \end{nota}
 
+Definiamo quindi la matrice $e$ di \textbf{correlazione di grado} ovvero $e_{ij}$
+è la probabilità di trovare i nodi di grado $i$ e $j$ agli estremi di un arco scelto 
+randomicamente. $e_{ij}$ viene calcolato dividendo il numero di edge che hanno come 
+estremità nodi di grado $i$ e $j$ e normalizzando.
+
+In seguito definiremo $q_k$ come la probabilità di trovare un nodo di grado $k$ 
+alle estremità di un arco selezionato randomicamente.
+
+$$q_k = \frac{k\cdot p(k)}{\overline{k}}$$
+
+dove:
+\begin{itemize}
+    \item $k$ è il grado selezionato
+    \item $p(k)$ è la probabilità di trovare un nodo con grado $k$
+    \item $\overline{k}$ è il grado medio
+\end{itemize}
+
+Come sono stati definiti i coefficienti avremo che 
+$$\sum_{i=1}^{n}e_{ik} = q_k$$
+
 Possiamo determinare l'assortativa o disassortatività controllando se la seguente
 uguaglianza è verificata:
 \begin{equation}
-    e_{ij} = q_iq_j
+    e_{ij} = q_i \cdot q_j
 \end{equation}
-dove $q_i$ e $q_j$ sono le probabilità che un nodo di grado $i$ sia collegato
-con un nodo di grado $j$ in una rete creata in modo randomico. Se tale uguaglianza
-è verificata, allora la rete è neutrale. Altrimenti, possiamo calcolare la
-differenza tra $e_{ij}$ e $q_iq_j$ per capire se la rete è assortativa o
-disassortativa. Questo viene fatto attraverso la seguente formula:
+
+Quindi la magnitudine della correlazione viene calcolata da:
 \begin{equation}
-    \sum_{i, j}jk(e_{ij} - q_iq_j)
+    \sum_{i, k}j\cdot k(e_{ik} - q_i\cdot q_k)
 \end{equation}
-Il valore ottenuto viene successivamente normalizzato dividendo la formula per:
+Il valore ottenuto viene successivamente normalizzata dividendo la formula per:
 \begin{equation}
     \sigma^2 = \sum_{k}k^2  - q_k - \left[\sum_{k}kq_k\right]^2
 \end{equation}
 Si ottiene quindi un valore $r$ compreso tra $-1$ e $1$.
 \begin{equation}
-    r = \frac{\sum_{i, j}jk(e_{ij} - q_iq_j)}{\sigma^2}
+    r = \frac{\sum_{i, k}jk(e_{ik} - q_iq_k)}{\sigma^2}
 \end{equation}
 In base al valore di $r$ possiamo determinare se:
 \begin{itemize}

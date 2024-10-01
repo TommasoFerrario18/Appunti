@@ -11,7 +11,7 @@ non è una cosa banale in quanto:
       \item Ci può essere del rumore nei dati (dati errati o non fedeli).
       \item Può essere presente dell'ambiguità nelle frasi, per esempio abbiamo
             modi di dire. Questo viene risolto in diversi modi, ad esempio
-            effettuando l'analisi sintattici, part-of-speech tagging, etc.
+            effettuando l'analisi morfo-sintattica, part-of-speech tagging, etc.
       \item Ambiguità sintattica, la quale viene risolta attraverso part-tree-disambiguation
 \end{itemize}
 I problemi legati all'ambiguità sono molto importanti in questo campo, e sono
@@ -21,9 +21,10 @@ Alcune di queste, forniscono sistemi per risolvere le ambiguità nelle frasi, i
 quali si basano sulla costruzione di diversi alberi di parsing e restituiscono
 l'albero della frase più probabile.
 
-Tra le varie tipologie di ambiguità che possiamo incontrare distinguiamo due
-tipologie:
+Le varie tipologie di ambiguità sono:
 \begin{itemize}
+      \item Ambiguità morfo-sintattica: riconoscere la funzione delle parole ex: verbo, nome\dots (part-of-speach tagging)
+      \item Ambiguità strutturale: riconoscere come è formata la frase e a quali termini si riferiscono gli aggettivi (parse tree disambiguation)
       \item Ambiguità emozionale: in una frase sono espresse emozioni contrastanti.
             Questo viene studiato attraverso la \textbf{sentiment analysis}.
       \item Ambiguità semantica: in una frase sono presenti parole che possono
@@ -40,7 +41,7 @@ La fase di analisi consiste nel classificare il testo in base al fatto che esso
 sia:
 \begin{itemize}
       \item \textbf{Oggettivo}: si sta esprimendo un fatto.
-      \item \textbf{Soggettivo} (emozione): si sta esprimendo un'emozione la quale
+      \item \textbf{Soggettivo} (emozione): si sta esprimendo un'emozione personale la quale
             può essere:
             \begin{itemize}
                   \item Positivo.
@@ -90,8 +91,10 @@ come un vettore di bit, dove il bit $i$-esimo è a $1$ se la parola $i$-esima
       \item Perdiamo l'ordinamento delle parole.
 \end{itemize}
 Un ulteriore metodo è rappresentato dalla \textbf{BagOfWord}, la quale consiste
-nel rappresentare una frase tramite un vettore in uno spazio. Il problema è che
-manca la composizionalità delle parole.
+nel rappresentare una frase tramite un vettore in uno spazio. Più precisamente si
+rappresenta il testo come un array, ogni cella è associata ad una parola 
+e contiene la frequenza della parola. Il problema è che
+si perde l'ordine e la composizionalità.
 
 Possiamo usare una rappresentazione deep basata su \textbf{word2vec}. Questa consiste
 nello scrivere il termine sulla base dei termini che lo precedono e che lo seguono.
@@ -105,7 +108,7 @@ una parola e cerca di prevedere le parole che la circondano.
             predire l'intorno della parola.
 
             Per ottenere questo risultato, usiamo un \textbf{one-hot-vector},
-            ovvero un bitvector, lungo quanto il il vocabolario, con un bit a $1$
+            ovvero un bitvector, lungo quanto il vocabolario, con un bit a $1$
             nella posizione associata alla parola all'interno del vocabolario.
 
             Successivamente costruiamo una rete neurale (Encoder Decoder) che
@@ -434,14 +437,6 @@ la quale rappresenta la probabilità di una parola del vocabolario all'interno d
 un topic. Il processo di costruzione di questa distribuzione parte da una versione
 randomica che viene migliorata in modo iterativo, con un funzionamento simile a
 quello di Markov Chain Monte Carlo.
-
-Ad ogni documento è associata una \textbf{document topic distribution}, ovvero:
-\begin{equation*}
-      P(z|d)
-\end{equation*}
-la quale rappresenta la probabilità di osservare un topic all'interno di un documento.
-Anche questa distribuzione, come la precedente, viene costruita in modo iterativo
-partendo da una versione randomica.
 
 Ogni documento ha associato un \textbf{Document topic distribution} $P(z|d)$ prob. di un topic 
 all'interno di un documento. Si crea a partire da una randomica e si perfeziona con

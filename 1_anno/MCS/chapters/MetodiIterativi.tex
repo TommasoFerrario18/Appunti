@@ -290,7 +290,7 @@ calcola facendo il reciproco di ogni elemento sulla diagonale. E che $P - N =A$.
 
 A livello di complessità tutto dipende dalle singole iterazioni, infatti, dato:
 \begin{equation*}
-    x^{(k + 1)} = x^{(k)} + P^{-1}(b - Ax^{(k)}) = x^{(k)}P^{-1}r^{(k)}
+    x^{(k + 1)} = x^{(k)} + P^{-1}(b - Ax^{(k)}) = x^{(k)}+P^{-1}r^{(k)}
 \end{equation*}
 Il residuo $r^{(k)} = \mathcal{O}(n^2)$, il prodotto $P^{-1}r^(k) = \mathcal{O}(n)$
 perché $P$ è diagonale, infine la somma è $\mathcal{O}(n)$. In conclusione si ha

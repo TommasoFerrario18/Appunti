@@ -46,7 +46,7 @@ a errori di approssimazione.
     lineare $A\textbf{x} = \textbf{b}$ e sia $x$ la soluzione corretta, allora
     l'\textbf{errore assoluto} è definito come:
     \begin{equation}
-        \epsilon = \|\stackrel{\sim}{\textbf{x}} - \textbf{x}\|
+        \epsilon = \|\stackrel{\sim}{\textbf{x}} - \textbf{x} \|
     \end{equation}
     dove $\|\cdot\|$ è una qualsiasi norma fra due vettori.
 \end{definizione}
@@ -120,7 +120,7 @@ sistema è complesso da risolvere.
     Presa una matrice $A \in \mathbb{R}^{n \times n}$, il \textbf{numero di
         condizionamento} è definito come:
     \begin{equation}
-        cond(A) = \|\lambda_{max}\| \cdot \|\lambda_{min}\|
+        cond(A) = \frac{\|\lambda_{max}\|}{\|\lambda_{min}\|}
     \end{equation}
     dove $\lambda_{max}$ e $\lambda_{min}$ sono rispettivamente il massimo e il
     minimo autovalore della matrice $A$ in modulo.

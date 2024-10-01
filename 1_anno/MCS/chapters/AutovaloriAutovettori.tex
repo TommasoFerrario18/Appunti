@@ -59,8 +59,8 @@ $A$ molto grandi.
     associata all'$i$-esima riga è un cerchio nel piano complesso che ha centro
     in $a_{ii}$ e raggio $r$.
     $$r = \sqrt{\sum_{i\ne j}|a_{ij}|}$$
-    Oppure la sfera si può definire così $$R_i:=\{z\in \mathbb{C}|
-        |z-A_{ii}| \leq \sum_{l=1, l\neq j}^{n} |A_{il}|\}$$
+    Oppure la sfera si può definire così $$R_i:=\{z\in \mathbb{C}:
+        |z-a_{ii}| \leq \sum_{l=1, l\neq j}^{n} |a_{il}|\}$$
 \end{definizione}
 
 La sfera di Greshgorin contiene tutti i numeri complessi presenti nel raggio.
@@ -68,7 +68,7 @@ La sfera di Greshgorin contiene tutti i numeri complessi presenti nel raggio.
 \begin{teorema} [\textbf{Greshgorin}]
     Definiamo $\sigma(A):=\{\lambda | \lambda\text{ è autovalore di }A\}$, esso
     rappresenta lo spettro della matrice. Inoltre, definiamo $R_j:=\{z\in \mathbb{C}|
-        |z-A_{jj}| \leq \sum_{l=1, l\neq j}^{n} |A_{jl}|\}$.
+        |z-a_{jj}| \leq \sum_{l=1, l\neq j}^{n} |a_{jl}|\}$.
     Allora:
     \begin{equation*}
         \sigma(A) \subseteq \bigcup_{j=1}^{n} R_j
@@ -127,7 +127,7 @@ autovalori. Quindi se l'intervallo non contiene lo $0$ allora tutti gli autovalo
 sono $\neq 0$ e quindi il determinante $\ne 0$, quindi la matrice è invertibile.
 \begin{nota}
     $R_j$ è l'insieme dei numeri complessi che distano $\le$ la somma delle entrate
-    alla riga $j$ esclusa l'entrata $A_{jj}$. Vengono chiamata \textbf{cerchi Greshgorin}.
+    alla riga $j$ esclusa l'entrata $a_{jj}$. Vengono chiamata \textbf{cerchi Greshgorin}.
 \end{nota}
 \section{Metodo delle potenze}
 Algoritmo per calcolare l'autovalore della matrice $A$ di modulo massimo e

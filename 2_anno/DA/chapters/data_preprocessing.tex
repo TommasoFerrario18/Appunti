@@ -87,7 +87,7 @@ usare diversi metodi di imputazione dei valori mancanti:
                   \item \textbf{Discreto} o \textbf{Categorico}: sostituiamo il valore
                         mancante con quello più frequente.
             \end{itemize}
-      \item Un'altra strategia è quella \textbf{consept most common value}, la quale utilizza le stesse
+      \item Un'altra strategia è quella \textbf{concept most common value}, la quale utilizza le stesse
             strategie di imputazione ma in base alla classe dell'istanza.
 \end{itemize}
 Il primo approccio si può utilizzare in un contesto non supervisionato, mentre il
@@ -226,8 +226,8 @@ Esistono diversi metodi per ridurre il numero di feature:
       \caption{Feature Reduction}
       \label{fig:feature_reduction}
 \end{figure}
-\subsection{Feature Reduction}
-La \textbf{Feature reduction} è un processo che consiste nel selezionare una
+\subsection{Feature extraction}
+La \textbf{Feature extraction} è un processo che consiste nel selezionare una
 funzione $f(x): \mathbb{R}^N \to \mathbb{R}^M$ tale che $M < N$. Questo
 significa che si passa da uno spazio di dimensione $N$ a uno spazio di dimensione
 $M$. Lo scopo di tale funzione è quello di mantenere il più possibile il
@@ -239,8 +239,8 @@ di errori.
 Un esempio di questa funzione è la \textbf{PCA} (\textbf{Principal Component
       Analysis}). Questa funzione permette di proiettare i dati in uno spazio di
 dimensione minore, mantenendo il più possibile il contenuto informativo.
-\subsection{Feature Selection}
-La \textbf{Feature Selection} è un processo che consiste nel selezionare un
+\subsection{Feature selection}
+La \textbf{Feature selection} è un processo che consiste nel selezionare un
 sottoinsieme delle feature originali. Dato un insieme di feature $F = \{f_1, f_2,
       \ldots, f_N\}$, si vuole trovare un sottoinsieme $F' \subseteq F$ tale che
 $|F'| < |F|$ e che abbia un contenuto informativo simile a $F$.
@@ -300,10 +300,10 @@ selezionare le feature in base alla loro correlazione. Per questo metodo un
 buon sottoinsieme di feature è quello in cui le feature sono altamente correlate
 con la classe e poco correlate con le altre. 
 \begin{equation}
-      M_s = \frac{k \cdot \overline{r_cf}}{\sqrt{k + k \cdot (k - 1) \cdot \overline{r_ff}}}
+      M_s = \frac{k \cdot \overline{r_{cf}}}{\sqrt{k + k \cdot (k - 1) \cdot \overline{r_{ff}}}}
 \end{equation}
-dove $k$ rappresenta il numero di feature nel subset $S$, $\overline{r_cf}$ è la
-media delle correlazioni tra le feature e la classe e $\overline{r_ff}$ è la media
+dove $k$ rappresenta il numero di feature nel subset $S$, $\overline{r_{cf}}$ è la
+media delle correlazioni tra le feature e la classe e $\overline{r_{ff}}$ è la media
 delle correlazioni tra le feature.
 
 Spesso i due metodi vengono utilizzati insieme, in quanto il primo permette di
