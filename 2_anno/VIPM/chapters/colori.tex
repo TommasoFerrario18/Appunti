@@ -1,22 +1,22 @@
 \chapter{Colori}
 I colori possono essere descritti in termini:
 \begin{itemize}
-    \item \textbf{fisici}: attraverso la distribuzione spettrale di energia, fattore 
-    di riflessione, gloss\dots
+    \item \textbf{fisici}: attraverso la distribuzione spettrale di energia,
+          fattore di riflessione, gloss\dots
     \item \textbf{sensoristica}: stimolazione dei fotorecettori dell'occhio attraverso
-    le radiazioni elettromagnetiche
-    \item \textbf{psicologica}: impressione soggetiva del colore condizionata 
-    dalla situazione dell'osservatore e i materiali degli oggetti
+          le radiazioni elettromagnetiche.
+    \item \textbf{psicologica}: impressione soggettiva del colore condizionata
+          dalla situazione dell'osservatore e i materiali degli oggetti.
 \end{itemize}
 
 Il colore è frutto della combinazioni di diverse componenti:
 \begin{itemize}
-    \item distribuzione spettrale di energia illuminante: specifica quale colore 
-    viene emesso dalla luce
-    \item distribuzione spettrale di riflettanza: specifica quali colori vengono 
-    assorbiti dall'oggetto e quali colori vengono riflessi dall'oggetto.
-    \item quantità di fotoni assorbiti dall'occhio umano
-    \item sensibilità dei coni che assorbono i singoli colori della luce 
+    \item distribuzione spettrale di energia illuminante: specifica quale colore
+          viene emesso dalla luce.
+    \item distribuzione spettrale di riflettanza: specifica quali colori vengono
+          assorbiti dall'oggetto e quali colori vengono riflessi dall'oggetto.
+    \item quantità di fotoni assorbiti dall'occhio umano.
+    \item sensibilità dei coni che assorbono i singoli colori della luce.
 \end{itemize}
 
 L'occhio umano è composto da:
@@ -32,143 +32,159 @@ Sulla retina sono presenti:
     \item cones: si occupano di recepire il colore (funzionano con una buona luce)
 \end{itemize}
 
-I coni degli sono sensibili alle lunghezze d'onda dei colori blu, rosso e verde. Le curve 
-rosse e verdi sono sovrapposte perché in questo modo si possono riconoscere più 
-sfumature di colori tra rosso e verde. Dal momento che gli esseri umani hanno una 
-percezione del colore a tre dimensioni questo viene detto \textbf{tristimulus color} 
-e i singoli componenti vengono chiamati:
+I coni degli sono sensibili alle lunghezze d'onda dei colori blu, rosso e verde.
+Le curve rosse e verdi sono più sovrapposte perché in questo modo si possono
+riconoscere più sfumature composte da questi colori.
+
+Dal momento che gli esseri umani hanno una percezione del colore a tre dimensioni
+questo viene detto \textbf{tristimulus color} e i singoli componenti vengono chiamati:
 \begin{itemize}
-    \item \textbf{short}: percepisce le onde corte e quindi il blu
-    $$S = \int_{\lambda} \phi(\lambda) S(\lambda)d\lambda$$
+    \item \textbf{short}: percepisce le onde corte e quindi il blu:
+          \begin{equation*}
+              S = \int_{\lambda} \phi(\lambda) S(\lambda)d\lambda
+          \end{equation*}
     \item \textbf{medium}: percepisce le onde medie e quindi il verde
-    $$M = \int_{\lambda} \phi(\lambda) M(\lambda)d\lambda$$
+          \begin{equation*}
+              M = \int_{\lambda} \phi(\lambda) M(\lambda)d\lambda
+          \end{equation*}
     \item \textbf{long}: percepisce le onde lunghe e quindi il rosso
-    $$L = \int_{\lambda} \phi(\lambda) L(\lambda)d\lambda$$
+          \begin{equation*}
+              L = \int_{\lambda} \phi(\lambda) L(\lambda)d\lambda
+          \end{equation*}
 \end{itemize}
 
 Le formule specificate precedentemente specificano la quantità massima di fotoni
 percepibili dai coni di un essere umano.
 
-Quindi per assorbire il colore, data una distribuzione spettrale di energia e 
-la sensibilità dei tre coni, si calcolano $3$ distribuzioni colore ottenute dall'intersezione 
-tra l'area di ciascun cono e quella della distribuzione del colore. Il colore è 
-data dalla tripla $R,G,B$  ottenute dall'integrale delle $3$ distribuzioni definite 
-precedentemente. 
+Quindi per assorbire il colore, data una distribuzione spettrale di energia e
+la sensibilità dei tre coni, si calcolano $3$ distribuzioni colore ottenute dall'intersezione
+tra l'area di ciascun cono e quella della distribuzione del colore. Il colore è
+data dalla tripla $R,G,B$  ottenute dall'integrale delle $3$ distribuzioni definite
+precedentemente.
 
 \begin{nota}
-I coni effettuano una discretizzazione del colore in $3$ canali
+    I coni effettuano una discretizzazione del colore in $3$ canali
 \end{nota}
 
-In aggiunta tutti gli spettri che stimulano la stessa risposta dei coni sono indistinguibili 
-e in caso si chiamano \textbf{metameric matches}. In realtà abbiamo 3 diverse metameric 
-match:
+In aggiunta tutti gli spettri che stimolano la stessa risposta dei coni sono
+indistinguibili e in caso si chiamano \textbf{metameric matches}. In realtà
+abbiamo 3 diverse metameric match:
 \begin{itemize}
-    \item \textbf{color metamerism}: due spettri sono identici sotto lo stesso osservatore 
-    e la stessa luce
-    \item \textbf{illumination metamerism}: due spettri sono identici sotto la stessa illuminazione
-    \item \textbf{observer metamerism}: due spettri sono identici sotto lo stesso osservatore
-\end{itemize} 
-
-\begin{definizione}
-    La \textbf{colorimetry} è la branca della scienza del colore che si occupa 
+    \item \textbf{Color metamerism}: due spettri sono identici sotto lo stesso
+          osservatore e la stessa luce.
+    \item \textbf{Illumination metamerism}: due spettri sono identici sotto la
+          stessa illuminazione.
+    \item \textbf{Observer metamerism}: due spettri sono identici sotto lo stesso
+          osservatore.
+\end{itemize}
+\section{Colorimetry}
+\begin{definizione}[Colorimetry]
+    La \textbf{colorimetry} è la branca della scienza del colore che si occupa
     di specificare numericamente il colore in modo che:
     \begin{itemize}
-        \item se il colore viene visto da un osservatore normale, sotto le stesse 
-        condizioni deve essere uguale
-        \item colori uguali devono avere la stessa rappresentazione
-        \item le codifiche devono essere associate a funzioni fisiche
+        \item se il colore viene visto da un osservatore normale, sotto le stesse
+              condizioni deve essere uguale.
+        \item colori uguali devono avere la stessa rappresentazione.
+        \item le codifiche devono essere associate a funzioni fisiche.
     \end{itemize}
 \end{definizione}
 
-L'obiettivo è di mappare tutti i colori visibili in codifiche standard basate sulla 
+L'obiettivo è di mappare tutti i colori visibili in codifiche standard basate sulla
 combinazione di colori primari.
 
-\begin{definizione}
-    La legge di \textbf{Grassman's law} è la legge che specifica che un colore può 
+\begin{definizione}[Grassman's law]
+    La legge di \textbf{Grassman's law} è la legge che specifica che un colore può
     essere ottenuto da una combinazione lineare di una serie di colori primari.
 \end{definizione}
 
-La prima codifica è \textbf{CIE RGB} la quale si è basata su uno studio composto da 
-$17$ persone normali, messe davanti ad uno spiraglio con un campo visivo di 2 gradi,
-nel quale vengono mostrati due colori, uno quello target, l'altro quello composto 
-da rosso, verde e blu. Lo studio si basava sul fatto che le persone dovevamo modificare 
-la quantità dei colori primari per ottenere il colore target. In questo modo si 
-potevano ottenere delle codifiche dei colori variando le intensità dei colori primari. 
-Da notare che questo standard ammette anche contributi negativi che assumono la rimozione 
-di un colore nelle altre componenti. Le codifiche sono ottenute attraverso la media 
-delle risposte
+\subsection{CIE RGB}
+Una delle prime codifiche dei colori è la \textbf{CIE RGB} la quale si basa su
+uno studio in cui i partecipanti correggere dei sensori modificando la quantità
+dei colori primari per ottenere il colore target.
 
+Risulta importante notare che questo standard ammette anche contributi negativi,
+ovvero si ha la possibilità di sottrarre il contributo di un particolare colore.
+Questo viene fatto aggiungendo al colore target la parte che viene sottratta.
 \begin{nota}
-    Questa codifica rispetta la legge di grassman.
+    La codifica appena presentata rispetta la legge di Grassman.
 \end{nota}
-
-Il problema di questa codifica è che si hanno contributi negativi quindi è stato trovato un nuovo 
-standard \textbf{CIE XYZ} che corrisponde ad un cambiamento di base dei coni in modo 
-che:
+\subsection{CIE XYZ}
+Il problema della codifica \textit{CIE RGB} è che si hanno contributi negativi,
+di conseguenza, si è passati a un nuovo standard \textbf{CIE XYZ}. Sfruttando il
+fatto che lo spazio di color matching è lineare, si è passati alla codifica \textbf{CIE XYZ}
+inserendo i seguenti vincoli:
 \begin{itemize}
-    \item Y è la luminanza
-    \item valori positivi nelle matching curve 
-    \item il bianco è $1/3, 1/3, 1/3$
+    \item Il canale Y rappresenta la luminanza.
+    \item Nelle curve che rappresentano i colori non ci sono valori negativi.
+    \item Il colore bianco è ottenuto come: $1/3, 1/3, 1/3$
 \end{itemize}
-Il problema di questa codifica è che i primari non sono colori che esistono nella realtà
-perciò non sono visibili. In aggiunta, la codifica rispetta anche il terzo principio 
-della \textbf{colorimetry}, ovvero le codifiche dipendono da una rappresentazione 
-fisica infatti:
-$$\begin{array}{c}
-    X = \int_{380}^{780} l(\lambda) \overline{x}(\lambda)d \lambda\\\\
-    Y = \int_{380}^{780} l(\lambda) \overline{y}(\lambda)d \lambda\\\\
-    Z = \int_{380}^{780} l(\lambda) \overline{z}(\lambda)d \lambda\\\\
-\end{array}$$
+Il problema di questa codifica è che i primari non sono colori che esistono nella
+realtà perciò non sono visibili. In aggiunta, la codifica rispetta anche il terzo
+principio della \textbf{colorimetry}, ovvero le codifiche dipendono da una
+rappresentazione fisica infatti:
+\begin{equation*}
+    \begin{array}{c}
+        X = \int_{380}^{780} l(\lambda) \overline{x}(\lambda)d \lambda \\\\
+        Y = \int_{380}^{780} l(\lambda) \overline{y}(\lambda)d \lambda \\\\
+        Z = \int_{380}^{780} l(\lambda) \overline{z}(\lambda)d \lambda \\\\
+    \end{array}
+\end{equation*}
 
-Dove $380-780$ sono  le frequenze visibili all'occhio umano e $\overline{x},\overline{y},\overline{z}$
-sono i colori primari.
+Dove $380-780$ sono  le frequenze visibili all'occhio umano e $\overline{x},
+    \overline{y},\overline{z}$ sono i colori primari.
 
 I colori dello spazio XYZ sono sul piano di intersezione tra i tre colori primari
-e nel piano non tutti i punti sono colori reali. 
+e nel piano non tutti i punti sono colori reali.
 
-Visto che i colori sono rappresentanti su un piano è stata definita la codifica 
-\textbf{CIE xyY} che specifica il colore secondo le componenti di \textbf{luminanza} e \textbf{cromaticità}.
+Visto che i colori sono rappresentanti su un piano è stata definita la codifica
+\textbf{CIE xyY} che specifica il colore usando una componente per la
+\textbf{luminanza} e due componenti per la \textbf{cromaticità}.
 
-Lo spazio colore xyY ha i colori puri sulla frontiera e il bianco è nella parte 
+Lo spazio colore xyY ha i colori puri sulla frontiera e il bianco è nella parte
 centrale.
 
-\begin{definizione}
-    La \textbf{gamma} è l'insieme di tutti i colori rappresentabili dalla combinazione
-    lineare di un insieme di colori primari.
+\begin{definizione}[Gamma cromatica]
+    La \textbf{gamma cromatica} è l'insieme di tutti i colori rappresentabili
+    dalla combinazione lineare di un insieme di colori primari.
 \end{definizione}
 
 Nel diagramma di cromaticità xyY, specificando un numero finito di colori primari
-si può formare una forma convessa la quale contiene tutti i colori rappresentabili 
-da quelli primari specificati. Ciò risulta utile trovare un modo per comparare i colori, questo potrebbe 
-essere risolto attraverso una misura di distanza, il problema è che sullo spazio 
-XYZ o xyY le distanze normali non corrispondono alla similarità del colore percepita. 
-Una dimostrazione di ciò sono gli \textbf{ellissi MacAdam}, ovvero ellissi che 
-racchiudono colori che sono precibilmente simili. Questi non sono uniformi su tutto il 
-piano quindi le normali distanze non funzionano. 
+si può formare una forma convessa la quale contiene tutti i colori rappresentabili
+da quelli primari specificati. Ciò risulta utile trovare un modo per comparare i
+colori, questo potrebbe essere risolto attraverso una misura di distanza, il
+problema è che sullo spazio XYZ o xyY le distanze normali non corrispondono alla
+similarità del colore percepita.
 
-Per risolvere questo problema si cambia spazio colore nel seguente modo, ovvero 
-la prima componente deve essere quella \textbf{acromatica} (lucentezza) (0/100), \textbf{rosso-verde} (-100/100)
-e infine \textbf{giallo-blu} (-100/100). Nella trasformazione del canale di lucentezza si hanno 
-due casi in base al fatto se si ha tanta luce o meno per modellare il fatto che, 
-a luce soffusa, il contributo al colore viene dato da coni e dai bastoncini. Questo 
-standard viene chiamato \textbf{CIE-LAB} e permette l'utilizzo  della norma euclidea 
-per confrontare i colori. L'unico problema rimanente è trovare la threshold sulla 
-distanza per dire che due colori sono uguali, questo dipende interamente dal 
+Una dimostrazione di ciò sono gli \textbf{ellissi MacAdam}, ovvero ellissi che
+racchiudono colori che sono percepibili simili. Questi non sono uniformi su tutto
+il piano quindi le normali distanze non funzionano.
+\subsection{CIE-LAB}
+Per risolvere questo problema si passa a allo spazio colore con colori opponenti,
+ovvero la prima componente deve essere quella \textbf{acromatica} (lucentezza) (0/100),
+\textbf{rosso-verde} (-100/100) e infine \textbf{giallo-blu} (-100/100). Nella
+trasformazione del canale di lucentezza si hanno due casi in base al fatto se si
+ha tanta luce o meno per modellare il fatto che, a luce soffusa, il contributo
+al colore viene dato da coni e dai bastoncini.
+
+Questo standard viene chiamato \textbf{CIE-LAB} e permette l'utilizzo della norma
+euclidea per confrontare i colori. L'unico problema rimanente è trovare la threshold
+sulla distanza per dire che due colori sono uguali, questo dipende interamente dal
 dominio.
 
-\textbf{CIE} ha elaborato degli standard per le sorgenti liminose e la loro temperatura come $D65$ e $D50$.
+\textbf{CIE} ha elaborato degli standard per le sorgenti luminose e la loro
+temperatura come $D65$ e $D50$.
 
 Nell'ambito dei colori è utile avere degli strumenti che li misurano:
 \begin{itemize}
-    \item spettroradiometro: misura la distribuzione spettrale di energia
-    \item colorimetro: misura i valori di tristimolo assumendo la luce D65 e D50
-    come reference del bianco
-    \item spettrofotometro: misura la curva di riflettanza dell'oggetto
+    \item Spettro-radiometro: misura la distribuzione spettrale di energia.
+    \item Colorimetro: misura i valori di tristimolo assumendo la luce D65 e D50
+          come reference del bianco.
+    \item Spettrofotometro: misura la curva di riflettanza dell'oggetto
 \end{itemize}
 Per ogni strumento dobbiamo abbiamo due caratteristiche:
 \begin{itemize}
-    \item \textbf{precisione}: quante volte misurando lo stesso oggetto otteniamo 
-    la stessa misura
-    \item \textbf{accurato}: quanto si avvicina la misura al valore vero. 
+    \item \textbf{Precisione}: quante volte misurando lo stesso oggetto otteniamo
+          la stessa misura
+    \item \textbf{Accurato}: quanto si avvicina la misura al valore vero.
 \end{itemize}
 
