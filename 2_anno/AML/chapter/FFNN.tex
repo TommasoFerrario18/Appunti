@@ -1,0 +1,100 @@
+\chapter{Feed Forward Neural Network}
+\textbf{Feed Forward Neural Network} is a neural network with a bounch of layers 
+each one direct connected to the next one without loop. Each layer represent
+a vector function and the entire network is a composition of each function on each 
+layer. For example: if a FFNN is an approximization of $f(x)$ and has $3$ hidden layer,
+so we have 
+$$f(x) = f^3(f^2(f^1(x)))$$
+Where $f^i$ is a function of $i$-layer. The overall lenght of hidden layers is the \textbf{depth} of the model.
+
+During the training process we want to learn a function $f(x)$ that generates our 
+real data by approximizate a $f^*(x)$, called target function, using a neural network.   
+$f^*(x)$ will be learned using training set, in the case of supervised problems
+we will try to get for all $x$ training example: $y\sim f^*(x)$. It's important 
+that is $y\sim f^*(x)$ and not $y=f^*(x)$ because we want a model that generalizes.
+
+The trainig process starts from a random initialization of all weights, that for each 
+training example $(x, y)$ the network compute $f^*(x)$ than we compute the error
+$E(y, f^*(x))$ and we adjust all weights by using gradient approximate with 
+backpropagation. 
+
+\begin{nota}
+During trainig phase weights are adjusted every $n$ examples, where $n$ is the batch 
+size. Generaly we use batch because if we adjust weights at every examples, we risk 
+to enter in overfitting.
+\end{nota}
+
+If $f(x)$ is \textbf{non linear} than we can teoretical approximate with an hidden 
+layer, the problem is to find weights.
+
+The essence of supervised machine learning is the creation of functions that 
+can look at examples (instances) and produce generalizations (predict data never seen).
+This is a searching task over oll possible functions, this is complex problem to solve
+so generaly we restrict the set of all possible functions to a specific families,
+this is called \textbf{hypothesis classes}. 
+
+An example is to approximate a non linear function using only a linear function, 
+this is possible by modifing the rappresentation, in this way we reduce the number 
+of candidates to only linear function family.
+
+To modify rappresentation of data we apply \textbf{non linear transformation} $\phi$.
+Given an instance $x$, $\phi(x)$ is a new set of features describing $x$. There are 
+a lot of mode to define a transformation:
+\begin{itemize}
+    \item use a predefine $\phi$ called \textbf{kernel}
+    \item define manually $\phi$ but it isn't convinient
+    \item we can learn it  but it isn't a general transformation
+\end{itemize}
+
+$Kernel$ and leaned transformation are automatically defined. In deep learning 
+we learn a transformation, while in SVM we use a Kernel. So a deep learning model 
+can be described mathematically by the following formula
+$$f^*(x;\theta, \omega, b) = \phi(x; \theta)^T \omega + b$$
+
+Where $f^*$ is the approximation of the target, $\phi$ is the transformation of 
+the input, the underlying model is linear, $\omega$ are weights, $\theta$ are 
+parameters of the transformation. $\phi$ is defines a hidden layer, so for complex 
+network we have a composition of $\phi$ defining a series of hidden layer. 
+
+The prediction model is generally a high linear function $f': wx + b$, here we have a listing:
+\begin{itemize}
+    \item \textbf{sign function}: this function is used for binary classification
+    $$\hat{y} = sign(f'(x))$$
+    \item \textbf{sigmoid function}: this function is used for binary classification
+    when we need a confidence on decision for log-linear binary classification.
+    $$\hat{y} = \frac{1}{1+e^{f'(x)}}$$
+    \item \textbf{softmax}: this is used for multi-class classification, suppose 
+    to have $k$ classes
+    $$\hat{y} =softmax(f'(x)) = \frac{e^{f'(x)_i}}{\sum_{j=1}^k e^{f'(x)_j}}$$
+\end{itemize}
+
+\textbf{Pros} for linear models are that can be fit efficiently and reliably, because 
+gradient on linear model are easy to compute.
+
+\textbf{Cons} models are restricted to linear fucntions so they works for data linear
+separable, solved by a transformation.
+
+\section{Kernel trick}
+Operations in higher dimensional space may be computationally expensive, to solve 
+this problem we use kernel trick that operate to original feaure space without computing 
+the transformations, generally kernel trick is used by SVM.
+
+A general linear model would be
+$$w^T x + b = b+ \sum_{i=1}^m \alpha_ix^Tx^{(i)}$$
+
+Where $b$ is the byas, $\alpha_i$ is a coefficient, $x$ is a point, $x^(i)$ is 
+$i$-instance of training set.
+To use this model on not linear separable data we apply a transformations 
+$$ b+ \sum_{i=1}^m \alpha_ix^Tx^{(i)} = b+ \sum_{i=1}^m \alpha_i\phi (x^T)\phi(x^{(i)}) $$
+The kernel trick override $\phi (x^T)\phi(x^{(i)})$ with $k(x^T, x^(i))$ without 
+computing $\phi(x)$ and it's more computational efficient compared to $\phi$. Moreover
+kernel trick allows us to learn models that are nonlinear as a function of x using 
+a convex optimization techniques that are guaranteed to converge efficiently, this is 
+possible because $\phi $ is fixed and we optimaze only $\alpha_i$.
+SVM uses only support vector and $\alpha_i$ regulates this, infact $alpha_i= 0$
+if and only if $i$ isn't a support vector.
+
+Each algorithm that uses kernel is called \textbf{kernel machines} or \textbf{kernel 
+methods}
+
+\section{Gradient optimization}
