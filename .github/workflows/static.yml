@@ -49,6 +49,8 @@ jobs:
               2_anno/AML/main.tex
               2_anno/CN/main.tex
               2_anno/VIPM/main.tex
+              2_anno/DCB/main.tex
+              2_anno/CV/main.tex
           work_in_root_file_dir: true
       - name: Create Static Dist Directory
         run: | 
@@ -65,6 +67,8 @@ jobs:
             mkdir -p ./static/AML
             mkdir -p ./static/CN
             mkdir -p ./static/VIPM
+            mkdir -p ./static/DCB
+            mkdir -p ./static/CV
             cp ./1_anno/ML/main.pdf ./static/ML/main.pdf
             cp ./1_anno/MC/main.pdf ./static/MC/main.pdf
             cp ./1_anno/PSS/main.pdf ./static/PSS/main.pdf
@@ -78,6 +82,8 @@ jobs:
             cp ./2_anno/AML/main.pdf ./static/AML/main.pdf
             cp ./2_anno/CN/main.pdf ./static/CN/main.pdf
             cp ./2_anno/VIPM/main.pdf ./static/VIPM/main.pdf
+            cp ./2_anno/DCB/main.pdf ./static/DCB/main.pdf
+            cp ./2_anno/CV/main.pdf ./static/CV/main.pdf
 
             cp ./public/index.html ./static/index.html
       - name: Configure Pages
