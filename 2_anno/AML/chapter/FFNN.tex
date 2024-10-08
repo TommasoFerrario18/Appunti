@@ -77,7 +77,7 @@ broad class of functions, while $\omega$ are the parameters that map from $\phi(
 to the target.
 
 \begin{note}
-    In a deep learning model $phi$ defines a hidden layer.
+    In a deep learning model $\phi$ defines a hidden layer.
 \end{note}
 
 The prediction model is generally a high dimensional linear function $f(x): x \cdot W + b$,
@@ -212,12 +212,14 @@ In addition, for reducing the risk of overfitting, we can add a \textbf{regulari
 \end{equation}
 where $\lambda$ is an hyperparameter that control the trade-off between bias and
 variance, $R(\theta)$ is the regularization term which correspond to a scalar that
-reflects the parameter complexity.
+reflects the parameter complexity. The regularization term is used to prevent the model from learning the noise in the training data.,
+this term doesn't always appears in loss function but we can implicily apply it
+modifing architecture or data, for example we can switch off some connections or we can add 
+new datas with noise.
 
-The optimal value for $\lambda$ will be probably somewhere around the minimum of
-the Cross Validation loss function.
 
 \begin{note}
     A network that use small weights have better generalization properties than
-    a network that use large weights.
+    a network that use large weights, because small noise inpact more on results 
+    when network has large weights.
 \end{note}
