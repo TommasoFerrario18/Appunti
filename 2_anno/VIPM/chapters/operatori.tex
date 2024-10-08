@@ -1,0 +1,213 @@
+\chapter{Operatori sulle immagini}
+Per ongi pixel possiamo definiredue tipologie di vicinato:
+\begin{itemize}
+    \item \textbf{vicinato di Von Neuwman}: se il pixel è $x,y$ il vicinato è
+    $$(x-1, y) \ (x, y-1) \ (x+1, y) \ (x, y+1) $$
+    \item \textbf{vicinato di Moore}: se il pixel è $x,y$ il vicinato è
+    $$(x-1, y) \ (x-1, y-1) \ (x, y-1) \ (x+1, y-1) \ (x+1, y) \ (x+1, y+1) \ (x, y+1) \ (x-1, y+1) $$
+\end{itemize}
+
+Possiamo definire il \textbf{percorso digitale} tra due pixel come la sequenza di 
+pixel che separano i due di interesse. La \textbf{lunghezza del cammino} sarà il numero 
+di edge del percorso, ricorda che la scelta del vicinato fa variare i vari cammini 
+disponibili. Si definisce \textbf{cammino chiuso} come il percorso da un pixel a 
+se stesso.
+
+Dato $S$ un insieme di pixel allora due pixel $p$, $q$ sono \textbf{connessi} in $S$ 
+se esiste un percorso in $S$ tra i due formato solo da pixel in $S$. L'insieme 
+dei pixel connessi in $S$ si chiama \textbf{componente connessa}, se 
+esiste una sola componente ed è connessa allora $S$ è chiamato \textbf{insieme connesso}.
+Sia $R$ un sottoinsieme di pixel dell'immagine, $R$ è una \textbf{regione} dell'immagine  se è
+un insieme connesso. Date due regioni $R_1,R_2$, se sono \textbf{adiacenti} allora la loro 
+la loro unione forma un insieme connesso altrimenti sono disconnessi.
+
+\begin{nota}
+    Le definizioni variano in base alla vicinanza
+\end{nota}
+
+Date delle regioni disgiunte allora, ogni singola regione può essere chiamata \textbf{foreground}
+mentre il complemento è il \textbf{background}. Definite le regioni possiamo 
+definire due bordi:
+\begin{itemize}
+    \item bordo interno sono i pixel del foreground adiacenti ai pixel del background
+    \item bordo esterno sono i pixel del background adiacenti ai pixel del foreground
+\end{itemize}
+
+Possiamo definire diverse distanze tra i pixel:
+\begin{itemize}
+    \item \textbf{euclidea}:
+    $$D_e(p,q) = \sqrt{(x_p-x_q)^2+(y_p-y_q)^2}$$
+    \item \textbf{city-block}:
+    $$D_4(p,q) = |x_p-x_q|+|y_p-y_q|$$
+    \item \textbf{chessboard}:
+    $$D_8(p,q) = max(|x_p-x_q|,|y_p-y_q|)$$
+\end{itemize}
+
+Definiremo diverse tipologie di operazioni:
+\begin{itemize}
+    \item \textbf{operazioni element-wise}: operazioni puntuali tra due matrici
+    \item \textbf{operazioni matriciali}: operazioni tra matrici
+    \item \textbf{operazioni lineari}: operatori $\mathcal{H}[f(x,y)] = g(x,y)$ che soddisfano le seguenti proprietà:
+    \begin{itemize}
+        \item omogeneità: dominio uguale al codominio
+        \item additività: $\mathcal{H}[\alpha f_1(x,y) + \beta f_2(x,y)] =\alpha  \mathcal{H}[f_1(x,y)] + \beta  \mathcal{H}[f_2(x,y)] $
+    \end{itemize}
+\end{itemize}
+
+Si possono definire \textbf{operazioni aritmetiche} tra immagini ovvero $+, -, \cdot, \%$
+che sono element-wise e applicabili su immagini delle stesse dimensioni. 
+
+\begin{nota}
+    Se da una immagine rumorosa applichiamo una media della immagine con la stessa con 
+    diversi noise di media nulla allora riduciamo la varianza del noise sull'immagine.    
+\end{nota}
+
+\begin{nota}
+    Possiamo comparare le immagini mediante la loro differenza.
+\end{nota}
+
+\begin{nota}
+    Possiamo correggere le ombre mediante le operazioni di prodotto e divisione.
+\end{nota}
+
+Ogni volta che applichiamo operazioni sulle immagini rischiamo di uscire dalla 
+quantizzazione utilizzata quindi dobbiamo sempre \textbf{clippare} e \textbf{scalare}.
+Per farlo usiamo la seguente funzione:
+$$g_s(x,y) = K\frac{g(x,y) -g_{min}}{g_{max} g_{min}}$$
+dove $K$ è la massima intensità rappresentabile nella quantizzazione scelta e 
+$g_{min}, g_{max}$ sono rispettivamente la minima e la massima intensità riscontrata 
+nell'immagine.
+
+Si possono definire le \textbf{operazioni insiemistiche} sulle immagini. Per prima cosa 
+bisogna definire le immagini secondo insiemi:
+$$A = \{ (x,y,z) \}$$
+dove $x,y$ sono le coordinate spaziali mentre $z$ è l'intensità, quindi le iperazioni 
+si baseranno su questa definizione, per esempio:
+$$A^c=\{(x,y, K-z) |(x,y, K-z) \in A\}$$
+$$A\cup B=\{max_z(a,b) |a \in A, b\in B\}$$
+
+Possiamo applicare anche \textbf{operazioni logiche} che si possono applicare solo 
+su immagini binarie, ovvero $\land, \lor, \lnot$.
+
+Possiamo applicare anche \textbf{operazioni spaziali}, le quali si dividono in:
+\begin{itemize}
+    \item \textbf{single-pixel}: modificano i pixel individualmente mediante una 
+    transformazione $T$ (funzione continua) dove $z$ è l'intensità iniziale del pixel e $s$ è quella
+    trasformata:
+    $$s=T(z)$$
+    \item \textbf{neighborhood}: operano sull'intensità basandosi sull'intensità 
+    dei pixel vicini (filtri)
+    \item \textbf{geometric transformation}: non cambiano l'intensità ma trasformano 
+    le coordinate geometriche dei pixel attraverso \textbf{trasformazioni affini} dello spazio, quindi applicano traslazioni, scaling,
+    rotazioni e shearing. Le trasformazioni affini preservano punti, linee e piani.
+    Dal momento che le trasformazioni sono affini allora possiamo concatenare 
+    una serie di trasformazioni applicando un prodotto tra matrici.
+    Dopo ciascuna trasformazione spaziale si applica sempre una interpolazione 
+    dell'intensità in modo da applicare un antialiasing, per fare questo passo si
+    usano i seguenti metodi:
+    \begin{itemize}
+        \item nearest neighbor: si prende il pixel più vicino agli angoli e si usa 
+        il suo colore.
+        \item bilinear interpolation: servono $4$ vicini
+        \item bicubic interpolation: servono $16$ vicini 
+    \end{itemize}
+\end{itemize}
+
+Spesso quando si devono risolvere dei task si passano le immagini ad uno \textbf{spazioni 
+trasformato}, in generale significa che abbiamo una funzione $r(x,y,u,v)$ chiamata 
+\textbf{forward trasnformation kernel} che trasforma ciascun pixel:
+$$T(u,v) = \sum_r \sum_c f(r,c) r(r,c,u,v)$$
+Per ogni trasformazione esiste sempre l'inversa per tornare a quella originaria
+$$f(x,y) = \sum_r \sum_c T(r,c) r^{-1}(r,c,u,v)$$
+
+Parleremo di forward trasnformation kernel \textbf{separabili} se 
+$$r(x,y,u,v) = r_1(x,u) \cdot r_2(y,v)$$
+Dove $x,y$ e $u,v$ sono rispettivamente le coordinate nel dominio spaziale e trasformato.
+Inoltre parleremo di kernel \textbf{simmetrico} se 
+$$r(x,y,u,v) = r_1(x,u) \cdot r_1(y,v)$$
+
+Possiamo calcolare la \textbf{distribuzione di intensità} dei pixel
+$$p(z_k) = \frac{n_k}{MN}$$
+dove $n_k$ numero di pixel di intensità $z_k$ e $MN$ è il numero di pixel totali.
+Definendo la distribuzione possiamo calcolare:
+\begin{itemize}
+    \item \textbf{media}
+    $$m = \sum_{k} z_k \cdot p(z_k)$$
+    \item \textbf{varianza}
+    $$\sigma^2 = \sum_{k} (z_k -m)^2 \cdot p(z_k)$$
+    \item in generale \textbf{n-momento centrale}
+    $$\mu_n(z) = \sum_{k} (z_k -m)^n \cdot p(z_k)$$
+\end{itemize} 
+\begin{nota}
+    $\mu_0 = 1$, $\mu_1= 0$ e $\mu_2=\sigma^2$
+\end{nota}
+
+Nel dominio spaziale abbiamo 2 tipi di trasformazioni:
+\begin{itemize}
+    \item \textbf{intensity trasformation}: per esempio miglioramento dell'immagine
+    \item \textbf{spatial filtering}: per esempio denoising
+\end{itemize}
+
+\section{Intensity trasformation}
+Trasformazioni di intensità applicate sui singoli pixels, sono indipendenti dalla 
+location e sono determinati solo dai valori di intensità. Si utilizzano funzioni 
+di trasfromazioni, le operazioni non si fanno su quella originale ma su una nuova.
+
+Abbiamo anche intensity trasformation basate sul vicinato, si usano filtri spaziali,
+per esempio è la media.
+
+L'esempio più semplice è \textbf{image inversion} 
+$$s = (L-1)-r$$
+Dove $L-1$ è la massima intesità rappresentabile, utile per invertire il colore.
+
+Un'altra è \textbf{log trasformation} utilizzata per migliorare le aree scure e comprime 
+quelle chiare.
+$$s=c\log (1+r)$$
+Si somma $1$ perché così si evita di calcolare il log su numeri piccoli che ritornano 
+valori negativi. $c$ è la costante che varia in base all'applicazione.
+
+Abbiamo poi la \textbf{gamma correction} che corrisponde 
+$$s=cr^\gamma \equiv s=c(r+\epsilon)^\gamma$$
+$c$ è la costante che varia all'applicazione, $r$ è il valore di intensità e in base al valore di $\gamma$ otteniamo
+risultati diversi:
+\begin{itemize}
+    \item $\gamma < 1$: simile al log
+    \item $\gamma > 1$: migliora le aree chiare
+    \item $\gamma =c = 1$: è la funzione identità
+\end{itemize}
+La gamma è utile per migliorare il contrasto.
+
+In generale per le trasformazioni sull'intesità abbiamo:
+\begin{itemize}
+    \item identità: mantiene tutto invariato
+    \item negative: funzioni negative invertono il colore 
+    \item funzioni log e root, quindi curve convesse: migliorano le immagini scure 
+    \item funzioni inverse log e potenza, quindi curve concave: migliorano le immagini chiare 
+\end{itemize}
+La gamma è versatile per tutti.
+
+Altre trasformazioni che modellano il contrasto sono le \textbf{contrast stretching}
+si definiscono 2 punti $r_1,s_1$ e $r_2,s_2$ e la funzione collega questi punti,
+in questo modo si può corregge il contrasto.
+
+Possiamo avere una \textbf{intensity-level function} utilizzata per incrementare l'intensità
+di alcuni valori rispetto agli altri.
+
+Possiamo decomporre l'immagine mediante un insieme di immagini binarie ognuna rappresenta 
+un bit della rappresentazione dell'intensità originale (\textbf{bit-plane slicing}), per esempio possiamo pensare 
+ad una immagine a $1$ byte, avremo $8$ immagini ognuna avente $1$ per i colori 
+con codifica a $1$ sul bit associato all'immagine. Questo ci permette di estrarre 
+delle feature per le quali sono più significative sulle immagini dei bit
+pià significativi. Possiamo utilizzare questo metodo per comprimere l'immagine
+considerando solo i bit più significativi.
+
+\section{Histogram processing}
+Per ogni immagine possiamo calcolare l'istogramma delle intensità dell'immagine,
+questo può essere normalizzato o meno e coincide con il count dei pixel di ogni intensità.
+L'istogramma normalizzato è la distribuzione delle intensità dell'immagine.
+
+Gli istogrammi sono utili come indicatori del contrasto:
+\begin{itemize}
+    \item basso contrasto: i bins sono tutti concentrati in una zona
+    \item alto contrasto: i bins sono tutti 
+\end{itemize}
