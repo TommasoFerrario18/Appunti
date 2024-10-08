@@ -130,7 +130,8 @@ $i$-instance of training set and $m$ is the number of training instances.
 To use this model on non-linear separable data, we need to apply a transformations $\phi$
 to the input space, so the model becomes:
 \begin{equation}
-    f(x) = \omega^T \cdot x + b = b + \sum_{i = 1}^m \alpha_ix^Tx^{(i)} = b + \sum_{i=1}^m \alpha_i\phi (x^T) \cdot \phi(x^{(i)})
+    f(x) = \omega^T \cdot x + b = b + \sum_{i = 1}^m \alpha_ix^Tx^{(i)} = b +
+    \sum_{i=1}^m \alpha_i\phi (x^T) \cdot \phi(x^{(i)})
 \end{equation}
 
 The kernel trick override $\phi(x^T)\phi(x^{(i)})$ with $k(x^T, x^(i))$ without
@@ -147,46 +148,75 @@ Each algorithm that uses kernel is called \textbf{kernel machines} or \textbf{ke
 \section{Gradient optimization}
 Usually, in deep learning we want to minimize the \textbf{loss function} which in
 term of operational research is the \textbf{objective function}. In order to
-achieve this goal we use partial derivative to measure how the loss function changes
-in correlation to a particular weights changes.
+achieve this goal we use partial derivative $\frac{\delta}{\delta x_i} f(x)$ to
+measure how the loss function changes as only the variable $x_i$ changes.
 
-The \textbf{gradient} is a vector of all partial derivatives of the loss function
-with respect to the weights.
+The \textbf{gradient} $\nabla f(x)$ generalizes the concept of derivative to the
+case where the derivative is a vector. In other word, the gradient is a vector
+where the element $i$ is the partial derivative of the function with respect to
+the variable $x_i$.
 
 Once we have defined that, we can use the direction opposite to the gradient to
-minimize the loss function. This is called \textbf{gradient descent}.
+minimize the loss function. This is called \textbf{gradient descent} and it's
+defined as:
 \begin{equation}
     x' = x - \eta \nabla f(x)
 \end{equation}
-where $x$ is the current point, $x'$ is the next point, $\eta$ is the learning rate
-and $\nabla f(x)$ is the gradient of the loss function.
+where $x$ is the starting point, $x'$ is the next point, $\eta$ is the learning
+rate and $\nabla f(x)$ is the gradient of the loss function.
 
-The learning rete is a hyperparameter that controls how much we are moving in the
+\begin{note}
+    The gradient descent converge when every element of the gradient is zero.
+\end{note}
+
+The learning rete is an hyperparameter that controls how much we are moving in the
 direction of the gradient. The optimal value od $\eta$ change every time we update
 the weights. But, do to computational cost, we cannot compute it every time, so we
 use a fixed value. The best value of $\eta$ is the one that start from a high value
 in order to explore different way and reduce the chance of getting stuck in a local
 minimum, and then decrease it to converge to the global minimum.
 
-Not only the learning rate is costly to compute, but also the gradient. In fact,
-the gradient is approximated using a technique called \textbf{backpropagation}.
+Since in many cases the loss function is not convex, the loss function cannot be
+optimized in a close form. So we need an iterative numerical optimization
+procedure to find the minimum of the loss function. An example is \textbf{gradient
+    descent}.
 
-In order to solve this optimization problem, the first step is to define the loss
-function:
+Sometimes the cost function may be a function that we cannot evaluate, for
+computational reasons. In these cases, we can still use an iterative numerical
+optimization procedure as long as we have some way of approximating the gradient.
+
+Since the goal of our network is to approximate a function, we need to measure how
+much the function we have learned differs from the target function. In order to
+do this, we introduce a \textbf{loss function}.
+
+Formally, this function $L(\hat{y}, y)$ return a scalar value that measures how
+well the prediction $\hat{y}$ match the target $y$. For minimizing the optimization
+problem over training sample, we add the parameters of the model $\theta$ to the
+loss function:
 \begin{equation}
-    J(\theta) = \frac{1}{n} \sum_{i=1}^n L(x_i; y_i; \theta)
+    J(\theta) = \frac{1}{n} \sum_{i=1}^n L(\hat{y}_i; y_i; \theta)
 \end{equation}
-where $L$ is the loss function, $x_i$ is the input, $y_i$ is the output and $\theta$
-are the parameters of the model. In addition, for reducing the risk of overfitting,
-we can add a regularization term to the loss function:
+Since we have the label and the prediction, the main goal for the training algorithm
+is to find the right set of parameters $\theta$ that minimize the loss function.
+Having said this, we can rewrite the previous formula as follows:
 \begin{equation}
-    J(\theta) = \frac{1}{n} \sum_{i=1}^n L(x_i; y_i; \theta) + \lambda R(\theta)
+    \hat{\theta} = \argmin_{\theta} J(\theta) = \argmin_{\theta} \frac{1}{n}
+    \sum_{i=1}^n L(\hat{y}_i; y_i; \theta)
 \end{equation}
-where $\lambda$ is the regularization parameter and $R(\theta)$ is the regularization
-term. This is used to prevent the model from learning the noise in the training data.
-Regularization term not always appears in loss function but we can implicily apply it
+
+In addition, for reducing the risk of overfitting, we can add a \textbf{regularization
+    term} to the loss function:
+\begin{equation}
+    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n L(\hat{y}_i; y_i; \theta)
+    + \lambda R(\theta)
+\end{equation}
+where $\lambda$ is an hyperparameter that control the trade-off between bias and
+variance, $R(\theta)$ is the regularization term which correspond to a scalar that
+reflects the parameter complexity. The regularization term is used to prevent the model from learning the noise in the training data.,
+this term doesn't always appears in loss function but we can implicily apply it
 modifing architecture or data, for example we can switch off some connections or we can add 
 new datas with noise.
+
 
 \begin{note}
     A network that use small weights have better generalization properties than
