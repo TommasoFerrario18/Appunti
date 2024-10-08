@@ -199,7 +199,7 @@ we want the covariates distribution of the group to overlap.
     \label{fig:positivity}
 \end{figure}
 
-Adjusting on more covariates can lead to curse of dimensionality. 
+Adjusting on more covariates can lead to curse of dimensionality.
 
 Another important assumption is the \textbf{no interference} assumption. This
 \begin{definition}[No interference]
@@ -223,3 +223,31 @@ The last assumption is the \textbf{consistency} assumption.
     The \textbf{Stable Unit Treatment Value Assumption} (SUTVA) is satisfied if
     individual $i$'s outcome $Y_i$ is simply a function of the treatment $X_i$.
 \end{definition}
+
+Now, we need to introduce some terminology that will be useful in the following
+chapters.
+\begin{itemize}
+    \item \textbf{Estimand}: The quantity that we want to estimate.
+    \item \textbf{Estimate}: an approximation of the estimand, which we get
+          using data.
+    \item \textbf{Estimator}: a function that maps the data to an estimate of the
+          estimand.
+    \item \textbf{Estimation}: the process that we use to go from data plus the
+          estimand to a concrete number is known as estimation.
+    \item \textbf{Causal estimand}: refers to any estimand that contains a potential
+          outcome in it.
+    \item \textbf{Statistical estimand}: refers to any estimand that does not contain
+          a potential outcome in it.
+\end{itemize}
+
+The process of estimation is shown in figure \ref{fig:pipeline}. We need to
+introduce also the concept of \textbf{identification}, which is the process of
+moving a causal estimand to an equivalent statistical estimand. And the concept
+of \textbf{Estimation}, which is the process of moving from a statistical estimand
+to an estimate.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/process.png}
+    \caption{Process of estimation}
+    \label{fig:pipeline}
+\end{figure}
