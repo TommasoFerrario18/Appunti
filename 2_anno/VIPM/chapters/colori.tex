@@ -189,26 +189,27 @@ Per ogni strumento dobbiamo abbiamo due caratteristiche:
 \end{itemize}
 
 \section{Acquisizione dell'immagine e sensibilità}
-L'immagine viene generata dalla combinazione della sogente di illuminazione e dalle 
-rifrazioni degli oggetti nella scena. Quando dobbiamo acquisire un'immagine in 
-digitale dovremmo generare una matrice di pixel che rappresenta la luce nella scena.
-Per creare l'immagine digitalizzata è necessario effettuare due passi:
+L'immagine viene generata dalla combinazione della sorgente di illuminazione e
+dalle rifrazioni degli oggetti nella scena. Quando dobbiamo acquisire un'immagine
+in digitale dovremmo generare una matrice di pixel che rappresenta la luce nella
+scena. Per creare l'immagine digitalizzata è necessario effettuare due passi:
 \begin{itemize}
     \item \textbf{sampling}: discretizzazione dei pixel
-    \item \textbf{quantizzazione}: discretizzazioen dei colori
+    \item \textbf{quantizzazione}: discretizzazione dei colori
 \end{itemize}
 
 Definiremo in seguito la \textbf{risoluzione spaziale} ovvero la dimensione dei
-singoli pixel o anche il numero di pixel un'unità di distanza ed è dipendente dal 
+singoli pixel o anche il numero di pixel un'unità di distanza ed è dipendente dal
 sampling rate.
 
-Definiremo la \textbf{risoluzione di intensità} ovvero il numero di bit usati per la quantizzazione.
+Definiremo la \textbf{risoluzione di intensità} ovvero il numero di bit usati per
+la quantizzazione.
 
 Le risoluzioni producono degli artefatti:
 \begin{itemize}
     \item risoluzione spaziale troppo piccola produce contorni spigolosi
-    \item risoluzione di intewnsità troppo bassa produce dei falsi contorni
+    \item risoluzione di intensità troppo bassa produce dei falsi contorni
 \end{itemize}
 
-La prima risoluzione è sensibile alle variazionin della forma mentre la seconda è
+La prima risoluzione è sensibile alle variazione della forma mentre la seconda è
 sensibile alle variazioni dell'intensità.

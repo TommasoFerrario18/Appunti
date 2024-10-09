@@ -212,14 +212,181 @@ In addition, for reducing the risk of overfitting, we can add a \textbf{regulari
 \end{equation}
 where $\lambda$ is an hyperparameter that control the trade-off between bias and
 variance, $R(\theta)$ is the regularization term which correspond to a scalar that
-reflects the parameter complexity. The regularization term is used to prevent the model from learning the noise in the training data.,
-this term doesn't always appears in loss function but we can implicily apply it
-modifing architecture or data, for example we can switch off some connections or we can add 
-new datas with noise.
-
-
+reflects the parameter complexity. The regularization term is used to prevent the
+model from learning the noise in the training data. This term does not always
+appear in the loss function, but we can apply it implicitly by changing the
+network architecture or altering the data. Examples of these operations are:
+\begin{itemize}
+    \item Disable some connections in the network.
+    \item Add noise to the input data.
+\end{itemize}
 \begin{note}
     A network that use small weights have better generalization properties than
-    a network that use large weights, because small noise inpact more on results 
+    a network that use large weights, because small noise impact more on results
     when network has large weights.
 \end{note}
+\subsection{Stochastic Gradient Descent}
+The \textbf{Stochastic Gradient Descent} (SGD) is a variant of the gradient descent
+algorithm that is used to train neural networks. Since the computational cost
+of computing the gradient of the loss function is $\mathcal{O}(n)$, where $n$ is
+the number of training examples, the SGD is used to approximate the gradient of
+the loss function by computing the gradient on a subset of the training data.
+
+We can still update the gradient on every training example (Online Learning), but
+this may result in a slow convergence and a noisy gradient.
+
+To solve this problem, we can use a \textbf{mini-batch} which is a subset of the
+training data. Typically, the mini-batch size is relatively small, ranging from
+$1$ to few hundreds of examples. Using mini-batch, we can compute the gradient
+of the loss function on the mini-batch and update the model parameters in a more
+robust way.
+
+We can compute the gradient of the loss function on the mini-batch as follows:
+\begin{equation}
+    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} L(\hat{y}_i, y_i, \theta)
+\end{equation}
+and then we can update the model parameters as follows:
+\begin{equation}
+    \theta = \theta - \eta g
+\end{equation}
+
+When we choose the mini-batch size, we have to consider the trade-off between
+the computational efficiency and the convergence speed. In general, the larger
+the mini-batch size, the more accurate the estimate of the gradient, but the
+slower the convergence. While the smaller the mini-batch size, the noisier the
+estimate of the gradient, but the faster the convergence.
+\section{Loss function}
+\begin{definition}[Loss function]
+    A \textbf{loss function} is a function that maps an event or values of one
+    or more variables onto a real number intuitively representing the network
+    performance on a single data point.
+\end{definition}
+\begin{definition}[Cost function]
+    A \textbf{cost function} is a function that maps the average loss of the
+    entire dataset onto a real number.
+
+    A cost function must faithfully represent the purpose of the network.
+\end{definition}
+
+After we gave this definition, we can say that the goal of the training algorithm
+is to minimize the cost function.
+
+There is a wide range of loss functions that can be used in deep learning, so we
+need to choose the right one for our problem. The choice of the loss function
+depends on the task we want to solve. Here are some examples of loss functions:
+\begin{itemize}
+    \item \textbf{Classification}:
+          \begin{itemize}
+              \item \textbf{Maximum likelihood}:
+                    \begin{equation}
+                        Loss = - \frac{1}{N} \sum_{i=1}^N y_i p(\hat{y}_i) +
+                        (1-y_i) p(1-\hat{y}_i)
+                    \end{equation}
+              \item \textbf{Binary Cross-entropy}: also known as log loss, is used
+                    for binary classification:
+                    \begin{equation}
+                        Loss = - \frac{1}{N} \sum_{i=1}^N y_i \log(p(\hat{y}_i))
+                        + (1-y_i) \log(p(1-\hat{y}_i))
+                    \end{equation}
+              \item \textbf{Categorical Cross-entropy}: is used for multi-class
+                    classification:
+                    \begin{equation}
+                        Loss = - \sum_{i=1}^N y_i \log(p(\hat{y}_{i}))
+                    \end{equation}
+          \end{itemize}
+    \item \textbf{Regression}:
+          \begin{itemize}
+              \item \textbf{Mean Squared Error}: is used for regression problems
+                    and is defined as:
+                    \begin{equation}
+                        Loss = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2
+                    \end{equation}
+              \item \textbf{Mean Absolute Error}: is used for regression problems
+                    and is defined as:
+                    \begin{equation}
+                        Loss = \frac{1}{N} \sum_{i=1}^N |y_i - \hat{y}_i|
+                    \end{equation}
+              \item \textbf{Huber Loss}: is used for regression problems and is
+                    defined as:
+                    \begin{equation}
+                        Loss = \frac{1}{N} \sum_{i=1}^N \begin{cases}
+                            \frac{1}{2}(y_i - \hat{y}_i)^2                  & \text{if } |y_i - \hat{y}_i| \leq \delta \\
+                            \delta |y_i - \hat{y}_i| - \frac{1}{2} \delta^2 & \text{otherwise}
+                        \end{cases}
+                    \end{equation}
+          \end{itemize}
+\end{itemize}
+\begin{note}
+    This is not an exhaustive list of loss functions, there are many other loss
+    functions that can be used in deep learning. Also you can define your own loss
+    function. In this case, is important that the loss function is differentiable.
+\end{note}
+\section{Output function}
+The choice of the loss function is closely related to the choice of the output
+unit. The output unit is the last layer of the network and it is responsible for
+transform from the features to complete the task that the network must perform.
+
+There are many output units that can be used in deep learning, here are some examples:
+\begin{itemize}
+    \item Linear
+    \item Sigmoid
+    \item Softmax
+    \item Gaussian Mixtures
+\end{itemize}
+\subsection{Linear output unit}
+One simple output unit is the linear unit, which is based on linear model:
+\begin{equation}
+    \hat{y} = W^T \cdot h + b
+\end{equation}
+This unit can be used to produce the mean of a Gaussian distribution, but it's
+not suitable for classification problems because it can produce any real number.
+\subsection{Sigmoid output unit}
+The sigmoid output unit is used for binary classification problems. The output
+of this unit is a value between $0$ and $1$ and it can be interpreted as the
+probability of the input belonging to the positive class.
+
+This function can be approximated using the linear output unit, but the function
+we create would have 0 gradient outside the $[0, 1]$ range, so the learning
+algorithm would not be able to update the weights.
+
+The sigmoid function resolve the previous problem, because it ensure a strong
+gradient whenever the model has a wrong answer. The sigmoid function is defined as:
+\begin{equation}
+    \sigma(x) = \frac{1}{1+e^{-x}}
+\end{equation}
+\subsection{Softmax output unit}
+The softmax output unit is used for multi-class classification problems. The output
+of this unit is a probability distribution over the classes. To implement this
+we need to have a linear layer to predicts the unnormalized log probabilities and
+then we apply the softmax function to normalize the output.
+
+The softmax function is defined as:
+\begin{equation}
+    \sigma(x)_i = \frac{e^{x_i}}{\sum_{j=1}^k e^{x_j}}
+\end{equation}
+
+The softmax function is a good output function because is continuous and
+differentiable.
+
+Since the softmax function doesn't change the ordering of the output values, the
+largest value before will still be the largest value after the normalization.
+
+We can interprete the output of the softmax function as the probability of the
+input belonging to the $i$-th class. Doing this, we need to consider a unknown
+class, otherwise if we show to the model something that it has never seen, the
+model will be confident that the input belongs to a class that it has never seen.
+\subsection{Gaussian Mixtures output unit}
+We often want to perform multimodal regressions, that is to predict real values
+that came from a conditional distribution $p(y|x)$ that has more than one peack
+in $y$ for the same value of $x$.
+
+Then we can use a Gaussian Mixture Model which is defined as:
+\begin{equation}
+    p(y|x) = \sum_{i=1}^n p(c= i|x) N(y; \mu^{(i)}(x), \Sigma^{(i)}(x))
+\end{equation}
+where the NN output have the following value:
+\begin{itemize}
+    \item $p(c=i|x)$ is the mixture component.
+    \item $\mu^{(i)}(x)$ is the mean of the $i$-th component.
+    \item $\Sigma^{(i)}(x)$ is the covariance matrix of the $i$-th component.
+\end{itemize}
