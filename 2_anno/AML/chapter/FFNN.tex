@@ -255,7 +255,7 @@ the computational efficiency and the convergence speed. In general, the larger
 the mini-batch size, the more accurate the estimate of the gradient, but the
 slower the convergence. While the smaller the mini-batch size, the noisier the
 estimate of the gradient, but the faster the convergence.
-\section{Loss function}
+\section{Loss/Costo function}
 \begin{definition}[Loss function]
     A \textbf{loss function} is a function that maps an event or values of one
     or more variables onto a real number intuitively representing the network
@@ -269,7 +269,8 @@ estimate of the gradient, but the faster the convergence.
 \end{definition}
 
 After we gave this definition, we can say that the goal of the training algorithm
-is to minimize the cost function.
+is to minimize the cost function. In general, cost function should assume small 
+values to get better performance in the network.
 
 There is a wide range of loss functions that can be used in deep learning, so we
 need to choose the right one for our problem. The choice of the loss function
@@ -390,3 +391,66 @@ where the NN output have the following value:
     \item $\mu^{(i)}(x)$ is the mean of the $i$-th component.
     \item $\Sigma^{(i)}(x)$ is the covariance matrix of the $i$-th component.
 \end{itemize}
+
+\section{Activation Function}
+The \textbf{hidden unit} applies an affine linear transformation 
+$$z = Wx +b$$
+Computed using different activation function. 
+
+\subsection{Tanh}
+Hyperbolic Tangent is similar to sigmoidal function. The principal difference between
+them is that negative value are mapped in negative value, while zero values are mapped 
+in zero. Some important characteristics are that is \textbf{differentiable}, \textbf{monotonic}
+but its derivative isn't \textbf{monotonic}. This function speeds up the training 
+phase because has gradient greater than sigmoidal. Generally it's used for \textbf{classification 
+ problem}
+
+\subsection{RELU}
+This function is non linear but perfect for default choice.
+$$g(x)= \max[0,z]$$
+RELU is differentiable everywhere except in $0$, but it isn't a problem because the 
+probability to get $0$ in HW is too low. RELU allows us to simplify the model because
+we can get a sparse representation of the network due the possibility to deactivate 
+some neurons. This is implemented thanks to negative input which will be converted to 
+zero so it will be deactivated. Typically RELU are used on top on linear transformation. 
+
+In general a RELU could be expressed like the following formula
+$$h_i = g_i(z,\alpha) = max(0,z_i) + \alpha_i min(0, z_i)$$
+
+Other versions of RELUs alre:
+\begin{itemize}
+    \item \textbf{absolute value rectification}: fix $\alpha_i = -1$ to express $g(z) = |z|$.
+    It is used to object recognition.
+    \item \textbf{leaky RELU}: fix $\alpha_i = 0.01$. This one solves the problem
+    zero gradient which means that the model doesn't learn. To avoid it leaky relu 
+    has a small linear component for negative input.
+    \item \textbf{perametric}: $\alpha_i$ is learned.
+    \item \textbf{maxout units}: $f$ is learned. It combines different RELU to produce 
+    a convex function.
+\end{itemize}
+
+\subsection{Softplus}
+This is a generalization of RELU.
+$$f(x) = ln(1+e^x)$$
+This function resolve RELU's problem of non differentiable point, infact it is 
+a smooth approximation of RELU. Theoretically we can think to get better performance 
+using this function compared to RELU, but empirically it doesn't.
+
+\subsection{Differences}
+There are some guides to use these activation functions:
+\begin{itemize}
+    \item sigmoids and their combinations generally works better in case of classifiers
+    \item sigmoids and tanh Sometimes are avoided due the vanishing gradient problem 
+    \item relu is the default AF
+    \item we can use leaky relu if we encounter a case of dead neurons
+    \item relu should only be used for hidden layer
+\end{itemize}
+In general we can initially use RELU, than if we cannot obtain better performance 
+we can change AF.
+
+\subsection{Initialization}
+Another important step inside the planning of a deep neural network is the initialization.
+First of all we can initialize all \textbf{bias} to $0$ to discover eventually dead neurons.
+For \textbf{weights} we must not initialize to the same values because we have to 
+brake the simmetry of the model, so we can sample weights from a normal of mean 
+$0$ and variance dependant of the number of neurons in the previus layer.
