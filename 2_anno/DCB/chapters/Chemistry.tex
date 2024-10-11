@@ -1,0 +1,197 @@
+\chapter{Chemistry and Reactions}
+\begin{definition}[\textbf{Mixture}]
+    In chemistry the forms of matter are called \textbf{mixtures}. Some of them
+    are \textbf{homogeneous} and others are \textbf{solution} with a \textbf{solvent}
+    and a \textbf{solute}.
+
+    To separate the components of a mixture we can use different methods like
+    \textbf{filtration}, \textbf{distillation}, \textbf{chromatography} and
+    \textbf{evaporation}.
+\end{definition}
+\begin{definition}[\textbf{Compound}]
+    Certain substances are not separable by simple physical methods. These are
+    called \textbf{compounds} and are formed by the union of two or more elements.
+\end{definition}
+\begin{definition}[\textbf{Reactions}]
+    Pure substances cannot be further separated by means of physical interventions,
+    but can be modified by means of (bio)chemical reactions.
+
+    A reaction involves a certain number of reactants, yielding a number of products.
+    \begin{equation}
+        R_1 \bigoplus R_2 \bigoplus \ldots \bigoplus R_n \rightarrow P_1
+        \bigoplus P_2 \bigoplus \ldots \bigoplus P_m
+    \end{equation}
+
+    As we all know, there are bits of matter that cannot be modified at the
+    chemical level. These are called \textbf{elements}.
+\end{definition}
+\begin{definition}[\textbf{Atoms}]
+    Atoms are composed by nuclei (protons and neutrons) and electrons on (quantized)
+    orbits. Every orbit can contain up to 8 electrons (except for the first,
+    which can hold only 2) this fact is known as the octect rule.
+
+    The most external orbit is, except for the “noble gases”, incomplete; the
+    number of electrons that occupy them determine the atom valence.
+\end{definition}
+
+The configuration of the external orbits of atoms, allows them to bind together
+in compounds. Molecule structure depends on the organization of the electron
+sharing in the most external orbits.
+
+Atoms with valence up to 4 tend to be electron donors to atoms with a valence
+from 5 to 7; atoms are therefore grouped in donors and receptors. Receptors atoms
+are said to have an electronegative tendency.
+
+There are several ways atoms bind to each other, the most common are:
+\begin{itemize}
+    \item \textbf{Ionic bindings} happen between atoms with very different valence.
+    \item \textbf{Covalent bindings} happen between atoms of similar valence.
+\end{itemize}
+
+Molecules have a polarity, depending on the electronegativity of each participant
+atom and their spatial configuration. Polar molecules tend to attract each other,
+while non-polar molecules are relatively.
+
+The forces that create bonds between atoms are also responsible of the attraction
+between atoms and molecules. An intermediate attraction force is that resulting
+from \textbf{hydrogen bonds} which keep together the DNA double helix.
+\section{Reactions and Metabolism}
+Biochemical reactions modify properties of various compounds and we can classify
+them in two main categories:
+\begin{itemize}
+    \item \textbf{Reversible reactions} are those that can be reversed by changing
+          the conditions of the system. They can be analyze at the equilibrium.
+    \item \textbf{Irreversible reactions} are those that cannot be reversed.
+\end{itemize}
+The quantitative ratio among compounds in a reaction is called the reaction
+\textbf{stoichiometry}.
+The translation of stoichiometric ratios into physical quantities and vice-versa
+requires the introduction of new units. So, chemists have defined the \textbf{mole}
+as the quantity of substances comprising about $6.022 \times 10^{23}$ molecules.
+
+This analysis is performed by looking at concentrations of a substance, measured
+in mole/liter; this dimension is called the molarity of a solution.
+
+Every reaction has its own reaction rate also called velocity. Given a reaction,
+when the concentration of a reactant is very low, or the reaction rate is very
+slow, then the reaction is said to be kinetically impaired.
+
+A reaction can happen only when a positive $\Delta G$ is present and that is
+enough to exceed the so-called activation barrier; such amount of energy is known
+as activation energy.
+
+Energy contained in ATP phosphate bonds is sufficient for the activation of
+several biochemical reaction. This energy is however not enough to endanger several
+of the other bond types that are present in an organism.
+
+The metabolism is the activity that allows an organism to survive. This process
+is mostly carried out in the cytoplasm of the cells and we can divide it in two
+main categories:
+\begin{itemize}
+    \item \textbf{Catabolism} is the set of reactions that decompose various
+          complexes, mostly acquired from the environment.
+    \item \textbf{Anabolism} is the set of reactions that synthesize complexes.
+\end{itemize}
+
+Many of the basic reactions are shared, without much variation, by most living
+organisms this is known as core metabolism. The metabolism that is specialized
+for a class of organisms is dubbed secondary metabolism.
+
+A very important process is the one that allows an organism to “load” ADP molecules
+with a phosphate group, thus generating ATP. To obtain this result, organisms use
+chains of reactions, called \textbf{metabolic pathways}.
+
+Several of these reactions have a rather high activation energy or a quite slow
+reaction rate. To speed up such reactions, organisms use the catalysis machinery.
+A catalyzer speeds up a reaction or lowers its activation energy without being
+consumed. Catalyzers are called enzymes, acting on substrates.
+\section{Mathematical Modeling of Reactions}
+Much of Computational Biology is \textbf{modeling reaction networks} which can be
+subdivided in two main categories:
+\begin{itemize}
+    \item \textbf{Metabolic networks} are the set of reactions that take place
+          in a cell. These reactions are mostly catalyzed by enzymes.
+    \item \textbf{Regulatory networks} are the set of reactions that regulate
+          the activity of the metabolic networks.
+\end{itemize}
+\subsection{Law of Mass-Action}
+Collision between two chemical compounds $A$ and $B$ happen with a rate $k$ and
+produce a compound $C$.
+\begin{equation*}
+    A + B \xrightarrow{k} C
+\end{equation*}
+
+We can rewrite the previous equation as:
+\begin{equation}
+    \frac{\delta [C]}{\delta t} = k [A][B]
+\end{equation}
+where with $[A]$ we denote the concentration of compound $A$. As said before,
+we have also reaction that can be reversed, so we can write:
+\begin{equation}
+    A + B \mathrel{\mathop{\rightleftarrows}^{\mathrm{k_1}}_{\mathrm{k_2}}} C
+\end{equation}
+and the rate of the reaction is:
+\begin{equation}
+    \frac{\delta [A]}{\delta t} = k_2 [C] - k_1 [A][B]
+\end{equation}
+When a system is at equilibrium, the concentration don't change, therefore the
+following condition holds:
+\begin{equation}
+    \frac{k_1}{k_2} = K_{eq} = \frac{[A]_{eq} [B]_{eq}}{[C]_{eq}}
+\end{equation}
+where $K_{eq}$ is the equilibrium constant of the reaction. If $K_{eq}$ is small,
+then this is an indication that, at equilibrium, the concentration of $A$ and $B$
+are effectively combined to form $C$.
+
+Enzymatic reactions, which are non elementary reactions, can be modeled by the
+Michaelis-Menten equation:
+\begin{equation}
+    S + E \mathrel{\mathop{\rightleftarrows}^{\mathrm{k_1}}_{\mathrm{k_2}}} catalysis \xrightarrow{k_3} P + E
+\end{equation}
+where $S$ is the substrate, $E$ is the enzyme, $P$ is the product and catalysis
+and $C$ is the intermediate product.
+
+Let's now consider the total enzyme concentration to be $[E]_0 = [E] + [C]$ and
+also that all the reaction rate are constant. We can define the velocity at which
+we increase the product concentration is:
+\begin{equation}
+    \frac{\delta [P]}{\delta t} = k_3 [C] \approx [E][S]
+\end{equation}
+so we can say that the velocity is proportional to the concentration of $[E]$ and
+$[S]$.
+
+The Michaelis-Menten system can be analytically solved by an equilibrium
+approximation where we assume that the substrate $S$ and the complex $C$ are in
+instantaneous equilibrium. This assumption allows us to write the following:
+\begin{equation}
+    k_1[S][E] = k_2[C] + k_3[C]
+\end{equation}
+Since $[E]_0 = [C] + [E]$, we can rewrite the previous equation as:
+\begin{equation}
+    [S][E]_0 - [S][C] = [C]\left( \frac{k_1 - k_3}{k_2}\right)
+\end{equation}
+We now introduce the Michaelis constant $K_M = \frac{k_2 + k_3}{k_1}$ which is
+the combination of the rate constants of the reaction. We can rewrite the previous
+equation as:
+\begin{equation}
+    [C] = \frac{[S][E]_0}{K_M + [S]}
+\end{equation}
+The velocity of the creation of $P$ is then:
+\begin{equation}
+    V = \frac{\delta [P]}{\delta t} = k_3[C]
+\end{equation}
+At $V_{max}$ we have that all the enzyme $E_0$ must be bound in the complex $C$,
+this means that:
+\begin{equation}
+    V_{max} = k_3[E]_0
+\end{equation}
+
+If we now put everything together, we can write the Michaelis-Menten equation as:
+\begin{equation}
+    V = \frac{V_{max}[S]}{K_M + [S]}
+\end{equation}
+We can say that the Michaelis-Menten constant is a concentration ($\approx [S]$)
+at which the velocity is half of $V_{max}$. In formula:
+\begin{equation}
+    V = \frac{V_{max}[S]}{K_M + [S]} = \frac{V_{max}}{2}
+\end{equation}
