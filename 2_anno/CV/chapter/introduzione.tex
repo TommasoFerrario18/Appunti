@@ -32,15 +32,27 @@ quindi oggetti vicini sono più grandi di oggetti lontani e le rette parallele r
 incidenti in un \textbf{punto di fuga}.
 
 A livello puramente geometrico, si ha un piano $uv$ bidimensionale di proiezione (piano immagine)
-con centro in $o_i$, si ha poi il centro dello spazio tridimensionale $xyz$ composto dal 
-punto $c$ centrato nel pin-hole. L'asse $z$ sarà detto \textbf{asse ottico}, la 
-distanza dal punto $c$ e il punto $o_i$ è detta \textbf{distanza focale} ed è segnata 
-come $f$. La formula matematica che descrive questo modello è un sistema di proporzioni:
-
+con centro in $o_i$ (\textbf{punto immagine}), si ha poi il centro dello spazio tridimensionale $xyz$ composto dal 
+punto $c$ centrato nel pin-hole (\textbf{pin hole}). L'asse $z$ sarà detto \textbf{asse ottico}, la 
+distanza dal punto $c$ e il punto $o_i$ è detta \textbf{lunghezza focale} ed è segnata 
+come $f$ (parametro del modello). I punti $P'$, $c$ e $P$ sono punti posizionati sulla stessa retta e questa 
+retta viene chiamata, in computer graphics, \textbf{retta di proiezione} di $P$ perché in $P'$ verranno 
+proiettati tutti i punti sulla retta. In computer vision non conosciamo $P$ e perciò
+si chiamerà \textbf{retta di interpretazione} di $P'$ perché non conosciamo le 
+coordinate di $P$ ma solo quelle di $P'$. La formula matematica che descrive questo modello è un sistema di proporzioni:
+ 
 $$P:Z = P':f \equiv \left\{\begin{array}{c}
-    \frac{x}{z} = \frac{u}{f}\\  
-    \frac{y}{z} = \frac{v}{f}\\  
+    \frac{x}{z} = -\frac{u}{f}\\  
+    \frac{y}{z} = -\frac{v}{f}\\  
 \end{array}\right.$$
+
+\begin{nota}
+    Il segno meno nel termine con $f$ perché il piano immagine si trova dietro al 
+    centro della proiezione, possiamo pensare nel modello di spostare il piano 
+    immagine davanti al centro e questo rimuoverebbe il segno. Nella realtà non 
+    è possibile mettere il sensore davati all'obiettivo ma nel modello possiamo 
+    farlo per toglierci il meno.
+\end{nota}
 
 \begin{figure}
     \centering
@@ -56,7 +68,7 @@ scopi:
     \item quando fissiamo $x,y,z, f$ abbiamo la proiezione del punto $P$ del mondo 
     sul piano $uv$
     \item quando abbiamo $f,u,v$ allora otteniamo la retta di interpretazione del 
-    punto $p'$
+    punto $p'$, perché il sistema è l'intersezione di due piani quindi una retta.
     \item quando conosco $u,v,x,y,z$ effettuamo la calibrazione del modello e otteniamo 
     la distanza focale che ci permette di ottenere quella proiezione
 \end{itemize}
@@ -65,13 +77,22 @@ Ricorda che quando abbiamo un punto e vogliamo trovare la sua posizione nel mond
 non possiamo ricavare il punto originario della proiezione ma abbiamo solo una retta 
 di interpretazione del punto. Questo è dovuto dal fatto che si ottene una retta, 
 si può ricavare la distanza originaria usando stereoscopia o sfruttando le informazioni
-globali dell'immagine.
+globali dell'immagine (\textbf{modelbase vision}). 
 
+La \textbf{modelbase vision} è la tecnica per trovare i punti spaziali nel mondo sfruttando la dimensione degli 
+oggetti. Tramite il modello Pin Hole possiamo trovare le $x,y$ del punto nello spazio 
+ma non possiamo sapere $z$. Per trovarla possiamo sfruttare degli oggetti inquadrati 
+di cui è nota la dimensione, ex: targa delle auto.
+
+A livello di modellazione il Pin Hole è perfetto, il problema è che è impossibile 
+da realizzare.
 Il limite fisico del modello è la dimensione del buco che è impossibile sia 
 così piccolo. In aggiunta se fosse così piccolo allora si avrebbe un'immagine molto 
 buia, per risolvere questo problema dobbiamo far entrare più luce e questo implica 
 il fatto che passano più raggi per ciascun punto che si sovrappongono con i raggi di altri 
-punti (\ref{fig:hole}).
+punti (\ref{fig:hole}). Alla fine non avremo più i punti immagini, ma bensì avremo 
+dei cerchi immagine che si sovrappongono.
+
 
 \begin{figure}
     \centering
@@ -81,7 +102,8 @@ punti (\ref{fig:hole}).
 \end{figure}
 
 Per risolvere questo problema possiamo utilizzare delle lenti fotografiche che 
-da un aumento di dimensione del buco concentrano i raggi in un unico punto.
+da un aumento di dimensione del buco concentrano i raggi in un unico punto. Per 
+semplicità si consideranno \textbf{lenti sottili}.
 
 \section{Modello di proiezione}
 Prima di introdurre le lenti bisogna parlare delle varie proiezioni che si possono 
@@ -111,7 +133,7 @@ ad una certa distanza per distanze differenti si ha un effetto prospettico. Ques
     \label{fig:scalata_ortography}
 \end{figure}
 
-\section{Lenti}
+\section{Lenti sottili}
 I dispositivi ottici si possono basare:
 \begin{itemize}
     \item riflessione
@@ -119,10 +141,24 @@ I dispositivi ottici si possono basare:
     \item entrambi
 \end{itemize}
 
-Definiremo la \textbf{distanza focale} della lente ovvero la distanza dalla lente 
-alla quale si concetrano tutti i raggi paralleli che incidono sulla lente.
+Definiremo la \textbf{distanza focale della lente} ovvero la distanza dalla lente 
+alla quale si concetrano tutti i raggi paralleli che incidono sulla lente e il 
+punto si chiama \textbf{fuoco}. Se arrivano dei raggi che non sono paralleli allora 
+il fuoco del punto si sposta dal fuoco della lente in direzione opposta. Nota che 
+i raggi se sono paralleli significa che la distanza dalla del punto irradiante è 
+infinito, al contrario se non sono paralleli, quindi l'occetto è vicino alla lente 
+allora il punto di fuoco non è il fuoco della lente. Quello che regola la focatura 
+dei punti è la legge delle \textbf{lenti sottili} 
 
-Le lenti funzionano seguendo lo schema in figura \ref{fig:physical_lenses}.
+$$\frac{1}{f} = \frac{1}{z} - \frac{1}{Z}$$
+
+Dove se $f$ è la distanza focale $z$ è la distanza della proiezione dall'altra parte 
+della lente e $Z$ è la distanza dell'oggetto dalla lente. Da notare che $z$ e $Z$
+sono discordi perché sono posizionati dal lato opposto rispetto alla lente.
+
+
+La legge si basa sul modello in figura \ref{fig:model_lenses} e il modello si basa 
+sullo schema fisico di rifrazione \ref{fig:physical_lenses}.
 
 \begin{figure}
     \centering
@@ -139,22 +175,12 @@ In generale verranno introdotti soltanto lenti basate sulla rifrazione e quindi
 vogliamo minimizzare la riflessione, quindi vogliamo evitare l'\textbf{angolo critico}
  che è l'angolo in cui la luce viene solo riflessa ma non rifratta.
 
-Il modello della lente a livello fisico è dato dalla \textbf{legge delle lenti} 
-basata sul modello \ref{fig:model_lenses}.
-
 \begin{figure}
     \centering
     \includegraphics*[width=0.5\textwidth]{figure/legge_lente.jpg}
     \caption{Modello della lente}
     \label{fig:model_lenses}
 \end{figure}
-
-La legge è 
-$$\frac{1}{f} = \frac{1}{z} + \frac{1}{Z}$$
-
-Dove se $f$ è la distanza focale $z$ è la distanza della proiezione dall'altra parte 
-della lente e $Z$ è la distanza dell'oggetto dalla lente. Da notare che $z$ e $Z$
-sono discordi perché sono posizionati dal lato opposto rispetto alla lente.
 
 Da notare che per regolare l'ampienza del buco si parla di regolazione del diaframma,
 più è ampio il buco, maggiore è ampio il diaframma e più luce entra. Questo serve 
@@ -171,9 +197,16 @@ pixel. Ovvero quando vogliamo ottenere l'immagine andiamo a ottenere una matrice
 di pixel, questa matrice sarà discreta e si avrà uno spazio tra un pixel e l'altro.
 Questo è utile per risolvere il problema della sfocatura infatti per vedere a fuoco 
 un punto basta far sì che il diametro di sfocatura non occupi più pixel ma uno solo.
-Per regolare il diametro basta agire sul diaframma e sul fuoco.
+Per regolare il diametro basta agire sul diaframma e sul fuoco, il primo modifica 
+l'intervallo di punti a fuoco, mentre il secondo modifica la distanza alla quale questo 
+intervallo viene spostato. Esiste una legge che permette di determinare il diametro 
+del \textbf{cerchio di sfocamento} e questo è dato da
+$$d= \frac{D}{z'}(\overline{z}'-z')$$
+Dove $d$ è il diametro del cerchio di sfocatura, $D$ è il diametro del diaframma,
+$z'$ è dove va a fuoco il punto scelto e $\overline{z}'$ è dove vanno a fuoco tutti 
+i punti a fuoco.
 
-Regolando il diaframma possiamo avere anche profondità di campo diverse della scena
+Regolando quidni il diaframma possiamo avere anche profondità di campo diverse della scena
 come si può vedere nell'immagine \ref{fig:prof_campo}.
 
 \begin{figure}
@@ -190,9 +223,70 @@ si cercherà di avere un cerchio di riflessione più grande rispetto al sensore.
 
 Il FOV può portare a distorsioni dell'immagine per oggetti sul confine dell'occhio visivo:
 \begin{itemize}
-    \item aberrazioni cromatiche: strisce di colori dovute alla rifrazione ad angolature diverse dei colori
-    \item distrorsioni: distorsioni delle proiezioni dei punti, questo è dovuto 
-    dalla deviazione dei raggi della lente. Possiamo avere distorsioni radiali (barilotto o cuscinetto) o
-    tangenziali (traslazione di punti)
+    \item \textbf{aberrazioni cromatiche}: sbavature di colori dovute alla rifrazione ad 
+    angolature diverse dei colori, compare principalmente quando siamo ai confini
+    della lente per via delle angolature di rifrazione.
+    \item \textbf{distrorsioni}: distorsioni delle proiezioni dei punti, questo è dovuto 
+    dalla deviazione dei raggi della lente in angolature diverse. Si possono notare 
+    nelle lenti grandangolari. Possiamo avere \textbf{distorsioni radiali} che sono 
+    distorsioni dovuti dalla distanza radiale rispetto al centro immagine, se la distorsione
+    aumenta quando abbiamo raggi maggiori allora si ha una distorsione a cuscinetto 
+    altrimenti a barilotto. In aggiutna abbiamo distorsioni \textbf{tangenziali}
+    che sono traslazioni dei punti con un arco predeterminato mantenendo sempre la 
+    stessa distanza dal centro immagine, generalmente sono meno intense rispetto 
+    a quelle radiali.
 \end{itemize}
 
+\begin{nota}
+    In coordinate omogenee il modello pin hole è lineare perché quando calcolo 
+    la proiezione ottengo un punto 2D in coordinate omogenee allora fino a quando 
+    non porto in coordinate normali allora il modello rimane lineare e fino a quando 
+    si rimane nello spazio omogeneo allora le distorsioni non vengono incluse.
+    Quindi data una foto scattata, devo calcolare la versione non distorta, ottengo 
+    l'immagine teorica dopo di che posso trasformare in "3D" usando la matrice inversa 
+    delle trasformazioni.
+\end{nota}
+
+Un altro effetto sgradevole introdotto dall'ottica è \textbf{vigneting}, è un 
+effetto che cresce con la distanza dei punti dal centro immagine. Quando abbiamo 
+un'ottica, abbiamo una serie di lenti, quindi quando entrano tutti i raggi si potrebbero 
+avere delle rifrazioni non perfette che si scontrano sul cilindro dell'ottica,
+provocando l'assorbimento di una parte dell'energia e provocando un'oscurazione del
+colore del punto associato a quel punto. Questo può essere un problema quando si 
+vuole effettuare delle lavorazioni successive quando si basano sui colori o anche 
+sul rilevamento degli edge.
+
+\section{Modello realistico}
+Il problema del modello Pin Hole è che richiede che il sistema di riferimento del 
+mondo sia centrato nel punto di proiezione $c$, che abbia l'asse ottico perfettamente
+ortogonale al piano immagine $\pi$ e che passi per il centro immagine. Questo a 
+livello ingegneristico è impossibile. Se non ci preoccupiamo di questo allora 
+la nostra equazione 
+$$\begin{cases}
+    u= \frac{fx}{z}\\
+    v= \frac{fy}{z}\\
+\end{cases}$$
+non permetterà di ottenere la posizione reale di un punto quando dall'immagine voglio
+ottenere il punto. Non conoscendo con certezza il sistema $xyz$ allora si può 
+effettuare una calibrazione. L'idea è di definire un sistema di riferimento mondo 
+a piacere e poi definire una rototraslazione per trasferire tutti i punti nello 
+spazio camera $xyz$. Per dire la posizione e orientamento di un punto da un sistema di riferimento 
+in un altro abbiamo bisogno di un totale di $9$ paramentri ($9$ gradi di libertà)
+ovvero, $3$ di posizione di un sistema, $3$ di posizione di un altro sistema 
+e $3$ che specificano l'orientamento. I gradi di libertà indipendenti però sono solo 
+$6$ perché rappresenteremo solo l'offset come posizione.
+
+Quindi per il modello reale avremo $1$ parametro $f$, $6$ per la POSE, ma in aggiunta
+ne abbiamo altri per via della costruzione della camera. Infatti, oltre a questo 
+dobbiamo considerare anche il fatto che il sistema $uv$ non è mai centrato nel 
+centro immagine ma nella realtà è centrato nell'angolo in alto a sinistra, questo 
+richiede di conseguenza di applicare una rototraslazione nel $2D$ omogeneo e quindi 
+richiede altri $4$ parametri, $2$ per la posizione e $2$ per la rotazione. Di cui 
+indipendenti sono solo $2$ perché in realtà è solo una traslazione. 
+
+In aggiunta, in fase di costruzione non è detto che il sensore che campiona l'immagine 
+potrebbe avere degli elementi ricettivi che non sono separati ugualmente, potremmo 
+avere problemi legati agli stretching dell'immagine. Questo effetto è chiamato 
+\textbf{pixel non quadrato} o \textbf{aspect ratio non unitario} tra i pixel perciò
+bisognerà effettuare una trasformazione di scaling. Questo fenomento è descritto 
+da un unico parametro 
