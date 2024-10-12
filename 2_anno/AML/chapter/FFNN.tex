@@ -269,7 +269,7 @@ estimate of the gradient, but the faster the convergence.
 \end{definition}
 
 After we gave this definition, we can say that the goal of the training algorithm
-is to minimize the cost function. In general, cost function should assume small 
+is to minimize the cost function. In general, cost function should assume small
 values to get better performance in the network.
 
 There is a wide range of loss functions that can be used in deep learning, so we
@@ -358,7 +358,7 @@ gradient whenever the model has a wrong answer. The sigmoid function is defined 
 \subsection{Softmax output unit}
 The softmax output unit is used for multi-class classification problems. The output
 of this unit is a probability distribution over the classes. To implement this
-we need to have a linear layer to predicts the unnormalized log probabilities and
+we need to have a linear layer to predicts the un-normalized log probabilities and
 then we apply the softmax function to normalize the output.
 
 The softmax function is defined as:
@@ -393,64 +393,94 @@ where the NN output have the following value:
 \end{itemize}
 
 \section{Activation Function}
-The \textbf{hidden unit} applies an affine linear transformation 
-$$z = Wx +b$$
-Computed using different activation function. 
+The \textbf{hidden unit} applies an affine linear transformation such as:
+\begin{equation}
+    z = Wx + b
+\end{equation}
+where $W$ is the weight matrix, $x$ is the input vector and $b$ is the bias vector.
+On the results of this transformation, we apply a non-linear function called
+\textbf{activation function}.
 
 \subsection{Tanh}
-Hyperbolic Tangent is similar to sigmoidal function. The principal difference between
-them is that negative value are mapped in negative value, while zero values are mapped 
-in zero. Some important characteristics are that is \textbf{differentiable}, \textbf{monotonic}
-but its derivative isn't \textbf{monotonic}. This function speeds up the training 
-phase because it has a greater gradient than sigmoidal's. Generally it's used for \textbf{classification 
- problem}
+Hyperbolic Tangent is similar to sigmoidal function. The main difference between
+them is that, the negative input are mapped in strongly negative value and zero
+inputs are mapped in zero.
 
-\subsection{RELU}
-This function is non linear but perfect for default choice.
-$$g(x)= \max[0,z]$$
-RELU is differentiable everywhere except in $0$, but it isn't a problem because the 
-probability to get $0$ in HW is too low. RELU allows us to simplify the model because
-we can get a sparse representation of the network due the possibility to deactivate 
-some neurons. This is implemented thanks to negative input which will be converted to 
-zero so it will be deactivated. Typically RELU are used on top on linear transformation. 
+Some important characteristics are that the $\tanh$ is \textbf{differentiable}
+and \textbf{monotonic}, but its derivative isn't \textbf{monotonic}.
+\begin{note}
+    The $\tanh$ function is used for \textbf{binary classification} problems.
+\end{note}
 
-In general a RELU could be expressed like the following formula
-$$h_i = g_i(z,\alpha) = max(0,z_i) + \alpha_i min(0, z_i)$$
+Cause the form of the derivative values, which are greater than sigmoidal's derivative,
+this function can help to speed up the training phase.
+\subsection{Rectified Linear Unit}
+Rectified Linear Unit (ReLU) is the most used activation function in neural networks.
+This function is described as:
+\begin{equation}
+    g(x) = \max[0,z]
+\end{equation}
+We can see that ReLU is differentiable anywhere at the point where the value is
+$0$. This is not a problem since we compute the gradient using approximation an
+the probability to get $0$ is low.
 
-Other versions of RELUs alre:
+ReLU allows us to simplify the model because we can get a sparse representation
+of the network, due the possibility to deactivate some neurons. This is possible
+thanks to negative input which will be converted to zero so it will be deactivated.
+
+Since ReLU have a ``problem'' with the $0$ value, there are some generalization
+that can be used to solve this. In order to do this, we can express the ReLU as
+a generalization of the following formula:
+\begin{equation}
+    h_i = g_i(z,\alpha) = max(0,z_i) + \alpha_i min(0, z_i)
+\end{equation}
+Other versions of ReLUs are:
 \begin{itemize}
-    \item \textbf{absolute value rectification}: fix $\alpha_i = -1$ to express $g(z) = |z|$.
-    It is used to object recognition.
-    \item \textbf{leaky RELU}: fix $\alpha_i = 0.01$. This one solves the problem of
-    zero gradient which means that the model doesn't learn, to avoid this, leaky relu 
-    has a small linear component for negative input.
-    \item \textbf{perametric}: $\alpha_i$ is learned.
-    \item \textbf{maxout units}: $f$ is learned. It combines different RELU to produce 
-    a convex function.
+    \item \textbf{Absolute value rectification}: this function is obtained by
+          fixing $\alpha_i = -1$ to express $g(z) = |z|$. It is used to object
+          recognition.
+    \item \textbf{Leaky ReLU}: this function is obtained by fixing $\alpha_i = 0.01$.
+          This one solves the problem of zero gradient which means that the model
+          doesn't learn. This is done by Leaky ReLU with a small linear component
+          for negative input.
+    \item \textbf{Parametric ReLU}: this function is like Leaky ReLU but the
+          parameter $\alpha_i$ is learned.
+    \item \textbf{Maxout units}: the activation function $f$ is learned. It
+          combines different ReLU to produce a convex function.
 \end{itemize}
-
 \subsection{Softplus}
-This is another generalization of RELU.
-$$f(x) = ln(1+e^x)$$
-This function resolve RELU's problem of non differentiable point, infact it is 
-a smooth approximation of RELU. Theoretically we can think to get better performance 
-using this function compared to RELU, but empirically it doesn't.
+Another generalization of the ReLU function is the Softplus function. This function
+is defined as:
+\begin{equation}
+    f(x) = \log(1+e^x)
+\end{equation}
+This function was defined to solve ReLU's problem of non differentiable point,
+it is a smooth approximation of ReLU. Theoretically we can think to get better
+performance using this function compared to ReLU, but empirically it doesn't.
 
 \subsection{Differences}
 There are some guides to use these activation functions:
 \begin{itemize}
-    \item sigmoids and their combinations generally works better in case of classifiers
-    \item sigmoids and tanh Sometimes are avoided due the vanishing gradient problem 
-    \item relu is the default AF
-    \item we can use leaky relu if we encounter a case of dead neurons
-    \item relu should only be used for hidden layer
+    \item Sigmoids and their combinations generally works better in case of classifiers.
+    \item Sigmoids and tanh Sometimes are avoided due the vanishing gradient problem.
+    \item ReLU is the default activation function for hidden layers.
+    \item We can use Leaky ReLU if we encounter a case of dead neurons.
+    \item ReLU should only be used for hidden layer.
 \end{itemize}
-In general we can initially use RELU, than if we cannot obtain better performance 
-we can change AF.
+In general we can initially use ReLU, than if we cannot obtain better performance
+we can change activation function.
 
-\subsection{Initialization}
-Another important step inside the planning of a deep neural network is the initialization.
-First of all we can initialize all \textbf{bias} to $0$ to discover eventually dead neurons.
-For \textbf{weights} we must not initialize to the same values because we have to 
-brake the simmetry of the model, so we can sample weights from a normal of mean 
-$0$ and variance dependant of the number of neurons in the previus layer.
+\section{Initialization}
+Another important step inside the planning of a deep neural network is the 
+initialization process.
+
+First of all we can initialize all \textbf{bias} to $0$ to discover eventually 
+dead neurons. % ?
+
+For \textbf{weights} we must not initialize to the same values because we have to
+brake the symmetry of the model, so we can sample weights from a normal 
+distribution with mean $0$ and variance dependant of the number of neurons in 
+the previous layer.
+\begin{equation*}
+    W^{[l]} \sim \mathcal{N}\left(0, \frac{1}{n^{[l-1]}}\right)
+\end{equation*}
