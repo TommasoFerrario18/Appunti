@@ -1,4 +1,4 @@
-\chapter*{Introduction}
+\chapter*{costruzione dell'immagine}
 
 Le differenze tra computer vision, robot vision e elaborazioni delle immagini 
 sono molto sottili:
@@ -254,7 +254,12 @@ avere delle rifrazioni non perfette che si scontrano sul cilindro dell'ottica,
 provocando l'assorbimento di una parte dell'energia e provocando un'oscurazione del
 colore del punto associato a quel punto. Questo può essere un problema quando si 
 vuole effettuare delle lavorazioni successive quando si basano sui colori o anche 
-sul rilevamento degli edge.
+sul rilevamento degli edge. Questo si può risolvere cambiando la rappresentazione 
+colore.
+
+\begin{nota}
+    tutti i problemi delle lenti crescono radialmente.
+\end{nota}
 
 \section{Modello realistico}
 Il problema del modello Pin Hole è che richiede che il sistema di riferimento del 
@@ -289,4 +294,53 @@ potrebbe avere degli elementi ricettivi che non sono separati ugualmente, potrem
 avere problemi legati agli stretching dell'immagine. Questo effetto è chiamato 
 \textbf{pixel non quadrato} o \textbf{aspect ratio non unitario} tra i pixel perciò
 bisognerà effettuare una trasformazione di scaling. Questo fenomento è descritto 
-da un unico parametro 
+da un unico parametro.
+
+Un altro problema ingegneristico è sempre dovuta dalla costruzione del sensore, 
+infatti si può avere che l'asse $v$ del sistema $uv$ può avere una skew e non essere 
+completamente ortogonale con l'asse $u$, questo significa che dobbiamo applicare 
+una trasformazione di skew pari alla cotangente dell'angolo di skew (determinato 
+da un unico parametro). All'atto pratico 
+però questa componente non si conta ma si fissa a $0$, si tiene di default il fatto 
+che gli assi sono ortogonali.
+
+In totale i parametri liberi del modello realistico è composto da:
+\begin{itemize}
+    \item $6$ parametri della rototraslazione dal sistema mondo al sistema camera
+    \item $1$ parametro libero per la proiezione dal sistema camera al sistema immagine
+    \item $2$ parametri di traslazione del centro immagine
+    \item $1$ parametro di scaling del aspect ratio del pixel (evitabile se si ha un 
+    rapporto unitario)
+    \item $1$ parametro di skew (sempre evitabile perché si considera nullo)
+\end{itemize}
+
+\begin{nota}
+    Ricorda che spesso si effettua il prodotto tra $f$ e $AR$ e quindi vengono 
+    specificati come $f_x,f_y$.
+\end{nota}
+
+\section{Calibrazione della proiezione del modello reale}
+La \textbf{calibrazione della proiezione} è la fase che determina il tutti i 
+parametri del nostro modello reale. Questa è necessaria se vogliamo ottenere fedelmente 
+i punti nello spazio.
+
+\subsection{Regressione lineare}
+Ripresa della regressione lineare come modello di stima dei valori.
+L'obiettivo del modello di regressione lineare è quello di descrivere la relazione 
+tra due variabili attraverso un modello lineare del tipo 
+$$\hat{y} = mx + q$$
+Date le osservazioni bisogna trovare gli iperparametri $m, q$ con l'obiettivo 
+di trovare l'equazione che minimizza $|y - \hat{y}|$. Questo modello può essere utile 
+per ridurre il rumore dei punti, ecco questo è lo stesso principio che si effettuerà 
+nella direct linear transform. 
+
+\subsection{Direct Linear Transform} 
+L'obiettivo sarà quello di ottenere la matrice finale del modello reale $3\times 4$
+quindi un totale di $12$ parametri, di cui solo $11$ sono quelli liberi. 
+
+L'operazione di trovare questi parametri è molto complessa, infatti siamo soggetti 
+a forti rumori e quindi dovremo sfruttare le stesse metodologie dei modelli di 
+regressione. Infatti per la calibrazione non si considera un unico punto, ma bensì
+si utilizzano migliaia di punti per ridurre il rumore delle rette di proiezione.
+
+Dobbiamo gestire le incertezze e gli outlier.

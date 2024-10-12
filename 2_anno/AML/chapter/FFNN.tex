@@ -402,7 +402,7 @@ Hyperbolic Tangent is similar to sigmoidal function. The principal difference be
 them is that negative value are mapped in negative value, while zero values are mapped 
 in zero. Some important characteristics are that is \textbf{differentiable}, \textbf{monotonic}
 but its derivative isn't \textbf{monotonic}. This function speeds up the training 
-phase because has gradient greater than sigmoidal. Generally it's used for \textbf{classification 
+phase because it has a greater gradient than sigmoidal's. Generally it's used for \textbf{classification 
  problem}
 
 \subsection{RELU}
@@ -421,8 +421,8 @@ Other versions of RELUs alre:
 \begin{itemize}
     \item \textbf{absolute value rectification}: fix $\alpha_i = -1$ to express $g(z) = |z|$.
     It is used to object recognition.
-    \item \textbf{leaky RELU}: fix $\alpha_i = 0.01$. This one solves the problem
-    zero gradient which means that the model doesn't learn. To avoid it leaky relu 
+    \item \textbf{leaky RELU}: fix $\alpha_i = 0.01$. This one solves the problem of
+    zero gradient which means that the model doesn't learn, to avoid this, leaky relu 
     has a small linear component for negative input.
     \item \textbf{perametric}: $\alpha_i$ is learned.
     \item \textbf{maxout units}: $f$ is learned. It combines different RELU to produce 
@@ -430,7 +430,7 @@ Other versions of RELUs alre:
 \end{itemize}
 
 \subsection{Softplus}
-This is a generalization of RELU.
+This is another generalization of RELU.
 $$f(x) = ln(1+e^x)$$
 This function resolve RELU's problem of non differentiable point, infact it is 
 a smooth approximation of RELU. Theoretically we can think to get better performance 
