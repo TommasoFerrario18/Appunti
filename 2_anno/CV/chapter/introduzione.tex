@@ -466,3 +466,36 @@ La calibrazione allo stato dell'arte si basa sulla:
 \end{itemize} 
 
 Questo approccio ci permette di calcolare i parametri di distorsione.
+
+\section{Caratterizzazione matrici di proiezione prospettica}
+Ci sono delle caratteristiche numeriche che permettono di riconoscere una matrice 
+$M$ se è prospettica o meno.
+
+In generale una matrice prospettica è del tipo
+$$M=\left[\begin{array}{c|c}
+    A_{3\times3} &b_{3\times1}
+\end{array}\right]  \ \ \left[\begin{array}{c}
+    \underline{a_1}\\
+    \underline{a_2}\\
+    \underline{a_3}\\
+\end{array}\right]$$
+
+\begin{teorema}
+La condizione necessaria e sufficiente affinché $M$ sia una matrice prosettica è
+che $det(A_{33})\ne 0$.
+\end{teorema}
+
+\begin{teorema}
+    Quando la matrice è del tipo
+    $$(\underline{a_1} \times \underline{a_3})\cdot (\underline{a_2} \times \underline{a_3})$$
+    allora la matrice è \textbf{0-skew} ovvero gli assi del piano immagine sono 
+    perpendicolari.
+\end{teorema}
+
+\begin{teorema}
+    Quando la matrice è del tipo
+    $$(\underline{a_1} \times \underline{a_3})\cdot (\underline{a_2} \times \underline{a_3})$$
+    e in aggiunta
+    $$(\underline{a_1} \times \underline{a_3})(\underline{a_1} \times \underline{a_3}) = (\underline{a_2} \times \underline{a_3})(\underline{a_2} \times \underline{a_3})$$
+    allora la proiezione è \textbf{0-skew} e \textbf{aspect ratio unitario}
+\end{teorema}
