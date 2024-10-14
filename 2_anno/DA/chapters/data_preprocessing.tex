@@ -51,6 +51,7 @@ Esistono 3 tipologie di dati mancanti:
 \begin{itemize}
       \item \textbf{Missing Completely At Random} (\textbf{MCAR}): quando la
             mancanza del valore di un attributo è randomica e non è dipendente dai valori
+            mancanza del valore di un attributo è randomica e non è dipendente dai valori
             osservati o dai valori mancanti.
       \item \textbf{Missing At Random} (\textbf{MAR}): quando la mancanza del
             valore di un attributo è dipendente dai valori osservati, ma non dai
@@ -79,6 +80,7 @@ A seconda della situazione e in base alla tipologia dell'attributo, si possono
 usare diversi metodi di imputazione dei valori mancanti:
 \begin{itemize}
       \item Una prima strategia è quella \textbf{most common value}, la quale
+      \item Una prima strategia è quella \textbf{most common value}, la quale
             fornisce due possibilità di imputazione:
             \begin{itemize}
                   \item \textbf{Continuo}: calcolo la media tra tutti gli altri
@@ -102,6 +104,7 @@ i $k$ valori degli esempi più vicini. Un estensione di questo metodo è l'utili
 di algoritmi di Machine Learning per la predizione dei valori mancanti. Questo
 significa definire un modello per la previsione dei valori mancanti per ciascuna
 feature, il che lo rende computazionalmente molto costoso.
+
 
 \subsection{Rumorosità dei dati}
 \begin{definizione} [\textbf{Rumorosità dei dati}]
@@ -162,6 +165,7 @@ Una possibile soluzione consiste nel bilanciare il dataset, ovvero cercare di
 rendere le classi rappresentate da un numero simile di istanze. Questo può essere
 fatto attraverso due metodi:
 \begin{itemize}
+      \item \textbf{Oversampling}: consiste nel duplicare le istanze della classe
       \item \textbf{Oversampling}: consiste nel duplicare le istanze della classe
             meno rappresentata.
       \item \textbf{Undersampling}: consiste nel rimuovere le istanze della classe

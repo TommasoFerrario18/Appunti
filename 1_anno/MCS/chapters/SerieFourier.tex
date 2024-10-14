@@ -420,11 +420,17 @@ oscillatori vicino al punto di discontinuità, questi sono dovuti dal fatto che 
 stanno approssimando dei punti di discontinuità di tipo salto con funzioni che non
 li hanno.
 
+convergenze meno precise. Si hanno i fenomeni di \textbf{Gibbs} ovvero si hanno andamenti
+oscillatori vicino al punto di discontinuità, questi sono dovuti dal fatto che si
+stanno approssimando dei punti di discontinuità di tipo salto con funzioni che non
+li hanno.
+
 Per risolvere questo problema possiamo introdurre nella sommatoria delle funzioni
 che avranno gli stessi punti di discontinuità negli stessi valori.
 
 \begin{teorema}[\textbf{Convergenza della serie di Fourier}]
     Sia $f:\mathbb{R}\to \mathbb{R}$ periodica, assumiamo che $f$ sia $C^1$ (continua
+    fino alla prima derivata) a tratti allora se $f$ è continua in $t \in \mathbb{R}$
     fino alla prima derivata) a tratti allora se $f$ è continua in $t \in \mathbb{R}$
     la serie $f_N$ converge a $f(t)$, altrimenti se non è continua allora $f_N$
     converge a:
@@ -464,6 +470,7 @@ In questo modo si riesce a portare la funzione nell'intervallo canonico definend
 \end{equation*}
 Si apre ora la questione di come creare una funzione periodica a partire da questa
 funzione $\stackrel{\sim}{g}(x)$ definita nell'intervallo $[0, p]$. Un primo
+tentativo potrebbe essere quello di periodizzarla per ripetizione.
 tentativo potrebbe essere quello di periodizzarla per ripetizione.
 \begin{figure}[!ht]
     \centering
@@ -1151,3 +1158,4 @@ simile ma rappresentato con meno informazioni.
 
 Utilizzando quest'ultimo la trasformazione di Fourier si chiamerà \textbf{cosine trasformation},
 perché $\stackrel{\sim}{g}(x)$ sarà pari e quindi avrà solo i coefficienti del coseno.
+

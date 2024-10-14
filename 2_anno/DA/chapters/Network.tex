@@ -90,6 +90,7 @@ valori di $p(k)$.
     \end{equation*}
 \end{nota}
 Il valore della distribuzione mi permette di rappresentare molti fenomeni: dalla
+Il valore della distribuzione mi permette di rappresentare molti fenomeni: dalla
 robustezza della rete, alle sue vulnerabilità.
 \subsection{Cammino e distanza}
 \begin{definizione}[\textbf{Cammino}]
@@ -259,9 +260,11 @@ per rendere indipendentemente dalla dimensione del grafo. Questo può essere
 espresso nel caso di un grafo non orientato come segue:
 \begin{equation}
     {C_B}_{norm}(i) = \frac{C_B(i)}{(n - 1)(n - 2)}
+    {C_B}_{norm}(i) = \frac{C_B(i)}{(n - 1)(n - 2)}
 \end{equation}
 mentre nel caso di un grafo orientato come segue:
 \begin{equation}
+    {C_B}_{norm}(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
     {C_B}_{norm}(i) = \frac{C_B(i)}{\frac{(n - 1)(n - 2)}{2}}
 \end{equation}
 \subsection{Closeness}
@@ -273,9 +276,11 @@ un nodo agli altri nodi del grafo. Questa misura può essere calcolata come segu
 Corrisponde alla misura di un vertice in merito alla sua efficienza nel
 comunicare l'informazione, mentre la betweeness è una misura l'efficacia di un
 nodo nel trasmettere un'informazione.
+nodo nel trasmettere un'informazione.
 
 Questa misura può essere normalizzata come segue:
 \begin{equation}
+    {C_C}_{norm}(i) = \frac{C_C(i)}{n - 1}
     {C_C}_{norm}(i) = \frac{C_C(i)}{n - 1}
 \end{equation}
 \subsection{Autovettori}
@@ -293,7 +298,7 @@ Questa misura può essere calcolata come segue:
     C_A(i) = \frac{1}{\lambda} \sum_{j=1}^{n} A_{ij} C_A(j)
 \end{equation}
 dove $A$ è la matrice di adiacenza del grafo e $\lambda$ è l'autovalore
-corrispondente all'autovettore dominante della matrice di adiacenza.
+corrispondente all'autovettore dominante della matrice di adiacenza. 
 
 A differenza della misura basata sul grado, un nodo che ha un alto grado ma è
 collegato a nodi poco importanti avrà una centralità di autovettori bassa. Al
@@ -340,6 +345,8 @@ normalizzata.
 Il problema è che per garantire la convergenza di questo algoritmo è necessario
 rispettare due condizioni:
 \begin{itemize}
+    \item Si ha un unico autovalore massimo che deve essere $1$.
+    \item $P$ è l'autovettore di modulo massimo di $A$.
     \item Si ha un unico autovalore massimo che deve essere $1$.
     \item $P$ è l'autovettore di modulo massimo di $A$.
 \end{itemize}
@@ -591,6 +598,9 @@ funzioni di similarità, come ad esempio:
           dove $A,B$ sono le righe della matrice di adiacenza associate ai nodi $A,B$,
           quindi $A\cdot B$ è il prodotto scalare. Si usa per grafi pesati perché
           nella matrice di adiacenza si avranno i pesi degli archi.
+          dove $A,B$ sono le righe della matrice di adiacenza associate ai nodi $A,B$,
+          quindi $A\cdot B$ è il prodotto scalare. Si usa per grafi pesati perché
+          nella matrice di adiacenza si avranno i pesi degli archi.
     \item \textbf{Jaccard similarity}: calcola la similarità tra due nodi
           considerando solamente se l'arco è presente o meno. Questa misura
           è molto utilizzata per grafi non pesati.
@@ -654,9 +664,11 @@ date da:
 L'interazione tra due nodi in un gruppo è data dalla seguente formula:
 \begin{equation}
     \sum_{i, j\in V}\left(A_{ij} - \frac{d_i \cdot d_j}{2m}\right)
+    \sum_{i, j\in V}\left(A_{ij} - \frac{d_i \cdot d_j}{2m}\right)
 \end{equation}
 La modularity può essere calcolata come segue:
 \begin{equation}
+    Q = \frac{1}{2m} \sum_{i, j\in V} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
     Q = \frac{1}{2m} \sum_{i, j\in V} \left( A_{ij} - \frac{d_i \cdot d_j}{2m} \right) \delta(c_i, c_j)
 \end{equation}
 dove:
@@ -672,6 +684,8 @@ dove:
 \end{itemize}
 
 Più è grande la differenza tra $A_{ij} - \frac{d_i \cdot d_j}{2m}$, più forti
+sono le connessioni tra i nodi $i,j$. Al contrario, se la differenza è piccola,
+allora le connessioni tra i nodi $i,j$ sono casuali.
 sono le connessioni tra i nodi $i,j$. Al contrario, se la differenza è piccola,
 allora le connessioni tra i nodi $i,j$ sono casuali.
 Un vantaggio di questo approccio è che il valore di modularity è compreso tra
