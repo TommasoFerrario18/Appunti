@@ -319,10 +319,34 @@ In totale i parametri liberi del modello realistico è composto da:
     specificati come $f_x,f_y$.
 \end{nota}
 
+\begin{definizione}
+    Si definiscono \textbf{parametri intrinseci} della camera i parametri della rototraslazione 
+    che porta dallo spazio camera allo spazio immagine
+\end{definizione}
+
+\begin{definizione}
+    Si definiscono \textbf{parametri estrinseci} della camera i parametri della rototraslazione 
+    che porta dallo spazio mondo allo spazio camera
+\end{definizione}
+
 \section{Calibrazione della proiezione del modello reale}
 La \textbf{calibrazione della proiezione} è la fase che determina il tutti i 
 parametri del nostro modello reale. Questa è necessaria se vogliamo ottenere fedelmente 
 i punti nello spazio.
+
+
+Per determinare la matrice $M$ di proiezione finale e quindi gli 11 parametri liberi 
+abbiamo 2 approcci: DLT e stato dell'arte. Il problema di questi approcci sono 
+il fatto che si hanno alcuni punti che hanno \textbf{configurazioni degeneri}. 
+La prima configurazione è quando i punti sono \textbf{complanari}. i punti 
+devono stare su piani differenti e devono stimolare 
+tutti i parametri, se sono complanari effettuiamo una homografia ma non possiamo 
+stimare la proiezione prospettica. Inoltre i punti devono essere su piani molto 
+diversi altrimenti la matrice diventa malcondizionata.
+La seconda configurazione degenere sono punti posizionati su una \textbf{curva cubica} 
+che si arrotola su se stessa che 
+passa per il centro di proiezione ma questa situazione è difficile da trovare.
+
 
 \subsection{Regressione lineare}
 Ripresa della regressione lineare come modello di stima dei valori.
@@ -342,5 +366,103 @@ L'operazione di trovare questi parametri è molto complessa, infatti siamo sogge
 a forti rumori e quindi dovremo sfruttare le stesse metodologie dei modelli di 
 regressione. Infatti per la calibrazione non si considera un unico punto, ma bensì
 si utilizzano migliaia di punti per ridurre il rumore delle rette di proiezione.
+Dobbiamo quindi gestire le incertezze e gli outlier.
 
-Dobbiamo gestire le incertezze e gli outlier.
+Gli 11 parametri liberi del modello si possono considerare come un vettore e questi 
+sono in relazione mediante il modello proiettivo. Nota che per effettuare la calibrazione 
+noi per ogni punto conosciamo le sue coordinate $uv$ su $\pi$ e le sue coordinate 
+$xyz$ nel mondo.
+
+Quindi in sostanza abbiamo per ogni osservazione dei punti reali il vettore composto 
+dalla loro posizione del mondo e la loro posizione sullo spazio immagine.
+$$\left[\begin{array}{c}
+    x\\y\\z\\u\\v
+\end{array}\right]$$
+
+Dobbiamo trovare la matrice di trasformazione 
+$$M^{3\times 4} = \left[\begin{array}{c}
+    \underline{m_1}\\
+    \underline{m_2}\\
+    \underline{m_3}\\
+\end{array}\right]$$
+
+tale che rispetti la seguente relazione 
+$$w_1 = \underline{m_1} \cdot \left[\begin{array}{c}
+    x\\y\\z\\1
+\end{array}\right] \ \ w_2 = \underline{m_2} \cdot \left[\begin{array}{c}
+    x\\y\\z\\1
+\end{array}\right] \ \ w_3 = \underline{m_3} \cdot \left[\begin{array}{c}
+    x\\y\\z\\1
+\end{array}\right]$$
+
+Di conseguenza
+
+$$\begin{cases}
+    u = \frac{w_1}{w_3}\\
+    v = \frac{w_2}{w_3}\\
+\end{cases} = \begin{cases}
+    u \cdot w_3 - w_1 = 0\\
+    v \cdot w_3 - w_2 = 0\\
+\end{cases} = \begin{cases}
+    u \cdot \underline{m_3} \cdot \left[\begin{array}{c}
+        x\\y\\z\\1
+    \end{array}\right] - \underline{m_1} \cdot \left[\begin{array}{c}
+        x\\y\\z\\1
+    \end{array}\right] = 0\\
+    v \cdot \underline{m_3} \cdot \left[\begin{array}{c}
+        x\\y\\z\\1
+    \end{array}\right] - \underline{m_2} \cdot \left[\begin{array}{c}
+        x\\y\\z\\1
+    \end{array}\right] = 0\\
+\end{cases}   $$
+
+quindi data una quintupla di osservazioni posso definire 2 relazioni che vincolano 
+la matrice di trasformazione. Per ridurre il rumore della nostra calibrazione si 
+utilizzano più osservazioni, proprio nella medesima metodologia della regressione.
+Il numero di osservazioni o punti di calibrazione o punti fiduciari sono almeno $6$ perché sono 
+11 incognite e 12 equazioni, il problema è che per ridurre il rumore dobbiamo 
+aumentare le osservazioni e prendere più punti che non stanno su una sola retta (se ne 
+usano un centinaio).
+
+\begin{nota}
+    Il ragionamento della proiezione è lo stesso della regressione, per trovare 
+    una retta di regressione mi servono almeno $2$ punti secondo gli assiomi geometrici,
+    però se vogliamo ridurre il rumore ce ne servono nettamente di più. Nel caso 
+    della proiezione diventano almeno $6$ solo che in questo caso il rumore è molto 
+    più alto.
+\end{nota}
+
+Le osservazioni possono essere prese attraverso l'utilizzo di un piano composto 
+da punti neri (punti di cui si prenderanno le osservazioni) su sfondo bianco e le singole coordinate si intercettano in questo modo:
+\begin{itemize}
+    \item $uv$: si prende l'immagine scattata, si ottengono solo i pixel dei punti 
+    si calcola il baricentro di ciascun punto
+    \item $xyz$: calcolo la posizione del baricentro dei singoli punti neri nel 
+    sistema di riferimento del mondo reale. Ricorda che non ci dobbiamo fermare 
+    ad un quantitativo di misure pari al grado di libertà sempre per evitare rumore.
+\end{itemize}
+
+Il problema di questo metodo sono \textbf{incertezze} e \textbf{outliers}, perché
+essendo un modello regressivo basato sulla differenza dei minimi quadrati allora 
+si possono avere questi problemi. 
+
+Questa tecnica è molto onerosa perché richiede le misurazioni nel mondo reale, 
+le misurazioni sul piano immagine e ha una ridotta capacità del modello a generalizzare 
+fuori dalla nuvola di punti su cui è stata effettuata la calibrazione. Questa 
+mancanza di generalizzazione è dovuta dal fatto che si stimano attraverso una regressione 
+i parametri della matrice $m_{ij}$ e non si stimano attraverso la struttura degli 
+$11$ parametri fisici che porterebbero ad un degradamento ridotta.
+
+
+\subsection{Stato dell'arte}
+La calibrazione allo stato dell'arte si basa sulla:
+\begin{itemize}
+    \item \textbf{homography}: si utilizza un'omografia tra piani ovvero si hanno 
+    una serie di immagini planari che inquadrano oggetti comuni mentre si muove 
+    la camera e l'obiettivo e mappare i punti della prima immagine nella seconda.
+    \item \textbf{intrinseci/estrinseci}: prima si determinano i parametri intrinseci
+    mediante una omografia dei un oggetto planare (scacchiera) e poi si determinano 
+    gli estrinseci mediante la stima della posizione degli scacchi.
+\end{itemize} 
+
+Questo approccio ci permette di calcolare i parametri di distorsione.
