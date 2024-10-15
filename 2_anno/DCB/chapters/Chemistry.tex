@@ -195,3 +195,32 @@ at which the velocity is half of $V_{max}$. In formula:
 \begin{equation}
     V = \frac{V_{max}[S]}{K_M + [S]} = \frac{V_{max}}{2}
 \end{equation}
+\section{Cooperativity}
+For many enzymes, the reaction velocity assumes a sigmoidal shape, which is 
+different from the one described by the Michaelis-Menten equation. This happens 
+when the enzyme may bind to more than one substrate and the first binding facilitates
+the subsequent one.
+
+In this case, we can describe the reaction velocity with the Hill equation:
+\begin{equation}
+    V = \frac{V_{max} \cdot [S]^n}{K_M^n + [S]^n}
+\end{equation}
+where $n$ is the number of sites where the enzyme may bind, and the value $K_m^n$
+is obtained by the following equation:
+\begin{equation}
+    K_M^n = \prod_{i = 1}^n K_i
+\end{equation}
+where $K_1, K_2, \ldots, K_n$ are $n$ constants at equilibrium.
+
+This equation is used to model reactions that are thought to be cooperative, but 
+whose details are not completely known. All the parameters in the equation are 
+usually experimentally determined.
+
+We can interpretate the Hill parameter $n$ in the following way:
+\begin{itemize}
+    \item $n = 1$ means that the enzyme is not cooperative.
+    \item $n > 1$ means that the enzyme is positively cooperating binding to the 
+          substrate.
+    \item $n < 1$ means that the enzyme is negatively cooperating binding to the
+            substrate.
+\end{itemize}
