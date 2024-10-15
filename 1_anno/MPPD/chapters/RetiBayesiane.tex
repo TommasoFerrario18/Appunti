@@ -14,6 +14,7 @@ algoritmi o usando l'esperienza delle persone afferenti al dominio.
 Usando l'indipendenza e l'indipendenza condizionata il modello causale è molto
 più compatto, il numero di parametri utilizzato si riduce.
 \begin{definizione}[\textbf{Rete Bayesiana}]
+\begin{definizione}[\textbf{Rete Bayesiana}]
     Una \textbf{rete bayesiana} è un \textbf{grafo orientato aciclico} in cui i
     nodi sono annotati con una \textbf{informazione quantitativa}, ovvero la
     tabella di probabilità condizionata (CPT), e gli archi definiscono la
@@ -50,6 +51,7 @@ termini $x$ è genitore di $y$ o $y$ è figlio di $x$.
 \end{nota}
 La topologia della rete, ovvero la sua struttura, e le probabilità condizionate
 dei nodi dati i loro genitori sono sufficienti a specificare la \textbf{distribuzione
+    congiunta} di tutte le variabili rappresentate.
     congiunta} di tutte le variabili rappresentate.
 
 La componente quantitativa, contenuta in ogni nodo, è costituita da un insieme di
@@ -102,6 +104,8 @@ figlio ma che sono connesse.
 La semantica delle reti Bayesiane può essere presentata e compresa in base a:
 \begin{itemize}
     \item \textbf{Semantica numerica}: la rete rappresenta una \textbf{distribuzione
+              congiunta} di probabilità. Risulta importante per comprendere come
+          sia possibile effettuare inferenza utilizzando la probabilità congiunta.
               congiunta} di probabilità. Risulta importante per comprendere come
           sia possibile effettuare inferenza utilizzando la probabilità congiunta.
     \item \textbf{Semantica topologica}: la rete codifica un insieme di
@@ -752,10 +756,12 @@ Una routine di generazioni di numeri pseudocasuali deve:
 Un primo metodo per generare numeri casuali è attraverso l'utilizzo di una sequenza
 di numeri con $10$ cifre. Il procedimento è il seguente:
 \begin{enumerate}
+\begin{enumerate}
     \item Si parte da un numero.
     \item Lo si eleva al quadrato.
     \item Si prendono le $10$ cifre centrali.
     \item Si ripete il procedimento.
+\end{enumerate}
 \end{enumerate}
 La sequenza ottenuta \textbf{non è casuale}, perché ogni numero è ottenibile da
 quello precedente. Inoltre, si hanno problemi a causa dell'operazione di elevamento

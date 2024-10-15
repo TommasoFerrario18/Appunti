@@ -533,7 +533,6 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
 
                   degli archi di quel cammino. Quindi siamo riusciti a mappare
                   stringe di $A^\ast$ nel linguaggio $\mathcal{L}$.
-
             \item $\ref{cond:3}\implies \ref{cond:1}$: scelto arbitrariamente $y\in A^\mathbb{Z}$,
                   occorre mostrare che $\exists x\in A^\mathbb{Z} \text{ t.c. } F(x) =y$.
 
@@ -978,7 +977,6 @@ periodici e quindi non possiamo studiare comportamenti instabili.
         \item $F(x)=^\infty u^{(t)\infty}$ per qualche $u^{(t)}\in  A^n$
     \end{itemize}
     Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x> 0$
-    Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x> 0$
     tale che $F^{q_x+p_x-1}(x)=F^{q_x}(x)$ ($x$ è ultimamente periodica).
 \end{nota}
 \begin{definizione}[\textbf{Blocking word}]
@@ -1100,6 +1098,7 @@ alle condizioni iniziali.
     una che prima o poi diventerà bloccante.
 \end{nota}
 
+\begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
 \begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
     Sia $\langle A,r,f\rangle$ un CA e sia $F$ la regola globale allora i seguenti
     punti sono equivalenti:
@@ -1304,10 +1303,8 @@ sistema è anche \textbf{caotico}.
 \begin{esempio}
     Supponiamo il seguente sistema $(X:=\mathbb{R},F(x):= 2\cdot x)$, una ipotetica
     evoluzione dinamica è $2^t\cdot x$.
-
     Quindi $\forall x,y\in X, d(F^t(x),F^t(y)) = |2^tx-2^ty|= 2^t|x-y|$. Si riesce
     facilmente a dimostrare che il sistema è espansivo e sensibile alle condizioni
-    iniziali. Il problema è che noi non vogliamo considerare questo sistema caotico
     iniziali. Il problema è che noi non vogliamo considerare questo sistema caotico
     quindi dobbiamo introdurre nuovi concetti.
 \end{esempio}
@@ -1632,7 +1629,6 @@ la nilpotenza.
 
 Ovviamente per un CA nilpotente, deve diventare quiesciente in un numero finito
 e uguale salti per ogni configurazione.
-e uguale salti per ogni configurazione.
 
 \begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-2D}]
     Il problema di identificare se un CA-2D è nilpotente è indecidibile.
@@ -1758,6 +1754,7 @@ essere:
     \item infiniti con loop
 \end{itemize}
 
+Sui cammini possono accadere le seguenti cose:
 Sui cammini possono accadere le seguenti cose:
 \begin{enumerate}
     \item ci può essere un tiling error tra due tiles entrambe sul percorso
@@ -2026,6 +2023,8 @@ simbolo in testa.
     $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
     $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
     $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
+    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
+    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
 
     In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
     In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
@@ -2050,6 +2049,11 @@ La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel segu
           fanno parte dei cammini. Se non fanno parte allora si cancellano gli archi e i
           nodi isolati.
 \end{itemize}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/sistemi_complessi/subshift.png}
+\end{figure}
+
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.4\textwidth]{img/sistemi_complessi/subshift.png}
@@ -2080,9 +2084,9 @@ Per definizione $x\in \beta_{M + 1}(y), \forall y\in X$.
         si ha che $X_G= X_\mathcal{F}$ e allora $X_G$ è un SFT, inoltre è di memoria
         $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
         $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
+        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
     \end{proof}
 \end{teorema}
-In generale ho $X$ di memoria $M$, costruisco $G$ e poi ottengo $X_G = X^{[M+1]}$ che contiene gli
 In generale ho $X$ di memoria $M$, costruisco $G$ e poi ottengo $X_G = X^{[M+1]}$ che contiene gli
 archi. Al contrario se prendo tutti i cammini sui vertici allora ottengo lo stesso
 subshift ma nella rappresentazione a blocchi $X^{[M]}$
@@ -2148,6 +2152,15 @@ etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1
     \caption{Esempio di otteniumento di un grafo di un subshift}
     \label{fig:subshift}
 \end{figure}
+come etichette la stringa associata al vertice di partenza. Se guardiamo i camminmi biinfiniti sulle
+etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1$ (vedi \ref{fig:subshift}).  
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/subshift_e_grafi.png}
+    \caption{Esempio di otteniumento di un grafo di un subshift}
+    \label{fig:subshift}
+\end{figure}
 
 \subsection{Entropia}
 Sia $X$ un subshift, come possiamo sapere quanto cresce $|\mathcal{B}_n(X)|$, tasso
@@ -2175,13 +2188,16 @@ Questo limite esiste (sarebbe da dimostrare).
 
 \begin{esempio}
     Sia $X=X_\mathcal{F}$ con $\mathcal{F} = \{11\}$ con $M=1$, vogliamo calcolare
-    Sia $X=X_\mathcal{F}$ con $\mathcal{F} = \{11\}$ con $M=1$, vogliamo calcolare
     $h(X)$.
 
     Costruiamo $G$, otteniamo la matrice delle adiacenze $A=\left[\begin{array}{cc}
                 1 & 1 \\
                 1 & 0
             \end{array}\right]$.
+
+    Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
+    sui vertici è $\hat{X}_G = X^{[1]} =X$.
+
 
     Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
     sui vertici è $\hat{X}_G = X^{[1]} =X$.
@@ -2197,9 +2213,12 @@ Questo limite esiste (sarebbe da dimostrare).
     quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$
     ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$.
     Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
+    quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$ 
+    ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$. 
+    Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
 \end{esempio}
+
 Ogni elemento di $\mathcal{B}_{m}(X_G)$ corrisponde ad una parola di lunghezza
-$m$ che si ottiene come cammino di lunghezza $m$ sugli archi, quindi
 $m$ che si ottiene come cammino di lunghezza $m$ sugli archi, quindi
 $|\mathcal{B}_{m}(X_G)|$ è il numero di cammini di lunghezza $m$ tra coppie qualunque
 di vertici di $G$.
@@ -2232,15 +2251,14 @@ $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}
 
 \begin{definizione}
     Sia $A\ge 0$ (ogni entry $\ge 0$) è \textbf{irriducibile} sse $\forall i,j,\exists n$
-    Sia $A\ge 0$ (ogni entry $\ge 0$) è \textbf{irriducibile} sse $\forall i,j,\exists n$
     tale che $(A^n)_{ij}>0$.
 \end{definizione}
 \begin{teorema}
     Sia $G$ un grafo e $A$ la sua matrice di adiacenza allora $G$ è \textbf{fortemente
         connesso} $\iff$ $A$ è irriducibile.
-    Sia $G$ un grafo e $A$ la sua matrice di adiacenza allora $G$ è \textbf{fortemente
-        connesso} $\iff$ $A$ è irriducibile.
 \end{teorema}
+\begin{teorema} [\textbf{Perron Frobenius}]
+    Sia $A\ne 0$ matrice irriducibile allora:
 \begin{teorema} [\textbf{Perron Frobenius}]
     Sia $A\ne 0$ matrice irriducibile allora:
     \begin{itemize}
@@ -2262,6 +2280,8 @@ $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}
 
               resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
 
+        resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
+
     \end{itemize}
 \end{teorema}
 Per calcolare l'entropia di un subshift che è:
@@ -2278,6 +2298,7 @@ Per calcolare l'entropia di un subshift che è:
         i\in V$ $|\{(i,j)\in E|j\in V\}| = |A|$ ovvero si ha una corrispondenza biunivoca tra $\{(i,j)\in E|j\in V\}$ e $A$
     (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
     (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
+    (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
 \end{definizione}
 \begin{nota}
     $\forall w \in A^\ast$ e $\forall i\in V$ c'è un unico cammino.
@@ -2287,8 +2308,6 @@ Per calcolare l'entropia di un subshift che è:
     $\pi = e_1\dots e_De_{D+1},\pi' = e_1'\dots e_D'e_{D+1}'$ che partono dallo
     stesso vertice $l(\pi)=l(\pi')\implies e_1=e_1'$
 \end{definizione}
-significa che dati due cammini sugli archi, l'etichettatura è right-closing se gli archi hanno la
-stessa mappatura allora hanno il primo arco in comune e poi hanno un fork con $D$
 significa che dati due cammini sugli archi, l'etichettatura è right-closing se gli archi hanno la
 stessa mappatura allora hanno il primo arco in comune e poi hanno un fork con $D$
 archi separati ma sempre con la stessa mappatura.
@@ -2305,8 +2324,6 @@ cammini mono-infiniti che partono da $I$) allora la funzione è iniettiva.
         \item $G$ è un grafo
         \item $I$ è il road-coloring di $G$ (input labeling)
         \item $O$ è il right-closing di $G$ (output labeling)
-        \item $I$ è il road-coloring di $G$ (input labeling)
-        \item $O$ è il right-closing di $G$ (output labeling)
     \end{itemize}
 \end{definizione}
 
@@ -2315,14 +2332,13 @@ cammini mono-infiniti che partono da $I$) allora la funzione è iniettiva.
     \begin{itemize}
         \item $G$ associato a $X$ ha outdegree costante pari a $n$
         \item $X$ contiene $O_\infty(X_G)=\{y | \exists x\in X_G:\forall i,y_i=O(x_i)\}$ ($O_\infty(X_G)$ è sofico)
-        \item $X$ contiene $O_\infty(X_G)=\{y | \exists x\in X_G:\forall i,y_i=O(x_i)\}$ ($O_\infty(X_G)$ è sofico)
     \end{itemize}
 \end{definizione}
-Si può usare un codice a stati finiti $(X,n)$ per trasformare sequenze di $A^\mathbb{N}$
 Si può usare un codice a stati finiti $(X,n)$ per trasformare sequenze di $A^\mathbb{N}$
 con $|A|=n$ in sequenze di $X$.
 
 \begin{esempio}
+    \begin{figure}[!h]
     \begin{figure}[!h]
         \centering
         \includegraphics [width=0.5\textwidth]{img/sistemi_complessi/codici.png}
@@ -2365,6 +2381,15 @@ in questo caso i blocchi sono tutti disgiunti.
             x_4 \\x_5\\x_6\\x_7\\
         \end{array}\right),\dots\right)$$
 \end{esempio}
+\begin{esempio}
+    Supponiamo di avere $N=4$ allora
+    $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
+    $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
+        x_0\\x_1\\x_2\\x_3
+    \end{array}\right),\left(\begin{array}{c}
+        x_4\\x_5\\x_6\\x_7\\
+    \end{array}\right),\dots\right)$$
+\end{esempio}
 \begin{nota}
     $\gamma_N$ è applicabile non cecessariamente agli elementi dell'intero $A^\mathbb{Z}$ ($A^\mathbb{N}$),
     ma anche ad elementi di un subshift.
@@ -2380,8 +2405,6 @@ considerare $\gamma_N(X)$ che si indica con $X^N$ è chiamato Power shift di $X$
 \end{teorema}
 
 Quindi tornando al problema di codificare l'alfabeto binario, possiamo codificare
-blocchi $\{0,1\}^\mathbb{N}$ in sequenze di un subshift buono $X$, ma in questo
-caso avremo sequenze
 blocchi $\{0,1\}^\mathbb{N}$ in sequenze di un subshift buono $X$, ma in questo
 caso avremo sequenze
 $\gamma_p(\{0,1\}^\mathbb{Z})$ da codificare in sequenze di $\gamma_q(X=X^q)$
@@ -2400,7 +2423,3 @@ cioè che $h(X)\ge \frac{p}{q}$.
 
 In definitiva basta segliere $p$ e $q$ in modo tale che valga
 $$h(X)\ge \frac{p}{q} $$
-
-
-$$h(X)\ge \frac{p}{q} $$
-
