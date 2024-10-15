@@ -1,0 +1,316 @@
+\chapter{Operatori sulle immagini}
+Per ogni pixel possiamo definire due tipologie di vicinato:
+\begin{itemize}
+    \item \textbf{vicinato di Von Neumann}: se il pixel è $x,y$ il vicinato è
+          \begin{equation*}
+              (x-1, y) \ (x, y-1) \ (x+1, y) \ (x, y+1)
+          \end{equation*}
+    \item \textbf{vicinato di Moore}: se il pixel è $x,y$ il vicinato è:
+          \begin{equation*}
+              (x-1, y) \ (x-1, y-1) \ (x, y-1) \ (x+1, y-1) \ (x+1, y) \ (x+1, y+1)
+              \ (x, y+1) \ (x-1, y+1)
+          \end{equation*}
+\end{itemize}
+Possiamo definire il \textbf{percorso digitale} tra due pixel come la sequenza di
+pixel che separano i due di interesse. La \textbf{lunghezza del cammino} sarà il
+numero di edge del percorso, ricorda che la scelta del vicinato fa variare i vari
+cammini disponibili. Si definisce \textbf{cammino chiuso} come il percorso da un
+pixel a se stesso.
+
+Dato $S$ un insieme di pixel allora due pixel $p$, $q$ sono \textbf{connessi} in
+$S$ se esiste un percorso in $S$ tra i due formato solo da pixel in $S$. L'insieme
+dei pixel connessi in $S$ si chiama \textbf{componente connessa}, se esiste una
+sola componente ed è connessa allora $S$ è chiamato \textbf{insieme connesso}.
+
+Sia $R$ un sottoinsieme di pixel dell'immagine, $R$ è una \textbf{regione} dell'immagine
+se è un insieme connesso. Date due regioni $R_1,R_2$, se sono \textbf{adiacenti}
+allora la loro unione forma un insieme connesso altrimenti sono disconnessi.
+
+\begin{nota}
+    Le definizioni variano in base alla vicinanza.
+\end{nota}
+
+Date delle regioni disgiunte allora, ogni singola regione può essere chiamata
+\textbf{foreground} mentre il complemento è il \textbf{background}. Definite le
+regioni possiamo definire due bordi:
+\begin{itemize}
+    \item bordo interno sono i pixel del foreground adiacenti ai pixel del background
+    \item bordo esterno sono i pixel del background adiacenti ai pixel del foreground
+\end{itemize}
+
+Possiamo definire diverse distanze tra i pixel:
+\begin{itemize}
+    \item \textbf{euclidea}:
+          \begin{equation}
+              D_e(p,q) = \sqrt{(x_p-x_q)^2+(y_p-y_q)^2}
+          \end{equation}
+    \item \textbf{city-block}:
+          \begin{equation}
+              D_4(p,q) = |x_p-x_q|+|y_p-y_q|
+          \end{equation}
+    \item \textbf{chessboard}:
+          \begin{equation}
+              D_8(p,q) = max(|x_p-x_q|,|y_p-y_q|)
+          \end{equation}
+\end{itemize}
+
+Definiremo diverse tipologie di operazioni:
+\begin{itemize}
+    \item \textbf{Operazioni element-wise}: operazioni puntuali tra due matrici
+    \item \textbf{Operazioni matriciali}: operazioni tra matrici
+    \item \textbf{Operazioni lineari}: operatori $\mathcal{H}[f(x,y)] = g(x,y)$
+          che soddisfano le seguenti proprietà:
+          \begin{itemize}
+              \item omogeneità: dominio uguale al codominio
+              \item additività: $\mathcal{H}[\alpha f_1(x,y) + \beta f_2(x,y)] =\alpha  \mathcal{H}[f_1(x,y)] + \beta  \mathcal{H}[f_2(x,y)] $
+          \end{itemize}
+\end{itemize}
+
+Si possono definire \textbf{operazioni aritmetiche} tra immagini ovvero $+, -, \cdot, \%$
+che sono element-wise e applicabili su immagini delle stesse dimensioni.
+
+\begin{nota}
+    Se da una immagine rumorosa applichiamo una media della immagine con la stessa con
+    diversi noise di media nulla allora riduciamo la varianza del noise sull'immagine.
+\end{nota}
+\begin{nota}
+    Possiamo comparare le immagini mediante la loro differenza.
+\end{nota}
+\begin{nota}
+    Possiamo correggere le ombre mediante le operazioni di prodotto e divisione.
+\end{nota}
+
+Ogni volta che applichiamo operazioni sulle immagini rischiamo di uscire dalla
+quantizzazione utilizzata quindi dobbiamo sempre \textbf{clippare} e \textbf{scalare}.
+Per farlo usiamo la seguente funzione:
+\begin{equation}
+    g_s(x,y) = K\frac{g(x,y) -g_{min}}{g_{max} g_{min}}
+\end{equation}
+dove $K$ è la massima intensità rappresentabile nella quantizzazione scelta e
+$g_{min}, g_{max}$ sono rispettivamente la minima e la massima intensità riscontrata
+nell'immagine.
+
+Si possono definire le \textbf{operazioni insiemistiche} sulle immagini. Per
+prima cosa bisogna definire le immagini secondo insiemi:
+\begin{equation}
+    A = \{ (x,y,z) \}
+\end{equation}
+dove $x,y$ sono le coordinate spaziali mentre $z$ è l'intensità, quindi le operazioni
+si baseranno su questa definizione, per esempio:
+\begin{equation}
+    A^c=\{(x,y, K-z) |(x,y, K-z) \in A\}
+\end{equation}
+\begin{equation}
+    A\cup B=\{max_z(a,b) |a \in A, b\in B\}
+\end{equation}
+
+Possiamo applicare anche \textbf{operazioni logiche} che si possono applicare solo
+su immagini binarie, ovvero $\land, \lor, \lnot$.
+
+Possiamo applicare anche \textbf{operazioni spaziali}, le quali si dividono in:
+\begin{itemize}
+    \item \textbf{single-pixel}: modificano i pixel individualmente mediante una
+          trasformazione $T$ (funzione continua) dove $z$ è l'intensità iniziale
+          del pixel e $s$ è quella trasformata:
+          \begin{equation}
+              s=T(z)
+          \end{equation}
+    \item \textbf{neighborhood}: operano sull'intensità basandosi sull'intensità
+          dei pixel vicini (filtri)
+    \item \textbf{geometric transformation}: non cambiano l'intensità ma trasformano
+          le coordinate geometriche dei pixel attraverso \textbf{trasformazioni
+              affini} dello spazio, quindi applicano traslazioni, scaling,
+          rotazioni e shearing. Le trasformazioni affini preservano punti, linee
+          e piani. Dal momento che le trasformazioni sono affini allora possiamo
+          concatenare una serie di trasformazioni applicando un prodotto tra matrici.
+          Dopo ciascuna trasformazione spaziale si applica sempre una interpolazione
+          dell'intensità in modo da applicare un antialiasing, per fare questo
+          passo si usano i seguenti metodi:
+          \begin{itemize}
+              \item nearest neighbor: si prende il pixel più vicino agli angoli e si usa
+                    il suo colore.
+              \item bilinear interpolation: servono $4$ vicini
+              \item bicubic interpolation: servono $16$ vicini
+          \end{itemize}
+\end{itemize}
+
+Spesso quando si devono risolvere dei task si passano le immagini ad uno
+\textbf{spazio trasformato}, in generale significa che abbiamo una funzione
+$r(x,y,u,v)$ chiamata \textbf{forward trasnformation kernel} che trasforma ciascun
+pixel:
+\begin{equation}
+    T(u,v) = \sum_r \sum_c f(r,c) r(r,c,u,v)
+\end{equation}
+Per ogni trasformazione esiste sempre l'inversa per tornare a quella originaria
+\begin{equation}
+    f(r,c) = \sum_u \sum_v T(u,v) r^{-1}(r,c,u,v)
+\end{equation}
+
+Parleremo di forward trasnformation kernel \textbf{separabili} se:
+\begin{equation}
+    r(x,y,u,v) = r_1(x,u) \cdot r_2(y,v)
+\end{equation}
+Dove $x,y$ e $u,v$ sono rispettivamente le coordinate nel dominio spaziale e trasformato.
+Inoltre parleremo di kernel \textbf{simmetrico} se:
+\begin{equation}
+    r(x,y,u,v) = r_1(x,u) \cdot r_1(y,v)
+\end{equation}
+
+Possiamo calcolare la \textbf{distribuzione di intensità} dei pixel:
+\begin{equation}
+    p(z_k) = \frac{n_k}{MN}
+\end{equation}
+dove $n_k$ numero di pixel di intensità $z_k$ e $MN$ è il numero di pixel totali.
+Definendo la distribuzione possiamo calcolare:
+\begin{itemize}
+    \item \textbf{media}:
+          \begin{equation}
+              m = \sum_{k} z_k \cdot p(z_k)
+          \end{equation}
+    \item \textbf{varianza}:
+          \begin{equation}
+              \sigma^2 = \sum_{k} (z_k -m)^2 \cdot p(z_k)
+          \end{equation}
+    \item in generale \textbf{n-momento centrale}:
+          \begin{equation}
+              \mu_n(z) = \sum_{k} (z_k -m)^n \cdot p(z_k)
+          \end{equation}
+\end{itemize}
+\begin{nota}
+    $\mu_0 = 1$, $\mu_1= 0$ e $\mu_2=\sigma^2$
+\end{nota}
+
+Nel dominio spaziale abbiamo 2 tipi di trasformazioni:
+\begin{itemize}
+    \item \textbf{intensity trasformation}: per esempio miglioramento dell'immagine
+    \item \textbf{spatial filtering}: per esempio denoising
+\end{itemize}
+
+\section{Intensity trasformation}
+Trasformazioni di intensità applicate sui singoli pixels, sono indipendenti dalla
+location e sono determinati solo dai valori di intensità. Si utilizzano funzioni
+di trasformazioni, le operazioni non si fanno su quella originale ma su una nuova.
+
+Abbiamo anche intensity trasformation basate sul vicinato, si usano filtri spaziali,
+per esempio è la media.
+
+L'esempio più semplice è \textbf{image inversion}:
+\begin{equation}
+    s = (L-1)-r
+\end{equation}
+Dove $L-1$ è la massima intensità rappresentabile, utile per invertire il colore.
+
+Un'altra è \textbf{log trasformation} utilizzata per migliorare le aree scure e
+comprime quelle chiare.
+\begin{equation}
+    s=c\log (1+r)
+\end{equation}
+Si somma $1$ perché così si evita di calcolare il log su numeri piccoli che
+ritornano valori negativi. $c$ è la costante che varia in base all'applicazione.
+
+Abbiamo poi la \textbf{gamma correction} che corrisponde:
+\begin{equation}
+    s=cr^\gamma \equiv s=c(r+\epsilon)^\gamma
+\end{equation}
+$c$ è la costante che varia all'applicazione, $r$ è il valore di intensità e in
+base al valore di $\gamma$ otteniamo risultati diversi:
+\begin{itemize}
+    \item $\gamma < 1$: simile al log
+    \item $\gamma > 1$: migliora le aree chiare
+    \item $\gamma =c = 1$: è la funzione identità
+\end{itemize}
+La gamma è utile per migliorare il contrasto.
+
+In generale per le trasformazioni sull'intensità abbiamo:
+\begin{itemize}
+    \item identità: mantiene tutto invariato
+    \item negative: funzioni negative invertono il colore
+    \item funzioni log e root, quindi curve convesse: migliorano le immagini scure
+    \item funzioni inverse log e potenza, quindi curve concave: migliorano le immagini chiare
+\end{itemize}
+La gamma è versatile per tutti.
+
+Altre trasformazioni che modellano il contrasto sono le \textbf{contrast stretching}
+si definiscono 2 punti $r_1,s_1$ e $r_2,s_2$ e la funzione collega questi punti,
+in questo modo si può corregge il contrasto.
+
+Possiamo avere una \textbf{intensity-level function} utilizzata per incrementare l'intensità
+di alcuni valori rispetto agli altri.
+
+Possiamo decomporre l'immagine mediante un insieme di immagini binarie ognuna
+rappresenta un bit della rappresentazione dell'intensità originale (\textbf{bit-plane
+    slicing}), per esempio possiamo pensare ad una immagine a $1$ byte, avremo
+$8$ immagini ognuna avente $1$ per i colori con codifica a $1$ sul bit associato
+all'immagine. Questo ci permette di estrarre delle feature per le quali sono più
+significative sulle immagini dei bit pià significativi. Possiamo utilizzare
+questo metodo per comprimere l'immagine considerando solo i bit più significativi.
+
+\section{Histogram processing}
+Per ogni immagine possiamo calcolare l'istogramma delle intensità dell'immagine,
+questo può essere normalizzato o meno e coincide con il count dei pixel di ogni
+intensità. L'istogramma normalizzato è la distribuzione delle intensità dell'immagine.
+
+Gli istogrammi sono utili come indicatori del contrasto:
+\begin{itemize}
+    \item basso contrasto: i bins sono tutti concentrati in una zona
+    \item alto contrasto: i bins sono tutti
+\end{itemize}
+
+
+\section{Appunti}
+Generalmente il rumore è basato sul modello additivo. 
+Esistono diverse tipologie di rumore in base alla distribuzione di valori additivi:
+\begin{itemize}
+    \item gaussiano: si estrare la quantità di rumore da sommare da una distribuzione 
+    gaussiana
+    \item salt\&pepper: si settano i pixel a 0 o 1
+\end{itemize}
+
+Il rumore delle camere è generalmente gaussiano e per scoprirlo basta fotografare 
+un muro grigio, così calcolando gli istogrammi otteniamo la distribuzione del rumore.
+
+SNR è la misura di rumore nell'immagine come rapporto tra varianza dell'immagine 
+e varianza del rumore poi scalato in decibel.
+
+Per calcolare gli errori nelle immagini si utilizza generalmente MSE.
+$$MSE=\frac{1}{N}\sum_{i=1}^{N}(x_i-y_i)^2$$
+
+Possiamo utilizzare una metrica PSNR per identificare quanta è buona l'immagine
+e sfrutta MSE ovviamente non sempre è fedele alla vista.
+
+Per effettuare denoising posso utilizzare 2 metodi:
+\begin{itemize}
+    \item dominio spaziale: utilizza dei filtri spaziali, ovvero combinazioni 
+    lineari di un intorno di un pixel con dei filtri. L'applicazione due modi 
+    per applicare un filtro correlazioni e convoluzione, la differenza è che nella 
+    convoluzione si flippa il filtro.
+
+    \item dominio frequenze: frequenze del segnale spaziale, più la regione è 
+    dettagliata più è alta la variazione delle frequenze e viceversa.
+\end{itemize}
+
+Possiamo avere filtri per lo smoothing che variano la dimensione ex: gaussiano in cui
+la varianza varia la dimensione del filtro. L'operazione di smoothing che riduce 
+le frequenze. I filtri di smoothing sono utili per togliere il rumore, basta utilizzare 
+la stessa funzione utilizzata per il rumore.
+
+Il filtro di smoothing è utile per togliere il rumore gaussiano ma non funge per il 
+rumore sault\&pepper. 
+Altrimenti possiamo utilizzare il filtro mediano che non è lineare ma prende la mediana 
+dei vicini e questo permette di risolvere meglio il sault\&pepper.
+
+Abbiamo il Jitter filter, ho uno spostamento di pixel che se applicato all'immagine posso 
+ottenere l'entropia.
+
+Possiamo utilizzare filtri per effettuare lo \textbf{sharping} inverso dello smoothing.
+Questi aumentano l'intensità del punto centrale e quelli di fianco vengono ridotti.
+
+Possiamo utilizzarli anche per trovare gli edge ad esempio usando sempre le derivate.
+L'edge si trova quando cambia repentinamente il colore, si può quindi utilizzare 
+la derivata per trovare i picchi di massimo cambiamento e poi sfruttare la seconda 
+derivata per trovare da dove inizia l'edge e dove finisce. All'atto pratico è una 
+sottrazione perché siamo in una rappresentazione discreta. Applicando questo ai 
+filtri useremo il laplacano. Il laplaciano normale è utile per ridurre i contorni 
+mentre quello invertito serve per aumentare i contorni. Le derivate si calcolano 
+come sottrazione tra il punto attuale e quello successivo in una direzione, possiamo 
+calcolarlo in tutte le direzioni e allora questo diventa il gradiente. 

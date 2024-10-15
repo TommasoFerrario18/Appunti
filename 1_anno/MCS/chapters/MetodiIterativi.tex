@@ -73,8 +73,7 @@ due volte) e successivamente si ha $1$ divisione. Il costo totale risulta quindi
     \mathcal{O}(n^2)+ \mathcal{O}(n)+2\mathcal{O}(n)+1 = \mathcal{O}(n)
 \end{equation*}
 Per quanto riguarda la \textbf{complessità del criterio di arresto basato
-    sull'incremento tra due iterate successive} si hanno delle operazioni più
-complesse:
+    sul residuo scalato} si hanno delle operazioni più complesse:
 \begin{itemize}
     \item prodotto tra matrice e vettore: $\mathcal{O}(n^2)$
     \item somma tra vettori: $\mathcal{O}(n)$
@@ -290,7 +289,7 @@ calcola facendo il reciproco di ogni elemento sulla diagonale. E che $P - N =A$.
 
 A livello di complessità tutto dipende dalle singole iterazioni, infatti, dato:
 \begin{equation*}
-    x^{(k + 1)} = x^{(k)} + P^{-1}(b - Ax^{(k)}) = x^{(k)}P^{-1}r^{(k)}
+    x^{(k + 1)} = x^{(k)} + P^{-1}(b - Ax^{(k)}) = x^{(k)}+P^{-1}r^{(k)}
 \end{equation*}
 Il residuo $r^{(k)} = \mathcal{O}(n^2)$, il prodotto $P^{-1}r^(k) = \mathcal{O}(n)$
 perché $P$ è diagonale, infine la somma è $\mathcal{O}(n)$. In conclusione si ha

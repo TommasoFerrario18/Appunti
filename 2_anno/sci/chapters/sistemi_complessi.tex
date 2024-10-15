@@ -163,6 +163,7 @@ l'offset dall'indice $0$.
     di elementi di $A^\mathbb{Z}$ ammette una sottosuccessione convergente in $A^\mathbb{Z}$.
 \end{nota}
 
+
 \begin{definizione} [ \textbf{Automa cellulare 1D} ]
     Un \textbf{Automa cellulare 1D}  è una tripla $\langle A, r, f\rangle$
     dove:
@@ -246,6 +247,7 @@ Più precisamente per rappresentare un CA  $\langle A, r, f\rangle$ ci sono 3 mo
 La rappresentazione a grafo è quella più riusabile perché se dovessimo cambiare
 la regola locale allora basta solo aggiornare l'etichette degli archi. In aggiunta
 data una regola locale generica $f$, possiamo riscriverla nel seguente modo.
+data una regola locale generica $f$, possiamo riscriverla nel seguente modo.
 \begin{equation}
     f: A\times A^{2r} \rightarrow A \equiv \delta: Q\times \Sigma \rightarrow Q
 \end{equation}
@@ -259,7 +261,6 @@ di ogni automa nel CA.
     \begin{table}[!h]
         \centering
         \begin{tabular}{ccccccccc}
-            $x$         & $=$ & $($ & $\dots$ & $x_{i-1}$ & $x_i$     & $x_{i+1}$ & $\dots$ & $)$ \\
             $x$         & $=$ & $($ & $\dots$ & $x_{i-1}$ & $x_i$     & $x_{i+1}$ & $\dots$ & $)$ \\
             $\sigma(x)$ & $=$ & $($ & $\dots$ & $x_{i}$   & $x_{i+1}$ & $x_{i+2}$ & $\dots$ & $)$
         \end{tabular}
@@ -305,13 +306,6 @@ di ogni automa nel CA.
                   Inoltre
                   $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x_{[i+1-r,i+1+r]})$$
                   Abbiamo dimostrato che commutano.
-                  Successivamente dimostriamo $F\circ \sigma = \sigma \circ F\implies F(\sigma(x)) = \sigma(F(x)), \forall x \in A^\mathbb{Z}$.
-                  l'uguaglianza precedente può essere riscritta come $\forall x \in A^\mathbb{Z}, \forall i \in \mathbb{Z}, (F(\sigma(x)))_i =(\sigma(F(x)))_i$.
-                  Possiamo notare che
-                  $$(F(\sigma(x)))_i = f(\sigma(x)_{[i-r,i+r]})=f(x_{[i-r+1,i+r+1]})$$
-                  Inoltre
-                  $$(\sigma(F(x)))_i =F(x)_{i+1} =f(x_{[i+1-r,i+1+r]})$$
-                  Abbiamo dimostrato che commutano.
             \item $\impliedby$: dobbiamo dimostrare che esiste la tripla che definisce il CA.
                   Per prima cosa conosciamo l'alfabeto che è $A$ ricavato da $F$. Successivamente
                   datto che $F$ è continua e $A^\mathbb{Z}$ è compatto allora $F$ è \textbf{uniformemente
@@ -325,6 +319,7 @@ di ogni automa nel CA.
                   Ovvero $\forall x,y \in A^\mathbb{Z}$
                   $$y_{[-r,r]} =x_{[-r,r]}\implies F(y)_0= F(x)_0$$
                   Quindi abbiamo trovato $r$.
+
 
                   Facciamo vedere che $F$ sia la regola globale, ovvero determiniamo $f$, cioè
                   $\forall x\in A^\mathbb{Z},\forall i\in\mathbb{Z}$
@@ -371,6 +366,7 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
               a riottenere la stringa già ottenuta dalle applicazioni precedenti dal momento
               che si effettua una permutazione di una stringa di lungheza $k$. Infatti l'\textbf{evoluzione
                 è  periodica} poiché $A^k$ è un insieme finito.
+                è  periodica} poiché $A^k$ è un insieme finito.
           \end{proof}
     \item Dato un $CA = <A,r,f>$ con regola globale $F$, è possibile definire un  $CA '= <A,2r,f'>$
           con regola globale $F'$ tale che $F'=F^2$ con $f'$ definita in questo modo.
@@ -408,6 +404,7 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
 \begin{definizione} [\textbf{Estensione della regola locale}]
     L'\textbf{estensione della regola locale} per parole di lunghezza maggiore di
     $2r+1$ coincide con la regola globale ma
+    $2r+1$ coincide con la regola globale ma
     applicata ad una stringa finita. Formalmente, $f^\ast: A^\ast\rightarrow A^\ast$
     tale che $\forall u\in A^\ast$:
     \begin{equation*}
@@ -419,6 +416,7 @@ Il teorema \ref{th:hedlund} ha le seguenti conseguenze conseguenze:
 \end{definizione}
 
 \begin{nota}
+    Se $A^\ast\equiv A^\mathbb{Z}\implies f^\ast \equiv F$.
     Se $A^\ast\equiv A^\mathbb{Z}\implies f^\ast \equiv F$.
 \end{nota}
 
@@ -534,6 +532,9 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
                   degli archi di quel cammino. Quindi siamo riusciti a mappare 
                   stringe di $A^\ast$ nel linguaggio $\mathcal{L}$.
                   
+                  degli archi di quel cammino. Quindi siamo riusciti a mappare 
+                  stringe di $A^\ast$ nel linguaggio $\mathcal{L}$.
+                  
             \item $\ref{cond:3}\implies \ref{cond:1}$: scelto arbitrariamente $y\in A^\mathbb{Z}$,
                   occorre mostrare che $\exists x\in A^\mathbb{Z} \text{ t.c. } F(x) =y$.
 
@@ -552,6 +553,7 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
 
                   Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione
                   $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{Z}}$).
+                  Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$
                   Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$
                   quindi $\exists x \in A^\mathbb{Z}$ t.c. $y = F(x)$
         \end{itemize}
@@ -670,6 +672,7 @@ Quindi per gli CA le seguenti proprità sono equivalenti:
 
 \begin{teorema}
     $F$ non è suriettiva $\iff$ $\exists$ un \textbf{diamante}, cioè se
+    $F$ non è suriettiva $\iff$ $\exists$ un \textbf{diamante}, cioè se
     $\exists w \in A^{2r}, \exists u,v \in A^+, u\ne v$ con $|u|=|v|$ t.c. $f(wuw)=f(wvw)$
     \begin{proof}
         La dimostrazione dell'$\impliedby$ viene fatta costruendo $w^\infty u w^\infty$
@@ -737,10 +740,12 @@ Bruijn (vedi figura \ref{fig:automa_prodotto}).
                   Questo significa che il ciclo è composto da nodi sia nella diagonale,
                   sia fuori; quindi non è iniettivo. Viceversa, dato un ciclo composto da nodi nella diagonale
                   e fuori dalla diagonale, allora si ha un diamante, quindi CA non è suriettivo.
+                  e fuori dalla diagonale, allora si ha un diamante, quindi CA non è suriettivo.
 
         \end{itemize}
     \end{proof}
 \end{teorema}
+
 
 Il grafo prodotto può essere ridotto rimuovendo alcune informazioni (figura \ref{fig:automa_prodotto_ridotto}):
 \begin{itemize}
@@ -810,7 +815,9 @@ temporali.
     L'equicontinuità è più stringente rispetto alla stabilità globale. Quando $X=A^\mathbb{Z}$
     si hanno due definizioni equivalenti e possono essere riscritte come
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
+    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
 \end{nota}
+
 
 \begin{definizione} [\textbf{Sistema instabile (instabilità globale)}]
     $(X,F)$ è \textbf{instabile} se $\forall x \in X$, $x$ è un \textbf{punto instabile}
@@ -823,11 +830,14 @@ temporali.
     $$\exists n\in \mathbb{N} ,\forall x \in A^\mathbb{Z}, \forall m\in \mathbb{N} , \exists y\in A^\mathbb{Z},x \ne y, y_{[-m,m]} = x_{[-m,m]} \land \exists t\in \mathbb{N} F^t(y)_{[-n,n]}\ne F^t(x)_{[-n,n]}$$
 \end{definizione}
 
+
 \begin{nota}
     Un sistema sensibile è un sistema instabile in cui la constante $\epsilon$
     non dipende da $x\in X$, questa viene chiamata anche costante sensitiva ed
+    non dipende da $x\in X$, questa viene chiamata anche costante sensitiva ed
     è una specifica feature del sistema.
 \end{nota}
+
 
 \begin{nota}
     Ricorda che nelle definizioni di punti e sistemi stabili, equicontinui, instabili e sensibili
@@ -868,14 +878,17 @@ prima o poi si propagheranno all'interno di $[-n,n]$.
     periodo) e $q_x\ge 0$ (chiamato preperiodo) tale che $F^{q_x+p_x} = F^{q_x}$, o
     equivalentemente,
     $$\forall x\in X,\exists p_x>0,q_x\ge 0:F^{q_x+p_x}(x) = F^{q_x}(x)$$.
+    $$\forall x\in X,\exists p_x>0,q_x\ge 0:F^{q_x+p_x}(x) = F^{q_x}(x)$$.
 \end{definizione}
 \begin{definizione}[\textbf{Ultima periodicità del sistema}]
     $(X,F)$ è \textbf{ultimamente periodico} se esistono due naturali $p>0$ (chiamato
     periodo) e $q\ge 0$ (chiamato preperiodo) tale che $F^{q+p} = F^q$, equivalentemente,
     $$\forall x\in X,F^{q+p}(x) = F^q(x)$$
+    $$\forall x\in X,F^{q+p}(x) = F^q(x)$$
 \end{definizione}
 Ultima periodicità significa che tutte le configurazioni dopo un numero di applicazioni
 finite di $F$ (in totale $q$) (configurazione zero) diventano periodiche di periodo $p$ ovvero dopo
+$p$ colpi di $F$ si torna alla configurazione zero.
 $p$ colpi di $F$ si torna alla configurazione zero.
 
 \begin{definizione} [\textbf{Nilpotenza}]
@@ -919,6 +932,7 @@ periodici e quindi non possiamo studiare comportamenti instabili.
     Sia $(X,F)$ un DTDS, allora:
     \begin{itemize}
         \item $(X,F)$ è ultimamente periodico $\implies$ $(X,F)$ equiconinuo (solo quando $(X,d)$ è compatto)
+        \item $(X,F)$ è ultimamente periodico $\implies$ $(X,F)$ equiconinuo (solo quando $(X,d)$ è compatto)
         \item $(X,F)$ è equiconinuo $\implies$ $(X,F)$ almeno equicontinuo
     \end{itemize}
     \begin{proof}
@@ -940,6 +954,7 @@ periodici e quindi non possiamo studiare comportamenti instabili.
                       \end{array}
                   \end{equation*}
                   allora $\exists \delta = \min \{\delta_0,\delta_1, \dots, \delta_q,\dots, \delta_{q+p-1}\}$ tale che
+                  $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon $$
                   $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon $$
             \item Equiconinuo $\implies$ almeno equicontinuo: se $(X ,F)$ è equiconinuo
                 allora $\xi = X$.  Abbiamo che $\xi = \bigcap_{n\in \mathbb{N}}X_n$ con $X_n= X$,
@@ -964,11 +979,13 @@ periodici e quindi non possiamo studiare comportamenti instabili.
         \item $F(x)=^\infty u^{(t)\infty}$ per qualche $u^{(t)}\in  A^n$
     \end{itemize}
     Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x> 0$ 
+    Dal momento che $A^n$ è finito, necessariamente $\exists q_x\ge 0, p_x> 0$ 
     tale che $F^{q_x+p_x-1}(x)=F^{q_x}(x)$ ($x$ è ultimamente periodica).
 \end{nota}
 \begin{definizione}[\textbf{Blocking word}]
     Sia $u\in A^n$ per qualche $n\in \mathbb{N}$. Sia $s\in \mathbb{N}$ con $s>0$,
     la parola $u$ è $s$\textbf{-blocking} se $\exists \theta\in [0,n-s]$ (offset)
+    tale che $\forall x,y\in A^\mathbb{Z}:x_{[0,n)}=y_{[0,n)}=u$ e vale $\forall t\in \mathbb{N}:
     tale che $\forall x,y\in A^\mathbb{Z}:x_{[0,n)}=y_{[0,n)}=u$ e vale $\forall t\in \mathbb{N}:
     F^t(x)_{[\theta,\theta +s)} =F^t(y)_{[\theta,\theta +s)}$
 \end{definizione}
@@ -1003,6 +1020,10 @@ tutti gli indici.
         \centering
         \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_1.png}
     \end{figure}
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_1.png}
+    \end{figure}
 \end{nota}
 
 Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
@@ -1014,12 +1035,17 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
         andremo a dismostrare che $x$ sia un punto di equicontinuità, ovvero 
         $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
         Scelto un $n \in \mathbb{N}$ e sia $m$ tale che $[-n,n]\subseteq [-m,m]$
+        Scelto un $n \in \mathbb{N}$ e sia $m$ tale che $[-n,n]\subseteq [-m,m]$
         e $[-n,n]$ è contenuto all'interno del segmento $[-m,m]$ tale che 
         inizi all'interno segmento definito dal primo muro della prima occorrenza di $u$ in $[-m,m]$ fino 
         all'ultimo muro dell'ultima occorrenza di $u$. Allora $x$ è un punto di 
         equicontinuità. Questo deriva dal fatto che $u$ è $r$-bloccante, quindi un
         qualsiasi cambiamento esterno a $[-m,m]$ non influenza la regione interna
         delimitata dalla parola $u$.
+        \begin{figure}[!h]
+            \centering
+            \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_2.png}
+        \end{figure}
         \begin{figure}[!h]
             \centering
             \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_2.png}
@@ -1042,11 +1068,13 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
             $$\forall n\in \mathbb{N} ,\exists k\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-k,k]} = x_{[-k,k]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
             Sia $n=r$ allora 
             $$\exists k\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-k,k]} = x_{[-k,k]} \implies \forall t\in \mathbb{N} F^t(y)_{[-r,r]}=F^t(x)_{[-r,r]}$$
-            Pertanto sappiamo che esistono parole $r$-bloccanti e presa una qualsiasi $u\in A^{2k+1}$ è $(2k+1)$-bloccante se è anche $r$-bloccante.
+            Pertanto sappiamo che esistono parole $r$-bloccanti e presa una qualsiasi $u\in A^{2k+1}$ è $r$-bloccante per definizione.
             \item \ref{cond:non_carr_equi_2} $\implies $\ref{cond:non_carr_equi_3}: 
             andremo a mostrare che esistono $p>0$ e $q\ge 0$ tali che $F^{q+p} = F^q$.
             Per ogni $u\in A^{2k+1}$, consideriamo $x^{(u)}=^\infty u^\infty$ (per 
             definizione è spazialmentente periodica e per ipotesi $r$-bloccante).
+            Sappiamo che $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica,
+            allora  anche $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è ultimamente periodica.
             Sappiamo che $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica,
             allora  anche $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è ultimamente periodica.
             Questo significa che $\exists p_u>0$ e $q_u\ge 0$ tali che $F^{q_u+p_u}(x^{(u)})_0 =F^{q_u}(x^{(u)})_0 $.
@@ -1075,6 +1103,7 @@ alle condizioni iniziali.
 \end{nota}
 
 \begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
+\begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
     Sia $\langle A,r,f\rangle$ un CA e sia $F$ la regola globale allora i seguenti
     punti sono equivalenti:
     \begin{enumerate}
@@ -1088,9 +1117,9 @@ alle condizioni iniziali.
         \begin{itemize}
             \item \ref{cond:non_carr_equi_1} $\implies $\ref{cond:non_carr_equi_2}:
             per ipotesi il sistema non è sensibile alle condizioni iniziali quindi
-            $$\forall n\in \mathbb{N} ,\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}= F^t(x)_{[-n,n]}$$
+            $$\forall n\in \mathbb{N} ,\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}= F^t(x)_{[-n,n]}$$
             Scegliamo arbitrariamente $n$ in modo tale che $2n+1\ge r$.
-            $$\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \land \forall t\in \mathbb{N} F^t(y)_{[-n,n]}= F^t(x)_{[-n,n]}$$
+            $$\exists x \in A^\mathbb{Z}, \exists m\in \mathbb{N} , \forall y\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}= F^t(x)_{[-n,n]}$$
             Quindi $u=x_{[-m,m]}$ è $(2n+1)$-bloccante quindi
             $$\forall z,z'\in A^\mathbb{Z}: z_{[-m,m]}=z'_{[-m,m]} = x_{[-m,m]} =u$$
             Questo significa che 
@@ -1113,20 +1142,20 @@ alle condizioni iniziali.
 
 \begin{teorema}
     Il problema di stabilire se il CA ammette una parola $r$-bloccante 
-    è semi-decidibile.
+    è indecidibile.
 \end{teorema}
 
 \begin{teorema}
     Stabilire se un CA è almeno equicontinuo o sensibile alle condizioni iniziali 
-    è un problema semi-decidibile.
+    è un problema indecidibile.
 \end{teorema}
 
 \begin{teorema}
-    Stabilire se un CA è nilpotente è un problema semi-decidibile.
+    Stabilire se un CA è nilpotente è un problema indecidibile.
 \end{teorema}
 
 \begin{teorema}
-    Stabilire se un CA è equicontinuo (o ultimamente periodico) è un problema semi-decidibile.
+    Stabilire se un CA è equicontinuo (o ultimamente periodico) è un problema indecidibile.
     \begin{proof} [cenni di dimostrazione]
         Per assurdo assumiamo che l'ultima periodicità è decidibile. Sia 
         $\langle A,r,f\rangle$  un CA e $F$ la sua regola globale, dal momento
@@ -1209,6 +1238,7 @@ alle condizioni iniziali.
         $\exists n=r: \forall x\in A^\mathbb{Z}, \forall m\in \mathbb{N},
         \exists y \in A^\mathbb{Z}, y\ne x, \text{ t.c. } y_{[-m,m]} = x_{[-m,m]}\land 
         \exists t\in \mathbb{N},F^t(y)_{[-r,r]} \ne F^t(x)_{[-r,r]}$.
+        \exists t\in \mathbb{N},F^t(y)_{[-r,r]} \ne F^t(x)_{[-r,r]}$.
 
         Scelto arbitrariamente $x\in A^\mathbb{Z}$ e $m\in \mathbb{N}$ costruiamo
         $y\in A^\mathbb{Z}$ nel seguente modo: sia $t\in\mathbb{N}$ tale che 
@@ -1233,6 +1263,7 @@ alle condizioni iniziali.
     Un DTDS $(X,F)$ è detto \textbf{positivamente espansivo} se 
     $$\exists \epsilon >0, \forall x,y\in X, x\ne y, \exists t\in \mathbb{N}, d(F^t(y),F^t(x))\ge \epsilon$$
     Negli automi cellulari si ha
+    $$\exists n\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
     $$\exists n\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
 \end{definizione}
 
@@ -1267,6 +1298,7 @@ alle condizioni iniziali.
 
 \begin{esempio}
     Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ è positivamente espansivo.
+    Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ è positivamente espansivo.
     La stessa cosa vale per la regola del traffico ($184$).
 \end{esempio}
 
@@ -1279,6 +1311,7 @@ sistema è anche \textbf{caotico}.
 
     Quindi $\forall x,y\in X, d(F^t(x),F^t(y)) = |2^tx-2^ty|= 2^t|x-y|$. Si riesce 
     facilmente a dimostrare che il sistema è espansivo e sensibile alle condizioni 
+    iniziali. Il problema è che noi non vogliamo considerare questo sistema caotico 
     iniziali. Il problema è che noi non vogliamo considerare questo sistema caotico 
     quindi dobbiamo introdurre nuovi concetti.
 \end{esempio}
@@ -1315,7 +1348,7 @@ di transitività specifica che il sistema deve essere irriducibile o non decompo
     Dato un DTDS $(X,F)$ ha \textbf{Orbite densamente periodiche} (DPO) se
     $\forall x\in X, \forall \epsilon>0 \exists p \text{ punto periodico }:  d(x,p)<\epsilon$. 
 
-    Quindi tutti gli elementi devono avere un elemento periodico
+    Quindi tutti gli elementi devono avere un elemento periodico vicino
 \end{definizione}
 
 \begin{esempio}
@@ -1349,6 +1382,8 @@ di transitività specifica che il sistema deve essere irriducibile o non decompo
     Se un CA $(A^\mathbb{Z},F)$ è espansivo allora è anche transitivo.
 \end{teorema}
 
+Quindi per sapere se i CA sono caotici, le condizioni di $|X|=\infty$ e di sensibilità sono superflue,
+basta solo controllare che sia transitivo e DPO.
 Quindi per sapere se i CA sono caotici, le condizioni di $|X|=\infty$ e di sensibilità sono superflue,
 basta solo controllare che sia transitivo e DPO.
 
@@ -1488,6 +1523,7 @@ La generalizzazione della mappa shift al caso $d$-dimensionale non è altro che 
 traslazione $\tau$ determinata dal vettore $\underline{r}\in  \mathbb{Z}^d$, è
 la trasformazione
 $$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow  S^{\mathbb{Z}^d}$$
+$$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow  S^{\mathbb{Z}^d}$$
 tale che 
 $$e =\tau_{\underline{r}}(c) \iff e(\underline{x}) =  c(\underline{x}+\underline{r}), \forall \underline{x},\underline{r}\in \mathbb{Z}^d$$
 
@@ -1500,6 +1536,7 @@ unitario.
     sono vere:
     \begin{itemize}
         \item $G$ continua
+        \item $G$ commuta con tutte le traslazioni
         \item $G$ commuta con tutte le traslazioni
     \end{itemize}
 \end{teorema}
@@ -1599,6 +1636,7 @@ la nilpotenza.
 
 Ovviamente per un CA nilpotente, deve diventare quiesciente in un numero finito
 e uguale salti per ogni configurazione. 
+e uguale salti per ogni configurazione. 
 
 \begin{teorema} [\textbf{indecidibilità nilpotenza nei CA-2D}]
     Il problema di identificare se un CA-2D è nilpotente è indecidibile. 
@@ -1614,6 +1652,7 @@ e uguale salti per ogni configurazione.
             vicinato sono tile e il vincolo del colore dei lati è soddisfatto, in 
             tutti gli altri casi il nuovo stato è $q$.
         \end{itemize}
+        Dimostriamo i singoli punti:
         Dimostriamo i singoli punti:
         \begin{itemize}
             \item $\implies$:
@@ -1640,6 +1679,7 @@ con una diagonale del tiling 2D
 
 \begin{definizione} [\textbf{NW-deterministic tiling}]
     Un Tileset $T$ è \textbf{NW-deterministic tiling} se nessuna coppia di tile
+    hanno gli stessi identici colori sugli edge superiore e a sinistra. (si guarda solo l'insieme)
     hanno gli stessi identici colori sugli edge superiore e a sinistra. (si guarda solo l'insieme)
 \end{definizione}
 
@@ -1670,6 +1710,10 @@ bi-infinita di un CA 1D.
                 C & \exists ! C \text{ per definizione}\\
                 q &  A=q\lor B=q\lor\text{ se non esiste, quando non ammette tiling}
             \end{cases}$$
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.1\textwidth]{img/sistemi_complessi/tileset.png}
+            \end{figure}
             \begin{figure}
                 \centering
                 \includegraphics[width=0.1\textwidth]{img/sistemi_complessi/tileset.png}
@@ -1710,6 +1754,7 @@ Tutto quello che abbiamo detto vale anche per $NE, SW, SE$. Un tile set
 \end{definizione}
 
 Dato un generico tiling di \textbf{Snake} (valido o no), a partire da una qualsiasi posizione
+Dato un generico tiling di \textbf{Snake} (valido o no), a partire da una qualsiasi posizione
 si possono generare dei cammini infiniti dati dalle freccie, questi possono 
 essere:
 \begin{itemize}
@@ -1718,8 +1763,13 @@ essere:
 \end{itemize} 
 
 Sui cammini possono accadere le seguenti cose:
+Sui cammini possono accadere le seguenti cose:
 \begin{enumerate}
     \item ci può essere un tiling error tra due tiles entrambe sul percorso
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/snake1.png}
+    \end{figure}
     \begin{figure}[!h]
         \centering
         \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/snake1.png}
@@ -1731,15 +1781,22 @@ Sui cammini possono accadere le seguenti cose:
         \centering
         \includegraphics[width=0.2\textwidth]{img/sistemi_complessi/snake2.png}
     \end{figure}
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.2\textwidth]{img/sistemi_complessi/snake2.png}
+    \end{figure}
 \end{enumerate}
+
 
 
 \begin{nota}
     Un percorso che forza gli \textbf{Snake} ad ammettere tiling valido è il \textbf{
         plane-filling Hillbert curve} (quello dell'immagine)
+        plane-filling Hillbert curve} (quello dell'immagine)
 \end{nota}
 
 \begin{esempio}
+    Un esempio di applicazione degli Snakes corrisponde ad un CA inietivo sulle configurazioni periodiche
     Un esempio di applicazione degli Snakes corrisponde ad un CA inietivo sulle configurazioni periodiche
     ma non iniettivo su tutte le configurazioni.
 \end{esempio}
@@ -1786,6 +1843,7 @@ Snake.
         \begin{itemize}
             \item $\implies$: dimostriamo che $T$ ammette tile valido allora 
             CA non è reversibile.
+            CA non è reversibile.
 
             Se $T$ ammette tile valido costruiamo $2$ configurazioni $c', c''$
             tali che $G(c') = G(c'')$. Lo Snake e $T$ hanno lo stesso tiling valido
@@ -1796,7 +1854,7 @@ Snake.
             hanno lo stesso tiling corretto, quindi significa che si devono aggiornare.
             $G(c') = c'$ perché ha soli $0$, mentre $G(c'') = c'$ perché è composta 
             da soli $1$ che in XOR tra di loro ritornano sempre $0$. Quindi CA non 
-            è iniettivo.
+            è iniettivo e di conseguenza non è reversibile.
             \item $\impliedby$: Dimostriamo che da CA non sia iniettivo si riesce 
             a dimostrare che ammette tiling valido.
                         
@@ -1867,6 +1925,10 @@ una MT non si arresta per ogni input sse posso costruire un tile set valido.
     carattere da scrivere e il nuovo stato.
 \end{nota}
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/simulazione_mt_tile.png}
+\end{figure}
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/simulazione_mt_tile.png}
@@ -1956,7 +2018,7 @@ controllo a gruppi della sua lunghezza inserendo un simbolo in coda e rimuovendo
 simbolo in testa.
 
 \begin{definizione} [\textbf{Rappresentazione a blocchi}] 
-    Sia $N\ge 1, N\mathbb{N}$. Una \textbf{Rappresentazione a blocchi} è $\beta_N:A^\mathbb{Z}\to (A^N)^\mathbb{Z}$
+    Sia $N\ge 1, N\in\mathbb{N}$. Una \textbf{Rappresentazione a blocchi} è $\beta_N:A^\mathbb{Z}\to (A^N)^\mathbb{Z}$
     tale che $\forall x\in A^\mathbb{Z}$:
     $$x=(\dots, x_{-1},x_0,x_1,x_2,x_3,x_4,\dots)$$
     $$\beta_N(x)=\left(\dots, \begin{array}{c}x_{-1}\\x_0\\\vdots\\x_{N-2}\end{array},\begin{array}{c}x_{0}\\x_1\\\vdots\\x_{N-1}\end{array},\begin{array}{c}x_{1}\\x_2\\\vdots\\x_{N}\end{array},\dots\right)$$
@@ -1965,6 +2027,8 @@ simbolo in testa.
 \end{definizione}
 
 \begin{definizione} [\textbf{Rappresentazione a blocchi di} $X$] 
+    Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è
+     $$X^{[N]} =\beta_N (X)$$
     Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è
      $$X^{[N]} =\beta_N (X)$$
 \end{definizione}
@@ -1977,7 +2041,10 @@ simbolo in testa.
     Sia $\mathcal{F}=\{11\}$, $X = X_\mathcal{F}$ e sia $N=2$ allora 
     $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
     $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
+    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
+    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
 
+    In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
     In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
 \end{esempio}
 
@@ -1991,13 +2058,20 @@ simbolo in testa.
 \end{definizione}
 
 La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
+La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
 \begin{itemize}
+    \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item disegno un arco tra due nodi solo se $u_1v=uv_M \not \in \mathcal{F}$
     \item controllo tutti i cammini biinfiniti e controllo che tutti gli archi 
     fanno parte dei cammini. Se non fanno parte allora si cancellano gli archi e i
     nodi isolati.
 \end{itemize}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/sistemi_complessi/subshift.png}
+\end{figure}
+
 \begin{figure}[!h]
     \centering
     \includegraphics[width=0.4\textwidth]{img/sistemi_complessi/subshift.png}
@@ -2014,8 +2088,11 @@ dove:
     \item $i(\alpha)$ è il vertice iniziale dell'arco $\alpha$
 \end{itemize}
 
+In sostanza $E^\mathbb{Z}$ sono tutti i cammini biinfiniti sugli archi composti dagli archi
+stessi, non dalle label.
+
 $x \in X_G$ è un cammino sugli archi di $G$ composto dal nome dei singoli archi attraversati ($A= E$).
-Per definizione $x\in \mathcal{B}_M(y), \forall y\in X$.
+Per definizione $x\in \beta_{M + 1}(y), \forall y\in X$.
 
 \begin{teorema}
     $X_G$ è un SFT di memoria $M=1$.
@@ -2023,8 +2100,10 @@ Per definizione $x\in \mathcal{B}_M(y), \forall y\in X$.
         Sia $\mathcal{F}= \{\alpha\beta|t(\alpha) \ne i(\beta)\}\subseteq E^2$ allora 
         si ha che $X_G= X_\mathcal{F}$ e allora $X_G$ è un SFT, inoltre è di memoria 
         $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
+        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
     \end{proof}
 \end{teorema}
+In generale ho $X$ di memoria $M$, costruisco $G$ e poi ottengo $X_G = X^{[M+1]}$ che contiene gli 
 In generale ho $X$ di memoria $M$, costruisco $G$ e poi ottengo $X_G = X^{[M+1]}$ che contiene gli 
 archi. Al contrario se prendo tutti i cammini sui vertici allora ottengo lo stesso
 subshift ma nella rappresentazione a blocchi $X^{[M]}$
@@ -2040,6 +2119,7 @@ tale che $G=(V,E)$.
 \end{nota}
 
 \begin{definizione}
+    $X_\mathcal{G}= \{y\in A^\mathbb{Z}|\exists x\in E^\mathbb{Z} : \forall i\in \mathbb{Z}, t(x_i) = i(x_{i+1})\land y_i=l(x_i)\}=l_\infty(X_G)$.
     $X_\mathcal{G}= \{y\in A^\mathbb{Z}|\exists x\in E^\mathbb{Z} : \forall i\in \mathbb{Z}, t(x_i) = i(x_{i+1})\land y_i=l(x_i)\}=l_\infty(X_G)$.
     In sostanza sono i cammini di $X_G$ ma sostituendo gli archi con le etichette.
 \end{definizione}
@@ -2080,6 +2160,15 @@ etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1
     \caption{Esempio di otteniumento di un grafo di un subshift}
     \label{fig:subshift}
 \end{figure}
+come etichette la stringa associata al vertice di partenza. Se guardiamo i camminmi biinfiniti sulle
+etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1$ (vedi \ref{fig:subshift}).  
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/subshift_e_grafi.png}
+    \caption{Esempio di otteniumento di un grafo di un subshift}
+    \label{fig:subshift}
+\end{figure}
 
 \subsection{Entropia}
 Sia $X$ un subshift, come possiamo sapere quanto cresce $|\mathcal{B}_n(X)|$, tasso
@@ -2093,9 +2182,12 @@ allora posso dire che $|\mathcal{B}_n(X)| \sim 2^{cn}$ quindi $c\sim \frac{\log_
     $$h(X) = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n}$$
 \end{definizione}
 Questo limite esiste (sarebbe da dimostrare).
+Questo limite esiste (sarebbe da dimostrare).
 
 \begin{nota}
     $h(X)\le \log_2|A|$ infatti
+    $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^n \iff
+    \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$.
     $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^n \iff
     \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$.
     Inoltre $h(A^\mathbb{Z}) = \lim_{n\to \infty}\frac{\log_2|A^n|}{n} =  \lim_{n\to \infty}\log_2|A| = \log_2|A|$.
@@ -2103,6 +2195,7 @@ Questo limite esiste (sarebbe da dimostrare).
 \end{nota}
 
 \begin{esempio}
+    Sia $X=X_\mathcal{F}$ con $\mathcal{F} = \{11\}$ con $M=1$, vogliamo calcolare 
     Sia $X=X_\mathcal{F}$ con $\mathcal{F} = \{11\}$ con $M=1$, vogliamo calcolare 
     $h(X)$.
 
@@ -2114,12 +2207,20 @@ Questo limite esiste (sarebbe da dimostrare).
     Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
     sui vertici è $\hat{X}_G = X^{[1]} =X$.
 
+
+    Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
+    sui vertici è $\hat{X}_G = X^{[1]} =X$.
+
     Inoltre $\mathcal{B}_n(X^{[M]})$ è in corrispondenza biunivoca con $\mathcal{B}_{n-1}(X^{[M+1]})$,
+    quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$ 
+    ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$. 
+    Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
     quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$ 
     ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$. 
     Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
 \end{esempio}
 Ogni elemento di $\mathcal{B}_{m}(X_G)$ corrisponde ad una parola di lunghezza 
+$m$ che si ottiene come cammino di lunghezza $m$ sugli archi, quindi 
 $m$ che si ottiene come cammino di lunghezza $m$ sugli archi, quindi 
 $|\mathcal{B}_{m}(X_G)|$ è il numero di cammini di lunghezza $m$ tra coppie qualunque
 di vertici di $G$.
@@ -2142,18 +2243,27 @@ Per diagonalizzare $A$ dobbbiamo:
 In questo modo possiamo poi calcolare l'entropia del subshift
 $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n} = \lim_{n\to \infty}\frac{\log_2\sum_{i\in V}\sum_{j\in V} a_{ij}^{(n-1)}}{n} $$
 
+In questo modo possiamo poi calcolare l'entropia del subshift
+$$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n} = \lim_{n\to \infty}\frac{\log_2\sum_{i\in V}\sum_{j\in V} a_{ij}^{(n-1)}}{n} $$
+
 \begin{teorema}
+    Se $\mathcal{G}= (G,l)$ è right resolving allora $h(X_\mathcal{G}) = h(X_G)$
     Se $\mathcal{G}= (G,l)$ è right resolving allora $h(X_\mathcal{G}) = h(X_G)$
 \end{teorema}
 
 \begin{definizione}
+    Sia $A\ge 0$ (ogni entry $\ge 0$) è \textbf{irriducibile} sse $\forall i,j,\exists n$ 
     Sia $A\ge 0$ (ogni entry $\ge 0$) è \textbf{irriducibile} sse $\forall i,j,\exists n$ 
     tale che $(A^n)_{ij}>0$.
 \end{definizione}
 \begin{teorema}
     Sia $G$ un grafo e $A$ la sua matrice di adiacenza allora $G$ è \textbf{fortemente 
     connesso} $\iff$ $A$ è irriducibile.
+    Sia $G$ un grafo e $A$ la sua matrice di adiacenza allora $G$ è \textbf{fortemente 
+    connesso} $\iff$ $A$ è irriducibile.
 \end{teorema}
+\begin{teorema} [\textbf{Perron Frobenius}]
+    Sia $A\ne 0$ matrice irriducibile allora:
 \begin{teorema} [\textbf{Perron Frobenius}]
     Sia $A\ne 0$ matrice irriducibile allora:
     \begin{itemize}
@@ -2173,6 +2283,8 @@ $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}
         \item $X$ sofico tale che $X=X_\mathcal{G}$ con $\mathcal{G} = (G,l)$ right 
         resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
 
+        resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
+
     \end{itemize}
 \end{teorema}
 Per calcolare l'entropia di un subshift che è:
@@ -2188,10 +2300,13 @@ Per calcolare l'entropia di un subshift che è:
     Il \textbf{road-coloring} di un grafo $G=(V,E)$ è $l:E\to A$ tale che $\forall
     i\in V$ $|\{(i,j)\in E|j\in V\}| = |A|$ ovvero si ha una corrispondenza biunivoca tra $\{(i,j)\in E|j\in V\}$ e $A$
     (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
+    (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
 \end{definizione}
 \begin{nota}
     $\forall w \in A^\ast$ e $\forall i\in V$ c'è un unico cammino. 
 \end{nota}
+\begin{definizione} [\textbf{Right-closing}]
+    $G = (V,E,l)$ con $l:E\to A$ è \textbf{right-closing} con ritardo $D$ se $\forall \pi,\pi'$
 \begin{definizione} [\textbf{Right-closing}]
     $G = (V,E,l)$ con $l:E\to A$ è \textbf{right-closing} con ritardo $D$ se $\forall \pi,\pi'$
     $\pi = e_1\dots e_De_{D+1},\pi' = e_1'\dots e_D'e_{D+1}'$ che partono dallo 
@@ -2199,8 +2314,11 @@ Per calcolare l'entropia di un subshift che è:
 \end{definizione}
 significa che dati due cammini sugli archi, l'etichettatura è right-closing se gli archi hanno la 
 stessa mappatura allora hanno il primo arco in comune e poi hanno un fork con $D$ 
+significa che dati due cammini sugli archi, l'etichettatura è right-closing se gli archi hanno la 
+stessa mappatura allora hanno il primo arco in comune e poi hanno un fork con $D$ 
 archi separati ma sempre con la stessa mappatura.
 \begin{nota}
+    Se $G = (V,E,l)$  è un grafo con $l:E\to A$ right-closing allora $\forall I\in V,
     Se $G = (V,E,l)$  è un grafo con $l:E\to A$ right-closing allora $\forall I\in V,
     \forall e,e'\in E^\mathbb{N}$ commini mono-infiniti uscenti da $I$, $l_\infty(e) = l_\infty(e') \implies e=e'$
 \end{nota}
@@ -2213,6 +2331,8 @@ cammini mono-infiniti che partono da $I$) allora la funzione è iniettiva.
         \item $G$ è un grafo
         \item $I$ è il road-coloring di $G$ (input labeling)
         \item $O$ è il right-closing di $G$ (output labeling)
+        \item $I$ è il road-coloring di $G$ (input labeling)
+        \item $O$ è il right-closing di $G$ (output labeling)
     \end{itemize}
 \end{definizione}
 
@@ -2221,12 +2341,15 @@ cammini mono-infiniti che partono da $I$) allora la funzione è iniettiva.
     \begin{itemize}
         \item $G$ associato a $X$ ha outdegree costante pari a $n$ 
         \item $X$ contiene $O_\infty(X_G)=\{y | \exists x\in X_G:\forall i,y_i=O(x_i)\}$ ($O_\infty(X_G)$ è sofico)
+        \item $X$ contiene $O_\infty(X_G)=\{y | \exists x\in X_G:\forall i,y_i=O(x_i)\}$ ($O_\infty(X_G)$ è sofico)
     \end{itemize}
 \end{definizione}
+Si può usare un codice a stati finiti $(X,n)$ per trasformare sequenze di $A^\mathbb{N}$
 Si può usare un codice a stati finiti $(X,n)$ per trasformare sequenze di $A^\mathbb{N}$
 con $|A|=n$ in sequenze di $X$.
 
 \begin{esempio}
+    \begin{figure}[!h]
     \begin{figure}[!h]
         \centering
         \includegraphics [width=0.5\textwidth]{img/sistemi_complessi/codici.png}
@@ -2235,8 +2358,7 @@ con $|A|=n$ in sequenze di $X$.
 
 \begin{teorema}
     Sia $X$ un subshift sofico e $n\ge 1$. Esiste un codice a stati finiti 
-    $$(X,n)\iff h(X)\ge \log_2 n$$
-    Dove $n=|A|$
+    $$(X,|A|)\iff h(X)\ge \log_2 |A|$$
 \end{teorema}
 Il problema è che con alfabeti binari non si riuscirà mai ad avere $h(X) \ge \log_2 2$,
 perché per definizione  si avrà sempre $h(X)< \log_2 2$. Per risolvere questo 
@@ -2249,9 +2371,18 @@ in questo caso i blocchi sono tutti disgiunti.
     $$\gamma _N: A^{\mathbb{Z}} \to A^{N^{\mathbb{Z}}} $$
     o corrispondentemente $\gamma _N: A^{\mathbb{N}} \to A^{N^{\mathbb{N}}} $.
 
-    $$\forall x \in A^{\mathbb{Z}}, \forall i \in \mathbb{Z} \gamma_N(x)_i = x_{[iN,iN+i-1]}$$
-    o corrispondentemente $\forall x \in A^{\mathbb{N}}, \forall i \in \mathbb{N} \gamma_N(x)_i = x_{[iN,iN+i-1]}$
+    $$\forall x \in A^{\mathbb{Z}}, \forall i \in \mathbb{Z} \gamma_N(x)_i = x_{[iN,iN+N -1]}$$
+    o corrispondentemente $\forall x \in A^{\mathbb{N}}, \forall i \in \mathbb{N} \gamma_N(x)_i = x_{[iN,iN+N -1]}$
 \end{definizione}
+\begin{esempio}
+    Supponiamo di avere $N=4$ allora
+    $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
+    $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
+        x_0\\x_1\\x_2\\x_3
+    \end{array}\right),\left(\begin{array}{c}
+        x_4\\x_5\\x_6\\x_7\\
+    \end{array}\right),\dots\right)$$
+\end{esempio}
 \begin{esempio}
     Supponiamo di avere $N=4$ allora
     $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
@@ -2278,6 +2409,8 @@ considerare $\gamma_N(X)$ che si indica con $X^N$ è chiamato Power shift di $X$
 Quindi tornando al problema di codificare l'alfabeto binario, possiamo codificare 
 blocchi $\{0,1\}^\mathbb{N}$ in sequenze di un subshift buono $X$, ma in questo 
 caso avremo sequenze 
+blocchi $\{0,1\}^\mathbb{N}$ in sequenze di un subshift buono $X$, ma in questo 
+caso avremo sequenze 
 $\gamma_p(\{0,1\}^\mathbb{Z})$ da codificare in sequenze di $\gamma_q(X=X^q)$
 con $p,q$ da determinare.
 
@@ -2293,5 +2426,8 @@ $X^q=\gamma_q(X)$ occorre che $h(X^q)\ge \log_2n$ ossia che $q\cdot h(X)\ge \log
 cioè che $h(X)\ge \frac{p}{q}$.
 
 In definitiva basta segliere $p$ e $q$ in modo tale che valga 
+$$h(X)\ge \frac{p}{q} $$
+
+
 $$h(X)\ge \frac{p}{q} $$
 

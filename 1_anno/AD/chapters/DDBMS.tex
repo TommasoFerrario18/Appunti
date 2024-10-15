@@ -71,7 +71,6 @@ Per le architetture eterogenee dobbiamo occuparci di aggiungere un gestore delle
 transazioni (TM) che si occupi di mappare una query distribuita sui singoli DBMS
 e che si occupi della parte di \textbf{concurrency control} e \textbf{recovery}.
 \section{DDBMS}
-% TODO: borderline la definizione vincolata solo all'omogeneo
 Vogliamo ora approfondire il concetto di \textbf{DDBMS}. Un DDBMS è un DBMS
 distribuito omogeneo, ovvero un sistema in cui i dati sono distribuiti su più
 nodi ma tutti i nodi utilizzano lo stesso DBMS.
@@ -119,10 +118,8 @@ I vari schemi logici locali si interfacciano con uno schema logico globale,
 tali schemi non sono altro che delle viste dello schema logico globale. Questa
 organizzazione tra schemi logici locali e schema logico globale è la cosiddetta
 organizzazione \textbf{LAV} (Local As View). L'applicazione interroga
-lo schema logico globale e successivamente verranno mappate le query distribuite 
+lo schema logico globale e successivamente verranno mappate le query distribuite
 sugli schemi logici locali.
-
-% TODO: inserisci immagine dello schema logico
 
 Per la gestione delle query distribuite serve una cooperazione o un'orchestrazione
 dei singoli DBMS che fanno parte della federazione, soprattutto per quanto riguarda
@@ -216,8 +213,8 @@ loro cooperazione, la cooperazione può avvenire per gestire due cose:
       \item \textbf{transazioni}: richieste di transazioni dalle applicazioni  e
             dati di controllo per il coordinamento dello stato delle transazioni.
 \end{itemize}
-Il problema è legato all'ottimizzazione, la quale è limitata per via della rete. 
-L'obiettivo sarà quello di distribuire i dati per avere più transazioni possibili 
+Il problema è legato all'ottimizzazione, la quale è limitata per via della rete.
+L'obiettivo sarà quello di distribuire i dati per avere più transazioni possibili
 in locale in modo da limitare lo scambio di messaggi tra i vari server.
 
 Si hanno anche le seguenti funzionalità specifiche:
@@ -316,10 +313,10 @@ Quando si usa la frammentazione bisogna garantire le seguenti regole:
       \end{equation*}
       Le tabelle appena calcolate verranno distribuite nel seguente modo:
       \begin{itemize}
-            \item \textbf{San Josè}: Production1, Pickup1, Client1 e Sales1 
-            \item \textbf{Zurich}: Production2, Pickup2, Client2 e Sales2 
+            \item \textbf{San Josè}: Production1, Pickup1, Client1 e Sales1
+            \item \textbf{Zurich}: Production2, Pickup2, Client2 e Sales2
             \item \textbf{Taiwan}: Production3, Pickup3, Client3 e Sales3
-            \item \textbf{Dublin}: Production4 
+            \item \textbf{Dublin}: Production4
       \end{itemize}
 \end{esempio}
 \subsection{Replicazione}
@@ -367,7 +364,6 @@ modello distribuito:
 Frammentazione e allocazione sono tra lo schema logico globale e ogni schema
 logico locale. Si hanno quindi tre livelli di trasparenza:
 \begin{itemize}
-      % TODO: immagini sull'effetto della trasparenza nelle  query
       \item \textbf{Trasparenza di frammentazione}, che permette di ignorare
             l'esistenza dei frammenti ed è lo scenario migliore per la
             programmazione applicativa. Il sistema si occupa di convertire query
@@ -388,44 +384,51 @@ logico locale. Si hanno quindi tre livelli di trasparenza:
       Eseguiamo le seguenti query:
       \begin{itemize}
             \item prima query:
-            \begin{itemize}
-                  \item \textbf{trasparenza di frammentazione} (specifichiamo solo la tabella logica): \texttt{SELECT quantity FROM Production WHERE SerialNumber = 77y6878}
-                  \item \textbf{trasparenza di replicazione/allocazione} (specifichiamo il frammento al quale effettuare la richiesta): \texttt{SELECT quantity FROM Production1 WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production2 WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production3 WHERE SerialNumber = 77y6878  }
-                  \item \textbf{trasparenza di linguaggio} (specifichiamo il nodo al quale effettuare la richiesta): \texttt{SELECT quantity FROM Production1@company.SanJose.com WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production2@company.Taiwan.com WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production3@company.Zurich.com WHERE SerialNumber = 77y6878  }
-            \end{itemize}
+                  \begin{itemize}
+                        \item \textbf{trasparenza di frammentazione} (specifichiamo solo la tabella logica): \texttt{SELECT quantity FROM Production WHERE SerialNumber = 77y6878}
+                        \item \textbf{trasparenza di replicazione/allocazione} (specifichiamo il frammento al quale effettuare la richiesta): \texttt{SELECT quantity FROM Production1 WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production2 WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production3 WHERE SerialNumber = 77y6878  }
+                        \item \textbf{trasparenza di linguaggio} (specifichiamo il nodo al quale effettuare la richiesta): \texttt{SELECT quantity FROM Production1@company.SanJose.com WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production2@company.Taiwan.com WHERE SerialNumber = 77y6878 UNION SELECT quantity FROM Production3@company.Zurich.com WHERE SerialNumber = 77y6878  }
+                  \end{itemize}
             \item seconda query:
-            \begin{itemize}
-                  \item \textbf{trasparenza di frammentazione}: 
-                  \item \textbf{trasparenza di replicazione/allocazione}: \texttt{SELECT client FROM Pickup3 as P JOIN SalesPerson as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
-                  \item \textbf{trasparenza di linguaggio}: \texttt{SELECT client FROM Pickup3@company.Taiwan.com as P JOIN SalesPerson@company.Taiwan.com as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
-            \end{itemize}
+                  \begin{itemize}
+                        \item \textbf{trasparenza di frammentazione}:
+                        \item \textbf{trasparenza di replicazione/allocazione}: \texttt{SELECT client FROM Pickup3 as P JOIN SalesPerson as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
+                        \item \textbf{trasparenza di linguaggio}: \texttt{SELECT client FROM Pickup3@company.Taiwan.com as P JOIN SalesPerson@company.Taiwan.com as S ON P.SalesPerson = S.SalesID WHERE S.Name = "Brown"}
+                  \end{itemize}
             \item terza query:
-            \begin{itemize}
-                  \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT machine FROM Produciton as P JOIN Pickup as PU ON P.SN = PU.SN JOIN Client ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
-                  \item \textbf{trasparenza di replicazione/allocazione}:  \texttt{SELECT machine FROM Produciton2 as P JOIN Pickup2 as PU ON P.SN = PU.SN JOIN Client2 ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
-                  \item \textbf{trasparenza di linguaggio}:  \texttt{SELECT machine FROM Produciton2@company.com as P JOIN Pickup2@company.com as PU ON P.SN = PU.SN JOIN Client2@company.com ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
-            \end{itemize}
+                  \begin{itemize}
+                        \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT machine FROM Produciton as P JOIN Pickup as PU ON P.SN = PU.SN JOIN Client ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                        \item \textbf{trasparenza di replicazione/allocazione}:  \texttt{SELECT machine FROM Produciton2 as P JOIN Pickup2 as PU ON P.SN = PU.SN JOIN Client2 ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                        \item \textbf{trasparenza di linguaggio}:  \texttt{SELECT machine FROM Produciton2@company.com as P JOIN Pickup2@company.com as PU ON P.SN = PU.SN JOIN Client2@company.com ON Client.id=client WHERE S.Name = "Brown" AND parttype="Keyboard"}
+                  \end{itemize}
             \item quarta query:
-            \begin{itemize}
-                  \item \textbf{trasparenza di frammentazione}:  \texttt{UPDATE FROM Client SET address="k3$\dots$" AND City="Taiwa" WHERE name="$\dots$"}
-                  \item \textbf{trasparenza di replicazione/allocazione}:  prima si inserisce il nuovo record
-                  \texttt{INSERT INTO Client3 (Name, City,Address) VALUES ("Brown", "Taiwan", "43$\dots$")}\\ successivamente cancelliamo il cliente dalla vecchia tabella
-                  \texttt{DELETE FROM Client1 WHERE name="Brown"}
-            \end{itemize}
+                  \begin{itemize}
+                        \item \textbf{trasparenza di frammentazione}:  \texttt{UPDATE FROM Client SET address="k3$\dots$" AND City="Taiwa" WHERE name="$\dots$"}
+                        \item \textbf{trasparenza di replicazione/allocazione}:  prima si inserisce il nuovo record
+                              \texttt{INSERT INTO Client3 (Name, City,Address) VALUES ("Brown", "Taiwan", "43$\dots$")}\\ successivamente cancelliamo il cliente dalla vecchia tabella
+                              \texttt{DELETE FROM Client1 WHERE name="Brown"}
+                  \end{itemize}
             \item quinta query:
-            \begin{itemize}
-                  \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
-                  \item \textbf{trasparenza di replicazione/allocazione}: creiamo prima
-                  le view delle tabelle non frammentate
-                  \texttt{CREATE VIEW Client UNION Client1 UNION Client2 UNION Client3} \\
-                  \texttt{CREATE VIEW Pickup UNION Pickup1 UNION Pickup2 UNION Pickup3} \\ 
-                  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
-            \end{itemize}
+                  \begin{itemize}
+                        \item \textbf{trasparenza di frammentazione}:  \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
+                        \item \textbf{trasparenza di replicazione/allocazione}: creiamo prima
+                              le view delle tabelle non frammentate
+                              \texttt{CREATE VIEW Client UNION Client1 UNION Client2 UNION Client3} \\
+                              \texttt{CREATE VIEW Pickup UNION Pickup1 UNION Pickup2 UNION Pickup3} \\
+                              \texttt{SELECT city, SUM(amount) FROM Pickup JOIN Client ON Client=ClientID GROUP BY city}
+                  \end{itemize}
       \end{itemize}
 \end{esempio}
 \section{Gestione delle query distribuite}
 In un DBMS distribuito, a differenza dei DBMS centralizzati, le query vengono ottimizzate
-in modo diverso. In particolare, si hanno le seguenti fasi:
+in modo diverso. In particolare, si hanno le fasi rappresentate in figura \ref{fig:queryOptimization}.
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.5\textwidth]{./img/DDBMS/query.png}
+      \caption{Fasi dell'ottimizzazione delle query distribuite}
+      \label{fig:queryOptimization}
+\end{figure}
+Nello specifico si hanno:
 \begin{itemize}
       \item \textbf{Query decomposition}: la query distribuita viene decomposta in
             sotto-query che possono essere eseguite in modo indipendente. Questa
@@ -454,13 +457,6 @@ Gli obiettivi dell'ottimizzazione sono ridurre il costo totale, ovvero la somma
 dei costi di operazioni locali come input e output, e il costo di comunicazione.
 Oltre a ciò, si vuole ridurre il response time, ovvero la somma dei costi tenendo
 conto del parallelismo.
-\begin{figure}[!ht]
-      \centering
-      \includegraphics[width=0.5\textwidth]{./img/DDBMS/query.png}
-      \caption{Fasi dell'ottimizzazione delle query distribuite}
-      \label{fig:queryOptimization}
-\end{figure}
-% TODO: aggiungere l'esempio nelle slide
 
 Il costo principale nelle basi di dati è il \textbf{costo totale} che è dipendente
 dai \textbf{costi delle operazioni} (I/O e CPU) e dal costo di \textbf{costo di comunicazione}.
@@ -698,7 +694,7 @@ La sequenza di attesa generale al nodo è della forma:
 \end{equation*}
 
 \begin{nota}
-      Prima di eseguire la transazione si effettua la richiesta di lock e solo 
+      Prima di eseguire la transazione si effettua la richiesta di lock e solo
       al suo termine rilascia il lock.
 \end{nota}
 
@@ -831,8 +827,8 @@ un singolo nodo, la soluzione è quella di
 usare i file di log per riprendere il servizio e decidere che operazione eseguire.
 Di seguito sono riportati alcuni esempi:
 \begin{itemize}
-      \item caduta del TM: gli effetti variano in base a quando è caduto, cioè quand'è
-            stato l'ultimo log del TM
+      \item \textbf{Caduta del TM}: gli effetti variano in base a quando è caduto,
+            cioè quand'è stato l'ultimo log del TM
             \begin{itemize}
                   \item PREPARE: questo potrebbe aver causato il blocco dei RM,
                         quindi si può decidere se fare un global abort e quindi
@@ -844,8 +840,8 @@ Di seguito sono riportati alcuni esempi:
                         quindi il TM deve riprendere la seconda fase
                   \item COMPLETE: la caduta non ha avuto effetto su nulla.
             \end{itemize}
-      \item caduta di un RM: gli effetti variano in base a quando è caduto, cioè
-            quand'è stato l'ultimo log del RM:
+      \item \textbf{Caduta di un RM}: gli effetti variano in base a quando è caduto,
+            cioè quand'è stato l'ultimo log del RM:
             \begin{itemize}
                   \item ABORT o COMMIT: in caso di abort allora fa la undo della
                         transazione, in caso di commit allora fa la redo della

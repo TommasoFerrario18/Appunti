@@ -1,12 +1,13 @@
 \chapter{DBMS}
+\section{Introduzione}
 Nel percorso universitario affrontato fino a questo momento, sono state studiate
 le basi di dati centralizzate, ovvero basi di dati in cui i dati sono memorizzati
 in un unico luogo. L'architettura di tali strumenti è definita attraverso:
 \begin{itemize}
-    \item Uno o più spazi per la memorizzazione dei dati, tutti localizzati nello
-          stesso luogo.
-    \item Il DBMS, che è un software che consente di gestire i dati.
-    \item Un'interfaccia che consente agli utenti di leggere e scrivere i dati.
+      \item Uno o più spazi per la memorizzazione dei dati, tutti localizzati nello
+            stesso luogo.
+      \item Il DBMS, che è un software che consente di gestire i dati.
+      \item Un'interfaccia che consente agli utenti di leggere e scrivere i dati.
 \end{itemize}
 \begin{definizione}[\textbf{DBMS}]
       Un \textbf{DBMS} (DataBase Management System) è un sistema software in grado
@@ -23,21 +24,21 @@ in un unico luogo. L'architettura di tali strumenti è definita attraverso:
             \item \textbf{Affidabili}: devono essere resistenti a guasti.
       \end{itemize}
 \end{definizione}
-Per quanto riguarda i DBMS centralizzati, la loro architettura dati è definita 
+Per quanto riguarda i DBMS centralizzati, la loro architettura dati è definita
 su tre livelli:
 \begin{enumerate}
-    \item \textbf{Schema esterno}: rappresenta ciò che vede l'utente finale,
-          permette all'utente di avere viste personalizzate dei dati.
-    \item \textbf{Schema concettuale} (logico): è la rappresentazione dei dati in modo
-          indipendente dal DBMS. Questo schema è definito attraverso un modello
-          di dati, che può essere relazionale, gerarchico, a oggetti, ecc.
-    \item \textbf{Schema fisico}: questo schema rappresenta l'approccio fisico
-          del sistema e quindi le modalità utilizzate da un DBMS per implementare
-          le sue tabelle, le sue configurazioni, tutti i dati di cui ha bisogno
-          sulla memoria fisica stessa.
+      \item \textbf{Schema esterno}: rappresenta ciò che vede l'utente finale,
+            permette all'utente di avere viste personalizzate dei dati.
+      \item \textbf{Schema concettuale} (logico): è la rappresentazione dei dati in modo
+            indipendente dal DBMS. Questo schema è definito attraverso un modello
+            di dati, che può essere relazionale, gerarchico, a oggetti, ecc.
+      \item \textbf{Schema fisico}: questo schema rappresenta l'approccio fisico
+            del sistema e quindi le modalità utilizzate da un DBMS per implementare
+            le sue tabelle, le sue configurazioni, tutti i dati di cui ha bisogno
+            sulla memoria fisica stessa.
 \end{enumerate}
 \begin{nota}
-    Uno schema fisico è associato ad un solo schema concettuale (logico).
+      Uno schema fisico è associato ad un solo schema concettuale (logico).
 \end{nota}
 I DBMS sono solitamente posizionati tra la base di dati fisica e le applicazioni
 che la utilizzano. Questo permette di separare la gestione dei dati dalla
@@ -61,18 +62,22 @@ Le principali caratteristiche di un DBMS Centralizzato sono:
       \item Un unico amministratore dei dati e quindi nessuna autonomia gestionale.
 \end{itemize}
 
-Visto che i DBMS sono \textbf{grandi} e \textbf{persistenti}, spesso più grandi
-della memoria centrale, allora le principali azioni che essi devono compiere
-riguardano quindi la \textbf{memorizzazione fisica efficiente} delle strutture
-dati nella memoria secondaria e la \textbf{scelta efficiente delle pagine} da
-trasferire nel buffer della memoria centrale.
+Visto che i dati che devono essere gestiti dai DBMS sono \textbf{grandi} e
+\textbf{persistenti}, spesso più grandi della memoria centrale, allora i compiti
+principali che questi sistemi devono eseguire riguardano la \textbf{memorizzazione
+      fisica efficiente} delle strutture dati sulla memoria secondaria oltre alla
+\textbf{scelta efficiente delle pagine} da trasferire nel buffer della memoria
+centrale.
 
-Una base di dati è una \textbf{risorsa integrata e condivisa} fra le varie
-applicazioni, questo rende necessario introdurre dei meccanismi di
-\textbf{autorizzazione e di controllo della concorrenza} per controllare gli
-accessi. In un mondo ideale, le \textbf{transazioni} sono \textbf{corrette} se
-sono \textbf{seriali}, ma questo penalizzerebbe di molto l'efficienza del sistema e
-quindi il \textbf{controllo della concorrenza} permette un ragionevole compromesso.
+Una base di dati è una \textbf{risorsa integrata} e \textbf{condivisa} tra diverse
+applicazioni. Questo rende necessario introdurre meccanismi di \textbf{autorizzazione}
+e di \textbf{controllo della concorrenza} per gestire le operazioni di accesso
+ai dati.
+
+In un mondo ideale, le \textbf{transazioni} sono \textbf{corrette} se sono
+\textbf{seriali}, ma questo penalizzerebbe di molto l'efficienza del sistema e
+quindi si introduce il \textbf{controllo della concorrenza} per trovare un
+compromesso ragionevole.
 
 Quando gli utenti eseguono le \textbf{query} sulle basi di dati, lo fanno avendo
 a disposizione lo schema logico. Questo schema però non rappresenta come sono
@@ -85,7 +90,7 @@ Un modo per gestire l'\textbf{affidabilità} delle basi di dati è quello di uti
 \textbf{transizioni atomiche} e \textbf{definitive}, ovvero operazioni che
 vengono eseguite completamente o non vengono eseguite affatto. Questo permette
 di mantenere la consistenza dei dati anche in caso di guasti.
-
+\section{Architettura di un DBMS}
 L'architettura dietro ad un DBMS centralizzato è raffigurata nella figura \ref{fig:DBMS_architecture}
 \begin{figure}[!ht]
       \centering
@@ -93,26 +98,35 @@ L'architettura dietro ad un DBMS centralizzato è raffigurata nella figura \ref{
       \caption{Architettura di un DBMS}
       \label{fig:DBMS_architecture}
 \end{figure}
-\section{Gestione degli accessi e delle interrogazioni}
+\subsection{Gestione degli accessi e delle interrogazioni}
 La gestione degli accessi e delle interrogazioni inizia con la struttura del database
 espressa Database administrator mediante i comandi DDL che vengono interpretati
 dal DDL compiler e nel DBMS viene costruita la struttura dello schema.
 
-A questo punto, il \textbf{Query compiler} si occupa di compilare le queries e le
-passa al \textbf{gestore delle interrogazioni} che le ottimizza e le frammenta in
-comandi elementari di accesso, che invia al \textbf{gestore dei metodi di accesso},
-che li trasforma in comandi di accesso a pagine (quindi in comandi per l'accesso
-alla struttura in memoria), che invia al \textbf{gestore del buffer}, il quale è
-responsabile della ottimizzazione. In seguito, invia i comandi al \textbf{gestore
-      della memoria secondaria}, che si occupa tradurre i comandi in accessi alle
-pagine sul disco.
-\section{Gestione delle transazioni}
+A questo punto, il \textbf{Query compiler} si occupa di compilare le queries e di
+passarle al \textbf{gestore delle interrogazioni}. Questo componente si occupa
+dell'ottimizzazione e della frammentazione in comandi elementari per l'accesso.
+In seguito, i comandi vengono passati al \textbf{gestore dei metodi di accesso},
+che li trasforma in accessi alle pagine (quindi in comandi per l'accesso
+alla struttura in memoria). Si passa poi al \textbf{gestore del buffer}, il quale
+è responsabile della ottimizzazione. Infine, i comandi vengono inviati al
+\textbf{gestore della memoria secondaria}, che si occupa tradurre i comandi in
+accessi alle pagine sul disco.
+\subsection{Gestione delle transazioni}
 Il \textbf{gestore delle transazioni} si occupa di eseguire le transazioni e
 garantire, interagendo col \textbf{gestore dell'affidabilità} e il \textbf{gestore
       della concorrenza} (scheduler), che le transazioni rispettino le proprietà
 di atomicità, consistenza, isolamento e durabilità (ACID).
 \section{Ottimizzazione delle interrogazioni}
-La fase di ottimizzazione delle interrogazioni è suddivisa in diversi passaggi:
+La fase di ottimizzazione delle interrogazioni è suddivisa in diversi passaggi
+come rappresentato in figura \ref{fig:Query_Optimization}.
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=0.7\textwidth]{./img/DBMS/Ottimizzazione_query.png}
+      \caption{Ottimizzazione delle interrogazioni}
+      \label{fig:Query_Optimization}
+\end{figure}
+\subsection{Fasi dell'ottimizzazione delle interrogazioni}
 \begin{enumerate}
       \item Verificare che la query sia sintatticamente corretta. Per fare ciò,
             si utilizza il \textbf{Data Catalog}, che contiene le informazioni
@@ -155,13 +169,6 @@ usa proprietà algebriche e una stima dei costi delle operazioni fondamentali pe
 i diversi metodi di accesso. In generale il problema di ottimizzazione delle
 query è esponenziale, ma si utilizzano delle approssimazioni ragionevoli basate
 su euristiche.
-\begin{figure}[!ht]
-      \centering
-      \includegraphics[width=0.7\textwidth]{./img/DBMS/Ottimizzazione_query.png}
-      \caption{Ottimizzazione delle interrogazioni}
-      \label{fig:Query_Optimization}
-\end{figure}
-% TODO: aggiungere immagine su un esempio di ottimizzazione di una query SQL
 \section{Gestione delle transazioni}
 Le transazioni sono degli insiemi di istruzioni di lettura e scrittura sulla base
 di dati che godono di alcune proprietà che permettono la loro corretta esecuzione
@@ -199,7 +206,7 @@ come:
             dato, lo modificano e lo scrivono, ma solo una delle due modifiche
             viene mantenuta.
       \item \textbf{Dirty reads}: una transazione legge un dato che è stato
-            modificato da un'altra transazione e non ancora committato.
+            modificato da un'altra transazione che non ha ancora fatto il commit.
       \item \textbf{Non-repeatable reads}: una transazione legge due
             volte lo stesso dato e ottiene due valori diversi.
       \item \textbf{Phantom reads}: una transazione legge due volte lo stesso
@@ -227,8 +234,8 @@ contenute.
 Si hanno quindi diversi algoritmi per il controllo della concorrenza secondo
 varie tipologie:
 \begin{itemize}
-      \item \textbf{Controllo basato su conflict equivalente}
-      \item \textbf{Controllo di concorrenza basato su locks} (protocollo 2PL o two
+      \item \textbf{Controllo basato su conflict equivalente.}
+      \item \textbf{Controllo di concorrenza basato su locks:} (protocollo 2PL o two
             phase locking, shared locks e gestione dei deadlock). Il protocollo
             2PL è usato nei DBMS dove per costruzione si hanno schedule
             serializzabili usando i lock per bloccare l'accesso alla risorse da
@@ -243,5 +250,15 @@ varie tipologie:
             l'accesso alla risorsa tenendo traccia delle risorse già impegnate e quelle
             libere. Inoltre, il TM aggiunge le richieste di lock e unlock alle
             transazioni in automatico per preservare il comportamento serializzabile.
-      \item \textbf{controllo di concorrenza basato su timestamps}
+
+            Il protocollo 2PL è composto da due fasi:
+            \begin{itemize}
+                  \item \textbf{Fase di crescita}: in questa fase una transazione può
+                        richiedere lock su una risorsa, ma non può rilasciarli.
+                  \item \textbf{Fase di decrescita}: in questa fase una transazione può
+                        rilasciare i lock, ma non può richiederli.
+            \end{itemize}
+            viene solitamente utilizzato per organizzare le transazioni in modo
+            che non possano essere eseguiti unlock prima di aver preso tutti i lock.
+      \item \textbf{Controllo di concorrenza basato su timestamps.}
 \end{itemize}

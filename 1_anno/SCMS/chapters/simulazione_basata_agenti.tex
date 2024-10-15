@@ -271,3 +271,73 @@ i nodi rappresentano gli incroci. Il flusso in un arco gestito come una serie di
 
 
 Modello mesoscopico.
+
+\section{Seminario sulla risoluzione di problemi con agenti}
+Spesso la simulazione è un modo per valutare un sistema che si vuole realizzare 
+per venderlo.
+
+Per quei sistemi ad agenti spesso hanno agenti intelligenti, ovvero la capacità di 
+ragionare sulla conoscienza e possono produrre della conoscienza. Sono agenti 
+che possono richiedere, utilizzare servizzi offerti da altri agenti. Spesso si 
+comunicano tra di loro e spesso hanno una linguistica differente quindi bisogna 
+occuparsi della traduzione. Questi agenti possono interagire con l'ambiente.
+
+\begin{definizione}
+      agenti proattivi, \dots
+\end{definizione}
+
+Questo tipo di sistemi non sono delle simulazioni ma sono dei sistemi che si 
+creano per risolvere un problema.
+
+I requisiti di questi sistemi sono:
+\begin{itemize}
+      \item distribuiti logicamente o fisicamente
+      \item entità autonome con abilità o viste parziali
+      \item interazioni asincrone tra entità 
+      \item multitasking parallelo
+      \item incapsulazione (entità incapsulano il loro ragionamento)
+      \item interoperabilità semantica (linguaggi di comunicazione tra agenti differenti)
+      \item creazione dinamica di entità (non si ha pieno controllo del loro ciclo vita)
+\end{itemize}
+Se avessimo un problema con i primi tre requisiti allora può essere sensato risolverlo 
+con tecniche ad agente.
+
+Ci sono diversi problemi:
+\begin{itemize}
+      \item come posso farli interagire
+      \item che tipo di ambiente abbiamo e come si interfacciano all'ambiente
+      \item come comunicano tra di loro (protocollo)
+      \item goal privati o condivisi tra Agenti
+\end{itemize}
+
+Per l'interazione tra agenti, possiamo risolverlo con l'orchestrazione, un agente 
+fa da orchestratore che gestisce tutti gli agenti. Oppure possiamo pensare ad una 
+coordinazione tra agenti, non esiste un punto centrale che controlla ma si hanno 
+protocolli di coordinazione. Oppure si può implementare la negoziazione, quando 
+gli agenti sono competitivi e si contendono la risorsa condivisa (la negoziazione 
+può essere libera o gestita da un agente). Un altro approcio è quello ad aste,
+un agente gestisce l'asta in corso e gli altri agenti effettuano un'offerta.
+
+Tutti questi sono derivanti da ambiti sociali.
+
+Oppure possiamo avere delle risoluzioni derivanti dal mondo naturale e quindi 
+più adatta per sistemi simulativi.
+
+Spesso un agent sistem hanno delle norme che devono essere rispettate dagli agenti,
+se non rispettate allora ci sono agenti che puniscono quelli irrispettosi. Ci possono 
+essere anche sistemi committivi, gli agenti cercano di rispettare i commit. Si possono 
+avere anche verifiche statiche (complessa), per ridurre la complessità si fa la 
+verifica dinamica.
+
+Per risolvere i problemi di interfacciamento all'enviroment, si può pensare 
+di avere un artefatto che maschera l'accesso fisico degli oggetti che gestisce 
+e lascia delle interfacce agli agenti. Si ha un approccio service oriented architecture. 
+
+Per il problema di comunicazione, dobbiamo utilizzare delle ontologie standard 
+(formalizzazione dei concetti noti), dobbiamo definire dei protocolli di comunicazione
+(messaggi, accesso alla knoledge base, socket).
+
+Per quanto riguarda goal privati o comuni dipende dal sistema.
+
+Il problema dei multiagent sistem ha problemi sulle piattaforme di sviluppo, 
+difficile da debuggare e testare, complessità dei protocolli ecc...

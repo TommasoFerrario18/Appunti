@@ -1,0 +1,157 @@
+\chapter{Flow of Association}
+Assume we only care about modeling association, without any causal modeling. If
+we want to model the data distribution $P(X_1, X_2, \ldots, X_n)$, we can use
+the chain rule of probability to decompose it into a product of conditional
+distributions:
+\begin{equation}
+    P(X_1, X_2, \ldots, X_n) = P(X_1)P(X_2|X_1)P(X_3|X_1, X_2)\ldots P(X_n|X_1, X_2, \ldots, X_{n-1})
+\end{equation}
+However, if we were to model discrete random variables by using probability
+tables, it would take an exponential number of parameters. To solve this we
+can model local dependencies between variables to reduce the number of
+parameters.
+
+\begin{definition}[\textbf{Local Markov Assumption}]
+    Given all the parents $pa(x)$ of a node $x$ in a DAG, the local Markov
+    assumption states that $x$ is independent of all its non-descendants.
+\end{definition}
+Talking about Bayesian networks, the local Markov assumption is equivalent to
+the following factorization:
+\begin{equation}
+    P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^n P(X_i|pa(X_i))
+\end{equation}
+
+At this point we can define a \textbf{markov probability distribution} as a
+probability distribution $P$ that satisfies the local Markov assumption with
+respect to a DAG $G$.
+
+As important as the local Markov assumption is, it only gives us information
+about the independencies in $P$ that a DAG $G$ implies.
+
+To get this guaranteed dependence between adjacent nodes, we will generally
+assume a slightly stronger assumption than the local Markov assumption, called
+the \textbf{minimality assumption}.
+\begin{definition}[\textbf{Minimality Assumption}]
+    \begin{enumerate}
+        \item \textbf{local markov assumption}: Given all the parents $pa(x)$ of
+              a node $x$ in a DAG, the local Markov assumption states that $x$
+              is independent of all its non-descendants.
+        \item Adjacent nodes in the DAG $G$ are dependent.
+    \end{enumerate}
+\end{definition}
+
+Because removing edges in a Bayesian network is equivalent to adding
+independencies, the minimality assumption is equivalent to saying that we can't
+remove any more edges from the graph $G$.
+
+Up to now all we presented was about statistical models and modeling association.
+We now need to introduce some causal assumptions, turn them into causal models
+for allowing the study of causation. In order to introduce causal assumptions,
+we must first understand what it means for $X$ to be a cause of $Y$. We can simply
+define \textbf{cause} as follows:
+\begin{definition}[\textbf{Cause}]
+    $X$ is a cause of $Y$ if changing $X$ changes $Y$.
+\end{definition}
+
+Also, we can define \textbf{causal edges assumption} in a DAG $G$ as every parent
+is a direct cause of all its children. Given this assumption, we can define a
+\textbf{Causal graph} as a DAG $G$ that satisfies the causal edges assumption.
+
+Adding the causal edges assumption, implies that directed paths in the DAG take
+on a very special meaning; they correspond to \textbf{causation}. This is in
+contrast to other paths in the graph, which association may flow along, but
+causation certainly may not.
+\section{Basic Structure}
+To understand the difference between association flow and causal flow in DAGs,
+we need the following minimal building blocks
+\begin{itemize}
+    \item chain
+    \item fork
+    \item collider
+    \item two un-connected nodes
+    \item two connected nodes
+\end{itemize}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/basic_bn.png}
+    \caption{Basic elements of a DAG}
+\end{figure}
+
+By flow of association, we mean whether any two nodes in a graph are associated
+or not associated. In other terms, we want to know whether two nodes are
+(statistically) dependent or (statistically) independent. However, we will also
+study whether two nodes are conditionally independent or not.
+\subsection{Two un-connected nodes}
+Given a graph consisting of just two unconnected nodes, these nodes are not
+associated, because there is no edge between them. To show this, consider the
+factorization of the joint probability $P(X, Y)$ that the Bayesian network
+factorization gives us: $P(X, Y) = P(X)P(Y)$. This factorization immediately
+gives us a proof that the two nodes are unassociated (independent).
+\subsection{Two connected nodes}
+On the contrary, if there is an edge between the two nodes, then the two nodes
+are associated. We exploit the causal edges assumption which means that $X$ is
+a direct cause of $Y$.
+\subsection{Chain and Fork}
+We can consider this two building blocks together, because they share the same
+set of dependencies. In both cases, the association flows from $X$ to $Z$ through
+$Y$.
+
+They also share the same set of independencies. When we condition on $Y$ in both
+graphs, it blocks the flow of association from $X$ to $Y$. Therefore, when we
+condition on $Y$ ( $Z$'s parent in both graphs), $Z$ becomes independent of (and
+viceversa). This independence is an instance of a \textbf{blocked path}.
+\begin{note}
+    The flow of association in general is symmetric, but the flow of causation
+    is not.
+\end{note}
+\subsection{Collider}
+Association flows along any path that does not contain a \textbf{collider}. A
+collider is a node with two or more parents that are independent $X \perp Z$.
+We can think of $X$ and $Z$ simply as unrelated events that can happen, and which
+both contribute to some common effect ($Y$). To show that $X \perp Z$ we apply
+the Bayesian network factorization and then marginalize out $Y$.
+
+The collider $Y$ blocks the path from node $X$ to node $Z$ and blocks the path
+from node $Z$ to node $X$. This is another example of a blocked path, but this
+time the path is not blocked by conditioning; the path is un-blocked by conditioning
+on a collider.
+
+Conditioning on descendants of a collider also induces association in between the
+parents of the collider. The intuition is that if we learn something about a
+collider's descendant, we usually also learn something about the collider itself
+because there is a direct causal path from the collider to its descendants, and
+we know that nodes in a chain are usually associated assuming minimality.
+\section{D-separation}
+\begin{definition}[\textbf{D-separation}]
+    A path $p$ is blocked by a set of nodes $S$ if and only if:
+    \begin{itemize}
+        \item $p$ contains a chain of nodes or a fork such that the middle node
+              is in $S$.
+        \item $p$ contains a collider such that the collision node is not in $S$,
+              and no descendant of the collision node is in $S$.
+    \end{itemize}
+    If $S$ blocks \textbf{every} path between two nodes $X$ and $Y$, then $X$ and
+    $Y$ are \textbf{d-separated}, conditional on $S$, and thus are independent
+    conditional on $S$.
+\end{definition}
+D-separation is an extremely important concept, because it implies conditional
+independence. This is a very powerful tool for reasoning about causal models.
+\begin{itemize}
+    \item $X \perp_G Y | S$ implies that $X$ and $Y$ are d-separated in the DAG
+          $G$ when conditioning on $S$.
+    \item $X \perp_P Y | S$ implies that $X$ and $Y$ are independent in the
+          distribution $P$ when conditioning on $S$.
+\end{itemize}
+\begin{definition}[\textbf{Global Markov Assumption}]
+    Given that $P$ is Markov with respect to a DAG $G$, if $X$ and $Y$ are d-separated
+    in $G$ conditional on $S$, then $X$ and $Y$ are independent conditional on $S$.
+\end{definition}
+
+Not only is association not causation, but causation is a sub-category of
+association, thus association and causation both flow along directed paths.
+
+We can tell if two nodes are not associated by whether or not they are d-separated.
+
+If we want to measure the causal effect of $X$ on $Y$, we need to ensure that $X$
+and $Y$ are d-separated in the augmented graph where we remove outgoing edges
+from $X$. This is the only way to ensure that the association we measure is causation.
