@@ -235,7 +235,8 @@ tavolozza partendo da questa si può ottenere il fattore di scala.
 Questo processo appena descritto è chiamato approccio \textbf{supervisionato},
 possiamo utilizzare anche un'approccio \textbf{non supervisionata} quando non
 possiamo avere una corrispondenza tra colore standard e colore sotto luce della
-scena. In questo caso avremo bisogno di molte più immagini.
+scena. In questo caso avremo bisogno di molte più immagini e spesso è utilizzato nei 
+telefoni.
 \section{Caratterizzazione colorimetrica}
 La caratterizzazione colorimetrica dei dispositivi è la relazione tra il colore
 letto dal device e il colore nello spazio colore standard CIE.
@@ -263,6 +264,7 @@ Esistono tre diversi approcci per effettuare la caratterizzazione:
           intermedi mediante una tecnica di interpolazione. Ha bisogno di un alto
           numero di misure, effettua un'interpolazione non lineare, difficile da
           invertire e non serve la conoscenza dei comportamenti fisici del dispositivo.
+          Più efficiente rispetto agli altri e si basa sull'interpolazione.
 \end{itemize}
 
 Generalmente il modello esaustivo si utilizza anche dopo il modello fisico e empirico.
@@ -297,12 +299,12 @@ quindi non ci deve essere una gamma correction.
 
 \subsection{Caratterizzazione colorimetrica sugli output device}
 La prima operazione da compiere sui dispositivi di output è la calibrazione. 
-Questa operazione viene fatta per avere un'immagine il più vicina possibile a 
-quella originale. Questa operazione viene effettuata in quanto i diversi 
-dispositivi di visualizzazione hanno diverse gamme di colori e quindi lo stesso
-colore può essere visualizzato in modo diverso.
+Questa operazione viene fatta per avere un setting delle impostanzioni dello schermo 
+standard, queste impostazioni possono essere contrasto, luminosità ecc. In seguito 
+si effettua la caratterizzazione del dispositivo per portare il colore visualizzato 
+ad essero lo stesso del colore standard che si vuole rappresentare.
 
-Il processo di calibrazione dei monitor prende spunto dal procedimento che si 
+Il processo di caratterizzazione dei monitor prendono spunto dal procedimento che si 
 utilizzava per i CRT. Per prima cosa il colore dei CRT è dato dalla cromaticità 
 del fosforo, quindi definisce la gammut cromatica. Il bianco corrisponde
 alla massima eccitazione del fosforo. La caratterizzazione degli schermi CRT è un
