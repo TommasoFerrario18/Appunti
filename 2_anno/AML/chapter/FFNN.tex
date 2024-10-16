@@ -40,7 +40,7 @@ by using the gradient approximate which is calculated with backpropagation.
 
 \begin{note}
     During the training phase, the weights are adjusted every $n$ examples,
-    where $n$ is the batch size. Weights are usually fix by considering the
+    where $n$ is the batch size. Weights are usually fixed by considering the
     elements of a batch to avoid overfitting.
 \end{note}
 \section{Weight Learning}
@@ -134,7 +134,7 @@ to the input space, so the model becomes:
     \sum_{i=1}^m \alpha_i\phi (x^T) \cdot \phi(x^{(i)})
 \end{equation}
 
-The kernel trick override $\phi(x^T)\phi(x^{(i)})$ with $k(x^T, x^(i))$ without
+The kernel trick override $\phi(x^T)\phi(x^{(i)})$ with $k(x^T, x^{(i)})$ without
 computing $\phi(x)$ and it's more computational efficient compared to $\phi$.
 
 Moreover kernel trick allows us to learn models that are nonlinear as a function
