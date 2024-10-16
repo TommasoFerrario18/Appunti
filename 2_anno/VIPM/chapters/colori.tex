@@ -213,3 +213,112 @@ Le risoluzioni producono degli artefatti:
 
 La prima risoluzione è sensibile alle variazione della forma mentre la seconda è
 sensibile alle variazioni dell'intensità.
+
+\section{Bilanciamento del bianco}
+Quando acquisiamo un'immagine, i colori degli oggetti sono dipendenti dalla riflettanza 
+e dalla luce incidente. Se utilizziamo luci differenti allora possiamo avere 
+colori differenti assorbiti dallo strumento. Per risolvere questi problemi si 
+effettua il \textbf{bilanciamento del bianco}. In generale si stima il colore 
+della sorgente luminosa e si scalano i colori in modo che il bianco dell'immagine 
+sia uguale al bianco standard e poi si scalano tutti i colori. Per stimare il colore
+della sorgente di luce si utilizza una tavolozza standard che messa nella scena 
+permette di ottenere il colore standard sotto la luce della scena e quindi possiamo 
+poi scalare i colori. Questo processo appena descritto è chiamato approccio \textbf{supervisionato},
+possiamo pensare anche alla versione \textbf{non supervisionata} quando non possiamo 
+avere una corrispondenza tra colore standard e colore sotto luce della scena. In 
+questo caso avremo bisogno di molte più immagini.
+
+\section{Caratterizzazzione colorimetrica}
+La caratterizzazione colorimetrica dei dispositivi è la relazione tra il colore 
+letto dal device e il colore nello spazio colore standard CIE.
+
+Abbiamo sempre 2 modelli:
+\begin{itemize}
+    \item \textbf{Forward characterization mode}: dato lo spazio colore del device 
+    in coordinate si ricava la rappresentazione standard degli stimoli XYZ
+    \item \textbf{Inverse characterization mode}: data la rappresentazione standard 
+    degli stimoli colore XYZ si ricava il colore nello spazio colore del dispositivo.
+\end{itemize}
+
+Esistono tre diversi approcci per effettuare la caratterizzazione:
+\begin{itemize}
+    \item \textbf{modello fisico}: approccio puramente matematico, utilizzabile 
+    per ogni dispositivo (comune per dispositivi additivi), è una metodologia robusta,
+    ha bisogno di poche misurazioni, ma è difficile da definire ed implementare.
+    \item \textbf{modello empirico}: si utilizza una regressione polinomiale o una 
+    rete neurale per stimare le relazioni tra colore dispositivo e standard. Le 
+    caratteristiche di questo modello sono complesse, ha bisogno di effettuare 
+    una ricalibrazione (retrain), nessuna relazione tra i comportamenti fisici dei 
+    device, certe volte mal condizionato, ha bisogno di almeno 100 misure.
+    \item \textbf{modello esaustivo}: crea una lookup table che computa valori intermedi 
+    mediante una tecnica di interpolazione. Ha bisogno di un alto numero di misure, 
+    effettua un'interpolazione non lineare, difficile da invertire e non serve la 
+    conoscenza dei comportamenti fisici del dispositivo.
+\end{itemize}
+
+Generalmente il modello esausivo si utilizza anche dopo il modello fisico e empirico.
+\begin{nota}
+    Quando si utilizza un modello di regressione multipolinomiale si ha una riduzione 
+    del rumore e non funziona per trasformazioni fortemente non lineari.
+\end{nota}
+\begin{nota}
+    Il modello di NN funziona meglio per approssimare funzioni non lineari ed ha 
+    performance similari alla regressione polinominiale.
+\end{nota}
+\subsection{Caratterizzazione colorimetrica sugli input device}
+Abbiamo due diversi input device per le immagini: scanner e fotocamere.
+
+Gli \textbf{Scanner} usano $3$ canali colori che corrispondono a 3 filtri colore RGB.
+L'illuminazione sul colore è fissata e nota perché utilizzano la luce interna. 
+Per alcuni scanner i filtri sono ottimizzati per l'acquisizione dalle pellicole. 
+La caratterizzazione colorimetrica su questi dispositivi viene effettuata attraverso 
+il modello impirico usando un target reference. 
+
+Per gli scanner si possono utilizzare dei target costruiti ad hoc utilizzando gli  
+stessi colori utilizzati per gli oggetti da scannerizzare. Per esempio se dovessimo 
+scannerizzare dei quadri olio su tela, possiamo calibrare lo scanner con un target 
+usando olio su tela. In generale si costruiscono con materiali con spettro simile 
+a quelli che devono essere scannerizzati, questo risolve i problemi di metamerismo.
+
+Per quanto riguarda le \textbf{camere}, ciascuna ha delle sensibilità al colore 
+differente dalle altre infatti generalmente si effettua un bilanciamento del bianco
+sempre secondo un target presente nell'immagine. Per fare ciò esistono diversi 
+approcci per effettuare il bilanciamento in automatico. Per le camere avremo una 
+trasformazione del colore utilizzando una matrice per ricavare lo standard, questo 
+richiede però il fatto che i colori della camera siano lineari rispetto alla luce 
+quindi non ci deve essere una gamma correction.
+
+\subsection{Caratterizzazione colorimetrica sugli output device}
+I dispositivi di output sono monitor, proiettori ecc...
+
+Per prima cosa i dispositivi di output devono essere calibrati per portarli a
+delle impostazioni note come luminosità e contrasto in modo da avere gli effetti 
+comparabili rispetto agli altri dispositivi. La calibrazione si effettua al di fuori 
+della caratterizzazione colorimetrica del dispositivo per esempio mostrando una 
+pallet di colori e chiedendo di cambiare le impostazioni per renderla visibile e 
+per avere un distacco fisico. La calibrazione è importante perché definisce la 
+gamma colore e i bianchi, infati gamma bassa implica contrasto basso e al contrario 
+gamma alta implica contrasto alto. Al contrario i bianchi dipendono dalla luce e 
+se non regoliamo la temperatura del colore allora avremo i bianchi sballati. In aggiunta 
+molti monitor possono avere primari differenti e quindi gamma differente.
+
+Per effettuare la caratterizzazione colorimetrica dei monitor si utilizza quella
+dei CRT con delle leggere modifiche. Per prima cosa il colore dei CRT è dato dalla 
+cromaticità del fosforo, quindi definisce la gammut cromatica. Il bianco corrisponde 
+alla massima eccitazione del fosforo. La caratterizzazione degli schermi CRT è un 
+modello fisico:
+\begin{itemize}
+    \item il colore è prodotto da un mix additivo di luce corrispondente a 3 canali 
+    di fosforo
+    \item la quantità di luce emessa dipende non linearmente dal voltaggio
+    \item la cromaticità del fosforo non cambia col vontaggio
+\end{itemize} 
+
+Il primo punto specifica che si ha una somma tra tre canali di luce, il secondo 
+punto specifica che si ha una dipendenza non lineare tra i valori RGB digitali e 
+la luminosità emessa, infine, l'ultimo specifica che il voltaggio modifica solo la 
+luminosità e non la cromaticità.
+
+Lo stesso modello lo possiamo applicare per LCD ma in questo caso dobbiamo applicare 
+una \textbf{blacklight correction} dal momento che il nero non è completamente nero 
+e quindi bisogna ridure la quantità di colore.
