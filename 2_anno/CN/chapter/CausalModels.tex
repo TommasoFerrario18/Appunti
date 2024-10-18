@@ -1,0 +1,97 @@
+\chapter{Causal Models}
+As you have undoubtedly heard many times in statistics classes, “correlation is
+not causation.” A mere association between two variables does not necessarily
+mean that one of those variables causes the other. For this reason, the
+\textbf{randomized controlled experiment} is considered the standard of statistics.
+
+We can define a randomized controlled experiment as an experiment in which all
+the \textbf{factors} that influence the outcome of the experiment are either
+static, or vary at random, except for one. This implies that any change in the
+outcome variable must be due to that one input variable.
+
+In cases where randomized controlled experiments are not practical, researchers
+instead perform \textbf{observational studies}, in which they merely record data,
+rather than controlling it. In these cases, the problem is that is difficult to
+untangle the effects of different variables.
+
+We can summarize the difference between these two types of studies as follows:
+\begin{itemize}
+      \item \textbf{Intervening}: we change the system assigning values to the a
+            variable and observing the effect on the other variables. When we
+            intervene to fix the value of a variable, we curtail the natural
+            tendency of that variable to vary in response to other variables in
+            nature. This amounts to performing a surgery on the graphical model,
+            which we do by removing all edges directed into that variable.
+            Intervening would be to take the whole population and give everyone
+            treatment.
+      \item \textbf{Conditioning}: we merely narrow our focus to the subset of
+            cases in which the variable takes the value we are interested in.
+            So, conditioning on $X = x$ just means that we are restricting our
+            focus to the subset of the population to those who received treatment.
+\end{itemize}
+We denote intervention with the \textbf{do-operator} $do(X=x)$. So, if we have
+an expression which contains the do-operator, we know that we are intervening
+on that variable and we call this expression a \textbf{interventional expression}.
+
+An interventional expression which can be reduced to an observational expression
+is said to be \textbf{identifiable}. This means that we can estimate the effect
+of the intervention from the observational data.
+
+Whenever, $do(x)$ appears in expression after the conditioning bar, it means
+that everything in that expression is in the \textbf{post-intervention world}
+where intervention $do(x)$ occurs.
+\section{Adjustment Formula}
+We can define a \textbf{causal mechanism} as a mechanism that generates $X_i$ as
+the conditional distribution of $X_i$ given its parents (causes) $pa(X_i)$.
+
+Also, we want to show that intervention are local. This means that intervening on
+a variable $X_i$ only changes the causal mechanism for $X_i$; it does not change
+the causal mechanisms that generate any other variables $X_j$.
+\begin{definition}[\textbf{Modularity of Causal Models}]
+      If we intervene on a set of nodes $S$, setting them to constants, then for
+      all $X_i \in \{X_1, \ldots, X_n\}$ we have the following:
+      \begin{itemize}
+            \item If $X_i \notin S$ then the causal mechanism that generates $X_i$
+                  is unchanged by the intervention.
+            \item If $X_i \in S$ then the causal mechanism that generates $X_i$ is
+                  replaced by a constant. In other words, $P(X_i | pa(X_i)) = 1$
+                  if $x$ is the value that $X_i$ is set to by the intervention
+                  $do(X_i = x)$. Otherwise, we have $P(X_i | pa(X_i)) = 0$.
+      \end{itemize}
+\end{definition}
+\begin{note}
+      The causal graph for interventional (experimental) distributions is simply
+      the same graph that was used for the observational joint distribution, but
+      with all of the edges to the intervened node(s) removed.
+\end{note}
+Using do-expressions and graph surgery, we can begin to untangle the causal
+relationships from the purely associative.
+\begin{note}
+      It is worth noting here that we are making a tacit assumption that
+      the \textbf{intervention} has no side effects.
+\end{note}
+
+The intervention procedure, which led to the \textbf{Adjustment Formula},
+dictates that $Z$ should coincide with the parents $pa(X)$ of $X$, because it is
+the influence of these parents that we neutralize when we fix $X$ by external
+manipulation $do(X)$.
+
+We can therefore write a general Adjustment Formula and summarize it in a rule:
+\begin{definition}[\textbf{Causal effect rule}]
+      Given a graph $G$ in which a set of variables $pa(X)$ are designed as the
+      parents of $X$, the \textbf{causal effect} of $X$ on $Y$ can be computed
+      as follows:
+      \begin{equation}
+            P(Y = y| do(X = x)) = \sum_{z} P(Y | X = x, pa(X) = u)P(pa(X) = u)
+      \end{equation}
+      where $u$ ranges over all the combinations of values that the variables in
+      $pa(X)$ can take.
+\end{definition}
+If we apply some manipulation on the formula, we can obtain a more convenient
+form:
+\begin{equation}
+      P(Y = y| do(X = x)) = \frac{\sum_{z} P(Y = y, X = x, pa(X) = u)P(pa(X) = u)}{P(X = x | pa(X) = u)}
+\end{equation}
+In the equation above, the denominator represents the \textbf{propensity score}
+which displays the role played by the parents $pa(X)$ of $X$ in determining the
+result of the intervention $do(X = x)$.
