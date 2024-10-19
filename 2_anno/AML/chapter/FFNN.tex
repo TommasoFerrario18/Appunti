@@ -104,7 +104,6 @@ gradient on linear model are easy to compute.
 
 \textbf{Cons} models are restricted to linear functions so they works for data linear
 separable, solved by a transformation.
-
 \section{Kernel trick}
 Transform the input space into an higher dimensional space can be useful to solve
 non-linear separable problem. But, this approach increase the number of parameters
@@ -255,7 +254,7 @@ the computational efficiency and the convergence speed. In general, the larger
 the mini-batch size, the more accurate the estimate of the gradient, but the
 slower the convergence. While the smaller the mini-batch size, the noisier the
 estimate of the gradient, but the faster the convergence.
-\section{Loss/Costo function}
+\section{Loss/Cost function}
 \begin{definition}[Loss function]
     A \textbf{loss function} is a function that maps an event or values of one
     or more variables onto a real number intuitively representing the network
@@ -391,7 +390,6 @@ where the NN output have the following value:
     \item $\mu^{(i)}(x)$ is the mean of the $i$-th component.
     \item $\Sigma^{(i)}(x)$ is the covariance matrix of the $i$-th component.
 \end{itemize}
-
 \section{Activation Function}
 The \textbf{hidden unit} applies an affine linear transformation such as:
 \begin{equation}
@@ -469,257 +467,337 @@ There are some guides to use these activation functions:
 \end{itemize}
 In general we can initially use ReLU, than if we cannot obtain better performance
 we can change activation function.
-
 \section{Initialization}
-Another important step inside the planning of a deep neural network is the 
+Another important step inside the planning of a deep neural network is the
 initialization process.
 
-First of all we can initialize all \textbf{bias} to $0$ to discover eventually 
+First of all we can initialize all \textbf{bias} to $0$ to discover eventually
 dead neurons. % ?
 
 For \textbf{weights} we must not initialize to the same values because we have to
-brake the symmetry of the model, so we can sample weights from a normal 
-distribution with mean $0$ and variance dependant of the number of neurons in 
+brake the symmetry of the model, so we can sample weights from a normal
+distribution with mean $0$ and variance dependant of the number of neurons in
 the previous layer.
 \begin{equation*}
     W^{[l]} \sim \mathcal{N}\left(0, \frac{1}{n^{[l-1]}}\right)
 \end{equation*}
-
 \section{Regularization}
-Exist a lot of regularization techniques that allowed us to increase model generalization.
+Regularization is a technique used to prevent overfitting. In the context of
+deep learning, most regularization strategies are based on \textbf{regularizing
+    estimators}. This is done through reducing variance at the expense of
+increasing the bias of the estimator. In the following, we are going to see some
+regularization techniques.
+
 Here we can see a list of all techniques:
 \begin{itemize}
     \item Parameters norm penalties
-    \item dataset augmentation
-    \item noise robustness
-    \item early stopping
-    \item parameter tying and parameter sharing
-    \item maltitask learning
-    \item bagging and other ensemble methods
-    \item dropout
-    \item adversal training
+    \item Dataset augmentation
+    \item Noise robustness
+    \item Early stopping
+    \item Parameter tying and parameter sharing
+    \item Multitask learning
+    \item Bagging and other ensemble methods
+    \item Dropout
+    \item Adversarial training
 \end{itemize}
 
-We need to have a model that generilize because we have to get a low training error 
-and a low test error, in this way we avoid overfitting and underfitting.
+We need to have a model that is capable to generalize on unseen data, so we have
+to find the right trade-off in order to avoid overfitting and underfitting.
 
-In the context of deep learning, most regularization stategies are based on 
-\textbf{regularizing estimator}. This is done through reducing \textbf{variance} and
-increasing \textbf{bias} of the estimator.
-
+In the context of deep learning, most regularization strategies are based on
+\textbf{regularizing estimators}. This is done through reducing \textbf{variance}
+and increasing \textbf{bias} of the estimator.
 \begin{note}
-    A good estimator is one that decreeses the variance without increasing too much the bias.
-\end{note} 
-
-When we use a model to solve a complex task, we can't have the generation distribution 
-of datas used to train that model, so this means that the model could have high 
-complexity and we could risk to enter in overfitting. 
-It's difficult to find a better model with a low complexity while we are trying to 
-solve complex task, so we can apply a regularizing process on a complex model to 
-improve generalization.
-
-The idea of regualrizing a model is to train a model not simply minimizing the loss
-but also managing variability of datas. There are 2 way to do this:
-\begin{itemize}
-    \item \textbf{directly}: introducing prior knowledge or express generic preference 
-    for a simpler model class. This is implemented by changing contrains, adding 
-    restrictions on the parameter values or changing objective function by adding 
-    soft contrains that penalize certain values of the parameters
-    \item \textbf{indirectly}: data augmentation, introducing noise in the training
-    data or using ensemble methods
-\end{itemize}
-
-\subsection{Parameters Norm Penalties}
-We add a penalty to the objective function
-$$\hat{J}(\theta) = J(\theta) + \alpha \Omega (\theta), \ \ \alpha\in [0,\infty)$$
-$\alpha$ is a hyperparameter that regulates the contribution of norm penalties, 
-also it may change for each layer.
-
-During the training phase, we try to minimize the objective fucntion while 
-we decrease some measure of the size of the parameters. It affects only a subset 
-of parameters.
-
-$\Omega$ usually penaliezes only the affine transformation at each layer ($W$) not the 
-bais ($b$). We have $3$ different methods:
-\begin{itemize}
-    \item \textbf{sum of the weights} ($L_1$): pushes all values to $0$ penalizing 
-    small weights more than big one.
-    $$\Omega(w) = \sum_{w_j}|w_j|= \|w\|_1$$
-    \item \textbf{sum of the sqared weights} ($L_2$): penalizes large values more
-    $$\Omega(w) = \sqrt{\sum_{w_j}|w_j|^2} = \|w\|_2$$
-    \item \textbf{$p$-norm} ($L_p$): for $p<2$ encourage sparser vector while larger 
-    values of $p$ discourage large weights more
-    $$\Omega(w) = \sqrt[p]{\sum_{w_j}|w_j|^p} = \|w\|_p$$
-\end{itemize}
-
-$L_2$ shrinks weights on features that add noise to the model (feature with high variance 
-but low covariance with target), while $L_1$ provides a solution that is sparse,
-this property can be seen as a features selection mechanism.
-
-\begin{note}
-    using $L_2$ negative and positive weights moves towards 0 while using $L_1$ 
-    negative and positive weights moves towards 0 regardless of magnitude.  
+    A good estimator is one that decreases the variance without increasing too
+    much the bias.
 \end{note}
 
-We can add to the previous model a contraint on regularization term, for example 
-$$\Omega(\theta) \le k$$
-where $k$ is a small value. In this way the optimization problem changed because 
-we have to consider also the upperbound of regularization term. To solve this problem
-we can use \textbf{lagrangen function} and insert penalties into objective 
-function.
-$$\mathcal{L}(\theta, \alpha; X,y) = J(w;X,y)+ \alpha(\Omega(\theta)-k) $$
-where $\alpha$ is the lagrangean multiplier and formally the optimization problem 
-will be 
-$$\argmin_\theta \max_{\alpha \ge 0} \mathcal{L}(\theta, \alpha)$$ 
-To solve this problem we can use techniques that minimize $J$ and then project 
-the solution obtained to the feasible reagion $\Omega(\theta) -k$, this method prevent 
-to get stuck in local minima and impose stability on the optimization procedure.
+When we are working with deep learning to solve complex tasks, we can encounter
+different problems. This can increase the complexity of the model and the risk of
+overfitting. In this case, we can find the best large model and in the end apply
+a regularization process to reduce the complexity of the model and improve the
+generalization.
 
-\subsection{Dataset augmentation}
-We can get better generalization training model on more data. The main problem is 
-that data is limited also labelling is an extremely tedious task. Dataset 
-augmentation provides a cheap easy way to increase the amount of your training data.
+The idea behind regularization is to train a model that does not simply minimize
+the loss function, but also manages the variability of the data. To achieve this
+goal, we can use one of the following techniques:
+\begin{itemize}
+    \item \textbf{Directly}: introducing prior knowledge or express generic
+          preference for a simpler model class. This is implemented by changing
+          constraints, adding restrictions on the parameter values or changing
+          objective function. The constraints serve to penalize certain values
+          of the parameters.
+    \item \textbf{Undirectly}: in this case we are not manipulating the model but
+          we are changing the training data. This can be done using technique
+          such as data augmentation, introducing noise in the training data or
+          using ensemble methods.
+\end{itemize}
+\subsection{Regularization strategies}
+\subsubsection{Parameters Norm Penalties}
+The most traditional form of regularization consists in adding a penalty to the
+objective function. This can be done by modifying the loss function as follows:
+\begin{equation}
+    \hat{J}(\theta) = J(\theta) + \alpha \Omega(\theta)
+\end{equation}
+where $\alpha \in [0, \infty)$ is a hyperparameter that regulates the contribution
+of the norm penalties. This parameter can change for each layer.
+
+Since we have added a penalty term, the optimizer will try to minimize the loss
+function and at the same time it decreases some measure of the size of the
+parameters $\theta$. It affects only a subset of parameters.
+
+$\Omega$ usually penalizes only the weights ($W$) of the affine transformation
+at each layer, not the bias ($b$).
+
+This method can be implemented using different norms, here we can see some of them:
+\begin{itemize}
+    \item \textbf{Sum of the weights} ($L_1$): pushes all values to $0$ penalizing
+          small weights more than big one.
+          \begin{equation}
+              \Omega(w) = \sum_{w_j}|w_j| = \|w\|_1
+          \end{equation}
+    \item \textbf{Sum of the squared weights} ($L_2$): penalizes large values more:
+          \begin{equation}
+              \Omega(w) = \sum_{w_j}|w_j|^2 = \|w\|_2
+          \end{equation}
+    \item \textbf{$p$-norm} ($L_p$): for $p<2$ encourage sparser vector, while
+          larger values of $p$ discourage large weights more:
+          \begin{equation}
+              \Omega(w) = \sqrt[p]{\sum_{w_j}|w_j|^p} = \|w\|_p
+          \end{equation}
+          In general, all the $p-$norms are used to penalize large weights more
+          than small ones.
+\end{itemize}
+
+The effect of the $L_2$ norm is to shrinks weights on features that add noise to
+the model (feature with high variance but low covariance with target), while
+$L_1$ norm provides a solution that is sparse. This property can be seen as a
+features selection mechanism.
+\begin{note}
+    Using $L_2$ negative and positive weights moves towards 0 depending on the
+    magnitude of the weights, while using $L_1$ negative and positive weights
+    moves towards 0 regardless of magnitude.
+\end{note}
+
+Another improve that we can add to the previous model are constraints related to
+regularization term, for example, if we consider the following loss function:
+\begin{equation}
+    \hat{J}(\theta) = J(\theta) + \alpha \Omega(\theta)
+\end{equation}
+we can add a constraint to the regularization term as follows:
+\begin{equation}
+    \Omega(\theta) \le k
+\end{equation}
+where $k$ is a small value.
+
+In this way the optimization problem changed because we have to consider also
+the upper-bound of regularization term.
+
+To solve this problem, we can construct a generalize \textbf{Lagrange function},
+consisting of the original objective function plus a set of penalties. Each
+penalty is a product between a coefficient, called a Lagrange multiplier ($\alpha$),
+and a function representing whether the constraint is satisfied.
+\begin{equation}
+    \mathcal{L}(\theta, \alpha; X,y) = J(w;X,y)+ \alpha(\Omega(\theta)-k)
+\end{equation}
+Formally the optimization problem will be:
+\begin{equation}
+    \argmin_\theta \max_{\alpha \geq 0} \mathcal{L}(\theta, \alpha)
+\end{equation}
+
+To solve this problem we can use techniques that minimize $J$ and then project
+the solution obtained to the feasible region $\Omega(\theta) - k$. This method
+prevent to get stuck in local minimum and impose stability on the optimization
+procedure.
+\subsubsection{Dataset augmentation}
+We can get better generalization training model on more data. The main problem is
+that data is limited also labelling is an extremely tedious task. \textbf{Dataset
+    augmentation} provides a cheap easy way to increase the amount of your
+training data.
+
 Moreover, when you are comparing different algorithms you have to compare on
 augmented and non augmented dataset to avoid bias.
 
-Exists a lot of algorithms for data augmentation use case dependant.
+To implement this technique exists a lot of algorithms, but when we use this
+we need to be careful to not introduce bias in the dataset or altering the output.
+\subsubsection{Noise robustness}
+\textbf{Noise injection} can be thought of as a form of regularization. When we
+add a noise with infinitesimal variance at input of the model is equivalent to
+imposing a penalty on the norm of the weights.
 
-\subsection{Noise robustness}
-Noise injection can be thought of as a form of regularization. When we add a noise 
-with infinitesimal variance at input of the model is equivalent to imposing a penalty
-on the norm of the weights. 
+Noise can be injected at different levels of deep models, if we add on input we
+are defining a data augmentation procedure, so we have to use some of the best
+practices explained before.
 
-Noise can be injected at different levels of deep models, if we add on input we are 
-defining a data augmentation procedure, so we have to do the same best practise 
-explained before.
+Adding small noise pushes model into regions where the model is insensitive to
+small variations in weights, finding points that are not merely minima, but
+minima surrounded by flat regions.
 
-Adding small noise pushes model into regions where the weights model are insensitive to small 
-variation of input finding points of local minima surrounded by flat regions.
+Since some dataset present mistake on the labels, we can remedy this problem by
+adding noise to the labels. This can be done through setting a probability $\varepsilon$
+for which we think the labels are correct.
 
-We can add noise on labels by getting in output a level of confidence (probability),
-an example of this method implemented analitically in the cost function is \textbf{cross entropy} 
-Another example of this is \textbf{label smoothing} where we use softmax AF in
-the output layer to get a probability in place of get descrete output.
+This method implemented analytically in the \textbf{cross entropy} function.
+Another example of this technique is \textbf{label smoothing}, where we use
+softmax activation function in the output layer to get a probability.
+\begin{equation*}
+    \left[\begin{array}{c}
+            1 \\0\\\vdots\\ 0
+        \end{array}\right]_{label} \implies \left[\begin{array}{c}
+            0.9 \\0.01\\\vdots\\ 0.02
+        \end{array}\right]_{label}
+\end{equation*}
 
-$$\left[\begin{array}{c}
-    1\\0\\\vdots\\ 0
-\end{array}\right]_{lable} \implies \left[\begin{array}{c}
-    0.9\\0.01\\\vdots\\ 0.02
-\end{array}\right]_{lable}$$
-
-Using a softmax we will never predict 0 or 1 but it will predict a probability so 
-model can always learn and make more extreme prediction forever. This has the advantage 
-of preventing the pursuit of hard probabilities without discouraging correct classification.
-
-\subsection{Multitasking learning}
-Multitasking learning is a way to improve generalization by pooling the 
-examples arising out of several tasks. Multitasking learning is usually performed 
-through the following architecture:
+Using a softmax we will never predict 0 or 1 but it will predict a probability so
+model can always learn and make more extreme prediction forever. This has the
+advantage of preventing the pursuit of hard probabilities without discouraging
+correct classification.
+\subsubsection{Multitasking learning}
+\textbf{Multitasking learning} is a way to improve generalization by pooling the
+examples arising out of several tasks. It is usually performed through the
+following architecture:
 \begin{itemize}
-    \item task-specific parameters: which only benefit from the examples of their
-    task to achieve good generalization
-    \item generic parameters: parameters shared across all tasks which benefit from 
-    the pooled data of all tasts.
+    \item \textit{Task-specific parameters}: which only benefit from the examples
+          of their task to achieve good generalization.
+    \item \textit{Generic parameters}: parameters shared across all tasks which
+          benefit from the pooled data of all tasks.
 \end{itemize}
-Multitasking learning is a form of parameter sharing. Shared parameters improve 
-generalization in proportion of number of examples for the general task. Additional 
-task imposes contraints on the parameters in the shared layers preventing overfitting.
-Note that improvement in generalization only occurs when there is something shared across
-the tasks at hand.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/multitask.png}
+    \caption{Multitasking learning}
+    \label{fig:multitask}
+\end{figure}
+\begin{note}
+    Multitasking learning is a form of parameter sharing.
+\end{note}
 
-\subsection{Early stopping}
-When training large models with sufficient representational capacity to overfit 
-the task, we often observe that training error decreases over time but validation 
+Shared parameters improve generalization in proportion of number of examples for
+the general task. Additional task imposes constraints on the parameters in the
+shared layers preventing overfitting.
+\begin{note}
+    Improvement in generalization only occurs when there is something shared across
+    the tasks at hand.
+\end{note}
+\subsubsection{Early stopping}
+When training large models with sufficient representational capacity to overfit
+the task, we often observe that training error decreases over time but validation
 error begins to rise again. We can obtain a model with better validation error by
-returning to the parameter setting at the point in time with the lowest validation 
+returning to the parameter setting at the point in time with the lowest validation
 error.
 
-This is one of the most techniques used. Early stopping can be used as follow:
+\textbf{Early stopping} is one of the most common techniques used. We can think
+at this technique as a hyperparameter selection method, where training time is
+the hyperparameter to be chosen.
+
+Early stopping can be implemented as follow:
 \begin{itemize}
-    \item choose number of iterations $n$
-    \item train model for $n$ iterations 
-    \item validate model and compute validation error, compare consecutive validation
-    error and return to point 2 until delta is insignificant or negative.
+    \item Choose number of iterations $n$
+    \item Train model for $n$ iterations
+    \item Validate model and compute validation error, compare consecutive validation
+          error and return to point 2 until delta is insignificant or negative.
 \end{itemize}
 Every iteration model improves its weights until it starts to going in overfitting.
 \begin{note}
     It's impossible to write all parameters on disk during training.
 \end{note}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\textwidth]{img/early_stopping.png}
+    \caption{On the left we can see the process of early stopping, while on the
+        right we can see a classic regularization process.}
+    \label{fig:earlystopping}
+\end{figure}
+\subsubsection{Parameters Tying}
+\textbf{Parameters Tying} refers to explicitly forcing the parameters of 2 models 
+to be close to each other using the norm penalty:
+\begin{equation}
+    \|w(A)- w(b)\|
+\end{equation}
+with $A$ and $B$ respectively first and second model. This norm penalty is added
+to the objective function like a constraint. It is used in Siamese networks, 
+convolution operators and multitasking learning.
+\subsubsection{Bagging}
+\textbf{Bagging} is a technique for reducing generalization error combining 
+several models (\textbf{ensemble model}).
 
-\subsection{Parameters Tying}
-Parameters Tying refers to explicitly forcing the parameters of 2 models to be close to each other
-using the norm penalty;
-$$\|w(A)- w(b)\|$$
-with $A$ and $B$ respectively first and second model. This norm penalty is added 
-to the objective function like a constraint. It is used in Siamese networks, convolution 
-operators and multitasking learning.sì
-
-\subsection{Bagging}
-It's a technique for reducing generalization error combining several models (\textbf{ensemble model}). 
 You have to train $k$ different models on $k$ different subsets of training data
-with same number of examples as original dataset using a random sampling with replacement.
-Every model is then tested, they produce $k$ votes for the final result. These 
+with same number of examples as original dataset using a random sampling with 
+replacement.
+
+Every model is then tested, they produce $k$ votes for the final result. These
 models are called ensemble.
 
-The objective of this method is to introduce generalization by using different models 
-trained on different examples using different initialization hyperparameters and different 
-structures to have indipendant errors.
+The objective of this method is to introduce generalization by using different 
+models trained on different examples using different initialization hyperparameter
+and different structures to have independent errors.
 
-Cons of this method is that ensemble models doesn't provide us a scalable way to 
-improve performace, moreover we have 2-3 models inside the ensemble.
+Cons of this method is that ensemble models doesn't provide us a scalable way to
+improve performance, moreover we have 2-3 models inside the ensemble.
+\subsubsection{Dropout}
+\textbf{Dropout} provides a computationally inexpensive but powerful method of 
+regularizing a broad family of models. It provides an inexpensive approximation 
+of a ensemble with a high number of sub-networks of the starting one. 
 
-\subsection{Dropout}
-Dropout provides a computationally inexpensive but powerful method of regularizing
-a broad family of models. It provides an inexpensive approximation of a ensemble with 
-a high number of subnetworks of the starting one. All subnetworks should be formed by removing 
-non-output units from underlying base network, generating an exponential number of 
-models using a trattable amount of memory. Dropout removes the need to 
-accumulate model votes at the inference stage and it is a sort of method to force the 
-model to learn with missing input and hiddden unit.
+All the sub-networks should be formed by removing non-output units from underlying 
+base network, generating an exponential number of models, using a treatable 
+amount of memory. 
 
-To do a train phase we use a \textbf{minibatch-based learning algorithm} that makes 
-small steps, such as stochastic gradient discent.
+This technique eliminates the need to accumulate model votes in the inference 
+phase. It is intended to train the model to be learned by switching on and off 
+with different probabilities input neurons or neurons in the hidden layers.
 
-Each time we change minibatch we \textbf{randomly indipendent sample} a different binary mask to apply
-to all imput and hidden units in the network. Typically the distribution of including 
-a unit is $0.5$ for hidden unit and $0.8$ for input unit.
+To do a train phase we use a \textbf{minibatch-based learning algorithm} that 
+makes small steps, such as stochastic gradient descent.
 
-We can have some problem, infact at training time we are required to divide the 
-output of each unit by the probability of that unit's dropout mask, so we assign 
-as likelihood on the output. In this way we make sure that the expeted total 
-input to a unit at test time is the same as the expeted total input of that unit 
+Each time we change minibatch we \textbf{randomly sample} a different binary mask 
+to apply to all input and hidden units in the network. Typically the distribution 
+use for sampling is not uniform. For example, the probability of keeping a hidden 
+unit is $0.5$, while the probability of including an input unit is $0.8$.
+
+We can have some problem, infact, at training time we are required to divide the
+output of each unit by the probability of that unit's dropout mask, so we assign
+as likelihood on the output. In this way we make sure that the expected total
+input to a unit at test time is the same as the expected total input of that unit
 at train time.
 
-We haven't theoretically basis for the accuracy but empirically it performes well.
-Complexity of dropout is limited to a $\mathcal{O}(n)$ computation per example 
-to update because it needs to generate a total of $n$ random numbers and multiply them
-by the state. 
+We haven't theoretically basis for the accuracy but empirically it perform well.
+Complexity of dropout is limited to a $\mathcal{O}(n)$ computation per example
+to update because it needs to generate a total of $n$ random numbers and multiply 
+them by the state.
 
 Dropout can be used with every model and also with stochastic gradient descent.
-The cost of applying dropout to the entire model could be significant, but the amount of 
-benefit on generailization error counldn't be enought to the cost of the regularization.
+The cost of applying dropout to the entire model could be significant, but the 
+amount of benefit on generalization error couldn't be enough to the cost of the 
+regularization.
+\subsubsection{Adversarial training}
+We can add \textbf{adversarial examples} that are perturbed examples of train 
+set. These are used to train the network and will allowed us to reduce test errors. 
 
-\subsection{Adversal training}
-We can add adversal examples that are perturbed examples of train set. These
-are used to train the network and will allowed us to reduce test errors. Adversal 
-examples can be generated by adding to a bit of perturbation on some train example 
-with a low moltiplication factor of noise. This method allowed us to 
-generate new examples for training from the original train set with slightly changes
-that are unrecognisable by humans.
-
-\subsection{Generative Adversal Models}
-GAN are generative model that implicitly learn the \textbf{data distribution}
-from a zero-sum game between 2 compiting neural network:
+Adversarial examples can be generated by adding to a bit of perturbation on some 
+train example with a low multiplication factor of noise. This method allowed us 
+to generate new examples for training from the original train set with slightly 
+changes that are unrecognized by humans.
+\section{Generative Adversarial Models}
+\textbf{Generative Adversarial Network} (GAN) are generative model that 
+implicitly learn the \textbf{data distribution} from a zero-sum game between 2 
+computing neural network:
 \begin{itemize}
-    \item \textbf{discriminator}: a neural network that classify examples between 
-    fake and real. 
-    \item \textbf{generator}: generate fake example that are given as input to the 
-    discriminator
+    \item \textbf{Discriminator}: a neural network that classify examples between
+          fake and real.
+    \item \textbf{Generator}: generate fake example that are given as input to the
+          discriminator.
 \end{itemize}
 
-The target of the generator is to generate example the most similar to real one 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/GAN.png}
+    \caption{Generative Adversarial Network}
+    \label{fig:gan}
+\end{figure}
+
+The target of the generator is to generate example the most similar to real one
 in such a way to be classified in real example by the discriminator. Quite the
-opposite the discriminator have to identify real examples from fake one. If the 
-discriminator makes a mistake so we will update discriminator's weights, vice versa we will
-update generator's weights
- 
+opposite the discriminator have to identify real examples from fake one. If the
+discriminator makes a mistake so we will update discriminator's weights, vice 
+versa we will update generator's weights.
