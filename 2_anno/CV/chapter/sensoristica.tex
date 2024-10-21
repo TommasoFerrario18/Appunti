@@ -205,9 +205,56 @@ pixel che non centrano nulla con il colore creando rumore fastidioso. Quindi le 
 che usano il Bayer filter spesso implementano la possibilità di ottenere direttamente 
 i valori non interpolati, lasciando all'utente la scelta dell'interpolazione. 
 
-Un altro modo per implementare le camere a colori è quello di avere i sensori stackati 
+Un altro modo per implementare le camere a colori è quello di avere i \textbf{sensori stackati} 
 uno sull'altro in modo tale da far si che le frequenze del B si fermano sul primo 
 sensore, il G si fermano sul secondo e infine il R si fermano sull'ultimo. Questo 
 permette di avere lo stesso effetto dei sensori a 3-CCD ma di non avere il costo 
 e la loro fragilità, permettendoci quindi di avere un unico sensore che riconosce
 le singole componenti RGB per ogni elemento sensitivo.
+
+\subsection{Sensori a eventi}
+Sono sensori composti da \textbf{stacked sensors} che si occupano di registrare 
+gli eventi della scena. Ogni pixel di una 
+event based camera è asincrono e si ha della circuiteria per ogni pixel che percepisce 
+i cambiamenti di luce negativi e positivi, acquisendo il logaritmo della differenza 
+di luce.
+
+Un normale sensore genera una sequenza di immagini della 
+scena dinamica, mentre i sensori di eventi generano una sequenza di eventi che 
+tracciano solo i cambiamenti nella scena non tutta la scena. Nel momento in cui la 
+scena diventa statica allora il sensore ad eventi non percepisce nulla mentre 
+i sensori normali continuano a percepire lo stesso frame. 
+
+Il vantaggio dei sensori ad eventi sono che mantenendo le stesse impostazioni 
+possiamo essere più sensibili sulle scelte dinamiche, invece nelle camere normali 
+otteniamo un effetto di blur. Con quelli ad eventi si possono ottenere una sensibilità
+ai movimenti senza blur con una precisione di 10ms. Inoltre queste camere producono
+più informazioni nello stesso tempo rispetto alle camere a frame permettendoci di 
+avere maggiori informazioni sul movimento per il recognizing etc. Quindi i dati 
+nelle camere normali sono le intensità mentre in quelle ad eventi sono la variazione 
+dell'intensità dall'istante di tempo precedente. Inoltre in quelle normale si hanno 
+delle duplicazioni dei dati perché si hanno i pixel anche dello sfondo, al contrario 
+quelle ad eventi abbiamo solo i pixel che variano nel tempo e possiamo usare queste 
+info con la CV e questo riduce il data throughtput. 
+
+\begin{nota}
+    Possiamo detectare anche il flickering delle luci con le camere ad eventi e 
+    calcolare la frequenza.
+\end{nota}
+
+Un altro lato positivo delle camere ad eventi è che permette di avere un ampio HDR 
+e questo permette di avere camere robuste e utili in situazioni difficili come 
+bassa o troppa esposizione. Al contrario, se dovessimo utilizzare una camera normale 
+HDR abbiamo molti blur effect nelle scene dinamiche per via delle multiple esposizioni.
+\begin{nota}
+    Le camere ad eventi sono perfette per l'automotive, ma anche per gli ambienti 
+    industriali, ex: conteggio di precisione, oppure controllo di qualità delle 
+    saldature. Oppure possiamo detectare delle vibrazioni, oppure si può usare anche
+    usare per fare image enhancing.
+\end{nota} 
+
+Il problema delle camere ad eventi è il fatto che per fare la recognition degli oggetti
+non ci sono molti dataset, quindi si raccolgono attraverso la combinazione di immagini 
+ad eventi e quelle a frame in modo poi da poter fare l'etichettatura. In seguito 
+possiamo utilizzare il dato delle camere ad eventi per effettuare il recognizing.
+In generale si utilizzano sia camere normale sia ad eventi.
