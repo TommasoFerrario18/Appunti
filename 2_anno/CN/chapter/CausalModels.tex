@@ -95,3 +95,92 @@ form:
 In the equation above, the denominator represents the \textbf{propensity score}
 which displays the role played by the parents $pa(X)$ of $X$ in determining the
 result of the intervention $do(X = x)$.
+\section{Truncated Factorization}
+In some circumstances, we can involve multiple interventions in the same time.
+
+The previous consideration also allows us to generalize the Adjustment Formula to
+\textbf{multiple intervansions}, that is, interventions that fix the values of a
+set of variables $S$ to constants $s$. We simply write down the Factorization of
+the pre-intervention distribution and strike out all factors that correspond to
+variables in the intervention set $S$.
+
+\begin{definition}[\textbf{Truncated Factorization}]
+      We assume that $P$ and $G$ satisfy the Markov assumption and modularity.
+      Given, a set of intervention nodes $S$, if $x_i$ is consistent with the
+      intervention $S = s$, then:
+      \begin{equation}
+            P(x_1, x_2, \dots, x_n| do(S = s)) = \prod_{i = 1}^{n} P(x_i | pa(x_i))
+      \end{equation}
+      otherwise $P(x_1, x_2, \dots, x_n| do(S = s)) = 0$.
+\end{definition}
+\begin{definition}[\textbf{Bayesian Network Factorization}]
+      Given a probability distribution $P$ and a graph $G$, $P$ factorizes
+      according to $G$ if:
+      \begin{equation}
+            P(x_1, x_2, \dots, x_n) = \prod_{i = 1}^{n} P(x_i | pa(x_i))
+      \end{equation}
+\end{definition}
+Often, we know, that the variables have \textbf{unmeasured parents}, also known as
+\textbf{latent}, that, though represented in the graph, may be inaccessible for
+measurement. In those case, we need to find an alternative set of variables
+to adjust for.
+
+\begin{center}
+      Under what conditions, is the structure of the causal graph sufficient for
+      computing a causal effect from a given data set?
+\end{center}
+
+One of the most important tools we use to determine whether we can compute a
+causal effect is a simple test called the \textbf{backdoor criterion}. Using it,
+we can determine, for any two variables $X$ and $Y$ in a causal model represented
+by a DAG $G$, which set of variables $S$ in that model should be conditioned on
+when searching for the causal relationship between $X$ and $Y$.
+
+\begin{definition}[\textbf{Backdoor criterion}]
+      Given an ordered pair of variables $(X, Y)$ in a DAG $G$, a set of variables
+      $S$ satisfies the backdoor criterion relative to $(X, Y)$ if no nodes
+      in $S$ are descendants of $X$ and $S$ blocks all backdoor paths between $X$
+      and $Y$ that contain an arrow into $X$.
+\end{definition}
+If a set of variables $S$ satisfies the backdoor criterion relative for $X$ and
+$Y$, then the causal effect of $X$ on $Y$ is given by the following formula:
+\begin{equation}
+      P(Y = y| do(X = x)) = \sum_{s} P(Y = y| X = x, S = s)P(S = s)
+\end{equation}
+just as when we adjust for the parents of $X$ in the Adjustment Formula.
+
+In general, we would like to condition on a set of nodes $S$ such that we:
+\begin{itemize}
+      \item Block all the spurious paths between $X$ and $Y$. We want the
+            conditioning set $S$ to block any \textbf{backdoor path} in which
+            one end has an arrow into $X$, because such paths may make $X$ and
+            $Y$ dependent.
+      \item Leave all directed paths from $X$ to $Y$ unperterbed. We don't want
+            to condition on any nodes that are descendants of $X$.
+      \item Create no spurious paths
+\end{itemize}
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[width=\textwidth]{img/backdoor.png}
+      \caption{Backdoor paths}
+      \label{fig:backdoor}
+\end{figure}
+\begin{definition}[\textbf{Backdoor Adjustment Formula}]
+      Give the modularity assumption, that, $S$ satisfies the backdoor criterion,
+      and positivity, we can identify the causal effect of $X$ on $Y$ as follows:
+      \begin{equation}
+            P(Y = y| do(X = x)) = \sum_{s} P(Y = y| X = x, S = s)P(S = s)
+      \end{equation}
+\end{definition}
+We can use the backdoor adjustment formula if, $S$ d-separates $X$ from $Y$ in
+the augmented graph obtained by removing all outgoing edges from $X$. 
+
+We would be able to isolate the causal association if $X$ is d-separated from 
+$Y$ in the augmented graph.
+\begin{center}
+      \textbf{Isolation of the causal association is identification}
+\end{center}
+
+We can also isolate the causal association if $X$ is d-separated from $Y$ in
+the augmented graph, conditional on $S$. This is what the first part of the 
+backdoor criterion is about and what we've codified in the backdoor adjustment.
