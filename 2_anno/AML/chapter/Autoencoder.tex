@@ -1,0 +1,62 @@
+\chapter{Autoencoder}
+The \textbf{autoencoder} are neural networks trained to attempt to copy its
+input to its output. This is done by a network structured in two parts:
+\begin{itemize}
+    \item An \textbf{encoder} that maps the input into a hidden-space
+    \item A \textbf{decoder} that maps the hidden-space into the output
+\end{itemize}
+
+We can represent the autoencoder as a function $h = f(x)$, where $h$ is the
+hidden-space representation of the input $x$. The output of the autoencoder is
+$g(h)$, where $g$ is the decoder function. The autoencoder is trained to minimize
+the difference between the input and the output, i.e. $x \approx g(f(x))$.
+
+This structure is force to select which aspects to preserve and thus hopefully
+can learn useful properties of the data.
+\section{Types of Autoencoder}
+\subsection{Undercomplete Autoencoder}
+The simplest form of autoencoder is the \textbf{undercomplete autoencoder}, where
+the hidden layer is smaller than the input layer. This forces the autoencoder to
+learn a compressed representation of the data.
+
+This model is trained to minimize the reconstruction error, i.e. the difference
+between the input and the output. The loss function is usually the mean squared
+error (MSE) between the input and the output.
+\begin{equation*}
+    L(x, g(f(x))) = ||x - g(f(x))||^2
+\end{equation*}
+\begin{note}
+    If we have a linear activation function, the undercomplete autoencoder is
+    equivalent to the PCA.
+\end{note}
+
+We could have non linear autoencoder, where the encoder and decoder are non-linear
+functions. This allows the autoencoder to learn more complex representations of
+the data.
+\subsection{Regularized Autoencoder}
+\textbf{Regularized autoencoder} are autoencoder that are trained to minimize the
+reconstruction error, but also have a regularization term. This term is used to
+prevent the autoencoder from learning the identity function.
+
+This can be subdivided into:
+\begin{itemize}
+    \item \textbf{Sparse autoencoder}: is a regularized autoencoder where the
+          hidden layer is greater than the input layer. Usually we add a
+          regularization term to the loss function to penalize the activation
+          of the hidden units.This type must respond to statistical features of
+          the dataset, ratehr than acting as an identity function.
+    \item \textbf{Denoising autoencoder}: are basic autoencoder where the task
+          is to reconstruct the input without noise. The input is corrupted by
+          adding some noise, and the autoencoder is trained to reconstruct the
+          original input.
+    \item \textbf{Stacked autoencoder}: are autoencoder where the encoder and
+          decoder are composed of multiple layers. This allows the autoencoder
+          to learn more complex representations of the data.
+    \item \textbf{Variational Autoencoder}: are autoencoder that are trained to
+          learn the parameters of the probability distribution that generates
+          the data. This allows the autoencoder to generate new data similar to
+          the training data. The middle layer of the autoencoder is used to
+          represent the mean and the variance of the distribution. And, the loss
+          function need to be improved to take into account the difference between
+          the probability distribution of the input and the output.
+\end{itemize}

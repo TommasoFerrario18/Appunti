@@ -709,50 +709,50 @@ Every iteration model improves its weights until it starts to going in overfitti
     \label{fig:earlystopping}
 \end{figure}
 \subsubsection{Parameters Tying}
-\textbf{Parameters Tying} refers to explicitly forcing the parameters of 2 models 
+\textbf{Parameters Tying} refers to explicitly forcing the parameters of 2 models
 to be close to each other using the norm penalty:
 \begin{equation}
     \|w(A)- w(b)\|
 \end{equation}
 with $A$ and $B$ respectively first and second model. This norm penalty is added
-to the objective function like a constraint. It is used in Siamese networks, 
+to the objective function like a constraint. It is used in Siamese networks,
 convolution operators and multitasking learning.
 \subsubsection{Bagging}
-\textbf{Bagging} is a technique for reducing generalization error combining 
+\textbf{Bagging} is a technique for reducing generalization error combining
 several models (\textbf{ensemble model}).
 
 You have to train $k$ different models on $k$ different subsets of training data
-with same number of examples as original dataset using a random sampling with 
+with same number of examples as original dataset using a random sampling with
 replacement.
 
 Every model is then tested, they produce $k$ votes for the final result. These
 models are called ensemble.
 
-The objective of this method is to introduce generalization by using different 
+The objective of this method is to introduce generalization by using different
 models trained on different examples using different initialization hyperparameter
 and different structures to have independent errors.
 
 Cons of this method is that ensemble models doesn't provide us a scalable way to
 improve performance, moreover we have 2-3 models inside the ensemble.
 \subsubsection{Dropout}
-\textbf{Dropout} provides a computationally inexpensive but powerful method of 
-regularizing a broad family of models. It provides an inexpensive approximation 
-of a ensemble with a high number of sub-networks of the starting one. 
+\textbf{Dropout} provides a computationally inexpensive but powerful method of
+regularizing a broad family of models. It provides an inexpensive approximation
+of a ensemble with a high number of sub-networks of the starting one.
 
-All the sub-networks should be formed by removing non-output units from underlying 
-base network, generating an exponential number of models, using a treatable 
-amount of memory. 
+All the sub-networks should be formed by removing non-output units from underlying
+base network, generating an exponential number of models, using a treatable
+amount of memory.
 
-This technique eliminates the need to accumulate model votes in the inference 
-phase. It is intended to train the model to be learned by switching on and off 
+This technique eliminates the need to accumulate model votes in the inference
+phase. It is intended to train the model to be learned by switching on and off
 with different probabilities input neurons or neurons in the hidden layers.
 
-To do a train phase we use a \textbf{minibatch-based learning algorithm} that 
+To do a train phase we use a \textbf{minibatch-based learning algorithm} that
 makes small steps, such as stochastic gradient descent.
 
-Each time we change minibatch we \textbf{randomly sample} a different binary mask 
-to apply to all input and hidden units in the network. Typically the distribution 
-use for sampling is not uniform. For example, the probability of keeping a hidden 
+Each time we change minibatch we \textbf{randomly sample} a different binary mask
+to apply to all input and hidden units in the network. Typically the distribution
+use for sampling is not uniform. For example, the probability of keeping a hidden
 unit is $0.5$, while the probability of including an input unit is $0.8$.
 
 We can have some problem, infact, at training time we are required to divide the
@@ -763,24 +763,24 @@ at train time.
 
 We haven't theoretically basis for the accuracy but empirically it perform well.
 Complexity of dropout is limited to a $\mathcal{O}(n)$ computation per example
-to update because it needs to generate a total of $n$ random numbers and multiply 
+to update because it needs to generate a total of $n$ random numbers and multiply
 them by the state.
 
 Dropout can be used with every model and also with stochastic gradient descent.
-The cost of applying dropout to the entire model could be significant, but the 
-amount of benefit on generalization error couldn't be enough to the cost of the 
+The cost of applying dropout to the entire model could be significant, but the
+amount of benefit on generalization error couldn't be enough to the cost of the
 regularization.
 \subsubsection{Adversarial training}
-We can add \textbf{adversarial examples} that are perturbed examples of train 
-set. These are used to train the network and will allowed us to reduce test errors. 
+We can add \textbf{adversarial examples} that are perturbed examples of train
+set. These are used to train the network and will allowed us to reduce test errors.
 
-Adversarial examples can be generated by adding to a bit of perturbation on some 
-train example with a low multiplication factor of noise. This method allowed us 
-to generate new examples for training from the original train set with slightly 
+Adversarial examples can be generated by adding to a bit of perturbation on some
+train example with a low multiplication factor of noise. This method allowed us
+to generate new examples for training from the original train set with slightly
 changes that are unrecognized by humans.
 \section{Generative Adversarial Models}
-\textbf{Generative Adversarial Network} (GAN) are generative model that 
-implicitly learn the \textbf{data distribution} from a zero-sum game between 2 
+\textbf{Generative Adversarial Network} (GAN) are generative model that
+implicitly learn the \textbf{data distribution} from a zero-sum game between 2
 computing neural network:
 \begin{itemize}
     \item \textbf{Discriminator}: a neural network that classify examples between
@@ -799,5 +799,328 @@ computing neural network:
 The target of the generator is to generate example the most similar to real one
 in such a way to be classified in real example by the discriminator. Quite the
 opposite the discriminator have to identify real examples from fake one. If the
-discriminator makes a mistake so we will update discriminator's weights, vice 
+discriminator makes a mistake so we will update discriminator's weights, vice
 versa we will update generator's weights.
+\section{Optimization for training deep models}
+When we are creating a deep learning model, we have to consider different aspects
+to optimize the training process. In this section, we are going to see some
+issues that can arise during the training process and how to solve them.
+
+Let's start introducing the difference between \textbf{optimization} and
+\textbf{machine learning}. In the first case, we are trying to minimize a function
+acting directly on it, while in the second case we are trying to minimize a loss
+function that is a proxy for the true function we want to minimize.
+
+Using, in machine learning, we want to optimize a performance measure $P$, based
+on the test set. This is done optimizing a different function $J(\theta)$ hoping
+that $P$ will be optimized too.
+
+Typically, the loss function is a simple average over the training set and can be
+written as:
+\begin{equation}
+    J(\theta) = E_{(x, y) \approx \hat{P}_{data}} L(f(x, \theta), y)
+\end{equation}
+where $L$ is the loss function, $f$ is the model, $x$ is the input, $y$ is the
+target and $\theta$ are the parameters of the model. Also, $\hat{P}_{data}$ is
+the empirical distribution of the data.
+
+If we know the real distribution of data $P_{data}$, we can write the loss
+function, also call \textbf{risk function}, as:
+\begin{equation}
+    J(\theta) = E_{(x, y) \approx P_{data}} L(f(x, \theta), y)
+\end{equation}
+and this reduce the machine learning problem to an optimization problem.
+
+The problem of using the empirical distribution is that the model is prone to
+overfitting, because we don't have enough data to represent the real distribution.
+
+Instead of minimizing the empirical risk, we can minimize a \textbf{surrogate
+    loss function}. This function is a proxy for the true loss function and it
+is easier to optimize.
+
+Another difference is that training algorithms doesn't halt at local minima, but
+when the early stopping criterion is met. This can be roughly thought of as a
+way to reincorporate the true loss function in the learning process.
+\subsection{Batch and Minibatch}
+One aspect of machine learning algorithms that separates them from general
+optimization algorithms is that the objective function usually decomposes as a
+sum over the training examples. Computing this expectation exactly is very
+expensive, since it requires evaluating the model on every example in the entire
+dataset.
+
+However, we can compute these expectations by randomly sampling a small number
+of examples from the dataset at every iteration. This works because we are
+computing an expected value and, the \textbf{standard error} of the mean estimated
+from a sample of size $m$ is:
+\begin{equation}
+    SE(\mu) = \sqrt{VAR\left[\frac{1}{m}\sum x^{(i)}\right]} = \frac{\sigma}{\sqrt{m}}
+\end{equation}
+where $\sigma$ is the standard deviation of the distribution. This equation show
+us that there is a less then linear relationship between the number of examples
+and the standard error.
+
+Another consideration that motivates the estimation of the gradient from a
+small number of samples is the redundancy in the training set.
+
+Optimization algorithms that use the entire training set to compute the gradient
+are called \textbf{batch} or \textbf{deterministic gradient methods}. While the
+ones that use a single training example for that task are called \textbf{stochastic
+    gradient methods}. Most of the algorithms we use for deep learning fall
+somewhere in between and they are called \textbf{minibatch} or \textbf{minibatch
+    stochastic methods}.
+
+We can see the difference between these methods in the following figure \ref{fig:batchminibatch}.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/minibatchvsbatch.png}
+    \caption{Difference between batch and minibatch}
+    \label{fig:batchminibatch}
+\end{figure}
+
+In order to chose the right size of the minibatch, we have to consider that a
+larger size will provide a more accurate estimate of the gradient, but with less
+than linear improvement in the standard error. While a smaller size will provide
+a less accurate estimate of the gradient, but with more than linear improvement
+in the standard error and doesn't use the full computational power of the GPU.
+
+\begin{note}
+    Usually, a good choice is a power of 2.
+\end{note}
+
+It is extremely crucial that minibatches are sampled at \textbf{random}, because
+computing an unbiased estimate of the expected gradient from a set of samples
+requires that those samples be independent.
+
+When the order of elements in the dataset holds some significance, it is absolute
+necessity to shuffle the examples before selecting every minibatch.
+\subsection{Challenges in deep learning}
+Traditionally, machine learning has avoided this difficulty by carefully designing
+the objective function and constraints to insure the problem is convex. However,
+for training deep models we usually face non-convex optimization.
+\subsubsection{Ill-conditioning}
+The first challenge is \textbf{ill-conditioning}. This is a problem that arises
+when the optimization problem is poorly conditioned. This means that the curvature
+of the loss function is very different in different directions.
+
+This condition is manifested in stochastic gradient descent as a situation where
+every small steps increase the loss function.
+
+This problem can be identify by looking at the \textbf{condition number} of the
+Hessian matrix. If the condition number is very large, we have an ill-conditioned
+problem.
+\subsubsection{Local minima}
+Functions involved in deep models are guaranteed to have an extremely large
+number of local minima. However, we will see that local minima are not
+necessarily a major problem because flat regions are an acceptable solution.
+
+Neural networks aren't \textbf{identifiable} there is no single set of parameters
+from a single training set. Infact, if we have $m$ layers with $n$ neurons each,
+there are $n!^m$ ways to arranging the hidden units to obtain equivalent solutions.
+This is called \textbf{weight space symmetry}.
+
+Model identifiability issues mean that there can be an extremely large or even
+uncountably infinite amount of local minima in the cost function of deep models.
+However, these local minima are all equivalent in value and are not a problematic
+form of non-convexity.
+
+Local minima are only truly problematic if they have a much higher cost than the
+global minimum.
+\subsubsection{Saddle points}
+For many high-dimensional non-convex functions, local minima and maxima are in
+fact rare compared to \textbf{saddle points}.
+
+A saddle point is a point where the Hessian matrix has both positive and negative
+eigenvalues and the gradient is zero. We can think of a saddle point as being a
+local minimum along one cross-section of the cost function and a local maximum
+along another.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/saddle.png}
+    \caption{Saddle point}
+    \label{fig:saddle}
+\end{figure}
+
+This points are more common in high-dimensional spaces than local minima and they
+are a problem for optimization algorithms because they are points where the gradient
+is zero but they are not a minimum.
+
+For first-order optimization algorithms that use only gradient information, the
+situation is unclear. The gradient can often become very small near a saddle point.
+On the other hand, gradient descent empirically seems to be able to escape saddle
+points in many cases. While, for Newton's Method, saddle points constitute a
+major problem, because it actively seeks solutions at critical points where the
+gradient is zero.
+\subsubsection{Flat regions}
+Another problem that can arise during the training process is the presence of
+\textbf{flat regions}. These are regions where the gradient is very small and the
+optimization algorithm can't make progress.
+\subsubsection{Cliffs and exploding gradients}
+Neural networks with many layers often have extremely steep regions reassembling
+cliffs. This regions are the result from the multiplication of many large weights
+together.
+
+An extremely steep cliff structure, the gradient update step can move the
+parameters extremely far, usually jumping off of the cliff structure altogether.
+
+A solution to this is to use the \textbf{gradient clipping heuristic} which
+intervenes to reduce the step size to be small enough that it is less likely to
+go outside the region where the gradient indicates the direction of approximately
+steepest descent.
+\subsubsection{Additional Problems}
+There are other problems that can arise during the training process, such as:
+\begin{itemize}
+    \item \textbf{Long Term Dependencies}: arises when the computational graph
+          is very deep. The result of this problem is vanishing and exploding
+          gradients.
+    \item \textbf{Inexact Gradients}: we usually only have a noisy or even biased
+          estimate of the gradient and the Hessian. Sometimes, gradients for our
+          loss functions are even intractable. Not a big issue in neural network
+          training. Surrogate loss functions tend to perform well enough in practice.
+    \item \textbf{Poor Correspondence between Local and Global Structure}: it is
+          possible to overcome all of the above problems at a single point and
+          still perform poorly if the direction that results in the most
+          improvement locally does not point toward distant regions of much
+          lower cost.
+\end{itemize}
+\begin{note}
+    The initialization is very important.
+\end{note}
+\subsection{Optimization algorithms}
+There are many optimization algorithms that can be used to train deep models.
+In this section, we are going to see some of them.
+\subsubsection{Stochastic Gradient Descent}
+\textbf{Stochastic Gradient Descent} (SGD) is the most used optimization algorithm
+in deep learning. It is based on the idea of computing the gradient of the loss
+function on a minibatch and then update the weights of the model.
+
+We can describe the algorithm as follows:
+\begin{itemize}
+    \item Sample a minibatch of examples from the training set.
+    \item Compute the gradient of the loss function on the minibatch.
+          \begin{equation}
+              g \gets \frac{1}{m} \nabla_\theta \sum_{i=1}^m L(f(x^{(i)}; \theta), y^{(i)})
+          \end{equation}
+    \item Update the weights of the model using the gradient.
+          \begin{equation}
+              \theta \gets \theta - \epsilon_k g
+          \end{equation}
+\end{itemize}
+It is important to note that the learning rate $\epsilon_k$ is a hyperparameter
+that must be adaptive. This is because the learning rate is a very important
+hyperparameter and it can affect the convergence of the algorithm. A sufficient
+condition for convergence is:
+\begin{equation*}
+    \sum_{k=1}^\infty \epsilon_k = \infty \quad \text{and} \quad \sum_{k=1}^\infty \epsilon_k^2 < \infty
+\end{equation*}
+
+A common way to implement an adaptive learning rate is to use a linear decay
+until the iteration $\tau$. Thi can be done as follows:
+\begin{equation}
+    \epsilon_k = \left(1 - \alpha\right)\epsilon_0 + \alpha \epsilon_\tau
+\end{equation}
+In this case we have to choose three hyperparameters: $\epsilon_0$, $\epsilon_\tau$
+and $\alpha$. Usually, $\epsilon_\tau$ is chosen to be $1\%$ of $\epsilon_0$.
+
+To choose $\epsilon_0$ we can try to make different run for a fixed number of
+iterations and choose the best one.
+\subsubsection{Momentum}
+\textbf{Momentum} is a method that helps accelerate SGD in the relevant direction
+and dampens oscillations. It is a method that accumulates an exponentially decaying
+average of past gradients and continues to move in their direction.
+
+The update rule for momentum is:
+\begin{equation}
+    \theta \gets \theta + v
+\end{equation}
+where $v$ is the velocity vector and it is defined as:
+\begin{equation}
+    v \gets \alpha v - \epsilon \frac{1}{m} \nabla_\theta \sum_{i=1}^m L(f(x^{(i)}; \theta), y^{(i)})
+\end{equation}
+where $\alpha$ is the momentum parameter and it is usually set to $0.9$.
+
+This algorithm aims to solve the problem of poor conditioning of the Hessian
+matrix, and the variance of stochastic gradients.
+
+The momentum algorithm can be seen as a ball rolling down a hill. The ball
+gathers momentum as it rolls down the hill, and it continues to move in the
+direction of the momentum even if it encounters a small hill.
+\subsubsection{Delta Bar Delta}
+\textbf{Delta Bar Delta} is a method that adapts the learning rate for each
+parameter. It is based on the following idea:
+\begin{itemize}
+    \item if the partial derivative of the loss function with respect to a
+          parameter remains the same, increase the learning rate.
+    \item otherwise, if that partial derivative changes sign, decrease
+          the learning rate.
+\end{itemize}
+\subsubsection{AdaGrad}
+\textbf{AdaGrad} is a method that adapts the learning rate for each parameter.
+This method scale the gradient according to the historical norms. In this way,
+learning of parameters with high partial derivatives decrease faster.
+
+This method is based on the following idea:
+\begin{itemize}
+    \item Accumulate the square of the gradient into a vector $r$.
+          \begin{equation}
+              r \gets r + g \odot g
+          \end{equation}
+    \item Update the weights element wise.
+          \begin{equation}
+              \Delta\theta \gets - \frac{\epsilon}{\sqrt{r + \epsilon}} \odot g
+          \end{equation}
+    \item Update parameters
+          \begin{equation}
+              \theta \gets \theta + \Delta \theta
+          \end{equation}
+\end{itemize}
+\subsubsection{RMSProp}
+\textbf{RMSProp} is a method that adapts the learning rate for each parameter.
+This method is a modification of AdaGrad to perform better on non-convex problems.
+The main difference is that RMSProp use an exponentially weighted moving average.
+
+This method is based on the following idea:
+\begin{itemize}
+    \item Accumulate the square of the gradient into a vector $r$.
+          \begin{equation}
+              r \gets \rho r + (1 - \rho) g \odot g
+          \end{equation}
+    \item Update the weights element wise.
+          \begin{equation}
+              \Delta \theta \gets - \frac{\epsilon}{\delta + \sqrt{r}} \odot g
+          \end{equation}
+    \item Update parameters
+          \begin{equation}
+              \theta \gets \theta + \Delta \theta
+          \end{equation}
+\end{itemize}
+\subsubsection{Adam}
+\textbf{Adam} is a variation of RMSProp in which we add the momentum. Also, it
+add a bias correction to the moments to account for their initialization at the
+origin.
+
+This method is based on the following idea:
+\begin{itemize}
+    \item Update time step:
+          \begin{equation}
+              t \gets t + 1
+          \end{equation}
+    \item Update biased moment estimates
+          \begin{equation}
+              s \gets \rho_1 S + (1 - \rho_1)g \\
+              r \gets \rho_2 r + (1 - \rho_2) g \odot g
+          \end{equation}
+    \item Correct baises
+          \begin{equation}
+              \hat{s} \gets \frac{S}{1 - \rho_1^t} \\
+              \hat{r} \gets \frac{r}{1 - \rho_2^t}
+          \end{equation}
+    \item Update parameters
+          \begin{equation}
+              \Delta \theta \gets - \epsilon \frac{\hat{s}}{\delta + \sqrt{\hat{r}}}
+          \end{equation}
+    \item Update model params:
+          \begin{equation}
+              \theta \gets \theta + \Delta \theta
+          \end{equation}
+\end{itemize}
