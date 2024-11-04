@@ -262,9 +262,59 @@ della scena, per esempio sfruttando l'ipotesi di \textbf{grey world}. In sostanz
 si assume che un'immagine con una variazione di colori quando la continuiamo a sfocare 
 arriveremo ad ottenere il colore grigio. Quando l'immagine non è bilanciata si ottiene 
 il colore dell'illuminante e poi si applica la trasformazione. Il problema è che non 
-otteniamo buoni risultati sempre.
+otteniamo buoni risultati sempre. Possiamo migliorare escludendo i colori saturi,
+considerando solo i pixel più illuminati.
+
 \begin{nota}
     Prima avevamo visto il custom white balancing, ovvero quello supervisionato
     dove si utilizza una palette di reference o un oggetto bianco nella scena. La 
     versione automatica si basa sullo stimare l'illuminante e poi correggere.
 \end{nota}
+
+Un altro algoritmo di automatic white balancing è chiamato \textbf{max RGB} che 
+si basa sulla referenza del bianco come il colore col max RGB nell'imamgine. Si basa 
+sul ragionamento che il bianco rimane il massimo in ogni illuminante.
+
+Un altro algoritmo di automatic white balancing è chiamato \textbf{white patch}
+che sfrutta una superficie bianca nell'immagine per effettuare la regolazione.
+
+
+\subsection{Post-processing}
+Si applicano dei passi di post-processing per rendere le immagini più belle agli 
+occhi dell'utilizzatore, le prime trasformazioni si basano sull'applicare una color 
+correction in base alla regione geografica. In asia si tende a portare il colore della 
+pelle verso il bianco.
+
+Poi abbiamo \textbf{flare} ovvero un illuminante uniforme che crea una nebbia, si può
+risolvere in due modi: il primo si sottrarre una percentuale della media dei pixel 
+di tutta l'immagine, il secondo più adattivo è quello di sottrarre una percentuale 
+fissa della media tra pixel vicini dell'immagine.
+
+Poi abbiamo la gestione dei collori e del contrasto attraverso la gamma correction.
+
+\subsection{Spazio colore standard del dispositivo}
+I valori dei tristimoli variano tra dispositivo e l'altro, bisogna quindi convertire 
+i colori dalle sensibilità allo standard sRGB.
+
+\subsection{Compression}
+Abbiamo poi la compressione jpeg applica andando a convertie in uno spazio colori 
+che separa la luminanza e si comprime il colore non la luminanza.
+
+\section{Filtering spatial domain}
+Abbiamo visto i filtri mediani e gaussiani per rimuovere il rumore nelle immagini, 
+il problema è che poi togliamo gli edge perché blurriamo. Possiamo usare un \textbf{non 
+local means filter} che prende la media basata su altri intorni simili.
+
+Un altro approccio è quello di usare il \textbf{bilateral filter} in sostanza permette 
+di applicare filtri diversi in modo intelligente per rimuovere il rumore e preservare 
+gli edge e le texture. Si basa sull'utilizzo di due parametri:
+\begin{itemize}
+    \item $\sigma_r$: regola l'applicazione sui pixel che hanno intensità simili 
+    (regola l'ampiezza della gaussiana 1D)
+    \item $\sigma_s$: regola l'ampiezza della gaussiana che regola la vicinanza spaziale.
+\end{itemize}
+
+Una volta applicato il bilateral possiamo calcolare il residuo e permette di trovare 
+le differenze. Possiamo far variare $\sigma_r$ in base alla media dei gradienti.
+Col bilateral possiamo separare colore e dettaglio e applicare enhancement solo su 
+alcune parti.
