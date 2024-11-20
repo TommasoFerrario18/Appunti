@@ -14,11 +14,13 @@ letters to denote their realizations.
 \begin{definition}[Potential outcomes]
     $Y(x)$ denotes what your outcome would be, if you were to take treatment $X = x$.
 \end{definition}
-A potential outcome $Y(x)$ is distinct from the observed outcome $Y$ in that not
+A \textbf{potential outcome} $Y(x)$ is distinct from the \textbf{observed outcome} $Y$ in that not
 all potential outcomes are observed. But, all potential outcomes can potentially
-be observed.
+be observed but we can't observe potential outcome of a decision that isn't made.
 
-The actually observed potential outcome depends on the given value $x$ of treatment $X$.
+The actually observed outcome depends on the given value $x$ of treatment $X$.
+The potential outcome is the value of $Y$ before making the decision of the 
+treatment $X=x$.  
 
 Up until now, we have been considering an individual. However, the population
 consists of many individuals. Each individual is tipically associated with one or
@@ -34,7 +36,8 @@ as as subscript.
 
     The main different is that $Y(x)$ is a random variable because different individuals
     have different potential outcomes. Meanwhile, $Y_i(x)$ is a treated as a
-    non-random variable because it is the potential outcome is deterministic.
+    non-random variable because it is the potential outcome is deterministic, because 
+    it is conditioned by $i$-individual.
 \end{definition}
 
 \begin{note}
