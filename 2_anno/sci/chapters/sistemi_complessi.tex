@@ -1994,8 +1994,6 @@ simbolo in testa.
 \begin{definizione} [\textbf{Rappresentazione a blocchi di} $X$]
     Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è
     $$X^{[N]} =\beta_N (X)$$
-    Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è
-    $$X^{[N]} =\beta_N (X)$$
 \end{definizione}
 
 \begin{teorema}
@@ -2006,12 +2004,7 @@ simbolo in testa.
     Sia $\mathcal{F}=\{11\}$, $X = X_\mathcal{F}$ e sia $N=2$ allora
     $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
     $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
-    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
-    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
-    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
-    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
 
-    In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
     In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
 \end{esempio}
 
@@ -2025,9 +2018,7 @@ simbolo in testa.
 \end{definizione}
 
 La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
-La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
 \begin{itemize}
-    \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item disegno un arco tra due nodi solo se $u_1v=uv_M \not \in \mathcal{F}$
     \item controllo tutti i cammini biinfiniti e controllo che tutti gli archi
@@ -2067,8 +2058,6 @@ Per definizione $x\in \beta_{M + 1}(y), \forall y\in X$.
     \begin{proof}
         Sia $\mathcal{F}= \{\alpha\beta|t(\alpha) \ne i(\beta)\}\subseteq E^2$ allora
         si ha che $X_G= X_\mathcal{F}$ e allora $X_G$ è un SFT, inoltre è di memoria
-        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
-        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
         $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
     \end{proof}
 \end{teorema}
@@ -2128,24 +2117,6 @@ etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1
     \caption{Esempio di otteniumento di un grafo di un subshift}
     \label{fig:subshift}
 \end{figure}
-come etichette la stringa associata al vertice di partenza. Se guardiamo i camminmi biinfiniti sulle
-etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1$ (vedi \ref{fig:subshift}).
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/subshift_e_grafi.png}
-    \caption{Esempio di otteniumento di un grafo di un subshift}
-    \label{fig:subshift}
-\end{figure}
-come etichette la stringa associata al vertice di partenza. Se guardiamo i camminmi biinfiniti sulle
-etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1$ (vedi \ref{fig:subshift}).  
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/subshift_e_grafi.png}
-    \caption{Esempio di otteniumento di un grafo di un subshift}
-    \label{fig:subshift}
-\end{figure}
 
 \subsection{Entropia}
 Sia $X$ un subshift, come possiamo sapere quanto cresce $|\mathcal{B}_n(X)|$, tasso
@@ -2159,12 +2130,9 @@ allora posso dire che $|\mathcal{B}_n(X)| \sim 2^{cn}$ quindi $c\sim \frac{\log_
     $$h(X) = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n}$$
 \end{definizione}
 Questo limite esiste (sarebbe da dimostrare).
-Questo limite esiste (sarebbe da dimostrare).
 
 \begin{nota}
     $h(X)\le \log_2|A|$ infatti
-    $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^n \iff
-        \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$.
     $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^n \iff
         \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$.
     Inoltre $h(A^\mathbb{Z}) = \lim_{n\to \infty}\frac{\log_2|A^n|}{n} =  \lim_{n\to \infty}\log_2|A| = \log_2|A|$.
@@ -2324,29 +2292,12 @@ in questo caso i blocchi sono tutti disgiunti.
     Supponiamo di avere $N=4$ allora
     $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
     $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
-            x_0 \\x_1\\x_2\\x_3
-        \end{array}\right),\left(\begin{array}{c}
-            x_4 \\x_5\\x_6\\x_7\\
-        \end{array}\right),\dots\right)$$
-\end{esempio}
-\begin{esempio}
-    Supponiamo di avere $N=4$ allora
-    $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
-    $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
-            x_0 \\x_1\\x_2\\x_3
-        \end{array}\right),\left(\begin{array}{c}
-            x_4 \\x_5\\x_6\\x_7\\
-        \end{array}\right),\dots\right)$$
-\end{esempio}
-\begin{esempio}
-    Supponiamo di avere $N=4$ allora
-    $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
-    $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
         x_0\\x_1\\x_2\\x_3
     \end{array}\right),\left(\begin{array}{c}
         x_4\\x_5\\x_6\\x_7\\
     \end{array}\right),\dots\right)$$
 \end{esempio}
+
 \begin{nota}
     $\gamma_N$ è applicabile non cecessariamente agli elementi dell'intero $A^\mathbb{Z}$ ($A^\mathbb{N}$),
     ma anche ad elementi di un subshift.

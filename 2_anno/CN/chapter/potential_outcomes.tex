@@ -107,11 +107,25 @@ assuming the \textbf{ignorability} assumption.
 \end{definition}
 
 Another name for this property is \textbf{exchangeability} because it can be
-interpreted as we can exchange the groups can be exchanged without changing the
+interpreted as we can exchange \textbf{treatment} and \textbf{control} groups without changing the
 distribution of the potential outcomes.
 
-We can distinguish between two types of ignorability: Mean ignorability and Full
-ignorability. In general, mean ignorability is enough to compute the average
+In graphical sense, we can see the same structure of figure \ref{fig:confounding}
+but without $Z \to X$ path.
+
+We can distinguish between two types of ignorability: 
+\begin{itemize}
+    \item \textbf{Mean ignorability}:
+    \begin{equation*}
+        \mathbb{E}[Y(1)|X = x]  =  \mathbb{E}[Y(1)]\ \ \ \
+        \mathbb{E}[Y(0)|X = x]  =  \mathbb{E}[Y(0)] \ \forall x \in X 
+    \end{equation*}
+    \item \textbf{Full ignorability}:
+    \begin{equation*}
+        (Y(1), Y(0))\perp X
+    \end{equation*}
+\end{itemize} 
+In general, mean ignorability is enough to compute the average
 treatment effect.
 
 This property is fundamental because it allows us to compute the average treatment
@@ -131,7 +145,8 @@ calculate the causal effect from just the observational distribution $P(X, Y, Z)
 
 Unfortunately, the assumption of ignorability is completely unrealistic, confounding
 is likely to happen in most data we observe. We can make the assumption of ignorability
-more realistic by performing a \textbf{randomized experiment}.
+more realistic by performing a \textbf{randomized experiment}, which force the treatment
+$X$ to be cause randomly solving the problem of the confounding effect.
 
 In observational data, it's unrealistic to assume that the groups are exchangeable.
 However, if we control for relevant variables by conditioning, then maybe the groups
@@ -149,7 +164,7 @@ will be exchangeable.
 Indeed, when conditioning on $Z$, non-causal associations between $X$ and $Y$ no
 longer exists. Non-causal association is blocked by conditioning on $Z$.
 
-This is the main assumption necessary for causal inference. We can now identify
+This is the main assumption necessary for use the causal inference. We can now identify
 the causal effect within levels of $Z$, just like we did with ignorability:
 \begin{equation}
     \mathbb{E}[Y(1) - Y(0) | Z] = \mathbb{E}[Y(1)| Z] - \mathbb{E}[Y(0)| Z] =
@@ -163,7 +178,7 @@ can get that by simply marginalizing over $Z$ as follows:
 \end{equation}
 
 \begin{definition}[Adjustment formula]
-    Given the assumption of unconfoundeness, positivity, consistency, and no interference,
+    Given the assumption of \textbf{unconfoundeness}, \textbf{positivity}, \textbf{consistency}, and \textbf{no interference},
     we can identify the average treatment effect as:
     \begin{equation}
         \tau = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}_Z[\mathbb{E}[Y(1) - Y(0) | Z]]
@@ -171,9 +186,16 @@ can get that by simply marginalizing over $Z$ as follows:
     \end{equation}
 \end{definition}
 
-There may be some unobserved confounders that we can't control, this mean that
+In the adjusted formula we moved from the assumption of ignorability to that
+of unconfoundedness because it seems more realistic. However, we often cannot know for certain if unconfoundedness holds.
+
+There may be some \textbf{unobserved confounders} that we can't control, this mean that
 the assumption of unconfoundeness is violated. The best we can do is to observe
 and fit as many covariates as possible to try to ensure unconfoundeness.
+
+\begin{note}
+    that is not the case for randomized experiment.
+\end{note}
 
 Indeed, it can be the case we obtain more biased estimates by including when
 adjusting for the "wrong" covariates.
@@ -185,15 +207,15 @@ adjusting for the "wrong" covariates.
     For all values $z$ of covariates $Z$ present in the population of interest,
     we have:
     \begin{equation}
-        0 < P(X = 1 | Z = z) < 1
+        0 < P(X = 1 | Z = z) < 1, \forall z 
     \end{equation}
 \end{definition}
 
-If we have positivity violation, then we will be conditioning on a zero probability
-event. This will lead to biased estimates.
+If we have positivity violation, then we will be conditioning on a \textbf{zero probability}
+event. This will lead to biased estimates. Infact, we will have a division by $0$. 
 
 Positivity is also referred to as the \textbf{overlap} assumption. This is because
-we want the covariates distribution of the group to overlap.
+we want the covariates distribution of the group to overlap. 
 
 \begin{figure}[!ht]
     \centering
@@ -202,9 +224,10 @@ we want the covariates distribution of the group to overlap.
     \label{fig:positivity}
 \end{figure}
 
-Adjusting on more covariates can lead to curse of dimensionality.
+Adjusting on a lot of covariets can lead to \textbf{curse of dimensionality}, because 
+all the subgrup can be contained in the control group or in the treatment group. 
 
-Another important assumption is the \textbf{no interference} assumption. This
+Another important assumption is the \textbf{no interference} assumption.
 \begin{definition}[No interference]
     The outcome $Y_i$ of the $i^{th}$ individual is not affected by anyone else's
     treatment $X_j$ for $j \neq i$.
@@ -222,10 +245,17 @@ The last assumption is the \textbf{consistency} assumption.
     \end{equation}
 \end{definition}
 
+We need the treatment to be well defined, if consistency is not respected $Y(1)$ 
+is not well defined since it will be $1$ or $0$ and it depends on something that 
+is not captured  by the treatment $X$.
+
 \begin{definition}[Stable Unit Treatment Value Assumption]
     The \textbf{Stable Unit Treatment Value Assumption} (SUTVA) is satisfied if
     individual $i$'s outcome $Y_i$ is simply a function of the treatment $X_i$.
 \end{definition}
+
+SUTVA is a combination of consistency, no interference and deterministic potential 
+outcome.
 
 Now, we need to introduce some terminology that will be useful in the following
 chapters.

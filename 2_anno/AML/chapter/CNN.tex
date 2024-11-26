@@ -96,6 +96,10 @@ In addition to these, another very important thing to define is the \textbf{stri
 It represents how much I have to move my filter before I can apply it again. By default 
 it is set to 1, which means I only move the center of my filter one pixel. 
 
+\begin{note}
+    16 filtri di K deph nella filter bank => 16 channel in output
+\end{note}
+
 The convolution is expressed by the following formula:
 \begin{equation}
     y_{i, j, q} = y_q + \sum_{u = 0}^{H - 1}\sum_{v = 0}^{W - 1}\sum_{k = 1}^{K} x_{u + i, v + j, k} \cdot F_{u, v, k, q} 
@@ -149,7 +153,7 @@ This is done channel by channel.
 \subsection{Local Response Normalization}
 \textbf{Local Response Normalization} layers have the objective of normalizing the 
 effect of contrast to improve the network invariance in this respect. This layer 
-also allows for improved optimization and sparsity.
+also allows for improved optimization and sparsity (accuracy and speed).
 
 In general, there are two ways of applying it:
 \begin{itemize}
@@ -179,3 +183,89 @@ to have data centered in 0. To prevent overfitting we can use:
 \end{itemize}
 
 Remember that is always better to accept new datas.
+
+
+
+\section{CNN Architectures}
+Below, we will introduce some of the most famous CNN architectures. This is done because 
+the training from 0 of one of these models requires a very large amount of data and many
+computational resources.
+\begin{itemize}
+    \item \textbf{LeNet} is one of the first model that this is first create for the mnist 
+        dataset. This network take in input a gray scale image of size $32 \times 32$.
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/CNN/LeNet-5.jpeg}
+            \caption{LeNet}
+            \label{fig:lenet}
+        \end{figure}
+    \item \textbf{AlexNet} was created for the imagenet challenge and combines some 
+        convolutional layers with feedforward layers. It starts with a large convolutional 
+        level that is gradually reduced in order to encode the deeper layers of the more 
+        specific information in the task. In general we decrease filter dimension,
+        increasing the depth channels
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/CNN/alexNet.png}
+            \caption{AlexNet}
+            \label{fig:enter-label}
+        \end{figure}
+    \item \textbf{VGG}: is a family of CNNs that contain networks with different number of
+        convolutional layers. Compared to AlexNet, they use smaller filters in order to 
+        reduce the number of parameters. Also, thanks to the concept of \textbf{receptive 
+            field}, if we use a smaller filter but increase the number of layers the result 
+        will be the same as using a larger filter in one layer.
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/CNN/VGG.png}
+            \caption{VGG-19}
+            \label{fig:enter-label}
+        \end{figure}
+    \item \textbf{GoogLeNet} is one of the first networks to introduce the module concept. 
+        In particular, it uses the module called \textbf{inception} which is a part of the 
+        network, which can be stacked over other similar modules to get a larger network. 
+        As we are increasing the size of the network, we may encounter the problem of vanishing
+        gradient. To solve this problem the creators introduce auxiliary output levels in 
+        different parts of the network in order to inject the gradient into different levels. 
+        This is done by creating a loss function which is a linear combination of the output,
+        with an higher weights on final loss than the others losses.
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/CNN/GoogLeNet.png}
+            \caption{GoogLeNet}
+            \label{fig:enter-label}
+        \end{figure}
+    \item \textbf{ResNet} is a network type that uses the idea of residue. The basic concept is 
+        to provide in input the identity function and let the network learn how to modify this 
+        function to approach the one you want to learn. The identity function is used because 
+        it can be easily implemented by adding the input to the result obtained at a particular 
+        point in the network. This is done to limit the vanishing gradient problem as the 
+        derivative of the identical function is always 1. With this trick you can implement much 
+        deeper functions.
+        \begin{figure}[!ht]
+            \centering
+            \includegraphics[width=0.5\linewidth]{img/CNN/ResNet.png}
+            \caption{ResNet}
+            \label{fig:enter-label}
+        \end{figure}
+\end{itemize}
+\begin{note}
+    Usually we can use $1 \times 1$ convolution to squeeze information in depth channel without 
+    having impact on the spatial information.
+\end{note}
+
+\subsection{Transfert learning}
+As mentioned above, it is not always possible to train a CNN from scratch. Depending on 
+the situation and the amount of data available. Generally we can train model from
+scratch on a big dataset, then we can finetune on our task dataset.
+In general, one of the following techniques may be adopted:
+\begin{itemize}
+    \item New dataset is small and similar to original dataset: we can train a linear classifier 
+        on CNN features from higher layers.
+    \item New dataset is large and similar to original dataset: we can Fine-tune the CNN
+    \item New dataset is small but very different from original dataset: we can train a linear 
+        classifier on CNN features from lower layers because we have to learn general 
+        features.
+    \item New dataset is large and very different from original dataset: we can train CNN from 
+        scratch or fine-tune it
+\end{itemize}
