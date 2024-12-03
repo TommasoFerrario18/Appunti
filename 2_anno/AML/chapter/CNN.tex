@@ -269,3 +269,201 @@ In general, one of the following techniques may be adopted:
     \item New dataset is large and very different from original dataset: we can train CNN from 
         scratch or fine-tune it
 \end{itemize}
+
+
+
+\section{Model Compression}
+When developing a DNN model, it is crucial to consider which devices it will run on, especially 
+if the model is to be distributed to users. For example, it would not be practical to run an 
+LLM model on a mobile device. Therefore, you need to find the right balance between performance
+and compatibility. A possible solution is to keep the model in the cloud, but this choice introduces 
+difficulties, such as network latency and privacy issues.
+
+An alternative approach is to create a more compact model that can run on a mobile device and 
+achieve performance similar to larger models. Another advantage of this solution is that, 
+thanks to its reduced size, the inference process will be faster.
+
+To achieve these results, several aspects were studied.
+\subsection{Weight sharing}
+\textbf{Weight sharing} is the simplest form of network reduction involves sharing weights between 
+layers or structures within layers. Unlike other compression techniques standard weight sharing is 
+carried out prior to training the original networks as opposed to compressing the model after 
+training. Weight sharing reduces the network size and avoids sparsity. It is not always clear how 
+many and what group of weights should be shared before there is an unacceptable performance 
+degradation for a given network architecture and task.
+
+\begin{esempio}
+An example are Convolutional layers where each neuron shared weights.
+\end{esempio}
+
+\subsection{Network pruning}
+Pruning weights is perhaps the most commonly used technique to reduce the number of parameters in a 
+pretrained DNN. This can lead to a reduction of storage and model runtime. Performance is usually
+maintained by retraining the pruned network. Iterative weight pruning prunes while retraining until 
+the desired network size and/or accuracy tradeoff is met. The simplest pruning strategy involves 
+setting a threshold that decides which weights or units (in this case, the absolute sum of magnitudes 
+of incoming weights) are removed: threshold can both vary for each layer or be global for the whole
+network. Instead of setting a threshold, one can predefine a percentage of weights to be pruned based 
+on their magnitude, or a percentage aggregated by weights for each layer. Most commonly, the percentage 
+of weights that are closest to 0 (in magnitude) are removed.
+    
+\textbf{Magnitude-based pruning} (MBP) is the most commonly used in DNNs due to its simplicity and 
+performs well for a wide class of machine learning models (including DNNs) on a diverse range of tasks. 
+In general, global MBP tends to outperform layer-wise MBP because there is more flexibility on the 
+amount of sparsity for each layer, allowing more salient layer to be more dense while less salient 
+to contain more non-zero entries.
+
+Categorization of pruning techniques:
+\begin{itemize}
+    \item \textbf{Magnitude-based (iterative pruning + retraining)} pruning whereby the weights with the lowest absolute value of 
+        the weight are removed based on a set threshold or percentage, layer-wise or globally.
+        These are the steps:
+        \begin{enumerate}
+            \item Choose a neural network architecture
+            \item Train the network until a reasonable solution is obtained
+            \item Prune the weights of which magnitudes are less than a threshold $\tau$
+            \item Train the network until a reasonable solution is obtained
+            \item Iterate to step \#3
+        \end{enumerate}
+    \item \textbf{Methods that penalize the objective} with a regularization (L1,L2\dots) term to force the 
+        model to learn a network with smaller weights and prune the smallest weights. 
+        This is a pruning technique based on weight regularization, we force the 
+        model's weights to be close to 0 in the objective function by adding a penalty
+        term and deleting the weights closest to 0. Generally we use an L2, pay attention
+        when using a regularization technique with more quadratic penalty tends to 
+        too penalize larger weights.
+    
+    
+    \item \textbf{Methods that compute the sensitivity of the loss function} when weights are 
+        removed and using this as a criterion for removing weights that result in the smallest 
+        change in loss. Exists differente approaches:
+        \begin{itemize}
+            \item \textbf{(Diagonal) Hessian-based pruning: Optimal Brain Damage}, based 
+            on model compression\&speedup, it's theoretical optimal compared to current
+            SOTA, but more inefficient. It delets parameters with small saliency,
+            where saliency is defined by the effect on the training error. These 
+            are the steps:
+            \begin{enumerate}
+                \item Choose a neural network architecture.
+                \item Train the network until a reasonable solution is obtained.
+                \item Compute the second derivatives for each parameter.
+                \item Compute the saliencies for each parameter $S_k = \frac{\delta^2E}{\delta^2 u_k} u_k^2$.
+                \item Sort the parameters by saliency and delete some low-saliency parameters.
+                \item Iterate to step 2
+            \end{enumerate}
+        \end{itemize}
+        
+    \item \textbf{Search-based approaches} that seek to learn or adapt a set of weights to links 
+        or paths within the neural network and keep those which are salient for the task.
+\end{itemize}
+
+Another important distinction to be made is that between structured and unstructured 
+pruning techniques:
+\begin{itemize}
+    \item \textbf{Structured} aims to preserve network density for computational efficiency 
+        (faster computation at the expense of less flexibility) by removing groups of weights;
+    \item \textbf{Unstructured} is unconstrained to which weights or activations are removed 
+        but the sparsity means that the dimensionality of the layers does not change.
+\end{itemize}
+Hence, sparsity in unstructured pruning techniques provide good performance at the expense 
+of slower computation.
+
+\textbf{Structured pruning via weight regularization}: Since standard pruning leads to non-
+structured connectivity, structured pruning can be used to reduce memory and increase speed since 
+hardware is more amenable to dealing with dense matrix multiplications, with little to no non-zero
+entries in matrices and tensors. CNNs in particular are suitable for this type of pruning since 
+they are made up of sparse connections.
+
+\textbf{Group sparsity regularization}: Group sparse regularizers enforce a subset of weight 
+groupings, such as filters in CNNs, to be close to zero when trained using stochastic gradient 
+descent. Consider a convolutional kernel represented as a tensor $K(i; j; s; :)$, the group-wise 
+$l2, 1$-norm is given as:
+\begin{equation*}
+    \omega_{2, 1} (K) = \lambda \sum_{i, j, s} \| \Gamma_{ijs}\| = \lambda \sum_{i, j, s} \sqrt{\sum_{t= 1}^T K(i, j, s, t)^2}
+\end{equation*}
+where $\Gamma_{ijs}$ is the group of kernel tensor entries $K(i; j; s; :)$ where $(i; j)$ are the 
+pixel of $i$-th row and $j$-th column of the image for the $s$-th input feature map. This 
+regularization term forces some $\Gamma_{ijs}$ groups to be close to zero.
+
+\subsection{Low rank matrix and tensor decomposition} 
+The idea starts from the observation that most weigths are in the fully connected layers, and that 
+fully connected layers are implemented with a single matrix multiplication.
+\subsection{Knowledge distillation} 
+Involves learning a smaller network from a large network using supervision from the larger network and
+minimizing the entropy, distance or divergence between their probabilistic estimates. Probably the 
+first work about KD is from Bucilua et al. where they explored the idea of reducing model size by 
+learning a student network from an ensemble of models.
+\begin{itemize}
+    \item They use a teacher network to label a large amount of unlabeled data and train a student 
+        network using supervision from the pseudo labels provided by the teacher.
+    \item They find performance is close to the original ensemble with 1000x smaller network.
+\end{itemize}
+    
+Hinton et al. showed a neural network knowledge distillation approach where a small model is trained 
+using supervision (class probability outputs) from the original “teacher” model. They showed that learning 
+from the larger network outperformed the smaller network learning from scratch in the standard supervised 
+classification setup.
+\subsection{Quantization} 
+\textbf{Quantization} is the process of representing values with a reduced number of bits. In 
+neural networks, this can be applied to weights, activations and gradient values. Tipically, when 
+training on the GPU, values are stored in 32-bit floating point (FP) single precision. Half-precision 
+for floating point (FP-16) and integer arithmetic (INT-16) are also commonly considered. INT-16 provides
+higher precision but a lower dynamic range compared to FP-16. In FP-16, the result of a multiplication 
+is accumulated into a FP-32 followed by a down-conversion to return to FP-16.
+    
+To speed up training, faster inference and reduce bandwidth memory requirements, ongoing research 
+has focused on training and performing inference with lower-precision networks using integer precision 
+(IP) as low as INT-8, INT-4, INT-2 or 1 bit representations.
+    
+Designing such networks makes it easier to train such networks on CPUs, FPGAs, ASICs and GPUs. 
+Two important features of quantization are the range of values that can be represented and the 
+bit spacing.
+    
+For the range of signed integers with n bits, we represent a range of $[-2n-1, 2n-2]$ and for 
+full precision (FP-32) the range is $\pm3.4e38$. For signed integers, there are $2n$ values in that 
+range and approximately $4.2e9$ for FP-32. FP can represent a large array of distributions which is 
+useful for neural network computation, however this comes at larger computational costs when compared 
+to integer values.
+    
+For integers to be used to represent weight matrices and activations, a FP scale factor is often used 
+hence many quantization approaches involve a hybrid of mostly integer formats with FP-32 scaling 
+numbers. This approach is often referred to as mixed-precision (MP). Different MP strategies have 
+been used to avoid overflows during training and/or inference of low resolution networks given the 
+limited range of integer formats.
+
+\subsection{Low resource and efficient architectures}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/CNN/spatialConv.png}
+    \caption{Spatial Separable Convolution}
+    \label{fig:spatialConv}
+\end{figure}
+\begin{itemize}
+    \item \textbf{MobileNet}: is a sort of compression of CNN for embedded mobile vision
+        application. They use depth-wise separable convolution (DSC) and 2 hyperparameters
+        that trade off latency and accuracy. DSC split the convolution in 2 steps, 
+        first filtering then combining outputs of each DSC filter, this is why it 
+        is refered as factorization approach.
+    \item \textbf{SqueezeNet}: reduce the network architecture by reducing $3\times3$ filters 
+        to $1\times1$ filters (squeeze layer). Reduce the number of input channels to $3\times3$ 
+        filters using squeeze layers and downsample later in the network to avoid the bottleneck of 
+        information through the network too early and in turn lead to better performance. A fire module is 
+        made up of the squeeze layer and an expand layer that is a mix of $1\times1$ and $3\times3$ 
+        convolution filters. The number of filters per fire module is increased as it gets closer to the 
+        last layer.
+    \item \textbf{ShuffleNet}: uses pointwise group convolutions (i.e using a different set of 
+        convolution filter groups on the same input features, this allows for model parallelization) and 
+        channel shuffles (randomly shuffling helps information flow across feature channels) to reduce 
+        compute while maintaining accuracy. ShuffleNet is made up economical $3\times3$ depthwise 
+        convolutional filters and replace $1\times1$ layer with pointwise group convolutional followed by 
+        the channel shuffle. Unlike predecessor models, ShuffleNet is efficient for smaller networks.
+    \item \textbf{DenseNet}: Gradients can vanish in very deep networks because the error becomes more
+        difficult to backpropogate as the number of matrix multiplications increases. DenseNets address 
+        gradient vanishing connecting the feature maps of the previous layer to the inputs of the next 
+        layer, similar to ResNet skip connections. This reusing of features means the network efficient 
+        with its use of parameters. Although, deep and thin DenseNetworks can be parameter efficient, they 
+        do tradeoff with memory/speed efficiency in comparison to shallower yet wider network because all 
+        layer outputs need to be stored to perform backpropogation. However, DenseNets too can be made 
+        wider and shallower to become more memory effecient if required.
+\end{itemize}
+
