@@ -16,7 +16,7 @@ parameters.
     assumption states that $x$ is independent of all its non-descendants.
 \end{definition}
 Talking about Bayesian networks, the local Markov assumption is equivalent to
-the following factorization:
+the \textbf{bayesian network factorization}:
 \begin{equation}
     P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^n P(X_i|pa(X_i))
 \end{equation}
@@ -32,6 +32,7 @@ To get this guaranteed dependence between adjacent nodes, we will generally
 assume a slightly stronger assumption than the local Markov assumption, called
 the \textbf{minimality assumption}.
 \begin{definition}[\textbf{Minimality Assumption}]
+    The minimality assumption means:
     \begin{enumerate}
         \item \textbf{local markov assumption}: Given all the parents $pa(x)$ of
               a node $x$ in a DAG, the local Markov assumption states that $x$
@@ -44,6 +45,10 @@ Because removing edges in a Bayesian network is equivalent to adding
 independencies, the minimality assumption is equivalent to saying that we can't
 remove any more edges from the graph $G$.
 
+\begin{definition}
+    $P$ and $G$ are Markov Compatible if $P$ factorize according to $G$. 
+\end{definition}
+
 Up to now all we presented was about statistical models and modeling association.
 We now need to introduce some causal assumptions, turn them into causal models
 for allowing the study of causation. In order to introduce causal assumptions,
@@ -53,7 +58,7 @@ define \textbf{cause} as follows:
     $X$ is a cause of $Y$ if changing $X$ changes $Y$.
 \end{definition}
 
-Also, we can define \textbf{causal edges assumption} in a DAG $G$ as every parent
+Also, we can define \textbf{(strict) causal edges assumption} in a DAG $G$ as every parent
 is a direct cause of all its children. Given this assumption, we can define a
 \textbf{Causal graph} as a DAG $G$ that satisfies the causal edges assumption.
 
@@ -90,7 +95,7 @@ gives us a proof that the two nodes are unassociated (independent).
 \subsection{Two connected nodes}
 On the contrary, if there is an edge between the two nodes, then the two nodes
 are associated. We exploit the causal edges assumption which means that $X$ is
-a direct cause of $Y$.
+a direct cause of $Y$. They are dependent and conditional dipendent.
 \subsection{Chain and Fork}
 We can consider this two building blocks together, because they share the same
 set of dependencies. In both cases, the association flows from $X$ to $Z$ through
@@ -155,3 +160,20 @@ We can tell if two nodes are not associated by whether or not they are d-separat
 If we want to measure the causal effect of $X$ on $Y$, we need to ensure that $X$
 and $Y$ are d-separated in the augmented graph where we remove outgoing edges
 from $X$. This is the only way to ensure that the association we measure is causation.
+
+\begin{note}
+    Association is symmetric while causation not.
+\end{note}
+
+To summerizing every assumptions:
+\begin{itemize}
+    \item local/global Markov Assumption: tells us which nodes are unassociated, tells 
+    along which paths the association doesn't flow
+    \item Minimality assumption: tells us which paths association does flow along
+    \item Causal edges assumption: tells us causation flows along directed paths.
+\end{itemize}
+\begin{figure*}[!h]
+    \centering
+    \includegraphics*[width=\textwidth]{img/causal_networks_assumptions.png}
+\end{figure*}
+

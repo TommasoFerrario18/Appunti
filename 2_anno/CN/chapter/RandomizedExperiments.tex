@@ -1,0 +1,49 @@
+\chapter{Randomized Experiments}
+\textbf{Randomized experiments} are noticeably different from observational studies.
+In randomized experiments, the experimenter has complete control over the treatment
+assignment mechanism.
+
+This complete control over how treatment is chosen is what distinguishes randomized experiments from observational studies. In this simple experimental setup, the treatment 
+isn’t a function of covariates at all. In observational studies, the treatment is almost always a function of some of the covariate(s).
+
+This difference is key to whether or not confounding is present in our data.
+
+In randomized experiments, \textit{association} = \textit{causation} because they guarantee that there is no confounding.
+\begin{equation}
+    \mathbb{E}[Y(1)] -  \mathbb{E}[Y(0)] = \mathbb{E}[Y| X = 1] - \mathbb{E}[Y | X = 0]
+\end{equation}
+
+Since the treatment and control groups would be the same, in all aspects, except for treatment $X$, any difference in the outcomes $Y$ of the treatment and control groups is due to the treatment $X$.
+\begin{definition}[\textbf{Covariate balance}]
+    We have \textbf{covariate balance} if the distribution of covaraiates $Z$ is the same across treatment groups.
+    \begin{equation}
+        P(Z|X = 1) = P(Z|X = 0)
+    \end{equation}
+\end{definition}
+
+Randomization implies covariate balance, across all covariates $Z$, even unobserved ones. Intuitively, this is because the treatment is chosen at random, regardless of $Z$, so the treatment and control groups should look very similar. 
+
+We will now prove that association is equal to causation in randomized experiments by proving that:
+\begin{equation*}
+    P(Y|do(x)) = P(Y|x)
+\end{equation*}
+For the proof, the main property we utilize is that covariate balance implies $Z$ and $X$ are independent.
+
+First, let $S = Z$ be a \textbf{sufficent adjustment set} that potentially contains unobserved variables. Such an \textbf{adjustment set} $S$ must exist because we allow it to contain any variables, observed or unobserved. 
+
+Then, from the backdoor adjustements we get:
+\begin{equation}
+    \begin{array}{ll}
+        P(y|do(x)) & = \sum_s P(y|x, S = s)P(S = s)  \\
+            & = \sum_s \frac{P(y|x, s)P(x|s)P(s)}{P(x | s)} \\
+            & = \sum_s \frac{P(y, x, s)}{P(x | s)} \\
+            & = \sum_s P(y, s| x) \\
+            & = P(y | x)
+    \end{array}
+\end{equation}
+
+\textbf{Exchangeability} gives us another perspective on why randomization makes causation equal to association. If the groups are exchangeable, we could exchange these groups, and the average outcomes would remain the same.
+
+The final perspective that we'll look at to see why association is causation in randomized experiments is that of \textbf{graphical causal models}.
+
+In regular observational data, there is almost always confounding. However, if we randomize  it doesn't depend on anything other than the output of a coin toss. Since the node has no incoming edges and thus no backdoor paths exist.
