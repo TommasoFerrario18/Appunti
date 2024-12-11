@@ -2,9 +2,14 @@
 Many generative models are based on the idea of using a differentiable generator network. The model 
 transforms samples of latent variables $z$ to samples $x$ or to distributions over samples $x$ using a 
 differentiable function $g(z; \theta^{(g)})$, which is typically represented by a neural network. This 
-model class includes \textbf{variational autoencoders}, which pair the generator net with an inference 
-net; \textbf{generative adversarial networks} (GAN), which pair the generator network with a discriminator 
-network; and techniques that train generator networks in isolation.
+model class includes:
+\begin{itemize}
+    \item \textbf{variational autoencoders}: which pair the generator net with an inference 
+    net
+    \item \textbf{generative adversarial networks} (GAN): which pair the generator network with a discriminator 
+    network
+    \item techniques that train generator networks in isolation.
+\end{itemize} 
 
 Generator networks are essentially just parametrized computational procedures for generating samples, 
 where the architecture provides the family of possible distributions to sample from and the parameters 
@@ -12,7 +17,8 @@ select a distribution from within that family.
 
 The goal of this model is to generate something starting from random noise. In order to do this, we want 
 to create a model that is capable \textbf{to learn to sample} the distribution of the training set. 
-Usually, this models are unsupervised because they do not use a labels. 
+Usually, this models are unsupervised because they do not use a labels because we 
+haven't any information on that. 
 
 Its possible to create model that are able to generate a new sample based on some condition, for examples 
 generating a new instance starting from a given label. Moreover, this models can be use for \textit{image 
@@ -32,7 +38,7 @@ During this course, we have already explored a type of neural network capable of
 we can generate novel examples.
 
 Up to this point we have only seen architectures that allow to reduce the size of the images (CNN). We
-want to see how we can use these architectures to upsample a noise distribution. We start from a 
+want to see how we can use these architectures to upsample from  a noise distribution. We start from a 
 convolution like the one shown in figure \ref{fig:reg-conv}
 
 \begin{figure}[!ht]
@@ -135,19 +141,41 @@ The process for updating the generator increase $D(G(z))$ requires back-propagat
 generator-discriminator network i.e., the discriminator cannot be a black box. The generator is exposed to 
 real data only via the output of the discriminator and its gradients.
 
-Stabilization of GAN learning remains an open problem. Fortunately, GAN learning performs well when the 
-model architecture and hyperparameters are carefully selected.
+GANs have different problems:
+\begin{itemize}
+    \item \textbf{unstability}: parameters can oscillate or diverge, generator
+    loss does not correlate with sample quality and the behavior is sensitive to 
+    hyper-parameter selection
+    \item \textbf{model collapse}: the generator ends up modeling only a small
+    subset of the training data and not the entire distribution
+\end{itemize}
 
-The GAN learning problem can also be simplified by breaking the generation process into many levels of 
-detail. It is possible to train conditional GANs that learn to sample from a distribution $p(x | y)$ 
-rather than simply sampling from a marginal distribution $p(x)$. 
+Here some tips on GAN:
+\begin{itemize}
+    \item \textbf{conditional GAN}: It is possible to train conditional GANs that learn 
+    to sample from a distribution $p(x | y)$ rather than simply sampling from a 
+    marginal distribution $p(x)$. 
+    \item \textbf{Non-Saturating Generator Loss}: using the original generator loss 
+    when the discriminator can recognize each fake examples, this means that 
+    $D(G(X))$ is close to $0$ so $\log(1-D(G(X)))$ is close to 0 and the Generator
+    can't learn. We can use Non-Saturating Generator Loss that solve this problem 
+    by maximizing $\log(D(G(X)))$. Another tip to solve this problem is to set 
+    treshold of real example lower, ex: $0.9$ instead of $1$ in discriminator. 
+    \item \textbf{class-label discriminator}: If we have a dataset of C classes 
+    we can use a discriminator that try to classify datas between C+1 classes, where 
+    the C+1 class is the fake one. Empirically improves generation quality because 
+    the discriminator focus on features that are important for humans.
+    \item \textbf{Virtual batch norm}: Batch normalization typically normalizes 
+    data within each mini-batch during training, but this can cause issues in GANs
+    because can add instability and also artifacts. We can use Virtual batch norm
+    which use a reference batch used for compute statistics and use them to normalized 
+    the actual mini-batch.  
+    \item \textbf{Mini-batch discrimination}: using a discriminator that use just 
+    an example cannot detect model collapse, we can solve by adding to any images 
+    some features derived drrom entire mini-batch
+\end{itemize}
 
-Also, we have the problem of \textbf{mode collapse} where the generator ends up modeling only a small
-subset of the training data.
 
-Make sure discriminator provides good gradients to the generator even when it can confidently reject all 
-generator samples. Use non-saturating generator. Smooth discriminator targets for “real” data, e.g., use
-target value 0.9 instead of 1 when training discriminator
 
 \section{Evaluating Generative Models}
 Generative modeling is different from normal model because changes in preprocessing, even very small and 
