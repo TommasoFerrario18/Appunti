@@ -5,7 +5,7 @@ single point is not always feasible for various reasons. Transmitting the data m
 as when dealing with large volumes of data, or it may be constrained by the limited bandwidth or power capacity of 
 wireless devices.
 
-Another challenge is that the data might be deemed too sensitive. In recent years, there has been increasing public
+Another challenge is that the data might be believed too sensitive. In recent years, there has been increasing public
 awareness and stricter regulations concerning data privacy. Additionally, maintaining control over data can offer a
 competitive edge in both business and research contexts.
 
@@ -31,16 +31,6 @@ than what each party can learn on its own.
     The assumption is that starting from the weights we cannot obtain the data, otherwise we could have just send the
     data.
 \end{note}
-\section{Distributed Learning}
-A different training paradigm is \textbf{distributed learning}. In this approach, unlike federated learning (FL), the
-data is initially centralized and then distributed later to accelerate model training. The key distinction from FL 
-lies in how the data is distributed: in distributed learning, the data is typically distributed uniformly at random
-across workers under controlled conditions.
-
-In contrast, FL involves data that is naturally distributed and generated locally. This data is often not independent 
-and identically distributed (non-i.i.d.) and is usually imbalanced. FL also introduces additional challenges that 
-span various fields of computer science, such as enforcing privacy constraints, addressing the potentially limited 
-reliability and availability of participants, ensuring robustness against malicious actors, and more.
 
 More broadly, we can categorize federated learning (FL) into different classifications. The first classification
 differentiates between:
@@ -48,7 +38,7 @@ differentiates between:
     \item \textbf{Cross-device FL}: this scenario involves a large number of participants, each possessing a small
         dataset. Additionally, it is important to account for the fact that some participants may not always be 
         reachable, and some may have malicious intentions, posing further challenges.
-    \item cross-silo: in this scenario we have a limited number of parties with medium large dataset. Parties are always
+    \item \textbf{cross-silo}: in this scenario we have a limited number of parties with medium large dataset. Parties are always
         aviable and are tipically honest.
 \end{itemize}
 
@@ -60,6 +50,16 @@ Another type of classification is:
         scale better. 
 \end{itemize}
 
+\section{Distributed Learning}
+A different training paradigm is \textbf{distributed learning}. In this approach, unlike federated learning (FL), the
+data is initially centralized and then distributed later to accelerate model training. The key distinction from FL 
+lies in how the data is distributed: in distributed learning, the data is typically distributed uniformly at random
+across workers under controlled conditions.
+
+In contrast, FL involves data that is naturally distributed and generated locally. This data is often not independent 
+and identically distributed (non-i.i.d.) and is usually imbalanced. FL also introduces additional challenges that 
+span various fields of computer science, such as enforcing privacy constraints, addressing the potentially limited 
+reliability and availability of participants, ensuring robustness against malicious actors, and more.
 \section{Baseline algorithm: FedAvg}
 Let's start by introducing some notation. Let’s consider a set of $K$ parts (clients). Each part $k$ holds a data set 
 $\mathcal{D}_k$ composed of $n_k$ instances. Let $\mathcal{D} = \mathcal{D}_1 \cup \dots \cup \mathcal{D}_K$ be the total 
