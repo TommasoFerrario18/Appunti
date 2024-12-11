@@ -41,11 +41,14 @@ criterion covers numerous scenarios. It proves the enormous, even revelatory, po
 that causal graphs have in not merely representing, but actually discovering causal
 information.
 \section{Do-calculus}
-We can use \textbf{do-calculus} to identify causal effect where there are multiple 
-treatments and/or multiple outcomes. 
+
+We can \textbf{identify} a causal query even if the causal graph doesn't satisfied backdoor and frontdoor criterion.
+Infact, we can use \textbf{do-calculus} to identify any identifiable causal effect where there are multiple 
+treatments and/or multiple outcomes.
 
 To introduce and discuss do-calculus we first need to give some more notation:
 \begin{itemize}
+    \item $\perp_G$ is the d-separation in the causal graph $G$
     \item $G_{\overline{X}}$ is the graph where all the incoming edges in $X$ have been removed.
     \item $G_{\underline{X}}$ is the graph where all the outgoing edges from $X$ have been removed.
     \item $G_{\overline{Y}\underline{X}}$ is the graph where all the incoming edges in $Y$ and all the outgoing edges from $X$ have been removed. 
@@ -55,34 +58,49 @@ To introduce and discuss do-calculus we first need to give some more notation:
     \begin{itemize}
         \item \textbf{Rule 1}:
             \begin{equation}
-                P(y | do(x), z, w) = P(y | do(x), w) \, \text{if} \, Y \perp_{G_{\overline{X}}} Z | X, W
+                P(y | do(x), z, w) = P(y | do(x), w) \, \text{ if } \, Y \perp_{G_{\overline{X}}} Z | X, W
             \end{equation}
-            From the global markov assumption, d-separation in the graph $G$ implies conditional independence in $P$. This means that Rule 1 is simply a generalization of d-separation to interventional distributions.
-        \item \textbf{Rule 2}: is a generalization of the backdoor adjustment to interventional distributions.
+            This is true because if we remove $do(x)$ we obtain:
+            $$P(y |z, w) = P(y | w) \, \text{ if } \, Y \perp_{G} Z | W$$
+            We can see that is a d-separation under the global markov assumption, 
+            because d-separation in the graph $G$ implies conditional independence 
+            in $P$ between $Y$ and $Z$ giving $W$, so the separating set is $W$. 
+            
+            This means that Rule 1 is simply a generalization of d-separation to
+            interventional distributions.
+        \item \textbf{Rule 2}:
             \begin{equation}
-                P(y | do(x), do(z), w) = P(y | do(x), z, w) \, \text{if} \, Y \perp_{G_{\overline{X}\underline{Z}}} Z | X, W
+                P(y | do(x), do(z), w) = P(y | do(x), z, w) \, \text{ if } \, Y \perp_{G_{\overline{X}\underline{Z}}} Z | X, W
             \end{equation}
+            Also in this case we can remove $do(x)$ and we obtain:
+            $$P(y | do(z), w) = P(y |  z, w) \, \text{ if } \, Y \perp_{G_{\underline{Z}}} Z | W$$
+            This correspond to apply the backdoor adjustement using the backdoor 
+            criterion. So the rule is the generalization of backdoor adjustement to 
+            a interventional distribution.
         \item \textbf{Rule 3}:
             \begin{equation}
-                P(y | do(x), do(z), w) = P(y | do(x), w) \, \text{if} \, Y \perp_{G_{\overline{X}\overline{Z(W)}}} Z | X, W
+                P(y | do(x), do(z), w) = P(y | do(x), w) \, \text{ if } \, Y \perp_{G_{\overline{X}\overline{Z(W)}}} Z | X, W
             \end{equation}
+
             where $\overline{Z(W)}$ denotes the set of nodes of $Z$ that aren't ancestor of any node of $W$ in $G_{\overline{X}}$
     \end{itemize}
 \end{definition}
 We could ask whether there could exist causal estimands that are identifiable but that 
 can’t be identified using only the rules of do-calculus. Fortunately, it 
 has been proved that do-calculus is \textbf{complete}, which means that these three rules are
-sufficient to identify all identifiable causal estimands.
-
-Because these proofs are constructive, they also admit algorithms that identify any causal
-estimand in polynomial time.
+sufficient to identify all identifiable causal estimands. Because these proofs 
+are constructive, they also admit algorithms that identify any causal estimand in 
+polynomial time.
 
 Do-calculus tells us if we can identify a given causal estimand using only the causal 
 assumptions encoded in the causal graph. If we introduce more assumptions about the
-distribution, we can identify more causal estimands, but this is known as \textbf{parametric identification}.
+distribution ex: linearity, we can identify more causal estimands, but this is 
+known as \textbf{parametric identification}.
+
 \section{Determining identifiability from the graph}
 We previously mentioned that do-calculus is complete, which means that three rules are
-sufficient to identify all identifiable causal estimands. However, it would be much more
+sufficient to identify all identifiable causal estimands, also that estimands 
+that aren't identifiable from just using the causal graph. However, it would be much more
 satisfying to know whether a causal estimand is identifiable by simply looking at the causal graph.
 
 For example, the backdoor criterion and the frontdoor criterion gave us simple ways to know
@@ -99,7 +117,7 @@ Tian and Pearl provide a relatively simple graphical criterion that is sufficien
 \end{definition}
 
 This criterion generalizes the backdoor criterion and the frontdoor criterion. Like backdoor
-criterion and the frontdoor criterion, unconfounded childern criterion is a sufficient
+criterion and the frontdoor criterion, \textbf{unconfounded childern criterion} is a sufficient
 condition for identifiability.
 
 \begin{definition}[\textbf{Unconfounded children identifiability}]
@@ -114,12 +132,13 @@ If we can isolate all of the causal association flowing out of treatment $X$ alo
 \begin{enumerate}
     \item First, consider that all of the causal association from $X$ to $Y$ must flow through its children $ch(X)$.
     \item We can isolate this causal association if there is no confounding between $X$ and any of its children $ch(X)$.
+
     \item This isolation of all of the causal association is what gives us identifiability of the causal effect of $X$ on any other node in the graph.
     \item This intuition might lead you to suspect that this criterion is necessary in the very specific case where the outcome set $Y$ is all of the other variables in the graph other than $X$; it turns out that this is true. But this condition is not necessary if $Y$ is a smaller set than that.
 \end{enumerate}
 
 In conclusion, the unconfounded children identifiability is sufficient but not necessary, and
-this related condition is necessary but not sufficient.
+this related condition is necessary but not sufficient and works on single variable $X, Y$.
 
 Shpitser and Pearl provide a necessary and sufficient criterion for identifiability of:
 \begin{equation}

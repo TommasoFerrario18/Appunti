@@ -4,7 +4,7 @@ In randomized experiments, the experimenter has complete control over the treatm
 assignment mechanism.
 
 This complete control over how treatment is chosen is what distinguishes randomized experiments from observational studies. In this simple experimental setup, the treatment 
-isn’t a function of covariates at all. In observational studies, the treatment is almost always a function of some of the covariate(s).
+isn’t a function of covariates at all, it's assigned randomly. In observational studies, the treatment is almost always a function of some of the covariate(s).
 
 This difference is key to whether or not confounding is present in our data.
 
@@ -21,7 +21,12 @@ Since the treatment and control groups would be the same, in all aspects, except
     \end{equation}
 \end{definition}
 
-Randomization implies covariate balance, across all covariates $Z$, even unobserved ones. Intuitively, this is because the treatment is chosen at random, regardless of $Z$, so the treatment and control groups should look very similar. 
+Randomization implies covariate balance, across all covariates $Z$, even unobserved ones. Intuitively, this is because the treatment is chosen at random, regardless of $Z$, so the treatment and control groups should look very similar.
+This is confirmed by the fact that in randomaze experiment, we chose randomly how 
+assign treatment so we are removing dipendences between the confounding variables 
+and the treatment, so there aren't any backdoor path from $X$ to $Y$ and $S=\{\emptyset\}$ 
+is a sufficient adjustment to block any association flowing from $X$ to $Y$ except for 
+causal one.
 
 We will now prove that association is equal to causation in randomized experiments by proving that:
 \begin{equation*}
@@ -29,7 +34,7 @@ We will now prove that association is equal to causation in randomized experimen
 \end{equation*}
 For the proof, the main property we utilize is that covariate balance implies $Z$ and $X$ are independent.
 
-First, let $S = Z$ be a \textbf{sufficent adjustment set} that potentially contains unobserved variables. Such an \textbf{adjustment set} $S$ must exist because we allow it to contain any variables, observed or unobserved. 
+First, let $S = \{\emptyset\}$ be a \textbf{sufficent adjustment set} that potentially contains unobserved variables. Such an \textbf{adjustment set} $S$ must exist because we allow it to contain any variables, observed or unobserved. 
 
 Then, from the backdoor adjustements we get:
 \begin{equation}
@@ -41,6 +46,8 @@ Then, from the backdoor adjustements we get:
             & = P(y | x)
     \end{array}
 \end{equation}
+
+These means that all associations are causation.
 
 \textbf{Exchangeability} gives us another perspective on why randomization makes causation equal to association. If the groups are exchangeable, we could exchange these groups, and the average outcomes would remain the same.
 
