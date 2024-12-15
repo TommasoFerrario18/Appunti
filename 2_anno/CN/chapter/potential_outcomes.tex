@@ -19,8 +19,8 @@ all potential outcomes are observed. But, all potential outcomes can potentially
 be observed but we can't observe potential outcome of a decision that isn't made.
 
 The actually observed outcome depends on the given value $x$ of treatment $X$.
-The potential outcome is the value of $Y$ before making the decision of the 
-treatment $X=x$.  
+The potential outcome is the value of $Y$ before making the decision of the
+treatment $X=x$.
 
 Up until now, we have been considering an individual. However, the population
 consists of many individuals. Each individual is tipically associated with one or
@@ -36,7 +36,7 @@ as as subscript.
 
     The main different is that $Y(x)$ is a random variable because different individuals
     have different potential outcomes. Meanwhile, $Y_i(x)$ is a treated as a
-    non-random variable because it is the potential outcome is deterministic, because 
+    non-random variable because it is the potential outcome is deterministic, because
     it is conditioned by $i$-individual.
 \end{definition}
 
@@ -113,18 +113,18 @@ distribution of the potential outcomes.
 In graphical sense, we can see the same structure of figure \ref{fig:confounding}
 but without $Z \to X$ path.
 
-We can distinguish between two types of ignorability: 
+We can distinguish between two types of ignorability:
 \begin{itemize}
     \item \textbf{Mean ignorability}:
-    \begin{equation*}
-        \mathbb{E}[Y(1)|X = x]  =  \mathbb{E}[Y(1)]\ \ \ \
-        \mathbb{E}[Y(0)|X = x]  =  \mathbb{E}[Y(0)] \ \forall x \in X 
-    \end{equation*}
+          \begin{equation*}
+              \mathbb{E}[Y(1)|X = x]  =  \mathbb{E}[Y(1)]\ \ \ \
+              \mathbb{E}[Y(0)|X = x]  =  \mathbb{E}[Y(0)] \ \forall x \in X
+          \end{equation*}
     \item \textbf{Full ignorability}:
-    \begin{equation*}
-        (Y(1), Y(0))\perp X
-    \end{equation*}
-\end{itemize} 
+          \begin{equation*}
+              (Y(1), Y(0))\perp X
+          \end{equation*}
+\end{itemize}
 In general, mean ignorability is enough to compute the average
 treatment effect.
 
@@ -207,15 +207,15 @@ adjusting for the "wrong" covariates.
     For all values $z$ of covariates $Z$ present in the population of interest,
     we have:
     \begin{equation}
-        0 < P(X = 1 | Z = z) < 1, \forall z 
+        0 < P(X = 1 | Z = z) < 1, \forall z
     \end{equation}
 \end{definition}
 
 If we have positivity violation, then we will be conditioning on a \textbf{zero probability}
-event. This will lead to biased estimates. Infact, we will have a division by $0$. 
+event. This will lead to biased estimates. Infact, we will have a division by $0$.
 
 Positivity is also referred to as the \textbf{overlap} assumption. This is because
-we want the covariates distribution of the group to overlap. 
+we want the covariates distribution of the group to overlap.
 
 \begin{figure}[!ht]
     \centering
@@ -224,8 +224,8 @@ we want the covariates distribution of the group to overlap.
     \label{fig:positivity}
 \end{figure}
 
-Adjusting on a lot of covariets can lead to \textbf{curse of dimensionality}, because 
-all the subgrup can be contained in the control group or in the treatment group. 
+Adjusting on a lot of covariets can lead to \textbf{curse of dimensionality}, because
+all the subgrup can be contained in the control group or in the treatment group.
 
 Another important assumption is the \textbf{no interference} assumption.
 \begin{definition}[No interference]
@@ -245,8 +245,8 @@ The last assumption is the \textbf{consistency} assumption.
     \end{equation}
 \end{definition}
 
-We need the treatment to be well defined, if consistency is not respected $Y(1)$ 
-is not well defined since it will be $1$ or $0$ and it depends on something that 
+We need the treatment to be well defined, if consistency is not respected $Y(1)$
+is not well defined since it will be $1$ or $0$ and it depends on something that
 is not captured  by the treatment $X$.
 
 \begin{definition}[Stable Unit Treatment Value Assumption]
@@ -254,7 +254,7 @@ is not captured  by the treatment $X$.
     individual $i$'s outcome $Y_i$ is simply a function of the treatment $X_i$.
 \end{definition}
 
-SUTVA is a combination of consistency, no interference and deterministic potential 
+SUTVA is a combination of consistency, no interference and deterministic potential
 outcome.
 
 Now, we need to introduce some terminology that will be useful in the following
@@ -285,16 +285,16 @@ to an estimate.
     \label{fig:pipeline}
 \end{figure}
 
-When we want to answer to causal estimand, so a question thet we want to answer when 
-we do something so we interactive, we want to pass to a statistical estimand 
-to prove our answer using observation datas and this process of passing from causal 
-estimand to statistical estimand is called identification. Not always is possible 
+When we want to answer to causal estimand, so a question thet we want to answer when
+we do something so we interactive, we want to pass to a statistical estimand
+to prove our answer using observation datas and this process of passing from causal
+estimand to statistical estimand is called identification. Not always is possible
 to do identification. When exist identification, we can answer an intervational query
 without intervening on the experiment.
 
-To do identification we need a causal model, so we define some assumption on causal 
-relationship between variables and this define if a causal estimand could be translate 
-in a statistical estimand. 
+To do identification we need a causal model, so we define some assumption on causal
+relationship between variables and this define if a causal estimand could be translate
+in a statistical estimand.
 
-Generaly in AI everyone wants to take decision using observation estimand computed 
+Generaly in AI everyone wants to take decision using observation estimand computed
 on data, but these are all subjected to bias.

@@ -1,14 +1,14 @@
 \chapter{Non-parametric Identification}
 \section{Frontdoor Adjustment}
-We have seen that the \textbf{backdoor criterion} is sufficent for identification but not 
-necessary. In other words, is it possible to get identifiability without being able to 
-block all backdoor paths. Also, if we have unobserved variables we \textbf{cannot} block 
+We have seen that the \textbf{backdoor criterion} is sufficent for identification but not
+necessary. In other words, is it possible to get identifiability without being able to
+block all backdoor paths. Also, if we have unobserved variables we \textbf{cannot} block
 the backdoor path.
 
-If we are only focusing on the data we can have multiple  interpretations of them. So we need 
+If we are only focusing on the data we can have multiple  interpretations of them. So we need
 a method that we can use for causal estimand.
 
-This can be obtained by chaining together the partial effects to obtain the overall effect. 
+This can be obtained by chaining together the partial effects to obtain the overall effect.
 \begin{definition}[\textbf{Frontdoor Criterion}]
     A set of variables $S$ is said to satisfy the frontdoor criterion relative to an
     ordered pair of variables $(X, Y)$ if:
@@ -18,11 +18,11 @@ This can be obtained by chaining together the partial effects to obtain the over
         \item All backdoor paths from $S$ to $Y$ are blocked by $Y$.
     \end{enumerate}
 \end{definition}
-The conditions are overly conservative; some of the backdoor paths excluded by conditions 
+The conditions are overly conservative; some of the backdoor paths excluded by conditions
 (2) and (3) can actually be allowed provided they are blocked by some variables.
 
-There is a powerful symbolic machinery, called the \textbf{do-Calculus}, that allows 
-analysis of such intricate structures. In fact, the do-Calculus uncovers all causal 
+There is a powerful symbolic machinery, called the \textbf{do-Calculus}, that allows
+analysis of such intricate structures. In fact, the do-Calculus uncovers all causal
 effects that can be identified from a given graph.
 
 \begin{definition}[\textbf{Frontdoor Adjustment}]
@@ -33,17 +33,17 @@ effects that can be identified from a given graph.
     \end{equation}
 \end{definition}
 
-Satisfying the backdoor criterion isn't necessary to identify causal effects. If the 
+Satisfying the backdoor criterion isn't necessary to identify causal effects. If the
 frontdoor criterion is satisfied, that also gives us identifiability.
 
-The combination of the adjustment formula, the backdoor criterion, and the frontdoor 
-criterion covers numerous scenarios. It proves the enormous, even revelatory, power 
+The combination of the adjustment formula, the backdoor criterion, and the frontdoor
+criterion covers numerous scenarios. It proves the enormous, even revelatory, power
 that causal graphs have in not merely representing, but actually discovering causal
 information.
 \section{Do-calculus}
 
 We can \textbf{identify} a causal query even if the causal graph doesn't satisfied backdoor and frontdoor criterion.
-Infact, we can use \textbf{do-calculus} to identify any identifiable causal effect where there are multiple 
+Infact, we can use \textbf{do-calculus} to identify any identifiable causal effect where there are multiple
 treatments and/or multiple outcomes.
 
 To introduce and discuss do-calculus we first need to give some more notation:
@@ -51,55 +51,55 @@ To introduce and discuss do-calculus we first need to give some more notation:
     \item $\perp_G$ is the d-separation in the causal graph $G$
     \item $G_{\overline{X}}$ is the graph where all the incoming edges in $X$ have been removed.
     \item $G_{\underline{X}}$ is the graph where all the outgoing edges from $X$ have been removed.
-    \item $G_{\overline{Y}\underline{X}}$ is the graph where all the incoming edges in $Y$ and all the outgoing edges from $X$ have been removed. 
+    \item $G_{\overline{Y}\underline{X}}$ is the graph where all the incoming edges in $Y$ and all the outgoing edges from $X$ have been removed.
 \end{itemize}
 \begin{definition}[\textbf{Rules of do-calculus}]
     Given a causal graph $G$, an associated distribution $P$, and disjoint set of variables $Y, X, Z$ and $W$, the following rules hold:
     \begin{itemize}
         \item \textbf{Rule 1}:
-            \begin{equation}
-                P(y | do(x), z, w) = P(y | do(x), w) \, \text{ if } \, Y \perp_{G_{\overline{X}}} Z | X, W
-            \end{equation}
-            This is true because if we remove $do(x)$ we obtain:
-            $$P(y |z, w) = P(y | w) \, \text{ if } \, Y \perp_{G} Z | W$$
-            We can see that is a d-separation under the global markov assumption, 
-            because d-separation in the graph $G$ implies conditional independence 
-            in $P$ between $Y$ and $Z$ giving $W$, so the separating set is $W$. 
-            
-            This means that Rule 1 is simply a generalization of d-separation to
-            interventional distributions.
-        \item \textbf{Rule 2}:
-            \begin{equation}
-                P(y | do(x), do(z), w) = P(y | do(x), z, w) \, \text{ if } \, Y \perp_{G_{\overline{X}\underline{Z}}} Z | X, W
-            \end{equation}
-            Also in this case we can remove $do(x)$ and we obtain:
-            $$P(y | do(z), w) = P(y |  z, w) \, \text{ if } \, Y \perp_{G_{\underline{Z}}} Z | W$$
-            This correspond to apply the backdoor adjustement using the backdoor 
-            criterion. So the rule is the generalization of backdoor adjustement to 
-            a interventional distribution.
-        \item \textbf{Rule 3}:
-            \begin{equation}
-                P(y | do(x), do(z), w) = P(y | do(x), w) \, \text{ if } \, Y \perp_{G_{\overline{X}\overline{Z(W)}}} Z | X, W
-            \end{equation}
+              \begin{equation}
+                  P(y | do(x), z, w) = P(y | do(x), w) \, \text{ if } \, Y \perp_{G_{\overline{X}}} Z | X, W
+              \end{equation}
+              This is true because if we remove $do(x)$ we obtain:
+              $$P(y |z, w) = P(y | w) \, \text{ if } \, Y \perp_{G} Z | W$$
+              We can see that is a d-separation under the global markov assumption,
+              because d-separation in the graph $G$ implies conditional independence
+              in $P$ between $Y$ and $Z$ giving $W$, so the separating set is $W$.
 
-            where $\overline{Z(W)}$ denotes the set of nodes of $Z$ that aren't ancestor of any node of $W$ in $G_{\overline{X}}$
+              This means that Rule 1 is simply a generalization of d-separation to
+              interventional distributions.
+        \item \textbf{Rule 2}:
+              \begin{equation}
+                  P(y | do(x), do(z), w) = P(y | do(x), z, w) \, \text{ if } \, Y \perp_{G_{\overline{X}\underline{Z}}} Z | X, W
+              \end{equation}
+              Also in this case we can remove $do(x)$ and we obtain:
+              $$P(y | do(z), w) = P(y |  z, w) \, \text{ if } \, Y \perp_{G_{\underline{Z}}} Z | W$$
+              This correspond to apply the backdoor adjustement using the backdoor
+              criterion. So the rule is the generalization of backdoor adjustement to
+              a interventional distribution.
+        \item \textbf{Rule 3}:
+              \begin{equation}
+                  P(y | do(x), do(z), w) = P(y | do(x), w) \, \text{ if } \, Y \perp_{G_{\overline{X}\overline{Z(W)}}} Z | X, W
+              \end{equation}
+
+              where $\overline{Z(W)}$ denotes the set of nodes of $Z$ that aren't ancestor of any node of $W$ in $G_{\overline{X}}$
     \end{itemize}
 \end{definition}
-We could ask whether there could exist causal estimands that are identifiable but that 
-can’t be identified using only the rules of do-calculus. Fortunately, it 
+We could ask whether there could exist causal estimands that are identifiable but that
+can’t be identified using only the rules of do-calculus. Fortunately, it
 has been proved that do-calculus is \textbf{complete}, which means that these three rules are
-sufficient to identify all identifiable causal estimands. Because these proofs 
-are constructive, they also admit algorithms that identify any causal estimand in 
+sufficient to identify all identifiable causal estimands. Because these proofs
+are constructive, they also admit algorithms that identify any causal estimand in
 polynomial time.
 
-Do-calculus tells us if we can identify a given causal estimand using only the causal 
+Do-calculus tells us if we can identify a given causal estimand using only the causal
 assumptions encoded in the causal graph. If we introduce more assumptions about the
-distribution ex: linearity, we can identify more causal estimands, but this is 
+distribution ex: linearity, we can identify more causal estimands, but this is
 known as \textbf{parametric identification}.
 
 \section{Determining identifiability from the graph}
 We previously mentioned that do-calculus is complete, which means that three rules are
-sufficient to identify all identifiable causal estimands, also that estimands 
+sufficient to identify all identifiable causal estimands, also that estimands
 that aren't identifiable from just using the causal graph. However, it would be much more
 satisfying to know whether a causal estimand is identifiable by simply looking at the causal graph.
 
@@ -108,7 +108,7 @@ for sure that a causal estimand is identifiable. However, there are plenty causa
 that are identifiable, even though the corresponding causal graphs don't satisfy the backdoor
 or frontdoor criterion.
 
-Tian and Pearl provide a relatively simple graphical criterion that is sufficient for identifiability: the \textbf{unconfounded childern criterion}. 
+Tian and Pearl provide a relatively simple graphical criterion that is sufficient for identifiability: the \textbf{unconfounded childern criterion}.
 
 \begin{definition}[\textbf{unconfounded childern criterion}]
     This criterion is satisfied if it is possible to block all backdoor paths from the

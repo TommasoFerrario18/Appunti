@@ -8,7 +8,7 @@ We can define a randomized controlled experiment as an experiment in which all
 the \textbf{factors} that influence the outcome of the experiment are either
 static, or vary at random, except for one. This implies that any change in the
 outcome variable must be due to that one input variable, so we can control a factor
-and study how the outcome changes. This type of experiments allows us to find causal 
+and study how the outcome changes. This type of experiments allows us to find causal
 relationships, so we can answer to causal queries.
 
 In cases where randomized controlled experiments are not practical, researchers
@@ -25,7 +25,7 @@ We can summarize the difference between these two types of studies as follows:
             nature. This amounts to performing a surgery on the graphical model,
             which we do by removing all edges directed into that variable.
             Intervening would be to take the whole population and give everyone
-            treatment. This is possible if we can control the experiment, because 
+            treatment. This is possible if we can control the experiment, because
             we can apply a treatment to the entire population.
       \item \textbf{Conditioning}: we merely narrow our focus to the subset of
             cases in which the variable takes the value we are interested in.
@@ -35,7 +35,7 @@ We can summarize the difference between these two types of studies as follows:
 We denote intervention with the \textbf{do-operator} $do(X=x)$. So, if we have
 an expression which contains the do-operator, we know that we are intervening
 on that variable and we call this expression a \textbf{interventional expression}.
-When do do-operator doesn't appear in the expression so the expression is called 
+When do do-operator doesn't appear in the expression so the expression is called
 \textbf{observational}.
 
 An \textbf{interventional expression} which can be reduced to an \textbf{observational expression}
@@ -81,14 +81,14 @@ Using do-expressions and graph surgery, we can begin to untangle the causal
 relationships from the purely associative.
 
 
-Not always modularity is statisfied, for example when we apply $do(X_1=x)$ 
+Not always modularity is statisfied, for example when we apply $do(X_1=x)$
 and at the same time $P(X_4=x|X_3)$ changes, in this example modularity wasn't
-fulfilled. In the reality this happens when we have hidden factor, so we 
+fulfilled. In the reality this happens when we have hidden factor, so we
 should investigate on this factor to remove it.
 
 \begin{note}
       It is worth noting here that we are making a tacit assumption that
-      the \textbf{intervention} has no side effects. This means that applying intervention 
+      the \textbf{intervention} has no side effects. This means that applying intervention
       this never change values for other variables.
 \end{note}
 
@@ -111,7 +111,7 @@ We can therefore write a general Adjustment Formula on a set of variables and su
 \end{definition}
 
 So we will start from \textbf{causal estimand} $P(Y=y|do(X=x))$ and for the causal effect
-rule we arrive to the \textbf{statistical estimand} which is  $\sum_z P(Y=y|X=x, Z=z) P(Z=z)$ after 
+rule we arrive to the \textbf{statistical estimand} which is  $\sum_z P(Y=y|X=x, Z=z) P(Z=z)$ after
 the inverversion on X. This is possible if and only if modularity is satisfied.
 
 If we apply some manipulation on the formula, we can obtain a more convenient
@@ -143,10 +143,10 @@ variables in the intervention set $S$.
 \end{definition}
 
 \begin{note}
-      Remember that pre-intervention distribution of a graph G is defined by the 
+      Remember that pre-intervention distribution of a graph G is defined by the
       Bayesian Network Factorization as follow:
       $$P(X_1 = x_1, X_2=x_2, \dots, X_n=x_n) = \prod_{i=1}^{n} P(X_i=x_i | pa(X_i))$$
-      While the post-intervention distribution of a graph G with an intervention of 
+      While the post-intervention distribution of a graph G with an intervention of
       $S=s$ is defined as followed:
       $$P(X_1 = x_1, X_2=x_2, \dots, X_n=x_n | do(S=s)) = \prod_{X_i\not \in S}^{n} P(X_i=x_i | pa(X_i))$$
       And there is a relationship between them that is defined by:
@@ -158,7 +158,7 @@ Not always in every condition we can use the \textbf{causal effect rule}, infact
 in the graph represented below we have \textbf{unmeasured parents} that impact on
 $X$ and $Y$, also known as
 \textbf{latent}, that, though represented in the graph, may be inaccessible for
-measurement. In those case, we can't adjust on each values of $pa(X)$ because we 
+measurement. In those case, we can't adjust on each values of $pa(X)$ because we
 can't measure so we need to find an alternative set of variables to adjust for.
 
 \begin{figure}[h]
@@ -171,7 +171,7 @@ can't measure so we need to find an alternative set of variables to adjust for.
       computing a causal effect from a given data set?
 \end{center}
 
-We have decided to represent causal stories with graphs so the solution becomes a graph theretical 
+We have decided to represent causal stories with graphs so the solution becomes a graph theretical
 solution.
 
 One of the most important tools we use to determine whether we can compute a
@@ -192,14 +192,14 @@ when searching for the causal relationship between $X$ and $Y$.
 \end{definition}
 
 \begin{definition}[\textbf{Backdoor adjustment}]
-      
+
       If a set of variables $S$ satisfies the backdoor criterion relative for $X$ and
-      $Y$, and positivity, then the causal effect of $X$ on $Y$ is given by the following new version 
+      $Y$, and positivity, then the causal effect of $X$ on $Y$ is given by the following new version
       of adjusted formula:
       \begin{equation}
             P(Y = y| do(X = x)) = \sum_{s} P(Y = y| X = x, S = s)P(S = s)
       \end{equation}
-      just as when we adjust for the parents of $X$ in the Adjustment Formula. 
+      just as when we adjust for the parents of $X$ in the Adjustment Formula.
 \end{definition}
 
 
@@ -232,14 +232,14 @@ In general, we would like to condition on a set of nodes $S$ such that we:
 \end{definition}
 
 We can use the backdoor adjustment formula if, $S$ d-separates $X$ from $Y$ in
-the augmented graph obtained by removing all outgoing edges from $X$. 
+the augmented graph obtained by removing all outgoing edges from $X$.
 
-We would be able to isolate the causal association if $X$ is d-separated from 
+We would be able to isolate the causal association if $X$ is d-separated from
 $Y$ in the augmented graph.
 \begin{center}
       \textbf{Isolation of the causal association is identification}
 \end{center}
 
 We can also isolate the causal association if $X$ is d-separated from $Y$ in
-the augmented graph, conditional on $S$. This is what the first part of the 
+the augmented graph, conditional on $S$. This is what the first part of the
 backdoor criterion is about and what we've codified in the backdoor adjustment.
