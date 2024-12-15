@@ -1,118 +1,127 @@
-\chapter{Counter Factuals}
-To make any sense on responsability, we must be able to compare what did happend
+\chapter{Counterfactuals}
+To make any sense about responsibility, we must be able to compare what did happen
 with what would have happened under some alternative hypothesis.
 \section{Introduction to counterfactuals}
+We start by introducing a very useful concept for this part, namely \textbf{Hypothetical
+    condition} or \textbf{Antecedent}.  These terms refer to the decision you
+have made in the counterfactuals world.
 
+\textbf{Counterfactuals} are used to compare two outcomes under the exact same
+conditions, differing only in antecedent.
 
-\textbf{Hypochetical condision} or \textbf{Antecendent} is the kind of decision
-we could have taken in the counter factual worlds.
-
-
-Counter facuals are used to compare two outcomes under the exact same conditions,
-differing only in antecedent.
-
-The fact that we know the outcome of our actual decision is important, because my estimand
-after seeing the consequences of my actual decision may be totally different from
-my etimate prior to seeing the consequence.
+The fact that we know the outcome of our actual decision is important, because
+my estimand after seeing the consequences of my actual decision may be totally
+different from my estimate prior to seeing the consequence.
 
 We cannot express this estimate using the do-expression because the do-operator
-is too crude To distinguish: The \textbf{actual value} and the \textbf{hypothetical one}.
-We are trying to compare between two choice after being choose one.
+is too crude to distinguish between the \textbf{actual value} and the
+\textbf{hypothetical one}. In this section, we are trying to compare between the
+results of different possibilities after we had choose one of them and observe
+the results.
 
 We need this distinction in order to let the actual value inform our assessment
 of the hypothetical value. The do-operator is not capable to respond at this question.
 
-We will use potential outcame frameworks:
-$$Y_{X=x} = Y_x = Y(X=x)$$
-Because we need to discover the values of $Y$ befour the choise of $X=x$.
-
+Below, we will use the following notation, which allows us to express the possible
+results of $Y$ knowing that we have chosen $X = x$:
+\begin{equation*}
+    Y_{X = x} = Y_x = Y(X = x)
+\end{equation*}
 
 We can formulare it as follow:
-
-$$\mathbb{E}[Y_1|X=0,Y=Y_0]$$
-
-Where $Y_1$ is the \textbf{hypothetical condition} and $X=0,Y=Y_0$ are the observed
-variables.
+\begin{equation*}
+    \mathbb{E}[Y_1 | X = 0, Y = Y_0]
+\end{equation*}
+where $Y_1$ is the \textbf{hypothetical condition} and $X = 0,Y = Y_0$ are the
+\textbf{observed variables}.
 
 \begin{note}
     Randomized control experiments cannot help us because they give us the information
     on hypothetical condition after the intervention:
-    $$\mathbb{E}[Y_1|do(X=x)]$$
+    \begin{equation*}
+        \mathbb{E}[Y_1 | do(X = 0)]
+    \end{equation*}
     but it doesn't add information of the fact that we had observed $Y_0$.
 \end{note}
 
 \section{Defining and computing counterfactual}
+Consider a fully specified \textit{structural causal model} $M=\langle U, V,F \rangle$
+for which we know both the functions $F$ and the values of all exogenous variables $U$.
 
-Consider a fully specified model SCM $M=<U, V,F>$ for which we know both the
-functions $F$ and the values of all exogenous variables $U$.
+In such a deterministic model every assignment $U = u$ to the exogenous variables
+corresponds to a single member of, or a unit in a population, or to a situation
+in nature.
 
-In such a deterministic model every assignment $U=u$ to the exogenous variables
-corresponds to a single member of, or a unit in a population, or to a situation in nature.
-Each assignment $U=u$ uniquely determines the value of all variables in $V$. This
-is given by the definintion of $M$.
+The reason for this correspondence is as follows: each assignment $U = u$ uniquely
+determines the value of all variables in $V$. This is given by the definition of $M$.
+Also, the characteristic of each unit in a population have unique values, depending
+on that individual's identity.
 
-The characteristic of each unit in a population have unique values, depending on
-that individual's identity.
-
-Consider now the \textbf{counterfactual sentence}
+Consider now the following \textbf{counterfactual sentence}:
 \begin{center}
     "$Y$ would be $y$ had $X$ been $x$, in situation $U=u$"
 \end{center}
-Which can be summarize in $Y_x(u) = y$
+which can be summarize in $Y_x(u) = y$
 
+The phrase part ``had $X$ been $x$'' need to be interpreted as an instruction to
+make a minimal modification in the \textbf{current model} so as to establish the
+antecedent condition $X = x$ which is likely to conflict with the observed valve
+$X$, $X(u)$. Such a minimal modification amounts to replacing the equation for
+$X$ with a constant $x$, which may be thought as an external intervention $do(X = x)$
+not necessary by a human experimenter.
 
-had $X$ been $x$ need to be interpreted as an istruction to more a minimal modification
-in the \textbf{current model} so as to establish the antecedent condition $X = x$ which is
-likely to conflict with the observed valve $X$, $X(u)$. Such a minimal modification
-amounts to replacing the equation for $X$ with a constant $x$, which may be thought
-as an external intervention $do(X=x)$ not necessary by a human experimenter.
+This replacement permits the constant $x$ to differ from the actual value of $X$
+($X(u)$) without rendering the system of equations inconsistent, and in this way,
+it allows all variables to serve as antecedent to other variables.
 
-This replacement permits the constant $x$ to differ from the actual value of $X$ ($X(u)$)
-without rendering the system of equations inconsistent, and in this way, it allows
-all variables to serve as antecedent to other variables.
+Each structural causal model encodes within it many counterfactuals, corresponding
+to the various values that its variable can take.
 
-Each SCM encodes within it many counterfactuals, corresponding to the various values
-that its variable can take.
+Counterfactuals are different than the ordinary interventions, captured by the
+do-operator. Now, we want to work at individual level: for each situation $U = u$,
+we obtained a definite number, $Y_x (u)$, which stands for than hypothetical value
+of $Y$ in that situation.
 
-Counterfactuals are different than the ordinary inverventions, captured by the do-operacor.
-We want to work at individual level: for each sizuation $U =u$, we obtained a definite
-number, $Y_x (u)$, which stands for than hypothesical value of $Y$ in that situation.
-
-The do-operator is only defined on probability distributions and always delivers
-probabilistic results such as $\mathbb{E}[Y| do(x)]$. We are working on a population
-level, while with counter factuals we are working on a unit $u$ of the population $U$
-computing the outcome $Y_x(u)$, we are computing the hypothetical value of $Y$
-in the situation of $X=x$ for the unit $u$.
+The do-operator is defined exclusively for probability distributions and always
+produces probabilistic outcomes, such as $\mathbb{E}[Y|do(X = x)]$.It operates at
+the population level. In contrast, counterfactuals focus on individual units
+$u$ within the population $U$, where we compute the outcome $Y_x(u)$. This represents
+the hypothetical value of $Y$ for the specific unit $u$ in a scenario where $X = x$.
 
 We are now ready to generalize the concept of counterfactuals to any structural
-model $M$. Consider any arbitrary two variables $X$ and $Y$, not necessarily connected
-by a single equation.
+model $M$. Consider any arbitrary two variables $X$ and $Y$, not necessarily
+connected by a single equation.
 
-We can pass from a model $M$ to $M_x$ by replacing the equation of $X$ with $X=x$,
+We can pass from a model $M$ to $M_x$ by replacing the equation of $X$ with $X = x$,
 so we can introduce the formal definition of counterfactuals $Y_x (u)$:
-$$Y_x (u) = Y_{M_x}(u)$$
-The counterfactual is the counterfactual obtained after the modification of the model
+\begin{equation}
+    Y_x (u) = Y_{M_x}(u)
+\end{equation}
+The results is the counterfactual obtained after the modification of the model
 $M$ in $M_x$. So each model $M$ has a graph $G$ and $M_x$ has a graph $G_X$, where
 $G_X$ is the graph of $M$ ($G$) where all incoming edges to $X$ have been removed.
 
-The same definition is applicable when $X$ and $Y$ are sets of variables.
+The same definition can be also apply when $X$ and $Y$ are sets of variables.
 
-Counterfactuals allow us to take our scientific conception of reality, $M$, and
-use it to generate answers to an enormous number of hypothetical question.
-The values than these counterfacuals recieve are not totally arbitrary, but must
-cohere with each other to be consistent with an underlying model.
+Counterfactuals enable us to use our scientific model of reality, $M$, to answer
+a vast array of hypothetical questions. The values assigned to these counterfactuals
+are not arbitrary; they must be internally consistent and align with the underlying model.
 
 \begin{note}
-    If we observed $X(u)=1$ and $Y(u) = 0$ then the counterfactual:
-    $$Y_{X=1}(u)=0$$
-    is coeherent with the world, because you are whatching the actual world
+    If we observed $X(u) = 1$ and $Y(u) = 0$ then the counterfactual:
+    \begin{equation*}
+        Y_{X=1}(u) = 0
+    \end{equation*}
+    is coherent with the world, because you are watching the actual world.
 \end{note}
 
 \begin{definition}[\textbf{Counterfactual consistency rule}]
-    If $X= x$ then $Y_x=Y$.
+    If $X = x$ then $Y_x = Y$.
 
-    If $X$ is binary then we have the convenient form
-    $$Y = X_1 + (1-X)Y_0 $$
+    If $X$ is binary then we have the convenient form:
+    \begin{equation}
+        Y = X \cdot Y_1 + (1 - X) \cdot Y_0
+    \end{equation}
 \end{definition}
 This is coherent because:
 \begin{itemize}
@@ -122,58 +131,104 @@ This is coherent because:
 
 Any \textbf{deterministic counterfactuals} is computed by the following steps:
 \begin{itemize}
-    \item \textbf{Abduction}: use evidence $E = e$ to derermine the value of $U$
-    \item \textbf{Action}: modify the model, $M$, by removing the structural equations for
-          the variables in $X$ and replacing them with the appropriate functions $X = x$,
-          to obrain the modified model $M_x$
-    \item \textbf{Prediction}: use the modified model $M_x$ and the values of $U$ to compute
-          the value of $Y$, the consequence of the counterfacuals.
+    \item \textbf{Abduction}: use evidence $E = e$ to determine the value of $U$.
+    \item \textbf{Action}: modify the model, $M$, by removing the structural
+          equations for the variables in $X$ and replacing them with the appropriate
+          functions $X = x$, to obtain the modified model $M_x$.
+    \item \textbf{Prediction}: use the modified model $M_x$ and the values of $U$
+          to compute the value of $Y$, the consequence of the counterfactuals.
 \end{itemize}
 
-So to compute counterfactual we need a unit and each observed variables of that unit.
-Structural equation models are able to answer counterfactual queries of this nature because
-each equation represents the mechanism by which the variable obtains its values.
+The three steps will solve any deterministic counterfactual,that is, counterfactuals
+pertaining to a single unit of the population in which we know the value of every
+relevant variable.
+
+Structural equation models are able to answer counterfactual queries of this nature
+because each equation represents the mechanism by which the variable obtains its
+values.
 
 If we know these mechanism, we should also be able to predict what values would be
 obtained had some of these mechanisms been altered, given alterations.
 
 \subsection{Probabilistic counterfactual}
-Counterfactual can also be probabilistic, pertaining to a class of units within the population (ex: $Y<2$).
-This probabilistic counterfactuals differ from do-operator intervencions because
-they restrict the set of individual intervened upon, which do-expression cannot do.
-We do not have information on all variables (we can't compute $u$) and probabilistic counterfactual allows
-us to ask question about probabilisties and expectations of counterfactuals.
+Counterfactual can also be probabilistic, pertaining to a class of units within
+the population.
 
-Nondeterminism enters causal models by assigning probabilizies $P(U=u)$ (\textbf{exogenous probability}) over the
-exogenous variables
+This probabilistic counterfactuals differ from do-operator interventions because
+they restrict the set of individual intervened upon, which do-expression cannot do.
+We do not have information on all variables (we can't compute $u$) and probabilistic
+counterfactual allows us to ask question about probabilities and expectations of
+counterfactuals.
+
+Nondeterminism enters causal models by assigning probabilities $P(U = u)$
+(\textbf{exogenous probability}) over the exogenous variables
 \begin{center}
-    Uncertaty = Probability distribution
+    Uncertainty = Probability distribution
 \end{center}
 
-Exogenous probability induce a unique probability distriburion on the endogenous
+Exogenous probability induce a unique probability distribution on the endogenous
 variables.
-
-$$P(U=u) \implies P(V=v)$$
-
-This allow us to compute the joint distribuzion of all combinations of
-observed and counterfactuals variables.
+\begin{equation*}
+    P(U = u) \implies P(V = v)
+\end{equation*}
+where $v$ is the value of the endogenous variables determined by $u$. This allow
+us to compute the joint distribution of all combinations of observed and
+counterfactuals variables.
 
 A typical query will be
 \begin{center}
-    Given that we observe feature $E=e$ for e given individual, what would we
+    Given that we observe feature $E = e$ for e given individual, what would we
     expect the value of $Y$ for that individual to be if $X$ had been $x$?
 \end{center}
+This expectation is given by the conditional expectation:
+\begin{equation*}
+    \mathbb{E}[Y_{X = x} | E = e]
+\end{equation*}
+where we allow $E = e$ to conflict which the antecedent $X = x$.
 
-This expected is denoted $\mathbb{E}[Y_{X=x}|E=e]$
-where we allow $E=e$ to conflict wich the antecedent $X=x$
-
-The three-step process for probabilistic counterfactual:
+Given an arbitrary counterfactual of the form:
+\begin{equation*}
+    \mathbb{E}[Y_{X = x} | E = e]
+\end{equation*}
+the three-step process for probabilistic counterfactual:
 \begin{itemize}
-    \item \textbf{Abduction}: Update $P(U)$ by the envidence to obtain $P(U |E=e)$
+    \item \textbf{Abduction}: update $P(U)$ by the evidence to obtain $P(U| E = e)$;
     \item \textbf{Action}: modify the model, $M$, by removing the structural equations for
-          the variables in $X$ and replacing them with the appropiate function $X=x$ to
-          obtain the modified model $M_X$
+          the variables in $X$ and replacing them with the appropriate function
+          $X = x$ to obtain the modified model $M_X$;
     \item \textbf{Prediction}: use the modify model $M_X$ and the updated probabilities
-          over $U$ variables, $P(U|E=e)$, to compure the expectation of $Y$, the consequence
-          of the countertactuals
+          over the $U$ variables, $P(U| E = e)$, to compare the expectation of $Y$,
+          the consequence of the counterfactuals.
 \end{itemize}
+\section{Nondeterministic Counterfactuals}
+As already mentioned above, to go to insert the concept of non-determinism in
+counterfactuals we assign a probability to each value of $U$.
+
+\textbf{Cross-world probabilities} are the probabilities of counterfactuals, that
+is, the probabilities of the form $P(Y_x = y)$, where $Y_x$ is the counterfactual
+value of $Y$ when $X = x$.
+
+Cross-world probabilities are as simple to derive as \textbf{intra-world probabilities}:
+we simply identify the rows in which the specified combination is true and sum
+up the probabilities assigned to those rows. This allows us to compute conditional
+probabilities among counterfactuals and defining notions such as dependence and
+conditional independence among counterfactuals.
+
+Joint probabilities over multiple-world counterfactuals can be computed from any
+structural model. They cannot however be expressed using the $do(x)$ notation,
+because the latter delivers just one probability for each intervention $X = x$.
+
+Thus, in general, the do-expression will not capture our counterfactual question:
+\begin{equation*}
+    \mathbb{E}[Y| do(X = 1), Z = 1] \neq \mathbb{E}[Y_{X = 1} | Z = 1]
+\end{equation*}
+The $do(x)$ notation cannot capture this difference, because:
+\begin{itemize}
+    \item $X = 1$ refers to preintervention world;
+    \item $Z = 1$ refers to postintervention world.
+\end{itemize}
+
+\textbf{Retrospective Reasoning} concerning dependence on the unrealized past, is 
+not shown explicitly in the graph structure that we had use upon. To facilitate 
+such reasoning, we need to devise means of representing counterfactual variables 
+directly in the graph.
