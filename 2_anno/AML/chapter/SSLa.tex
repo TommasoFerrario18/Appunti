@@ -1,0 +1,85 @@
+\chapter{Self supervised learning}
+Generally we train a pretrained model on a big dataset.
+
+PErformance of NN depends on capacity and dimension of dataset.
+capacity = number of parameters. We can expect that high capacity and large dataset 
+to improve performance. 
+
+The problem on large dataset is the labelling because it is too expencive. Another 
+problem is labelling video.
+
+To avoid this problem, we can train the model to solve a pretext task and this 
+help the model to learn features, morover, it labels the data. Then we use this model 
+and apply transfert learninig to train the supervised downstream model
+
+terminology:
+\begin{itemize}
+    \item \textbf{human-annotated label}: label created by humans
+    \item \textbf{pretext task}: pre-design tasks for networks to solve and visual
+    features  are learnined by learning objective functions of pretext tasks
+    \item \textbf{pseudo label}: label used in pretext task 
+    \item \textbf{Supervised learning}: reders to leanining methods that use 
+    human annotated labels
+    \item \textbf{semi- supervised learning}: small amount of labeld data combined 
+    with high amount of unlabelled data
+    \item \textbf{weakly- supervised learning}: refers to learningi methods to learn whith 
+    coarse grained labels or inaccurate labels. Weak-annotation is cheaper than the fine-grained labels 
+    \item \textbf{unsupervised learning}: no labels
+    \item \textbf{self-supervised learning}: we extract labels from data and we use to train models
+\end{itemize}
+
+pro:
+\begin{itemize}
+    \item we don't have human annotation and can be use for dataset of any size
+    \item 
+\end{itemize}
+
+there are many pretext tasks:
+\begin{itemize}
+    \item foreground segmentation
+    \item image inpainting 
+    \item clustering 
+    \item image colorization
+    \item temporal order verification
+    \item visual audio correspondece verification
+\end{itemize}
+
+learning visual features:
+\begin{itemize}
+    \item coloring a real image grey scale (convert from grey to rgb). The 
+    input is the gray scale image and the label is the original image
+    \item there are many
+\end{itemize}
+we can cathegorize approches in 4 groups:
+\begin{itemize}
+    \item generation: involved video or image generation. Visual features are learning 
+    image colorzation, image super resolution , image impainting , image generation GAN.
+    Visual features are learned in video generation with GAN and video prediction.
+    Label is original image. For GAN we train the network and we use only the discriminator 
+    and we take features from last layers.
+    \item context-based: employs the context features. It can be done by context similarity, 
+    spatial/temporal context structure. We want learn features by learn structure of 
+    the features. We can do bu predictive task or contrastive task, for both we 
+    can clusterize data in the way that data in the same grous are data with similar
+    context and the claster is the label. In this way the model train the invariance features.
+    For contrastive we want that a trasformed image is similar to the original but
+    differ by others.  In the spatial context we can divide image in patched and 
+    than the model has to learn the order of patches to reconstruct the original
+    image (model learn spatial features). The problem of this approach is the 
+    combiantory explosion, we can try to limit considering a subset of total number of 
+    permutation, we need to define a task not too difficult and not to easy other ways
+    it can't learn. 
+    \item free semantic label: train network with some semantic label that are automatic 
+    generated. The labels are not extracted by the features. Ex: we can generate 
+    image using a game engine because we can access to depth data, segmentation, lightining.
+    We create a syntetic dataset but this has a problem because game engine render
+    images at high resolution, while in the reality we use low resolution image.
+    We can generate data by using hard code programs, by using standard algorithms
+    \item cross modal based methods: multiple multimodal information, 1 channel for 
+    each type information ex: audio and video. The goal is matching audio and video. 
+\end{itemize}
+
+we can compare performance of image feature training by evaluate the classificator on 
+the same dataset.
+
+Self supervised learning add robustness to model.

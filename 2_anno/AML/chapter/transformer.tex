@@ -9,17 +9,31 @@ We can also encounter different problems such as:
     \item The encoded input can be very large. Assuming a 1024-d embedding and body of text that have 100s/1000s of
         words, a fully connected neural network is impractical because we have $100 \times 1024 = 102400$ as input
         length. 
-    \item Each input is of different length.
+    \item Each input is of different length and FF are impractible.
+    \item statistics are similar at every position 
     \item The language is fundamentally ambiguous.
 \end{itemize}
+
+Most of these problems are derived by NLP problems. 
 \section{Dot-product self attention}
 Considering the issues just presented, we want to design a network that is able to process text and can:
 \begin{enumerate}
     \item Use parameter sharing to cope with long input passages of differing lengths.
     \item Contain connections between word representations that depend on the words themselves.
 \end{enumerate}
-The transformer acquires both properties by using \textbf{dot-product self-attention}. A self-attention block $sa[\cdot]$
-takes $N$ inputs $x_n$, each of dimension $D \times 1$, and returns $N$ output vectors of the same size. Let's go into 
+The transformer acquires both properties by using \textbf{dot-product self-attention}. 
+
+While a standard NN layer $f[x]$ takes a $D\times 1$ input $x$ and applies a linear transformation followed by
+a non-linear activation function $a[\cdot]$:
+$$f[x] = a[\beta + \Omega x]$$
+
+Where $\beta$ containse the biases and $\Omega$ contains weights.
+
+A self-attention block $sa[\cdot]$
+takes $N$ inputs $x_n$, each of dimension $D \times 1$, and returns $N$ output vectors of the same size. 
+In the context of NLP each $x_n$ will represent a word or a word fragment of a sentence.
+
+Let's go into 
 more detail. First, a set of \textbf{values} are computed for each input:
 \begin{equation}
     v_n = \beta_v + \Omega_v \cdot x_n
@@ -88,7 +102,8 @@ We then compute dot products between the queries and the keys followed by a soft
 \begin{equation}
     a[x_m, x_n] = softmax_m [k_\ast^T, q_n] = \frac{\exp[k_\ast^T, q_n]}{\sum_{m' = 1}^N \exp[k_\ast^T, q_n]}
 \end{equation}
-so, for each $x_n$ they are positive and sum to one.
+so, for each $x_n$ they are positive and sum to one and these is the method to apply
+non linearity on attention.
 
 The names \textit{queries} and \textit{keys} have the following interpretation:
 \begin{itemize}
@@ -97,7 +112,9 @@ The names \textit{queries} and \textit{keys} have the following interpretation:
     \item The softmax function means that we can think of the key vectors as \textit{competing} with one another to 
         contribute to the final result. 
 \end{itemize}
-The queries and keys must have the same dimensions. However, these can differ from the dimension of the values, which is 
+The queries and keys must have the same dimensions. 
+
+However, these can differ from the dimension of the values, which is 
 usually the same size as the input, so that the representation does not change size.
 
 This mechanism fulfills the initial requirements: 
@@ -129,7 +146,7 @@ have minimal impact on the output, making the model harder to train.
 To mitigate this, the dot products are scaled by the square root of the size of the query $D_q$ and key $D_k$, which 
 corresponds to the number of rows in $\Omega_q$ and $\Omega_k$ as the query and key dimensions must be the same.
 \begin{equation}
-    sa[X] = V \cdot softmax\left[\frac{K^T \cdot Q]}{\sqrt{D_q}}\right]
+    sa[X] = V \cdot softmax\left[\frac{K^T \cdot Q}{\sqrt{D_q}}\right]
 \end{equation}
 
 \section{Positional encoding}
@@ -146,7 +163,7 @@ incorporating position information:
 This method consists of adding a $\Pi$ matrix to the $X$ input. The purpose of this matrix is to encode positional
 information. Each column of $\Pi$ is unique and contains information about the absolute position in the input sequence. 
 
-The matrix that is usually used for this purpose can be chosen by the architect or learned in the model training phase. 
+The matrix that is usually used for this purpose can be handcrafted or learned in the model training phase. 
 Typically, this matrix is added to the model's input. Alternatively, since the outputs of the self-attention blocks have
 the same dimensions as the input, the matrix can be added after each layer.
 
@@ -176,7 +193,7 @@ different sets of values, keys and queries are calculated as:
 \end{align*}
 Then, the $h-$th self-attention mechanism or \textbf{head} can be written as:
 \begin{equation}
-    sa_h[X] = V_h \cdot softmax\left[\frac{K_h^T \cdot Q_h]}{\sqrt{D_q}}\right]
+    sa_h[X] = V_h \cdot softmax\left[\frac{K_h^T \cdot Q_h}{\sqrt{D_q}}\right]
 \end{equation}
 where we have different parameters for each head. 
 
