@@ -5,7 +5,7 @@ network where each layer is connected to the next one without loop. We can think
 at each layer as a vector to a vector function.
 
 Each layer is composed by a set of neurons, where each neuron receives a set of input
-from many others unit and computes its own activation rule.
+from many others, unit and computes its own activation rule.
 
 We can think at a FFNN as a composition of many functions, where each function is
 a layer. For example: if a FFNN try to approximate a function $f(x)$ and has $3$
@@ -33,10 +33,10 @@ how to use these layers to best implement an approximation of $f^*$. The dimensi
 of the hidden layers is called \textbf{width} of the model.
 
 \subsection{Training process}
-The training process can be summarized as follows: initially, the networks weights
-are randomly initialized, then, for each training example $(x, y)$, the network
-computes $f^*(x)$, then we compute the error $E(y, f^*(x))$ and we adjust all weights
-by using the gradient approximate which is calculated with backpropagation.
+The training process can be summarized as follows: initially, the network's weights
+are randomly initialized. Then, for each training example $(x, y)$, the network
+computes $f^\ast(x)$. Next the error $E(y, f^*(x))$ is calculated, and all weights
+are adjusted using the gradient approximate, which is calculated with \textbf{backpropagation}.
 
 \begin{note}
     During the training phase, the weights are adjusted every $n$ examples,
@@ -44,21 +44,21 @@ by using the gradient approximate which is calculated with backpropagation.
     elements of a batch to avoid overfitting.
 \end{note}
 \section{Weight Learning}
-If $f(x)$ is \textbf{non-linear} function, than we can theoretically approximate
-it with an hidden layer, the problem is to find the right weights.
+If $f(x)$ is \textbf{non-linear} function, twe can theoretically approximate it
+using a hidden layer. The challenge lies in finding the right weights.
 
-The essence of supervised machine learning is the creation of functions that
-can look at examples (instances) and produce generalizations (predict data never seen).
-This is a searching task over all possible functions, this is complex problem to
-solve. So, in general, we restrict the set of all possible functions to a specific
-families, this is called \textbf{hypothesis classes}.
+The essence of supervised machine learning is the creation of functions that can
+analyze examples (instances) and produce generalizations (predict unseen data).
+This involves searching over all possible functions, a task that is inherently
+complex. To make this manageable, we typically restrict the set of all possible
+functions to specific families, referred to as \textbf{hypothesis classes}.
 
-A strategy to solve non-linear problem using a linear model is to use a
-transformation of the input space. To modify the data representation, we can
-apply \textbf{non-linear transformation} ($\phi$) to them. In other words, given
-an instance $x$, we can think of $\phi(x)$ as a new set of features describing $x$.
+One strategy to solve non-linear problem using a linear model is to use a
+transformation of the input space. By modifying the data representation,, we can
+apply \textbf{non-linear transformation} ($\phi$) to the inputs. In other words,
+given an instance $x$, $\phi(x)$ represents a new set of features describing $x$.
 
-There are different way to define a transformation:
+There are several way to define a transformation:
 \begin{itemize}
     \item Use a predefine $\phi$ called \textbf{kernel}
     \item Define manually $\phi$ but it isn't convenient.
@@ -66,29 +66,29 @@ There are different way to define a transformation:
           approach used in deep learning.
 \end{itemize}
 
-In deep learning the goal is to learn a transformation $\phi$, meanwhile SVM use
-a Kernel that are already defined. So, we can describe this approach using the
+In deep learning the goal is to learn the transformation $\phi$, whereas SVM use
+a predefine \textit{kernel}. So, we can describe this approach using the
 following model:
 \begin{equation}
-    f(x, \theta, \omega) = \phi(x; \theta)^T \omega
+    f(x, \theta, \omega) = \phi(x; \theta)^T \cdot \omega
 \end{equation}
-where $\theta$ are the parameters used to learn the transformation $\phi$ from a
-broad class of functions, while $\omega$ are the parameters that map from $\phi(x)$
-to the target.
+Here, $\theta$ represents the parameters used to learn the transformation $\phi$
+from a broad class of functions, while $\omega$ represents the parameters mapping
+$\phi(x)$ to the target.
 
 \begin{note}
-    In a deep learning model $\phi$ defines a hidden layer.
+    In a deep learning model, $\phi$ defines a hidden layer.
 \end{note}
 
-The prediction model is generally a high dimensional linear function $f(x): x \cdot W + b$,
-here we have a listing:
+The prediction model is typically a high dimensional linear function, $f(x): x \cdot W + b$.
+Below are some examples:
 \begin{itemize}
     \item \textbf{Sign function}: this function is used for binary classification:
           \begin{equation}
               \hat{y} = sign(f(x))
           \end{equation}
-    \item \textbf{Sigmoid function}: this function is used for binary classification
-          when we need a confidence on decision for log-linear binary classification.
+    \item \textbf{Sigmoid function}: Used for binary classification when confidence
+          in decisions is required, such as in log-linear binary classification:
           \begin{equation}
               \hat{y} = \frac{1}{1+e^{-f(x)}}
           \end{equation}
@@ -105,149 +105,156 @@ gradient on linear model are easy to compute.
 \textbf{Cons} models are restricted to linear functions so they works for data linear
 separable, solved by a transformation.
 \section{Kernel trick}
-Transform the input space into an higher dimensional space can be useful to solve
-non-linear separable problem. But, this approach increase the number of parameters
-and the complexity of the model. To solve this problem we can map the input space
-into a higher dimensional space using some particular functions called \textbf{kernels}.
+Transform the input space into an higher-dimensional space can be useful to solve
+non-linear separable problem. However, this approach increase the number of
+parameters and the complexity of the model. To address this challenge, we can map
+the input space into a higher-dimensional space using specific functions called
+\textbf{kernels}.
 
 \begin{note}
     There can be many transformations that allow the data to be linearly separated
-    in higher dimensions, but not all of these functions are actually kernels.
+    in higher dimensions, but not all of these functions qualify as kernels.
 \end{note}
 
 This approach is functional because we can use the \textbf{kernel trick} to operate
 in the original feature space without computing the coordinates of the data in a
-higher dimensional space.
+higher-dimensional space.
 
 A general linear model would be rewritten as:
 \begin{equation}
     \omega^T x + b = b+ \sum_{i=1}^m \alpha_ix^Tx^{(i)}
 \end{equation}
-where $b$ is the bayes, $\alpha_i$ is a coefficient, $x$ is a point, $x^(i)$ is
-$i$-instance of training set and $m$ is the number of training instances.
+where $b$ is the bayes, $\alpha_i$ is a coefficient, $x$ is a point, $x^{(i)}$ is
+$i$-th instance of training set and $m$ is the number of training instances.
 
-To use this model on non-linear separable data, we need to apply a transformations $\phi$
-to the input space, so the model becomes:
+To apply this model on non-linear separable data, we introduce a transformations
+$\phi$ to the input space, resulting in:
 \begin{equation}
     f(x) = \omega^T \cdot x + b = b + \sum_{i = 1}^m \alpha_ix^Tx^{(i)} = b +
     \sum_{i=1}^m \alpha_i\phi (x^T) \cdot \phi(x^{(i)})
 \end{equation}
+The kernel trick override $\phi(x^T) \cdot \phi(x^{(i)})$ with $k(x^T, x^{(i)})$,
+where $K(\cdot , \cdot)$ is the kernel function. This eliminates the need to
+compute $\phi(x)$ directly, making it computationally more efficient.
 
-The kernel trick override $\phi(x^T)\phi(x^{(i)})$ with $k(x^T, x^{(i)})$ without
-computing $\phi(x)$ and it's more computational efficient compared to $\phi$.
+Furthermore, kernel trick allows us to learn models that are non-linear functions
+of $x$ using a convex optimization techniques, which are guaranteed to converge
+efficiently. This is possible because $\phi $ is fixed, and we optimize only the
+coefficient $\alpha_i$. In Support Vector Machines (SVMs), only support vectors
+are used in the model, and $\alpha_i= 0$ if and only if $i$ is not a support vector.
 
-Moreover kernel trick allows us to learn models that are nonlinear as a function
-of $x$ using a convex optimization techniques that are guaranteed to converge
-efficiently, this is possible because $\phi $ is fixed and we optimize only $\alpha_i$.
-SVM uses only support vector and $\alpha_i$ regulates this, $alpha_i= 0$ if and
-only if $i$ isn't a support vector.
-
-Each algorithm that uses kernel is called \textbf{kernel machines} or \textbf{kernel
+Any algorithm that uses kernel is called \textbf{kernel machines} or \textbf{kernel
     methods}
 \section{Gradient optimization}
-Usually, in deep learning we want to minimize the \textbf{loss function} which in
-term of operational research is the \textbf{objective function}. In order to
-achieve this goal we use partial derivative $\frac{\delta}{\delta x_i} f(x)$ to
-measure how the loss function changes as only the variable $x_i$ changes.
+In deep learning, we aim to minimize the \textbf{loss function}, which, in the
+context of optimization, is referred to as the \textbf{objective function}. To
+achieve this, we use partial derivatives $\frac{\delta}{\delta x_i} f(x)$ to
+measure how the loss function changes when only the variable $x_i$ is varied.
 
-The \textbf{gradient} $\nabla f(x)$ generalizes the concept of derivative to the
-case where the derivative is a vector. In other word, the gradient is a vector
-where the element $i$ is the partial derivative of the function with respect to
-the variable $x_i$.
+The \textbf{gradient} $\nabla f(x)$ generalizes the concept of derivative to
+higher dimensions. In other word, the gradient is a vector where the $i$-th element
+represents the partial derivative of the function with respect to $x_i$.
 
-Once we have defined that, we can use the direction opposite to the gradient to
-minimize the loss function. This is called \textbf{gradient descent} and it's
-defined as:
+To minimize the loss function, we move in the direction opposite to the gradient.
+This approach, known as \textbf{gradient descent}, is defined as:
 \begin{equation}
     x' = x - \eta \nabla f(x)
 \end{equation}
-where $x$ is the starting point, $x'$ is the next point, $\eta$ is the learning
+where $x$ is the current point, $x'$ is the updated point, $\eta$ is the learning
 rate and $\nabla f(x)$ is the gradient of the loss function.
 
 \begin{note}
     The gradient descent converge when every element of the gradient is zero.
 \end{note}
 
-The learning rete is an hyperparameter that controls how much we are moving in the
-direction of the gradient. The optimal value od $\eta$ change every time we update
-the weights. But, do to computational cost, we cannot compute it every time, so we
-use a fixed value. The best value of $\eta$ is the one that start from a high value
-in order to explore different way and reduce the chance of getting stuck in a local
-minimum, and then decrease it to converge to the global minimum.
+The learning rete is an hyperparameter that controls the step size in the gradient's
+direction. The optimal value of $\eta$ may change during the training, but do to
+computational cost, it is often kept fixed. A good strategy involves starting with
+a high learning rate to explore different paths and reduce the likelihood of
+getting stuck in a local minimum, and then gradually decreasing it to converge
+to the global minimum.
 
-Since in many cases the loss function is not convex, the loss function cannot be
-optimized in a close form. So we need an iterative numerical optimization
-procedure to find the minimum of the loss function. An example is \textbf{gradient
-    descent}.
+Since in many loss function are not convex, they cannot be optimized in a close
+form. Instead, we use iterative numerical optimization method to find the minimum
+of the loss function. An example is \textbf{gradient descent}.
 
-Sometimes the cost function may be a function that we cannot evaluate, for
-computational reasons. In these cases, we can still use an iterative numerical
-optimization procedure as long as we have some way of approximating the gradient.
+In some cases, evaluating the loss function directly may be computationally
+expensive. However, as long as we can approximate the gradient, iterative
+numerical methods can still be applied.
 
-Since the goal of our network is to approximate a function, we need to measure how
-much the function we have learned differs from the target function. In order to
-do this, we introduce a \textbf{loss function}.
+Since the goal of our network is to approximate a target function, we need to
+measure the difference between the predicted function, that we have learned, and
+the target function using a \textbf{loss function}.
 
-Formally, this function $L(\hat{y}, y)$ return a scalar value that measures how
-well the prediction $\hat{y}$ match the target $y$. For minimizing the optimization
-problem over training sample, we add the parameters of the model $\theta$ to the
-loss function:
+Formally, this function $\mathcal{L}(\hat{y}, y)$ return a scalar value that
+quantifies how well the prediction $\hat{y}$ matches the target $y$. To minimize
+the optimization problem over training sample, we include the parameters of the
+model $\theta$ to the loss function:
 \begin{equation}
-    J(\theta) = \frac{1}{n} \sum_{i=1}^n L(\hat{y}_i; y_i; \theta)
+    J(\theta) = \frac{1}{n} \sum_{i=1}^n \mathcal{L}(\hat{y}_i; y_i; \theta)
 \end{equation}
-Since we have the label and the prediction, the main goal for the training algorithm
-is to find the right set of parameters $\theta$ that minimize the loss function.
-Having said this, we can rewrite the previous formula as follows:
+where $n$ is the number of training samples.
+
+The main objective of the training algorithm is to find the optimal set of
+parameters $\theta$ that minimize the loss function. Formally, this can be written
+as:
 \begin{equation}
     \hat{\theta} = \argmin_{\theta} J(\theta) = \argmin_{\theta} \frac{1}{n}
-    \sum_{i=1}^n L(\hat{y}_i; y_i; \theta)
+    \sum_{i=1}^n \mathcal{L}(\hat{y}_i; y_i; \theta)
 \end{equation}
 
-In addition, for reducing the risk of overfitting, we can add a \textbf{regularization
-    term} to the loss function:
+To reduce the risk of overfitting, a \textbf{regularization term} can be added
+to the loss function:
 \begin{equation}
-    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n L(\hat{y}_i; y_i; \theta)
+    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n \mathcal{L}(\hat{y}_i; y_i; \theta)
     + \lambda R(\theta)
 \end{equation}
-where $\lambda$ is an hyperparameter that control the trade-off between bias and
-variance, $R(\theta)$ is the regularization term which correspond to a scalar that
-reflects the parameter complexity. The regularization term is used to prevent the
-model from learning the noise in the training data. This term does not always
-appear in the loss function, but we can apply it implicitly by changing the
-network architecture or altering the data. Examples of these operations are:
+where $\lambda$ is an hyperparameter that balances the trade-off between bias and
+variance, and $R(\theta)$ is the \textbf{regularization term}, a scalar that
+reflecting the model complexity. he regularization term discourages the model from
+fitting the noise in the training data. This term does not always appear in the
+loss function, but we can apply it implicitly by changing the network architecture
+or altering the data. Examples of these operations are:
 \begin{itemize}
     \item Disable some connections in the network.
     \item Add noise to the input data.
 \end{itemize}
 \begin{note}
-    A network that use small weights have better generalization properties than
-    a network that use large weights, because small noise impact more on results
-    when network has large weights.
+    Networks with smaller weights tend to generalize better than those with larger
+    weights. This is because noise in the input data has a more significant impact
+    on networks with large weights.
 \end{note}
 \subsection{Stochastic Gradient Descent}
 The \textbf{Stochastic Gradient Descent} (SGD) is a variant of the gradient descent
-algorithm that is used to train neural networks. Since the computational cost
-of computing the gradient of the loss function is $\mathcal{O}(n)$, where $n$ is
-the number of training examples, the SGD is used to approximate the gradient of
-the loss function by computing the gradient on a subset of the training data.
+algorithm that is used to train neural networks. The computational cost of computing
+the gradient of the loss function for the entire training dataset is $\mathcal{O}(n)$,
+where $n$ is the number of training examples. To reduce this cost, SGD approximates
+the gradient by computing it on a subset of the training data.
 
-We can still update the gradient on every training example (Online Learning), but
-this may result in a slow convergence and a noisy gradient.
+In its simplest form, SGD updates the model parameters after computing the gradient
+on a single training example (known as \textbf{Online Learning}). While this approach
+can lead to faster updates, it often results in slow convergence and noisy gradients.
 
-To solve this problem, we can use a \textbf{mini-batch} which is a subset of the
-training data. Typically, the mini-batch size is relatively small, ranging from
-$1$ to few hundreds of examples. Using mini-batch, we can compute the gradient
-of the loss function on the mini-batch and update the model parameters in a more
-robust way.
+To address these issues, a \textbf{mini-batch} approach is commonly used. A mini-batch
+is a small, randomly selected subset of the training data, typically ranging from
+1 to a few hundred examples. By computing the gradient on a mini-batch, the
+algorithm achieves a balance between convergence stability and computational
+efficiency.
 
 We can compute the gradient of the loss function on the mini-batch as follows:
 \begin{equation}
-    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} L(\hat{y}_i, y_i, \theta)
+    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} \mathcal{L}(\hat{y}_i, y_i, \theta)
 \end{equation}
-and then we can update the model parameters as follows:
+where $m$ is the size of the mini-batch, $\hat{y}^i$ and $y^i$ are the predicted
+and actual labels for the $i$-th training example, respectively, and $\nabla_{\theta}
+    \mathcal{L}(\hat{y}_i, y_i, \theta)$ is the gradient of the loss function with
+respect to the model parameters $\theta$.
+
+The model parameters are then updated as follows:
 \begin{equation}
     \theta = \theta - \eta g
 \end{equation}
+where $\eta$ is the learning rate, and $g$ is the gradient computed on the mini-batch.
 
 When we choose the mini-batch size, we have to consider the trade-off between
 the computational efficiency and the convergence speed. In general, the larger
@@ -256,92 +263,99 @@ slower the convergence. While the smaller the mini-batch size, the noisier the
 estimate of the gradient, but the faster the convergence.
 \section{Loss/Cost function}
 \begin{definition}[Loss function]
-    A \textbf{loss function} is a function that maps an event or values of one
-    or more variables onto a real number intuitively representing the network
-    performance on a single data point.
+    A \textbf{loss function} maps the outcome of a single data point, represented
+    by one or more variables, to a real number. This number intuitively reflects
+    the network's performance on that specific data point.
 \end{definition}
 \begin{definition}[Cost function]
-    A \textbf{cost function} is a function that maps the average loss of the
-    entire dataset onto a real number.
+    A \textbf{cost function} maps the average loss over an entire dataset to a
+    real number, representing the overall performance of the model.
 
-    A cost function must faithfully represent the purpose of the network.
+    A cost function should align with the intended purpose of the network to
+    ensure effective optimization.
 \end{definition}
-
-After we gave this definition, we can say that the goal of the training algorithm
-is to minimize the cost function. In general, cost function should assume small
-values to get better performance in the network.
+With these definitions, we can state that the goal of a training algorithm is to
+minimize the cost function. Lower values of the cost function generally indicate
+better network performance.
 
 There is a wide range of loss functions that can be used in deep learning, so we
-need to choose the right one for our problem. The choice of the loss function
-depends on the task we want to solve. Here are some examples of loss functions:
+need to choose the right one for our problem. The choice of a loss function depends
+on the specific task the model is intended to solve. Below are common examples of
+loss functions for classification and regression tasks.
+\paragraph{Classification loss functions}
 \begin{itemize}
-    \item \textbf{Classification}:
-          \begin{itemize}
-              \item \textbf{Maximum likelihood}:
-                    \begin{equation}
-                        Loss = - \frac{1}{N} \sum_{i=1}^N y_i p(\hat{y}_i) +
-                        (1-y_i) p(1-\hat{y}_i)
-                    \end{equation}
-              \item \textbf{Binary Cross-entropy}: also known as log loss, is used
-                    for binary classification:
-                    \begin{equation}
-                        Loss = - \frac{1}{N} \sum_{i=1}^N y_i \log(p(\hat{y}_i))
-                        + (1-y_i) \log(p(1-\hat{y}_i))
-                    \end{equation}
-              \item \textbf{Categorical Cross-entropy}: is used for multi-class
-                    classification:
-                    \begin{equation}
-                        Loss = - \sum_{i=1}^N y_i \log(p(\hat{y}_{i}))
-                    \end{equation}
-          \end{itemize}
-    \item \textbf{Regression}:
-          \begin{itemize}
-              \item \textbf{Mean Squared Error}: is used for regression problems
-                    and is defined as:
-                    \begin{equation}
-                        Loss = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2
-                    \end{equation}
-              \item \textbf{Mean Absolute Error}: is used for regression problems
-                    and is defined as:
-                    \begin{equation}
-                        Loss = \frac{1}{N} \sum_{i=1}^N |y_i - \hat{y}_i|
-                    \end{equation}
-              \item \textbf{Huber Loss}: is used for regression problems and is
-                    defined as:
-                    \begin{equation}
-                        Loss = \frac{1}{N} \sum_{i=1}^N \begin{cases}
-                            \frac{1}{2}(y_i - \hat{y}_i)^2                  & \text{if } |y_i - \hat{y}_i| \leq \delta \\
-                            \delta |y_i - \hat{y}_i| - \frac{1}{2} \delta^2 & \text{otherwise}
-                        \end{cases}
-                    \end{equation}
-          \end{itemize}
+    \item \textbf{Maximum likelihood}: this approach optimizes the likelihood of
+          the model's predictions matching the target distribution:
+          \begin{equation}
+              \mathcal{L} = - \frac{1}{N} \sum_{i=1}^N y_i p(\hat{y}_i) +
+              (1-y_i) p(1-\hat{y}_i)
+          \end{equation}
+    \item \textbf{Binary Cross-entropy (log-loss)}: Used for binary classification tasks:
+          \begin{equation}
+              \mathcal{L} = - \frac{1}{N} \sum_{i=1}^N y_i \log(p(\hat{y}_i))
+              + (1-y_i) \log(p(1-\hat{y}_i))
+          \end{equation}
+    \item \textbf{Categorical Cross-entropy}: Suitable for multi-class classification problems:
+          \begin{equation}
+              \mathcal{L} = - \sum_{i=1}^N y_i \log(p(\hat{y}_{i}))
+          \end{equation}
+\end{itemize}
+\paragraph{Regression loss functions}
+\begin{itemize}
+    \item \textbf{Mean Squared Error}: Measures the average squared difference
+          between the predicted and actual values:
+          \begin{equation}
+              \mathcal{L} = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2
+          \end{equation}
+    \item \textbf{Mean Absolute Error}: Measures the average absolute difference
+          between predictions and targets:
+          \begin{equation}
+              \mathcal{L} = \frac{1}{N} \sum_{i=1}^N |y_i - \hat{y}_i|
+          \end{equation}
+    \item \textbf{Huber Loss}: Combines the properties of MSE and MAE to handle
+          outliers effectively:
+          \begin{equation}
+              \mathcal{L} = \frac{1}{N} \sum_{i=1}^N \begin{cases}
+                  \frac{1}{2}(y_i - \hat{y}_i)^2                  & \text{if } |y_i - \hat{y}_i| \leq \delta \\
+                  \delta |y_i - \hat{y}_i| - \frac{1}{2} \delta^2 & \text{otherwise}
+              \end{cases}
+          \end{equation}
 \end{itemize}
 \begin{note}
-    This is not an exhaustive list of loss functions, there are many other loss
-    functions that can be used in deep learning. Also you can define your own loss
-    function. In this case, is important that the loss function is differentiable.
+    The list above is not exhaustive; many other loss functions exist for specialized
+    tasks.
+
+    It is possible to define custom loss functions. In such cases, it is crucial
+    that the function is differentiable, as this ensures compatibility with
+    gradient-based optimization methods.
 \end{note}
 \section{Output function}
-The choice of the loss function is closely related to the choice of the output
-unit. The output unit is the last layer of the network and it is responsible for
-transform from the features to complete the task that the network must perform.
+The choice of the loss function is closely related to the choice of the \textbf{
+    output unit}, which is the final layer of a neural network. The output unit
+is responsible for transforming the features generated by the network into the
+appropriate format for the task at hand.
 
 There are many output units that can be used in deep learning, here are some examples:
 \begin{itemize}
-    \item Linear
-    \item Sigmoid
-    \item Softmax
-    \item Gaussian Mixtures
+    \item Linear;
+    \item Sigmoid;
+    \item Softmax;
+    \item Gaussian Mixtures;
 \end{itemize}
 \subsection{Linear output unit}
 One simple output unit is the linear unit, which is based on linear model:
 \begin{equation}
     \hat{y} = W^T \cdot h + b
 \end{equation}
-This unit can be used to produce the mean of a Gaussian distribution, but it's
-not suitable for classification problems because it can produce any real number.
+where $W$ and $b$ are the learnable weights and bias, and $h$ represents the features
+from the previous layer.
+
+Linear output units are typically used in regression tasks where the target variable
+can take any real value. They are also used for modeling the mean of a Gaussian
+distribution. However, they are unsuitable for classification problems, as they
+do not constrain the output to a specific range, such as probabilities.
 \subsection{Sigmoid output unit}
-The sigmoid output unit is used for binary classification problems. The output
+The sigmoid output unit is used for binary classification task. The output
 of this unit is a value between $0$ and $1$ and it can be interpreted as the
 probability of the input belonging to the positive class.
 
@@ -355,38 +369,41 @@ gradient whenever the model has a wrong answer. The sigmoid function is defined 
     \sigma(x) = \frac{1}{1+e^{-x}}
 \end{equation}
 \subsection{Softmax output unit}
-The softmax output unit is used for multi-class classification problems. The output
-of this unit is a probability distribution over the classes. To implement this
-we need to have a linear layer to predicts the un-normalized log probabilities and
-then we apply the softmax function to normalize the output.
+The softmax output unit is used for multi-class classification tasks. It produces
+a probability distribution over $k$ classes, where each value indicates the likelihood
+of the input belonging to a specific class. To implement this we need to have a
+linear layer to predicts the un-normalized log probabilities and then we apply
+the softmax function to normalize the output.
 
 The softmax function is defined as:
 \begin{equation}
     \sigma(x)_i = \frac{e^{x_i}}{\sum_{j=1}^k e^{x_j}}
 \end{equation}
+where $x_i$ is the unnormalized log probability for the $i$-th class.
 
 The softmax function is a good output function because is continuous and
 differentiable.
 
-Since the softmax function doesn't change the ordering of the output values, the
-largest value before will still be the largest value after the normalization.
+It preserves the relative order of the input values, ensuring that the class with
+the highest log probability remains the most likely after normalization.
 
-We can interprete the output of the softmax function as the probability of the
-input belonging to the $i$-th class. Doing this, we need to consider a unknown
-class, otherwise if we show to the model something that it has never seen, the
-model will be confident that the input belongs to a class that it has never seen.
+The output of the softmax function can be interpreted as the probability of the
+input belonging to each class. However, the model may overfit to known classes,
+potentially misclassifying inputs from unknown or unseen classes with high confidence.
 \subsection{Gaussian Mixtures output unit}
-We often want to perform multimodal regressions, that is to predict real values
-that came from a conditional distribution $p(y|x)$ that has more than one peack
-in $y$ for the same value of $x$.
+In some cases, we need to perform multimodal regression, where the target variable
+$y$ is drawn from a conditional distribution $p(y|x)$ that exhibits multiple peaks
+for the same input $x$.
 
-Then we can use a Gaussian Mixture Model which is defined as:
+To model such distributions, we can use a \textbf{Gaussian Mixture Model} (GMM),
+defined as:
 \begin{equation}
     p(y|x) = \sum_{i=1}^n p(c= i|x) N(y; \mu^{(i)}(x), \Sigma^{(i)}(x))
 \end{equation}
-where the NN output have the following value:
+where the Neural network output have the following value:
 \begin{itemize}
-    \item $p(c=i|x)$ is the mixture component.
+    \item $p(c=i|x)$ is the mixture component, representing the probability of
+          selecting the $i$-th Gaussian.
     \item $\mu^{(i)}(x)$ is the mean of the $i$-th component.
     \item $\Sigma^{(i)}(x)$ is the covariance matrix of the $i$-th component.
 \end{itemize}
