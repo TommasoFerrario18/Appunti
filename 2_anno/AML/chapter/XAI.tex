@@ -1,0 +1,99 @@
+\chapter{Introduction to Explainable AI}
+The term \textbf{Explainable AI} (XAI) has been defined in various ways throughout
+the literature. In this chapter, we provide an overview of the most common
+definitions and concepts. Additionally, we discuss the significance of XAI and
+the motivation driving its development.
+
+To begin, let us clarify what XAI is not. \textbf{Explainable AI does not imply
+    causality.} Providing an explanation does not necessarily mean the model has
+identified a cause-and-effect relationship. AI models typically identify patterns
+in data rather than causal links. Therefore, even if a feature is identified as
+important to a prediction, it does not imply that the feature caused the observed
+outcome.
+
+Explanations in AI can be influenced by human biases and the subjective choice
+of explanation methods. Different explainability techniques may produce varying
+explanations for the same prediction, potentially leading to inconsistencies.
+Furthermore, explanations can be affected by hidden biases in the training data
+or the model's underlying logic.
+
+It is important to note that an explanation is not the same as rigorous proof or
+scientific validation. Explaining a model's behavior does not equate to formally
+verifying its reasoning. A model's reasoning may sound convincing but still be
+flawed, as explanations can sometimes rely on spurious correlations or logically
+unsound premises, even if they appear coherent.
+
+Despite these limitations, explainability is crucial for building trust in AI
+systems. We can define XAI as methods and models that make the behavior and
+predictions of machine learning (ML) systems understandable to humans. This is
+important for several reasons:
+
+\begin{itemize}
+    \item \textbf{Trust}: Users are more likely to trust understandable models,
+          particularly in high-stakes applications;
+    \item \textbf{Debugging}: Enables users to inspect the patterns discovered
+          by AI models and identify potential issues;
+    \item \textbf{Fairness}: Helps ensure that the learned relationships are not
+          influenced by human biases;
+    \item \textbf{Informativeness}: Facilitates the transfer of knowledge from ML
+          models to humans;
+    \item \textbf{Legal compliance}: Addresses requirements set by regulations
+          such as GDPR and the AI Act.
+\end{itemize}
+
+\section{Taxonomy of XAI Methods}
+
+There is no single way to categorize XAI methods. Here, we introduce a taxonomy
+based on four dimensions:
+
+\subsection{Framework}
+\begin{itemize}
+    \item \textbf{Interpretable models}: Models that are inherently interpretable,
+          such as linear regression or decision trees;
+    \item \textbf{Explainability algorithms}: Techniques designed to explain the
+          predictions of existing black-box models.
+\end{itemize}
+
+\subsection{Scope}
+\begin{itemize}
+    \item \textbf{Global}: Explains the model's behavior across the entire dataset;
+    \item \textbf{Local}: Explains the model's behavior for a specific prediction.
+\end{itemize}
+
+\subsection{Applicability}
+\begin{itemize}
+    \item \textbf{Model-specific}: Explanations tailored to a specific model type;
+    \item \textbf{Model-agnostic}: Explanations that are applicable to any model type.
+\end{itemize}
+
+\subsection{Produced Results}
+\begin{itemize}
+    \item \textbf{Feature importance}: Highlights the contribution of each feature
+          to the model's predictions;
+    \item \textbf{Counterfactual explanations}: Explains how input changes would
+          alter the output;
+    \item \textbf{Concepts}: Provides explanations in terms of human-friendly
+          concepts or abstractions rather than input features;
+    \item Additional techniques as applicable.
+\end{itemize}
+
+\section{SHAP}
+\textbf{SHAP} (SHapley Additive exPlanations) is a unified approach to explain
+the outputs of machine learning models. It is based on cooperative game theory,
+which studies interactions between rational agents. In this context, the "agents"
+are the features of the input data, and the goal is to predict the model's output.
+
+SHAP values are derived from the Shapley value, a concept from cooperative game
+theory. SHAP computes all possible coalitions of features and evaluates the
+contribution of each feature to the prediction using a utility function. This
+\textit{utility function} represents the total value the coalition achieves by
+working together. The Shapley values provide a fair distribution of this value
+among the features in the coalition.
+
+\section{LIME}
+\textbf{LIME} (Local Interpretable Model-agnostic Explanations) is a model-agnostic
+technique for explaining predictions made by machine learning models. LIME works
+by approximating the decision boundary of the original model locally, around a
+specific prediction. It creates a simpler and interpretable surrogate model that
+approximates the behavior of the complex model in the neighborhood of the given
+prediction.
