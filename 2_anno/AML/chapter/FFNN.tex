@@ -408,18 +408,20 @@ where the Neural network output have the following value:
     \item $\Sigma^{(i)}(x)$ is the covariance matrix of the $i$-th component.
 \end{itemize}
 \section{Activation Function}
-The \textbf{hidden unit} applies an affine linear transformation such as:
+A \textbf{hidden unit} applies an affine transformation to its inputs, defined as:
 \begin{equation}
     z = Wx + b
 \end{equation}
 where $W$ is the weight matrix, $x$ is the input vector and $b$ is the bias vector.
-On the results of this transformation, we apply a non-linear function called
-\textbf{activation function}.
+
+The result of this transformation is passed through a \textbf{non-linear function}
+called the \textbf{activation function}. The choice of activation function
+significantly impacts the network's ability to learn complex patterns.
 
 \subsection{Tanh}
-Hyperbolic Tangent is similar to sigmoidal function. The main difference between
-them is that, the negative input are mapped in strongly negative value and zero
-inputs are mapped in zero.
+The \textbf{tanh} function is similar to the sigmoid function but maps negative
+inputs to strongly negative values, and zero inputs to zero, making it centered
+at zero.
 
 Some important characteristics are that the $\tanh$ is \textbf{differentiable}
 and \textbf{monotonic}, but its derivative isn't \textbf{monotonic}.
@@ -427,17 +429,17 @@ and \textbf{monotonic}, but its derivative isn't \textbf{monotonic}.
     The $\tanh$ function is used for \textbf{binary classification} problems.
 \end{note}
 
-Cause the form of the derivative values, which are greater than sigmoidal's derivative,
-this function can help to speed up the training phase.
+The $\tanh$ function has larger derivatives compared to the sigmoid function,
+which can help accelerate training by reducing the vanishing gradient problem.
 \subsection{Rectified Linear Unit}
-Rectified Linear Unit (ReLU) is the most used activation function in neural networks.
-This function is described as:
+The \textbf{Rectified Linear Unit} (ReLU) is the most used activation function
+in neural networks. It is described as:
 \begin{equation}
     g(x) = \max[0,z]
 \end{equation}
-We can see that ReLU is differentiable anywhere at the point where the value is
-$0$. This is not a problem since we compute the gradient using approximation an
-the probability to get $0$ is low.
+ReLU introduces sparsity by deactivating neurons for negative inputs (outputting
+0). Although it is non-differentiable at $z = 0$, this rarely poses practical
+problems since gradient-based methods approximate the derivative.
 
 ReLU allows us to simplify the model because we can get a sparse representation
 of the network, due the possibility to deactivate some neurons. This is possible
@@ -464,20 +466,19 @@ Other versions of ReLUs are:
           combines different ReLU to produce a convex function.
 \end{itemize}
 \subsection{Softplus}
-Another generalization of the ReLU function is the Softplus function. This function
-is defined as:
+The \textbf{Softplus} function is a smooth approximation of ReLU, defined as:
 \begin{equation}
     f(x) = \log(1+e^x)
 \end{equation}
 This function was defined to solve ReLU's problem of non differentiable point,
 it is a smooth approximation of ReLU. Theoretically we can think to get better
-performance using this function compared to ReLU, but empirically it doesn't.
-
+performance using this function compared to ReLU. However, empirical studies show
+that ReLU often outperforms Softplus in practice, despite its theoretical advantages.
 \subsection{Differences}
 There are some guides to use these activation functions:
 \begin{itemize}
     \item Sigmoids and their combinations generally works better in case of classifiers.
-    \item Sigmoids and tanh Sometimes are avoided due the vanishing gradient problem.
+    \item Sigmoids and tanh sometimes are avoided due the vanishing gradient problem.
     \item ReLU is the default activation function for hidden layers.
     \item We can use Leaky ReLU if we encounter a case of dead neurons.
     \item ReLU should only be used for hidden layer.
@@ -486,10 +487,11 @@ In general we can initially use ReLU, than if we cannot obtain better performanc
 we can change activation function.
 \section{Initialization}
 Another important step inside the planning of a deep neural network is the
-initialization process.
+initialization process. Proper initialization of weights and biases is crucial
+to ensure stable training and prevent issues like exploding or vanishing gradients.
 
 First of all we can initialize all \textbf{bias} to $0$ to discover eventually
-dead neurons. % ?
+dead neurons.
 
 For \textbf{weights} we must not initialize to the same values because we have to
 brake the symmetry of the model, so we can sample weights from a normal
@@ -498,24 +500,26 @@ the previous layer.
 \begin{equation*}
     W^{[l]} \sim \mathcal{N}\left(0, \frac{1}{n^{[l-1]}}\right)
 \end{equation*}
+Effective initialization ensures that the gradients propagate correctly,
+facilitating faster convergence during training.
 \section{Regularization}
-Regularization is a technique used to prevent overfitting. In the context of
-deep learning, most regularization strategies are based on \textbf{regularizing
-    estimators}. This is done through reducing variance at the expense of
-increasing the bias of the estimator. In the following, we are going to see some
-regularization techniques.
+\textbf{Regularization} is a crucial technique in deep learning to prevent
+\textit{overfitting}, which occurs when a model performs well on training data
+but poorly on unseen data. Regularization strategies aim to reduce the model's
+variance at the cost of slightly increasing its bias. This trade-off results in
+a model that generalizes better to new data.
 
-Here we can see a list of all techniques:
+Below we will list some of the regularization techniques that we will go to see:
 \begin{itemize}
-    \item Parameters norm penalties
-    \item Dataset augmentation
-    \item Noise robustness
-    \item Early stopping
-    \item Parameter tying and parameter sharing
-    \item Multitask learning
-    \item Bagging and other ensemble methods
-    \item Dropout
-    \item Adversarial training
+    \item Parameters norm penalties;
+    \item Dataset augmentation;
+    \item Noise robustness;
+    \item Early stopping;
+    \item Parameter tying and parameter sharing;
+    \item Multitask learning;
+    \item Bagging and other ensemble methods;
+    \item Dropout;
+    \item Adversarial training;
 \end{itemize}
 
 We need to have a model that is capable to generalize on unseen data, so we have
@@ -535,29 +539,32 @@ overfitting. In this case, we can find the best large model and in the end apply
 a regularization process to reduce the complexity of the model and improve the
 generalization.
 
-The idea behind regularization is to train a model that does not simply minimize
-the loss function, but also manages the variability of the data. To achieve this
-goal, we can use one of the following techniques:
+The concept of regularization in machine learning and deep learning is to create
+models that not only minimize the loss function but also manage the variability
+and generalization capability of the model. To accomplish this, we can employ the
+following strategies:
 \begin{itemize}
-    \item \textbf{Directly}: introducing prior knowledge or express generic
-          preference for a simpler model class. This is implemented by changing
-          constraints, adding restrictions on the parameter values or changing
-          objective function. The constraints serve to penalize certain values
-          of the parameters.
-    \item \textbf{Undirectly}: in this case we are not manipulating the model but
-          we are changing the training data. This can be done using technique
-          such as data augmentation, introducing noise in the training data or
-          using ensemble methods.
+    \item \textbf{Directly}: incorporates prior knowledge or expresses a generic
+          preference for simpler models by directly altering the model or its
+          training process. This is implemented by changing constraints, adding
+          restrictions on the parameter values or changing objective function.
+          The constraints serve to penalize certain values of the parameters;
+    \item \textbf{Undirectly}: this method does not manipulate the model directly
+          but alters the training process or data to enhance generalization. This
+          can be done using technique such as data augmentation, introducing noise
+          in the training data or using ensemble methods.
 \end{itemize}
 \subsection{Regularization strategies}
 \subsubsection{Parameters Norm Penalties}
-The most traditional form of regularization consists in adding a penalty to the
-objective function. This can be done by modifying the loss function as follows:
+The most traditional form of regularization consists in adding a penalty term to
+the loss function, encouraging smaller or sparser parameter values. It can be
+formulated as:
 \begin{equation}
     \hat{J}(\theta) = J(\theta) + \alpha \Omega(\theta)
 \end{equation}
 where $\alpha \in [0, \infty)$ is a hyperparameter that regulates the contribution
-of the norm penalties. This parameter can change for each layer.
+of the norm penalties, and $\Omega(\theta)$ is the penalty term. This parameter
+can change for each layer.
 
 Since we have added a penalty term, the optimizer will try to minimize the loss
 function and at the same time it decreases some measure of the size of the
@@ -568,16 +575,17 @@ at each layer, not the bias ($b$).
 
 This method can be implemented using different norms, here we can see some of them:
 \begin{itemize}
-    \item \textbf{Sum of the weights} ($L_1$): pushes all values to $0$ penalizing
-          small weights more than big one.
+    \item \textbf{Sum of the weights} or \textbf{$L_1$ Norm} ($L_1$): Promotes
+          sparsity pushing all values to $0$ penalizing small weights more than big one.
           \begin{equation}
               \Omega(w) = \sum_{w_j}|w_j| = \|w\|_1
           \end{equation}
-    \item \textbf{Sum of the squared weights} ($L_2$): penalizes large values more:
+    \item \textbf{Sum of the squared weights} or \textbf{$L_2$ Norm} ($L_2$):
+          penalizes larger weights, encouraging smoothness:
           \begin{equation}
               \Omega(w) = \sum_{w_j}|w_j|^2 = \|w\|_2
           \end{equation}
-    \item \textbf{$p$-norm} ($L_p$): for $p<2$ encourage sparser vector, while
+    \item \textbf{$p$-norm} ($L_p$): for $p < 2$ encourage sparser vector, while
           larger values of $p$ discourage large weights more:
           \begin{equation}
               \Omega(w) = \sqrt[p]{\sum_{w_j}|w_j|^p} = \|w\|_p
@@ -605,10 +613,8 @@ we can add a constraint to the regularization term as follows:
 \begin{equation}
     \Omega(\theta) \le k
 \end{equation}
-where $k$ is a small value.
-
-In this way the optimization problem changed because we have to consider also
-the upper-bound of regularization term.
+where $k$ is a small value. In this way the optimization problem changed because
+we have to consider also the upper-bound of regularization term.
 
 To solve this problem, we can construct a generalize \textbf{Lagrange function},
 consisting of the original objective function plus a set of penalties. Each
@@ -635,8 +641,9 @@ training data.
 Moreover, when you are comparing different algorithms you have to compare on
 augmented and non augmented dataset to avoid bias.
 
-To implement this technique exists a lot of algorithms, but when we use this
-we need to be careful to not introduce bias in the dataset or altering the output.
+To implement this technique, there are many algorithms available, but when we
+use them, it's important to be cautious about introducing bias or altering the
+output in the dataset.
 \subsubsection{Noise robustness}
 \textbf{Noise injection} can be thought of as a form of regularization. When we
 add a noise with infinitesimal variance at input of the model is equivalent to
@@ -772,7 +779,7 @@ to apply to all input and hidden units in the network. Typically the distributio
 use for sampling is not uniform. For example, the probability of keeping a hidden
 unit is $0.5$, while the probability of including an input unit is $0.8$.
 
-We can have some problem, infact, at training time we are required to divide the
+We can have some problem, indeed, at training time we are required to divide the
 output of each unit by the probability of that unit's dropout mask, so we assign
 as likelihood on the output. In this way we make sure that the expected total
 input to a unit at test time is the same as the expected total input of that unit
@@ -788,8 +795,9 @@ The cost of applying dropout to the entire model could be significant, but the
 amount of benefit on generalization error couldn't be enough to the cost of the
 regularization.
 \subsubsection{Adversarial training}
-We can add \textbf{adversarial examples} that are perturbed examples of train
-set. These are used to train the network and will allowed us to reduce test errors.
+We can add \textbf{adversarial examples} (inputs perturbed by noise) to train the
+model for robustness. These are used to train the network and will allowed us to
+reduce test errors.
 
 Adversarial examples can be generated by adding to a bit of perturbation on some
 train example with a low multiplication factor of noise. This method allowed us
@@ -823,28 +831,28 @@ When we are creating a deep learning model, we have to consider different aspect
 to optimize the training process. In this section, we are going to see some
 issues that can arise during the training process and how to solve them.
 
-Let's start introducing the difference between \textbf{optimization} and
+Let's start by introducing the difference between \textbf{optimization} and
 \textbf{machine learning}. In the first case, we are trying to minimize a function
 acting directly on it, while in the second case we are trying to minimize a loss
 function that is a proxy for the true function we want to minimize.
 
-Using, in machine learning, we want to optimize a performance measure $P$, based
-on the test set. This is done optimizing a different function $J(\theta)$ hoping
-that $P$ will be optimized too.
+In machine learning, we aim to optimize a performance measure $P$, based on the
+test set. This is done by optimizing a different function $J(\theta)$, with the
+hope that improvements in $J(\theta)$ lead to improvements in $P$.
 
 Typically, the loss function is a simple average over the training set and can be
 written as:
 \begin{equation}
-    J(\theta) = E_{(x, y) \approx \hat{P}_{data}} L(f(x, \theta), y)
+    J(\theta) = E_{(x, y) \approx \hat{P}_{data}} \mathcal{L}(f(x, \theta), y)
 \end{equation}
-where $L$ is the loss function, $f$ is the model, $x$ is the input, $y$ is the
-target and $\theta$ are the parameters of the model. Also, $\hat{P}_{data}$ is
+where $\mathcal{L}$ is the loss function, $f$ is the model, $x$ is the input, $y$
+is the target and $\theta$ are the parameters of the model. Also, $\hat{P}_{data}$ is
 the empirical distribution of the data.
 
-If we know the real distribution of data $P_{data}$, we can write the loss
-function, also call \textbf{risk function}, as:
+If we know the true data distribution $P_{data}$, the loss function, also called
+the \textbf{risk function}, can be expressed as:
 \begin{equation}
-    J(\theta) = E_{(x, y) \approx P_{data}} L(f(x, \theta), y)
+    J(\theta) = E_{(x, y) \approx P_{data}} \mathcal{L}(f(x, \theta), y)
 \end{equation}
 and this reduce the machine learning problem to an optimization problem.
 
@@ -872,9 +880,8 @@ from a sample of size $m$ is:
 \begin{equation}
     SE(\mu) = \sqrt{VAR\left[\frac{1}{m}\sum x^{(i)}\right]} = \frac{\sigma}{\sqrt{m}}
 \end{equation}
-where $\sigma$ is the standard deviation of the distribution. This equation show
-us that there is a less then linear relationship between the number of examples
-and the standard error.
+where $\sigma$ is the standard deviation of the distribution. This equation shows
+that the relationship is sub-linear between the number of examples and the standard error.
 
 Another consideration that motivates the estimation of the gradient from a
 small number of samples is the redundancy in the training set.
@@ -890,7 +897,7 @@ We can see the difference between these methods in the following figure \ref{fig
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{img/minibatchvsbatch.png}
-    \caption{Difference between batch and minibatch}
+    \caption{Difference between batch, minibatch and stochastic gradient methods.}
     \label{fig:batchminibatch}
 \end{figure}
 
@@ -904,7 +911,7 @@ in the standard error and doesn't use the full computational power of the GPU.
     Usually, a good choice is a power of 2.
 \end{note}
 
-It is extremely crucial that minibatches are sampled at \textbf{random}, because
+It is extremely crucial that mini-batches are sampled at \textbf{random}, because
 computing an unbiased estimate of the expected gradient from a set of samples
 requires that those samples be independent.
 
@@ -919,8 +926,8 @@ The first challenge is \textbf{ill-conditioning}. This is a problem that arises
 when the optimization problem is poorly conditioned. This means that the curvature
 of the loss function is very different in different directions.
 
-This condition is manifested in stochastic gradient descent as a situation where
-every small steps increase the loss function.
+This condition manifests in stochastic gradient descent when small steps increase
+the loss function.
 
 This problem can be identify by looking at the \textbf{condition number} of the
 Hessian matrix. If the condition number is very large, we have an ill-conditioned
@@ -928,10 +935,10 @@ problem.
 \subsubsection{Local minima}
 Functions involved in deep models are guaranteed to have an extremely large
 number of local minima. However, we will see that local minima are not
-necessarily a major problem because flat regions are an acceptable solution.
+necessarily a major problem because plateaus are an acceptable solution.
 
 Neural networks aren't \textbf{identifiable} there is no single set of parameters
-from a single training set. Infact, if we have $m$ layers with $n$ neurons each,
+from a single training set. In fact, if we have $m$ layers with $n$ neurons each,
 there are $n!^m$ ways to arranging the hidden units to obtain equivalent solutions.
 This is called \textbf{weight space symmetry}.
 
@@ -968,10 +975,10 @@ On the other hand, gradient descent empirically seems to be able to escape saddl
 points in many cases. While, for Newton's Method, saddle points constitute a
 major problem, because it actively seeks solutions at critical points where the
 gradient is zero.
-\subsubsection{Flat regions}
+\subsubsection{Plateaus}
 Another problem that can arise during the training process is the presence of
-\textbf{flat regions}. These are regions where the gradient is very small and the
-optimization algorithm can't make progress.
+\textbf{plateaus} or \textbf{flat regions}. These are regions where the gradient
+is very small and the optimization algorithm can't make progress.
 \subsubsection{Cliffs and exploding gradients}
 Neural networks with many layers often have extremely steep regions reassembling
 cliffs. This regions are the result from the multiplication of many large weights
@@ -1016,7 +1023,7 @@ We can describe the algorithm as follows:
     \item Sample a minibatch of examples from the training set.
     \item Compute the gradient of the loss function on the minibatch.
           \begin{equation}
-              g \gets \frac{1}{m} \nabla_\theta \sum_{i=1}^m L(f(x^{(i)}; \theta), y^{(i)})
+              g \gets \frac{1}{m} \nabla_\theta \sum_{i=1}^m \mathcal{L}(f(x^{(i)}; \theta), y^{(i)})
           \end{equation}
     \item Update the weights of the model using the gradient.
           \begin{equation}
@@ -1036,7 +1043,7 @@ until the iteration $\tau$. Thi can be done as follows:
 \begin{equation}
     \epsilon_k = \left(1 - \alpha\right)\epsilon_0 + \alpha \epsilon_\tau
 \end{equation}
-In this case we have to choose three hyperparameters: $\epsilon_0$, $\epsilon_\tau$
+In this case we have to choose three hyperparameter: $\epsilon_0$, $\epsilon_\tau$
 and $\alpha$. Usually, $\epsilon_\tau$ is chosen to be $1\%$ of $\epsilon_0$.
 
 To choose $\epsilon_0$ we can try to make different run for a fixed number of
@@ -1052,7 +1059,7 @@ The update rule for momentum is:
 \end{equation}
 where $v$ is the velocity vector and it is defined as:
 \begin{equation}
-    v \gets \alpha v - \epsilon \frac{1}{m} \nabla_\theta \sum_{i=1}^m L(f(x^{(i)}; \theta), y^{(i)})
+    v \gets \alpha v - \epsilon \frac{1}{m} \nabla_\theta \sum_{i=1}^m \mathcal{L}(f(x^{(i)}; \theta), y^{(i)})
 \end{equation}
 where $\alpha$ is the momentum parameter and it is usually set to $0.9$.
 
@@ -1124,13 +1131,17 @@ This method is based on the following idea:
           \end{equation}
     \item Update biased moment estimates
           \begin{equation}
-              s \gets \rho_1 S + (1 - \rho_1)g \\
-              r \gets \rho_2 r + (1 - \rho_2) g \odot g
+              \begin{split}
+                  s \gets & \rho_1 S + (1 - \rho_1)g          \\
+                  r \gets & \rho_2 r + (1 - \rho_2) g \odot g
+              \end{split}
           \end{equation}
-    \item Correct baises
+    \item Correct biases
           \begin{equation}
-              \hat{s} \gets \frac{S}{1 - \rho_1^t} \\
-              \hat{r} \gets \frac{r}{1 - \rho_2^t}
+              \begin{split}
+                  \hat{s} \gets & \frac{S}{1 - \rho_1^t} \\
+                  \hat{r} \gets & \frac{r}{1 - \rho_2^t}
+              \end{split}
           \end{equation}
     \item Update parameters
           \begin{equation}
