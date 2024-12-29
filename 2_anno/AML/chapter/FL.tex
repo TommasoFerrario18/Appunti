@@ -23,10 +23,10 @@ further compromising the model's effectiveness.
 keeping the data decentralized. The methodology for implementing federated
 learning is as follows:
 \begin{enumerate}
-    \item The server initialize the model weights and send a copy to all the parties.
-    \item Each party make an update using its local dataset.
-    \item Parties share local updates for aggregation.
-    \item Server aggregates updates and send back to parties.
+    \item The server initialize the model weights and send a copy to all the parties;
+    \item Each party make an update using its local dataset;
+    \item Parties share local updates for aggregation;
+    \item Server aggregates updates and send back to parties;
     \item Parties update their copy of the model and iterate.
 \end{enumerate}
 
@@ -129,7 +129,7 @@ where $\theta \in \mathbb{R}^p$ are model parameters such as neural network weig
 \end{itemize}
 
 \textbf{FedAvg} with $L > 1$ allows to reduce the number of communication rounds,
-which is often the bottleneck in FL.It empirically achieves better generalization
+which is often the bottleneck in FL. It empirically achieves better generalization
 than parallel SGD with large mini-batch. Convergence to the optimal model can be
 guaranteed for i.i.d. data, but issues arise in strongly non-i.i.d. cases.
 
