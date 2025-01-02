@@ -44,7 +44,7 @@ are adjusted using the gradient approximate, which is calculated with \textbf{ba
     elements of a batch to avoid overfitting.
 \end{note}
 \section{Weight Learning}
-If $f(x)$ is \textbf{non-linear} function, twe can theoretically approximate it
+If $f(x)$ is a \textbf{non-linear} function, we can theoretically approximate it
 using a hidden layer. The challenge lies in finding the right weights.
 
 The essence of supervised machine learning is the creation of functions that can
@@ -54,7 +54,7 @@ complex. To make this manageable, we typically restrict the set of all possible
 functions to specific families, referred to as \textbf{hypothesis classes}.
 
 One strategy to solve non-linear problem using a linear model is to use a
-transformation of the input space. By modifying the data representation,, we can
+transformation of the input space. By modifying the data representation, we can
 apply \textbf{non-linear transformation} ($\phi$) to the inputs. In other words,
 given an instance $x$, $\phi(x)$ represents a new set of features describing $x$.
 
@@ -80,8 +80,9 @@ $\phi(x)$ to the target.
     In a deep learning model, $\phi$ defines a hidden layer.
 \end{note}
 
-The prediction model is typically a high dimensional linear function, $f(x): x \cdot W + b$.
-Below are some examples:
+The prediction model is typically a high dimensional linear function, $f(x): x \cdot W + b$
+which is combine with a non-linear function $\sigma$ to produce the output of the
+model. Below are some examples:
 \begin{itemize}
     \item \textbf{Sign function}: this function is used for binary classification:
           \begin{equation}
@@ -134,7 +135,7 @@ $\phi$ to the input space, resulting in:
     \sum_{i=1}^m \alpha_i\phi (x^T) \cdot \phi(x^{(i)})
 \end{equation}
 The kernel trick override $\phi(x^T) \cdot \phi(x^{(i)})$ with $k(x^T, x^{(i)})$,
-where $K(\cdot , \cdot)$ is the kernel function. This eliminates the need to
+where $k(\cdot , \cdot)$ is the kernel function. This eliminates the need to
 compute $\phi(x)$ directly, making it computationally more efficient.
 
 Furthermore, kernel trick allows us to learn models that are non-linear functions
@@ -167,16 +168,16 @@ rate and $\nabla f(x)$ is the gradient of the loss function.
     The gradient descent converge when every element of the gradient is zero.
 \end{note}
 
-The learning rete is an hyperparameter that controls the step size in the gradient's
-direction. The optimal value of $\eta$ may change during the training, but do to
-computational cost, it is often kept fixed. A good strategy involves starting with
-a high learning rate to explore different paths and reduce the likelihood of
-getting stuck in a local minimum, and then gradually decreasing it to converge
-to the global minimum.
+The \textbf{learning rete} is an hyperparameter that controls the step size in 
+the gradient's direction. The optimal value of $\eta$ may change during the training, 
+but do to computational cost, it is often kept fixed. A good strategy involves 
+starting with a high learning rate to explore different paths and reduce the 
+likelihood of getting stuck in a local minimum, and then gradually decreasing it 
+to converge to the global minimum.
 
 Since in many loss function are not convex, they cannot be optimized in a close
 form. Instead, we use iterative numerical optimization method to find the minimum
-of the loss function. An example is \textbf{gradient descent}.
+of the loss function.
 
 In some cases, evaluating the loss function directly may be computationally
 expensive. However, as long as we can approximate the gradient, iterative
@@ -211,7 +212,7 @@ to the loss function:
 \end{equation}
 where $\lambda$ is an hyperparameter that balances the trade-off between bias and
 variance, and $R(\theta)$ is the \textbf{regularization term}, a scalar that
-reflecting the model complexity. he regularization term discourages the model from
+reflecting the model complexity. The regularization term discourages the model from
 fitting the noise in the training data. This term does not always appear in the
 loss function, but we can apply it implicitly by changing the network architecture
 or altering the data. Examples of these operations are:
@@ -262,12 +263,12 @@ the mini-batch size, the more accurate the estimate of the gradient, but the
 slower the convergence. While the smaller the mini-batch size, the noisier the
 estimate of the gradient, but the faster the convergence.
 \section{Loss/Cost function}
-\begin{definition}[Loss function]
+\begin{definition}[\textbf{Loss function}]
     A \textbf{loss function} maps the outcome of a single data point, represented
     by one or more variables, to a real number. This number intuitively reflects
     the network's performance on that specific data point.
 \end{definition}
-\begin{definition}[Cost function]
+\begin{definition}[\textbf{Cost function}]
     A \textbf{cost function} maps the average loss over an entire dataset to a
     real number, representing the overall performance of the model.
 
@@ -336,12 +337,7 @@ is responsible for transforming the features generated by the network into the
 appropriate format for the task at hand.
 
 There are many output units that can be used in deep learning, here are some examples:
-\begin{itemize}
-    \item Linear;
-    \item Sigmoid;
-    \item Softmax;
-    \item Gaussian Mixtures;
-\end{itemize}
+Linear, Sigmoid, Softmax, Gaussian Mixtures.
 \subsection{Linear output unit}
 One simple output unit is the linear unit, which is based on linear model:
 \begin{equation}
@@ -463,7 +459,13 @@ Other versions of ReLUs are:
     \item \textbf{Parametric ReLU}: this function is like Leaky ReLU but the
           parameter $\alpha_i$ is learned.
     \item \textbf{Maxout units}: the activation function $f$ is learned. It
-          combines different ReLU to produce a convex function.
+          combines different ReLU to produce a convex function. (Figure \ref{fig:Maxout})
+          \begin{figure}[!ht]
+                \centering
+                \includegraphics[width=0.5\textwidth]{img/maxout.png}
+                \caption{Maxout units}
+                \label{fig:Maxout}
+          \end{figure}
 \end{itemize}
 \subsection{Softplus}
 The \textbf{Softplus} function is a smooth approximation of ReLU, defined as:
@@ -527,7 +529,7 @@ to find the right trade-off in order to avoid overfitting and underfitting.
 
 In the context of deep learning, most regularization strategies are based on
 \textbf{regularizing estimators}. This is done through reducing \textbf{variance}
-and increasing \textbf{bias} of the estimator.
+at the expense of increasing the \textbf{bias} of the estimator.
 \begin{note}
     A good estimator is one that decreases the variance without increasing too
     much the bias.
@@ -1039,7 +1041,7 @@ condition for convergence is:
 \end{equation*}
 
 A common way to implement an adaptive learning rate is to use a linear decay
-until the iteration $\tau$. Thi can be done as follows:
+until the iteration $\tau$. This can be done as follows:
 \begin{equation}
     \epsilon_k = \left(1 - \alpha\right)\epsilon_0 + \alpha \epsilon_\tau
 \end{equation}
