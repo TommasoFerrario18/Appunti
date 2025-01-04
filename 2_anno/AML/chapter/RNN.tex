@@ -94,7 +94,7 @@ must be stored until they are reused during the backward pass, so the memory cos
 is also $\mathcal{O}(\tau)$. The back-propagation algorithm applied to the unrolled
 graph with $\mathcal{O}(\tau)$ cost is called \textbf{back-propagation through time} (BPTT).
 
-For notation purposes let's use $o^{(t)} =  \hat{y}^{(t)}$ Then consider:
+For notation purposes let's use $o^{(t)} =  \hat{y}^{(t)}$. Then consider:
 \begin{equation}
     h^{(t)} = \tanh (U \cdot x^{(t)} + W \cdot h^{(t - 1)}) \,\, \land \,\, \hat{y}^{(t)} = softmax(V \cdot h^{(t)})
 \end{equation}
@@ -156,8 +156,7 @@ Solutions to the vanishing gradient problem are typically implemented as follows
           \begin{figure}[!ht]
               \centering
               \includegraphics[width=0.3\linewidth]{img/RNN/derivatives.png}
-              \caption{Solution 1: Activation function. ReLU prevents $f'$, to
-                  shrink gradients when $x > 0$}
+              \caption{ReLU prevents $f'$, to shrink gradients when $x > 0$}
               \label{fig:activation}
           \end{figure}
     \item \textbf{Initialization}: We can initialize weights as an identity matrix
