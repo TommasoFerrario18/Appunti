@@ -192,7 +192,7 @@ quantifies how well the prediction $\hat{y}$ matches the target $y$. To minimize
 the optimization problem over training sample, we include the parameters of the
 model $\theta$ to the loss function:
 \begin{equation}
-    J(\theta) = \frac{1}{n} \sum_{i=1}^n \mathcal{L}(\hat{y}_i; y_i; \theta)
+    J(\theta) = \frac{1}{n} \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
 \end{equation}
 where $n$ is the number of training samples.
 
@@ -201,13 +201,13 @@ parameters $\theta$ that minimize the loss function. Formally, this can be writt
 as:
 \begin{equation}
     \hat{\theta} = \argmin_{\theta} J(\theta) = \argmin_{\theta} \frac{1}{n}
-    \sum_{i=1}^n \mathcal{L}(\hat{y}_i; y_i; \theta)
+    \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
 \end{equation}
 
 To reduce the risk of overfitting, a \textbf{regularization term} can be added
 to the loss function:
 \begin{equation}
-    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n \mathcal{L}(\hat{y}_i; y_i; \theta)
+    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
     + \lambda R(\theta)
 \end{equation}
 where $\lambda$ is an hyperparameter that balances the trade-off between bias and
@@ -244,11 +244,11 @@ efficiency.
 
 We can compute the gradient of the loss function on the mini-batch as follows:
 \begin{equation}
-    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} \mathcal{L}(\hat{y}_i, y_i, \theta)
+    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} \mathcal{L}(x_i, y_i, \theta)
 \end{equation}
-where $m$ is the size of the mini-batch, $\hat{y}^i$ and $y^i$ are the predicted
+where $m$ is the size of the mini-batch, $x_i$ and $y_i$ are the predicted
 and actual labels for the $i$-th training example, respectively, and $\nabla_{\theta}
-    \mathcal{L}(\hat{y}_i, y_i, \theta)$ is the gradient of the loss function with
+    \mathcal{L}(x_i, y_i, \theta)$ is the gradient of the loss function with
 respect to the model parameters $\theta$.
 
 The model parameters are then updated as follows:
