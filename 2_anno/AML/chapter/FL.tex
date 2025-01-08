@@ -98,7 +98,7 @@ where $\theta \in \mathbb{R}^p$ are model parameters such as neural network weig
         \State Initialize $\theta$
         \For{each round $t = 0, 1, \dots$}
         \State $S_t \gets$ random set of $m = \lceil \rho K \rceil$ clients
-        \For{each client $k \in S_t$ in parallel \textbf{do}}
+        \For{each client $k \in S_t$ in parallel}
         \State $\theta_k \gets \text{ClientUpdate}(k, \theta)$
         \EndFor
         \State $\theta \gets \sum_{k \in S_t} \frac{n_k}{n} \theta_k$

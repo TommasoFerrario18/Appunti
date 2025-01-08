@@ -175,31 +175,31 @@ GANs have different problems:
 \begin{itemize}
     \item \textbf{Unstability}: parameters can oscillate or diverge, generator
           loss does not correlate with sample quality and the behavior is sensitive to
-          hyper-parameter selection
+          hyper-parameter selection;
     \item \textbf{Mode collapse}: the generator ends up modeling only a small
-          subset of the training data and not the entire distribution
+          subset of the training data and not the entire distribution.
 \end{itemize}
 
 Here some tips on GAN:
 \begin{itemize}
-    \item \textbf{conditional GAN}: It is possible to train conditional GANs that learn
+    \item \textbf{Conditional GAN}: It is possible to train conditional GANs that learn
           to sample from a distribution $p(x | y)$ rather than simply sampling from a
-          marginal distribution $p(x)$.
+          marginal distribution $p(x)$;
     \item \textbf{Non-Saturating Generator Loss}: using the original generator loss
           when the discriminator can recognize each fake examples, this means that
           $D(G(X))$ is close to $0$ so $\log(1-D(G(X)))$ is close to 0 and the Generator
           can't learn. We can use Non-Saturating Generator Loss that solve this problem
           by maximizing $\log(D(G(X)))$. Another tip to solve this problem is to set
-          threshold of real example lower, ex: $0.9$ instead of $1$ in discriminator.
-    \item \textbf{class-label discriminator}: If we have a dataset of C classes
+          threshold of real example lower, ex: $0.9$ instead of $1$ in discriminator;
+    \item \textbf{Class-label discriminator}: If we have a dataset of C classes
           we can use a discriminator that try to classify data between C+1 classes, where
           the C+1 class is the fake one. Empirically improves generation quality because
-          the discriminator focus on features that are important for humans.
+          the discriminator focus on features that are important for humans;
     \item \textbf{Virtual batch norm}: Batch normalization typically normalizes
           data within each mini-batch during training, but this can cause issues in GANs
           because can add instability and also artifacts. We can use Virtual batch norm
           which use a reference batch used for compute statistics and use them to normalized
-          the actual mini-batch.
+          the actual mini-batch;
     \item \textbf{Mini-batch discrimination}: using a discriminator that use just
           an example cannot detect mode collapse, we can solve by adding to any
           images some features derived from entire mini-batch.

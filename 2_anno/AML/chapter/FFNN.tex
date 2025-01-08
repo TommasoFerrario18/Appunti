@@ -32,6 +32,24 @@ specified by the training data, but is the learning algorithm that must decide
 how to use these layers to best implement an approximation of $f^*$. The dimensionality
 of the hidden layers is called \textbf{width} of the model.
 
+\subsection{Initialization}
+Another important step inside the planning of a deep neural network is the
+initialization process. Proper initialization of weights and biases is crucial
+to ensure stable training and prevent issues like exploding or vanishing gradients.
+
+First of all we can initialize all \textbf{bias} to $0$ to discover eventually
+dead neurons.
+
+For \textbf{weights} we must not initialize to the same values because we have to
+brake the symmetry of the model, so we can sample weights from a normal
+distribution with mean $0$ and variance dependant of the number of neurons in
+the previous layer.
+\begin{equation*}
+    W^{[l]} \sim \mathcal{N}\left(0, \frac{1}{n^{[l-1]}}\right)
+\end{equation*}
+Effective initialization ensures that the gradients propagate correctly,
+facilitating faster convergence during training.
+
 \subsection{Training process}
 The training process can be summarized as follows: initially, the network's weights
 are randomly initialized. Then, for each training example $(x, y)$, the network
@@ -105,7 +123,7 @@ gradient on linear model are easy to compute.
 
 \textbf{Cons} models are restricted to linear functions so they works for data linear
 separable, solved by a transformation.
-\section{Kernel trick}
+\subsection{Kernel trick}
 Transform the input space into an higher-dimensional space can be useful to solve
 non-linear separable problem. However, this approach increase the number of
 parameters and the complexity of the model. To address this challenge, we can map
@@ -146,122 +164,7 @@ are used in the model, and $\alpha_i= 0$ if and only if $i$ is not a support vec
 
 Any algorithm that uses kernel is called \textbf{kernel machines} or \textbf{kernel
     methods}
-\section{Gradient optimization}
-In deep learning, we aim to minimize the \textbf{loss function}, which, in the
-context of optimization, is referred to as the \textbf{objective function}. To
-achieve this, we use partial derivatives $\frac{\delta}{\delta x_i} f(x)$ to
-measure how the loss function changes when only the variable $x_i$ is varied.
 
-The \textbf{gradient} $\nabla f(x)$ generalizes the concept of derivative to
-higher dimensions. In other word, the gradient is a vector where the $i$-th element
-represents the partial derivative of the function with respect to $x_i$.
-
-To minimize the loss function, we move in the direction opposite to the gradient.
-This approach, known as \textbf{gradient descent}, is defined as:
-\begin{equation}
-    x' = x - \eta \nabla f(x)
-\end{equation}
-where $x$ is the current point, $x'$ is the updated point, $\eta$ is the learning
-rate and $\nabla f(x)$ is the gradient of the loss function.
-
-\begin{note}
-    The gradient descent converge when every element of the gradient is zero.
-\end{note}
-
-The \textbf{learning rete} is an hyperparameter that controls the step size in 
-the gradient's direction. The optimal value of $\eta$ may change during the training, 
-but do to computational cost, it is often kept fixed. A good strategy involves 
-starting with a high learning rate to explore different paths and reduce the 
-likelihood of getting stuck in a local minimum, and then gradually decreasing it 
-to converge to the global minimum.
-
-Since in many loss function are not convex, they cannot be optimized in a close
-form. Instead, we use iterative numerical optimization method to find the minimum
-of the loss function.
-
-In some cases, evaluating the loss function directly may be computationally
-expensive. However, as long as we can approximate the gradient, iterative
-numerical methods can still be applied.
-
-Since the goal of our network is to approximate a target function, we need to
-measure the difference between the predicted function, that we have learned, and
-the target function using a \textbf{loss function}.
-
-Formally, this function $\mathcal{L}(\hat{y}, y)$ return a scalar value that
-quantifies how well the prediction $\hat{y}$ matches the target $y$. To minimize
-the optimization problem over training sample, we include the parameters of the
-model $\theta$ to the loss function:
-\begin{equation}
-    J(\theta) = \frac{1}{n} \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
-\end{equation}
-where $n$ is the number of training samples.
-
-The main objective of the training algorithm is to find the optimal set of
-parameters $\theta$ that minimize the loss function. Formally, this can be written
-as:
-\begin{equation}
-    \hat{\theta} = \argmin_{\theta} J(\theta) = \argmin_{\theta} \frac{1}{n}
-    \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
-\end{equation}
-
-To reduce the risk of overfitting, a \textbf{regularization term} can be added
-to the loss function:
-\begin{equation}
-    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
-    + \lambda R(\theta)
-\end{equation}
-where $\lambda$ is an hyperparameter that balances the trade-off between bias and
-variance, and $R(\theta)$ is the \textbf{regularization term}, a scalar that
-reflecting the model complexity. The regularization term discourages the model from
-fitting the noise in the training data. This term does not always appear in the
-loss function, but we can apply it implicitly by changing the network architecture
-or altering the data. Examples of these operations are:
-\begin{itemize}
-    \item Disable some connections in the network.
-    \item Add noise to the input data.
-\end{itemize}
-\begin{note}
-    Networks with smaller weights tend to generalize better than those with larger
-    weights. This is because noise in the input data has a more significant impact
-    on networks with large weights.
-\end{note}
-\subsection{Stochastic Gradient Descent}
-The \textbf{Stochastic Gradient Descent} (SGD) is a variant of the gradient descent
-algorithm that is used to train neural networks. The computational cost of computing
-the gradient of the loss function for the entire training dataset is $\mathcal{O}(n)$,
-where $n$ is the number of training examples. To reduce this cost, SGD approximates
-the gradient by computing it on a subset of the training data.
-
-In its simplest form, SGD updates the model parameters after computing the gradient
-on a single training example (known as \textbf{Online Learning}). While this approach
-can lead to faster updates, it often results in slow convergence and noisy gradients.
-
-To address these issues, a \textbf{mini-batch} approach is commonly used. A mini-batch
-is a small, randomly selected subset of the training data, typically ranging from
-1 to a few hundred examples. By computing the gradient on a mini-batch, the
-algorithm achieves a balance between convergence stability and computational
-efficiency.
-
-We can compute the gradient of the loss function on the mini-batch as follows:
-\begin{equation}
-    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} \mathcal{L}(x_i, y_i, \theta)
-\end{equation}
-where $m$ is the size of the mini-batch, $x_i$ and $y_i$ are the predicted
-and actual labels for the $i$-th training example, respectively, and $\nabla_{\theta}
-    \mathcal{L}(x_i, y_i, \theta)$ is the gradient of the loss function with
-respect to the model parameters $\theta$.
-
-The model parameters are then updated as follows:
-\begin{equation}
-    \theta = \theta - \eta g
-\end{equation}
-where $\eta$ is the learning rate, and $g$ is the gradient computed on the mini-batch.
-
-When we choose the mini-batch size, we have to consider the trade-off between
-the computational efficiency and the convergence speed. In general, the larger
-the mini-batch size, the more accurate the estimate of the gradient, but the
-slower the convergence. While the smaller the mini-batch size, the noisier the
-estimate of the gradient, but the faster the convergence.
 \section{Loss/Cost function}
 \begin{definition}[\textbf{Loss function}]
     A \textbf{loss function} maps the outcome of a single data point, represented
@@ -330,6 +233,122 @@ loss functions for classification and regression tasks.
     that the function is differentiable, as this ensures compatibility with
     gradient-based optimization methods.
 \end{note}
+\section{Gradient optimization}
+Since the goal of our network is to approximate a target function, we need to
+measure the difference between the predicted function, that we have learned, and
+the target function using a \textbf{loss function}.
+
+Formally, this function $\mathcal{L}(\hat{y}, y)$ return a scalar value that
+quantifies how well the prediction $\hat{y}$ matches the target $y$. To minimize
+the optimization problem over training sample, we include the parameters of the
+model $\theta$ to the loss function:
+\begin{equation}
+    J(\theta) = \frac{1}{n} \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
+\end{equation}
+where $n$ is the number of training samples.
+
+The main objective of the training algorithm is to find the optimal set of
+parameters $\theta$ that minimize the loss function. Formally, this can be written
+as:
+\begin{equation}
+    \hat{\theta} = \argmin_{\theta} J(\theta) = \argmin_{\theta} \frac{1}{n}
+    \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
+\end{equation}
+
+In deep learning, we aim to minimize the \textbf{loss function}, which, in the
+context of optimization, is referred to as the \textbf{objective function}. To
+achieve this, we use partial derivatives $\frac{\delta}{\delta x_i} f(x)$ to
+measure how the loss function changes when only the variable $x_i$ is varied.
+
+The \textbf{gradient} $\nabla f(x)$ generalizes the concept of derivative to
+higher dimensions. In other word, the gradient is a vector where the $i$-th element
+represents the partial derivative of the function with respect to $x_i$.
+
+To minimize the loss function, we move in the direction opposite to the gradient.
+This approach, known as \textbf{gradient descent}, is defined as:
+\begin{equation}
+    x' = x - \eta \nabla f(x)
+\end{equation}
+where $x$ is the current point, $x'$ is the updated point, $\eta$ is the learning
+rate and $\nabla f(x)$ is the gradient of the loss function.
+
+\begin{note}
+    The gradient descent converge when every element of the gradient is zero.
+\end{note}
+
+The \textbf{learning rete} is an hyperparameter that controls the step size in
+the gradient's direction. The optimal value of $\eta$ may change during the training,
+but do to computational cost, it is often kept fixed. A good strategy involves
+starting with a high learning rate to explore different paths and reduce the
+likelihood of getting stuck in a local minimum, and then gradually decreasing it
+to converge to the global minimum.
+
+Since in many loss function are not convex, they cannot be optimized in a close
+form. Instead, we use iterative numerical optimization method to find the minimum
+of the loss function.
+
+In some cases, evaluating the loss function directly may be computationally
+expensive. However, as long as we can approximate the gradient, iterative
+numerical methods can still be applied.
+
+To reduce the risk of overfitting, a \textbf{regularization term} can be added
+to the loss function:
+\begin{equation}
+    \hat{\theta} = \argmin_{\theta} \frac{1}{n} \sum_{i=1}^n \mathcal{L}(x_i; y_i; \theta)
+    + \lambda R(\theta)
+\end{equation}
+where $\lambda$ is an hyperparameter that balances the trade-off between bias and
+variance, and $R(\theta)$ is the \textbf{regularization term}, a scalar that
+reflecting the model complexity. The regularization term discourages the model from
+fitting the noise in the training data. This term does not always appear in the
+loss function, but we can apply it implicitly by changing the network architecture
+or altering the data. Examples of these operations are:
+\begin{itemize}
+    \item Disable some connections in the network.
+    \item Add noise to the input data.
+\end{itemize}
+\begin{note}
+    Networks with smaller weights tend to generalize better than those with larger
+    weights. This is because noise in the input data has a more significant impact
+    on networks with large weights.
+\end{note}
+\subsection{Stochastic Gradient Descent}
+The \textbf{Stochastic Gradient Descent} (SGD) is a variant of the gradient descent
+algorithm that is used to train neural networks. The computational cost of computing
+the gradient of the loss function for the entire training dataset is $\mathcal{O}(n)$,
+where $n$ is the number of training examples. To reduce this cost, SGD approximates
+the gradient by computing it on a subset of the training data.
+
+In its simplest form, SGD updates the model parameters after computing the gradient
+on a single training example (known as \textbf{Online Learning}). While this approach
+can lead to faster updates, it often results in slow convergence and noisy gradients.
+
+To address these issues, a \textbf{mini-batch} approach is commonly used. A mini-batch
+is a small, randomly selected subset of the training data, typically ranging from
+1 to a few hundred examples. By computing the gradient on a mini-batch, the
+algorithm achieves a balance between convergence stability and computational
+efficiency.
+
+We can compute the gradient of the loss function on the mini-batch as follows:
+\begin{equation}
+    g = \frac{1}{m} \sum_{i = 1}^{m} \nabla_{\theta} \mathcal{L}(x_i, y_i, \theta)
+\end{equation}
+where $m$ is the size of the mini-batch, $x_i$ and $y_i$ are the predicted
+and actual labels for the $i$-th training example, respectively, and $\nabla_{\theta}
+    \mathcal{L}(x_i, y_i, \theta)$ is the gradient of the loss function with
+respect to the model parameters $\theta$.
+
+The model parameters are then updated as follows:
+\begin{equation}
+    \theta = \theta - \eta g
+\end{equation}
+where $\eta$ is the learning rate, and $g$ is the gradient computed on the mini-batch.
+
+When we choose the mini-batch size, we have to consider the trade-off between
+the computational efficiency and the convergence speed. In general, the larger
+the mini-batch size, the more accurate the estimate of the gradient, but the
+slower the convergence. While the smaller the mini-batch size, the noisier the
+estimate of the gradient, but the faster the convergence.
 \section{Output function}
 The choice of the loss function is closely related to the choice of the \textbf{
     output unit}, which is the final layer of a neural network. The output unit
@@ -461,22 +480,22 @@ Other versions of ReLUs are:
     \item \textbf{Maxout units}: the activation function $f$ is learned. It
           combines different ReLU to produce a convex function. (Figure \ref{fig:Maxout})
           \begin{figure}[!ht]
-                \centering
-                \includegraphics[width=0.5\textwidth]{img/maxout.png}
-                \caption{Maxout units}
-                \label{fig:Maxout}
+              \centering
+              \includegraphics[width=0.5\textwidth]{img/maxout.png}
+              \caption{Maxout units}
+              \label{fig:Maxout}
           \end{figure}
+    \item The \textbf{Softplus} function is a smooth approximation of ReLU, defined as:
+          \begin{equation}
+              f(x) = \log(1+e^x)
+          \end{equation}
+          This function was defined to solve ReLU's problem of non differentiable
+          point, it is a smooth approximation of ReLU. Theoretically we can think
+          to get better performance using this function compared to ReLU. However,
+          empirical studies show that ReLU often outperforms Softplus in practice,
+          despite its theoretical advantages.
 \end{itemize}
-\subsection{Softplus}
-The \textbf{Softplus} function is a smooth approximation of ReLU, defined as:
-\begin{equation}
-    f(x) = \log(1+e^x)
-\end{equation}
-This function was defined to solve ReLU's problem of non differentiable point,
-it is a smooth approximation of ReLU. Theoretically we can think to get better
-performance using this function compared to ReLU. However, empirical studies show
-that ReLU often outperforms Softplus in practice, despite its theoretical advantages.
-\subsection{Differences}
+\subsection{Guidelines for choosing activation functions}
 There are some guides to use these activation functions:
 \begin{itemize}
     \item Sigmoids and their combinations generally works better in case of classifiers.
@@ -487,31 +506,13 @@ There are some guides to use these activation functions:
 \end{itemize}
 In general we can initially use ReLU, than if we cannot obtain better performance
 we can change activation function.
-\section{Initialization}
-Another important step inside the planning of a deep neural network is the
-initialization process. Proper initialization of weights and biases is crucial
-to ensure stable training and prevent issues like exploding or vanishing gradients.
-
-First of all we can initialize all \textbf{bias} to $0$ to discover eventually
-dead neurons.
-
-For \textbf{weights} we must not initialize to the same values because we have to
-brake the symmetry of the model, so we can sample weights from a normal
-distribution with mean $0$ and variance dependant of the number of neurons in
-the previous layer.
-\begin{equation*}
-    W^{[l]} \sim \mathcal{N}\left(0, \frac{1}{n^{[l-1]}}\right)
-\end{equation*}
-Effective initialization ensures that the gradients propagate correctly,
-facilitating faster convergence during training.
 \section{Regularization}
 \textbf{Regularization} is a crucial technique in deep learning to prevent
 \textit{overfitting}, which occurs when a model performs well on training data
 but poorly on unseen data. Regularization strategies aim to reduce the model's
 variance at the cost of slightly increasing its bias. This trade-off results in
-a model that generalizes better to new data.
-
-Below we will list some of the regularization techniques that we will go to see:
+a model that generalizes better to new data. Below we will list some of the
+regularization techniques that we will go to see:
 \begin{itemize}
     \item Parameters norm penalties;
     \item Dataset augmentation;
@@ -717,12 +718,12 @@ at this technique as a hyperparameter selection method, where training time is
 the hyperparameter to be chosen.
 
 Early stopping can be implemented as follow:
-\begin{itemize}
+\begin{enumerate}
     \item Choose number of iterations $n$
     \item Train model for $n$ iterations
     \item Validate model and compute validation error, compare consecutive validation
           error and return to point 2 until delta is insignificant or negative.
-\end{itemize}
+\end{enumerate}
 Every iteration model improves its weights until it starts to going in overfitting.
 \begin{note}
     It's impossible to write all parameters on disk during training.
@@ -892,18 +893,18 @@ Optimization algorithms that use the entire training set to compute the gradient
 are called \textbf{batch} or \textbf{deterministic gradient methods}. While the
 ones that use a single training example for that task are called \textbf{stochastic
     gradient methods}. Most of the algorithms we use for deep learning fall
-somewhere in between and they are called \textbf{minibatch} or \textbf{minibatch
-    stochastic methods}.
+somewhere in between and they are called \textbf{mini-batch} or \textbf{mini-batch
+    stochastic methods}. We can see the difference between these methods in the
+following figure \ref{fig:batchminibatch}.
 
-We can see the difference between these methods in the following figure \ref{fig:batchminibatch}.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{img/minibatchvsbatch.png}
-    \caption{Difference between batch, minibatch and stochastic gradient methods.}
+    \caption{Difference between batch, mini-batch and stochastic gradient methods.}
     \label{fig:batchminibatch}
 \end{figure}
 
-In order to chose the right size of the minibatch, we have to consider that a
+In order to chose the right size of the mini-batch, we have to consider that a
 larger size will provide a more accurate estimate of the gradient, but with less
 than linear improvement in the standard error. While a smaller size will provide
 a less accurate estimate of the gradient, but with more than linear improvement
@@ -918,7 +919,7 @@ computing an unbiased estimate of the expected gradient from a set of samples
 requires that those samples be independent.
 
 When the order of elements in the dataset holds some significance, it is absolute
-necessity to shuffle the examples before selecting every minibatch.
+necessity to shuffle the examples before selecting every mini-batch.
 \subsection{Challenges in deep learning}
 Traditionally, machine learning has avoided this difficulty by carefully designing
 the objective function and constraints to insure the problem is convex. However,
@@ -934,6 +935,13 @@ the loss function.
 This problem can be identify by looking at the \textbf{condition number} of the
 Hessian matrix. If the condition number is very large, we have an ill-conditioned
 problem.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/illConditioned.png}
+    \caption{Ill-conditioning}
+    \label{fig:illconditioning}
+\end{figure}
+
 \subsubsection{Local minima}
 Functions involved in deep models are guaranteed to have an extremely large
 number of local minima. However, we will see that local minima are not
@@ -1018,11 +1026,10 @@ In this section, we are going to see some of them.
 \subsubsection{Stochastic Gradient Descent}
 \textbf{Stochastic Gradient Descent} (SGD) is the most used optimization algorithm
 in deep learning. It is based on the idea of computing the gradient of the loss
-function on a minibatch and then update the weights of the model.
-
-We can describe the algorithm as follows:
+function on a mini-batch and then update the weights of the model. We can describe
+the algorithm as follows:
 \begin{itemize}
-    \item Sample a minibatch of examples from the training set.
+    \item Sample a mini-batch of examples from the training set.
     \item Compute the gradient of the loss function on the minibatch.
           \begin{equation}
               g \gets \frac{1}{m} \nabla_\theta \sum_{i=1}^m \mathcal{L}(f(x^{(i)}; \theta), y^{(i)})
@@ -1104,7 +1111,6 @@ This method is based on the following idea:
 \textbf{RMSProp} is a method that adapts the learning rate for each parameter.
 This method is a modification of AdaGrad to perform better on non-convex problems.
 The main difference is that RMSProp use an exponentially weighted moving average.
-
 This method is based on the following idea:
 \begin{itemize}
     \item Accumulate the square of the gradient into a vector $r$.
@@ -1123,9 +1129,7 @@ This method is based on the following idea:
 \subsubsection{Adam}
 \textbf{Adam} is a variation of RMSProp in which we add the momentum. Also, it
 add a bias correction to the moments to account for their initialization at the
-origin.
-
-This method is based on the following idea:
+origin. This method is based on the following idea:
 \begin{itemize}
     \item Update time step:
           \begin{equation}
