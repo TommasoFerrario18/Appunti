@@ -1,4 +1,5 @@
 \chapter{Causal Models}
+\section{The do-operator and Interventional Distributions}
 As you have undoubtedly heard many times in statistics classes, “correlation is
 not causation.” A mere association between two variables does not necessarily
 mean that one of those variables causes the other. For this reason, the
@@ -53,7 +54,7 @@ that everything in that expression is in the \textbf{post-intervention world}
 where intervention $do(x)$ occurs.
 
 
-\section{Adjustment Formula}
+\section{Modularity and Adjustment Formula}
 We can define a \textbf{causal mechanism} as a mechanism that generates $X_i$ as
 the conditional distribution of $X_i$ given its parents (causes) $pa(X_i)$.
 
@@ -123,7 +124,7 @@ In the equation above, the denominator $P(X = x | pa(X) = u)$ represents the \te
 which displays the role played by the parents $pa(X)$ of $X$ in determining the
 result of the intervention $do(X = x)$.
 
-\section{Truncated Factorization}
+\section{Truncated Factorization and Backdoor Adjustment}
 In some circumstances, we can involve multiple interventions in the same time.
 
 The previous consideration also allows us to generalize the Adjustment Formula to
