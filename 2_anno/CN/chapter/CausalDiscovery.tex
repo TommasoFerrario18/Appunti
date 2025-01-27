@@ -1,0 +1,164 @@
+\chapter{Causal Discovery}
+Up till now, we have assumed that the causal structure of the data is known. However,
+in many cases, the causal structure is not known and must be inferred from the data.
+This is the problem of \textbf{causal discovery}.
+
+\section{Causal Discovery from Observational Data}
+Let's start saying that learning a causal network consists of learning the
+structure and the parameters of the network.
+\subsection{Constraint-Based Methods}
+We assume that the underlying process follows a probability distribution $P$, which
+is the underlying probability distribution associated with a DAG $\mathcal{G}$.
+Then, this process can be adequately described by sampling from $P$ to obtain
+Observational Data.
+
+The goal of constraint-based methods is to infer the structure of the DAG $\mathcal{G}$
+from the observational data. To simplify the task, we assume the probability
+distribution $P$ to be a DAG-faithful probability distribution with underlying
+DAG $\mathcal{G}$.
+
+The \textbf{faithfulness} assumption says that the probability distribution $P$,
+induced by the DAG $\mathcal{G}$, satisfies no independence relations beyond
+those implied by the DAG $\mathcal{G}$.
+
+\begin{definition}[\textbf{Stability - faithfulness}]
+    $P$ is a stable (faithful) distribution if there exists a DAG $\mathcal{G}$
+    such that:
+    \begin{equation}
+        \mathbf{X} \perp_{P} \mathbf{Y} \mid \mathbf{Z} \quad \iff \quad \mathbf{X} \perp_{\mathcal{G}} \mathbf{Y} \mid \mathbf{Z}
+    \end{equation}
+    for any three sets of variables $\mathbf{X}$, $\mathbf{Y}$, and $\mathbf{Z}$.
+\end{definition}
+
+A causal network is \textbf{faithful} if and only if for every d-connection (no
+d-separation) $\mathbf{Z}$ there is a corresponding conditional dependence:
+\begin{equation}
+    \mathbf{X} \not\perp_{\mathcal{G}} \mathbf{Y} \mid \mathbf{Z} \quad \Rightarrow \quad \mathbf{X} \not\perp_{P} \mathbf{Y} \mid \mathbf{Z}
+\end{equation}
+
+It is worthwhile mention that many constraint-based methods also assume that there
+are no unobserved confounders. This is known as the \textbf{Causal Sufficiency}
+assumption.
+
+Learning a causal network is the task of identifying a DAG structure $\mathcal{G}$
+and a set of conditional probability distributions $\mathcal{P}$ with parameters
+$\theta$ on the basis of:
+\begin{itemize}
+    \item $\mathcal{D} = \{\mathcal{x}^1, \ldots, \mathcal{x}^N\}$ this are the
+          observational data, where the missing data are assumed to be missing
+          at random or missing completely at random.
+    \item Possibly some domain expert knowledge.
+\end{itemize}
+
+A variable never observed is called a \textbf{latent variable}.
+
+Structured learning is then the task of identifying a DAG structure that encodes
+a set of dependence and independence relations $M_{\mathcal{G}}$, which may be
+derived from observational data by statistical test.
+
+A constraint-based structure learning algorithm proceeds by determining the validity
+of independence relations of the form:
+\begin{equation}
+    I(X, Y| S_{XY})
+\end{equation}
+where $X$ is independent of $Y$ given $S_{XY}$.
+
+Yhe problem with this approach is that the number of possible independence relations
+is exponential in the number of variables. In particular, a constraint-based
+structure learning algorithm discovers a DAG structure of $P$ under the following
+assumptions:
+\begin{itemize}
+    \item The independence relationships have a perfect representation as a DAG
+          (Acyclicity and faithfulness assumptions);
+    \item No hidden (latent) variables are involved (Causal Sufficiency assumption);
+    \item The database (Observational Data) consists of a set of independent and
+          identically distributed cases.
+    \item The database (Observational Data) is infinitely large;
+    \item The statistical tests have no error.
+\end{itemize}
+
+The equivalence class of a DAG $\mathcal{G}$ is the set of all DAGs with tha same
+set of d-separation relations as $\mathcal{G}$. The equivalence class can be represented
+by a partially directed acyclic graph (PDAG).
+
+\begin{definition}[\textbf{Equivalent Models And Markov equivalence Class}]
+    Two models $M_\mathcal{G'}$ and $M_\mathcal{G''}$ defined over the same set
+    of variables, whose graphs $\mathcal{G'}$ and $\mathcal{G''}$, respectively,
+    have the same \textbf{skeleton} (i.e., undirected graph obtained by replacing
+    directed edges with undirected edges) and the same v-structures, are \textbf{equivalent}.
+
+    Two graphs $\mathcal{G'}$ and $\mathcal{G''}$ are in the same \textbf{equivalence class}:
+    \begin{itemize}
+        \item if they share a common skeleton — that is, if they possess the same
+              edges, regardless of the direction of those edges—and;
+        \item if they share common v-structure, that is, colliders whose parents
+              are not adjacent
+    \end{itemize}
+\end{definition}
+
+Given a graph, we refer to its Markov equivalence class as a set of graphs that
+encode the same set of conditional independence relations.
+
+\begin{definition}[\textbf{Equivalence Class}]
+    An equivalence class is a maximal set of DAGs with the same set of independence
+    properties $\mathcal{M}_{\mathcal{G}}$.
+\end{definition}
+
+A set od dependence and independence relations $M_{\mathcal{G}}$ may be generated
+by statistical test on the observational data. In each test, the hypothesis is
+that of independence between a pari of variables.
+
+Let $X$ and $Y$ be two variables for which we would like to determine dependence
+by statistical hypothesis testing. We could:
+\begin{itemize}
+    \item test for marginal independence and subsequently;
+    \item test for conditional independence given subsets of other variables.
+\end{itemize}
+\section{The PC algorithm}
+The main steps of the PC algorithm are:
+\begin{enumerate}
+    \item Test for (conditional) independence between each pair of variables
+          represented in $\mathcal{D} = \{\mathcal{x}^1, \dots, \mathcal{x}^N\}$
+          to derive $M_\mathcal{D}$, the set of conditional independence and
+          dependence relations;
+    \item Identify the skeleton of the graph induced by $M_\mathcal{D}$. For each
+          pair of variables $X$ and $Y$ where no independence statement $X \perp_{P} Y | S_{XY}$
+          exists, the undirected edge $X - Y$ is added to the skeleton;
+    \item Identify colliders. Based on the skeleton, we search for subsets of variables $\{X, Y, Z\}$
+          such that $X$ and $Y$ are neighbors, $Z$ and $Y$ are neighbors, and
+          $X$ and $Z$ are not neighbors;
+    \item Identify derived directions. The direction of an edge is said to be
+          derived when it is a logical consequence of previous actions:
+          \begin{itemize}
+              \item \textbf{Rule 1}: since the edge between $Y$ and $Z$ is not part
+                    of the aforementioned collider, it mus be oriented as $Y \rightarrow Z$;
+              \item \textbf{Rule 2}: Directing an edge between $X$ and $Z$ from $Z$
+                    to $X$ will induce a directed cycle in the graph.
+              \item \textbf{Rule 3}: directing the edge between $X$ and $Y$ from
+                    $Y$ to $X$ will induce an additional collider.
+              \item \textbf{Rule 4}: directing the edge between $X$ and $Y$ from
+                    $Y$ to $X$ will induce an additional collider.
+          \end{itemize}
+\end{enumerate}
+
+The PC algorithm typically produces a PDAG (Partially DAG) representing an equivalence
+class as it emerges from hypothesis testing performed by using the available
+observational data $\mathcal{D} = \{\mathcal{x}^1, \dots, \mathcal{x}^N\}$.
+
+\section{Semi-parametric Causal Discovery}
+\begin{definition}[\textbf{Markov Completeness}]
+    If we have multinomial distribution or linear gaussian structural equations,
+    we can only identify a graph up to its Markov equivalence class.
+\end{definition}
+
+We now introduce and study two cases where we can identify the causal graph. And
+we don't have to assume faithfulness in these settings:
+\begin{itemize}
+    \item non-Gaussian noise setting;
+    \item non-linear additive noise setting.
+\end{itemize}
+By considering these settings, we are making semi-parametric assumption. If we
+don't make any assumptions about functional form, we cannot even identify the 
+direction of the edge in a two-node graph.
+
+% TODO
