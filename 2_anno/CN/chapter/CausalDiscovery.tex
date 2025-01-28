@@ -158,7 +158,154 @@ we don't have to assume faithfulness in these settings:
     \item non-linear additive noise setting.
 \end{itemize}
 By considering these settings, we are making semi-parametric assumption. If we
-don't make any assumptions about functional form, we cannot even identify the 
+don't make any assumptions about functional form, we cannot even identify the
 direction of the edge in a two-node graph.
+\begin{definition}[\textbf{Non-Identidiability of two-node graphs}]
+    For every joint distribution $P(X, Y)$ on two real-valued random variables,
+    there is a SCM in either direction that generates data consistent with $P(X, Y)$.
 
-% TODO
+    Mathematically, there exists a function $f_Y$ such that:
+    \begin{equation*}
+        Y := f_Y(X, U_Y) \quad X \perp U_Y
+    \end{equation*}
+    and there exists a function $f_X$ such that:
+    \begin{equation*}
+        X := f_X(Y, U_X) \quad Y \perp U_X
+    \end{equation*}
+    where $U_X$ and $U_Y$ are real-valued random variables.
+\end{definition}
+This non-identifiability result can be extended to more general graphs that have
+more than two variables. However, if we make assumptions about the parametric form
+of the SCM, we can distinguish the graphs and identify graphs more generally.
+
+An example of these assumptions is the following:
+\begin{definition}[\textbf{Linear Non-Gaussian}]
+    All structural equations (the causal mechanisms that generate the data) are
+    of the following form:
+    \begin{equation}
+        Y := f(X) + U
+    \end{equation}
+    where $f$ is a linear function, $X \perp U$, and $U$ is distributed as a non-Gaussian
+    random variable.
+\end{definition}
+
+\begin{definition}[\textbf{identifiability in Linear Non-Gaussian Setting}]
+    In the linear non-Gaussian setting, if the true SCM is:
+    \begin{equation*}
+        Y := f(X) + U \quad X \perp U
+    \end{equation*}
+    then, there does not exists an SCM in the reverse direction:
+    \begin{equation*}
+        X := f(Y) + \tilde{U} \quad Y \perp \tilde{U}
+    \end{equation*}
+    that can generate data consistent with $P(X, Y)$.
+\end{definition}
+
+\begin{theorem}[\textbf{Darmois-Skitovich Theorem}]
+    Let $X_1, \dots, X_n$ be independent, nondegenerate random variables. If there
+    exists coefficients $\alpha_1, \dots, \alpha_n$ and $\beta_1, \dots, \beta_n$ such that:
+    \begin{equation*}
+        \begin{split}
+            A = \alpha_1X_1 + \dots + \alpha_nX_n \\
+            B = \beta_1X_1 + \dots + \beta_nX_n
+        \end{split}
+    \end{equation*}
+    are independent, then each $X_i$ is normally distributed.
+\end{theorem}
+\begin{corollary}[\textbf{Darmois-Skitovich Corollary}]
+    If either of the independent random variables $X_1$ or $X_2$ is non-Gaussian,
+    then there are no linear combinations:
+    \begin{equation}
+        \begin{split}
+            A = \alpha_1X_1 + \alpha_2X_2 \\
+            B = \beta_1X_1 + \beta_2X_2
+        \end{split}
+    \end{equation}
+    such that $A$ and $B$ are independent (so $A$ and $B$ must be dependent).
+\end{corollary}
+We can also get identifiability of the causal graph in the \textbf{non-linear additive
+    noise setting}. This requires a non.linear additive noise assumption:
+\begin{definition}[\textbf{Non-Linear Additive Noise}]
+    All causal mechanism are non-linear where the noise enters additively.
+    Mathematically:
+    \begin{equation}
+        \forall i, X_i := f_i(Pa(X_i)) + U_i
+    \end{equation}
+    where $f$ is non-linear and $pa(X_i)$ are the parents of $X_i$ in the graph.
+\end{definition}
+We could also have that the noise does not enter additively, but this is a more
+complicated setting.
+\begin{definition}[\textbf{Post Non-Linear}]
+    \begin{equation}
+        \forall i, X_i := g(f(pa(X_i)) + U_i)
+    \end{equation}
+    where $f$ is a non-linear function and $pa(X_i)$ are the parents of $X_i$ in
+    the graph.
+\end{definition}
+\section{Additional Topics}
+Structural learning of Bayesian (causal) networks consists of three approaches:
+\begin{itemize}
+    \item \textbf{Constraint-Based algorithm}: they use statistical tests to learn
+          conditional independence relationships (called “constraints" in this
+          setting) from the data by making specific assumptions to determine the
+          correct network structure. They depend heavily on the quality of the
+          conditional independence tests they use; all proofs of correctness
+          assume tests are always right.
+    \item \textbf{Score-Based algorithm}: each candidate DAG is assigned a score
+          reflecting its goodness of fit, which is then taken as an objective
+          function to maximise. Convergence to the global maximum (i.e. the best
+          structure) is not guaranteed for finite samples, the search may get
+          stuck in a local maximum.
+    \item \textbf{Hybrid algorithm}: conditional independence tests are used to
+          learn at least part of the conditional independence relationships from
+          the data, thus restricting the search space for a subsequent score-based
+          search. The latter determines which edges are actually present in the
+          graph and their direction.
+\end{itemize}
+\section{Causal Discovery from Interventional Data}
+Let's start by defining the types of interventions:
+\begin{itemize}
+    \item \textbf{Perfect}: interventions are represented by the do-operator;
+    \item \textbf{Imperfect}: interventions alter the parameters of the network.
+\end{itemize}
+\subsection{Single-Node interventions}
+The simplest case is the two-variable case, i.e. the bi-variate setting, where
+either: $X$ is cause of $Y$, or $Y$ is cause of $X$, or $X$ is not cause of $Y$,
+and $Y$ is not cause of $Y$.
+
+In order to identify the graph two interventions are necessary and sufficient,
+dividing the empty set case from a proper interventional set setting.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/causal_discovery/twonodecase.png}
+    \caption{Two-node case}
+    \label{fig:twonodecase}
+\end{figure}
+
+In the worst case scenario, $n- 1$ interventions are sufficient:
+\begin{enumerate}
+    \item Choose an arbitrary intervention ordering;
+    \item Applying the first intervention identifies the adjacencies of the $n - 1$
+          nodes;
+    \item Applying the $i$-th intervention directs the edges incident on $X_i$,
+    \item Applying the $n$-th intervention is unnecessary, since the remaining
+          directions are identified in the $(n-1)$-th step.
+\end{enumerate}
+In the worst case, $n-1$ interventions are necessary:
+\begin{enumerate}
+    \item Choose an arbitrary intervention ordering;
+    \item Applying the $(n-2)$-th interventions leaves the $X_{n - 1} - X_n$ edge
+          undirected;
+    \item Applying the $(n-1)$-th intervention is necessary to direct the last
+          edge.
+\end{enumerate}
+Therefore, $n-1$ interventions are necessary and sufficient in the worst case
+scenario (given $n > 2$)
+\subsection{Multi-Node Interventions}
+If we apply multi/nodes interventions, with no restrictions on the nodes a
+$\lfloor \log_2(n) \rfloor + 1$ interventions are necessary and sufficient to
+identify the graph.
+
+If we start from the Markov equivalence class a $\lceil \log_2(c) \rceil$ are
+necessary and sufficient, with $c$ the size of the largest clique.

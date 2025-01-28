@@ -3,7 +3,7 @@ To make any sense about responsibility, we must be able to compare what did happ
 with what would have happened under some alternative hypothesis.
 \section{Introduction to counterfactuals}
 We start by introducing a very useful concept for this part, namely \textbf{Hypothetical
-    condition} or \textbf{Antecedent}.  These terms refer to the decision you
+    condition} or \textbf{Antecedent}. These terms refer to the decision you
 have made in the counterfactuals world.
 
 \textbf{Counterfactuals} are used to compare two outcomes under the exact same
@@ -24,14 +24,14 @@ of the hypothetical value. The do-operator is not capable to respond at this que
 
 Below, we will use the following notation, which allows us to express the possible
 results of $Y$ knowing that we have chosen $X = x$:
-\begin{equation*}
+\begin{equation}
     Y_{X = x} = Y_x = Y(X = x)
-\end{equation*}
+\end{equation}
 
 We can formulare it as follow:
-\begin{equation*}
+\begin{equation}
     \mathbb{E}[Y_1 | X = 0, Y = Y_0]
-\end{equation*}
+\end{equation}
 where $Y_1$ is the \textbf{hypothetical condition} and $X = 0,Y = Y_0$ are the
 \textbf{observed variables}.
 
@@ -61,7 +61,7 @@ Consider now the following \textbf{counterfactual sentence}:
 \begin{center}
     "$Y$ would be $y$ had $X$ been $x$, in situation $U=u$"
 \end{center}
-which can be summarize in $Y_x(u) = y$
+which can be summarize in $Y_x(u) = y$.
 
 The phrase part ``had $X$ been $x$'' need to be interpreted as an instruction to
 make a minimal modification in the \textbf{current model} so as to establish the
@@ -83,7 +83,7 @@ we obtained a definite number, $Y_x (u)$, which stands for than hypothetical val
 of $Y$ in that situation.
 
 The do-operator is defined exclusively for probability distributions and always
-produces probabilistic outcomes, such as $\mathbb{E}[Y|do(X = x)]$.It operates at
+produces probabilistic outcomes, such as $\mathbb{E}[Y|do(X = x)]$. It operates at
 the population level. In contrast, counterfactuals focus on individual units
 $u$ within the population $U$, where we compute the outcome $Y_x(u)$. This represents
 the hypothetical value of $Y$ for the specific unit $u$ in a scenario where $X = x$.
@@ -125,8 +125,8 @@ are not arbitrary; they must be internally consistent and align with the underly
 \end{definition}
 This is coherent because:
 \begin{itemize}
-    \item $Y_1$ is equal to observed value of $Y$ whenever $X$ takes the value of $1$
-    \item $Y_0$ is equal to observed value of $Y$ whenever $X$ takes the value of $0$
+    \item $Y_1$ is equal to observed value of $Y$ whenever $X$ takes the value of $1$;
+    \item $Y_0$ is equal to observed value of $Y$ whenever $X$ takes the value of $0$.
 \end{itemize}
 
 Any \textbf{deterministic counterfactuals} is computed by the following steps:
@@ -139,7 +139,7 @@ Any \textbf{deterministic counterfactuals} is computed by the following steps:
           to compute the value of $Y$, the consequence of the counterfactuals.
 \end{itemize}
 
-The three steps will solve any deterministic counterfactual,that is, counterfactuals
+The three steps will solve any deterministic counterfactual, that is, counterfactuals
 pertaining to a single unit of the population in which we know the value of every
 relevant variable.
 
@@ -147,8 +147,8 @@ Structural equation models are able to answer counterfactual queries of this nat
 because each equation represents the mechanism by which the variable obtains its
 values.
 
-If we know these mechanism, we should also be able to predict what values would be
-obtained had some of these mechanisms been altered, given alterations.
+If we know these mechanism, we should also be able to predict what values would
+be obtained had some of these mechanisms been altered, given alterations.
 
 \subsection{Probabilistic counterfactual}
 Counterfactual can also be probabilistic, pertaining to a class of units within
@@ -224,11 +224,11 @@ Thus, in general, the do-expression will not capture our counterfactual question
 \end{equation*}
 The $do(x)$ notation cannot capture this difference, because:
 \begin{itemize}
-    \item $X = 1$ refers to preintervention world;
-    \item $Z = 1$ refers to postintervention world.
+    \item $X = 1$ refers to pre-intervention world;
+    \item $Z = 1$ refers to post-intervention world.
 \end{itemize}
 
-\textbf{Retrospective Reasoning} concerning dependence on the unrealized past, is 
-not shown explicitly in the graph structure that we had use upon. To facilitate 
-such reasoning, we need to devise means of representing counterfactual variables 
+\textbf{Retrospective Reasoning} concerning dependence on the unrealized past, is
+not shown explicitly in the graph structure that we had use upon. To facilitate
+such reasoning, we need to devise means of representing counterfactual variables
 directly in the graph.
