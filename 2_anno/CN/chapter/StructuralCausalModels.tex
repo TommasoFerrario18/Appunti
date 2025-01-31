@@ -1,7 +1,7 @@
 \chapter{Structural Causal Model}
 \section{Structural Causal Models}
-Graphical causal models such as causal bayesian network give us powerful ways to
-encode statistical and causal assumptions, but we have yet to explain exactly
+Graphical causal models such as causal Bayesian networks give us powerful ways to
+encode statistical and causal assumptions, but we have yet to explain them exactly
 what an \textit{intervention} is or exactly what a \textit{causal mechanism} is.
 
 Moving from causal Bayesian networks to \textbf{full Structural causal models}
@@ -48,7 +48,7 @@ aren't making any assumptions about parametric form. However, \textit{structural
 \end{equation*}
 
 Therefore, all the results that we've seen such as the truncated factorization
-and the backdoor adjustment still hold when we introduce structural equations.
+and the backdoor adjustment still holds when we introduce structural equations.
 
 We have now come to the more precise definitions of what a cause is and what a
 causal mechanism is.
@@ -58,9 +58,9 @@ causal mechanism is.
     that corresponds to that variable.
 \end{definition}
 \begin{note}
-    Cause is more general than directed cause.
+    The cause is more general than the directed cause.
 \end{note}
-From the initial model $B := f(A,U)$ the $A, U$ are directed cause for $B$.
+From the initial model $B := f(A, U)$ the $A, U$ are directed causes for $B$.
 
 In general, a model can consist of more than one structural equation, for example:
 \begin{equation}
@@ -85,7 +85,7 @@ no ancestors and are represented as root nodes in graphs.
 
 \begin{definition}[\textbf{Exogenous Variables}]
     The exogenous variables are the variables for which we don't have a structural
-    equation that explains their behavior, so they are root node in the graph.
+    equation that explains their behavior, so they are the root nodes in the graph.
 \end{definition}
 
 They are external to the model; we chose, for whatever reason, not to explain how
@@ -96,7 +96,7 @@ write structural equations for, i.e., the variables whose causal mechanisms we
 are modeling.
 
 \begin{definition}[\textbf{Endogenous Variables}]
-    The endogenous variables are the variables for which we have a structural
+    The endogenous variables are the variables for which we have structural
     equations that define their behavior, so they have parents in the graph.
 \end{definition}
 
@@ -167,9 +167,9 @@ Only changes the equation for $X$ and no other variables is a consequence of the
     structural equations except the structural equation for $X$, which is
     $X := x$ in $M_x$.
 \end{definition}
-For the modularity the intervention $do(X = x)$ is localized to $X$.
+For the modularity, the intervention $do(X = x)$ is localized to $X$.
 
-We can write unit level potential outcome as:
+We can write unit-level potential outcomes as:
 \begin{itemize}
     \item $Y_x (u)$ potential outcome that unit $u$ would observe if taking treatment
           $X = x$, given that the SCM is $M$.
@@ -182,20 +182,20 @@ The \textbf{law of counterfactuals} gives us information about counterfactuals:
     Y_x(u) = Y_{M_x}(u)
 \end{equation}
 
-Given an SCM with enough details about it specified, we can actually compute
+Given an SCM with enough details about it specified, we can compute
 counterfactuals. This is extremely important because it is exactly what the
-fundamental problem of causal inference told us we cannot do.
+fundamental problem of causal inference tells us we cannot do.
 
 Not only did we specify that the adjustment set blocks all backdoor paths from
 $X$ to $Y$, but we also specified that does not contain any descendants of $X$,
-otherwise we have a selection bias effect.
+otherwise, we have a selection bias effect.
 
-There are two categories of things that could go wrong if we condition on descendants
+There are two categories of things that could go wrong if we condition descendants
 of $X$:
 \begin{enumerate}
     \item We block the flow of causation from $X$ to $Y$;
     \item We induce non-causal association between $X$ and $Y$, we generate a
-          spurious path not existed before.
+          the spurious path did not exist before.
 \end{enumerate}
 
 In the first case, if we have a chain between $X$ and $Y$ and we have at least a
@@ -203,16 +203,16 @@ node $L$ that is a \textbf{mediator} of the causal effect of $X$ on $Y$. So when
 we observe $L$ we measure a $0$ causal effect between $X$ and $Y$ because it's
 blocked by the observation on the mediator.
 
-If we have a mediator with an observation and direct link from $X$ to $Y$ so we
-can measure the direct cause effect of $X$ on $Y$ but not the un-direct.
+If we have a mediator with an observation and direct link from $X$ to $Y$ we
+can measure the direct cause-effect of $X$ on $Y$ but not the un-direct.
 
 In the second case, if we have a direct link between $X$ and $Y$ and a collider
 on $L$ that is a descendant of $X$ and $Y$, if we condition on a descendant of $L$
 that isn't a mediator, it could unblock a path from $X$ to $Y$ that was blocked
-by a collider, so we are introducing a \textbf{collider bias}. The same holds true
+by a collider, so we are introducing a \textbf{collider bias}. The same holds
 for any descendant of $L$. So we should only control the counterfactuals.
 
-It is worthwhile to notice that we actually can condition on some descendants of
+It is worthwhile to notice that we actually can condition some descendants of
 $X$ without inducing non-causal associations between $X$ and $Y$. Conditioning
 on descendants of $X$ that aren't on any causal paths from $X$ and $Y$ won't
 induce bias.
@@ -227,10 +227,10 @@ is known as $M$-Bias due to the $M$-Shape that this non-causal association flows
 along when the graph is drawn with children below their parents.
 
 \section{Application of Backdoor Adjustment}
-In this section we will show how to derive the \textbf{associational} quantity
+In this section, we will show how to derive the \textbf{associational} quantity
 $\mathbb{E}[Y|X = x]$ (it is the observational value obtained without intervention),
 that will be compared to the \textbf{causal} quantity $\mathbb{E}[Y|do(x)]$. There
-are situations where the causal quantity is the same to the associational.
+are situations where the causal quantity is the same as the associational.
 
 If the treatment were binary, then we would just look at the difference between
 the quantities with the respected value. However, if we consider \textbf{linear
@@ -238,15 +238,15 @@ the quantities with the respected value. However, if we consider \textbf{linear
 \begin{equation}
     \frac{\partial\mathbb{E}[Y |x]}{\partial x } \, \land \, \frac{\partial\mathbb{E}[Y |do(x)]}{\partial x}
 \end{equation}
-this formulation give us all the information about the treatment effect, regardless
+this formulation gives us all the information about the treatment effect, regardless
 of if treatment is continuous, binary, or multi-valued.
 
 \begin{note}
-    In this section we will assume \textbf{infinite} data so we can work with expectations.
-    It's a strong assumption but helps in explain the situation.
+    In this section,n we will assume \textbf{infinite} data so we can work with expectations.
+    It's a strong assumption but helps explain the situation.
 \end{note}
 
-For the rest of this section we will consider the example given in Figure~\ref{fig:example}.
+For the rest of this section, we will consider the example given in Figure~\ref{fig:example}.
 This can also be represented as follows:
 \begin{equation}
     \begin{array}{l}
@@ -272,7 +272,7 @@ pair $(X, Y)$ and the set $S = \{Z\}$ which represents the \textbf{sufficient
                                                                        & = \beta x + \alpha_2\mathbb{E}[Z]
     \end{array}
 \end{equation}
-then, we have the following:
+Then, we have the following:
 \begin{equation}
     \frac{\partial \mathbb{E}[Y |do(x)]}{\partial x} = \frac{\partial [\beta x + \alpha_2\mathbb{E}[Z]]}{\partial x} = \beta
 \end{equation}
@@ -286,7 +286,7 @@ While, when we are talking about \textbf{associational effect} from $X$ to $Y$ w
                                                   & = \beta x + \frac{\alpha_2}{\alpha_1} x
     \end{array}
 \end{equation}
-then, we have the following:
+Then, we have the following:
 \begin{equation}
     \frac{\partial \mathbb{E}[Y |x]}{\partial x} = \frac{\partial[\beta x + \alpha_2 \mathbb{E}[Z |X = x]]}{\partial x} = \beta + \frac{\alpha_2}{\alpha_1}
 \end{equation}
@@ -303,13 +303,13 @@ Given, the \textbf{modularity assumption} and \textbf{markov assumption} and
 graph, then we achieve \textbf{identification}.
 
 \begin{note}
-    Note that although the a backdoor criterion is a sufficient condition for
+    Note that although the backdoor criterion is a sufficient condition for
     identification, it is not a necessary condition.
 \end{note}
 \begin{note}
-    No interference assumption in commonly implicit in causal graph because the $Y$
-    usually only has a single node $X$ for treatment as a parent. In other way
-    consistency follows from the axioms of SCMs. Contrary the positivity is still
-    important assumption that we must make.
+    No interference assumption is commonly implicit in causal graphs because the $Y$
+    usually only has a single node $X$ for treatment as a parent. In another way,
+    consistency follows from the axioms of SCMs. On contrary the positivity is still
+    an important assumption that we must make.
 \end{note}
 

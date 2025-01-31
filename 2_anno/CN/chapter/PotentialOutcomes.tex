@@ -8,22 +8,21 @@ In the following course we will use the following notation:
     \item $Z$ to denote a set of random variables representing \textbf{covariates}.
 \end{itemize}
 
-Also, we will use uppercase letters to denote random variables and lowercase
+In addition, we will use uppercase letters to denote random variables and lowercase
 letters to denote their realizations.
 
 \begin{definition}[\textbf{Potential outcomes}]
-    $Y(x)$ denotes what your outcome would be, if you were to take treatment $X = x$.
+    $Y(x)$ denotes what your outcome would be if you were to take treatment $X = x$.
 \end{definition}
-A \textbf{potential outcome} $Y(x)$ is distinct from the \textbf{observed outcome} $Y$ in that not
-all potential outcomes are observed. But, all potential outcomes can potentially
-be observed but we can't observe potential outcome of a decision that isn't made.
+A \textbf{potential outcome} $Y(x)$ is distinct from the \textbf{observed outcome} $Y$
+in that, not all potential outcomes are observed. But, all potential outcomes can potentially
+be observed but we can't observe the potential outcome of a decision that isn't made.
 
-The actually observed outcome depends on the given value $x$ of treatment $X$.
-The potential outcome is the value of $Y$ before making the decision of the
-treatment $X=x$.
+The observed outcome depends on the given value $x$ of treatment $X$. The potential outcome
+is the value of $Y$ before deciding on the treatment $X=x$.
 
 Up until now, we have been considering an individual. However, the population
-consists of many individuals. Each individual is tipically associated with one or
+consists of many individuals. Each individual is typically associated with one or
 more variables, referred to as covariates $Z$. We denote each individual using $i$
 as as subscript.
 
@@ -34,10 +33,10 @@ as as subscript.
         \tau_i \triangleq Y_i(1) - Y_i(0)
     \end{equation}
 
-    The main different is that $Y(x)$ is a random variable because different individuals
-    have different potential outcomes. Meanwhile, $Y_i(x)$ is a treated as a
-    non-random variable because it is the potential outcome is deterministic, because
-    it is conditioned by $i$-individual.
+    The main difference is that $Y(x)$ is a random variable because different individuals
+    have different potential outcomes. Meanwhile, $Y_i(x)$ is treated as a non-random
+    variable because it is the potential outcome is deterministic because it is conditioned
+    by $i$-individual.
 \end{definition}
 
 \begin{note}
@@ -53,12 +52,12 @@ individual. Therefore, we can't observe the causal effect:
     \tau_i \triangleq Y_i(1) - Y_i(0)
 \end{equation*}
 
-The potential outcome that you don't observe are known as \textbf{counterfactuals}.
+The potential outcomes that you don't observe are known as \textbf{counterfactuals}.
 So, a potential outcome $Y(x)$ doesn't become counterfactual until another
 potential outcome $Y(x')$ is observed.
 
 \begin{note}
-    There are no counterfactuals or factuals until the outcome is observed.
+    There are no counterfactuals or facts until the outcome is observed.
 \end{note}
 \begin{definition}[\textbf{Average Treatment Effect}]
     The \textbf{average treatment effect} (ATE) is obtained by taking an average
@@ -66,11 +65,11 @@ potential outcome $Y(x')$ is observed.
     \begin{equation}
         \tau \triangleq \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1) - Y_i(0)] = \mathbb{E}[Y(1) - Y(0)]
     \end{equation}
-    where we recall that the average is over the individuals $i$ if $Y_i(x)$ is
+    where we recall that the average is over the individual $i$ if $Y_i(x)$ is
     deterministic.
 \end{definition}
 
-The fundamental problem can be see as a missing data problem. Therefore, we cannot
+The fundamental problem can be seen as a missing data problem. Therefore, we cannot
 compute directly the average treatment effect. We could be tempted to use the
 associational difference:
 \begin{equation}
@@ -93,7 +92,7 @@ following path: $X \rightarrow Y \leftarrow Z$.
     \label{fig:confounding}
 \end{figure}
 
-We can consider average treatment effect equal to the associational difference
+We can consider the average treatment effect equal to the associational difference
 assuming the \textbf{ignorability} assumption.
 \begin{definition}[\textbf{Ignorability}]
     The \textbf{ignorability} assumption states that the treatment assignment
@@ -104,10 +103,10 @@ assuming the \textbf{ignorability} assumption.
 \end{definition}
 
 Another name for this property is \textbf{exchangeability} because it can be
-interpreted as we can exchange \textbf{treatment} and \textbf{control} groups without changing the
-distribution of the potential outcomes.
+interpreted as we can exchange \textbf{treatment} and \textbf{control} groups
+without changing the distribution of the potential outcomes.
 
-In graphical sense, we can see the same structure of Figure~\ref{fig:confounding}
+In a graphical sense, we can see the same structure of Figure~\ref{fig:confounding}
 but without $Z \to X$ path. We can distinguish between two types of ignorability:
 \begin{itemize}
     \item \textbf{Mean ignorability}:
@@ -124,12 +123,12 @@ In general, mean ignorability is enough to compute the average treatment effect.
 
 This property is fundamental because it allows us to compute the average treatment
 effect as the associational difference:
-\begin{equation*}
+\begin{equation}
     \tau \triangleq \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y|X = 1] - \mathbb{E}[Y|X = 0]
-\end{equation*}
+\end{equation}
 
-The assumption of ignorability allow us to \textbf{identify causal effects}. This
-can be done reducing a causal expression to a purely statistical expression. We
+The assumption of ignorability allows us to \textbf{identify causal effects}. This
+can be done by reducing a causal expression to a purely statistical expression. We
 can calculate the causal effect from just the observational distribution $P(X, Y, Z)$.
 
 \begin{definition}[\textbf{Identifiability}]
@@ -139,8 +138,8 @@ can calculate the causal effect from just the observational distribution $P(X, Y
 
 Unfortunately, the assumption of ignorability is completely unrealistic, confounding
 is likely to happen in most data we observe. We can make the assumption of ignorability
-more realistic by performing a \textbf{randomized experiment}, which force the
-treatment $X$ to be cause randomly solving the problem of the confounding effect.
+more realistic by performing a \textbf{randomized experiment}, which forces the
+treatment $X$ to be caused randomly solving the problem of the confounding effect.
 
 In observational data, it's unrealistic to assume that the groups are exchangeable.
 However, if we control for relevant variables by conditioning, then maybe the groups
@@ -148,7 +147,7 @@ will be exchangeable.
 
 \begin{definition}[\textbf{Conditional exchangeability}]
     The \textbf{conditional exchangeability} or \textbf{unconfoundeness} assumption
-    states that the treatment assignment is the potential outcomes conditional
+    states that the treatment assignment is the potential outcome conditional
     on the covariates:
     \begin{equation}
         (Y(0), Y(1)) \perp X | Z
@@ -160,9 +159,9 @@ unconditionally associated (due to confounding), within levels of $Z$, they are
 not associated.
 
 Indeed, when conditioning on $Z$, non-causal associations between $X$ and $Y$ no
-longer exists. Non-causal association is blocked by conditioning on $Z$.
+longer exist. The non-causal association is blocked by conditioning on $Z$.
 
-This is the main assumption necessary for use the causal inference. We can now identify
+This is the main assumption necessary for use the of causal inference. We can now identify
 the causal effect within levels of $Z$, just like we did with ignorability:
 \begin{equation}
     \mathbb{E}[Y(1) - Y(0) | Z] = \mathbb{E}[Y(1)| Z] - \mathbb{E}[Y(0)| Z] =
@@ -189,15 +188,15 @@ In the adjusted formula we moved from the assumption of ignorability to that
 of unconfoundedness because it seems more realistic. However, we often cannot
 know for certain if unconfoundedness holds.
 
-There may be some \textbf{unobserved confounders} that we can't control, this mean
+There may be some \textbf{unobserved confounders} that we can't control, this means
 that the assumption of unconfoundedness is violated. The best we can do is to
 observe and fit as many covariates as possible to try to ensure unconfoundedness.
 
 However, we will see that it is not necessarily true that conditioning on more
-covariates always helps our causal estimates to be less biased.
+covariates always help our causal estimates to be less biased.
 
 \begin{note}
-    That is not the case for randomized experiment.
+    That is not the case for randomized experiments.
 \end{note}
 
 Indeed, it can be the case we obtain more biased estimates by including when
@@ -218,7 +217,7 @@ it can be detrimental for another reason that has to do with \textbf{Positivity}
 \end{definition}
 
 If we have positivity violation, then we will be conditioning on a \textbf{zero probability}
-event. This will lead to biased estimates. In fact, we will have a division by $0$.
+event. This will lead to biased estimates. We will have a division by $0$.
 
 Positivity is also referred to as the \textbf{overlap} assumption. This is because
 we want the covariates distribution of the group to overlap.
@@ -230,8 +229,8 @@ we want the covariates distribution of the group to overlap.
     \label{fig:positivity}
 \end{figure}
 
-Adjusting on a lot of covariets can lead to \textbf{curse of dimensionality}, because
-all the subgroup can be contained in the control group or in the treatment group.
+Adjusting on a lot of covariates can lead to \textbf{curse of dimensionality}, because
+all the subgroups can be contained in the control group or the treatment group.
 
 Another important assumption is the \textbf{no interference} assumption.
 \begin{definition}[\textbf{No interference}]
@@ -251,7 +250,7 @@ The last assumption is the \textbf{consistency} assumption.
     \end{equation}
 \end{definition}
 
-We need the treatment to be well defined, if consistency is not respected $Y(1)$
+We need the treatment to be well-defined, if consistency is not respected $Y(1)$
 is not well defined since it will be $1$ or $0$ and it depends on something that
 is not captured by the treatment $X$.
 
@@ -260,7 +259,7 @@ is not captured by the treatment $X$.
     individual $i$'s outcome $Y_i$ is simply a function of the treatment $X_i$.
 \end{definition}
 
-SUTVA is a combination of consistency, no interference and deterministic potential
+SUTVA is a combination of consistency, no interference, and deterministic potential
 outcome.
 
 Now, we need to introduce some terminology that will be useful in the following
@@ -272,7 +271,7 @@ chapters.
     \item \textbf{Estimator}: a function that maps the data to an estimate of the
           estimand.
     \item \textbf{Estimation}: the process that we use to go from data plus the
-          estimand to a concrete number is known as estimation.
+          estimand to a concrete number is known as an estimation.
     \item \textbf{Causal estimand}: refers to any estimand that contains a potential
           outcome in it.
     \item \textbf{Statistical estimand}: refers to any estimand that does not contain

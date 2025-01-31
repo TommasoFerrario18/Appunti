@@ -7,27 +7,27 @@ mean that one of those variables causes the other. For this reason, the
 
 We can define a randomized controlled experiment as an experiment in which all
 the \textbf{factors} that influence the outcome of the experiment are either
-static, or vary at random, except for one. This implies that any change in the
+static or vary at random, except for one. This implies that any change in the
 outcome variable must be due to that one input variable, so we can control a factor
-and study how the outcome changes. This type of experiments allows us to find causal
-relationships, so we can answer to causal queries.
+and study how the outcome changes. This type of experiment allows us to find causal
+relationships, so we can answer causal queries.
 
 In cases where randomized controlled experiments are not practical, researchers
 instead perform \textbf{observational studies}, in which they merely record data,
-rather than controlling it. In these cases, the problem is that is difficult to
+rather than control it. In these cases, the problem is that is difficult to
 untangle the effects of different variables.
 
-We can summarize the difference between these two types  of studies, with reference
+We can summarize the difference between these two types of studies, with reference
 to the Figure~\ref{fig:causal}, as follows:
 \begin{itemize}
       \item \textbf{Intervening}: we change the system assigning values to the a
             variable and observing the effect on the other variables. When we
             intervene to fix the value of a variable, we curtail the natural
             tendency of that variable to vary in response to other variables in
-            nature. This amounts to performing a surgery on the graphical model,
+            nature. This amounts to performing surgery on the graphical model,
             which we do by removing all edges directed into that variable.
             Intervening would be to take the whole population and give everyone
-            treatment. This is possible if we can control the experiment, because
+            treatment. This is possible if we can control the experiment because
             we can apply a treatment to the entire population.
       \item \textbf{Conditioning}: we merely narrow our focus to the subset of
             cases in which the variable takes the value we are interested in.
@@ -43,9 +43,9 @@ to the Figure~\ref{fig:causal}, as follows:
 \end{figure}
 
 We denote intervention with the \textbf{do-operator} $do(X = x)$. So, if we have
-an expression which contains the do-operator, we know that we are intervening
+an expression that contains the do-operator, we know that we are intervening
 on that variable and we call this expression a \textbf{interventional expression}.
-When do do-operator doesn't appear in the expression so the expression is called
+When do do-operator doesn't appear in the expression the expression is called
 \textbf{observational expression}.
 
 An \textbf{interventional expression} which can be reduced to an \textbf{observational
@@ -58,7 +58,7 @@ An \textbf{estimand} is said to be:
       \item \textbf{Statistical}: it doesn't contain the do-operator.
 \end{itemize}
 
-Whenever, $do(x)$ appears in expression after the conditioning bar, it means
+Whenever $do(x)$ appears in the expression after the conditioning bar, it means
 that everything in that expression is in the \textbf{post-intervention world}
 where intervention $do(x)$ occurs.
 
@@ -66,10 +66,10 @@ where intervention $do(x)$ occurs.
 We can define a \textbf{causal mechanism} as a mechanism that generates $X_i$ as
 the conditional distribution of $X_i$ given its parents (causes) $pa(X_i)$, i.e. $P(X_i | pa(X_i))$.
 
-Also, we want to show that intervention are local. This means that intervening on
+Also, we want to show that interventions are local. This means that intervening on
 a variable $X_i$ only changes the causal mechanism for $X_i$; it does not change
 the causal mechanisms that generate any other variables $X_j$.
-\begin{definition}[\textbf{Modularity - indipendent mechanism - invariance of Causal Models}]
+\begin{definition}[\textbf{Modularity - independent mechanism - invariance of Causal Models}]
       If we intervene on a set of nodes $\mathbf{S}$, setting them to constants,
       then for all $X_i \in \{X_1, \ldots, X_n\}$ we have the following:
       \begin{itemize}
@@ -91,8 +91,8 @@ relationships from the purely associative.
 
 Not always modularity is satisfied, for example when we apply $do(X_1 = x)$
 and at the same time $P(X_4 = x| X_3)$ changes, in this example modularity wasn't
-fulfilled. In the reality this happens when we have hidden factor, so we should
-investigate on this factor to remove it. See example at page 20 of the slides.
+fulfilled. In reality, this happens when we have hidden factors, so we should
+investigate these factors to remove them. See the example on page 20 of the slides.
 
 \begin{note}
       It is worth noting here that we are making a tacit assumption that the
@@ -120,11 +120,11 @@ summarize it in a rule:
 \end{definition}
 
 So we will start from \textbf{causal estimand} $P(Y = y | do(X = x))$ and for the
-causal effect rule we arrive to the \textbf{statistical estimand} which corresponds
+causal effect rule, we arrive at the \textbf{statistical estimand} which corresponds
 to the following expression: $\sum_z P(Y = y|X = x, Z = z) P(Z = z)$ after
 the interventions on $X$. This is possible if and only if modularity is satisfied.
 
-If we apply some manipulation on the formula, we can obtain a more convenient
+If we apply some manipulation to the formula, we can obtain a more convenient
 form that is equivalent because we are multiplying and dividing by the same quantity:
 \begin{equation}\label{eq:causal_effect_rule}
       P(Y = y| do(X = x)) = \frac{\sum_{u} P(Y = y, X = x, pa(X) = u)P(pa(X) = u)}{P(X = x | pa(X) = u)}
@@ -134,12 +134,12 @@ represents the \textbf{propensity score} which displays the role played by the
 parents $pa(X)$ of $X$ in determining the result of the intervention $do(X = x)$.
 
 \section{Truncated Factorization and Backdoor Adjustment}
-In some circumstances, we can involve multiple interventions in the same time.
+In some circumstances, we can involve multiple interventions at the same time.
 
 The previous consideration also allows us to generalize the Adjustment Formula to
 \textbf{multiple interventions}, that is, interventions that fix the values of a
 set of variables $\mathbf{S}$ to constants $\mathbf{s}$. We simply write down the
-Factorization of the pre-intervention distribution and strike out all factors that
+factorization of the preintervention distribution and mark all factors that
 correspond to variables in the intervention set $\mathbf{S}$.
 
 \begin{definition}[\textbf{Truncated Factorization (G-formula)}]
@@ -154,7 +154,7 @@ correspond to variables in the intervention set $\mathbf{S}$.
 
 \begin{note}
       Remember that pre-intervention distribution of a graph $\mathcal{G}$ is
-      defined by the Bayesian Network Factorization as follow:
+      defined by the Bayesian Network Factorization as follows:
       \begin{equation*}
             P(X_1 = x_1, X_2 = x_2, \dots, X_n = x_n) = \prod_{i = 1}^{n} P(X_i = x_i | pa(X_i))
       \end{equation*}
@@ -174,7 +174,7 @@ Not always in every condition we can use the \textbf{causal effect rule}, in fac
 in the graph represented in the Figure~\ref{fig:unmeasured_parents}, we have
 \textbf{unmeasured parents} that impact on $X$ and $Y$, also known as \textbf{latent},
 that, though represented in the graph, may be inaccessible for measurement. In
-those case, we can't adjust on each values of $pa(X)$ because we can't measure
+those cases, we can't adjust each value of $pa(X)$ because we can't measure
 so we need to find an alternative set of variables to adjust for.
 \begin{figure}[!ht]
       \centering
@@ -204,13 +204,13 @@ be conditioned on when searching for the causal relationship between $X$ and $Y$
       all \textbf{backdoor paths} between $X$ and $Y$ that contain an arrow into $X$.
 \end{definition}
 \begin{definition}[\textbf{Backdoor paths}]
-      A Backdoor path is a path from $X$ to $Y$ is when there is an entering arrow
+      A Backdoor path is a path from $X$ to $Y$ when there is an entering arrow
       in $X$.
 \end{definition}
 \begin{definition}[\textbf{Backdoor adjustment}]
       If a set of variables $\mathbf{S}$ satisfies the backdoor criterion relative
       for $X$ and $Y$, and positivity, then the causal effect of $X$ on $Y$ is
-      given by the following new version of adjusted formula:
+      given by the following new version of the adjusted formula:
       \begin{equation}
             P(Y = y| do(X = x)) = \sum_{\mathbf{s}} P(Y = y| X = x, \mathbf{S} = \mathbf{s})P(\mathbf{S} = \mathbf{s})
       \end{equation}
@@ -238,15 +238,15 @@ In general, we would like to condition on a set of nodes $\mathbf{S}$ such that 
       \label{fig:backdoor}
 \end{figure}
 \begin{definition}[\textbf{Backdoor Adjustment Formula}]
-      Give the modularity assumption, that, $\mathbf{S}$ satisfies the backdoor 
-      criterion, and positivity, we can identify the causal effect of $X$ on $Y$ 
+      Give the modularity assumption, that, $\mathbf{S}$ satisfies the backdoor
+      criterion, and positivity, we can identify the causal effect of $X$ on $Y$
       as follows:
       \begin{equation}
             P(Y = y| do(X = x)) = \sum_{\mathbf{s}} P(Y = y| X = x, \mathbf{S} = \mathbf{s})P(\mathbf{S} = \mathbf{s})
       \end{equation}
 \end{definition}
 
-We can use the backdoor adjustment formula if, $\mathbf{S}$ d-separates $X$ from 
+We can use the backdoor adjustment formula if, $\mathbf{S}$ d-separates $X$ from
 $Y$ in the augmented graph obtained by removing all outgoing edges from $X$.
 
 We would be able to isolate the causal association if $X$ is d-separated from
@@ -256,5 +256,5 @@ $Y$ in the augmented graph.
 \end{center}
 
 We can also isolate the causal association if $X$ is d-separated from $Y$ in
-the augmented graph, conditional on $\mathbf{S}$. This is what the first part of 
+the augmented graph, conditional on $\mathbf{S}$. This is what the first part of
 the backdoor criterion is about and what we've codified in the backdoor adjustment.

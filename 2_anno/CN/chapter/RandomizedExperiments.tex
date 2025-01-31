@@ -31,9 +31,9 @@ groups is due to the treatment $X$.
 Randomization implies covariate balance, across all covariates $Z$, even unobserved
 ones. Intuitively, this is because the treatment is chosen at random, regardless
 of $Z$, so the treatment and control groups should look very similar. This is
-confirmed by the fact that in randomize experiment, we chose randomly how assign
+confirmed by the fact that in randomized experiment, we chose randomly how to assign
 treatment so we are removing dependencies between the confounding variables
-and the treatment, so there aren't any backdoor path from $X$ to $Y$ and $\mathbf{S} =\{\emptyset\}$
+and the treatment, so there aren't any backdoor paths from $X$ to $Y$ and $\mathbf{S} =\{\emptyset\}$
 is a sufficient adjustment to block any association flowing from $X$ to $Y$ except
 for causal one.
 
@@ -60,8 +60,7 @@ Then, from the backdoor adjustments we get:
                    & = P(y | x)
     \end{array}
 \end{equation}
-
-These means that all associations are causation.
+Thise means that all associations are causation.
 
 \textbf{Exchangeability} gives us another perspective on why randomization makes
 causation equal to association. If the groups are exchangeable, we could exchange

@@ -4,7 +4,7 @@ in many cases, the causal structure is not known and must be inferred from the d
 This is the problem of \textbf{causal discovery}.
 
 \section{Causal Discovery from Observational Data}
-Let's start saying that learning a causal network consists of learning the
+Let's start by saying that learning a causal network consists of learning the
 structure and the parameters of the network.
 \subsection{Constraint-Based Methods}
 We assume that the underlying process follows a probability distribution $P$, which
@@ -36,13 +36,13 @@ d-separation) $\mathbf{Z}$ there is a corresponding conditional dependence:
     \mathbf{X} \not\perp_{\mathcal{G}} \mathbf{Y} \mid \mathbf{Z} \quad \Rightarrow \quad \mathbf{X} \not\perp_{P} \mathbf{Y} \mid \mathbf{Z}
 \end{equation}
 
-It is worthwhile mention that many constraint-based methods also assume that there
+It is worthwhile to mention that many constraint-based methods also assume that there
 are no unobserved confounders. This is known as the \textbf{Causal Sufficiency}
 assumption.
 
 Learning a causal network is the task of identifying a DAG structure $\mathcal{G}$
 and a set of conditional probability distributions $\mathcal{P}$ with parameters
-$\theta$ on the basis of:
+$\theta$ based on:
 \begin{itemize}
     \item $\mathcal{D} = \{\mathcal{x}^1, \ldots, \mathcal{x}^N\}$ this are the
           observational data, where the missing data are assumed to be missing
@@ -63,7 +63,7 @@ of independence relations of the form:
 \end{equation}
 where $X$ is independent of $Y$ given $S_{XY}$.
 
-Yhe problem with this approach is that the number of possible independence relations
+The problem with this approach is that the number of possible independent relations
 is exponential in the number of variables. In particular, a constraint-based
 structure learning algorithm discovers a DAG structure of $P$ under the following
 assumptions:
@@ -77,21 +77,21 @@ assumptions:
     \item The statistical tests have no error.
 \end{itemize}
 
-The equivalence class of a DAG $\mathcal{G}$ is the set of all DAGs with tha same
+The equivalence class of a DAG $\mathcal{G}$ is the set of all DAGs with the same
 set of d-separation relations as $\mathcal{G}$. The equivalence class can be represented
 by a partially directed acyclic graph (PDAG).
 
 \begin{definition}[\textbf{Equivalent Models And Markov equivalence Class}]
     Two models $M_\mathcal{G'}$ and $M_\mathcal{G''}$ defined over the same set
     of variables, whose graphs $\mathcal{G'}$ and $\mathcal{G''}$, respectively,
-    have the same \textbf{skeleton} (i.e., undirected graph obtained by replacing
+    have the same \textbf{skeleton} (i.e., the undirected graph obtained by replacing
     directed edges with undirected edges) and the same v-structures, are \textbf{equivalent}.
 
     Two graphs $\mathcal{G'}$ and $\mathcal{G''}$ are in the same \textbf{equivalence class}:
     \begin{itemize}
         \item if they share a common skeleton — that is, if they possess the same
               edges, regardless of the direction of those edges—and;
-        \item if they share common v-structure, that is, colliders whose parents
+        \item if they share a common v-structure, that is, colliders whose parents
               are not adjacent
     \end{itemize}
 \end{definition}
@@ -104,9 +104,9 @@ encode the same set of conditional independence relations.
     properties $\mathcal{M}_{\mathcal{G}}$.
 \end{definition}
 
-A set od dependence and independence relations $M_{\mathcal{G}}$ may be generated
-by statistical test on the observational data. In each test, the hypothesis is
-that of independence between a pari of variables.
+A set of dependence and independence relations $M_{\mathcal{G}}$ may be generated
+by statistical tests on the observational data. In each test, the hypothesis is
+that of independence between apairi of variables.
 
 Let $X$ and $Y$ be two variables for which we would like to determine dependence
 by statistical hypothesis testing. We could:
@@ -128,10 +128,10 @@ The main steps of the PC algorithm are:
           such that $X$ and $Y$ are neighbors, $Z$ and $Y$ are neighbors, and
           $X$ and $Z$ are not neighbors;
     \item Identify derived directions. The direction of an edge is said to be
-          derived when it is a logical consequence of previous actions:
+          Derived when it is a logical consequence of previous actions:
           \begin{itemize}
               \item \textbf{Rule 1}: since the edge between $Y$ and $Z$ is not part
-                    of the aforementioned collider, it mus be oriented as $Y \rightarrow Z$;
+                    of the aforementioned collider, it must be oriented as $Y \rightarrow Z$;
               \item \textbf{Rule 2}: Directing an edge between $X$ and $Z$ from $Z$
                     to $X$ will induce a directed cycle in the graph.
               \item \textbf{Rule 3}: directing the edge between $X$ and $Y$ from
@@ -147,7 +147,7 @@ observational data $\mathcal{D} = \{\mathcal{x}^1, \dots, \mathcal{x}^N\}$.
 
 \section{Semi-parametric Causal Discovery}
 \begin{definition}[\textbf{Markov Completeness}]
-    If we have multinomial distribution or linear gaussian structural equations,
+    If we have multinomial distribution or linearGaussiann structural equations,
     we can only identify a graph up to its Markov equivalence class.
 \end{definition}
 
@@ -157,7 +157,7 @@ we don't have to assume faithfulness in these settings:
     \item non-Gaussian noise setting;
     \item non-linear additive noise setting.
 \end{itemize}
-By considering these settings, we are making semi-parametric assumption. If we
+By considering these settings, we are making a semi-parametric assumption. If we
 don't make any assumptions about functional form, we cannot even identify the
 direction of the edge in a two-node graph.
 \begin{definition}[\textbf{Non-Identidiability of two-node graphs}]
@@ -194,7 +194,7 @@ An example of these assumptions is the following:
     \begin{equation*}
         Y := f(X) + U \quad X \perp U
     \end{equation*}
-    then, there does not exists an SCM in the reverse direction:
+    then, there does not exist an SCM in the reverse direction:
     \begin{equation*}
         X := f(Y) + \tilde{U} \quad Y \perp \tilde{U}
     \end{equation*}
@@ -223,10 +223,10 @@ An example of these assumptions is the following:
     \end{equation}
     such that $A$ and $B$ are independent (so $A$ and $B$ must be dependent).
 \end{corollary}
-We can also get identifiability of the causal graph in the \textbf{non-linear additive
-    noise setting}. This requires a non.linear additive noise assumption:
+We can also get the identifiability of the causal graph in the \textbf{non-linear additive
+    noise setting}. This requires a nonlinear additive noise assumption:
 \begin{definition}[\textbf{Non-Linear Additive Noise}]
-    All causal mechanism are non-linear where the noise enters additively.
+    All causal mmechanismsare non-linear where the noise enters additively.
     Mathematically:
     \begin{equation}
         \forall i, X_i := f_i(Pa(X_i)) + U_i
@@ -253,13 +253,13 @@ Structural learning of Bayesian (causal) networks consists of three approaches:
           assume tests are always right.
     \item \textbf{Score-Based algorithm}: each candidate DAG is assigned a score
           reflecting its goodness of fit, which is then taken as an objective
-          function to maximise. Convergence to the global maximum (i.e. the best
+          function to maximize. Convergence to the global maximum (i.e. the best
           structure) is not guaranteed for finite samples, the search may get
           stuck in a local maximum.
     \item \textbf{Hybrid algorithm}: conditional independence tests are used to
           learn at least part of the conditional independence relationships from
           the data, thus restricting the search space for a subsequent score-based
-          search. The latter determines which edges are actually present in the
+          Search. The latter determines which edges are present in the
           graph and their direction.
 \end{itemize}
 \section{Causal Discovery from Interventional Data}
@@ -273,7 +273,7 @@ The simplest case is the two-variable case, i.e. the bi-variate setting, where
 either: $X$ is cause of $Y$, or $Y$ is cause of $X$, or $X$ is not cause of $Y$,
 and $Y$ is not cause of $Y$.
 
-In order to identify the graph two interventions are necessary and sufficient,
+To identify the graph two interventions are necessary and sufficient,
 dividing the empty set case from a proper interventional set setting.
 
 \begin{figure}[!ht]
@@ -283,7 +283,7 @@ dividing the empty set case from a proper interventional set setting.
     \label{fig:twonodecase}
 \end{figure}
 
-In the worst case scenario, $n- 1$ interventions are sufficient:
+In the worst-case scenario, $n- 1$ interventions are sufficient:
 \begin{enumerate}
     \item Choose an arbitrary intervention ordering;
     \item Applying the first intervention identifies the adjacencies of the $n - 1$

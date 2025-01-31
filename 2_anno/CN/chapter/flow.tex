@@ -23,7 +23,7 @@ the \textbf{bayesian network factorization}:
     P(X_1, X_2, \ldots, X_n) = \prod_{i=1}^n P(X_i|pa(X_i))
 \end{equation}
 
-At this point we can define a \textbf{Markov Probability Distribution} as a
+At this point, we can define a \textbf{Markov Probability Distribution} as a
 probability distribution $P$ that satisfies the local Markov assumption with
 respect to a DAG $G$.
 
@@ -36,7 +36,7 @@ the \textbf{minimality assumption}.
 \begin{definition}[\textbf{Minimality Assumption}]
     The minimality assumption means:
     \begin{enumerate}
-        \item \textbf{local markov assumption}: Given all the parents $pa(x)$ of
+        \item \textbf{local Markov assumption}: Given all the parents $pa(x)$ of
               a node $x$ in a DAG, the local Markov assumption states that $x$
               is independent of all its non-descendants.
         \item Adjacent nodes in the DAG $G$ are dependent.
@@ -51,9 +51,9 @@ edges from the graph $G$.
     $P$ and $G$ are Markov Compatible if $P$ factorize according to $G$.
 \end{definition}
 
-Up to now all we presented was about statistical models and modeling association.
-We now need to introduce some \textit{causal assumptions}, turn them into causal
-models for allowing the study of causation. In order to introduce causal assumptions,
+Up to now, all we presented was about statistical models and modeling association.
+We now need to introduce some \textit{causal assumptions} and turn them into causal
+models for allowing the study of causation. To introduce causal assumptions,
 we must first understand what it means for $X$ to be a cause of $Y$. We can simply
 define \textbf{cause} as follows:
 \begin{definition}[\textbf{Cause}]
@@ -65,9 +65,9 @@ every parent is a direct cause of all its children. Given this assumption, we ca
 define a \textbf{Causal graph} as a DAG $G$ that satisfies the strict causal edges
 assumption.
 
-Adding the causal edges assumption, implies that directed paths in the DAG take
+Adding the causal edges assumption implies that directed paths in the DAG take
 on a very special meaning; they correspond to \textbf{causation}. This is in
-contrast to other paths in the graph, which association may flow along, but
+contrast to other paths in the graph, in which association may flow along, but
 causation certainly may not.
 \section{Chains, Forks, and Colliders}
 To understand the difference between association flow and causal flow in DAGs,
@@ -83,13 +83,13 @@ we need the following minimal building blocks:
 By \textit{flow of association}, we mean whether any two nodes in a graph are
 associated or not associated. In other terms, we want to know whether two nodes
 are (statistically) dependent or (statistically) independent. However, we will
-also study whether two nodes are conditionally independent or not.
+also study whether the two nodes are conditionally independent or not.
 \subsection{Two un-connected nodes}
 Given a graph consisting of just two unconnected nodes, as reported in Figure~\ref{fig:two_unconnected_nodes},
 these nodes are not associated, because there is no edge between them. To show
 this, consider the factorization of the joint probability $P(X, Y)$ that the
 Bayesian network factorization gives us: $P(X, Y) = P(X)P(Y)$. This factorization
-immediately gives us a proof that the two nodes are unassociated (independent).
+immediately gives us proof that the two nodes are unassociated (independent).
 
 \begin{figure}[!ht]
     \centering
@@ -110,14 +110,14 @@ means that $X$ is a direct cause of $Y$. They are dependent and conditional depe
 \end{figure}
 
 \subsection{Chain and Fork}
-We can consider this two building blocks together, because they share the same
+We can consider these two building blocks together because they share the same
 set of dependencies. In both cases, the association flows from $X$ to $Z$ through
 $Y$.
 
-They also share the same set of independencies. When we condition on $Y$ in both
+They also share the same set of independencies. When we condition $Y$ in both
 graphs, it blocks the flow of association from $X$ to $Y$. Therefore, when we
 condition on $Y$ ( $Z$'s parent in both graphs), $Z$ becomes independent of (and
-viceversa). This independence is an instance of a \textbf{blocked path}.
+vice-versa). This independence is an instance of a \textbf{blocked path}.
 
 \begin{figure}[!ht]
     \centering
@@ -158,7 +158,7 @@ from node $Z$ to node $X$. This is another example of a blocked path, but this
 time the path is not blocked by conditioning; the path is un-blocked by conditioning
 on a collider.
 
-Conditioning on descendants of a collider also induces association in between the
+Conditioning on descendants of a collider also induces an association between the
 parents of the collider. The intuition is that if we learn something about a
 collider's descendant, we usually also learn something about the collider itself
 because there is a direct causal path from the collider to its descendants, and
@@ -177,7 +177,7 @@ we know that nodes in a chain are usually associated assuming minimality.
     $X$ and $Y$ are \textbf{d-separated}, conditional on $\mathbb{S}$, and thus
     are independent conditional on $\mathbb{S}$.
 \end{definition}
-D-separation is an extremely important concept, because it implies conditional
+D-separation is an extremely important concept because it implies conditional
 independence. This is a very powerful tool for reasoning about causal models.
 \begin{itemize}
     \item $X \perp_G Y | \mathbb{S}$ implies that $X$ and $Y$ are d-separated in the DAG
@@ -191,7 +191,7 @@ independence. This is a very powerful tool for reasoning about causal models.
     on $\mathbb{S}$.
 \end{definition}
 
-Not only is association not causation, but causation is a sub-category of association,
+Not only is an association, not causation, but causation is a sub-category of association,
 thus association and causation both flow along directed paths.
 
 We can tell if two nodes are not associated by whether or not they are d-separated.
@@ -201,7 +201,7 @@ and $Y$ are d-separated in the augmented graph where we remove outgoing edges
 from $X$. This is the only way to ensure that the association we measure is causation.
 
 \begin{note}
-    Association is symmetric while causation not.
+    The association is symmetric while causation is not.
 \end{note}
 
 To summarize the assumptions we made:

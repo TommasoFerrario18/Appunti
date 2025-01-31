@@ -2,15 +2,15 @@
 \section{Frontdoor Adjustment}
 We have seen that the \textbf{backdoor criterion} is sufficient for identification
 but not necessary. In other words, is it possible to get identifiability without
-being able to block all backdoor paths. Also, if we have unobserved variables we
+being able to block all backdoor paths? Also, if we have unobserved variables we
 \textbf{cannot} block the backdoor path.
 
 If we are only focusing on the data we can have multiple interpretations of them.
-So we need a method that we can use for causal estimand.
+So we need a method that we can use for causal estimation.
 
 This can be obtained by chaining together the partial effects to obtain the overall effect.
 \begin{definition}[\textbf{Frontdoor Criterion}]
-    A set of variables $\mathbf{S}$ is said to satisfy the frontdoor criterion
+    A set of variables $\mathbf{S}$ is said to satisfy the front-door criterion
     relative to an ordered pair of variables $(X, Y)$ if:
     \begin{enumerate}
         \item $\mathbf{S}$ intercepts all directed paths from $X$ to $Y$;
@@ -19,11 +19,11 @@ This can be obtained by chaining together the partial effects to obtain the over
     \end{enumerate}
 \end{definition}
 The conditions are overly conservative; some of the backdoor paths excluded by
-conditions (2) and (3) can actually be allowed provided they are blocked by some
+conditions (2) and (3) can be allowed provided they are blocked by some
 variables.
 
 There is a powerful symbolic machinery, called the \textbf{do-Calculus}, that allows
-analysis of such intricate structures. In fact, the do-Calculus uncovers all causal
+analysis of such intricate structures. The do-Calculus uncovers all causal
 effects that can be identified from a given graph.
 
 \begin{definition}[\textbf{Frontdoor Adjustment}]
@@ -36,15 +36,15 @@ effects that can be identified from a given graph.
 \end{definition}
 
 Satisfying the backdoor criterion isn't necessary to identify causal effects. If
-the frontdoor criterion is satisfied, that also gives us \textit{identifiability}.
+the front-door criterion is satisfied, that also gives us \textit{identifiability}.
 
 The combination of the adjustment formula, the backdoor criterion, and the frontdoor
 criterion covers numerous scenarios. It proves the enormous, even revelatory, power
-that causal graphs have in not merely representing, but actually discovering causal
+that causal graphs have in not merely representing but discovering causal
 information.
 \section{Do-calculus}
-We can \textbf{identify} a causal query even if the causal graph doesn't satisfied
-backdoor and frontdoor criterion. In fact, we can use \textbf{do-calculus} to
+We can \textbf{identify} a causal query even if the causal graph doesn't satisfy
+backdoor and frontdoor criterion. We can use \textbf{do-calculus} to
 identify any identifiable causal effect where there are multiple treatments and/or
 multiple outcomes.
 
@@ -74,7 +74,7 @@ To introduce and discuss do-calculus we first need to give some more notation:
                   P(\mathbf{y} |\mathbf{z}, \mathbf{w}) = P(\mathbf{y} | \mathbf{w}) \, \text{ if } \, \mathbf{Y}
                   \perp_{\mathcal{G}_{\overline{\mathbf{X}}}} \mathbf{Z} | \mathbf{W}
               \end{equation*}
-              We can see that is a d-separation under the global markov assumption,
+              We can see that is a d-separation under the global Markov assumption,
               because d-separation in the graph $\mathcal{G}$ implies conditional
               independence in $P$ between $\mathbf{Y}$ and $\mathbf{Z}$ giving
               $\mathbf{W}$, so the separating set is $\mathbf{W}$.
@@ -92,9 +92,9 @@ To introduce and discuss do-calculus we first need to give some more notation:
                   P(\mathbf{y} | do(\mathbf{z}), \mathbf{w}) = P(\mathbf{y} | \mathbf{z}, \mathbf{w}) \,
                   \text{ if } \, \mathbf{Y} \perp_{\mathcal{G}_{\overline{\mathbf{Z}}}} \mathbf{Z} | \mathbf{W}
               \end{equation*}
-              This correspond to apply the backdoor adjustment using the backdoor
+              This corresponds to apply the backdoor adjustment using the backdoor
               criterion. So the rule is the generalization of backdoor adjustment to
-              a interventional distribution;
+              ana interventional distribution;
         \item \textbf{Rule 3}:
               \begin{equation}
                   P(\mathbf{y} | do(\mathbf{x}), do(\mathbf{z}), \mathbf{w}) =
@@ -121,13 +121,13 @@ this is known as \textbf{parametric identification}.
 \section{Determining identifiability from the graph}
 We previously mentioned that do-calculus is complete, which means that three rules
 are sufficient to identify all identifiable causal estimands, also that estimands
-that aren't identifiable from just using the causal graph. However, it would be
+that aren't identifiable by just using the causal graph. However, it would be
 much more satisfying to know whether a causal estimand is identifiable by simply
 looking at the causal graph.
 
 For example, the backdoor criterion and the frontdoor criterion gave us simple
-ways to know for sure that a causal estimand is identifiable. However, there are
-plenty causal estimands that are identifiable, even though the corresponding
+ways to know for sure that a causal estimand is identifiable. However, plenty of
+causal estimands are identifiable, even though the corresponding
 causal graphs don't satisfy the backdoor or frontdoor criterion.
 
 Tian and Pearl provide a relatively simple graphical criterion that is sufficient
@@ -140,7 +140,7 @@ for identifiability: the \textbf{Unconfounded Children Criterion}.
 \end{definition}
 
 This criterion generalizes the backdoor criterion and the frontdoor criterion.
-Like backdoor criterion and the frontdoor criterion, \textbf{Unconfounded children
+Like the backdoor criterion and the frontdoor criterion, \textbf{Unconfounded children
     criterion} is a sufficient condition for identifiability.
 
 \begin{definition}[\textbf{Unconfounded Children Identifiability}]
@@ -155,11 +155,11 @@ Like backdoor criterion and the frontdoor criterion, \textbf{Unconfounded childr
 If we can isolate all of the causal association flowing out of treatment $X$ along
 directed paths to $\mathbf{Y}$, we have identifiability.
 \begin{enumerate}
-    \item First, consider that all of the causal association from $X$ to $\mathbf{Y}$
+    \item First, consider that all of the causal associations from $X$ to $\mathbf{Y}$
           must flow through its children $ch(X)$.
     \item We can isolate this causal association if there is no confounding between
           $X$ and any of its children $ch(X)$.
-    \item This isolation of all of the causal association is what gives us
+    \item This isolation of all of the causal associations is what gives us
           identifiability of the causal effect of $X$ on any other node in the graph.
     \item This intuition might lead you to suspect that this criterion is necessary
           in the very specific case where the outcome set $\mathbf{Y}$ is all of
@@ -168,7 +168,7 @@ directed paths to $\mathbf{Y}$, we have identifiability.
           set than that.
 \end{enumerate}
 
-In conclusion, the unconfounded children identifiability is sufficient but not
+In conclusion, the unconfounde children'sen identifiability is sufficient but not
 necessary, and this related condition is necessary but not sufficient and works
 on single variable $X, Y$.
 
