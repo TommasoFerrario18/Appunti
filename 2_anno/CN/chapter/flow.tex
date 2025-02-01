@@ -110,7 +110,8 @@ means that $X$ is a direct cause of $Y$. They are dependent and conditional depe
 \end{figure}
 
 \subsection{Chain and Fork}
-We can consider these two building blocks together because they share the same
+We can consider these two building blocks, \textbf{Chain} Figure~\ref{fig:chain}
+and \textbf{Fork} Figure~\ref{fig:fork}, together because they share the same
 set of dependencies. In both cases, the association flows from $X$ to $Z$ through
 $Y$.
 
@@ -165,30 +166,30 @@ because there is a direct causal path from the collider to its descendants, and
 we know that nodes in a chain are usually associated assuming minimality.
 \section{d-separation}
 \begin{definition}[\textbf{d-separation}]
-    A path $p$ is blocked by a set of nodes $\mathbb{S}$ if and only if:
+    A path $p$ is blocked by a set of nodes $\mathbf{S}$ if and only if:
     \begin{itemize}
         \item $p$ contains a \textit{chain} of nodes or a \textit{fork} such that
-              the middle node is in $\mathbb{S}$.
+              the middle node is in $\mathbf{S}$.
         \item $p$ contains a \textit{collider} such that the collision node is
-              not in $\mathbb{S}$, and no descendant of the collision node is in
-              $\mathbb{S}$.
+              not in $\mathbf{S}$, and no descendant of the collision node is in
+              $\mathbf{S}$.
     \end{itemize}
-    If $\mathbb{S}$ blocks \textbf{every} path between two nodes $X$ and $Y$, then
-    $X$ and $Y$ are \textbf{d-separated}, conditional on $\mathbb{S}$, and thus
-    are independent conditional on $\mathbb{S}$.
+    If $\mathbf{S}$ blocks \textbf{every} path between two nodes $X$ and $Y$, then
+    $X$ and $Y$ are \textbf{d-separated}, conditional on $\mathbf{S}$, and thus
+    are independent conditional on $\mathbf{S}$.
 \end{definition}
 D-separation is an extremely important concept because it implies conditional
 independence. This is a very powerful tool for reasoning about causal models.
 \begin{itemize}
-    \item $X \perp_G Y | \mathbb{S}$ implies that $X$ and $Y$ are d-separated in the DAG
-          $G$ when conditioning on $\mathbb{S}$.
-    \item $X \perp_P Y | S$ implies that $X$ and $Y$ are independent in the
-          distribution $P$ when conditioning on $\mathbb{S}$.
+    \item $X \perp_G Y | \mathbf{S}$ implies that $X$ and $Y$ are d-separated in the DAG
+          $G$ when conditioning on $\mathbf{S}$.
+    \item $X \perp_P Y | \mathbf{S}$ implies that $X$ and $Y$ are independent in the
+          distribution $P$ when conditioning on $\mathbf{S}$.
 \end{itemize}
 \begin{definition}[\textbf{Global Markov Assumption}]
     Given that $P$ is Markov with respect to a DAG $G$, if $X$ and $Y$ are d-separated
-    in $G$ conditional on $\mathbb{S}$, then $X$ and $Y$ are independent conditional
-    on $\mathbb{S}$.
+    in $G$ conditional on $\mathbf{S}$, then $X$ and $Y$ are independent conditional
+    on $\mathbf{S}$.
 \end{definition}
 
 Not only is an association, not causation, but causation is a sub-category of association,

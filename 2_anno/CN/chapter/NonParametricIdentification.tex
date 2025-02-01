@@ -14,7 +14,7 @@ This can be obtained by chaining together the partial effects to obtain the over
     relative to an ordered pair of variables $(X, Y)$ if:
     \begin{enumerate}
         \item $\mathbf{S}$ intercepts all directed paths from $X$ to $Y$;
-        \item There is no unblocked backdoor path from $X$ to $\mathbf{S}$.
+        \item There is no unblocked backdoor path from $X$ to $\mathbf{S}$;
         \item All backdoor paths from $\mathbf{S}$ to $Y$ are blocked by $X$.
     \end{enumerate}
 \end{definition}
@@ -114,7 +114,7 @@ these proofs are constructive, they also admit algorithms that identify any caus
 estimand in polynomial time.
 
 Do-calculus tells us if we can identify a given causal estimand using only the
-causa assumptions encoded in the causal graph. If we introduce more assumptions
+causal assumptions encoded in the causal graph. If we introduce more assumptions
 about the distribution ex: linearity, we can identify more causal estimands, but
 this is known as \textbf{parametric identification}.
 
@@ -168,7 +168,7 @@ directed paths to $\mathbf{Y}$, we have identifiability.
           set than that.
 \end{enumerate}
 
-In conclusion, the unconfounde children'sen identifiability is sufficient but not
+In conclusion, the unconfounded children's identifiability is sufficient but not
 necessary, and this related condition is necessary but not sufficient and works
 on single variable $X, Y$.
 

@@ -4,7 +4,7 @@ Graphical causal models such as causal Bayesian networks give us powerful ways t
 encode statistical and causal assumptions, but we have yet to explain them exactly
 what an \textit{intervention} is or exactly what a \textit{causal mechanism} is.
 
-Moving from causal Bayesian networks to \textbf{full Structural causal models}
+Moving from causal Bayesian networks to \textbf{full structural causal models}
 will give us this additional clarity along with the power to compute \textbf{counterfactuals}.
 
 We need a way to specify the following concept:
@@ -78,8 +78,8 @@ The associate causal graph is reported in Figure~\ref{fig:associate_graph}.
     \label{fig:associate_graph}
 \end{figure}
 
-Based on the previous example, we can distinguish $A, U_B, U_C, U_D$ as \textbf{
-    exogenous variables}, i.e., they can not be descendant of any other variables,
+Based on the previous example, we can distinguish $A, U_B, U_C, U_D$ as
+\textbf{exogenous variables}, i.e., they can not be descendant of any other variables,
 and in particular, they can not be descendant of an endogenous variable; they have
 no ancestors and are represented as root nodes in graphs.
 
@@ -242,8 +242,8 @@ this formulation gives us all the information about the treatment effect, regard
 of if treatment is continuous, binary, or multi-valued.
 
 \begin{note}
-    In this section,n we will assume \textbf{infinite} data so we can work with expectations.
-    It's a strong assumption but helps explain the situation.
+    In this section, we will assume \textbf{infinite} data so we can work with
+    expectations. It's a strong assumption but helps explain the situation.
 \end{note}
 
 For the rest of this section, we will consider the example given in Figure~\ref{fig:example}.
@@ -303,8 +303,8 @@ Given, the \textbf{modularity assumption} and \textbf{markov assumption} and
 graph, then we achieve \textbf{identification}.
 
 \begin{note}
-    Note that although the backdoor criterion is a sufficient condition for
-    identification, it is not a necessary condition.
+    Although the backdoor criterion is a sufficient condition for identification, 
+    it is not a necessary condition.
 \end{note}
 \begin{note}
     No interference assumption is commonly implicit in causal graphs because the $Y$
