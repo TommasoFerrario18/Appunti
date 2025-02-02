@@ -44,9 +44,9 @@ Learning a causal network is the task of identifying a DAG structure $\mathcal{G
 and a set of conditional probability distributions $\mathcal{P}$ with parameters
 $\theta$ based on:
 \begin{itemize}
-    \item $\mathcal{D} = \{\mathcal{x}^1, \ldots, \mathcal{x}^N\}$ this are the
-          observational data, where the missing data are assumed to be missing
-          at random or missing completely at random.
+    \item $\mathcal{D} = \{x^1, \ldots, x^N\}$ this are the observational data,
+          where the missing data are assumed to be missing at random or missing
+          completely at random.
     \item Possibly some domain expert knowledge.
 \end{itemize}
 
@@ -106,7 +106,7 @@ encode the same set of conditional independence relations.
 
 A set of dependence and independence relations $M_{\mathcal{G}}$ may be generated
 by statistical tests on the observational data. In each test, the hypothesis is
-that of independence between apairi of variables.
+that of independence between a pair of variables.
 
 Let $X$ and $Y$ be two variables for which we would like to determine dependence
 by statistical hypothesis testing. We could:
@@ -118,9 +118,8 @@ by statistical hypothesis testing. We could:
 The main steps of the PC algorithm are:
 \begin{enumerate}
     \item Test for (conditional) independence between each pair of variables
-          represented in $\mathcal{D} = \{\mathcal{x}^1, \dots, \mathcal{x}^N\}$
-          to derive $M_\mathcal{D}$, the set of conditional independence and
-          dependence relations;
+          represented in $\mathcal{D} = \{x^1, \dots, x^N\}$ to derive $M_\mathcal{D}$,
+          the set of conditional independence and dependence relations;
     \item Identify the skeleton of the graph induced by $M_\mathcal{D}$. For each
           pair of variables $X$ and $Y$ where no independence statement $X \perp_{P} Y | S_{XY}$
           exists, the undirected edge $X - Y$ is added to the skeleton;
@@ -128,11 +127,11 @@ The main steps of the PC algorithm are:
           such that $X$ and $Y$ are neighbors, $Z$ and $Y$ are neighbors, and
           $X$ and $Z$ are not neighbors;
     \item Identify derived directions. The direction of an edge is said to be
-          Derived when it is a logical consequence of previous actions:
+          derived when it is a logical consequence of previous actions:
           \begin{itemize}
               \item \textbf{Rule 1}: since the edge between $Y$ and $Z$ is not part
                     of the aforementioned collider, it must be oriented as $Y \rightarrow Z$;
-              \item \textbf{Rule 2}: Directing an edge between $X$ and $Z$ from $Z$
+              \item \textbf{Rule 2}: directing an edge between $X$ and $Z$ from $Z$
                     to $X$ will induce a directed cycle in the graph.
               \item \textbf{Rule 3}: directing the edge between $X$ and $Y$ from
                     $Y$ to $X$ will induce an additional collider.
@@ -143,11 +142,11 @@ The main steps of the PC algorithm are:
 
 The PC algorithm typically produces a PDAG (Partially DAG) representing an equivalence
 class as it emerges from hypothesis testing performed by using the available
-observational data $\mathcal{D} = \{\mathcal{x}^1, \dots, \mathcal{x}^N\}$.
+observational data $\mathcal{D} = \{x^1, \dots, x^N\}$.
 
 \section{Semi-parametric Causal Discovery}
 \begin{definition}[\textbf{Markov Completeness}]
-    If we have multinomial distribution or linearGaussiann structural equations,
+    If we have multinomial distribution or linear Gaussian structural equations,
     we can only identify a graph up to its Markov equivalence class.
 \end{definition}
 
@@ -185,8 +184,8 @@ An example of these assumptions is the following:
     \begin{equation}
         Y := f(X) + U
     \end{equation}
-    where $f$ is a linear function, $X \perp U$, and $U$ is distributed as a non-Gaussian
-    random variable.
+    where $f$ is a linear function, $X \perp U$, and $U$ is distributed as a 
+    non-Gaussian random variable.
 \end{definition}
 
 \begin{definition}[\textbf{identifiability in Linear Non-Gaussian Setting}]
