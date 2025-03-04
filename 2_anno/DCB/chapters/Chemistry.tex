@@ -18,8 +18,8 @@
 
     A reaction involves a certain number of reactants, yielding a number of products.
     \begin{equation}
-        R_1 \bigoplus R_2 \bigoplus \ldots \bigoplus R_n \rightarrow P_1
-        \bigoplus P_2 \bigoplus \ldots \bigoplus P_m
+        R_1 \oplus R_2 \oplus \ldots \oplus R_n \rightarrow P_1
+        \oplus P_2 \oplus \ldots \oplus P_m
     \end{equation}
 
     As we all know, there are bits of matter that cannot be modified at the
@@ -72,9 +72,44 @@ as the quantity of substances comprising about $6.022 \times 10^{23}$ molecules.
 This analysis is performed by looking at concentrations of a substance, measured
 in mole/liter; this dimension is called the molarity of a solution.
 
-Every reaction has its own reaction rate also called velocity. Given a reaction,
+Every reaction has its own \textbf{reaction rate} also called velocity. Given a reaction,
 when the concentration of a reactant is very low, or the reaction rate is very
 slow, then the reaction is said to be kinetically impaired.
+
+Chemical reactions occur when energy is available and involve a change in the energy of 
+the system under analysis, with conservation of energy and, in biochemistry, also conservation 
+of matter. Reactions that require energy to proceed are called \textbf{endergonic}, while those that 
+release energy are \textbf{exothermic}.
+
+The internal energy that a thermodynamic system can exchange with its surroundings is called 
+\textbf{enthalpy} (H), and its variation is calculated by the formula:
+\begin{equation}
+    H = U + pV    
+\end{equation}
+where:
+\begin{itemize}
+    \item \( U \) is internal energy,
+    \item \( p \) is pressure,
+    \item \( V \) is volume.
+\end{itemize}
+Not all energy is available for work, as some of it is dissipated as 
+\textbf{entropy} (\( S \)), a measure of the system’s disorder. The 
+total change in internal energy (\( U \)) is given by:
+\begin{equation}
+    U = T S + w    
+\end{equation}
+where:
+\begin{itemize}
+    \item \( T \) is temperature,
+    \item \( S \) is entropy,
+    \item \( w \) is work. 
+\end{itemize}
+
+The energy actually available to perform work is called \textbf{Gibbs free energy} (\( G \)) 
+and is calculated as:
+\begin{equation}
+    G = H - T S
+\end{equation}
 
 A reaction can happen only when a positive $\Delta G$ is present and that is
 enough to exceed the so-called activation barrier; such amount of energy is known
@@ -94,8 +129,8 @@ main categories:
 \end{itemize}
 
 Many of the basic reactions are shared, without much variation, by most living
-organisms this is known as core metabolism. The metabolism that is specialized
-for a class of organisms is dubbed secondary metabolism.
+organisms this is known as \textbf{core metabolism}. The metabolism that is specialized
+for a class of organisms is dubbed \textit{secondary metabolism}.
 
 A very important process is the one that allows an organism to “load” ADP molecules
 with a phosphate group, thus generating ATP. To obtain this result, organisms use
@@ -120,7 +155,7 @@ produce a compound $C$.
 \begin{equation*}
     A + B \xrightarrow{k} C
 \end{equation*}
-
+This law applies to systems that are in equilibrium and is not always applicable.
 We can rewrite the previous equation as:
 \begin{equation}
     \frac{\delta [C]}{\delta t} = k [A][B]
@@ -139,14 +174,14 @@ following condition holds:
 \begin{equation}
     \frac{k_1}{k_2} = K_{eq} = \frac{[A]_{eq} [B]_{eq}}{[C]_{eq}}
 \end{equation}
-where $K_{eq}$ is the equilibrium constant of the reaction. If $K_{eq}$ is small,
+where $K_{eq}$ is the \textbf{equilibrium constant} of the reaction. If $K_{eq}$ is small,
 then this is an indication that, at equilibrium, the concentration of $A$ and $B$
 are effectively combined to form $C$.
-
+\subsection{Michaelis-Menten equation}
 Enzymatic reactions, which are non elementary reactions, can be modeled by the
 Michaelis-Menten equation:
 \begin{equation}
-    S + E \mathrel{\mathop{\rightleftarrows}^{\mathrm{k_1}}_{\mathrm{k_2}}} catalysis \xrightarrow{k_3} P + E
+    S + E \mathrel{\mathop{\rightleftarrows}^{\mathrm{k_1}}_{\mathrm{k_2}}} C \xrightarrow{k_3} P + E
 \end{equation}
 where $S$ is the substrate, $E$ is the enzyme, $P$ is the product and catalysis
 and $C$ is the intermediate product.

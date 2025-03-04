@@ -1,0 +1,306 @@
+\chapter{Potential outcomes}
+In the following course we will use the following notation:
+\begin{itemize}
+    \item $X$ to denote the random variable representing the \textbf{treatment}
+          assignment.
+    \item $Y$ to denote the random variable representing the \textbf{outcome} of
+          interest.
+    \item $Z$ to denote a set of random variables representing \textbf{covariates}.
+\end{itemize}
+
+In addition, we will use uppercase letters to denote random variables and lowercase
+letters to denote their realizations.
+
+\begin{definition}[\textbf{Potential outcomes}]
+    $Y(x)$ denotes what your outcome would be if you were to take treatment $X = x$.
+\end{definition}
+A \textbf{potential outcome} $Y(x)$ is distinct from the \textbf{observed outcome} $Y$
+in that, not all potential outcomes are observed. But, all potential outcomes can potentially
+be observed but we can't observe the potential outcome of a decision that isn't made.
+
+The observed outcome depends on the given value $x$ of treatment $X$. The potential outcome
+is the value of $Y$ before deciding on the treatment $X=x$.
+
+Up until now, we have been considering an individual. However, the population
+consists of many individuals. Each individual is typically associated with one or
+more variables, referred to as covariates $Z$. We denote each individual using $i$
+as as subscript.
+
+\begin{definition}[\textbf{Individual treatment effect}]
+    The individual treatment effect (ITE) for the $i^{th}$ individual
+    is defined as the difference between the potential outcomes:
+    \begin{equation}
+        \tau_i \triangleq Y_i(1) - Y_i(0)
+    \end{equation}
+
+    The main difference is that $Y(x)$ is a random variable because different individuals
+    have different potential outcomes. Meanwhile, $Y_i(x)$ is treated as a non-random
+    variable because it is the potential outcome is deterministic because it is conditioned
+    by $i$-individual.
+\end{definition}
+
+\begin{note}
+    If the individual treatment effect is different from zero, we can call it
+    the \textbf{causal effect} of the treatment. Otherwise, we can call it the
+    \textbf{no causal effect}.
+\end{note}
+
+\section{Fundamental problem of causal inference}
+As we said before, it's impossible to observe all potential outcomes for a given
+individual. Therefore, we can't observe the causal effect:
+\begin{equation*}
+    \tau_i \triangleq Y_i(1) - Y_i(0)
+\end{equation*}
+
+The potential outcomes that you don't observe are known as \textbf{counterfactuals}.
+So, a potential outcome $Y(x)$ doesn't become counterfactual until another
+potential outcome $Y(x')$ is observed.
+
+\begin{note}
+    There are no counterfactuals or facts until the outcome is observed.
+\end{note}
+\begin{definition}[\textbf{Average Treatment Effect}]
+    The \textbf{average treatment effect} (ATE) is obtained by taking an average
+    over the individual treatment effects:
+    \begin{equation}
+        \tau \triangleq \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1) - Y_i(0)] = \mathbb{E}[Y(1) - Y(0)]
+    \end{equation}
+    where we recall that the average is over the individual $i$ if $Y_i(x)$ is
+    deterministic.
+\end{definition}
+
+The fundamental problem can be seen as a missing data problem. Therefore, we cannot
+compute directly the average treatment effect. We could be tempted to use the
+associational difference:
+\begin{equation}
+    \mathbb{E}[Y|X = 1] - \mathbb{E}[Y|X = 0]
+\end{equation}
+
+Unfortunately, this is not true in general to compute the average treatment effect.
+Because $\mathbb{E}[Y|X = 1] - \mathbb{E}[Y|X = 0]$ is an associational quantity,
+while $\mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]$ is a causal quantity.
+
+In general, they are not equal due to the \textbf{confounding} effect of the covariates
+$Z$. For example, using the representation in Figure~\ref{fig:confounding} we can
+say that the covariate $Z$ confounds the effect of $X$ on $Y$, because of the
+following path: $X \rightarrow Y \leftarrow Z$.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.35\textwidth]{img/potential_outcomes/confounding.png}
+    \caption{Confounding effect of the covariate $Z$}
+    \label{fig:confounding}
+\end{figure}
+
+We can consider the average treatment effect equal to the associational difference
+assuming the \textbf{ignorability} assumption.
+\begin{definition}[\textbf{Ignorability}]
+    The \textbf{ignorability} assumption states that the treatment assignment
+    is random and independent of the potential outcomes:
+    \begin{equation}
+        Y(0), Y(1) \perp X
+    \end{equation}
+\end{definition}
+
+Another name for this property is \textbf{exchangeability} because it can be
+interpreted as we can exchange \textbf{treatment} and \textbf{control} groups
+without changing the distribution of the potential outcomes.
+
+In a graphical sense, we can see the same structure of Figure~\ref{fig:confounding}
+but without $Z \to X$ path. We can distinguish between two types of ignorability:
+\begin{itemize}
+    \item \textbf{Mean ignorability}:
+          \begin{equation*}
+              \mathbb{E}[Y(1)|X = x]  =  \mathbb{E}[Y(1)]\ \ \ \
+              \mathbb{E}[Y(0)|X = x]  =  \mathbb{E}[Y(0)] \ \forall x \in X
+          \end{equation*}
+    \item \textbf{Full ignorability}:
+          \begin{equation*}
+              (Y(1), Y(0))\perp X
+          \end{equation*}
+\end{itemize}
+In general, mean ignorability is enough to compute the average treatment effect.
+
+This property is fundamental because it allows us to compute the average treatment
+effect as the associational difference:
+\begin{equation}
+    \tau \triangleq \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y|X = 1] - \mathbb{E}[Y|X = 0]
+\end{equation}
+
+The assumption of ignorability allows us to \textbf{identify causal effects}. This
+can be done by reducing a causal expression to a purely statistical expression. We
+can calculate the causal effect from just the observational distribution $P(X, Y, Z)$.
+
+\begin{definition}[\textbf{Identifiability}]
+    A causal quantity (e.g. $\mathbb{E}[Y(x)]$) is \textbf{identifiable} if we can
+    compute it from a purely statistical quantity (e.g. $\mathbb{E}[Y| X = x]$).
+\end{definition}
+
+Unfortunately, the assumption of ignorability is completely unrealistic, confounding
+is likely to happen in most data we observe. We can make the assumption of ignorability
+more realistic by performing a \textbf{randomized experiment}, which forces the
+treatment $X$ to be caused randomly solving the problem of the confounding effect.
+
+In observational data, it's unrealistic to assume that the groups are exchangeable.
+However, if we control for relevant variables by conditioning, then maybe the groups
+will be exchangeable.
+
+\begin{definition}[\textbf{Conditional exchangeability}]
+    The \textbf{conditional exchangeability} or \textbf{unconfoundeness} assumption
+    states that the treatment assignment is the potential outcome conditional
+    on the covariates:
+    \begin{equation}
+        (Y(0), Y(1)) \perp X | Z
+    \end{equation}
+\end{definition}
+
+Although the treatment $X$ and potential outcomes $Y(1)$ and $Y(0)$ may be
+unconditionally associated (due to confounding), within levels of $Z$, they are
+not associated.
+
+Indeed, when conditioning on $Z$, non-causal associations between $X$ and $Y$ no
+longer exist. The non-causal association is blocked by conditioning on $Z$.
+
+This is the main assumption necessary for use the of causal inference. We can now identify
+the causal effect within levels of $Z$, just like we did with ignorability:
+\begin{equation}
+    \mathbb{E}[Y(1) - Y(0) | Z] = \mathbb{E}[Y(1)| Z] - \mathbb{E}[Y(0)| Z] =
+    \mathbb{E}[Y|X = 1, Z] - \mathbb{E}[Y|X = 0, Z]
+\end{equation}
+
+If we want the marginal effect that we had before when assuming ignorability, we
+can get that by simply marginalizing over $Z$ as follows:
+\begin{equation}
+    \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}_Z[\mathbb{E}[Y(1) - Y(0) | Z]]
+\end{equation}
+
+\begin{definition}[\textbf{Adjustment formula}]
+    Given the assumption of \textbf{unconfoundedness}, \textbf{positivity},
+    \textbf{consistency}, and \textbf{no interference}, we can identify the average
+    treatment effect (ATE) as:
+    \begin{equation}
+        \tau = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}_Z[\mathbb{E}[Y(1) - Y(0) | Z]]
+        = \mathbb{E}_Z[\mathbb{E}[Y|X = 1, Z] - \mathbb{E}[Y|X = 0, Z]]
+    \end{equation}
+\end{definition}
+
+In the adjusted formula we moved from the assumption of ignorability to that
+of unconfoundedness because it seems more realistic. However, we often cannot
+know for certain if unconfoundedness holds.
+
+There may be some \textbf{unobserved confounders} that we can't control, this means
+that the assumption of unconfoundedness is violated. The best we can do is to
+observe and fit as many covariates as possible to try to ensure unconfoundedness.
+
+However, we will see that it is not necessarily true that conditioning on more
+covariates always help our causal estimates to be less biased.
+
+\begin{note}
+    That is not the case for randomized experiments.
+\end{note}
+
+Indeed, it can be the case we obtain more biased estimates by including when
+adjusting for the "wrong" covariates.
+
+Conditioning on many covariates is attractive for achieving unconfoundedness, but
+it can be detrimental for another reason that has to do with \textbf{Positivity}.
+
+\begin{definition}[\textbf{Positivity}]
+    Positivity is the condition that all the subgroups of the data with different
+    value $z$ for covariates $Z$ have some probability of receiving treatment $X$.
+
+    For all values $z$ of covariates $Z$ present in the population of interest,
+    we have:
+    \begin{equation}
+        0 < P(X = 1 | Z = z) < 1, \forall z
+    \end{equation}
+\end{definition}
+
+If we have positivity violation, then we will be conditioning on a \textbf{zero probability}
+event. This will lead to biased estimates. We will have a division by $0$.
+
+Positivity is also referred to as the \textbf{overlap} assumption. This is because
+we want the covariates distribution of the group to overlap.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/potential_outcomes/overlap.png}
+    \caption{Example of overlap}
+    \label{fig:positivity}
+\end{figure}
+
+Adjusting on a lot of covariates can lead to \textbf{curse of dimensionality}, because
+all the subgroups can be contained in the control group or the treatment group.
+
+Another important assumption is the \textbf{no interference} assumption.
+\begin{definition}[\textbf{No interference}]
+    The outcome $Y_i$ of the $i^{th}$ individual is not affected by anyone else's
+    treatment $X_j$ for $j \neq i$.
+    \begin{equation}
+        Y_i(x_1, x_2, \ldots, x_i, \ldots, x_n) = Y_i(x_i)
+    \end{equation}
+\end{definition}
+
+The last assumption is the \textbf{consistency} assumption.
+\begin{definition}[\textbf{Consistency}]
+    If the treatment is $X$, then the observed outcome $Y$ is the potential outcome
+    under treatment $X$. Formally:
+    \begin{equation}
+        X = x \rightarrow Y = Y(X)
+    \end{equation}
+\end{definition}
+
+We need the treatment to be well-defined, if consistency is not respected $Y(1)$
+is not well defined since it will be $1$ or $0$ and it depends on something that
+is not captured by the treatment $X$.
+
+\begin{definition}[\textbf{Stable Unit Treatment Value Assumption}]
+    The \textbf{Stable Unit Treatment Value Assumption} (SUTVA) is satisfied if
+    individual $i$'s outcome $Y_i$ is simply a function of the treatment $X_i$.
+\end{definition}
+
+SUTVA is a combination of consistency, no interference, and deterministic potential
+outcome.
+
+Now, we need to introduce some terminology that will be useful in the following
+chapters.
+\begin{itemize}
+    \item \textbf{Estimand}: The quantity that we want to estimate.
+    \item \textbf{Estimate}: an approximation of the estimand, which we get
+          using data.
+    \item \textbf{Estimator}: a function that maps the data to an estimate of the
+          estimand.
+    \item \textbf{Estimation}: the process that we use to go from data plus the
+          estimand to a concrete number is known as an estimation.
+    \item \textbf{Causal estimand}: refers to any estimand that contains a potential
+          outcome in it.
+    \item \textbf{Statistical estimand}: refers to any estimand that does not contain
+          a potential outcome in it.
+\end{itemize}
+
+The process of estimation is shown in Figure~\ref{fig:pipeline}. We need to
+introduce also the concept of \textbf{identification}, which is the process of
+moving a causal estimand to an equivalent statistical estimand. And the concept
+of \textbf{Estimation}, which is the process of moving from a statistical estimand
+to an estimate.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/potential_outcomes/process.png}
+    \caption{Process of estimation}
+    \label{fig:pipeline}
+\end{figure}
+
+When we aim to answer a causal estimand — essentially a question about the effect
+of an intervention — we need to translate it into a statistical estimand, which
+can be proven using observational data. This process of translating a causal
+estimand into a statistical estimand is called \textbf{identification}. However,
+identification is not always possible. When it is achievable, we can answer
+interventional queries without directly intervening in an experiment.
+
+To achieve identification, a causal model is required. This involves defining
+assumptions about the causal relationships between variables, which determine
+whether a causal estimand can be translated into a statistical estimand.
+
+In AI, decision-making often relies on statistical estimands computed from
+observational data. However, these are prone to biases, making it crucial to
+carefully consider the causal framework.

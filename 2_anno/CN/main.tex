@@ -36,7 +36,8 @@
 \fancyfoot[C]{\thepage}
 
 \title{Causal Networks}
-\author{Tommaso Ferrario (\href{https://github.com/TommasoFerrario18}{@TommasoFerrario18})}
+\author{Tommaso Ferrario (\href{https://github.com/TommasoFerrario18}{@TommasoFerrario18})\\\\
+Telemaco Terzi (\href{https://github.com/Tezze2001}{@Tezze2001})}
 \date{Ottobre 2024}
 
 \pgfplotsset{compat=1.13}
@@ -44,20 +45,26 @@
 \begin{document}
 
 \maketitle
-\newtheorem{teorema}{Teorema}
+\newtheorem{theorem}{Theorem}
 \newtheorem{dimostrazione}{Dimostrazione}
 \newtheorem{definition}{Definition}
 \newtheorem{esempio}{Esempio}
 \newtheorem{osservazione}{Osservazione}
 \newtheorem{note}{Note}
-\newtheorem{corollario}{Corollario}
+\newtheorem{corollary}{Corollary}
 \tableofcontents
 \renewcommand{\chaptermark}[1]{
     \markboth{\chaptername
         \ \thechapter.\ #1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 
-\include{chapter/potential_outcomes.tex}
-\include{chapter/flow.tex}
+\include{chapter/PotentialOutcomes}
+\include{chapter/Flow}
+\include{chapter/CausalModels}
+\include{chapter/StructuralCausalModels}
+\include{chapter/RandomizedExperiments}
+\include{chapter/NonParametricIdentification}
+\include{chapter/CausalDiscovery}
+\include{chapter/Counterfactuals}
 
 \end{document}

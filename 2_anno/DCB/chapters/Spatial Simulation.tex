@@ -1,0 +1,151 @@
+\chapter{Spatial Simulation}
+We want now study some simulation method that involve the spatial 
+component. 
+\section*{Colonic Crypts}
+We will present the different simulation techniques starting from 
+a base example regurding the \textbf{colon cancer}.
+
+This type of cancer originates in \textbf{colonic crypts}, where 
+there are stem cells that divide to reproduce the \textit{epithelium}.
+The cells generated move up from the crypts. During this journey 
+they evolve in different types:
+\begin{itemize}
+    \item absorptive cell
+    \item goblet cell
+    \item enteroendocrine cell
+    \item Paneth cell
+\end{itemize}
+
+Also, we are intrested in the evolution of the tumor which can be
+describe as follow:
+\begin{itemize}
+    \item All starts from a normal epithelium.
+    \item It can happen that some cells acquire a mutation on APC or 
+        $\beta$-catenin genes.
+    \item If the mutation remains and the cells start reproducing
+        losing the regulation mechanisms. In this situation we have
+        an \textit{initial adenoma}.
+    \item If the cells mutate the K-RAS gene. In this situation we 
+        have an \textit{intermidiate adenoma}.
+    \item At this point the cell can recive a mutation on different
+        gene (DCC, SMAD4 and SMAD2) bringing the system to a 
+        situation of \textit{final adenoma}.
+    \item If it also add a mutation on \textbf{p53}, which is a gene 
+        that is responsible for the suicde of the cell.
+    \item at the end we have the metastasi. 
+\end{itemize}
+However, there are other types of colon cancer, such as Hereditary Non-Polyposis Colorectal Cancer (HNPCC), which is characterized by a distinct set of genetic mutations.
+
+There are also various mechanisms involved in tumor development, including the Vascular 
+Endothelial Growth Factor (VEGF) pathway, which is responsible for angiogenesis, the process 
+by which new blood vessels form from pre-existing ones.
+
+\section{Simulation}
+In modeling a tumor tissue, different paradigms and levels of abstraction, parameters, and considerations are applied. Besides the model’s implementation itself, it is essential to determine the constraints to consider and the variables to observe.
+
+\subsection{In-Lattice Models}
+The key factor distinguishing different models is how the main agents—specifically, the cells—are represented. In in-lattice models, a cell is depicted as a collection of positions on a grid.
+
+\subsubsection{Cellular Potts Model}
+A significant in-lattice model is the Cellular Potts Model (CPM), a type of cellular automaton. It was developed to study the Differential Adhesion Hypothesis (DAH), which, in simple terms, suggests that if two cell populations are mixed and adhere to each other, the system will eventually reorganize into layers.
+
+This system is implemented by calculating the total energy of the system (denoted by Potts as $J$), which depends on the adhesion parameters between different types of cells. The system's energy depends on the relative positions of various cells. The system evolves by calculating $J$ step-by-step, and each move is chosen to minimize $J$.
+
+We use a two-dimensional grid, where each square or pixel, identified by coordinates \((i, j)\), is assigned values:
+\begin{itemize}
+    \item \(\sigma(i,j) =\) id, a function that assigns an id to indicate the cell to which each pixel belongs;
+    \item \(\tau(\sigma(i,j)) =\) type, a function that assigns a type to each cell;
+\end{itemize}
+
+The total energy of the CPM is associated with the surface area of the cells, represented by the function:
+\[
+J(\tau, \tau')
+\]
+which indicates the surface energy per unit of contact between two cells. Energy is lower between pixels belonging to cells of the same type, higher for cells of different types, and zero between pixels of the same cell.
+
+The total energy of the CPM is defined as the sum of the energies calculated for cell surfaces plus a constant multiplied by the energy associated with a cell's area:
+\[
+H_{Potts} = H_{surface} + \lambda H_{Area}
+\]
+where \(H_{Potts}\) is a Hamiltonian operator and \(\lambda\) is the rigidity constant of the cytoskeleton, serving as a Lagrange multiplier.
+
+\subsubsection{Wong Model}
+This model enables the modeling of motility—the capacity of a living organism, or part of it, to actively and reversibly change its position relative to its environment—for both stem cells and progenitor cells within crypts.
+
+It is a two-dimensional model that includes several constraints, including:
+\begin{itemize}
+    \item An energy term that keeps stem cells fixed in predefined positions.
+    \item Specific rules that model cell growth, division, and apoptosis.
+    \item A fundamental model assumption regarding the most significant morphogen considered.
+\end{itemize}
+
+The final simulation outcome allows us to observe that:
+\begin{itemize}
+    \item Differential adhesion regulates cell positioning within the crypt.
+    \item Epithelial cells move vertically toward the lumen of the crypt.
+    \item Despite relatively few assumptions, the movement is coordinated.
+    \item The homeostasis of intestinal epithelial cells is maintained in the model.
+\end{itemize}
+
+It is worth noting that the simulation remains relatively simple with few assumptions.
+
+\subsubsection{Hybrid Model of Glazier, Graner, and Hogeweg}
+This model consists of the CPM combined with the modeling of chemotaxis—the phenomenon by which cells direct their movement in response to the presence of certain chemicals in their environment.
+
+This model is, therefore, essentially hybrid, as it explicitly models cell movement within the environment. To achieve this, gradients are modeled using partial differential equations (PDEs).
+
+The CPM is used to model cell movement across the grid and to keep track of the system's total energy. Using the PDE system, it becomes possible to observe chemotaxis, tumor cell proliferation, secretion and absorption of the pro-angiogenic factor VEGF-A, neovascular cell proliferation, and the production, absorption, and diffusion of oxygen.
+
+\subsection{Lattice-Free Models}
+These 3D models are based on Voronoi-Delaunay space partitioning.
+
+\subsubsection{Schaller and Meyer-Hermann Model}
+This model is based on the following general assumptions:
+\begin{itemize}
+    \item The cell is represented as a semi-spherical body, with its shape varying from spherical in sparse environments to convex polyhedral Voronoi shapes in dense tissues;
+    \item Regarding forces, the following types are considered:
+    \begin{itemize}
+        \item Elastic forces between cells;
+        \item Adhesion and friction interactions between cells.
+        \item Adhesion and friction interactions between a cell and the substrate.
+        \end{itemize}
+  \item  The cell’s state is represented by:
+  \begin{itemize}
+      \item Position;
+      \item Concentration of receptors and ligands on the cell membrane;
+      \item Internal cell cycle status;
+      \item Other characteristics, represented as constants, useful for elastic and adhesion interactions.
+  \end{itemize}
+  \item Newton's equations are used to model cell movement dynamics, supplemented by PDEs (partial differential equations) that represent fields in which cells move, involving reaction-diffusion processes with nutrients.
+  \item Growth signals are also considered, which increase biomass as cells consume nutrients.
+\end{itemize}
+
+The Delaunay triangulation is used to efficiently provide a list of neighboring cells for cell-cell interactions. The Voronoi partition and Delaunay triangulation are dual structures used to approximately represent cells and spherical tumors.
+
+In the two-dimensional extension, points on a plane are connected by dashed lines forming the Delaunay triangulation without intersections. The midpoint of each segment is then used to construct a polygon that passes through these midpoints, delimiting the Voronoi cell and representing the Voronoi partition in the plane. The partition varies according to the points’ positions, creating multiple partitions, each containing a starting point and all neighboring points, resulting in acceptable approximations.
+
+The various forces are computed as acting on the calculated surface faces, with a single value assigned to each surface at the midpoint of each edge, enabling calculation of the resultant force.
+
+Most known algorithms operate at a global level, but for cell division, a local modification of the Voronoi diagram is applied, leaving distant areas largely unaffected. Thus, recalculating the entire structure for each cell division is inefficient, and several sophisticated numerical algorithmic solutions have been developed to enable efficient local updates.
+
+\subsubsection{Buske and Galle Model}
+This is a biomechanical agent-based model for multicellular systems. Cells are treated as deformable elastic bodies, maintaining a basic spherical shape while capable of movement, division, differentiation, and intercellular communication.
+
+The dynamics are represented by Langevin equations.
+
+Regarding forces, there are interactions both between cells and between a cell and the substrate, in terms of adhesion and friction. The model is designed to describe the steady-state of colonic crypts, where there is a dynamic equilibrium involving cell division and differentiation.
+
+The model tracks cell growth, division, and differentiation, each governed by predefined rules derived from experimental studies. Additional constraints include:
+\begin{itemize}
+    \item Interaction energy, including adhesion interaction, contact deformation energy the Hertz model, and elastic compression energy for spheres;
+    \item Forces are both deterministic and stochastic;
+    \item Anchoring to the substrate is assumed. Cells interact with the basal membrane, the specialized laminin structure of the extracellular matrix that interfaces connective and non-connective tissues, typically epithelia;
+\end{itemize}
+
+The model also includes a programmed cell cycle to control:
+\begin{itemize}
+    \item Regulation and control of cell growth;
+    \item Contact inhibition of growth mediated by cell-cell contact;
+    \item Cell cycle arrest in response to contact between a cell and the substrate;
+    \item Programmed cell death triggered by cell-substrate contact, simulating apoptotic processes;
+\end{itemize}

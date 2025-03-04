@@ -1,0 +1,160 @@
+\chapter{Federated Learning}
+The standard setting in Machine Learning (ML) considers a centralized dataset
+processed in a tightly integrated system, but in the real world data is often
+decentralized across many parties. One challenge is that collecting these data
+at a single point is not always feasible for various reasons. Transmitting the
+data might be prohibitively expensive, such as when dealing with large volumes
+of data, or it may be constrained by the limited bandwidth or power capacity of
+wireless devices.
+
+Another challenge is that the data might be believed too sensitive. In recent
+years, there has been increasing public awareness and stricter regulations
+concerning data privacy. Additionally, maintaining control over data can offer a
+competitive edge in both business and research contexts.
+
+One possible solution could be to create a separate model for each data source,
+utilizing the data available locally. However, this approach has significant
+drawbacks. The amount of data at each source may be too limited, leading to
+overfitting or decisions that lack statistical significance. Moreover, the
+local dataset may fail to accurately represent the overall target distribution,
+further compromising the model's effectiveness.
+
+\textbf{Federated Learning} (FL) aims to collaboratively train a ML model while
+keeping the data decentralized. The methodology for implementing federated
+learning is as follows:
+\begin{enumerate}
+    \item The server initialize the model weights and send a copy to all the parties;
+    \item Each party make an update using its local dataset;
+    \item Parties share local updates for aggregation;
+    \item Server aggregates updates and send back to parties;
+    \item Parties update their copy of the model and iterate.
+\end{enumerate}
+
+We would like the final model to be as good as the centralized solution (ideally),
+or at least better than what each party can learn on its own.
+
+\begin{note}
+    The assumption is that starting from the weights we cannot obtain the data,
+    otherwise we could have just send the data.
+\end{note}
+
+More broadly, we can categorize federated learning (FL) into different
+classifications. The first classification differentiates between:
+\begin{itemize}
+    \item \textbf{Cross-device FL}: this scenario involves a large number of
+          participants, each possessing a small dataset. Additionally, it is
+          important to account for the fact that some participants may not always
+          be reachable, and some may have malicious intentions, posing further
+          challenges.
+    \item \textbf{Cross-silo}: in this scenario we have a limited number of parties
+          with medium large dataset. Parties are always available and are
+          typically honest.
+\end{itemize}
+
+Another type of classification is:
+\begin{itemize}
+    \item \textbf{Server orchestrated FL}: where we have a server that performs
+          global coordination and aggregation. The server is the bottleneck and
+          a single point of failure.
+    \item \textbf{Device-to-device communication}: peer to peer communication
+          between the parties. This approach can scale better.
+\end{itemize}
+
+\section{Distributed Learning}
+A different training paradigm is \textbf{distributed learning}. In this approach,
+unlike federated learning (FL), the data is initially centralized and then distributed
+later to accelerate model training. The key distinction from FL lies in how the
+data is distributed: in distributed learning, the data is typically distributed
+uniformly at random across workers under controlled conditions.
+
+In contrast, FL involves data that is naturally distributed and generated locally.
+This data is often not independent and identically distributed (non-i.i.d.) and
+is usually imbalanced. FL also introduces additional challenges that span various
+fields of computer science, such as enforcing privacy constraints, addressing
+the potentially limited reliability and availability of participants, ensuring
+robustness against malicious actors, and more.
+\section{Baseline algorithm: FedAvg}
+Let's start by introducing some notation. Let's consider a set of $K$ parts
+(clients). Each part $k$ holds a data set $\mathcal{D}_k$ composed of $n_k$
+instances. Let $\mathcal{D} = \mathcal{D}_1 \cup \dots \cup \mathcal{D}_K$ be the
+total dataset and $n = \sum_k n_k$ the total number of instance.
+
+In this situation, we want to solve the problems of the form:
+\begin{equation}
+    \min_{\theta \in \mathbb{R}^p} F(\theta; \mathcal{D})
+\end{equation}
+where:
+\begin{equation}
+    F(\theta; \mathcal{D}) = \sum_{k = 1}^K \frac{n_k}{n} F_k(\theta; \mathcal{D}_k) \,\,\, \text{ and }
+    \,\,\, F_k(\theta; \mathcal{D}_k) = \sum_{d \in \mathcal{D}_k} f(\theta; d)
+\end{equation}
+where $\theta \in \mathbb{R}^p$ are model parameters such as neural network weights.
+
+\begin{multicols}{2}
+    \noindent
+    \textbf{Algorithm: FedAvg (server-side)} \\
+    \textbf{Parameters:} client sampling rate $\rho$ \\
+    \begin{algorithmic}[1]
+        \State Initialize $\theta$
+        \For{each round $t = 0, 1, \dots$}
+        \State $S_t \gets$ random set of $m = \lceil \rho K \rceil$ clients
+        \For{each client $k \in S_t$ in parallel}
+        \State $\theta_k \gets \text{ClientUpdate}(k, \theta)$
+        \EndFor
+        \State $\theta \gets \sum_{k \in S_t} \frac{n_k}{n} \theta_k$
+        \EndFor
+    \end{algorithmic}
+
+    \vfill
+
+    \columnbreak
+
+    \noindent
+    \textbf{Algorithm: ClientUpdate($k, \theta$)} \\
+    \textbf{Parameters:} batch size $B$, number of local steps $L$, learning rate $\eta$ \\
+    \begin{algorithmic}[1]
+        \For{each local step $l = 1, \dots, L$}
+        \State $B \gets$ mini-batch of $b$ examples from $\mathcal{D}_k$
+        \State $\theta \gets \theta - \frac{\eta}{B} \sum_{d \in B} \nabla \ell(\theta; d)$
+        \EndFor
+        \State \textbf{send} $\theta$ to server
+    \end{algorithmic}
+\end{multicols}
+
+\textbf{Notes:}
+\begin{itemize}
+    \item For $L = 1$ and $\rho = 1$, it is equivalent to classic parallel SGD:
+          updates are aggregated, and the model is synchronized at each step.
+    \item For $L > 1$, each client performs multiple local SGD steps before communicating.
+\end{itemize}
+
+\textbf{FedAvg} with $L > 1$ allows to reduce the number of communication rounds,
+which is often the bottleneck in FL. It empirically achieves better generalization
+than parallel SGD with large mini-batch. Convergence to the optimal model can be
+guaranteed for i.i.d. data, but issues arise in strongly non-i.i.d. cases.
+
+Learning from non-i.i.d. data is difficult/slow because each party wants the model
+to go in a particular direction. If data distributions are very different, learning
+a single model which performs well for all parties may require a very large number
+of parameters.
+
+Another direction to deal with non-i.i.d. data is thus to lift the requirement
+that the learned model should be the same for all parties. Instead, we can allow
+each party $k$ to learn a (potentially simpler) personalized model $\theta_k$
+but design the objective so as to enforce some kind of collaboration.
+
+Several strategies have been developed to manage the combination of this last
+idea, including:
+\begin{itemize}
+    \item A first approach propose to regularize personalized models to their mean:
+          \begin{equation}
+              F(\theta_1, \dots, \theta_k; \mathcal{D}) = \frac{1}{K} \sum_{k = 1}^K F_k(\theta_k; \mathcal{D}) + \frac{\lambda}{2 \cdot K} \sum_{k = 1}^K \left\|\theta_k - \frac{1}{K} \sum_{i = i}^K \theta_i\right\|
+          \end{equation}
+    \item Another approach, inspired by \textbf{meta-learning}, propose to learn
+          a global model which easily adapts to each party:
+          \begin{equation}
+              F(\theta; \mathcal{D}) = \frac{1}{K} \sum_{k = 1}^K F_k(\theta - \alpha \cdot \nabla F_k(\theta); \mathcal{D})
+          \end{equation}
+\end{itemize}
+
+We can remove outliers using median at the place of mean.

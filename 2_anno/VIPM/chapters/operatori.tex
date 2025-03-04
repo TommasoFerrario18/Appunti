@@ -253,64 +253,71 @@ intensità. L'istogramma normalizzato è la distribuzione delle intensità dell'
 Gli istogrammi sono utili come indicatori del contrasto:
 \begin{itemize}
     \item basso contrasto: i bins sono tutti concentrati in una zona
-    \item alto contrasto: i bins sono tutti
+    \item alto contrasto: i bins sono sparsi su tutte le frequenze
 \end{itemize}
 
-
-\section{Appunti}
-Generalmente il rumore è basato sul modello additivo. 
+\section{Rumore}
 Esistono diverse tipologie di rumore in base alla distribuzione di valori additivi:
 \begin{itemize}
-    \item gaussiano: si estrare la quantità di rumore da sommare da una distribuzione 
-    gaussiana
-    \item salt\&pepper: si settano i pixel a 0 o 1
+    \item \textbf{Rumore gaussiano}: si estrae la quantità di rumore da sommare
+          da una distribuzione gaussiana.
+    \item \textbf{Rumore salt\&pepper}: si settano i pixel a 0 o 1.
 \end{itemize}
 
-Il rumore delle camere è generalmente gaussiano e per scoprirlo basta fotografare 
+Il rumore delle camere è generalmente gaussiano e per scoprirlo basta fotografare
 un muro grigio, così calcolando gli istogrammi otteniamo la distribuzione del rumore.
 
-SNR è la misura di rumore nell'immagine come rapporto tra varianza dell'immagine 
-e varianza del rumore poi scalato in decibel.
+Il \textbf{Signal to Noise Ratio} (SNR) è la misura di rumore nell'immagine come
+rapporto tra varianza dell'immagine e varianza del rumore poi scalato in decibel.
 
 Per calcolare gli errori nelle immagini si utilizza generalmente MSE.
-$$MSE=\frac{1}{N}\sum_{i=1}^{N}(x_i-y_i)^2$$
+\begin{equation*}
+    MSE = \frac{1}{N}\sum_{i=1}^{N}(x_i-y_i)^2
+\end{equation*}
 
-Possiamo utilizzare una metrica PSNR per identificare quanta è buona l'immagine
-e sfrutta MSE ovviamente non sempre è fedele alla vista.
+Possiamo utilizzare una metrica \textbf{PSNR} per identificare quanta è buona
+l'immagine e sfrutta MSE ovviamente non sempre è fedele a quello che vediamo.
+Infatti, se il rumore è presente in zone con molto dettaglio non sarà percepito
+all'occhio umano ma sarà considerato da PSNR.
 
-Per effettuare denoising posso utilizzare 2 metodi:
+Per rimuovere il rumore si possono utilizzare 2 metodi:
 \begin{itemize}
-    \item dominio spaziale: utilizza dei filtri spaziali, ovvero combinazioni 
-    lineari di un intorno di un pixel con dei filtri. L'applicazione due modi 
-    per applicare un filtro correlazioni e convoluzione, la differenza è che nella 
-    convoluzione si flippa il filtro.
-
-    \item dominio frequenze: frequenze del segnale spaziale, più la regione è 
-    dettagliata più è alta la variazione delle frequenze e viceversa.
+    \item \textbf{Dominio spaziale}: utilizza dei filtri spaziali, ovvero
+          combinazioni lineari di un intorno di un pixel con dei filtri.
+          Ci sono due modi per applicare un filtro: \textbf{correlazioni} e
+          \textbf{convoluzione}, la differenza è che nella convoluzione si ruota
+          il filtro.
+    \item \textbf{Dominio frequenze}: frequenze del segnale spaziale, più la
+          regione è dettagliata più è alta la variazione delle frequenze e viceversa.
 \end{itemize}
 
-Possiamo avere filtri per lo smoothing che variano la dimensione ex: gaussiano in cui
-la varianza varia la dimensione del filtro. L'operazione di smoothing che riduce 
-le frequenze. I filtri di smoothing sono utili per togliere il rumore, basta utilizzare 
-la stessa funzione utilizzata per il rumore.
+Possiamo avere filtri per lo smoothing che variano la dimensione ex: gaussiano 
+in cui la varianza varia la dimensione del filtro. L'operazione di smoothing che 
+riduce le frequenze. I filtri di smoothing sono utili per togliere il rumore, 
+basta utilizzare la stessa funzione utilizzata per il rumore.
 
-Il filtro di smoothing è utile per togliere il rumore gaussiano ma non funge per il 
-rumore sault\&pepper. 
-Altrimenti possiamo utilizzare il filtro mediano che non è lineare ma prende la mediana 
-dei vicini e questo permette di risolvere meglio il sault\&pepper.
+Il filtro di smoothing è utile per togliere il rumore gaussiano ma non funziona 
+per il rumore salt\&pepper. In questi casi possiamo utilizzare il filtro mediano 
+che non è lineare. Questo filtro prende la mediana dei vicini e la sostituisce
+al pixel centrale. 
 
-Abbiamo il Jitter filter, ho uno spostamento di pixel che se applicato all'immagine posso 
-ottenere l'entropia.
-
-Possiamo utilizzare filtri per effettuare lo \textbf{sharping} inverso dello smoothing.
-Questi aumentano l'intensità del punto centrale e quelli di fianco vengono ridotti.
+Abbiamo il Jitter filter, ho uno spostamento di pixel che se applicato all'immagine 
+posso ottenere l'entropia.
+\section{Sharpening}
+Possiamo utilizzare filtri per effettuare lo \textbf{sharpening} inverso dello 
+smoothing. Questi aumentano l'intensità del punto centrale e quelli di fianco 
+vengono ridotti.
 
 Possiamo utilizzarli anche per trovare gli edge ad esempio usando sempre le derivate.
-L'edge si trova quando cambia repentinamente il colore, si può quindi utilizzare 
-la derivata per trovare i picchi di massimo cambiamento e poi sfruttare la seconda 
-derivata per trovare da dove inizia l'edge e dove finisce. All'atto pratico è una 
-sottrazione perché siamo in una rappresentazione discreta. Applicando questo ai 
-filtri useremo il laplacano. Il laplaciano normale è utile per ridurre i contorni 
-mentre quello invertito serve per aumentare i contorni. Le derivate si calcolano 
-come sottrazione tra il punto attuale e quello successivo in una direzione, possiamo 
-calcolarlo in tutte le direzioni e allora questo diventa il gradiente. 
+
+L'edge si trova quando cambia repentinamente il colore, si può quindi utilizzare
+la derivata per trovare i picchi di massimo cambiamento e poi sfruttare la seconda
+derivata per trovare da dove inizia l'edge e dove finisce. 
+
+All'atto pratico, il calcolo della derivata, è una sottrazione perché siamo in 
+una rappresentazione discreta. Applicando questo ai filtri otterremo il laplacano. 
+
+Il filtro laplaciano normale è utile per ridurre i contorni mentre quello 
+invertito serve per aumentare i contorni. Visto che siamo in due dimensioni ha 
+senso considerare la direzione. Questo viene fatto utilizzando il gradiente.
+

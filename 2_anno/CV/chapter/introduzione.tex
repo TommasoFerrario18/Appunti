@@ -422,7 +422,9 @@ utilizzano più osservazioni, proprio nella medesima metodologia della regressio
 Il numero di osservazioni o punti di calibrazione o punti fiduciari sono almeno $6$ perché sono 
 11 incognite e 12 equazioni, il problema è che per ridurre il rumore dobbiamo 
 aumentare le osservazioni e prendere più punti che non stanno su una sola retta (se ne 
-usano un centinaio).
+usano un centinaio). In generale per qualunque proiezione i punti non devono stare 
+sullo stesso piano perché se no non si riesce a mappare tutto il mondo al di fuori 
+di quel piano.
 
 \begin{nota}
     Il ragionamento della proiezione è lo stesso della regressione, per trovare 
@@ -442,6 +444,9 @@ da punti neri (punti di cui si prenderanno le osservazioni) su sfondo bianco e l
     ad un quantitativo di misure pari al grado di libertà sempre per evitare rumore.
 \end{itemize}
 
+Ricorda che i punti fiduciari devono essere presi anche sulla regione estrema 
+dell'inquadratura perché questo ci permette di stimare anche le distorsioni.
+
 Il problema di questo metodo sono \textbf{incertezze} e \textbf{outliers}, perché
 essendo un modello regressivo basato sulla differenza dei minimi quadrati allora 
 si possono avere questi problemi. 
@@ -452,7 +457,6 @@ fuori dalla nuvola di punti su cui è stata effettuata la calibrazione. Questa
 mancanza di generalizzazione è dovuta dal fatto che si stimano attraverso una regressione 
 i parametri della matrice $m_{ij}$ e non si stimano attraverso la struttura degli 
 $11$ parametri fisici che porterebbero ad un degradamento ridotta.
-
 
 \subsection{Stato dell'arte}
 La calibrazione allo stato dell'arte si basa sulla:
@@ -499,3 +503,5 @@ che $det(A_{33})\ne 0$.
     $$(\underline{a_1} \times \underline{a_3})(\underline{a_1} \times \underline{a_3}) = (\underline{a_2} \times \underline{a_3})(\underline{a_2} \times \underline{a_3})$$
     allora la proiezione è \textbf{0-skew} e \textbf{aspect ratio unitario}
 \end{teorema}
+
+

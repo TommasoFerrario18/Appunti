@@ -213,3 +213,270 @@ Le risoluzioni producono degli artefatti:
 
 La prima risoluzione è sensibile alle variazione della forma mentre la seconda è
 sensibile alle variazioni dell'intensità.
+
+\section{Bilanciamento del bianco}
+Quando acquisiamo un'immagine, i colori degli oggetti sono dipendenti da tanti
+fattori come la riflettanza, la luce incidente, lo schema colore della camera
+etc$\dots$.
+
+Inoltre, acquisendo uno stesso oggetto sotto luci differenti può portare ad
+ottenere colori differenti.
+
+Per risolvere questi problemi si  effettua il \textbf{bilanciamento del bianco}.
+La procedura generale per effettuare questa operazione consiste nello stimare il
+colore della sorgente luminosa e successivamente si scalano i colori in modo che
+il bianco dell'immagine sia uguale al bianco standard. Sfruttando il rapporto
+tra il bianco acquisito e quello standard si possono scalare i colori.
+
+La stima della sorgente luminosa viene effettuata sfruttando una tavolozza con
+più colori di cui si conoscono le coordinate. Si acquisisce un'immagine con la
+tavolozza partendo da questa si può ottenere il fattore di scala.
+
+Questo processo appena descritto è chiamato approccio \textbf{supervisionato},
+possiamo utilizzare anche un'approccio \textbf{non supervisionata} quando non
+possiamo avere una corrispondenza tra colore standard e colore sotto luce della
+scena. In questo caso avremo bisogno di molte più immagini e spesso è utilizzato nei
+telefoni.
+\section{Caratterizzazione colorimetrica}
+La caratterizzazione colorimetrica dei dispositivi è la relazione tra il colore
+letto dal device e il colore nello spazio colore standard CIE.
+
+Abbiamo sempre 2 modelli:
+\begin{itemize}
+    \item \textbf{Forward characterization model}: dato lo spazio colore del device
+          in coordinate si ricava la rappresentazione standard degli stimoli XYZ.
+    \item \textbf{Inverse characterization model}: data la rappresentazione standard
+          degli stimoli colore XYZ si ricava il colore nello spazio colore del dispositivo.
+\end{itemize}
+
+Esistono tre diversi approcci per effettuare la caratterizzazione:
+\begin{itemize}
+    \item \textbf{Modello fisico}: approccio puramente matematico, utilizzabile
+          per ogni dispositivo, è una metodologia robusta, ha bisogno di poche
+          misurazioni, ma è difficile da definire ed implementare.
+    \item \textbf{modello empirico}: si utilizza una regressione polinomiale o
+          una rete neurale per stimare le relazioni tra colore dispositivo e
+          standard. Le caratteristiche di questo modello sono complesse, ha
+          bisogno di effettuare una ricalibrazione, nessuna relazione tra i
+          comportamenti fisici dei device, certe volte mal condizionato, ha
+          bisogno di almeno 100 misure.
+    \item \textbf{modello esaustivo}: crea una lookup table che calcola i valori
+          intermedi mediante una tecnica di interpolazione. Ha bisogno di un alto
+          numero di misure, effettua un'interpolazione non lineare, difficile da
+          invertire e non serve la conoscenza dei comportamenti fisici del dispositivo.
+          Più efficiente rispetto agli altri e si basa sull'interpolazione.
+\end{itemize}
+
+Generalmente il modello esaustivo si utilizza anche dopo il modello fisico e empirico.
+\begin{nota}
+    Quando si utilizza un modello di regressione multi-polinomiale si ha una
+    riduzione del rumore e non funziona per trasformazioni fortemente non lineari.
+\end{nota}
+\begin{nota}
+    Il modello di NN funziona meglio per approssimare funzioni non lineari ed ha
+    performance similari alla regressione polinomiale.
+\end{nota}
+\subsection{Caratterizzazione colorimetrica sugli input device}
+Abbiamo due diversi input device per le immagini: scanner, fotocamere etc$\dots$.
+
+Gli \textbf{Scanner} usano $3$ canali colori che corrispondono a 3 filtri colore
+RGB. L'illuminazione sul colore è fissata e nota perché utilizzano la luce interna.
+
+Per alcuni scanner i filtri sono ottimizzati per l'acquisizione dalle pellicole.
+La caratterizzazione colorimetrica su questi dispositivi viene effettuata attraverso
+il modello empirico usando un target reference.
+
+Per gli scanner si possono utilizzare dei target costruiti ad hoc considerando il
+fatto che uno stesso colore posato su due materiali diversi può dare luogo a colori
+diversi.
+
+Per quanto riguarda le \textbf{camere}, ciascuna ha delle sensibilità al colore
+differente dalle altre infatti generalmente si effettua un bilanciamento del bianco
+sempre secondo un target presente nell'immagine. Per le camere avremo una
+trasformazione del colore utilizzando una matrice per ricavare lo standard, questo
+richiede però il fatto che i colori della camera siano lineari rispetto alla luce
+quindi non ci deve essere una gamma correction.
+
+\subsection{Caratterizzazione colorimetrica sugli output device}
+La prima operazione da compiere sui dispositivi di output è la calibrazione.
+Questa operazione viene fatta per avere un setting dello schermo standard,
+queste impostazioni possono essere contrasto, luminosità ecc. In seguito
+si effettua la caratterizzazione del dispositivo per portare il colore visualizzato
+ad essero lo stesso del colore standard che si vuole rappresentare.
+
+Il processo di caratterizzazione dei monitor prendono spunto dal procedimento che si
+utilizzava per i CRT. Per prima cosa il colore dei CRT è dato dalla cromaticità
+del fosforo, quindi definisce la gammut cromatica. Il bianco corrisponde
+alla massima eccitazione del fosforo. La caratterizzazione degli schermi CRT è un
+modello fisico:
+\begin{itemize}
+    \item Il colore è prodotto da un mix additivo di luce corrispondente a 3 canali
+          di fosforo
+    \item La quantità di luce emessa dipende non linearmente dal voltaggio.
+    \item La cromaticità del fosforo non cambia col voltaggio.
+\end{itemize}
+
+Il primo punto specifica che si ha una somma tra tre canali di luce, il secondo
+punto specifica che si ha una dipendenza non lineare tra i valori RGB digitali e
+la luminosità emessa, infine, l'ultimo specifica che il voltaggio modifica solo
+la luminosità e non la cromaticità.
+
+Lo stesso modello lo possiamo applicare per LCD ma in questo caso dobbiamo applicare
+una \textbf{blacklight correction} dal momento che il nero non è completamente nero
+e quindi bisogna ridurre la quantità di colore.
+
+\subsection{Color reproduction}
+Quando si effettua una percezione del colore si hanno diversi interpretazioni
+del colore ed esistono diverse fasi che si passano quando si effettua color reproduction
+di un qualcosa di digitale (vedi \ref{fig:significato_colore}):
+\begin{itemize}
+    \item \textbf{Digital world}: il colore è espresso in coordinate nello
+          spazio colore del device.
+    \item \textbf{Physical world}: il colore è espresso distribuzione spettrale
+          di energia, fattore di rifrazione\dots
+    \item \textbf{Visual system world}: il colore è espresso come stimolazione
+          dei fotorecettori degli occhi.
+    \item \textbf{Mental world}: il colore è espresso come una sensazione
+          soggettivistica del colore condizionata dall'osservatore e dalla luce
+          incidente.
+\end{itemize}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/descrizione_colore.png}
+    \caption{Diversi punti di vista}
+    \label{fig:significato_colore}
+\end{figure}
+
+Quando si vuole riprodurre il colore di un oggetto in modo da digitalizzarlo,
+bisogna aggiustare il suo colore in modo che il prodotto visualizzato sullo
+schermo sia il più simile possibile all'oggetto reale.
+Questa operazione non è così semplice, perché il colore reale è influenzato da
+molti fattori. Possiamo dunque introdurre la seguente tassonomia:
+\begin{itemize}
+    \item \textbf{Pleasing color reproduction}: si riferisce allo sforzo di
+          aggiustare il colore in modo che l'utente riconosca l'immagine
+          accettabile o realistica.
+
+          In sostanza l'immagine deve essere plausibile, la certezza la si ha
+          solo quando si è stati nello stesso posto nello stesso giorno.
+    \item \textbf{Colorimetric color reproduction}: si riferisce al rappresentare
+          il reale colore dell'oggetto con un ridotto errore.
+
+          In sostanza si cerca di riprodurre il colore originale sotto le stesse
+          condizioni di vista e di materiali.
+    \item \textbf{Color appearance reproduction}: richiede un modello di color
+          appearance, ovvero informazioni sulle condizioni di vista dell'oggetto
+          originale e di quello digitale e un'accurata calibrazione e
+          caratterizzazione di tutti i device.
+    \item \textbf{Color preference reproduction}: manipola i colori dell'immagine
+          in modo tale che il risultato sia preferibile agli utenti sotto
+          un'accurata riproduzione delle apparenze. Si modifica l'immagine
+          togliendo il rumore o regolando i colori.
+    \item \textbf{Spectral color reproduction}: effettua un'identica riproduzione
+          dello spettro di riflettanza dell'immagine o dell'oggetto originale.
+\end{itemize}
+
+Ogni singolo dispositivo ha un proprio processo fisico di gestione dell'immagine
+e questo permette al device di utilizzare un proprio spazio colore di lavoro
+chiamato \textbf{device dependent color imaging} (RGB, CMY, \dots).
+
+\begin{definizione}[\textbf{Device dependent color space}]
+    Formalmente \textbf{device dependent color space} è un modello matematico
+    astratto che descrive come i colori devono essere rappresentati mediante le
+    tuple.
+\end{definizione}
+
+Si utilizzano spazi colori differenti tra i device perché ognuno ha la capacità
+di rappresentare una particolare gamma di colori. Si cerca quindi di utilizzare
+uno spazio la contenga interamente.
+
+\begin{definizione}[\textbf{Device independent color space}]
+    Formalmente \textbf{device independent color space} è uno spazio in cui
+    esiste almeno una trasformazione tra device dependent color space e uno
+    spazio standard CIE.
+\end{definizione}
+
+Se non esiste una trasformazione del genere allora lo spazio colore è device
+dependent (DD). Mentre, lo spazio device independent (DI) è anche chiamato
+\textbf{un-rendered} dal momento che i valori descrivono la colorimetria.
+
+\begin{nota}
+    Ricorda che DD e DI sono anche chiamati assoluto e non assoluto.
+\end{nota}
+
+Esistono diversi spazi colore device independent, questi possono essere
+convertiti tra di loro mediante delle trasformazioni. Specificare le relazioni
+tra i diversi tipi di spazi colore, ovvero tra quelli device dependent e
+device independent, è chiamato \textbf{caratterizzazione} del dispositivo.
+
+\section{RGB based Color Management}
+In generale, quando acquisiamo un'immagine attraverso un dispositivo, si ottiene
+una rappresentazione DD dell'immagine. Ottenuta questa codifica, si sfrutta la
+caratterizzazione del dispositivo per ottenere la rappresentazione DI.
+
+Mentre, per quanto riguarda il processo di visualizzazione dell'immagine, si
+parte dalla codifica device independent, si applica la caratterizzazione del
+dispositivo di output e si ottiene la rappresentazione device independent.
+
+I vantaggi di questo approccio sono:
+\begin{itemize}
+    \item Ogni applicazione deve solo definire le trasformazioni tra il suo spazio
+          colore e gli spazi standard.
+    \item Si ha uno standard che evita l'incompatibilità.
+\end{itemize}
+Lo svantaggio di questa tecnica sono:
+\begin{itemize}
+    \item Le trasformazioni sono necessarie per lo scambio delle immagini.
+    \item La maggior parte del software si deve modificare.
+\end{itemize}
+
+Si potrebbe pensare di utilizzare direttamente uno standard device independent.
+Il problema è che non è fisicamente possibile creare dei dispositivi che
+rappresentino quello specifico spazio colore o sarebbe troppo costoso.
+Perciò, si utilizzano delle varianti per permetterci di ridurre lo spazio
+utilizzato.
+
+Le rappresentazioni device dependent hanno delle conversioni tra di loro,
+l'importante è che si preservino gli stessi colori. Gli altri spazi colori sono
+generalmente usati per l'image processing tasks.
+
+Le trasformazioni da device independent a device dependent avvengono seguendo i
+seguenti passi:
+\begin{itemize}
+    \item \textbf{Chromatic adaptation transform} (CAT): si modifica l'illuminazione
+          per rendere distinguibili gli oggetti nella scena. In sostanza si
+          applica una moltiplicazione di matrice che per passare da una luce
+          standard della scena alla luce standard del DD.
+    \item \textbf{Conversione da DI a DD}: si sfruttano le leggi date dalla
+          caratterizzazione del dispositivo per ottenere la rappresentazione
+          device dependent.
+    \item \textbf{Gamma correction}: si corregge la gamma in modo tale che si
+          migliori la visione dei colori dell'immagine rispetto al dispositivo
+          di output.
+\end{itemize}
+
+Gli spazi device dependent hanno uno standard per semplificare la
+caratterizzazione del dispositivo. Infatti, avendo definito degli standard si
+ha già la conversione da DI a DD e viceversa.
+\begin{nota}
+    Gli spazi standard sono anche detti \textbf{rendered space}.
+\end{nota}
+
+Per definire uno spazio device dependent standard c'è bisogno di specificare
+delle primitive lineari e una reference del punto di bianco. Il problema è che
+spesso le primitive non sono lineari a causa di una gamma correction. Quindi, si
+aggiungono parametri per modellare questa non linearità.
+
+\begin{nota}
+    Per esempio tutti gli spazi basati su RGB necessitano della definizione delle
+    primitive, il punto di bianco, il parametro della gamma correction, $s$ che
+    determina l'inclinazione della parte lineare, $t$  determina l'inclinazione
+    della parte non lineare e $f$ è l'offset.
+\end{nota}
+
+Ricorda che quando si effettua la conversione tra gli spazi colori si possono
+incorrere in problemi legati alle \textbf{limitazioni della gamma} e questo porta
+ad avere modifiche della gamma rappresentabile. Se noi partiamo da uno spazio
+$s_1$ e convertiamo ad uno spazio $s_2$ allora i colori rappresentabili diventano
+$\gamma(s_1)\cap \gamma(s_2)$ l'intersezione della gamma dei due spazi.
+

@@ -552,7 +552,6 @@ La suriettività è una proprietà di \textbf{raggiungibilità debole}
                   Inoltre, $\{x^{(n)}\}_{n\in \mathbb{N}}$ ammette una sottosuccessione
                   $\{x^{(n_h)}\}_{h\in \mathbb{N}}$ convergente (per la compattezza di $A^{\mathbb{Z}}$).
                   Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$
-                  Ovvero sia $x= \lim\limits_{h\rightarrow +\infty}x ^{(n_h)}$ otteniamo  che $$ F(x)= F(\lim\limits_{h\rightarrow +\infty}x ^{(n_h)}) = \lim\limits_{h\rightarrow +\infty} F(x^{(n_h)})=y$$
                   quindi $\exists x \in A^\mathbb{Z}$ t.c. $y = F(x)$
         \end{itemize}
     \end{proof}
@@ -813,7 +812,6 @@ temporali.
     L'equicontinuità è più stringente rispetto alla stabilità globale. Quando $X=A^\mathbb{Z}$
     si hanno due definizioni equivalenti e possono essere riscritte come
     $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
-    $$\forall n\in \mathbb{N} ,\exists m\in \mathbb{N} , \forall y,x\in A^\mathbb{Z}, y_{[-m,m]} = x_{[-m,m]} \implies \forall t\in \mathbb{N} F^t(y)_{[-n,n]}=F^t(x)_{[-n,n]}$$
 \end{nota}
 
 
@@ -876,17 +874,14 @@ prima o poi si propagheranno all'interno di $[-n,n]$.
     periodo) e $q_x\ge 0$ (chiamato preperiodo) tale che $F^{q_x+p_x} = F^{q_x}$, o
     equivalentemente,
     $$\forall x\in X,\exists p_x>0,q_x\ge 0:F^{q_x+p_x}(x) = F^{q_x}(x)$$.
-    $$\forall x\in X,\exists p_x>0,q_x\ge 0:F^{q_x+p_x}(x) = F^{q_x}(x)$$.
 \end{definizione}
 \begin{definizione}[\textbf{Ultima periodicità del sistema}]
     $(X,F)$ è \textbf{ultimamente periodico} se esistono due naturali $p>0$ (chiamato
     periodo) e $q\ge 0$ (chiamato preperiodo) tale che $F^{q+p} = F^q$, equivalentemente,
     $$\forall x\in X,F^{q+p}(x) = F^q(x)$$
-    $$\forall x\in X,F^{q+p}(x) = F^q(x)$$
 \end{definizione}
 Ultima periodicità significa che tutte le configurazioni dopo un numero di applicazioni
 finite di $F$ (in totale $q$) (configurazione zero) diventano periodiche di periodo $p$ ovvero dopo
-$p$ colpi di $F$ si torna alla configurazione zero.
 $p$ colpi di $F$ si torna alla configurazione zero.
 
 \begin{definizione} [\textbf{Nilpotenza}]
@@ -907,9 +902,6 @@ $p$ colpi di $F$ si torna alla configurazione zero.
 L'insieme di configurazioni $\{x,F(x), \dots, F^{q-1}(x)\}$ è chiamato transiente
 e la sua lunghezza è $q$.
 
-L'insieme di configurazioni $\{F^q(x), F^{q+1}(x), \dots, F^{q+p-1}(x)\}$ è chiamato ciclo
-e la sua lunghezza è $p$.
-
 \begin{nota}
     Sia $(X,F)$ con $|X|<\infty$, quindi un CA composto da configurazioni finite.
 
@@ -929,7 +921,6 @@ periodici e quindi non possiamo studiare comportamenti instabili.
 \begin{teorema}
     Sia $(X,F)$ un DTDS, allora:
     \begin{itemize}
-        \item $(X,F)$ è ultimamente periodico $\implies$ $(X,F)$ equiconinuo (solo quando $(X,d)$ è compatto)
         \item $(X,F)$ è ultimamente periodico $\implies$ $(X,F)$ equiconinuo (solo quando $(X,d)$ è compatto)
         \item $(X,F)$ è equiconinuo $\implies$ $(X,F)$ almeno equicontinuo
     \end{itemize}
@@ -952,7 +943,6 @@ periodici e quindi non possiamo studiare comportamenti instabili.
                       \end{array}
                   \end{equation*}
                   allora $\exists \delta = \min \{\delta_0,\delta_1, \dots, \delta_q,\dots, \delta_{q+p-1}\}$ tale che
-                  $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon $$
                   $$\forall y, x\in X, d(y,x) < \delta \implies \forall t\in \{0,1,\dots,q,\dots,q+p-1\} d(F^t(y),F^t(x))< \epsilon $$
             \item Equiconinuo $\implies$ almeno equicontinuo: se $(X ,F)$ è equiconinuo
                   allora $\xi = X$.  Abbiamo che $\xi = \bigcap_{n\in \mathbb{N}}X_n$ con $X_n= X$,
@@ -1042,10 +1032,6 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
             \centering
             \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_2.png}
         \end{figure}
-        \begin{figure}[!h]
-            \centering
-            \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/blocking_word_2.png}
-        \end{figure}
     \end{proof}
 \end{teorema}
 \begin{teorema}[\textbf{Caratterizzazzione della equiconinuità}]
@@ -1069,8 +1055,6 @@ Le parole bloccanti sono in relazione con la stabilità degli automi cellulari.
                   andremo a mostrare che esistono $p>0$ e $q\ge 0$ tali che $F^{q+p} = F^q$.
                   Per ogni $u\in A^{2k+1}$, consideriamo $x^{(u)}=^\infty u^\infty$ (per
                   definizione è spazialmentente periodica e per ipotesi $r$-bloccante).
-                  Sappiamo che $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica,
-                  allora  anche $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è ultimamente periodica.
                   Sappiamo che $\{F^t(x^{(u)})\}_{t\in \mathbb{N}}$ è ultimamente periodica,
                   allora  anche $\{F^t(x^{(u)})_0\}_{t\in \mathbb{N}}$ è ultimamente periodica.
                   Questo significa che $\exists p_u>0$ e $q_u\ge 0$ tali che $F^{q_u+p_u}(x^{(u)})_0 =F^{q_u}(x^{(u)})_0 $.
@@ -1098,7 +1082,6 @@ alle condizioni iniziali.
     una che prima o poi diventerà bloccante.
 \end{nota}
 
-\begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
 \begin{teorema}[\textbf{Caratterizzazzione dell'almeno equiconinuità}]
     Sia $\langle A,r,f\rangle$ un CA e sia $F$ la regola globale allora i seguenti
     punti sono equivalenti:
@@ -1259,7 +1242,6 @@ alle condizioni iniziali.
     $$\exists \epsilon >0, \forall x,y\in X, x\ne y, \exists t\in \mathbb{N}, d(F^t(y),F^t(x))\ge \epsilon$$
     Negli automi cellulari si ha
     $$\exists n\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
-    $$\exists n\in \mathbb{N}, \forall x,y\in A^\mathbb{Z}, x\ne y, \exists t\in \mathbb{N}, F^t(y)_{[-n,n]} \ne F^t(x)_{[-n,n]}$$
 \end{definizione}
 
 \begin{teorema}
@@ -1292,7 +1274,6 @@ alle condizioni iniziali.
 \end{teorema}
 
 \begin{esempio}
-    Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ è positivamente espansivo.
     Data la regola locale $170$ (shift a sx), la regola è RM permutive, $F$ è positivamente espansivo.
     La stessa cosa vale per la regola del traffico ($184$).
 \end{esempio}
@@ -1516,7 +1497,6 @@ La generalizzazione della mappa shift al caso $d$-dimensionale non è altro che 
 traslazione $\tau$ determinata dal vettore $\underline{r}\in  \mathbb{Z}^d$, è
 la trasformazione
 $$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow  S^{\mathbb{Z}^d}$$
-$$\tau_{\underline{r}} :  S^{\mathbb{Z}^d} \rightarrow  S^{\mathbb{Z}^d}$$
 tale che
 $$e =\tau_{\underline{r}}(c) \iff e(\underline{x}) =  c(\underline{x}+\underline{r}), \forall \underline{x},\underline{r}\in \mathbb{Z}^d$$
 
@@ -1530,7 +1510,6 @@ unitario.
     \begin{itemize}
         \item $G$ continua
         \item $G$ commuta con tutte le traslazioni
-        \item $G$ commuta con tutte le traslazioni
     \end{itemize}
 \end{teorema}
 
@@ -1539,7 +1518,6 @@ unitario.
     \begin{itemize}
         \item \textbf{iniettivo} se $G$ è inivettiva
         \item \textbf{suriettivo} se $G$ è suriettiva
-        \item \textbf{biettivo} se $G$ è sia iniettiva, sia suriettiva
     \end{itemize}
 
 \end{definizione}
@@ -1754,7 +1732,6 @@ essere:
     \item infiniti con loop
 \end{itemize}
 
-Sui cammini possono accadere le seguenti cose:
 Sui cammini possono accadere le seguenti cose:
 \begin{enumerate}
     \item ci può essere un tiling error tra due tiles entrambe sul percorso
@@ -2009,8 +1986,6 @@ simbolo in testa.
 \begin{definizione} [\textbf{Rappresentazione a blocchi di} $X$]
     Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è
     $$X^{[N]} =\beta_N (X)$$
-    Sia $N\ge 1$. Una \textbf{Rappresentazione a blocchi di} $X$ è
-    $$X^{[N]} =\beta_N (X)$$
 \end{definizione}
 
 \begin{teorema}
@@ -2021,12 +1996,7 @@ simbolo in testa.
     Sia $\mathcal{F}=\{11\}$, $X = X_\mathcal{F}$ e sia $N=2$ allora
     $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
     $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
-    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
-    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
-    $$x=(\dots, 0,1,0,0,0,1,\dots)\in X$$
-    $$\beta_2(x)=(\dots, 01,10,00,00,01,1\ast,\dots)\in X^{[2]}$$
 
-    In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
     In generale $\beta_N(x)_i = x_{[i, i+N-1]}$
 \end{esempio}
 
@@ -2040,9 +2010,7 @@ simbolo in testa.
 \end{definizione}
 
 La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
-La costruzione del grafo per un subshift $X$ di memoria $M$ si effettua nel seguente modo:
 \begin{itemize}
-    \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item Calcolo $\mathcal{B}_M(X)$ che sono i vertici
     \item disegno un arco tra due nodi solo se $u_1v=uv_M \not \in \mathcal{F}$
     \item controllo tutti i cammini biinfiniti e controllo che tutti gli archi
@@ -2082,8 +2050,6 @@ Per definizione $x\in \beta_{M + 1}(y), \forall y\in X$.
     \begin{proof}
         Sia $\mathcal{F}= \{\alpha\beta|t(\alpha) \ne i(\beta)\}\subseteq E^2$ allora
         si ha che $X_G= X_\mathcal{F}$ e allora $X_G$ è un SFT, inoltre è di memoria
-        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
-        $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
         $M=1$  perché $\mathcal{F}\subseteq A^{M+1=1+1}$.
     \end{proof}
 \end{teorema}
@@ -2143,24 +2109,6 @@ etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1
     \caption{Esempio di otteniumento di un grafo di un subshift}
     \label{fig:subshift}
 \end{figure}
-come etichette la stringa associata al vertice di partenza. Se guardiamo i camminmi biinfiniti sulle
-etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1$ (vedi \ref{fig:subshift}).
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/subshift_e_grafi.png}
-    \caption{Esempio di otteniumento di un grafo di un subshift}
-    \label{fig:subshift}
-\end{figure}
-come etichette la stringa associata al vertice di partenza. Se guardiamo i camminmi biinfiniti sulle
-etichette allora ottengo il subshift che è la sua rappresentazione a blocchi $1$ (vedi \ref{fig:subshift}).  
-
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/sistemi_complessi/subshift_e_grafi.png}
-    \caption{Esempio di otteniumento di un grafo di un subshift}
-    \label{fig:subshift}
-\end{figure}
 
 \subsection{Entropia}
 Sia $X$ un subshift, come possiamo sapere quanto cresce $|\mathcal{B}_n(X)|$, tasso
@@ -2174,12 +2122,9 @@ allora posso dire che $|\mathcal{B}_n(X)| \sim 2^{cn}$ quindi $c\sim \frac{\log_
     $$h(X) = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n}$$
 \end{definizione}
 Questo limite esiste (sarebbe da dimostrare).
-Questo limite esiste (sarebbe da dimostrare).
 
 \begin{nota}
     $h(X)\le \log_2|A|$ infatti
-    $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^n \iff
-        \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$.
     $|\mathcal{B}_n(X)| \le |A|^n\iff \log_2 |\mathcal{B}_n(X)| \le \log_2 |A|^n \iff
         \frac{\log_2|\mathcal{B}_n(X)|}{n}\le \log_2|A|\iff h(X)\le \log_2|A|$.
     Inoltre $h(A^\mathbb{Z}) = \lim_{n\to \infty}\frac{\log_2|A^n|}{n} =  \lim_{n\to \infty}\log_2|A| = \log_2|A|$.
@@ -2198,23 +2143,9 @@ Questo limite esiste (sarebbe da dimostrare).
     Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
     sui vertici è $\hat{X}_G = X^{[1]} =X$.
 
-
-    Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
-    sui vertici è $\hat{X}_G = X^{[1]} =X$.
-
-
-    Sappiamo che $X_G = X^{[2]}$ sono i cammini sugli archi, mentre il subshift ottenuto dai cammini
-    sui vertici è $\hat{X}_G = X^{[1]} =X$.
-
     Inoltre $\mathcal{B}_n(X^{[M]})$ è in corrispondenza biunivoca con $\mathcal{B}_{n-1}(X^{[M+1]})$,
     quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$
     ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$.
-    Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
-    quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$
-    ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$.
-    Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
-    quindi possiamo dire che $|\mathcal{B}_n(X^{[1]})| = |\mathcal{B}_{n-1}(X^{[2]})|$ 
-    ovvero $|\mathcal{B}_n(X)| = |\mathcal{B}_{n-1}(X_G)|$. 
     Allora $h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n}$.
 \end{esempio}
 
@@ -2241,11 +2172,7 @@ Per diagonalizzare $A$ dobbbiamo:
 In questo modo possiamo poi calcolare l'entropia del subshift
 $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n} = \lim_{n\to \infty}\frac{\log_2\sum_{i\in V}\sum_{j\in V} a_{ij}^{(n-1)}}{n} $$
 
-In questo modo possiamo poi calcolare l'entropia del subshift
-$$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}\frac{\log_2|\mathcal{B}_{n-1}(X_G)|}{n} = \lim_{n\to \infty}\frac{\log_2\sum_{i\in V}\sum_{j\in V} a_{ij}^{(n-1)}}{n} $$
-
 \begin{teorema}
-    Se $\mathcal{G}= (G,l)$ è right resolving allora $h(X_\mathcal{G}) = h(X_G)$
     Se $\mathcal{G}= (G,l)$ è right resolving allora $h(X_\mathcal{G}) = h(X_G)$
 \end{teorema}
 
@@ -2257,8 +2184,6 @@ $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}
     Sia $G$ un grafo e $A$ la sua matrice di adiacenza allora $G$ è \textbf{fortemente
         connesso} $\iff$ $A$ è irriducibile.
 \end{teorema}
-\begin{teorema} [\textbf{Perron Frobenius}]
-    Sia $A\ne 0$ matrice irriducibile allora:
 \begin{teorema} [\textbf{Perron Frobenius}]
     Sia $A\ne 0$ matrice irriducibile allora:
     \begin{itemize}
@@ -2277,11 +2202,6 @@ $$h(X)=\lim_{n\to \infty}\frac{\log_2|\mathcal{B}_n(X)|}{n} = \lim_{n\to \infty}
         \item $X$ SFT con grafo associato $G$ fortemente connesso $\implies h(X) = \log\lambda_A$
         \item $X$ sofico tale che $X=X_\mathcal{G}$ con $\mathcal{G} = (G,l)$ right
               resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
-
-              resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
-
-        resolving e $G$ fortemente connesso $\implies h(X)=\log \lambda_A$
-
     \end{itemize}
 \end{teorema}
 Per calcolare l'entropia di un subshift che è:
@@ -2296,8 +2216,6 @@ Per calcolare l'entropia di un subshift che è:
 \begin{definizione} [\textbf{Road-coloring}]
     Il \textbf{road-coloring} di un grafo $G=(V,E)$ è $l:E\to A$ tale che $\forall
         i\in V$ $|\{(i,j)\in E|j\in V\}| = |A|$ ovvero si ha una corrispondenza biunivoca tra $\{(i,j)\in E|j\in V\}$ e $A$
-    (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
-    (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
     (per ogni nodo abbiamo un numero di edge uscenti pari a $|A|$)
 \end{definizione}
 \begin{nota}
@@ -2339,7 +2257,6 @@ con $|A|=n$ in sequenze di $X$.
 
 \begin{esempio}
     \begin{figure}[!h]
-    \begin{figure}[!h]
         \centering
         \includegraphics [width=0.5\textwidth]{img/sistemi_complessi/codici.png}
     \end{figure}
@@ -2367,29 +2284,12 @@ in questo caso i blocchi sono tutti disgiunti.
     Supponiamo di avere $N=4$ allora
     $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
     $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
-            x_0 \\x_1\\x_2\\x_3
-        \end{array}\right),\left(\begin{array}{c}
-            x_4 \\x_5\\x_6\\x_7\\
-        \end{array}\right),\dots\right)$$
-\end{esempio}
-\begin{esempio}
-    Supponiamo di avere $N=4$ allora
-    $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
-    $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
-            x_0 \\x_1\\x_2\\x_3
-        \end{array}\right),\left(\begin{array}{c}
-            x_4 \\x_5\\x_6\\x_7\\
-        \end{array}\right),\dots\right)$$
-\end{esempio}
-\begin{esempio}
-    Supponiamo di avere $N=4$ allora
-    $$x= \left(\dots, x_0,x_1,x_2,x_3,x_4,\dots\right)$$
-    $$\gamma_4(x) = \left(\dots, \left(\begin{array}{c}
         x_0\\x_1\\x_2\\x_3
     \end{array}\right),\left(\begin{array}{c}
         x_4\\x_5\\x_6\\x_7\\
     \end{array}\right),\dots\right)$$
 \end{esempio}
+
 \begin{nota}
     $\gamma_N$ è applicabile non cecessariamente agli elementi dell'intero $A^\mathbb{Z}$ ($A^\mathbb{N}$),
     ma anche ad elementi di un subshift.
