@@ -88,10 +88,13 @@ jobs:
             cp ./public/index.html ./static/index.html
       - name: Configure Pages
         uses: actions/configure-pages@v2
-      - name: Zip and Upload Artifact
-        uses: actions/upload-pages-artifact@v1
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-            path: './static/'
+          name: static-site
+          path: ./static/
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
+        with:
+          artifact-name: static-site
